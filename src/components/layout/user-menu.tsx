@@ -1,0 +1,106 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/stores/auth-store";
+import { LogOut, User, CreditCard, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
+import { getCustomerPortal } from "@/lib/api/subscriptions";
+
+function SubscriptionBadge({ status }: { status: string | null }) {
+  if (status === "active") {
+    return (
+      <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
+        Pro 会员
+      </Badge>
+    );
+  }
+  if (status === "trialing") {
+    return (
+      <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
+        试用中
+      </Badge>
+    );
+  }
+  return (
+    <Badge variant="secondary">免费用户</Badge>
+  );
+}
+
+export function UserMenu() {
+  const { user, isLoading, isAuthenticated, logout, hasActiveSubscription } =
+    useAuthStore();
+  const router = useRouter();
+  const [portalLoading, setPortalLoading] = useState(false);
+
+  if (isLoading) {
+    return <Skeleton className="h-8 w-8 rounded-full" />;
+  }
+
+  if (!isAuthenticated || !user) {
+    return (
+      <Button variant="outline" size="sm" asChild>
+        <a href="/cdn-cgi/access/login">登录</a>
+      </Button>
+    );
+  }
+
+  const isSubscribed = hasActiveSubscription();
+
+  const handleManageSubscription = async () => {
+    setPortalLoading(true);
+    try {
+      const { url } = await getCustomerPortal();
+      window.location.href = url;
+    } catch {
+      setPortalLoading(false);
+    }
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="rounded-full">
+          <User className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56">
+        <div className="px-2 py-1.5">
+          <p className="text-sm font-medium">{user.name || "用户"}</p>
+          <p className="text-xs text-muted-foreground">{user.email}</p>
+          <div className="mt-1.5">
+            <SubscriptionBadge status={user.subscription?.status ?? null} />
+          </div>
+        </div>
+        <DropdownMenuSeparator />
+        {isSubscribed ? (
+          <DropdownMenuItem
+            onClick={handleManageSubscription}
+            disabled={portalLoading}
+          >
+            <CreditCard className="mr-2 h-4 w-4" />
+            {portalLoading ? "跳转中..." : "管理订阅"}
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem onClick={() => router.push("/pricing")}>
+            <Sparkles className="mr-2 h-4 w-4" />
+            升级 Pro
+          </DropdownMenuItem>
+        )}
+        <DropdownMenuItem onClick={() => logout()}>
+          <LogOut className="mr-2 h-4 w-4" />
+          退出登录
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}

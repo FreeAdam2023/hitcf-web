@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink } from "lucide-react";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
+import { useAuthStore } from "@/stores/auth-store";
 import { getTestSet, getTestSetQuestions } from "@/lib/api/test-sets";
 import { createAttempt } from "@/lib/api/attempts";
 import type { TestSetDetail, QuestionBrief } from "@/lib/api/types";
@@ -33,15 +34,28 @@ const TASK_LABELS: Record<number, string> = {
   3: "Tâche 3 · 议论文 (200-300 词)",
 };
 
+function PaywallButton() {
+  const router = useRouter();
+  return (
+    <Button className="w-full" size="lg" onClick={() => router.push("/pricing")}>
+      <Lock className="mr-2 h-4 w-4" />
+      订阅解锁
+    </Button>
+  );
+}
+
 export default function TestDetailPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
+  const canAccessPaid = useAuthStore((s) => s.canAccessPaid);
   const [test, setTest] = useState<TestSetDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [starting, setStarting] = useState(false);
   const [startingExam, setStartingExam] = useState(false);
   const [topics, setTopics] = useState<QuestionBrief[]>([]);
   const [topicsLoading, setTopicsLoading] = useState(false);
+
+  const locked = test ? !test.is_free && !canAccessPaid() : false;
 
   useEffect(() => {
     getTestSet(params.id)
@@ -127,7 +141,13 @@ export default function TestDetailPage() {
           </CardHeader>
         </Card>
 
-        {topicsLoading ? (
+        {locked ? (
+          <Card>
+            <CardContent className="pt-6">
+              <PaywallButton />
+            </CardContent>
+          </Card>
+        ) : topicsLoading ? (
           <LoadingSpinner />
         ) : (
           <div className="space-y-3">
@@ -190,7 +210,13 @@ export default function TestDetailPage() {
           </CardHeader>
         </Card>
 
-        {topicsLoading ? (
+        {locked ? (
+          <Card>
+            <CardContent className="pt-6">
+              <PaywallButton />
+            </CardContent>
+          </Card>
+        ) : topicsLoading ? (
           <LoadingSpinner />
         ) : (
           <div className="space-y-4">
@@ -277,23 +303,29 @@ export default function TestDetailPage() {
           </div>
 
           <div className="mt-6 flex gap-3">
-            <Button
-              className="flex-1"
-              size="lg"
-              onClick={handleStart}
-              disabled={starting || startingExam}
-            >
-              {starting ? "正在开始..." : "开始练习"}
-            </Button>
-            <Button
-              className="flex-1"
-              size="lg"
-              variant="outline"
-              onClick={handleStartExam}
-              disabled={starting || startingExam}
-            >
-              {startingExam ? "正在开始..." : "开始考试"}
-            </Button>
+            {locked ? (
+              <PaywallButton />
+            ) : (
+              <>
+                <Button
+                  className="flex-1"
+                  size="lg"
+                  onClick={handleStart}
+                  disabled={starting || startingExam}
+                >
+                  {starting ? "正在开始..." : "开始练习"}
+                </Button>
+                <Button
+                  className="flex-1"
+                  size="lg"
+                  variant="outline"
+                  onClick={handleStartExam}
+                  disabled={starting || startingExam}
+                >
+                  {startingExam ? "正在开始..." : "开始考试"}
+                </Button>
+              </>
+            )}
           </div>
         </CardContent>
       </Card>

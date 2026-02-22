@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useAuthStore } from "@/stores/auth-store";
 import { UserMenu } from "./user-menu";
 
 export function Navbar() {
+  const canAccessPaid = useAuthStore((s) => s.canAccessPaid);
+
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto flex h-14 max-w-5xl items-center px-4">
@@ -37,6 +40,14 @@ export function Navbar() {
           >
             速练
           </Link>
+          {!canAccessPaid() && (
+            <Link
+              href="/pricing"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              定价
+            </Link>
+          )}
         </nav>
 
         <div className="ml-auto">
