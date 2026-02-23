@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Option, AnswerResponse } from "@/lib/api/types";
 
@@ -17,6 +18,8 @@ interface OptionListProps {
   correctAnswer?: string | null;
   /** The last selected key (for readonly mode) */
   lastSelected?: string | null;
+  /** Key currently being submitted (shows spinner) */
+  submittingKey?: string | null;
 }
 
 export function OptionList({
@@ -29,6 +32,7 @@ export function OptionList({
   readonly = false,
   correctAnswer,
   lastSelected,
+  submittingKey,
 }: OptionListProps) {
   const isExam = mode === "exam";
   const locked = readonly || (!isExam && !!answer);
@@ -78,7 +82,11 @@ export function OptionList({
                 isSelected && !(isCorrect || isWrong) && "border-primary bg-primary text-primary-foreground",
               )}
             >
-              {opt.key}
+              {submittingKey === opt.key ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                opt.key
+              )}
             </span>
             <span className="pt-0.5">{opt.text}</span>
           </button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -16,12 +16,23 @@ export function ExamTimer({ timeLimitSeconds, startedAt, onTimeUp }: ExamTimerPr
     const elapsed = Math.floor((Date.now() - new Date(startedAt).getTime()) / 1000);
     return Math.max(0, timeLimitSeconds - elapsed);
   });
+  const [announcement, setAnnouncement] = useState("");
+  const announced = useRef<Set<number>>(new Set());
 
   useEffect(() => {
     const timer = setInterval(() => {
       const elapsed = Math.floor((Date.now() - new Date(startedAt).getTime()) / 1000);
       const left = Math.max(0, timeLimitSeconds - elapsed);
       setRemaining(left);
+
+      if (left === 300 && !announced.current.has(300)) {
+        announced.current.add(300);
+        setAnnouncement("注意：剩余 5 分钟");
+      } else if (left === 60 && !announced.current.has(60)) {
+        announced.current.add(60);
+        setAnnouncement("注意：剩余 1 分钟");
+      }
+
       if (left <= 0) {
         clearInterval(timer);
         onTimeUp();
@@ -44,7 +55,8 @@ export function ExamTimer({ timeLimitSeconds, startedAt, onTimeUp }: ExamTimerPr
           "flex items-center gap-1.5 font-mono text-sm font-medium",
           isCritical ? "text-red-600 font-bold animate-pulse" : isLow ? "text-red-500" : "",
         )}
-        aria-live="polite"
+        aria-live={isCritical ? "assertive" : "polite"}
+        aria-atomic="true"
         aria-label={`剩余时间 ${minutes} 分 ${seconds} 秒`}
       >
         <Clock className="h-4 w-4" />
@@ -59,6 +71,9 @@ export function ExamTimer({ timeLimitSeconds, startedAt, onTimeUp }: ExamTimerPr
           isCritical ? "[&>div]:bg-red-500" : isLow ? "[&>div]:bg-amber-500" : "",
         )}
       />
+      {announcement && (
+        <span role="alert" className="sr-only">{announcement}</span>
+      )}
     </div>
   );
 }

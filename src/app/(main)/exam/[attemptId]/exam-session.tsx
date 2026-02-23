@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Flag, Send, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -23,6 +24,7 @@ import { QuestionDisplay } from "@/components/practice/question-display";
 import { OptionList } from "@/components/practice/option-list";
 import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExamTimer } from "@/components/exam/exam-timer";
+import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { cn } from "@/lib/utils";
 
 export function ExamSession() {
@@ -79,6 +81,7 @@ export function ExamSession() {
       });
     } catch (err) {
       console.error("Failed to submit answer", err);
+      toast.error("提交失败，请重试");
     } finally {
       setSubmitting(false);
     }
@@ -116,7 +119,7 @@ export function ExamSession() {
     return () => window.removeEventListener("keydown", handler);
   }, [questions, currentIndex, handleSelect, goNext, goPrev]);
 
-  if (!question || !attemptId || !startedAt) return null;
+  if (!question || !attemptId || !startedAt) return <LoadingSpinner />;
 
   const currentAnswer = answers.get(question.id);
   const isLast = currentIndex === questions.length - 1;
@@ -126,8 +129,10 @@ export function ExamSession() {
     try {
       await flagQuestion(attemptId, question.question_number);
       toggleFlag(question.question_number);
+      toast.success(isFlagged ? "已取消标记" : "已标记该题");
     } catch (err) {
       console.error("Failed to flag question", err);
+      toast.error("操作失败，请重试");
     }
   };
 

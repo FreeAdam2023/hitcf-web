@@ -27,7 +27,7 @@ export function QuestionDisplay({ question, index, total }: QuestionDisplayProps
       )}
 
       {question.passage && (
-        <div className="max-h-[60vh] overflow-y-auto rounded-md border bg-muted/50 p-4 text-sm leading-relaxed whitespace-pre-wrap">
+        <div className="max-h-[40vh] md:max-h-[60vh] overflow-y-auto rounded-md border bg-muted/50 p-4 text-sm leading-relaxed whitespace-pre-wrap">
           {question.passage}
         </div>
       )}

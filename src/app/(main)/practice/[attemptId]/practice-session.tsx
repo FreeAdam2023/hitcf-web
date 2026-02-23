@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, CheckCircle, LogOut, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -24,6 +25,7 @@ import { QuestionDisplay } from "@/components/practice/question-display";
 import { OptionList } from "@/components/practice/option-list";
 import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
+import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import type { Explanation } from "@/lib/api/types";
 
 export function PracticeSession() {
@@ -40,9 +42,10 @@ export function PracticeSession() {
   } = usePracticeStore();
 
   const [submitting, setSubmitting] = useState(false);
+  const [submittingKey, setSubmittingKey] = useState<string | null>(null);
   const [completing, setCompleting] = useState(false);
   const [explanation, setExplanation] = useState<Explanation | null>(null);
-  const [submitError, setSubmitError] = useState(false);
+  const [savedIndicator, setSavedIndicator] = useState(false);
 
   // Warn before closing/refreshing if user has answered questions
   useEffect(() => {
@@ -62,7 +65,7 @@ export function PracticeSession() {
     if (!question || !attemptId) return;
     if (answers.has(question.id) || submitting) return;
     setSubmitting(true);
-    setSubmitError(false);
+    setSubmittingKey(key);
     try {
       const res = await submitAnswer(attemptId, {
         question_id: question.id,
@@ -82,12 +85,14 @@ export function PracticeSession() {
         }
       }
       setAnswer(question.id, { ...res, correct_answer: correctAnswer ?? null });
+      setSavedIndicator(true);
+      setTimeout(() => setSavedIndicator(false), 2000);
     } catch (err) {
       console.error("Failed to submit answer", err);
-      setSubmitError(true);
-      setTimeout(() => setSubmitError(false), 4000);
+      toast.error("提交失败，请重试");
     } finally {
       setSubmitting(false);
+      setSubmittingKey(null);
     }
   }, [question, attemptId, answers, submitting, setAnswer]);
 
@@ -151,7 +156,7 @@ export function PracticeSession() {
     return () => window.removeEventListener("keydown", handler);
   }, [questions, currentIndex, answers, handleSelect, handleNext, handlePrev]);
 
-  if (!question || !attemptId) return null;
+  if (!question || !attemptId) return <LoadingSpinner />;
 
   const isLast = currentIndex === questions.length - 1;
   const allAnswered = answers.size === questions.length;
@@ -170,12 +175,11 @@ export function PracticeSession() {
           answer={currentAnswer}
           onSelect={handleSelect}
           disabled={submitting}
+          submittingKey={submittingKey}
         />
 
-        {submitError && (
-          <div className="rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600 dark:border-red-800 dark:bg-red-950/30 dark:text-red-400">
-            提交失败，请重试
-          </div>
+        {savedIndicator && (
+          <p className="text-xs text-green-600 dark:text-green-400">&#10003; 已保存</p>
         )}
 
         {currentAnswer && <ExplanationPanel explanation={explanation} questionId={question.id} />}

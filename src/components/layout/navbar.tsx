@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { useAuthStore } from "@/stores/auth-store";
 import { UserMenu } from "./user-menu";
+import { ThemeToggle } from "./theme-toggle";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
   { href: "/wrong-answers", label: "错题本" },
   { href: "/history", label: "记录" },
   { href: "/speed-drill", label: "速练" },
+  { href: "/resources", label: "资源" },
 ];
 
 export function Navbar() {
@@ -89,7 +91,8 @@ export function Navbar() {
           })}
         </nav>
 
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-1">
+          <ThemeToggle />
           <UserMenu />
         </div>
       </div>

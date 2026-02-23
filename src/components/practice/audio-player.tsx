@@ -16,6 +16,8 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
   const [url, setUrl] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fetchedAtRef = useRef(0);
@@ -40,6 +42,8 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     setUrl(null);
     setPlaying(false);
     setProgress(0);
+    setCurrentTime(0);
+    setDuration(0);
     setError(null);
     fetchedAtRef.current = 0;
     pendingPlayRef.current = false;
@@ -100,6 +104,19 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     const audio = audioRef.current;
     if (!audio || !audio.duration) return;
     setProgress((audio.currentTime / audio.duration) * 100);
+    setCurrentTime(audio.currentTime);
+  };
+
+  const onLoadedMetadata = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    setDuration(audio.duration);
+  };
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   };
 
   const onEnded = () => {
@@ -132,13 +149,16 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         )}
       </Button>
 
-      <div className="flex-1">
-        <div className="h-1.5 w-full rounded-full bg-muted">
+      <div className="flex flex-1 items-center gap-2">
+        <div className="h-1.5 flex-1 rounded-full bg-muted">
           <div
             className="h-1.5 rounded-full bg-primary transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
+        <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
+          {formatTime(currentTime)} / {formatTime(duration)}
+        </span>
       </div>
 
       <Button
@@ -155,6 +175,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
           ref={audioRef}
           src={url}
           onTimeUpdate={onTimeUpdate}
+          onLoadedMetadata={onLoadedMetadata}
           onEnded={onEnded}
           onError={onError}
           preload="auto"

@@ -7,6 +7,31 @@ interface ExamAnswer {
   selected: string;
 }
 
+const SESSION_KEY = "hitcf_exam_answers";
+
+function saveAnswersToSession(attemptId: string, answers: Map<string, ExamAnswer>) {
+  try {
+    const data = { attemptId, answers: Array.from(answers.entries()) };
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(data));
+  } catch { /* ignore quota errors */ }
+}
+
+function loadAnswersFromSession(attemptId: string): Map<string, ExamAnswer> {
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    if (!raw) return new Map();
+    const data = JSON.parse(raw);
+    if (data.attemptId !== attemptId) return new Map();
+    return new Map(data.answers);
+  } catch {
+    return new Map();
+  }
+}
+
+function clearAnswersFromSession() {
+  try { sessionStorage.removeItem(SESSION_KEY); } catch { /* ignore */ }
+}
+
 interface ExamState {
   attemptId: string | null;
   questions: QuestionBrief[];
@@ -54,6 +79,11 @@ export const useExamStore = create<ExamState>((set, get) => ({
         }
       }
     }
+    // Merge with sessionStorage cached answers
+    const cached = loadAnswersFromSession(attemptId);
+    cached.forEach((v, k) => {
+      if (!answers.has(k)) answers.set(k, v);
+    });
     const flaggedQuestions = new Set<number>(existingFlags || []);
     set({
       attemptId,
@@ -64,12 +94,14 @@ export const useExamStore = create<ExamState>((set, get) => ({
       timeLimitSeconds,
       startedAt,
     });
+    saveAnswersToSession(attemptId, answers);
   },
 
   setAnswer: (questionId, answer) =>
     set((state) => {
       const next = new Map(state.answers);
       next.set(questionId, answer);
+      if (state.attemptId) saveAnswersToSession(state.attemptId, next);
       return { answers: next };
     }),
 
@@ -105,7 +137,8 @@ export const useExamStore = create<ExamState>((set, get) => ({
     }
   },
 
-  reset: () =>
+  reset: () => {
+    clearAnswersFromSession();
     set({
       attemptId: null,
       questions: [],
@@ -114,5 +147,6 @@ export const useExamStore = create<ExamState>((set, get) => ({
       flaggedQuestions: new Set(),
       timeLimitSeconds: 0,
       startedAt: null,
-    }),
+    });
+  },
 }));

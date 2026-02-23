@@ -2,13 +2,14 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Link from "next/link";
-import { ArrowLeft, Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Loader2, CheckCircle2, AlertCircle, ArrowRight, Copy, Check } from "lucide-react";
+import { toast } from "sonner";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Loader2, CheckCircle2, AlertCircle, ArrowRight, Copy, Check } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
+import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { useAuthStore } from "@/stores/auth-store";
 import { getTestSet, getTestSetQuestions } from "@/lib/api/test-sets";
 import { createAttempt } from "@/lib/api/attempts";
@@ -316,9 +317,11 @@ function WritingTestView({
       const result = await gradeWriting(topic.id, taskNum, essay);
       setGradingResults((prev) => ({ ...prev, [topic.id]: result.feedback }));
       setSubmittedTopics((prev) => ({ ...prev, [topic.id]: result.created_at }));
+      toast.success("批改完成！");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "批改失败，请稍后重试";
       setGradingErrors((prev) => ({ ...prev, [topic.id]: message }));
+      toast.error(message);
     } finally {
       setGrading((prev) => ({ ...prev, [topic.id]: false }));
     }
@@ -559,13 +562,7 @@ export default function TestDetailPage() {
   }
 
   const backLink = (
-    <Link
-      href="/tests"
-      className="mb-4 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-    >
-      <ArrowLeft className="h-4 w-4" />
-      返回题库
-    </Link>
+    <Breadcrumb items={[{ label: "题库", href: "/tests" }, { label: test.name }]} />
   );
 
   // Speaking type: show topics with ChatGPT buttons

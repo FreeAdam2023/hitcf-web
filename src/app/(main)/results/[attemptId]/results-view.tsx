@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight, RotateCcw } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { ScoreCard } from "@/components/results/score-card";
 import { EncouragementCard } from "@/components/results/encouragement-card";
 import { LevelBreakdown } from "@/components/results/level-breakdown";
@@ -106,6 +107,15 @@ export function ResultsView({ attempt }: ResultsViewProps) {
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
+      <Breadcrumb
+        items={[
+          { label: "题库", href: "/tests" },
+          ...(attempt.test_set_id
+            ? [{ label: attempt.test_set_name || "题套", href: `/tests/${attempt.test_set_id}` }]
+            : []),
+          { label: "成绩报告" },
+        ]}
+      />
       {/* Header */}
       <div>
         <div className="flex items-center gap-2">
@@ -184,10 +194,10 @@ export function ResultsView({ attempt }: ResultsViewProps) {
           <Button
             onClick={handlePracticeWrong}
             disabled={practicingWrong}
-            className="bg-orange-600 hover:bg-orange-700 text-white"
+            className="bg-orange-600 hover:bg-orange-700 dark:bg-orange-700 dark:hover:bg-orange-600 text-white"
           >
             <RotateCcw className="mr-1.5 h-4 w-4" />
-            {practicingWrong ? "正在创建..." : "练习错题"}
+            {practicingWrong ? "正在创建..." : `练习错题 (${wrongCount}题)`}
           </Button>
         )}
         {nextTestSet && (

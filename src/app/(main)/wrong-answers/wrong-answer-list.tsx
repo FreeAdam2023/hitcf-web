@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { BookOpen, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -92,7 +93,6 @@ export function WrongAnswerList() {
   const handleToggleMastered = async (id: string) => {
     try {
       const result = await toggleMastered(id);
-      // Update the local state
       setData((prev) => {
         if (!prev) return prev;
         return {
@@ -102,8 +102,10 @@ export function WrongAnswerList() {
           ),
         };
       });
+      toast.success(result.is_mastered ? "已标记为掌握" : "已取消掌握标记");
     } catch (err) {
       console.error("Failed to toggle mastered", err);
+      toast.error("操作失败，请重试");
     }
   };
 

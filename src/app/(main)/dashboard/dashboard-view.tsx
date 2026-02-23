@@ -126,6 +126,7 @@ export function DashboardView() {
                     <CardTitle className="text-base">等级分布</CardTitle>
                   </CardHeader>
                   <CardContent>
+                    <div className="overflow-x-auto">
                     <Table>
                       <TableHeader>
                         <TableRow>
@@ -148,6 +149,7 @@ export function DashboardView() {
                           ))}
                       </TableBody>
                     </Table>
+                    </div>
                   </CardContent>
                 </Card>
               )}
@@ -159,6 +161,7 @@ export function DashboardView() {
                     <CardTitle className="text-base">最近记录</CardTitle>
                   </CardHeader>
                   <CardContent>
+                    <div className="overflow-x-auto">
                     <Table>
                       <TableHeader>
                         <TableRow>
@@ -192,6 +195,7 @@ export function DashboardView() {
                         ))}
                       </TableBody>
                     </Table>
+                    </div>
                   </CardContent>
                 </Card>
               )}
