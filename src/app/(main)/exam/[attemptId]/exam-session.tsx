@@ -2,9 +2,10 @@
 
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, Flag, Send } from "lucide-react";
+import { ChevronLeft, ChevronRight, Flag, Send, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -44,6 +45,22 @@ export function ExamSession() {
   const [submitting, setSubmitting] = useState(false);
   const [completing, setCompleting] = useState(false);
 
+  const handleComplete = useCallback(async () => {
+    if (completing) return;
+    setCompleting(true);
+    try {
+      await completeAttempt(attemptId!);
+      router.push(`/results/${attemptId}`);
+    } catch (err) {
+      console.error("Failed to complete exam", err);
+      setCompleting(false);
+    }
+  }, [attemptId, completing, router]);
+
+  const handleTimeUp = useCallback(() => {
+    handleComplete();
+  }, [handleComplete]);
+
   const question = questions[currentIndex];
   if (!question || !attemptId || !startedAt) return null;
 
@@ -80,22 +97,6 @@ export function ExamSession() {
       console.error("Failed to flag question", err);
     }
   };
-
-  const handleComplete = useCallback(async () => {
-    if (completing) return;
-    setCompleting(true);
-    try {
-      await completeAttempt(attemptId!);
-      router.push(`/results/${attemptId}`);
-    } catch (err) {
-      console.error("Failed to complete exam", err);
-      setCompleting(false);
-    }
-  }, [attemptId, completing, router]);
-
-  const handleTimeUp = useCallback(() => {
-    handleComplete();
-  }, [handleComplete]);
 
   // Build a compatible answers map for QuestionNavigator
   const navigatorAnswers = new Map<string, { is_correct?: boolean | null }>();
@@ -206,6 +207,32 @@ export function ExamSession() {
           flaggedQuestions={flaggedQuestions}
         />
       </div>
+
+      {/* Mobile floating navigator */}
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="fixed bottom-4 right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden"
+          >
+            <LayoutGrid className="h-5 w-5" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="bottom" className="max-h-[50vh]">
+          <div className="p-4">
+            <QuestionNavigator
+              total={questions.length}
+              currentIndex={currentIndex}
+              answers={navigatorAnswers}
+              questionIds={questions.map((q) => q.id)}
+              onNavigate={goToQuestion}
+              mode="exam"
+              flaggedQuestions={flaggedQuestions}
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

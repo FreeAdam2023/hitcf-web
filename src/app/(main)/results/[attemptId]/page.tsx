@@ -2,25 +2,25 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { getAttempt } from "@/lib/api/attempts";
+import { getAttemptReview } from "@/lib/api/attempts";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ResultsView } from "./results-view";
-import type { AttemptDetail } from "@/lib/api/types";
+import type { AttemptReview } from "@/lib/api/types";
 
 export default function ResultsPage() {
   const params = useParams<{ attemptId: string }>();
-  const [attempt, setAttempt] = useState<AttemptDetail | null>(null);
+  const [review, setReview] = useState<AttemptReview | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getAttempt(params.attemptId)
-      .then(setAttempt)
-      .catch(() => setAttempt(null))
+    getAttemptReview(params.attemptId)
+      .then(setReview)
+      .catch(() => setReview(null))
       .finally(() => setLoading(false));
   }, [params.attemptId]);
 
   if (loading) return <LoadingSpinner />;
-  if (!attempt) {
+  if (!review) {
     return (
       <div className="py-16 text-center text-muted-foreground">
         无法加载成绩数据
@@ -28,5 +28,5 @@ export default function ResultsPage() {
     );
   }
 
-  return <ResultsView attempt={attempt} />;
+  return <ResultsView attempt={review} />;
 }

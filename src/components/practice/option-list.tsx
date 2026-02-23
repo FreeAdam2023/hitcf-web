@@ -11,6 +11,12 @@ interface OptionListProps {
   mode?: "practice" | "exam";
   /** For exam mode: the currently selected key (may change) */
   examSelected?: string | null;
+  /** Read-only mode: shows correct/wrong without interaction (for results/wrong answers) */
+  readonly?: boolean;
+  /** The correct answer key (for readonly mode) */
+  correctAnswer?: string | null;
+  /** The last selected key (for readonly mode) */
+  lastSelected?: string | null;
 }
 
 export function OptionList({
@@ -20,19 +26,28 @@ export function OptionList({
   disabled,
   mode = "practice",
   examSelected,
+  readonly = false,
+  correctAnswer,
+  lastSelected,
 }: OptionListProps) {
   const isExam = mode === "exam";
-  const locked = !isExam && !!answer;
+  const locked = readonly || (!isExam && !!answer);
 
   return (
     <div className="space-y-2">
       {options.map((opt) => {
-        // Practice mode logic
-        const isSelected = isExam
-          ? examSelected === opt.key
-          : answer?.selected === opt.key;
-        const isCorrect = !isExam && !!answer && answer?.correct_answer === opt.key;
-        const isWrong = !isExam && isSelected && answer?.is_correct === false;
+        // Readonly mode logic (for wrong-answer-card / results)
+        const isSelected = readonly
+          ? lastSelected === opt.key
+          : isExam
+            ? examSelected === opt.key
+            : answer?.selected === opt.key;
+        const isCorrect = readonly
+          ? correctAnswer === opt.key
+          : !isExam && !!answer && answer?.correct_answer === opt.key;
+        const isWrong = readonly
+          ? opt.key === lastSelected && opt.key !== correctAnswer
+          : !isExam && isSelected && answer?.is_correct === false;
 
         return (
           <button

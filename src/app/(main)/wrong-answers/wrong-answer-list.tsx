@@ -2,8 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { BookOpen, CheckCircle } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { BookOpen, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -14,10 +13,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
-import { listWrongAnswers, toggleMastered, practiceWrongAnswers } from "@/lib/api/wrong-answers";
+import { ErrorState } from "@/components/shared/error-state";
+import { WrongAnswerCard } from "@/components/wrong-answers/wrong-answer-card";
+import {
+  listWrongAnswers,
+  toggleMastered,
+  practiceWrongAnswers,
+  getWrongAnswerStats,
+} from "@/lib/api/wrong-answers";
 import { usePracticeStore } from "@/stores/practice-store";
 import { getTestSetQuestions } from "@/lib/api/test-sets";
-import type { PaginatedResponse, WrongAnswerItem } from "@/lib/api/types";
+import type { PaginatedResponse, WrongAnswerItem, WrongAnswerStats } from "@/lib/api/types";
 
 const TYPE_OPTIONS = [
   { value: "all", label: "全部类型" },
@@ -31,40 +37,52 @@ const MASTERED_OPTIONS = [
   { value: "true", label: "已掌握" },
 ];
 
-const TYPE_LABELS: Record<string, string> = {
-  listening: "听力",
-  reading: "阅读",
-};
+const SORT_OPTIONS = [
+  { value: "recent", label: "最近错误" },
+  { value: "most_wrong", label: "错误最多" },
+  { value: "level", label: "按等级" },
+];
 
 export function WrongAnswerList() {
   const router = useRouter();
   const initPractice = usePracticeStore((s) => s.init);
 
   const [data, setData] = useState<PaginatedResponse<WrongAnswerItem> | null>(null);
+  const [waStats, setWaStats] = useState<WrongAnswerStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
   const [startingPractice, setStartingPractice] = useState(false);
 
   // Filters
   const [type, setType] = useState("all");
   const [mastered, setMastered] = useState("all");
+  const [sortBy, setSortBy] = useState("recent");
   const [page, setPage] = useState(1);
+
+  // Fetch stats once
+  useEffect(() => {
+    getWrongAnswerStats().then(setWaStats).catch(() => {});
+  }, []);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
+    setFetchError(null);
     try {
       const result = await listWrongAnswers({
         type: type === "all" ? undefined : type,
         is_mastered: mastered === "all" ? undefined : mastered === "true",
+        sort_by: sortBy,
         page,
         page_size: 20,
       });
       setData(result);
-    } catch {
-      setData(null);
+    } catch (err) {
+      setData({ items: [], page: 1, page_size: 20, total: 0, total_pages: 0 } as PaginatedResponse<WrongAnswerItem>);
+      setFetchError(err instanceof Error ? err.message : "加载错题失败");
     } finally {
       setLoading(false);
     }
-  }, [type, mastered, page]);
+  }, [type, mastered, sortBy, page]);
 
   useEffect(() => {
     fetchData();
@@ -124,8 +142,41 @@ export function WrongAnswerList() {
         </Button>
       </div>
 
+      {/* Stats overview */}
+      {waStats && (
+        <div className="grid grid-cols-3 gap-3">
+          <Card>
+            <CardContent className="flex items-center gap-2 pt-3 pb-3">
+              <AlertCircle className="h-4 w-4 text-muted-foreground" />
+              <div>
+                <p className="text-xs text-muted-foreground">总错题</p>
+                <p className="text-lg font-bold">{waStats.total}</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="flex items-center gap-2 pt-3 pb-3">
+              <CheckCircle className="h-4 w-4 text-green-600" />
+              <div>
+                <p className="text-xs text-muted-foreground">已掌握</p>
+                <p className="text-lg font-bold">{waStats.mastered}</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="flex items-center gap-2 pt-3 pb-3">
+              <XCircle className="h-4 w-4 text-red-500" />
+              <div>
+                <p className="text-xs text-muted-foreground">未掌握</p>
+                <p className="text-lg font-bold">{waStats.unmastered}</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Filters */}
-      <div className="flex gap-3">
+      <div className="flex flex-wrap gap-3">
         <Select value={type} onValueChange={(v) => { setType(v); setPage(1); }}>
           <SelectTrigger className="w-[140px]">
             <SelectValue />
@@ -151,11 +202,26 @@ export function WrongAnswerList() {
             ))}
           </SelectContent>
         </Select>
+
+        <Select value={sortBy} onValueChange={(v) => { setSortBy(v); setPage(1); }}>
+          <SelectTrigger className="w-[140px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {SORT_OPTIONS.map((opt) => (
+              <SelectItem key={opt.value} value={opt.value}>
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* List */}
       {loading ? (
         <LoadingSpinner />
+      ) : fetchError ? (
+        <ErrorState message={fetchError} onRetry={fetchData} />
       ) : !data?.items.length ? (
         <div className="py-16 text-center text-muted-foreground">
           暂无错题记录
@@ -164,40 +230,11 @@ export function WrongAnswerList() {
         <>
           <div className="space-y-3">
             {data.items.map((item) => (
-              <Card key={item.id}>
-                <CardContent className="flex items-start gap-3 pt-4">
-                  <div className="flex-1 space-y-1.5">
-                    <div className="flex flex-wrap items-center gap-2">
-                      {item.question_number && (
-                        <span className="text-sm font-medium text-muted-foreground">
-                          #{item.question_number}
-                        </span>
-                      )}
-                      {item.question_type && (
-                        <Badge variant="outline">
-                          {TYPE_LABELS[item.question_type] || item.question_type}
-                        </Badge>
-                      )}
-                      {item.level && <Badge variant="secondary">{item.level}</Badge>}
-                      <span className="text-xs text-muted-foreground">
-                        错误 {item.wrong_count} 次
-                      </span>
-                    </div>
-                    {item.question_text && (
-                      <p className="text-sm line-clamp-2">{item.question_text}</p>
-                    )}
-                  </div>
-                  <Button
-                    variant={item.is_mastered ? "secondary" : "outline"}
-                    size="sm"
-                    className="shrink-0"
-                    onClick={() => handleToggleMastered(item.id)}
-                  >
-                    <CheckCircle className="mr-1 h-3.5 w-3.5" />
-                    {item.is_mastered ? "已掌握" : "标记掌握"}
-                  </Button>
-                </CardContent>
-              </Card>
+              <WrongAnswerCard
+                key={item.id}
+                item={item}
+                onToggleMastered={handleToggleMastered}
+              />
             ))}
           </div>
 

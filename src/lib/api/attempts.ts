@@ -6,6 +6,7 @@ import type {
   AnswerResponse,
   CompleteAttemptResponse,
   AttemptDetail,
+  AttemptReview,
   AttemptResponse,
   PaginatedResponse,
 } from "./types";
@@ -40,6 +41,10 @@ export function completeAttempt(
 
 export function getAttempt(attemptId: string): Promise<AttemptDetail> {
   return get<AttemptDetail>(`/api/attempts/${attemptId}`);
+}
+
+export function getAttemptReview(attemptId: string): Promise<AttemptReview> {
+  return get<AttemptReview>(`/api/attempts/${attemptId}/review`);
 }
 
 export function listAttempts(params?: {

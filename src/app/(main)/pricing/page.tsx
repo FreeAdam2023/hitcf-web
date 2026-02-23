@@ -1,7 +1,11 @@
+import type { Metadata } from "next";
 import { PricingView } from "./pricing-view";
 
-export const metadata = {
-  title: "定价 - HiTCF",
+export const metadata: Metadata = {
+  title: "定价",
+  description:
+    "HiTCF 订阅方案：免费题套直接练习，Pro 版解锁全部 3,400+ 道真题、考试模式、错题本。7 天免费试用。",
+  alternates: { canonical: "/pricing" },
 };
 
 export default function PricingPage() {

@@ -41,10 +41,17 @@ export function QuestionNavigator({
           const isCorrect = !isExam && !!typedAnswer && typedAnswer.is_correct === true;
           const isWrong = !isExam && !!typedAnswer && typedAnswer.is_correct === false;
 
+          // Determine status label for accessibility
+          let statusLabel = "未答";
+          if (isCorrect) statusLabel = "正确";
+          else if (isWrong) statusLabel = "错误";
+          else if (isAnswered) statusLabel = "已答";
+
           return (
             <button
               key={i}
               onClick={() => onNavigate(i)}
+              aria-label={`第${questionNum}题，${statusLabel}`}
               className={cn(
                 "relative flex h-8 w-8 items-center justify-center rounded text-xs font-medium transition-colors",
                 isCurrent && "ring-2 ring-primary ring-offset-1",
@@ -60,7 +67,7 @@ export function QuestionNavigator({
                 !isAnswered && isCurrent && "bg-primary/20",
               )}
             >
-              {questionNum}
+              {isCorrect ? "✓" : isWrong ? "✗" : questionNum}
               {isFlagged && (
                 <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-orange-500" />
               )}

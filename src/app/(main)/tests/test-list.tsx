@@ -4,11 +4,14 @@ import { useCallback, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets } from "@/lib/api/test-sets";
 import type { TestSetItem } from "@/lib/api/types";
-import { LoadingSpinner } from "@/components/shared/loading-spinner";
+import { SkeletonGrid } from "@/components/shared/skeleton-card";
 import { EmptyState } from "@/components/shared/empty-state";
+import { Input } from "@/components/ui/input";
 import { TestCard } from "./test-card";
 import { SpeakingTopicCard } from "./speaking-topic-card";
 import { WritingTopicCard } from "./writing-topic-card";
+import { ContinueBanner } from "@/components/shared/continue-banner";
+import { RecommendedBanner } from "@/components/shared/recommended-banner";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
 
@@ -16,6 +19,7 @@ export function TestList() {
   const [tab, setTab] = useState<TabType>("listening");
   const [tests, setTests] = useState<TestSetItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
   const [speakingFilter, setSpeakingFilter] = useState<"tache2" | "tache3">("tache2");
 
   const load = useCallback(async (type: TabType) => {
@@ -35,14 +39,19 @@ export function TestList() {
     load(tab);
   }, [tab, load]);
 
-  // Filter speaking tests by tâche type
-  const filteredTests = tab === "speaking"
-    ? tests.filter((t) =>
-        speakingFilter === "tache2"
-          ? t.code.includes("tache2")
-          : t.code.includes("tache3")
-      )
-    : tests;
+  // Filter by search and speaking type
+  const searchLower = search.toLowerCase();
+  const filteredTests = tests.filter((t) => {
+    // Search filter
+    if (search && !t.name.toLowerCase().includes(searchLower) && !t.code.toLowerCase().includes(searchLower)) {
+      return false;
+    }
+    // Speaking tâche filter
+    if (tab === "speaking") {
+      return speakingFilter === "tache2" ? t.code.includes("tache2") : t.code.includes("tache3");
+    }
+    return true;
+  });
 
   const renderCards = () => {
     if (tab === "speaking") {
@@ -55,10 +64,20 @@ export function TestList() {
   };
 
   return (
+    <div>
+      <ContinueBanner />
     <Tabs
       value={tab}
       onValueChange={(v) => setTab(v as TabType)}
     >
+      <div className="mb-4">
+        <Input
+          placeholder="搜索题套名称或代号..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="max-w-sm"
+        />
+      </div>
       <TabsList>
         <TabsTrigger value="listening">听力</TabsTrigger>
         <TabsTrigger value="reading">阅读</TabsTrigger>
@@ -67,10 +86,12 @@ export function TestList() {
       </TabsList>
 
       <TabsContent value={tab} className="mt-4">
+        <RecommendedBanner type={tab} />
         {tab === "speaking" && (
           <div className="mb-4 flex gap-2">
             <button
               onClick={() => setSpeakingFilter("tache2")}
+              aria-pressed={speakingFilter === "tache2"}
               className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
                 speakingFilter === "tache2"
                   ? "bg-primary text-primary-foreground"
@@ -81,6 +102,7 @@ export function TestList() {
             </button>
             <button
               onClick={() => setSpeakingFilter("tache3")}
+              aria-pressed={speakingFilter === "tache3"}
               className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
                 speakingFilter === "tache3"
                   ? "bg-primary text-primary-foreground"
@@ -93,7 +115,7 @@ export function TestList() {
         )}
 
         {loading ? (
-          <LoadingSpinner />
+          <SkeletonGrid />
         ) : filteredTests.length === 0 ? (
           <EmptyState title="暂无题套" description="该分类下还没有题套" />
         ) : (
@@ -103,5 +125,6 @@ export function TestList() {
         )}
       </TabsContent>
     </Tabs>
+    </div>
   );
 }

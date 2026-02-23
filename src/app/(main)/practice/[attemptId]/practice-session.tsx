@@ -1,10 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, CheckCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LogOut, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { usePracticeStore } from "@/stores/practice-store";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
 import { getQuestionDetail } from "@/lib/api/questions";
@@ -30,6 +42,17 @@ export function PracticeSession() {
   const [submitting, setSubmitting] = useState(false);
   const [completing, setCompleting] = useState(false);
   const [explanation, setExplanation] = useState<Explanation | null>(null);
+
+  // Warn before closing/refreshing if user has answered questions
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => {
+      if (answers.size > 0) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [answers.size]);
 
   const question = questions[currentIndex];
   if (!question || !attemptId) return null;
@@ -125,6 +148,30 @@ export function PracticeSession() {
           </Button>
 
           <div className="flex gap-2">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <LogOut className="mr-1 h-4 w-4" />
+                  退出练习
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>确认退出练习？</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    已答 {answers.size} / {questions.length} 题。
+                    {answers.size > 0 && " 退出后当前练习进度将保留。"}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>继续练习</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => router.push("/tests")}>
+                    确认退出
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+
             {allAnswered && (
               <Button
                 size="sm"
@@ -158,6 +205,30 @@ export function PracticeSession() {
           onNavigate={handleGoToQuestion}
         />
       </div>
+
+      {/* Mobile floating navigator */}
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="fixed bottom-4 right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden"
+          >
+            <LayoutGrid className="h-5 w-5" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="bottom" className="max-h-[50vh]">
+          <div className="p-4">
+            <QuestionNavigator
+              total={questions.length}
+              currentIndex={currentIndex}
+              answers={answers}
+              questionIds={questions.map((q) => q.id)}
+              onNavigate={handleGoToQuestion}
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

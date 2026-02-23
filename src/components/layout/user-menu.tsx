@@ -69,7 +69,7 @@ export function UserMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
+        <Button variant="ghost" size="icon" className="rounded-full" aria-label="用户菜单">
           <User className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>

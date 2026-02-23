@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, Pause, RotateCcw, Volume2 } from "lucide-react";
+import { Play, Pause, RotateCcw, Volume2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getAudioUrl } from "@/lib/api/media";
 
@@ -97,7 +97,9 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         onClick={togglePlay}
         disabled={loading}
       >
-        {playing ? (
+        {loading ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : playing ? (
           <Pause className="h-4 w-4" />
         ) : (
           <Play className="h-4 w-4" />

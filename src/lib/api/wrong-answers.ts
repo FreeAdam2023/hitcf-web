@@ -1,10 +1,11 @@
 import { get, post, put } from "./client";
-import type { PaginatedResponse, WrongAnswerItem } from "./types";
+import type { PaginatedResponse, WrongAnswerItem, WrongAnswerStats, WrongAnswerDetail } from "./types";
 
 export function listWrongAnswers(params?: {
   type?: string;
   level?: string;
   is_mastered?: boolean;
+  sort_by?: string;
   page?: number;
   page_size?: number;
 }): Promise<PaginatedResponse<WrongAnswerItem>> {
@@ -13,12 +14,21 @@ export function listWrongAnswers(params?: {
   if (params?.level) searchParams.set("level", params.level);
   if (params?.is_mastered !== undefined)
     searchParams.set("is_mastered", String(params.is_mastered));
+  if (params?.sort_by) searchParams.set("sort_by", params.sort_by);
   if (params?.page) searchParams.set("page", String(params.page));
   if (params?.page_size) searchParams.set("page_size", String(params.page_size));
   const qs = searchParams.toString();
   return get<PaginatedResponse<WrongAnswerItem>>(
     `/api/wrong-answers${qs ? `?${qs}` : ""}`,
   );
+}
+
+export function getWrongAnswerStats(): Promise<WrongAnswerStats> {
+  return get<WrongAnswerStats>("/api/wrong-answers/stats");
+}
+
+export function getWrongAnswerDetail(id: string): Promise<WrongAnswerDetail> {
+  return get<WrongAnswerDetail>(`/api/wrong-answers/${id}/detail`);
 }
 
 export function toggleMastered(

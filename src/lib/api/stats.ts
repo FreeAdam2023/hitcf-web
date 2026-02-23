@@ -1,4 +1,5 @@
 import { get } from "./client";
+import type { StatsHistory } from "./types";
 
 export interface LevelStatsItem {
   answered: number;
@@ -29,4 +30,8 @@ export interface StatsOverview {
 
 export function getStatsOverview(): Promise<StatsOverview> {
   return get<StatsOverview>("/api/stats/overview");
+}
+
+export function getStatsHistory(): Promise<StatsHistory> {
+  return get<StatsHistory>("/api/stats/history");
 }

@@ -302,7 +302,17 @@ export default function TestDetailPage() {
             <div className="font-medium">{test.time_limit_minutes} 分钟</div>
           </div>
 
-          <div className="mt-6 flex gap-3">
+          {/* Exam tips */}
+          <div className="mt-6 rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-1">
+            <p className="font-medium text-foreground text-sm">考前须知</p>
+            <ul className="list-disc pl-4 space-y-0.5">
+              <li>考试模式：计时进行，不可暂停；不显示即时答案；可标记题目稍后回顾</li>
+              <li>提交后显示成绩报告和 TCF 预估等级</li>
+              <li>练习模式：无时间限制，每题作答后立即显示正确答案和解析</li>
+            </ul>
+          </div>
+
+          <div className="mt-4 flex gap-3">
             {locked ? (
               <PaywallButton />
             ) : (

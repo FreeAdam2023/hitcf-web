@@ -21,6 +21,8 @@ interface ExamState {
     questions: QuestionBrief[],
     timeLimitSeconds: number,
     startedAt: string,
+    existingAnswers?: Array<{ question_id: string; question_number: number; selected: string }>,
+    existingFlags?: number[],
   ) => void;
   setAnswer: (questionId: string, answer: ExamAnswer) => void;
   toggleFlag: (questionNumber: number) => void;
@@ -39,16 +41,30 @@ export const useExamStore = create<ExamState>((set, get) => ({
   timeLimitSeconds: 0,
   startedAt: null,
 
-  init: (attemptId, questions, timeLimitSeconds, startedAt) =>
+  init: (attemptId, questions, timeLimitSeconds, startedAt, existingAnswers, existingFlags) => {
+    const answers = new Map<string, ExamAnswer>();
+    if (existingAnswers) {
+      for (const a of existingAnswers) {
+        if (a.selected) {
+          answers.set(a.question_id, {
+            question_id: a.question_id,
+            question_number: a.question_number,
+            selected: a.selected,
+          });
+        }
+      }
+    }
+    const flaggedQuestions = new Set<number>(existingFlags || []);
     set({
       attemptId,
       questions,
       currentIndex: 0,
-      answers: new Map(),
-      flaggedQuestions: new Set(),
+      answers,
+      flaggedQuestions,
       timeLimitSeconds,
       startedAt,
-    }),
+    });
+  },
 
   setAnswer: (questionId, answer) =>
     set((state) => {

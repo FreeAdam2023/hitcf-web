@@ -12,7 +12,7 @@ export function WritingTopicCard({ test }: { test: TestSetItem }) {
   const num = numMatch ? numMatch[1] : "";
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col border-l-4 border-l-purple-500 transition-all hover:shadow-md hover:-translate-y-0.5">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <CardTitle className="text-base leading-tight">
