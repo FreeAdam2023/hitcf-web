@@ -271,12 +271,20 @@ export function LandingPage() {
               </p>
               <div className="animate-fade-in-up-d3 mt-10 flex flex-wrap justify-center gap-4 lg:justify-start">
                 {isAuthenticated ? (
-                  <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg shadow-primary/25" asChild>
-                    <Link href="/tests">
-                      开始练习
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
+                  <>
+                    <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg shadow-primary/25" asChild>
+                      <Link href="/tests">
+                        开始练习
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                    <Button size="lg" variant="outline" className="h-12 px-8 text-base" asChild>
+                      <Link href="/resources">
+                        考试指南
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </>
                 ) : (
                   <>
                     <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg shadow-primary/25" asChild>
@@ -287,6 +295,12 @@ export function LandingPage() {
                     </Button>
                     <Button size="lg" variant="outline" className="h-12 px-8 text-base" asChild>
                       <a href="#pricing">查看定价</a>
+                    </Button>
+                    <Button size="lg" variant="ghost" className="h-12 px-8 text-base" asChild>
+                      <Link href="/resources">
+                        考试指南
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
                     </Button>
                   </>
                 )}
