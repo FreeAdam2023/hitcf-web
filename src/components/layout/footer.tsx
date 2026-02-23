@@ -27,6 +27,12 @@ export function Footer() {
             >
               定价
             </Link>
+            <Link
+              href="/resources"
+              className="transition-colors hover:text-foreground"
+            >
+              资源
+            </Link>
             <a
               href="mailto:support@hitcf.com"
               className="transition-colors hover:text-foreground"

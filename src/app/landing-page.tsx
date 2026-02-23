@@ -12,8 +12,8 @@ import {
   Target,
   Zap,
   Shield,
+  Clock,
   CreditCard,
-  Globe,
   RefreshCw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/accordion";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { HeroIllustration } from "@/components/illustrations/hero-illustration";
 import { useAuthStore } from "@/stores/auth-store";
 
 const FEATURES = [
@@ -86,16 +87,80 @@ const HIGHLIGHTS = [
     icon: Target,
     title: "CLB 7 目标导向",
     desc: "所有功能围绕 CLB 7（≈78% 正确率）设计，准备度仪表盘实时追踪你的听力和阅读离目标还差多远。",
+    illustration: (
+      <svg viewBox="0 0 120 80" fill="none" aria-hidden="true" className="w-full h-auto">
+        {/* progress bar background */}
+        <rect x="10" y="22" width="100" height="10" rx="5" fill="hsl(var(--muted))" fillOpacity="0.3" />
+        {/* progress fill (78%) */}
+        <rect x="10" y="22" width="78" height="10" rx="5" fill="hsl(var(--primary))" fillOpacity="0.7" />
+        {/* target marker at 78% */}
+        <line x1="88" y1="18" x2="88" y2="36" stroke="hsl(var(--primary))" strokeWidth="2" strokeDasharray="3 2" />
+        <text x="88" y="14" textAnchor="middle" fontSize="8" fontWeight="700" fill="hsl(var(--primary))">78%</text>
+        {/* current score */}
+        <text x="10" y="50" fontSize="18" fontWeight="800" fill="hsl(var(--primary))">CLB 7</text>
+        <rect x="60" y="42" width="50" height="14" rx="7" fill="hsl(142 76% 36% / 0.12)" />
+        <text x="85" y="53" textAnchor="middle" fontSize="8" fontWeight="600" fill="hsl(142 76% 36%)">已达标</text>
+        {/* secondary bar */}
+        <rect x="10" y="64" width="100" height="6" rx="3" fill="hsl(var(--muted))" fillOpacity="0.3" />
+        <rect x="10" y="64" width="62" height="6" rx="3" fill="hsl(38 92% 50% / 0.6)" />
+      </svg>
+    ),
   },
   {
     icon: Zap,
     title: "错题本 + 速练",
     desc: "系统自动收集错题，按题型和等级归纳薄弱环节。速练模式利用碎片时间定向突破。",
+    illustration: (
+      <svg viewBox="0 0 120 80" fill="none" aria-hidden="true" className="w-full h-auto">
+        {/* wrong answer cards */}
+        {[0, 1, 2].map((i) => (
+          <g key={i}>
+            <rect x={10 + i * 36} y={8 + i * 6} width="32" height="44" rx="4"
+              fill="hsl(var(--card))" stroke="hsl(var(--border))" strokeWidth="1" />
+            <rect x={14 + i * 36} y={14 + i * 6} width="16" height="3" rx="1.5"
+              fill="hsl(var(--muted-foreground) / 0.15)" />
+            <rect x={14 + i * 36} y={20 + i * 6} width="24" height="3" rx="1.5"
+              fill="hsl(var(--muted-foreground) / 0.10)" />
+            {/* red X mark */}
+            <circle cx={34 + i * 36} cy={38 + i * 6} r="5" fill="hsl(0 72% 51% / 0.12)" />
+            <path d={`M${31 + i * 36} ${35 + i * 6}l6 6M${37 + i * 36} ${35 + i * 6}l-6 6`}
+              stroke="hsl(0 72% 51%)" strokeWidth="1.5" strokeLinecap="round" />
+          </g>
+        ))}
+        {/* arrow to practice */}
+        <path d="M100 36 L110 36" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" />
+        <polygon points="112,36 108,32 108,40" fill="hsl(var(--primary))" />
+        {/* repeat icon */}
+        <circle cx="105" cy="60" r="10" fill="hsl(var(--primary) / 0.10)" />
+        <path d="M100 60a5 5 0 0 1 9-2.5M110 60a5 5 0 0 1-9 2.5"
+          stroke="hsl(var(--primary))" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+      </svg>
+    ),
   },
   {
     icon: Sparkles,
     title: "考试模式模拟真实考场",
     desc: "严格计时、不可回看、交卷后出分。提前适应考场压力，上场不慌。",
+    illustration: (
+      <svg viewBox="0 0 120 80" fill="none" aria-hidden="true" className="w-full h-auto">
+        {/* timer */}
+        <circle cx="60" cy="34" r="26" fill="hsl(var(--muted) / 0.2)" stroke="hsl(var(--border))" strokeWidth="1.5" />
+        {/* timer ring progress (75%) */}
+        <circle cx="60" cy="34" r="22"
+          stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round"
+          strokeDasharray="104 138" strokeDashoffset="-34.5"
+          fill="none" />
+        {/* time text */}
+        <text x="60" y="32" textAnchor="middle" fontSize="10" fontWeight="700" fill="hsl(var(--foreground))">24:35</text>
+        <text x="60" y="42" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))">剩余</text>
+        {/* question dots */}
+        {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+          <circle key={i} cx={22 + i * 12} cy="72" r="3.5"
+            fill={i < 5 ? "hsl(var(--primary))" : i === 5 ? "hsl(var(--primary) / 0.3)" : "hsl(var(--muted))"}
+            stroke={i === 5 ? "hsl(var(--primary))" : "none"} strokeWidth="1" />
+        ))}
+      </svg>
+    ),
   },
 ];
 
@@ -115,18 +180,12 @@ const TCF_GUIDE = [
   { clb: "CLB 10+", tcf: "499–699", desc: "最高等级" },
 ];
 
-const CHANGELOG = [
-  { date: "2026-02", text: "新增 CLB 7 准备度仪表盘" },
-  { date: "2026-01", text: "上线考试模式倒计时进度条" },
-  { date: "2025-12", text: "错题本支持按等级筛选" },
-  { date: "2025-11", text: "新增速练模式，碎片时间刷题" },
-];
 
 const TRUST_ITEMS = [
-  { icon: CreditCard, label: "Stripe 安全支付", desc: "PCI DSS Level 1 认证" },
-  { icon: Shield, label: "Cloudflare 防护", desc: "DDoS 防护 + 全球 CDN" },
-  { icon: Globe, label: "HTTPS 全站加密", desc: "数据传输端到端加密" },
-  { icon: RefreshCw, label: "7 天无理由退款", desc: "不满意随时取消" },
+  { icon: Clock, label: "7 天免费试用", desc: "不满意随时取消" },
+  { icon: CreditCard, label: "安全支付", desc: "信用卡信息由 Stripe 处理" },
+  { icon: RefreshCw, label: "48 小时可退款", desc: "首次付款无理由退款" },
+  { icon: Shield, label: "不自动扣费", desc: "试用期内取消 = 零费用" },
 ];
 
 const LANDING_FAQ = [
@@ -188,48 +247,57 @@ export function LandingPage() {
           />
         </div>
 
-        <div className="relative mx-auto max-w-4xl px-4 py-24 sm:py-36 text-center">
-          <Badge
-            variant="outline"
-            className="animate-fade-in-up mb-6 border-primary/30 bg-primary/5 px-4 py-1.5 text-primary"
-          >
-            <Target className="mr-1.5 h-3.5 w-3.5" />
-            TCF Canada 备考平台
-          </Badge>
-          <h1 className="animate-fade-in-up-d1 text-balance text-4xl font-extrabold tracking-tight sm:text-6xl">
-            <span className="bg-gradient-to-r from-blue-600 via-primary to-purple-600 bg-clip-text text-transparent animate-gradient-shift">
-              CLB 7
-            </span>
-            ，练出来的
-          </h1>
-          <p className="animate-fade-in-up-d2 mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-            3,400+ 道 TCF Canada 真题，听力阅读口语写作全覆盖。
-            <br className="hidden sm:block" />
-            做题、看解析、练错题——你只需要不断重复这个循环。
-          </p>
-          <div className="animate-fade-in-up-d3 mt-10 flex flex-wrap justify-center gap-4">
-            {isAuthenticated ? (
-              <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg shadow-primary/25" asChild>
-                <Link href="/tests">
-                  开始练习
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            ) : (
-              <>
-                <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg shadow-primary/25" asChild>
-                  <a href="/cdn-cgi/access/login">
-                    免费注册，立刻做题
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </a>
-                </Button>
-                <Button size="lg" variant="outline" className="h-12 px-8 text-base" asChild>
-                  <a href="#pricing">查看定价</a>
-                </Button>
-              </>
-            )}
-          </div>
+        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:py-32">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            {/* Left — text */}
+            <div className="text-center lg:text-left">
+              <Badge
+                variant="outline"
+                className="animate-fade-in-up mb-6 border-primary/30 bg-primary/5 px-4 py-1.5 text-primary"
+              >
+                <Target className="mr-1.5 h-3.5 w-3.5" />
+                TCF Canada 备考平台
+              </Badge>
+              <h1 className="animate-fade-in-up-d1 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                <span className="bg-gradient-to-r from-blue-600 via-primary to-purple-600 bg-clip-text text-transparent animate-gradient-shift">
+                  CLB 7
+                </span>
+                ，练出来的
+              </h1>
+              <p className="animate-fade-in-up-d2 mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+                3,400+ 道 TCF Canada 真题，听力阅读口语写作全覆盖。
+                <br className="hidden sm:block" />
+                做题、看解析、练错题——你只需要不断重复这个循环。
+              </p>
+              <div className="animate-fade-in-up-d3 mt-10 flex flex-wrap justify-center gap-4 lg:justify-start">
+                {isAuthenticated ? (
+                  <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg shadow-primary/25" asChild>
+                    <Link href="/tests">
+                      开始练习
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                ) : (
+                  <>
+                    <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg shadow-primary/25" asChild>
+                      <a href="/cdn-cgi/access/login">
+                        免费注册，立刻做题
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </a>
+                    </Button>
+                    <Button size="lg" variant="outline" className="h-12 px-8 text-base" asChild>
+                      <a href="#pricing">查看定价</a>
+                    </Button>
+                  </>
+                )}
+              </div>
+            </div>
 
+            {/* Right — illustration */}
+            <div className="animate-fade-in-up-d2 hidden lg:block">
+              <HeroIllustration className="w-full max-w-lg mx-auto drop-shadow-xl" />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -491,15 +559,21 @@ export function LandingPage() {
           </div>
           <div className="mt-14 grid gap-8 sm:grid-cols-3">
             {HIGHLIGHTS.map((h) => (
-              <div key={h.title} className="text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-                  <h.icon className="h-7 w-7 text-primary" />
+              <Card key={h.title} className="overflow-hidden border transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                {/* Illustration area */}
+                <div className="flex items-center justify-center bg-muted/20 px-6 pt-6 pb-2">
+                  <div className="w-full max-w-[200px]">{h.illustration}</div>
                 </div>
-                <h3 className="mt-4 text-lg font-bold">{h.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {h.desc}
-                </p>
-              </div>
+                <CardContent className="pt-4 text-center">
+                  <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
+                    <h.icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-bold">{h.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {h.desc}
+                  </p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
@@ -548,73 +622,13 @@ export function LandingPage() {
           <p className="mt-4 text-center text-xs text-muted-foreground">
             CLB 7 ≈ 78% 正确率 · 这是大部分 EE 和 PNP 项目的最低语言要求
           </p>
-        </div>
-      </section>
-
-      {/* ── Founder + Changelog ── */}
-      <section className="border-y bg-card py-20 sm:py-28">
-        <div className="mx-auto max-w-4xl px-4">
-          <div className="grid gap-12 sm:grid-cols-2">
-            {/* Founder story */}
-            <div>
-              <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5 text-primary">
-                关于 HiTCF
-              </Badge>
-              <h3 className="text-2xl font-extrabold tracking-tight">
-                这个平台是我自己备考时想要的工具
-              </h3>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                备考 TCF Canada 的时候，我发现市面上的练习平台要么题太少，要么没有考试模式，要么不能追踪错题。
-                于是我自己做了一个——把能找到的所有公开真题整理成库，加上我想要的功能：考试模式模拟真实计时、
-                错题本自动归纳薄弱点、速练模式利用碎片时间。
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                HiTCF 不是大公司的产品，是一个过来人做的工具。如果它能帮你少走弯路，那就值了。
-              </p>
-              <div className="mt-6 flex flex-wrap items-center gap-4">
-                <Button variant="outline" size="sm" className="gap-2" asChild>
-                  <a href="https://t.me/hitcf_group" target="_blank" rel="noopener noreferrer">
-                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
-                      <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                    </svg>
-                    Telegram 备考群
-                  </a>
-                </Button>
-                <Button variant="outline" size="sm" className="gap-2" asChild>
-                  <a href="mailto:support@hitcf.com">
-                    <MessageCircle className="h-4 w-4" />
-                    联系我
-                  </a>
-                </Button>
-              </div>
-            </div>
-
-            {/* Changelog */}
-            <div>
-              <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5 text-primary">
-                <RefreshCw className="mr-1.5 h-3 w-3" />
-                持续更新中
-              </Badge>
-              <h3 className="text-2xl font-extrabold tracking-tight">
-                最近更新
-              </h3>
-              <div className="mt-4 space-y-0 overflow-hidden rounded-xl border">
-                {CHANGELOG.map((item, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start gap-3 border-b px-4 py-3 last:border-0"
-                  >
-                    <span className="mt-0.5 shrink-0 rounded bg-muted px-2 py-0.5 font-mono text-xs text-muted-foreground">
-                      {item.date}
-                    </span>
-                    <span className="text-sm">{item.text}</span>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-3 text-xs text-muted-foreground">
-                平台由真人维护，功能持续迭代中
-              </p>
-            </div>
+          <div className="mt-8 text-center">
+            <Button variant="outline" className="gap-2" asChild>
+              <Link href="/resources">
+                查看完整考试指南
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
