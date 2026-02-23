@@ -19,6 +19,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fetchedAtRef = useRef(0);
+  const pendingPlayRef = useRef(false);
 
   const loadUrl = useCallback(async () => {
     setLoading(true);
@@ -41,19 +42,39 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     setProgress(0);
     setError(null);
     fetchedAtRef.current = 0;
+    pendingPlayRef.current = false;
   }, [questionId]);
 
-  const ensureUrl = useCallback(async () => {
-    if (!url || Date.now() - fetchedAtRef.current > SAS_REFRESH_MS) {
-      await loadUrl();
+  // Auto-play after URL loads when user clicked play
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!url || !pendingPlayRef.current || !audio) return;
+    pendingPlayRef.current = false;
+
+    const tryPlay = () => {
+      audio.play()
+        .then(() => setPlaying(true))
+        .catch(() => setError("播放失败"));
+    };
+
+    if (audio.readyState >= 2) {
+      tryPlay();
+    } else {
+      audio.addEventListener("canplay", tryPlay, { once: true });
     }
-  }, [url, loadUrl]);
+  }, [url]);
 
   const togglePlay = async () => {
+    // If no URL yet or SAS expired, load it first
+    if (!url || Date.now() - fetchedAtRef.current > SAS_REFRESH_MS) {
+      pendingPlayRef.current = true;
+      await loadUrl();
+      // Play will be triggered by the useEffect above after re-render
+      return;
+    }
+
     const audio = audioRef.current;
     if (!audio) return;
-
-    await ensureUrl();
 
     if (playing) {
       audio.pause();
@@ -84,6 +105,11 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
   const onEnded = () => {
     setPlaying(false);
     setProgress(100);
+  };
+
+  const onError = () => {
+    setPlaying(false);
+    setError("音频加载失败，请重试");
   };
 
   return (
@@ -130,6 +156,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
           src={url}
           onTimeUpdate={onTimeUpdate}
           onEnded={onEnded}
+          onError={onError}
           preload="auto"
         />
       )}

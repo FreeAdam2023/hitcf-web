@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Headphones,
@@ -18,11 +19,16 @@ import {
   Target,
   BookOpen,
   TableProperties,
+  Info,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ResourcesIllustration } from "@/components/illustrations/resources-illustration";
+
+/* ── constants ── */
+
+const VALID_TABS = ["exam", "scores", "resources", "centers"];
 
 /* ── data ── */
 
@@ -73,6 +79,13 @@ const NCLC_ROWS = [
   { level: "8", co: "503–522", ce: "499–523", ee: "12–13", eo: "12–13" },
   { level: "9", co: "523–548", ce: "524–548", ee: "14–15", eo: "14–15" },
   { level: "10+", co: "549–699", ce: "549–699", ee: "16–20", eo: "16–20" },
+];
+
+const IMMIGRATION_PROGRAMS = [
+  { program: "Express Entry (CEC)", req: "NCLC 7", desc: "加拿大经验类移民" },
+  { program: "Express Entry (FSW)", req: "NCLC 7", desc: "联邦技术移民" },
+  { program: "魁北克 PEQ", req: "NCLC 7", desc: "魁北克经验类移民" },
+  { program: "公民入籍", req: "NCLC 4", desc: "加拿大公民申请" },
 ];
 
 const OFFICIAL_RESOURCES = [
@@ -149,6 +162,11 @@ const YOUTUBE_RESOURCES = [
 
 const TOOL_RESOURCES = [
   {
+    name: "B 站 (Bilibili)",
+    url: "https://www.bilibili.com",
+    desc: "搜索「你好法语 A1 教材音频」「TCF 备考」等关键词，大量中文讲解的法语教学视频。中文学习者最容易上手的资源。",
+  },
+  {
     name: "Anki",
     url: "https://apps.ankiweb.net",
     desc: "开源免费的间隔重复记忆卡片软件，可下载社区共享的 TCF/DELF 词汇牌组。科学算法安排复习节奏，长期记忆效果远超死记硬背。",
@@ -171,16 +189,17 @@ const TOOL_RESOURCES = [
 ];
 
 const CHINA_CENTERS = [
-  { city: "北京", org: "北京法盟", address: "北京市朝阳区工体西路 18 号", url: "https://www.afchine.org/zh", note: "" },
-  { city: "上海", org: "上海法语培训中心", address: "上海市虹口区吴淞路 297 号", url: "https://www.afshanghai.org", note: "约 ¥2,700" },
-  { city: "广州", org: "广州法盟", address: "广州市越秀区环市东路 368 号", url: "https://www.afchine.org/zh", note: "" },
-  { city: "成都", org: "成都法盟", address: "成都市锦江区桂王桥北街 2 号", url: "https://www.afchine.org/zh", note: "" },
-  { city: "武汉", org: "武汉法盟", address: "武汉市武昌区中南路 12 号", url: "https://www.afchine.org/zh", note: "微信报名" },
-  { city: "大连", org: "大连法盟", address: "大连市中山区人民路 23 号", url: "https://www.afchine.org/zh", note: "" },
-  { city: "昆明", org: "昆明法盟", address: "昆明市五华区翠湖南路 2 号", url: "https://www.afchine.org/zh", note: "微信报名" },
-  { city: "山东", org: "山东法盟", address: "济南市历下区", url: "https://www.afchine.org/zh", note: "2026 新增" },
-  { city: "南京", org: "南京法盟", address: "南京市鼓楼区", url: "https://www.afchine.org/zh", note: "2026 新增" },
-  { city: "香港", org: "香港法盟", address: "香港湾仔皇后大道东 123 号", url: "https://www.afhongkong.org", note: "" },
+  { city: "北京", org: "北京语言大学", url: "https://www.blcu.edu.cn", note: "" },
+  { city: "北京", org: "北京法语联盟", url: "https://www.afchine.org/zh", note: "" },
+  { city: "上海", org: "上海法语培训中心", url: "https://www.afshanghai.org", note: "" },
+  { city: "广州", org: "广州法语联盟", url: "https://www.afchine.org/zh", note: "" },
+  { city: "成都", org: "成都法语联盟", url: "https://www.afchine.org/zh", note: "" },
+  { city: "武汉", org: "武汉法语联盟", url: "https://www.afchine.org/zh", note: "微信报名" },
+  { city: "大连", org: "大连法语联盟", url: "https://www.afchine.org/zh", note: "" },
+  { city: "昆明", org: "昆明法语联盟", url: "https://www.afchine.org/zh", note: "微信报名" },
+  { city: "山东", org: "山东法语联盟", url: "https://www.afchine.org/zh", note: "2026 新增" },
+  { city: "南京", org: "南京法语联盟", url: "https://www.afchine.org/zh", note: "2026 新增" },
+  { city: "香港", org: "香港法语联盟", url: "https://www.afhongkong.org", note: "" },
 ];
 
 const CANADA_CENTERS = [
@@ -196,6 +215,23 @@ const CANADA_CENTERS = [
 /* ── component ── */
 
 export function ResourcesContent() {
+  const [activeTab, setActiveTab] = useState("exam");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get("tab");
+    if (tab && VALID_TABS.includes(tab)) {
+      setActiveTab(tab);
+    }
+  }, []);
+
+  function handleTabChange(value: string) {
+    setActiveTab(value);
+    const url = new URL(window.location.href);
+    url.searchParams.set("tab", value);
+    window.history.replaceState({}, "", url.pathname + url.search);
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -230,7 +266,7 @@ export function ResourcesContent() {
       {/* ── Tabs ── */}
       <section className="py-10 sm:py-14">
         <div className="mx-auto max-w-5xl px-4">
-          <Tabs defaultValue="exam" className="w-full">
+          <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
             <TabsList className="mx-auto mb-10 grid w-full max-w-xl grid-cols-4 h-auto p-1">
               <TabsTrigger value="exam" className="gap-1.5 py-2.5 text-xs sm:text-sm">
                 <BookOpen className="h-4 w-4 hidden sm:block" />
@@ -251,7 +287,7 @@ export function ResourcesContent() {
             </TabsList>
 
             {/* ── Tab 1: 考试内容 ── */}
-            <TabsContent value="exam">
+            <TabsContent value="exam" forceMount className="data-[state=inactive]:hidden">
               {/* 简介 */}
               <div className="mx-auto max-w-3xl mb-12">
                 <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
@@ -370,7 +406,7 @@ export function ResourcesContent() {
             </TabsContent>
 
             {/* ── Tab 2: 分数对照 ── */}
-            <TabsContent value="scores">
+            <TabsContent value="scores" forceMount className="data-[state=inactive]:hidden">
               <div className="mx-auto max-w-4xl">
                 <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
                   NCLC / CLB 分数对照表
@@ -423,11 +459,44 @@ export function ResourcesContent() {
                 <p className="mt-4 text-sm text-muted-foreground">
                   * NCLC 7 是大部分 Express Entry 和 PNP 项目的<strong className="text-foreground">最低语言要求</strong>，也是多数考生的目标等级
                 </p>
+
+                {/* NCLC 7 explanation callout */}
+                <div className="mt-8 rounded-xl border border-primary/20 bg-primary/5 p-5">
+                  <div className="flex items-start gap-3">
+                    <Info className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold text-primary">为什么 NCLC 7 这么重要？</h3>
+                      <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">
+                        NCLC 7（即 CLB 7）是加拿大大部分经济类移民项目的<strong className="text-foreground">最低法语要求</strong>。达到
+                        NCLC 7 意味着你可以在 Express Entry（CEC、FSW）和大部分省提名项目（PNP）中满足语言门槛。更高的
+                        NCLC 等级（8、9、10）可以为你的 CRS 综合评分系统获得<strong className="text-foreground">额外加分</strong>，NCLC 9 可获得语言满分加分。
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Immigration programs reference */}
+                <div className="mt-8">
+                  <h3 className="text-lg font-bold mb-4">常见移民项目语言要求</h3>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {IMMIGRATION_PROGRAMS.map((p) => (
+                      <div key={p.program} className="rounded-lg border bg-card px-4 py-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium">{p.program}</span>
+                          <span className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-bold text-primary">
+                            {p.req}
+                          </span>
+                        </div>
+                        <p className="mt-0.5 text-xs text-muted-foreground">{p.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </TabsContent>
 
             {/* ── Tab 3: 学习资源 ── */}
-            <TabsContent value="resources">
+            <TabsContent value="resources" forceMount className="data-[state=inactive]:hidden">
               <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
                 免费法语学习资源推荐
               </h2>
@@ -497,39 +566,15 @@ export function ResourcesContent() {
                 </div>
               </div>
 
-              {/* 中文资源 */}
-              <div className="mb-12">
-                <div className="flex items-center gap-2 mb-5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-pink-100 dark:bg-pink-900/40">
-                    <span className="text-sm">🇨🇳</span>
-                  </div>
-                  <h3 className="text-lg font-bold">中文法语资源</h3>
-                </div>
-                <a
-                  href="https://www.bilibili.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block rounded-xl border bg-card p-5 transition-all hover:shadow-md hover:-translate-y-0.5 hover:border-pink-300 dark:hover:border-pink-700 sm:max-w-lg"
-                >
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-bold group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">B 站 (Bilibili)</h4>
-                    <ExternalLink className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    搜索「你好法语 A1 教材音频」「TCF 备考」等关键词，大量中文讲解的法语教学视频，包括教材配套音频、语法串讲和真题解析。中文学习者最容易上手的资源。
-                  </p>
-                </a>
-              </div>
-
-              {/* 工具类 */}
+              {/* 工具类 (includes B站) */}
               <div>
                 <div className="flex items-center gap-2 mb-5">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40">
                     <Wrench className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h3 className="text-lg font-bold">工具类</h3>
+                  <h3 className="text-lg font-bold">工具 &amp; 中文资源</h3>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {TOOL_RESOURCES.map((r) => (
                     <a
                       key={r.name}
@@ -550,12 +595,12 @@ export function ResourcesContent() {
             </TabsContent>
 
             {/* ── Tab 4: 考场信息 ── */}
-            <TabsContent value="centers">
+            <TabsContent value="centers" forceMount className="data-[state=inactive]:hidden">
               <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
                 中国 &amp; 加拿大考场
               </h2>
               <p className="mt-3 mb-8 text-muted-foreground">
-                考场信息可能变动，请以各考点官方通知为准
+                考场信息可能变动，请以各考点官方网站通知为准
               </p>
 
               <div className="grid gap-8 lg:grid-cols-2">
@@ -566,27 +611,26 @@ export function ResourcesContent() {
                     <h3 className="font-bold">中国考场</h3>
                   </div>
                   <div className="divide-y">
-                    {CHINA_CENTERS.map((c) => (
-                      <div key={c.city} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
+                    {CHINA_CENTERS.map((c, i) => (
+                      <div key={`${c.city}-${i}`} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
                         <div className="min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className="font-semibold">{c.city}</span>
-                            <span className="text-muted-foreground">{c.org}</span>
+                            <a
+                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.org)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                              <MapPin className="h-3 w-3" />
+                              {c.org}
+                            </a>
                             {c.note && (
                               <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
                                 {c.note}
                               </span>
                             )}
                           </div>
-                          <a
-                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.org + " " + c.address)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-1 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                          >
-                            <MapPin className="h-3 w-3" />
-                            {c.address}
-                          </a>
                         </div>
                         <a
                           href={c.url}
@@ -600,17 +644,22 @@ export function ResourcesContent() {
                       </div>
                     ))}
                   </div>
-                  <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground">
-                    全球考场查询：
-                    <a
-                      href="https://www.lefrancaisdesaffaires.fr"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-medium text-primary hover:underline"
-                    >
-                      lefrancaisdesaffaires.fr
-                      <ExternalLink className="ml-1 inline h-3 w-3" />
-                    </a>
+                  <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground space-y-1">
+                    <div>
+                      费用约 <strong className="text-foreground">¥2,500–2,800</strong>（因城市和机构略有差异）
+                    </div>
+                    <div>
+                      全球考场查询：
+                      <a
+                        href="https://www.lefrancaisdesaffaires.fr"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-primary hover:underline"
+                      >
+                        lefrancaisdesaffaires.fr
+                        <ExternalLink className="ml-1 inline h-3 w-3" />
+                      </a>
+                    </div>
                   </div>
                 </div>
 

@@ -21,7 +21,6 @@ const NAV_ITEMS = [
   { href: "/wrong-answers", label: "错题本" },
   { href: "/history", label: "记录" },
   { href: "/speed-drill", label: "速练" },
-  { href: "/resources", label: "资源" },
 ];
 
 export function Navbar() {

@@ -22,13 +22,13 @@ function getBarColor(accuracy: number): string {
 
 function getStatusText(accuracy: number): { text: string; color: string } {
   if (accuracy >= CLB7_TARGET) {
-    return { text: "\u5DF2\u8FBE\u6807 \u2713", color: "text-green-600 dark:text-green-400" };
+    return { text: "已达标 ✓", color: "text-green-600 dark:text-green-400" };
   }
   const gap = Math.round((CLB7_TARGET - accuracy) * 100);
   if (accuracy >= 0.6) {
-    return { text: `\u8FD8\u5DEE ${gap}%`, color: "text-blue-600 dark:text-blue-400" };
+    return { text: `还差 ${gap}%`, color: "text-blue-600 dark:text-blue-400" };
   }
-  return { text: "\u7EE7\u7EED\u52A0\u6CB9", color: "text-orange-600 dark:text-orange-400" };
+  return { text: "继续加油", color: "text-orange-600 dark:text-orange-400" };
 }
 
 function getOverallReadiness(listening: number, reading: number): {
@@ -39,40 +39,40 @@ function getOverallReadiness(listening: number, reading: number): {
   const avg = (listening + reading) / 2;
   const readiness = Math.min(Math.round((avg / CLB7_TARGET) * 100), 100);
 
-  if (readiness >= 100) return { pct: readiness, label: "\u5DF2\u8FBE\u6807", color: "text-green-600 dark:text-green-400" };
-  if (readiness >= 80) return { pct: readiness, label: "\u63A5\u8FD1\u76EE\u6807", color: "text-blue-600 dark:text-blue-400" };
-  return { pct: readiness, label: "\u7EE7\u7EED\u52AA\u529B", color: "text-orange-600 dark:text-orange-400" };
+  if (readiness >= 100) return { pct: readiness, label: "已达标", color: "text-green-600 dark:text-green-400" };
+  if (readiness >= 80) return { pct: readiness, label: "接近目标", color: "text-blue-600 dark:text-blue-400" };
+  return { pct: readiness, label: "继续努力", color: "text-orange-600 dark:text-orange-400" };
 }
 
 function getSummary(listening: number, reading: number): string {
   const lOk = listening >= CLB7_TARGET;
   const rOk = reading >= CLB7_TARGET;
 
-  if (lOk && rOk) return "\u542C\u529B\u548C\u9605\u8BFB\u5747\u5DF2\u8FBE\u6807\uFF0C\u7EE7\u7EED\u4FDD\u6301\uFF01";
+  if (lOk && rOk) return "听力和阅读均已达标，继续保持！";
   if (lOk) {
     const gap = Math.round((CLB7_TARGET - reading) * 100);
-    return `\u542C\u529B\u5DF2\u8FBE\u6807\uFF0C\u9605\u8BFB\u8FD8\u5DEE ${gap}% \u5C31\u80FD\u8FBE\u5230 CLB 7\uFF01`;
+    return `听力已达标，阅读还差 ${gap}% 就能达到 CLB 7！`;
   }
   if (rOk) {
     const gap = Math.round((CLB7_TARGET - listening) * 100);
-    return `\u9605\u8BFB\u5DF2\u8FBE\u6807\uFF0C\u542C\u529B\u8FD8\u5DEE ${gap}% \u5C31\u80FD\u8FBE\u5230 CLB 7\uFF01`;
+    return `阅读已达标，听力还差 ${gap}% 就能达到 CLB 7！`;
   }
-  return "\u575A\u6301\u7EC3\u4E60\uFF0C\u5411 CLB 7 \u53D1\u8D77\u51B2\u523A\uFF01";
+  return "坚持练习，向 CLB 7 发起冲刺！";
 }
 
 function getStreakMessage(days: number): { text: string; color: string } {
-  if (days >= 30) return { text: `${days} \u5929\uFF01\u4F60\u5C31\u662F\u4F20\u5947`, color: "text-orange-500" };
-  if (days >= 7) return { text: `\u8FDE\u7EED ${days} \u5929\uFF0C\u522B\u8BA9\u706B\u706D\u4E86\uFF01`, color: "text-orange-500" };
-  if (days >= 3) return { text: `\u8FDE\u7EED ${days} \u5929\uFF0C\u4FDD\u6301\u4F4F\uFF01`, color: "text-orange-500" };
-  if (days >= 1) return { text: "\u4ECA\u5929\u5DF2\u7EC3\u4E60\uFF0C\u660E\u5929\u7EE7\u7EED", color: "text-orange-400" };
-  return { text: "\u4ECA\u5929\u8FD8\u6CA1\u7EC3\u4E60\u54E6", color: "text-muted-foreground" };
+  if (days >= 30) return { text: `${days} 天！你就是传奇`, color: "text-orange-500" };
+  if (days >= 7) return { text: `连续 ${days} 天，别让火灭了！`, color: "text-orange-500" };
+  if (days >= 3) return { text: `连续 ${days} 天，保持住！`, color: "text-orange-500" };
+  if (days >= 1) return { text: "今天已练习，明天继续", color: "text-orange-400" };
+  return { text: "今天还没练习哦", color: "text-muted-foreground" };
 }
 
 function getStreakMilestone(days: number): string | null {
-  if (days >= 30) return "30 \u5929\u6210\u5C31";
-  if (days >= 14) return "14 \u5929\u6210\u5C31";
-  if (days >= 7) return "7 \u5929\u6210\u5C31";
-  if (days >= 3) return "3 \u5929\u6210\u5C31";
+  if (days >= 30) return "30 天成就";
+  if (days >= 14) return "14 天成就";
+  if (days >= 7) return "7 天成就";
+  if (days >= 3) return "3 天成就";
   return null;
 }
 
@@ -86,8 +86,8 @@ export function CLB7Readiness({
   const streak = getStreakMessage(streakDays);
   const milestone = getStreakMilestone(streakDays);
   const categories = [
-    { label: "\u542C\u529B", accuracy: listeningAccuracy },
-    { label: "\u9605\u8BFB", accuracy: readingAccuracy },
+    { label: "听力", accuracy: listeningAccuracy },
+    { label: "阅读", accuracy: readingAccuracy },
   ];
 
   return (
@@ -105,7 +105,7 @@ export function CLB7Readiness({
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <Target className="h-4 w-4 text-primary shrink-0" />
-              <h2 className="text-lg font-bold">CLB 7 \u51C6\u5907\u5EA6</h2>
+              <h2 className="text-lg font-bold">CLB 7 准备度</h2>
             </div>
             <p className={cn("mt-0.5 text-sm font-medium", overall.color)}>
               {overall.label}
@@ -120,7 +120,7 @@ export function CLB7Readiness({
         <div className="mt-5 flex gap-4 border-t pt-4 text-center">
           <div className="flex-1">
             <div className="text-xl font-bold">{totalAttempts}</div>
-            <div className="text-xs text-muted-foreground">\u7EC3\u4E60\u6B21\u6570</div>
+            <div className="text-xs text-muted-foreground">练习次数</div>
           </div>
           <div className="flex-1">
             <div className="flex items-center justify-center gap-1">
@@ -131,7 +131,7 @@ export function CLB7Readiness({
               <span className="text-xl font-bold">{streakDays}</span>
             </div>
             <div className={cn("text-xs font-medium", streak.color)}>
-              {streakDays > 0 ? streak.text : "\u5F00\u59CB\u8FDE\u7EED\u6253\u5361"}
+              {streakDays > 0 ? streak.text : "开始连续打卡"}
             </div>
             {milestone && (
               <div className="mt-0.5 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-[10px] font-semibold text-orange-700 dark:bg-orange-900/40 dark:text-orange-300">
@@ -141,11 +141,11 @@ export function CLB7Readiness({
           </div>
           <div className="flex-1">
             <div className="text-xl font-bold">{Math.round(listeningAccuracy * 100)}%</div>
-            <div className="text-xs text-muted-foreground">\u542C\u529B</div>
+            <div className="text-xs text-muted-foreground">听力</div>
           </div>
           <div className="flex-1">
             <div className="text-xl font-bold">{Math.round(readingAccuracy * 100)}%</div>
-            <div className="text-xs text-muted-foreground">\u9605\u8BFB</div>
+            <div className="text-xs text-muted-foreground">阅读</div>
           </div>
         </div>
 

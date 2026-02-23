@@ -89,9 +89,9 @@ const FAQ = [
 
 const TRUST = [
   { icon: Clock, label: "7 天免费试用", desc: "不满意随时取消" },
-  { icon: CreditCard, label: "Stripe 安全支付", desc: "PCI DSS Level 1" },
-  { icon: Shield, label: "HTTPS 加密传输", desc: "Cloudflare 保护" },
-  { icon: RefreshCw, label: "48 小时无理由退款", desc: "零风险" },
+  { icon: CreditCard, label: "安全支付", desc: "信用卡信息由 Stripe 处理" },
+  { icon: RefreshCw, label: "48 小时可退款", desc: "首次付款无理由退款" },
+  { icon: Shield, label: "不自动扣费", desc: "试用期内取消 = 零费用" },
 ];
 
 /* ------------------------------------------------------------------ */
