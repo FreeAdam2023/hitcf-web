@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, Flag, Send, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -62,14 +62,9 @@ export function ExamSession() {
   }, [handleComplete]);
 
   const question = questions[currentIndex];
-  if (!question || !attemptId || !startedAt) return null;
 
-  const currentAnswer = answers.get(question.id);
-  const isLast = currentIndex === questions.length - 1;
-  const isFlagged = flaggedQuestions.has(question.question_number);
-
-  const handleSelect = async (key: string) => {
-    if (submitting) return;
+  const handleSelect = useCallback(async (key: string) => {
+    if (!question || !attemptId || submitting) return;
     setSubmitting(true);
     try {
       await submitAnswer(attemptId, {
@@ -87,7 +82,45 @@ export function ExamSession() {
     } finally {
       setSubmitting(false);
     }
-  };
+  }, [question, attemptId, submitting, setAnswer]);
+
+  // Keyboard shortcuts: 1-4 / A-D select, arrows navigate
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+
+      const q = questions[currentIndex];
+      if (!q) return;
+
+      const keyMap: Record<string, number> = {
+        "1": 0, "2": 1, "3": 2, "4": 3,
+        a: 0, b: 1, c: 2, d: 3,
+      };
+      const optIndex = keyMap[e.key.toLowerCase()];
+      if (optIndex !== undefined && q.options[optIndex]) {
+        e.preventDefault();
+        handleSelect(q.options[optIndex].key);
+        return;
+      }
+
+      if (e.key === "ArrowRight" && currentIndex < questions.length - 1) {
+        e.preventDefault();
+        goNext();
+      } else if (e.key === "ArrowLeft" && currentIndex > 0) {
+        e.preventDefault();
+        goPrev();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [questions, currentIndex, handleSelect, goNext, goPrev]);
+
+  if (!question || !attemptId || !startedAt) return null;
+
+  const currentAnswer = answers.get(question.id);
+  const isLast = currentIndex === questions.length - 1;
+  const isFlagged = flaggedQuestions.has(question.question_number);
 
   const handleFlag = async () => {
     try {

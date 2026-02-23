@@ -42,7 +42,7 @@ export function ExamTimer({ timeLimitSeconds, startedAt, onTimeUp }: ExamTimerPr
       <div
         className={cn(
           "flex items-center gap-1.5 font-mono text-sm font-medium",
-          isCritical ? "text-red-600 font-bold" : isLow ? "text-red-500" : "",
+          isCritical ? "text-red-600 font-bold animate-pulse" : isLow ? "text-red-500" : "",
         )}
         aria-live="polite"
         aria-label={`剩余时间 ${minutes} 分 ${seconds} 秒`}
@@ -56,7 +56,7 @@ export function ExamTimer({ timeLimitSeconds, startedAt, onTimeUp }: ExamTimerPr
         value={progressValue}
         className={cn(
           "h-1 w-24",
-          isCritical && "[&>div]:bg-red-500",
+          isCritical ? "[&>div]:bg-red-500" : isLow ? "[&>div]:bg-amber-500" : "",
         )}
       />
     </div>

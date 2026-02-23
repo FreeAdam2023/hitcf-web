@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, CheckCircle, LogOut, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -56,14 +56,11 @@ export function PracticeSession() {
   }, [answers.size]);
 
   const question = questions[currentIndex];
-  if (!question || !attemptId) return null;
+  const currentAnswer = question ? (answers.get(question.id) ?? null) : null;
 
-  const currentAnswer = answers.get(question.id) ?? null;
-  const isLast = currentIndex === questions.length - 1;
-  const allAnswered = answers.size === questions.length;
-
-  const handleSelect = async (key: string) => {
-    if (currentAnswer || submitting) return;
+  const handleSelect = useCallback(async (key: string) => {
+    if (!question || !attemptId) return;
+    if (answers.has(question.id) || submitting) return;
     setSubmitting(true);
     setSubmitError(false);
     try {
@@ -92,9 +89,10 @@ export function PracticeSession() {
     } finally {
       setSubmitting(false);
     }
-  };
+  }, [question, attemptId, answers, submitting, setAnswer]);
 
   const handleComplete = async () => {
+    if (!attemptId) return;
     setCompleting(true);
     try {
       await completeAttempt(attemptId);
@@ -110,15 +108,53 @@ export function PracticeSession() {
     goToQuestion(index);
   };
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setExplanation(null);
     goNext();
-  };
+  }, [goNext]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setExplanation(null);
     goPrev();
-  };
+  }, [goPrev]);
+
+  // Keyboard shortcuts: 1-4 / A-D select, arrows navigate
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+
+      const q = questions[currentIndex];
+      if (!q) return;
+      const answered = answers.has(q.id);
+
+      const keyMap: Record<string, number> = {
+        "1": 0, "2": 1, "3": 2, "4": 3,
+        a: 0, b: 1, c: 2, d: 3,
+      };
+      const optIndex = keyMap[e.key.toLowerCase()];
+      if (optIndex !== undefined && !answered && q.options[optIndex]) {
+        e.preventDefault();
+        handleSelect(q.options[optIndex].key);
+        return;
+      }
+
+      if (e.key === "ArrowRight" && currentIndex < questions.length - 1) {
+        e.preventDefault();
+        handleNext();
+      } else if (e.key === "ArrowLeft" && currentIndex > 0) {
+        e.preventDefault();
+        handlePrev();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [questions, currentIndex, answers, handleSelect, handleNext, handlePrev]);
+
+  if (!question || !attemptId) return null;
+
+  const isLast = currentIndex === questions.length - 1;
+  const allAnswered = answers.size === questions.length;
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_200px]">

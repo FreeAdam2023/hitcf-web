@@ -12,6 +12,7 @@ import { SpeakingTopicCard } from "./speaking-topic-card";
 import { WritingTopicCard } from "./writing-topic-card";
 import { ContinueBanner } from "@/components/shared/continue-banner";
 import { RecommendedBanner } from "@/components/shared/recommended-banner";
+import { CLB7ProgressBar } from "@/components/shared/clb7-progress-bar";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
 
@@ -66,6 +67,7 @@ export function TestList() {
   return (
     <div>
       <ContinueBanner />
+      <CLB7ProgressBar />
     <Tabs
       value={tab}
       onValueChange={(v) => setTab(v as TabType)}

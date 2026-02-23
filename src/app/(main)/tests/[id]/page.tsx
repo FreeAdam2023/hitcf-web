@@ -12,7 +12,7 @@ import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { useAuthStore } from "@/stores/auth-store";
 import { getTestSet, getTestSetQuestions } from "@/lib/api/test-sets";
 import { createAttempt } from "@/lib/api/attempts";
-import { gradeWriting } from "@/lib/api/writing";
+import { gradeWriting, getWritingSubmissions } from "@/lib/api/writing";
 import type { TestSetDetail, QuestionBrief, WritingFeedback } from "@/lib/api/types";
 
 function buildSpeakingPrompt(topic: QuestionBrief, isTache2: boolean): string {
@@ -279,6 +279,27 @@ function WritingTestView({
   const [grading, setGrading] = useState<Record<string, boolean>>({});
   const [gradingResults, setGradingResults] = useState<Record<string, WritingFeedback>>({});
   const [gradingErrors, setGradingErrors] = useState<Record<string, string>>({});
+  const [submittedTopics, setSubmittedTopics] = useState<Record<string, string>>({});
+
+  // Load writing history on mount
+  useEffect(() => {
+    if (topics.length === 0) return;
+    topics.forEach((topic) => {
+      getWritingSubmissions(topic.id)
+        .then((submissions) => {
+          if (submissions.length > 0) {
+            const latest = submissions[0];
+            setGradingResults((prev) => ({ ...prev, [topic.id]: latest.feedback }));
+            setEssayTexts((prev) => ({ ...prev, [topic.id]: latest.essay_text }));
+            setSubmittedTopics((prev) => ({
+              ...prev,
+              [topic.id]: latest.created_at,
+            }));
+          }
+        })
+        .catch(() => {});
+    });
+  }, [topics]);
 
   const handleEssayChange = useCallback((topicId: string, text: string) => {
     setEssayTexts((prev) => ({ ...prev, [topicId]: text }));
@@ -294,6 +315,7 @@ function WritingTestView({
     try {
       const result = await gradeWriting(topic.id, taskNum, essay);
       setGradingResults((prev) => ({ ...prev, [topic.id]: result.feedback }));
+      setSubmittedTopics((prev) => ({ ...prev, [topic.id]: result.created_at }));
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "批改失败，请稍后重试";
       setGradingErrors((prev) => ({ ...prev, [topic.id]: message }));
@@ -352,6 +374,9 @@ function WritingTestView({
                     <span className="text-sm font-medium text-muted-foreground">
                       {TASK_LABELS[taskNum] || `Tâche ${taskNum}`}
                     </span>
+                    {submittedTopics[topic.id] && (
+                      <CheckCircle2 className="h-4 w-4 text-green-500" />
+                    )}
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-3">
@@ -434,7 +459,16 @@ function WritingTestView({
                   )}
 
                   {/* Grading result */}
-                  {result && <WritingFeedbackPanel feedback={result} />}
+                  {result && (
+                    <>
+                      {submittedTopics[topic.id] && (
+                        <p className="text-xs text-muted-foreground">
+                          上次提交：{new Date(submittedTopics[topic.id]).toLocaleString("zh-CN")}
+                        </p>
+                      )}
+                      <WritingFeedbackPanel feedback={result} />
+                    </>
+                  )}
                 </CardContent>
               </Card>
             );
