@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Loader2, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
+import { ArrowLeft, Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Loader2, CheckCircle2, AlertCircle, ArrowRight, Copy, Check } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,12 +15,22 @@ import { createAttempt } from "@/lib/api/attempts";
 import { gradeWriting } from "@/lib/api/writing";
 import type { TestSetDetail, QuestionBrief, WritingFeedback } from "@/lib/api/types";
 
-function buildChatGPTUrl(topic: QuestionBrief, isTache2: boolean): string {
-  const prompt = isTache2
+function buildSpeakingPrompt(topic: QuestionBrief, isTache2: boolean): string {
+  return isTache2
     ? `Tu es mon partenaire de pratique pour le TCF Canada Expression Orale Tâche 2. Voici le sujet :\n\n"${topic.question_text}"\n\nJoue le rôle décrit dans le sujet. Je vais te poser des questions comme dans l'examen. Réponds naturellement en français, puis après 5-6 échanges, donne-moi un feedback sur ma performance (grammaire, vocabulaire, fluidité). Parle uniquement en français.`
     : `Tu es mon examinateur pour le TCF Canada Expression Orale Tâche 3. Voici le sujet :\n\n"${topic.question_text}"\n\nJe vais donner mon opinion sur ce sujet pendant environ 2-3 minutes. Écoute-moi, puis donne-moi un feedback détaillé sur : la structure de mon argumentation, la richesse du vocabulaire, la grammaire, et des suggestions d'amélioration. Parle uniquement en français.`;
+}
 
-  return `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
+function buildChatGPTUrl(topic: QuestionBrief, isTache2: boolean): string {
+  return `https://chatgpt.com/?q=${encodeURIComponent(buildSpeakingPrompt(topic, isTache2))}`;
+}
+
+function buildGrokUrl(topic: QuestionBrief, isTache2: boolean): string {
+  return `https://grok.com/?q=${encodeURIComponent(buildSpeakingPrompt(topic, isTache2))}`;
+}
+
+function buildKimiUrl(topic: QuestionBrief, isTache2: boolean): string {
+  return `https://kimi.moonshot.cn/?q=${encodeURIComponent(buildSpeakingPrompt(topic, isTache2))}`;
 }
 
 function buildWritingChatGPTUrl(topic: QuestionBrief, taskNum: number): string {
@@ -48,6 +58,90 @@ const CRITERION_LABELS: Record<string, { name: string; desc: string }> = {
   vocabulaire: { name: "Vocabulaire", desc: "词汇" },
   grammaire: { name: "Grammaire", desc: "语法" },
 };
+
+function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTache2: boolean }) {
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleCopy = useCallback(async (topic: QuestionBrief) => {
+    const prompt = buildSpeakingPrompt(topic, isTache2);
+    await navigator.clipboard.writeText(prompt);
+    setCopiedId(topic.id);
+    setTimeout(() => setCopiedId(null), 2000);
+  }, [isTache2]);
+
+  return (
+    <div className="space-y-3">
+      {topics.map((topic, idx) => (
+        <Card key={topic.id}>
+          <CardContent className="pt-4">
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                {idx + 1}
+              </span>
+              <div className="flex-1 space-y-3">
+                <p className="text-sm leading-relaxed">
+                  {topic.question_text}
+                </p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => handleCopy(topic)}
+                  >
+                    {copiedId === topic.id ? (
+                      <>
+                        <Check className="mr-1.5 h-3.5 w-3.5" />
+                        已复制
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="mr-1.5 h-3.5 w-3.5" />
+                        复制 Prompt
+                      </>
+                    )}
+                  </Button>
+                  <Button variant="outline" size="sm" asChild>
+                    <a
+                      href={buildChatGPTUrl(topic, isTache2)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      ChatGPT
+                    </a>
+                  </Button>
+                  <Button variant="outline" size="sm" asChild>
+                    <a
+                      href={buildGrokUrl(topic, isTache2)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      Grok
+                    </a>
+                  </Button>
+                  <Button variant="ghost" size="sm" asChild>
+                    <a
+                      href={buildKimiUrl(topic, isTache2)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      Kimi
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
 
 function scoreColor(score: number): string {
   if (score >= 4) return "bg-green-500";
@@ -446,8 +540,8 @@ export default function TestDetailPage() {
                 </div>
                 <p className="mt-3 text-sm text-muted-foreground">
                   {isTache2
-                    ? "在角色扮演场景中提问和互动。点击话题下方的按钮，使用 ChatGPT 进行对话练习。"
-                    : "就某个话题表达你的观点并论证。点击话题下方的按钮，使用 ChatGPT 进行表达练习。"}
+                    ? "在角色扮演场景中提问和互动。复制 Prompt 后粘贴到你喜欢的 AI 工具进行对话练习。"
+                    : "就某个话题表达你的观点并论证。复制 Prompt 后粘贴到你喜欢的 AI 工具进行表达练习。"}
                 </p>
               </div>
             </div>
@@ -463,39 +557,7 @@ export default function TestDetailPage() {
         ) : topicsLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="space-y-3">
-            {topics.map((topic, idx) => (
-              <Card key={topic.id}>
-                <CardContent className="pt-4">
-                  <div className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
-                      {idx + 1}
-                    </span>
-                    <div className="flex-1 space-y-3">
-                      <p className="text-sm leading-relaxed">
-                        {topic.question_text}
-                      </p>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        asChild
-                      >
-                        <a
-                          href={buildChatGPTUrl(topic, isTache2)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5" />
-                          用 ChatGPT 练习
-                        </a>
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <SpeakingTopicList topics={topics} isTache2={isTache2} />
         )}
       </div>
     );
