@@ -42,6 +42,7 @@ export function PracticeSession() {
   const [submitting, setSubmitting] = useState(false);
   const [completing, setCompleting] = useState(false);
   const [explanation, setExplanation] = useState<Explanation | null>(null);
+  const [submitError, setSubmitError] = useState(false);
 
   // Warn before closing/refreshing if user has answered questions
   useEffect(() => {
@@ -64,6 +65,7 @@ export function PracticeSession() {
   const handleSelect = async (key: string) => {
     if (currentAnswer || submitting) return;
     setSubmitting(true);
+    setSubmitError(false);
     try {
       const res = await submitAnswer(attemptId, {
         question_id: question.id,
@@ -85,6 +87,8 @@ export function PracticeSession() {
       setAnswer(question.id, { ...res, correct_answer: correctAnswer ?? null });
     } catch (err) {
       console.error("Failed to submit answer", err);
+      setSubmitError(true);
+      setTimeout(() => setSubmitError(false), 4000);
     } finally {
       setSubmitting(false);
     }
@@ -132,7 +136,13 @@ export function PracticeSession() {
           disabled={submitting}
         />
 
-        {currentAnswer && <ExplanationPanel explanation={explanation} />}
+        {submitError && (
+          <div className="rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600 dark:border-red-800 dark:bg-red-950/30 dark:text-red-400">
+            提交失败，请重试
+          </div>
+        )}
+
+        {currentAnswer && <ExplanationPanel explanation={explanation} questionId={question.id} />}
 
         <Separator />
 

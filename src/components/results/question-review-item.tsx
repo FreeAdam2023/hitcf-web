@@ -128,9 +128,7 @@ export function QuestionReviewItem({ answer }: QuestionReviewItemProps) {
           )}
 
           {/* Explanation */}
-          {answer.explanation && (
-            <ExplanationPanel explanation={answer.explanation} />
-          )}
+          <ExplanationPanel explanation={answer.explanation} questionId={answer.question_id} />
         </div>
       </CollapsibleContent>
     </Collapsible>

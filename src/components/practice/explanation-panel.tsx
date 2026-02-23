@@ -1,16 +1,31 @@
 "use client";
 
-import { useState } from "react";
-import { ChevronDown, ChevronUp, Lightbulb } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronDown, ChevronUp, Lightbulb, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { generateExplanation } from "@/lib/api/questions";
 import type { Explanation } from "@/lib/api/types";
 
 interface ExplanationPanelProps {
   explanation: Explanation | null | undefined;
+  questionId?: string;
 }
 
-export function ExplanationPanel({ explanation }: ExplanationPanelProps) {
+export function ExplanationPanel({
+  explanation: initialExplanation,
+  questionId,
+}: ExplanationPanelProps) {
   const [open, setOpen] = useState(false);
+  const [explanation, setExplanation] = useState(initialExplanation);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  // Sync with prop changes (e.g. navigating between questions)
+  useEffect(() => {
+    setExplanation(initialExplanation);
+    setLoading(false);
+    setError(false);
+  }, [initialExplanation, questionId]);
 
   const hasContent =
     explanation &&
@@ -21,6 +36,30 @@ export function ExplanationPanel({ explanation }: ExplanationPanelProps) {
       explanation.exam_skill ||
       explanation.trap_pattern ||
       explanation.similar_tip);
+
+  // Auto-fetch when expanded and no explanation available
+  useEffect(() => {
+    if (!open || hasContent || loading || !questionId) return;
+
+    let cancelled = false;
+    setLoading(true);
+    setError(false);
+
+    generateExplanation(questionId)
+      .then((data) => {
+        if (!cancelled) setExplanation(data);
+      })
+      .catch(() => {
+        if (!cancelled) setError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [open, hasContent, questionId, loading]);
 
   return (
     <div className="rounded-md border">
@@ -42,7 +81,27 @@ export function ExplanationPanel({ explanation }: ExplanationPanelProps) {
 
       {open && (
         <div className="border-t px-4 py-3 text-sm">
-          {!hasContent ? (
+          {loading ? (
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              正在加载解析...
+            </div>
+          ) : error ? (
+            <p className="text-muted-foreground">
+              加载失败，
+              <button
+                className="underline hover:text-foreground"
+                onClick={() => {
+                  setError(false);
+                  setLoading(false);
+                  // Re-trigger fetch by resetting state — useEffect will pick it up
+                  setExplanation(null);
+                }}
+              >
+                点击重试
+              </button>
+            </p>
+          ) : !hasContent ? (
             <p className="text-muted-foreground">解析即将推出，敬请期待。</p>
           ) : (
             <div className="space-y-3">
