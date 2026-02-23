@@ -182,9 +182,9 @@ const TCF_GUIDE = [
 
 
 const TRUST_ITEMS = [
-  { icon: Clock, label: "7 天免费试用", desc: "不满意随时取消" },
+  { icon: Clock, label: "超长免费试用", desc: "年付 2 个月 · 月付/季付 7 天" },
   { icon: CreditCard, label: "安全支付", desc: "信用卡信息由 Stripe 处理" },
-  { icon: RefreshCw, label: "48 小时可退款", desc: "首次付款无理由退款" },
+  { icon: RefreshCw, label: "首次扣款可退", desc: "扣款后 48 小时内无理由退款" },
   { icon: Shield, label: "不自动扣费", desc: "试用期内取消 = 零费用" },
 ];
 
@@ -199,7 +199,7 @@ const LANDING_FAQ = [
   },
   {
     q: "Pro 会员有什么好处？",
-    a: "解锁全部 3,400+ 道题目（116 套），包含考试模式、错题本、速练模式和 CLB 等级估算。7 天免费试用，不满意随时取消。",
+    a: "解锁全部 3,400+ 道题目（116 套），包含考试模式、错题本、速练模式和 CLB 等级估算。年付享 2 个月免费试用，不满意随时取消。",
   },
   {
     q: "能保证考到 CLB 7 吗？",
@@ -517,8 +517,8 @@ export function LandingPage() {
               <CardContent className="pt-6">
                 <h3 className="text-lg font-bold">Pro</h3>
                 <div className="mt-3">
-                  <span className="text-4xl font-extrabold">7 天免费</span>
-                  <span className="ml-1 text-muted-foreground">试用</span>
+                  <span className="text-4xl font-extrabold">2 个月免费</span>
+                  <span className="ml-1 text-muted-foreground">试用（年付）</span>
                 </div>
                 <ul className="mt-6 space-y-3 text-sm">
                   {PLAN_FEATURES.map((f) => (
@@ -534,7 +534,7 @@ export function LandingPage() {
                   {isSubscribed ? (
                     <Link href="/tests">进入题库</Link>
                   ) : (
-                    <Link href="/pricing">开始 7 天免费试用</Link>
+                    <Link href="/pricing">开始免费试用</Link>
                   )}
                 </Button>
               </CardContent>

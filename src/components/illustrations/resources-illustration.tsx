@@ -1,5 +1,3 @@
-"use client";
-
 /**
  * Decorative SVG illustration for the resources page hero.
  * Shows a stylised "guide book" with floating icons: globe, graduation cap,

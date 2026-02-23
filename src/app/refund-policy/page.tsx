@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "退款政策 · 免费试用与退款申请流程",
   description:
-    "HiTCF 退款政策：7 天免费试用随时取消不扣费，首次付款 48 小时内全额退款，季付年付 14 天内按比例退款。通过 Stripe 原路返回。",
+    "HiTCF 退款政策：免费试用（年付 2 个月，月付/季付 7 天）随时取消不扣费，首次付款 48 小时内全额退款，季付年付 14 天内按比例退款。通过 Stripe 原路返回。",
   alternates: { canonical: "/refund-policy" },
 };
 
@@ -22,7 +22,7 @@ export default function RefundPolicyPage() {
 
       <h2>1. 免费试用</h2>
       <ul>
-        <li>所有新用户可享受 <strong>7 天免费试用</strong>，试用期间不收取任何费用。</li>
+        <li>所有新用户可享受免费试用（<strong>年付方案 2 个月</strong>，月付/季付方案 7 天），试用期间不收取任何费用。</li>
         <li>试用期内随时可以取消，不会产生任何费用。</li>
         <li>试用期结束后，如未取消，将自动按所选方案收费。</li>
         <li>每个用户（每个邮箱地址）仅可享受一次免费试用。</li>

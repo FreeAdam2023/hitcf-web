@@ -34,7 +34,7 @@ export function OptionList({
   const locked = readonly || (!isExam && !!answer);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2" role="radiogroup" aria-label="答案选项">
       {options.map((opt) => {
         // Readonly mode logic (for wrong-answer-card / results)
         const isSelected = readonly
@@ -52,6 +52,9 @@ export function OptionList({
         return (
           <button
             key={opt.key}
+            role="radio"
+            aria-checked={isSelected}
+            aria-label={`${opt.key}: ${opt.text || ""}`}
             className={cn(
               "flex w-full items-start gap-3 rounded-md border p-3 text-left text-sm transition-colors",
               !locked && !disabled && "hover:bg-accent cursor-pointer",

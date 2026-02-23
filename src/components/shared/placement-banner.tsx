@@ -33,7 +33,9 @@ export function PlacementBanner() {
           }
         }
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.error("PlacementBanner: failed to load data", err);
+      });
   }, []);
 
   if (!show || !firstFreeId) return null;

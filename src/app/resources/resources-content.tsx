@@ -104,7 +104,7 @@ const OFFICIAL_RESOURCES = [
   {
     name: "Journal en français facile",
     url: "https://savoirs.rfi.fr/fr/apprendre-enseigner/langue-francaise/journal-en-francais-facile",
-    desc: "RFI「简明法语新闻」，每天 10 分钟清晰慢速播报国际新闻。坚持每天听一期，一个月后听力明显进步。",
+    desc: "RFI「简明法语新闻」，每天 10 分钟清晰慢速播报国际新闻。坚持每天听一期，有助于稳步提升听力水平。",
     tag: "每日听力",
   },
   {
@@ -197,8 +197,8 @@ const CHINA_CENTERS = [
   { city: "武汉", org: "武汉法语联盟", url: "https://www.afchine.org/zh", note: "微信报名" },
   { city: "大连", org: "大连法语联盟", url: "https://www.afchine.org/zh", note: "" },
   { city: "昆明", org: "昆明法语联盟", url: "https://www.afchine.org/zh", note: "微信报名" },
-  { city: "山东", org: "山东法语联盟", url: "https://www.afchine.org/zh", note: "2026 新增" },
-  { city: "南京", org: "南京法语联盟", url: "https://www.afchine.org/zh", note: "2026 新增" },
+  { city: "山东", org: "山东法语联盟", url: "https://www.afchine.org/zh", note: "新增" },
+  { city: "南京", org: "南京法语联盟", url: "https://www.afchine.org/zh", note: "新增" },
   { city: "香港", org: "香港法语联盟", url: "https://www.afhongkong.org", note: "" },
 ];
 
@@ -651,12 +651,12 @@ export function ResourcesContent() {
                     <div>
                       全球考场查询：
                       <a
-                        href="https://www.lefrancaisdesaffaires.fr"
+                        href="https://www.france-education-international.fr/en/tcf-all-audiences/register-session"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-medium text-primary hover:underline"
                       >
-                        lefrancaisdesaffaires.fr
+                        france-education-international.fr
                         <ExternalLink className="ml-1 inline h-3 w-3" />
                       </a>
                     </div>
@@ -728,10 +728,10 @@ export function ResourcesContent() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/pricing"
+              href="/resources?tab=resources"
               className="inline-flex h-11 items-center gap-2 rounded-md border px-6 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
             >
-              查看定价
+              查看学习资源
             </Link>
           </div>
         </div>

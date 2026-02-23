@@ -38,7 +38,9 @@ export function RecommendedBanner({ type }: RecommendedBannerProps) {
         const next = sorted.find((t) => !completedTestIds.has(t.id));
         setRecommended(next ?? null);
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.error("RecommendedBanner: failed to load data", err);
+      });
   }, [type]);
 
   if (!recommended) return null;

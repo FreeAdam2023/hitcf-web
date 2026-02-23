@@ -261,3 +261,49 @@ export interface AttemptReview {
   completed_at: string | null;
   answers: ReviewAnswer[];
 }
+
+// Writing Grading
+export interface CriterionFeedback {
+  score: number;
+  feedback: string;
+  highlights: string[];
+}
+
+export interface CorrectionItem {
+  original: string;
+  corrected: string;
+  explanation: string;
+}
+
+export interface VocabSuggestionItem {
+  original: string;
+  suggestion: string;
+  reason: string;
+}
+
+export interface WritingFeedback {
+  adequation: CriterionFeedback;
+  coherence: CriterionFeedback;
+  vocabulaire: CriterionFeedback;
+  grammaire: CriterionFeedback;
+  total_score: number;
+  estimated_nclc: string;
+  estimated_level: string;
+  overall_comment: string;
+  corrections: CorrectionItem[];
+  vocab_suggestions: VocabSuggestionItem[];
+}
+
+export interface WritingGradeResponse {
+  id: string;
+  user_id: string;
+  question_id: string;
+  test_set_id: string;
+  task_number: number;
+  essay_text: string;
+  word_count: number;
+  feedback: WritingFeedback;
+  created_at: string;
+}
+
+export type WritingSubmissionItem = WritingGradeResponse;

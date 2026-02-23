@@ -69,14 +69,20 @@ export function ResultsView({ attempt }: ResultsViewProps) {
           setNextTestSet(sorted[currentIdx + 1]);
         }
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.error("ResultsView: failed to load next test set", err);
+      });
   }, [attempt.test_set_id, attempt.test_set_type]);
 
   async function handlePracticeWrong() {
-    if (!attempt.test_set_type) return;
+    if (!attempt.test_set_type || wrongCount === 0) return;
     setPracticingWrong(true);
     try {
       const res = await practiceWrongAnswers({ type: attempt.test_set_type });
+      if (!res?.id) {
+        setPracticingWrong(false);
+        return;
+      }
       router.push(`/practice/${res.id}`);
     } catch {
       setPracticingWrong(false);

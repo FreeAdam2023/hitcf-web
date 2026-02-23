@@ -26,6 +26,7 @@ const PLANS = [
     price: "$14.99",
     unit: "/ 月",
     badge: null,
+    trialLabel: "开始 7 天免费试用",
     recommended: false,
   },
   {
@@ -35,7 +36,8 @@ const PLANS = [
     unit: "/ 3 个月",
     equiv: "≈ $10.00 / 月",
     badge: "省 33%",
-    recommended: true,
+    trialLabel: "开始 7 天免费试用",
+    recommended: false,
   },
   {
     key: "yearly" as const,
@@ -43,8 +45,9 @@ const PLANS = [
     price: "$59.99",
     unit: "/ 年",
     equiv: "≈ $5.00 / 月",
-    badge: "省 67%",
-    recommended: false,
+    badge: "2 个月免费",
+    trialLabel: "开始 2 个月免费试用",
+    recommended: true,
   },
 ];
 
@@ -63,7 +66,7 @@ const COMPARISON = [
 const FAQ = [
   {
     q: "免费试用需要绑定信用卡吗？",
-    a: "需要。通过 Stripe 安全绑定后开始 7 天免费试用。试用期内随时取消，不会扣费。",
+    a: "需要。通过 Stripe 安全绑定后开始免费试用（年付 2 个月，月付/季付 7 天）。试用期内随时取消，不会扣费。",
   },
   {
     q: "可以随时取消吗？",
@@ -88,10 +91,10 @@ const FAQ = [
 ];
 
 const TRUST = [
-  { icon: Clock, label: "7 天免费试用", desc: "不满意随时取消" },
+  { icon: Clock, label: "超长免费试用", desc: "年付 2 个月 · 月付/季付 7 天" },
   { icon: CreditCard, label: "安全支付", desc: "信用卡信息由 Stripe 处理" },
-  { icon: RefreshCw, label: "48 小时可退款", desc: "首次付款无理由退款" },
-  { icon: Shield, label: "不自动扣费", desc: "试用期内取消 = 零费用" },
+  { icon: RefreshCw, label: "首次扣款可退", desc: "扣款后 48 小时内无理由全额退款" },
+  { icon: Shield, label: "随时可取消", desc: "无合约锁定，一键取消自动续费" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -128,7 +131,7 @@ export function PricingView() {
       {/* ---- Hero ---- */}
       <div className="text-center">
         <Badge variant="outline" className="mb-4 border-primary/30 text-primary">
-          7 天免费试用 · 随时取消
+          年付享 2 个月免费试用 · 随时取消
         </Badge>
         <h1 className="text-3xl font-bold sm:text-4xl">
           解锁全部 3,400+ 道 TCF 真题
@@ -194,7 +197,7 @@ export function PricingView() {
                   onClick={() => handleSubscribe(plan.key)}
                   disabled={loadingPlan !== null}
                 >
-                  {loadingPlan === plan.key ? "跳转中..." : "开始 7 天免费试用"}
+                  {loadingPlan === plan.key ? "跳转中..." : plan.trialLabel}
                 </Button>
               ) : (
                 <Button className="w-full" asChild>

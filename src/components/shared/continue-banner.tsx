@@ -25,8 +25,8 @@ export function ContinueBanner() {
           setAttempt(inProgress[0]);
         }
       })
-      .catch(() => {
-        // silent fail
+      .catch((err) => {
+        console.error("ContinueBanner: failed to load attempts", err);
       });
   }, []);
 
