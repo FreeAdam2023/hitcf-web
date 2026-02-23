@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "服务条款",
-  description: "HiTCF 服务条款：用户协议、订阅规则、使用限制与责任划分。",
+  title: "服务条款 · 用户协议与订阅规则",
+  description:
+    "HiTCF 服务条款：了解账户注册、Pro 订阅自动续订规则、内容使用规范、知识产权声明和责任限制等用户协议详情。",
   alternates: { canonical: "/terms-of-service" },
 };
 

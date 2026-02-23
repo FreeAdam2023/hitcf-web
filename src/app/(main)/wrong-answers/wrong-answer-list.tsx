@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
+import { EmptyState } from "@/components/shared/empty-state";
 import { WrongAnswerCard } from "@/components/wrong-answers/wrong-answer-card";
 import {
   listWrongAnswers,
@@ -223,9 +224,15 @@ export function WrongAnswerList() {
       ) : fetchError ? (
         <ErrorState message={fetchError} onRetry={fetchData} />
       ) : !data?.items.length ? (
-        <div className="py-16 text-center text-muted-foreground">
-          暂无错题记录
-        </div>
+        <EmptyState
+          title="还没有错题"
+          description="做完一套题后，答错的题目会自动收集到这里，方便你针对性复习"
+          action={
+            <Button onClick={() => router.push("/tests")}>
+              去题库开始练习
+            </Button>
+          }
+        />
       ) : (
         <>
           <div className="space-y-3">

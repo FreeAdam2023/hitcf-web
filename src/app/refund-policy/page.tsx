@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "退款政策",
+  title: "退款政策 · 免费试用与退款申请流程",
   description:
-    "HiTCF 退款政策：了解免费试用、订阅取消和退款申请流程。",
+    "HiTCF 退款政策：7 天免费试用随时取消不扣费，首次付款 48 小时内全额退款，季付年付 14 天内按比例退款。通过 Stripe 原路返回。",
   alternates: { canonical: "/refund-policy" },
 };
 

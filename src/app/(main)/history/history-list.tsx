@@ -11,6 +11,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { Pagination } from "@/components/shared/pagination";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -49,7 +51,15 @@ export function HistoryList() {
       {loading ? (
         <LoadingSpinner />
       ) : !data?.items.length ? (
-        <EmptyState title="暂无记录" description="完成练习后记录会出现在这里" />
+        <EmptyState
+          title="暂无记录"
+          description="完成一套练习后，成绩和历史记录会出现在这里"
+          action={
+            <Button asChild>
+              <Link href="/tests">去题库开始练习</Link>
+            </Button>
+          }
+        />
       ) : (
         <>
           <div className="rounded-md border">

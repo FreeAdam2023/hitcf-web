@@ -3,7 +3,7 @@ import { TestList } from "./test-list";
 import { PlacementBanner } from "@/components/shared/placement-banner";
 
 export const metadata: Metadata = {
-  title: "题库",
+  title: "TCF Canada 题库 · 3,400+ 道听力阅读口语写作真题",
   description:
     "TCF Canada 听力、阅读、口语、写作全真模拟题库。42 套听力含音频，44 套阅读，覆盖 A1-C2 全等级。",
   alternates: { canonical: "/tests" },

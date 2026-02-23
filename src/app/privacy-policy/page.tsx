@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "隐私政策",
+  title: "隐私政策 · 数据收集与 PIPEDA 合规",
   description:
-    "HiTCF 隐私政策：我们如何收集、使用和保护您的个人信息。符合加拿大 PIPEDA 法律要求。",
+    "HiTCF 隐私政策：了解我们如何通过 Cloudflare Access 验证身份、通过 Stripe 处理支付，以及数据存储、Cookie 使用和您的 PIPEDA 权利。",
   alternates: { canonical: "/privacy-policy" },
 };
 
