@@ -29,8 +29,12 @@ function buildGrokUrl(topic: QuestionBrief, isTache2: boolean): string {
   return `https://grok.com/?q=${encodeURIComponent(buildSpeakingPrompt(topic, isTache2))}`;
 }
 
-function buildKimiUrl(topic: QuestionBrief, isTache2: boolean): string {
-  return `https://kimi.moonshot.cn/?q=${encodeURIComponent(buildSpeakingPrompt(topic, isTache2))}`;
+function buildMistralUrl(): string {
+  return "https://chat.mistral.ai/chat";
+}
+
+function buildGeminiUrl(): string {
+  return "https://gemini.google.com/app";
 }
 
 function buildWritingChatGPTUrl(topic: QuestionBrief, taskNum: number): string {
@@ -122,15 +126,26 @@ function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTa
                       Grok
                     </a>
                   </Button>
-                  <Button variant="ghost" size="sm" asChild>
+                  <Button variant="outline" size="sm" asChild>
                     <a
-                      href={buildKimiUrl(topic, isTache2)}
+                      href={buildMistralUrl()}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
-                      Kimi
+                      Mistral
+                    </a>
+                  </Button>
+                  <Button variant="ghost" size="sm" asChild>
+                    <a
+                      href={buildGeminiUrl()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      Gemini
                     </a>
                   </Button>
                 </div>
