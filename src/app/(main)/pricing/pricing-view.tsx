@@ -37,7 +37,7 @@ const PLANS = [
     unit: "/ 6 个月",
     equiv: "≈ $8.33 / 月",
     badge: "省 58%",
-    trialLabel: "开始 1 个月免费试用",
+    trialLabel: "开始 14 天免费试用",
     recommended: false,
   },
   {
@@ -92,7 +92,7 @@ const FAQ = [
 ];
 
 const TRUST = [
-  { icon: Clock, label: "超长免费试用", desc: "年付 2 个月 · 半年付 1 个月 · 月付 7 天" },
+  { icon: Clock, label: "超长免费试用", desc: "年付 2 个月 · 半年付 14 天 · 月付 7 天" },
   { icon: CreditCard, label: "安全支付", desc: "信用卡信息由 Stripe 处理" },
   { icon: RefreshCw, label: "首次扣款可退", desc: "扣款后 48 小时内无理由全额退款" },
   { icon: Shield, label: "随时可取消", desc: "无合约锁定，一键取消自动续费" },
