@@ -4,19 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, CheckCircle2 } from "lucide-react";
 import { getEstimatedTcfLevel } from "@/lib/tcf-levels";
-import { cn } from "@/lib/utils";
+import { cn, formatTime } from "@/lib/utils";
 
 interface ScoreCardProps {
   score: number;
   total: number;
   answeredCount?: number;
   timeTakenSeconds?: number | null;
-}
-
-function formatTime(seconds: number): string {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
 function useCountUp(target: number, duration = 1200): number {

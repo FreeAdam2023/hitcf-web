@@ -6,8 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { getStatsOverview, type StatsOverview } from "@/lib/api/stats";
 import { useAuthStore } from "@/stores/auth-store";
-
-const CLB7_TARGET = 0.78;
+import { CLB7_TARGET } from "@/lib/constants";
 
 function getBarColor(accuracy: number): string {
   if (accuracy >= CLB7_TARGET) return "[&>div]:bg-green-500";
@@ -31,7 +30,7 @@ export function CLB7ProgressBar() {
     if (!user) return;
     getStatsOverview()
       .then(setStats)
-      .catch(() => {});
+      .catch((err) => { console.warn("Stats fetch failed:", err); });
   }, [user]);
 
   if (!stats || stats.total_attempts === 0) return null;

@@ -37,8 +37,11 @@ function SubscriptionBadge({ status }: { status: string | null }) {
 }
 
 export function UserMenu() {
-  const { user, isLoading, isAuthenticated, logout, hasActiveSubscription } =
-    useAuthStore();
+  const user = useAuthStore((s) => s.user);
+  const isLoading = useAuthStore((s) => s.isLoading);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const logout = useAuthStore((s) => s.logout);
+  const hasActiveSubscription = useAuthStore((s) => s.hasActiveSubscription);
   const router = useRouter();
   const [portalLoading, setPortalLoading] = useState(false);
 
@@ -49,7 +52,7 @@ export function UserMenu() {
   if (!isAuthenticated || !user) {
     return (
       <Button variant="outline" size="sm" asChild>
-        <a href="/cdn-cgi/access/login">登录</a>
+        <a href={process.env.NEXT_PUBLIC_LOGIN_URL || "/cdn-cgi/access/login"}>登录</a>
       </Button>
     );
   }

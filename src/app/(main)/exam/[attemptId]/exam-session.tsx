@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Flag, Send, LayoutGrid } from "lucide-react";
@@ -47,17 +47,20 @@ export function ExamSession() {
   const [submitting, setSubmitting] = useState(false);
   const [completing, setCompleting] = useState(false);
 
+  const completingRef = useRef(false);
   const handleComplete = useCallback(async () => {
-    if (completing) return;
+    if (completingRef.current) return;
+    completingRef.current = true;
     setCompleting(true);
     try {
       await completeAttempt(attemptId!);
       router.push(`/results/${attemptId}`);
     } catch (err) {
       console.error("Failed to complete exam", err);
+      completingRef.current = false;
       setCompleting(false);
     }
-  }, [attemptId, completing, router]);
+  }, [attemptId, router]);
 
   const handleTimeUp = useCallback(() => {
     handleComplete();
@@ -87,6 +90,14 @@ export function ExamSession() {
     }
   }, [question, attemptId, submitting, setAnswer]);
 
+  // Stable refs for keyboard handler to avoid listener churn
+  const handleSelectRef = useRef(handleSelect);
+  useEffect(() => { handleSelectRef.current = handleSelect; });
+  const goNextRef = useRef(goNext);
+  useEffect(() => { goNextRef.current = goNext; });
+  const goPrevRef = useRef(goPrev);
+  useEffect(() => { goPrevRef.current = goPrev; });
+
   // Keyboard shortcuts: 1-4 / A-D select, arrows navigate
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -103,21 +114,21 @@ export function ExamSession() {
       const optIndex = keyMap[e.key.toLowerCase()];
       if (optIndex !== undefined && q.options[optIndex]) {
         e.preventDefault();
-        handleSelect(q.options[optIndex].key);
+        handleSelectRef.current(q.options[optIndex].key);
         return;
       }
 
       if (e.key === "ArrowRight" && currentIndex < questions.length - 1) {
         e.preventDefault();
-        goNext();
+        goNextRef.current();
       } else if (e.key === "ArrowLeft" && currentIndex > 0) {
         e.preventDefault();
-        goPrev();
+        goPrevRef.current();
       }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [questions, currentIndex, handleSelect, goNext, goPrev]);
+  }, [questions, currentIndex]);
 
   if (!question || !attemptId || !startedAt) return <LoadingSpinner />;
 

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/accordion";
 import { useAuthStore } from "@/stores/auth-store";
 import { createCheckout, getCustomerPortal } from "@/lib/api/subscriptions";
+import { LOGIN_URL } from "@/lib/constants";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -23,28 +24,28 @@ const PLANS = [
   {
     key: "monthly" as const,
     name: "月付",
-    price: "$14.99",
+    price: "$19.99",
     unit: "/ 月",
     badge: null,
     trialLabel: "开始 7 天免费试用",
     recommended: false,
   },
   {
-    key: "quarterly" as const,
-    name: "季付",
-    price: "$29.99",
-    unit: "/ 3 个月",
-    equiv: "≈ $10.00 / 月",
-    badge: "省 33%",
-    trialLabel: "开始 7 天免费试用",
+    key: "semi_annual" as const,
+    name: "半年付",
+    price: "$49.99",
+    unit: "/ 6 个月",
+    equiv: "≈ $8.33 / 月",
+    badge: "省 58%",
+    trialLabel: "开始 1 个月免费试用",
     recommended: false,
   },
   {
     key: "yearly" as const,
     name: "年付",
-    price: "$59.99",
+    price: "$79.99",
     unit: "/ 年",
-    equiv: "≈ $5.00 / 月",
+    equiv: "≈ $6.67 / 月",
     badge: "2 个月免费",
     trialLabel: "开始 2 个月免费试用",
     recommended: true,
@@ -91,7 +92,7 @@ const FAQ = [
 ];
 
 const TRUST = [
-  { icon: Clock, label: "超长免费试用", desc: "年付 2 个月 · 月付/季付 7 天" },
+  { icon: Clock, label: "超长免费试用", desc: "年付 2 个月 · 半年付 1 个月 · 月付 7 天" },
   { icon: CreditCard, label: "安全支付", desc: "信用卡信息由 Stripe 处理" },
   { icon: RefreshCw, label: "首次扣款可退", desc: "扣款后 48 小时内无理由全额退款" },
   { icon: Shield, label: "随时可取消", desc: "无合约锁定，一键取消自动续费" },
@@ -106,7 +107,7 @@ export function PricingView() {
   const isSubscribed = hasActiveSubscription();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
-  const handleSubscribe = async (plan: "monthly" | "quarterly" | "yearly") => {
+  const handleSubscribe = async (plan: "monthly" | "semi_annual" | "yearly") => {
     setLoadingPlan(plan);
     try {
       const { url } = await createCheckout(plan);
@@ -201,7 +202,7 @@ export function PricingView() {
                 </Button>
               ) : (
                 <Button className="w-full" asChild>
-                  <a href="/cdn-cgi/access/login">登录后开始免费试用</a>
+                  <a href={LOGIN_URL}>登录后开始免费试用</a>
                 </Button>
               )}
             </CardContent>

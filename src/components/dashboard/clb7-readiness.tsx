@@ -4,8 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Target, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const CLB7_TARGET = 0.78;
+import { CLB7_TARGET } from "@/lib/constants";
 
 interface CLB7ReadinessProps {
   listeningAccuracy: number;

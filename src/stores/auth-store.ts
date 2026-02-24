@@ -2,6 +2,8 @@ import { create } from "zustand";
 import type { UserResponse } from "@/lib/api/types";
 import { fetchMe, logout as apiLogout } from "@/lib/api/auth";
 
+let _fetchController: AbortController | null = null;
+
 interface AuthState {
   user: UserResponse | null;
   isLoading: boolean;
@@ -11,7 +13,6 @@ interface AuthState {
   reset: () => void;
   hasActiveSubscription: () => boolean;
   isAdmin: () => boolean;
-  canAccessPaid: () => boolean;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -20,11 +21,18 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: false,
 
   fetchUser: async () => {
+    // Abort previous in-flight request
+    _fetchController?.abort();
+    const controller = new AbortController();
+    _fetchController = controller;
+
     try {
       set({ isLoading: true });
-      const user = await fetchMe();
+      const user = await fetchMe({ signal: controller.signal });
+      if (controller.signal.aborted) return;
       set({ user, isAuthenticated: true, isLoading: false });
-    } catch {
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") return;
       set({ user: null, isAuthenticated: false, isLoading: false });
     }
   },
@@ -48,10 +56,5 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAdmin: () => {
     const { user } = get();
     return user?.role === "admin";
-  },
-
-  canAccessPaid: () => {
-    const { hasActiveSubscription, isAdmin } = get();
-    return hasActiveSubscription() || isAdmin();
   },
 }));

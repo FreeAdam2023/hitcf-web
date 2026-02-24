@@ -26,10 +26,13 @@ const NAV_ITEMS = [
 ];
 
 export function Navbar() {
-  const canAccessPaid = useAuthStore((s) => s.canAccessPaid);
+  const canAccessPaid = useAuthStore((s) => {
+    const status = s.user?.subscription?.status;
+    return status === "active" || status === "trialing" || s.user?.role === "admin";
+  });
   const pathname = usePathname();
 
-  const allItems = canAccessPaid()
+  const allItems = canAccessPaid
     ? NAV_ITEMS
     : [...NAV_ITEMS, { href: "/pricing", label: "定价" }];
 

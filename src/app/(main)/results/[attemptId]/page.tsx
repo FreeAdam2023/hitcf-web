@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getAttemptReview } from "@/lib/api/attempts";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
+import { ErrorState } from "@/components/shared/error-state";
 import { ResultsView } from "./results-view";
 import type { AttemptReview } from "@/lib/api/types";
 
@@ -22,9 +23,16 @@ export default function ResultsPage() {
   if (loading) return <LoadingSpinner />;
   if (!review) {
     return (
-      <div className="py-16 text-center text-muted-foreground">
-        无法加载成绩数据
-      </div>
+      <ErrorState
+        message="无法加载成绩数据"
+        onRetry={() => {
+          setLoading(true);
+          getAttemptReview(params.attemptId)
+            .then(setReview)
+            .catch(() => setReview(null))
+            .finally(() => setLoading(false));
+        }}
+      />
     );
   }
 

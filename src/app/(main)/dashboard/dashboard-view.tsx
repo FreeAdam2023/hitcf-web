@@ -174,6 +174,9 @@ export function DashboardView() {
                         {stats.recent_attempts.map((a) => (
                           <TableRow
                             key={a.id}
+                            role="link"
+                            tabIndex={0}
+                            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") router.push(`/results/${a.id}`); }}
                             className="cursor-pointer hover:bg-accent"
                             onClick={() => router.push(`/results/${a.id}`)}
                           >

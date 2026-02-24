@@ -90,6 +90,9 @@ export function HistoryList() {
                   return (
                     <TableRow
                       key={a.id}
+                      role="link"
+                      tabIndex={0}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") router.push(resumeUrl); }}
                       className="cursor-pointer hover:bg-accent"
                       onClick={() => router.push(resumeUrl)}
                     >

@@ -9,6 +9,19 @@ interface ExamAnswer {
 
 const SESSION_KEY = "hitcf_exam_answers";
 
+function isValidAnswerEntry(entry: unknown): entry is [string, ExamAnswer] {
+  if (!Array.isArray(entry) || entry.length !== 2) return false;
+  const [key, val] = entry;
+  return (
+    typeof key === "string" &&
+    val != null &&
+    typeof val === "object" &&
+    typeof (val as ExamAnswer).question_id === "string" &&
+    typeof (val as ExamAnswer).question_number === "number" &&
+    typeof (val as ExamAnswer).selected === "string"
+  );
+}
+
 function saveAnswersToSession(attemptId: string, answers: Map<string, ExamAnswer>) {
   try {
     const data = { attemptId, answers: Array.from(answers.entries()) };
@@ -21,8 +34,9 @@ function loadAnswersFromSession(attemptId: string): Map<string, ExamAnswer> {
     const raw = sessionStorage.getItem(SESSION_KEY);
     if (!raw) return new Map();
     const data = JSON.parse(raw);
-    if (data.attemptId !== attemptId) return new Map();
-    return new Map(data.answers);
+    if (data.attemptId !== attemptId || !Array.isArray(data.answers)) return new Map();
+    const validEntries = data.answers.filter(isValidAnswerEntry);
+    return new Map(validEntries);
   } catch {
     return new Map();
   }

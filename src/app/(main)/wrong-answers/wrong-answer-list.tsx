@@ -16,6 +16,7 @@ import {
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
 import { EmptyState } from "@/components/shared/empty-state";
+import { Pagination } from "@/components/shared/pagination";
 import { WrongAnswerCard } from "@/components/wrong-answers/wrong-answer-card";
 import {
   listWrongAnswers,
@@ -63,7 +64,7 @@ export function WrongAnswerList() {
 
   // Fetch stats once
   useEffect(() => {
-    getWrongAnswerStats().then(setWaStats).catch(() => {});
+    getWrongAnswerStats().then(setWaStats).catch((err) => { console.warn("Stats fetch failed:", err); });
   }, []);
 
   const fetchData = useCallback(async () => {
@@ -247,30 +248,11 @@ export function WrongAnswerList() {
             ))}
           </div>
 
-          {/* Pagination */}
-          {data.total_pages > 1 && (
-            <div className="flex items-center justify-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                disabled={page <= 1}
-              >
-                上一页
-              </Button>
-              <span className="text-sm text-muted-foreground">
-                {page} / {data.total_pages}
-              </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setPage((p) => Math.min(data.total_pages, p + 1))}
-                disabled={page >= data.total_pages}
-              >
-                下一页
-              </Button>
-            </div>
-          )}
+          <Pagination
+            page={page}
+            totalPages={data.total_pages}
+            onPageChange={setPage}
+          />
         </>
       )}
     </div>

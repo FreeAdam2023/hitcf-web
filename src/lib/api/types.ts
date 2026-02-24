@@ -251,7 +251,7 @@ export interface AttemptReview {
   test_set_id: string;
   test_set_name: string | null;
   test_set_type: string | null;
-  mode: string;
+  mode: "practice" | "exam" | "speed_drill";
   score: number | null;
   total: number;
   answered_count: number;

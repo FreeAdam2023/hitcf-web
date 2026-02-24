@@ -96,7 +96,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
     try {
       const res = await createAttempt({
         test_set_id: nextTestSet.id,
-        mode: attempt.mode as "practice" | "exam" | "speed_drill",
+        mode: attempt.mode,
       });
       const path = attempt.mode === "exam" ? "exam" : "practice";
       router.push(`/${path}/${res.id}`);

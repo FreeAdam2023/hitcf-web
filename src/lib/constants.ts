@@ -41,3 +41,6 @@ export const TYPE_COLORS: Record<
     bg: "bg-purple-50 dark:bg-purple-950",
   },
 };
+
+export const LOGIN_URL = process.env.NEXT_PUBLIC_LOGIN_URL || "/cdn-cgi/access/login";
+export const CLB7_TARGET = 0.78;

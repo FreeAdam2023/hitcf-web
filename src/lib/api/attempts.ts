@@ -1,4 +1,5 @@
 import { get, post, put } from "./client";
+import type { RequestOptions } from "./client";
 import type {
   CreateAttemptRequest,
   CreateAttemptResponse,
@@ -13,38 +14,44 @@ import type {
 
 export function createAttempt(
   body: CreateAttemptRequest,
+  options?: RequestOptions,
 ): Promise<CreateAttemptResponse> {
-  return post<CreateAttemptResponse>("/api/attempts", body);
+  return post<CreateAttemptResponse>("/api/attempts", body, options);
 }
 
 export function submitAnswer(
   attemptId: string,
   body: SubmitAnswerRequest,
+  options?: RequestOptions,
 ): Promise<AnswerResponse> {
-  return put<AnswerResponse>(`/api/attempts/${attemptId}/answer`, body);
+  return put<AnswerResponse>(`/api/attempts/${attemptId}/answer`, body, options);
 }
 
 export function flagQuestion(
   attemptId: string,
   questionNumber: number,
+  options?: RequestOptions,
 ): Promise<{ flagged_questions: number[] }> {
   return put<{ flagged_questions: number[] }>(
     `/api/attempts/${attemptId}/flag/${questionNumber}`,
+    undefined,
+    options,
   );
 }
 
 export function completeAttempt(
   attemptId: string,
+  options?: RequestOptions,
 ): Promise<CompleteAttemptResponse> {
-  return post<CompleteAttemptResponse>(`/api/attempts/${attemptId}/complete`);
+  return post<CompleteAttemptResponse>(`/api/attempts/${attemptId}/complete`, undefined, options);
 }
 
-export function getAttempt(attemptId: string): Promise<AttemptDetail> {
-  return get<AttemptDetail>(`/api/attempts/${attemptId}`);
+export function getAttempt(attemptId: string, options?: RequestOptions): Promise<AttemptDetail> {
+  return get<AttemptDetail>(`/api/attempts/${attemptId}`, options);
 }
 
-export function getAttemptReview(attemptId: string): Promise<AttemptReview> {
-  return get<AttemptReview>(`/api/attempts/${attemptId}/review`);
+export function getAttemptReview(attemptId: string, options?: RequestOptions): Promise<AttemptReview> {
+  return get<AttemptReview>(`/api/attempts/${attemptId}/review`, options);
 }
 
 export function listAttempts(params?: {

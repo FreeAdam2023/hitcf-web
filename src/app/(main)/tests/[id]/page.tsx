@@ -281,25 +281,39 @@ function WritingTestView({
   const [gradingResults, setGradingResults] = useState<Record<string, WritingFeedback>>({});
   const [gradingErrors, setGradingErrors] = useState<Record<string, string>>({});
   const [submittedTopics, setSubmittedTopics] = useState<Record<string, string>>({});
+  const [historyLoading, setHistoryLoading] = useState(false);
 
   // Load writing history on mount
   useEffect(() => {
     if (topics.length === 0) return;
-    topics.forEach((topic) => {
-      getWritingSubmissions(topic.id)
-        .then((submissions) => {
-          if (submissions.length > 0) {
-            const latest = submissions[0];
-            setGradingResults((prev) => ({ ...prev, [topic.id]: latest.feedback }));
-            setEssayTexts((prev) => ({ ...prev, [topic.id]: latest.essay_text }));
-            setSubmittedTopics((prev) => ({
-              ...prev,
-              [topic.id]: latest.created_at,
-            }));
-          }
-        })
-        .catch(() => {});
+    const controller = new AbortController();
+    setHistoryLoading(true);
+
+    Promise.allSettled(
+      topics.map((topic) =>
+        getWritingSubmissions(topic.id, { signal: controller.signal })
+          .then((submissions) => {
+            if (submissions.length > 0) {
+              const latest = submissions[0];
+              setGradingResults((prev) => ({ ...prev, [topic.id]: latest.feedback }));
+              setEssayTexts((prev) => ({ ...prev, [topic.id]: latest.essay_text }));
+              setSubmittedTopics((prev) => ({
+                ...prev,
+                [topic.id]: latest.created_at,
+              }));
+            }
+          })
+      ),
+    ).then((results) => {
+      if (controller.signal.aborted) return;
+      const failed = results.filter((r) => r.status === "rejected");
+      if (failed.length > 0) {
+        toast.error("部分写作历史加载失败");
+      }
+      setHistoryLoading(false);
     });
+
+    return () => controller.abort();
   }, [topics]);
 
   const handleEssayChange = useCallback((topicId: string, text: string) => {
@@ -358,6 +372,9 @@ function WritingTestView({
         <LoadingSpinner />
       ) : (
         <div className="space-y-4">
+          {historyLoading && (
+            <p className="text-xs text-muted-foreground animate-pulse">加载写作历史...</p>
+          )}
           {topics.map((topic, idx) => {
             const taskNum = idx + 1;
             const essay = essayTexts[topic.id] || "";
@@ -495,7 +512,10 @@ function PaywallButton() {
 export default function TestDetailPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
-  const canAccessPaid = useAuthStore((s) => s.canAccessPaid);
+  const canAccessPaid = useAuthStore((s) => {
+    const status = s.user?.subscription?.status;
+    return status === "active" || status === "trialing" || s.user?.role === "admin";
+  });
   const [test, setTest] = useState<TestSetDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [starting, setStarting] = useState(false);
@@ -503,7 +523,7 @@ export default function TestDetailPage() {
   const [topics, setTopics] = useState<QuestionBrief[]>([]);
   const [topicsLoading, setTopicsLoading] = useState(false);
 
-  const locked = test ? !test.is_free && !canAccessPaid() : false;
+  const locked = test ? !test.is_free && !canAccessPaid : false;
 
   useEffect(() => {
     getTestSet(params.id)
@@ -533,6 +553,7 @@ export default function TestDetailPage() {
       router.push(`/practice/${attempt.id}`);
     } catch (err) {
       console.error("Failed to create attempt", err);
+      toast.error("创建练习失败，请重试");
       setStarting(false);
     }
   };
@@ -548,6 +569,7 @@ export default function TestDetailPage() {
       router.push(`/exam/${attempt.id}`);
     } catch (err) {
       console.error("Failed to create exam attempt", err);
+      toast.error("创建考试失败，请重试");
       setStartingExam(false);
     }
   };

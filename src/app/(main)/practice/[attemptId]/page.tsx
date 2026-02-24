@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
 import { usePracticeStore } from "@/stores/practice-store";
 import { getAttempt } from "@/lib/api/attempts";
@@ -15,12 +15,13 @@ export default function PracticePage() {
   const storeAttemptId = usePracticeStore((s) => s.attemptId);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (signal?: AbortSignal) => {
     setLoading(true);
     setError(null);
     try {
-      const attempt = await getAttempt(params.attemptId);
+      const attempt = await getAttempt(params.attemptId, { signal });
 
       if (attempt.status === "completed") {
         window.location.href = `/results/${params.attemptId}`;
@@ -30,27 +31,33 @@ export default function PracticePage() {
       const questions = await getTestSetQuestions(
         attempt.test_set_id,
         "practice",
+        { signal },
       );
 
+      if (signal?.aborted) return;
       init(params.attemptId, questions);
       setLoading(false);
-    } catch {
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") return;
       setError("无法加载练习数据");
       setLoading(false);
     }
   }, [params.attemptId, init]);
 
   useEffect(() => {
-    // Don't re-init if already loaded for this attempt
     if (storeAttemptId === params.attemptId) {
       setLoading(false);
       return;
     }
-    load();
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+    load(controller.signal);
+    return () => controller.abort();
   }, [params.attemptId, storeAttemptId, load]);
 
   if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorState message={error} onRetry={load} />;
+  if (error) return <ErrorState message={error} onRetry={() => load()} />;
 
   return <PracticeSession />;
 }

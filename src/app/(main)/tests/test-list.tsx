@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets } from "@/lib/api/test-sets";
 import type { TestSetItem } from "@/lib/api/types";
@@ -23,36 +23,38 @@ export function TestList() {
   const [search, setSearch] = useState("");
   const [speakingFilter, setSpeakingFilter] = useState<"tache2" | "tache3">("tache2");
 
-  const load = useCallback(async (type: TabType) => {
-    setLoading(true);
-    try {
-      const res = await listTestSets({ type, page_size: 100 });
-      setTests(res.items);
-    } catch (err) {
-      console.error("Failed to load test sets", err);
-      setTests([]);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    load(tab);
-  }, [tab, load]);
+    const controller = new AbortController();
+    setLoading(true);
+    listTestSets({ type: tab, page_size: 100 })
+      .then((res) => {
+        if (controller.signal.aborted) return;
+        setTests(res.items);
+      })
+      .catch((err) => {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        console.error("Failed to load test sets", err);
+        setTests([]);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, [tab]);
 
   // Filter by search and speaking type
-  const searchLower = search.toLowerCase();
-  const filteredTests = tests.filter((t) => {
-    // Search filter
-    if (search && !t.name.toLowerCase().includes(searchLower) && !t.code.toLowerCase().includes(searchLower)) {
-      return false;
-    }
-    // Speaking tâche filter
-    if (tab === "speaking") {
-      return speakingFilter === "tache2" ? t.code.includes("tache2") : t.code.includes("tache3");
-    }
-    return true;
-  });
+  const filteredTests = useMemo(() => {
+    const searchLower = search.toLowerCase();
+    return tests.filter((t) => {
+      if (search && !t.name.toLowerCase().includes(searchLower) && !t.code.toLowerCase().includes(searchLower)) {
+        return false;
+      }
+      if (tab === "speaking") {
+        return speakingFilter === "tache2" ? t.code.includes("tache2") : t.code.includes("tache3");
+      }
+      return true;
+    });
+  }, [tests, search, tab, speakingFilter]);
 
   const renderCards = () => {
     if (tab === "speaking") {

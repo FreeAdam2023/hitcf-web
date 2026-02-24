@@ -71,9 +71,7 @@ export function ExamTimer({ timeLimitSeconds, startedAt, onTimeUp }: ExamTimerPr
           isCritical ? "[&>div]:bg-red-500" : isLow ? "[&>div]:bg-amber-500" : "",
         )}
       />
-      {announcement && (
-        <span role="alert" className="sr-only">{announcement}</span>
-      )}
+      <div aria-live="assertive" className="sr-only">{announcement}</div>
     </div>
   );
 }

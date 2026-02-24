@@ -13,8 +13,11 @@ import type { TestSetItem } from "@/lib/api/types";
 
 export function TestCard({ test }: { test: TestSetItem }) {
   const router = useRouter();
-  const canAccessPaid = useAuthStore((s) => s.canAccessPaid);
-  const locked = !test.is_free && !canAccessPaid();
+  const canAccessPaid = useAuthStore((s) => {
+    const status = s.user?.subscription?.status;
+    return status === "active" || status === "trialing" || s.user?.role === "admin";
+  });
+  const locked = !test.is_free && !canAccessPaid;
 
   const handleLockedClick = () => router.push("/pricing");
   const handleLockedKeyDown = (e: React.KeyboardEvent) => {

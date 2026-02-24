@@ -1,4 +1,5 @@
 import { get } from "./client";
+import type { RequestOptions } from "./client";
 import type {
   PaginatedResponse,
   TestSetItem,
@@ -19,13 +20,14 @@ export function listTestSets(params?: {
   return get<PaginatedResponse<TestSetItem>>(`/api/test-sets${qs ? `?${qs}` : ""}`);
 }
 
-export function getTestSet(id: string): Promise<TestSetDetail> {
-  return get<TestSetDetail>(`/api/test-sets/${id}`);
+export function getTestSet(id: string, options?: RequestOptions): Promise<TestSetDetail> {
+  return get<TestSetDetail>(`/api/test-sets/${id}`, options);
 }
 
 export function getTestSetQuestions(
   id: string,
   mode: "practice" | "exam" | "review" = "practice",
+  options?: RequestOptions,
 ): Promise<QuestionBrief[]> {
-  return get<QuestionBrief[]>(`/api/test-sets/${id}/questions?mode=${mode}`);
+  return get<QuestionBrief[]>(`/api/test-sets/${id}/questions?mode=${mode}`, options);
 }

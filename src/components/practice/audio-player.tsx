@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, Pause, RotateCcw, Volume2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getAudioUrl } from "@/lib/api/media";
+import { formatTime } from "@/lib/utils";
 
 const SAS_REFRESH_MS = 12 * 60 * 1000; // refresh after 12 minutes
 
@@ -113,12 +114,6 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     setDuration(audio.duration);
   };
 
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-  };
-
   const onEnded = () => {
     setPlaying(false);
     setProgress(100);
@@ -166,6 +161,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         size="icon"
         className="h-8 w-8 shrink-0"
         onClick={restart}
+        aria-label="重新播放"
       >
         <RotateCcw className="h-3.5 w-3.5" />
       </Button>

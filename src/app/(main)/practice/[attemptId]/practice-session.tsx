@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, CheckCircle, LogOut, LayoutGrid } from "lucide-react";
@@ -123,6 +123,16 @@ export function PracticeSession() {
     goPrev();
   }, [goPrev]);
 
+  // Stable refs for keyboard handler to avoid listener churn
+  const handleSelectRef = useRef(handleSelect);
+  useEffect(() => { handleSelectRef.current = handleSelect; });
+  const handleNextRef = useRef(handleNext);
+  useEffect(() => { handleNextRef.current = handleNext; });
+  const handlePrevRef = useRef(handlePrev);
+  useEffect(() => { handlePrevRef.current = handlePrev; });
+  const answersRef = useRef(answers);
+  useEffect(() => { answersRef.current = answers; });
+
   // Keyboard shortcuts: 1-4 / A-D select, arrows navigate
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -131,7 +141,7 @@ export function PracticeSession() {
 
       const q = questions[currentIndex];
       if (!q) return;
-      const answered = answers.has(q.id);
+      const answered = answersRef.current.has(q.id);
 
       const keyMap: Record<string, number> = {
         "1": 0, "2": 1, "3": 2, "4": 3,
@@ -140,21 +150,21 @@ export function PracticeSession() {
       const optIndex = keyMap[e.key.toLowerCase()];
       if (optIndex !== undefined && !answered && q.options[optIndex]) {
         e.preventDefault();
-        handleSelect(q.options[optIndex].key);
+        handleSelectRef.current(q.options[optIndex].key);
         return;
       }
 
       if (e.key === "ArrowRight" && currentIndex < questions.length - 1) {
         e.preventDefault();
-        handleNext();
+        handleNextRef.current();
       } else if (e.key === "ArrowLeft" && currentIndex > 0) {
         e.preventDefault();
-        handlePrev();
+        handlePrevRef.current();
       }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [questions, currentIndex, answers, handleSelect, handleNext, handlePrev]);
+  }, [questions, currentIndex]);
 
   if (!question || !attemptId) return <LoadingSpinner />;
 

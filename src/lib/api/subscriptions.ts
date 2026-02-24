@@ -6,9 +6,9 @@ export function getSubscriptionStatus(): Promise<SubscriptionInfo> {
 }
 
 export function createCheckout(
-  plan: "monthly" | "quarterly" | "yearly",
+  plan: "monthly" | "semi_annual" | "yearly",
 ): Promise<{ url: string }> {
-  return post<{ url: string }>(`/api/subscriptions/checkout?plan=${plan}`);
+  return post<{ url: string }>("/api/subscriptions/checkout", { plan });
 }
 
 export function getCustomerPortal(): Promise<{ url: string }> {

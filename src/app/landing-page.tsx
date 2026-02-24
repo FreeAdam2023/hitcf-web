@@ -29,6 +29,7 @@ import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { HeroIllustration } from "@/components/illustrations/hero-illustration";
 import { useAuthStore } from "@/stores/auth-store";
+import { LOGIN_URL } from "@/lib/constants";
 
 const FEATURES = [
   {
@@ -223,7 +224,8 @@ const PLAN_FEATURES = [
 ];
 
 export function LandingPage() {
-  const { isAuthenticated, hasActiveSubscription } = useAuthStore();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const hasActiveSubscription = useAuthStore((s) => s.hasActiveSubscription);
   const isSubscribed = hasActiveSubscription();
 
   return (
@@ -280,7 +282,7 @@ export function LandingPage() {
                 ) : (
                   <>
                     <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg shadow-primary/25" asChild>
-                      <a href="/cdn-cgi/access/login">
+                      <a href={LOGIN_URL}>
                         免费注册，立刻做题
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </a>
@@ -501,7 +503,7 @@ export function LandingPage() {
                   {isAuthenticated ? (
                     <Link href="/tests">开始使用</Link>
                   ) : (
-                    <a href="/cdn-cgi/access/login">免费注册</a>
+                    <a href={LOGIN_URL}>免费注册</a>
                   )}
                 </Button>
               </CardContent>
@@ -695,7 +697,7 @@ export function LandingPage() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               ) : (
-                <a href="/cdn-cgi/access/login">
+                <a href={LOGIN_URL}>
                   免费注册，测测你的水平
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
