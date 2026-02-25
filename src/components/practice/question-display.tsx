@@ -28,9 +28,10 @@ export function QuestionDisplay({ question, index, total }: QuestionDisplayProps
   const instruction = isListening
     ? getListeningInstruction(question.question_number)
     : null;
+  // TCF listening Q1-Q2 are always image-based questions
   const isImageQuestion =
     isListening &&
-    question.question_text?.startsWith("![");
+    question.question_number <= 2;
 
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(false);
