@@ -2,9 +2,16 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Check, X, Shield, CreditCard, RefreshCw, Clock, Sparkles } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Check,
+  X,
+  Shield,
+  CreditCard,
+  RefreshCw,
+  Clock,
+  Sparkles,
+} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -14,7 +21,6 @@ import {
 } from "@/components/ui/accordion";
 import { useAuthStore } from "@/stores/auth-store";
 import { createCheckout, getCustomerPortal } from "@/lib/api/subscriptions";
-import { LOGIN_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
@@ -27,9 +33,13 @@ const PLANS = [
     name: "月付",
     price: "$19.99",
     unit: "/ 月",
+    equiv: null,
     badge: null,
-    trialLabel: "开始 7 天免费试用",
+    trialLabel: "7 天免费试用",
     recommended: false,
+    monthlyPrice: "$19.99",
+    valueDesc: "每天不到 7 毛钱，刷完四科 8,500 道题",
+    savingsVsTutor: "比请家教便宜 97%",
   },
   {
     key: "semi_annual" as const,
@@ -38,18 +48,24 @@ const PLANS = [
     unit: "/ 6 个月",
     equiv: "≈ $8.33 / 月",
     badge: "省 58%",
-    trialLabel: "开始 14 天免费试用",
+    trialLabel: "14 天免费试用",
     recommended: false,
+    monthlyPrice: "$8.33",
+    valueDesc: "每月一杯奶茶的钱，刷完四科 8,500 道题",
+    savingsVsTutor: "比请家教便宜 99%",
   },
   {
     key: "yearly" as const,
     name: "年付",
     price: "$79.99",
     unit: "/ 年",
-    equiv: "≈ $6.67 / 月",
-    badge: "2 个月免费",
-    trialLabel: "开始 2 个月免费试用",
+    equiv: "含 2 个月免费，≈ $5.71 / 月",
+    badge: "最受欢迎",
+    trialLabel: "2 个月免费试用",
     recommended: true,
+    monthlyPrice: "$5.71",
+    valueDesc: "每月一杯星巴克的钱，刷完四科 8,500 道题",
+    savingsVsTutor: "比请家教便宜 99%",
   },
 ];
 
@@ -92,13 +108,6 @@ const FAQ = [
   },
 ];
 
-const TRUST = [
-  { icon: Clock, label: "超长免费试用", desc: "年付 2 个月 · 半年付 14 天 · 月付 7 天" },
-  { icon: CreditCard, label: "安全支付", desc: "信用卡信息由 Stripe 处理" },
-  { icon: RefreshCw, label: "首次扣款可退", desc: "扣款后 48 小时内无理由全额退款" },
-  { icon: Shield, label: "随时可取消", desc: "无合约锁定，一键取消自动续费" },
-];
-
 /* ------------------------------------------------------------------ */
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
@@ -106,7 +115,9 @@ const TRUST = [
 export function PricingView() {
   const { isAuthenticated, hasActiveSubscription } = useAuthStore();
   const isSubscribed = hasActiveSubscription();
+  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "semi_annual" | "yearly">("yearly");
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const activePlan = PLANS.find((p) => p.key === selectedPlan)!;
 
   const handleSubscribe = async (plan: "monthly" | "semi_annual" | "yearly") => {
     setLoadingPlan(plan);
@@ -129,140 +140,152 @@ export function PricingView() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-12 py-8">
-      {/* ---- Hero ---- */}
+    <div className="mx-auto max-w-4xl space-y-10 py-6 sm:py-10">
+      {/* ============================================================ */}
+      {/*  ABOVE THE FOLD: headline + plans + CTA + value anchor       */}
+      {/* ============================================================ */}
+
+      {/* ---- Headline ---- */}
       <div className="text-center">
-        <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
-          <Sparkles className="h-3.5 w-3.5" />
-          年付享 2 个月免费试用 · 随时取消
-        </div>
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
-            解锁全部 8,500+ 道 TCF 真题
-          </span>
+        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+          8,500+ 道 TCF 真题，四科全覆盖
         </h1>
-        <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-          听力、阅读、口语、写作四科全覆盖。考试模式 + 错题本 + 速练，系统化备考 CLB 7。
+        <p className="mt-2 text-muted-foreground">
+          考试模式 + 错题本 + 速练，系统化备考 CLB 7
         </p>
-        {/* Photo banner */}
-        <div className="relative mx-auto mt-8 max-w-2xl overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5">
-          <Image
-            src="/hero-ottawa.jpg"
-            alt="渥太华国会山"
-            width={800}
-            height={300}
-            className="h-48 w-full object-cover sm:h-56"
-            priority
-          />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-          <div className="absolute bottom-4 left-4 text-left text-white">
-            <p className="text-sm font-semibold drop-shadow-md">你的加拿大梦，从这里开始</p>
-          </div>
-        </div>
       </div>
 
       {/* ---- Plan Cards ---- */}
-      <div className="grid gap-6 sm:grid-cols-3">
-        {PLANS.map((plan) => (
-          <div
-            key={plan.key}
-            className={cn(
-              "relative rounded-xl p-[1px]",
-              plan.recommended
-                ? "bg-gradient-to-b from-primary via-violet-500 to-indigo-400 shadow-lg shadow-primary/20"
-                : "bg-border",
-            )}
-          >
-            {plan.recommended && (
-              <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
-                <div className="flex items-center gap-1 rounded-full bg-gradient-to-r from-primary to-violet-500 px-3 py-1 text-xs font-semibold text-white shadow-sm">
-                  <Sparkles className="h-3 w-3" />
-                  推荐
-                </div>
+      <div>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {PLANS.map((plan) => {
+            const isSelected = selectedPlan === plan.key;
+            return (
+              <div
+                key={plan.key}
+                role="button"
+                tabIndex={0}
+                onClick={() => setSelectedPlan(plan.key)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedPlan(plan.key); }}
+                className={cn(
+                  "relative cursor-pointer rounded-xl p-[1px] transition-all",
+                  isSelected
+                    ? "bg-gradient-to-b from-primary via-violet-500 to-indigo-400 shadow-lg shadow-primary/20 scale-[1.02]"
+                    : "bg-border hover:bg-primary/30",
+                )}
+              >
+                {plan.recommended && (
+                  <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
+                    <div className="flex items-center gap-1 rounded-full bg-gradient-to-r from-primary to-violet-500 px-3 py-1 text-xs font-semibold text-white shadow-sm">
+                      <Sparkles className="h-3 w-3" />
+                      最受欢迎
+                    </div>
+                  </div>
+                )}
+                <Card className="flex h-full flex-col border-0 bg-card">
+                  <div className="flex flex-1 flex-col gap-1 p-5 pb-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold">{plan.name}</span>
+                      {plan.badge && !plan.recommended && (
+                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary">
+                          {plan.badge}
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-1">
+                      <span className="text-3xl font-bold tracking-tight">{plan.price}</span>
+                      <span className="ml-1 text-sm text-muted-foreground">{plan.unit}</span>
+                    </div>
+                    {plan.equiv && (
+                      <p className="text-xs text-muted-foreground">{plan.equiv}</p>
+                    )}
+                  </div>
+                </Card>
               </div>
-            )}
-            <Card className="flex h-full flex-col border-0 bg-card">
-              <CardHeader className="pb-2">
-                <CardTitle className="flex items-center justify-between text-base">
-                  <span>{plan.name}</span>
-                  {plan.badge && (
-                    <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-                      {plan.badge}
-                    </span>
-                  )}
-                </CardTitle>
-                <div className="mt-3">
-                  <span className="text-4xl font-bold tracking-tight">{plan.price}</span>
-                  <span className="ml-1 text-sm text-muted-foreground">
-                    {plan.unit}
-                  </span>
-                </div>
-                {plan.equiv && (
-                  <p className="mt-1 text-xs text-muted-foreground">{plan.equiv}</p>
-                )}
-              </CardHeader>
-              <CardContent className="flex flex-1 flex-col justify-end gap-4 pt-4">
-                {isSubscribed ? (
-                  <Button
-                    className="w-full"
-                    variant="outline"
-                    onClick={handleManage}
-                    disabled={loadingPlan !== null}
-                  >
-                    {loadingPlan === "manage" ? "跳转中..." : "管理订阅"}
-                  </Button>
-                ) : isAuthenticated ? (
-                  <Button
-                    className={cn(
-                      "w-full",
-                      plan.recommended && "bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90",
-                    )}
-                    onClick={() => handleSubscribe(plan.key)}
-                    disabled={loadingPlan !== null}
-                  >
-                    {loadingPlan === plan.key ? "跳转中..." : plan.trialLabel}
-                  </Button>
-                ) : (
-                  <Button
-                    className={cn(
-                      "w-full",
-                      plan.recommended && "bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90",
-                    )}
-                    asChild
-                  >
-                    <a href={LOGIN_URL}>登录后开始免费试用</a>
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        ))}
+            );
+          })}
+        </div>
+
+        {/* ---- Dynamic value line ---- */}
+        <div className="mt-4 flex flex-col items-center gap-2 text-center">
+          <p className="text-sm font-medium text-muted-foreground">
+            {activePlan.valueDesc}
+            <span className="mx-1.5 text-muted-foreground/40">·</span>
+            {activePlan.savingsVsTutor}
+          </p>
+        </div>
+
+        {/* ---- CTA ---- */}
+        <div className="mt-5 text-center">
+          {isSubscribed ? (
+            <Button
+              size="lg"
+              variant="outline"
+              className="px-10"
+              onClick={handleManage}
+              disabled={loadingPlan !== null}
+            >
+              {loadingPlan === "manage" ? "跳转中..." : "管理订阅"}
+            </Button>
+          ) : isAuthenticated ? (
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90 px-10"
+              onClick={() => handleSubscribe(selectedPlan)}
+              disabled={loadingPlan !== null}
+            >
+              {loadingPlan === selectedPlan ? "跳转中..." : `${activePlan.trialLabel}，不满意不花钱`}
+            </Button>
+          ) : (
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90 px-10"
+              asChild
+            >
+              <Link href="/register">{activePlan.trialLabel}，不满意不花钱</Link>
+            </Button>
+          )}
+          <p className="mt-2 text-xs text-muted-foreground">
+            所有价格均以美元（USD）计价 · 试用期内取消不收费
+          </p>
+        </div>
       </div>
 
-      {/* ---- Free vs Pro Comparison ---- */}
+      {/* ---- Trust Strip ---- */}
+      <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+        <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> 最长 2 个月免费试用</span>
+        <span className="inline-flex items-center gap-1"><CreditCard className="h-3.5 w-3.5" /> Stripe 安全支付</span>
+        <span className="inline-flex items-center gap-1"><RefreshCw className="h-3.5 w-3.5" /> 48h 无理由退款</span>
+        <span className="inline-flex items-center gap-1"><Shield className="h-3.5 w-3.5" /> 随时一键取消</span>
+      </div>
+
+      {/* ============================================================ */}
+      {/*  BELOW THE FOLD: details for skeptics                        */}
+      {/* ============================================================ */}
+
+      {/* ---- Free vs Pro ---- */}
       <div>
-        <h2 className="mb-6 text-center text-xl font-bold tracking-tight">
+        <h2 className="mb-4 text-center text-lg font-bold tracking-tight">
           免费版 vs <span className="text-primary">Pro</span>
         </h2>
         <Card>
           <CardContent className="divide-y p-0">
-            {/* Header row */}
             <div className="flex items-center gap-3 px-5 py-3">
               <span className="flex-1 text-sm font-medium text-muted-foreground">功能</span>
               <span className="w-16 text-center text-xs font-semibold text-muted-foreground">免费</span>
               <span className="w-16 text-center text-xs font-semibold text-primary">Pro</span>
             </div>
             {COMPARISON.map((row, i) => (
-              <div key={i} className="flex items-center gap-3 px-5 py-3 transition-colors hover:bg-muted/30">
+              <div key={i} className="flex items-center gap-3 px-5 py-2.5 transition-colors hover:bg-muted/30">
                 <span className="flex-1 text-sm">{row.feature}</span>
                 <span className="flex w-16 items-center justify-center">
                   {row.free === true ? (
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 dark:bg-green-950">
-                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-100 dark:bg-green-950">
+                      <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
                     </div>
                   ) : row.free === false ? (
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-muted">
-                      <X className="h-3.5 w-3.5 text-muted-foreground/40" />
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-muted">
+                      <X className="h-3 w-3 text-muted-foreground/40" />
                     </div>
                   ) : (
                     <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
@@ -271,15 +294,9 @@ export function PricingView() {
                   )}
                 </span>
                 <span className="flex w-16 items-center justify-center">
-                  {row.pro === true ? (
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10">
-                      <Check className="h-3.5 w-3.5 text-primary" />
-                    </div>
-                  ) : (
-                    <span className="text-xs text-muted-foreground">
-                      {String(row.pro)}
-                    </span>
-                  )}
+                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10">
+                    <Check className="h-3 w-3 text-primary" />
+                  </div>
                 </span>
               </div>
             ))}
@@ -287,35 +304,9 @@ export function PricingView() {
         </Card>
       </div>
 
-      {/* ---- Trust Badges ---- */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {TRUST.map((item, i) => {
-          const colors = [
-            "bg-violet-100 text-violet-600 dark:bg-violet-950 dark:text-violet-400",
-            "bg-blue-100 text-blue-600 dark:bg-blue-950 dark:text-blue-400",
-            "bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400",
-            "bg-amber-100 text-amber-600 dark:bg-amber-950 dark:text-amber-400",
-          ];
-          return (
-            <div
-              key={item.label}
-              className="flex flex-col items-center gap-2.5 rounded-xl border bg-card p-4 text-center"
-            >
-              <div className={cn("flex h-10 w-10 items-center justify-center rounded-xl", colors[i])}>
-                <item.icon className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">{item.label}</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">{item.desc}</p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
       {/* ---- FAQ ---- */}
       <div>
-        <h2 className="mb-6 text-center text-xl font-bold tracking-tight">常见问题</h2>
+        <h2 className="mb-4 text-center text-lg font-bold tracking-tight">常见问题</h2>
         <Card>
           <CardContent className="p-0">
             <Accordion type="single" collapsible className="w-full">
@@ -337,27 +328,9 @@ export function PricingView() {
       {/* ---- Legal ---- */}
       <p className="text-center text-xs text-muted-foreground">
         订阅即表示同意{" "}
-        <Link
-          href="/terms-of-service"
-          className="underline hover:text-foreground"
-        >
-          服务条款
-        </Link>
-        、
-        <Link
-          href="/privacy-policy"
-          className="underline hover:text-foreground"
-        >
-          隐私政策
-        </Link>{" "}
-        和{" "}
-        <Link
-          href="/refund-policy"
-          className="underline hover:text-foreground"
-        >
-          退款政策
-        </Link>
-        。
+        <Link href="/terms-of-service" className="underline hover:text-foreground">服务条款</Link>、
+        <Link href="/privacy-policy" className="underline hover:text-foreground">隐私政策</Link> 和{" "}
+        <Link href="/refund-policy" className="underline hover:text-foreground">退款政策</Link>。
       </p>
     </div>
   );

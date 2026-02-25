@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useAuthStore } from "@/stores/auth-store";
 import { LogOut, User, CreditCard, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -52,7 +53,7 @@ export function UserMenu() {
   if (!isAuthenticated || !user) {
     return (
       <Button variant="outline" size="sm" asChild>
-        <a href={process.env.NEXT_PUBLIC_LOGIN_URL || "/cdn-cgi/access/login"}>登录</a>
+        <Link href="/login">登录</Link>
       </Button>
     );
   }

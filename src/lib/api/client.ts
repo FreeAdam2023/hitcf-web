@@ -55,7 +55,7 @@ async function request<T>(
 
     if (res.status === 401) {
       if (typeof window !== "undefined") {
-        window.location.href = process.env.NEXT_PUBLIC_LOGIN_URL || "/cdn-cgi/access/login";
+        window.location.href = "/login";
       }
       throw new ApiError(401, "Unauthorized");
     }

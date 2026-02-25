@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { UserResponse } from "@/lib/api/types";
-import { fetchMe, logout as apiLogout } from "@/lib/api/auth";
+import { fetchMe } from "@/lib/api/auth";
+import { signOut } from "next-auth/react";
 
 let _fetchController: AbortController | null = null;
 
@@ -38,11 +39,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: async () => {
-    try {
-      await apiLogout();
-    } finally {
-      set({ user: null, isAuthenticated: false });
-    }
+    set({ user: null, isAuthenticated: false });
+    await signOut({ callbackUrl: "/tests" });
   },
 
   reset: () => set({ user: null, isAuthenticated: false, isLoading: true }),

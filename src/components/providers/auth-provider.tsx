@@ -1,14 +1,24 @@
 "use client";
 
 import { useEffect } from "react";
+import { SessionProvider } from "next-auth/react";
 import { useAuthStore } from "@/stores/auth-store";
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+function AuthInit() {
   const fetchUser = useAuthStore((s) => s.fetchUser);
 
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
 
-  return <>{children}</>;
+  return null;
+}
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <SessionProvider>
+      <AuthInit />
+      {children}
+    </SessionProvider>
+  );
 }

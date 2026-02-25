@@ -23,10 +23,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const cfAuth = request.cookies.get("CF_Authorization");
-  if (!cfAuth?.value) {
+  // Check for NextAuth session cookie
+  const sessionToken =
+    request.cookies.get("__Secure-next-auth.session-token") ??
+    request.cookies.get("next-auth.session-token");
+
+  if (!sessionToken?.value) {
     const url = request.nextUrl.clone();
-    url.pathname = "/tests";
+    url.pathname = "/login";
+    url.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(url);
   }
 
