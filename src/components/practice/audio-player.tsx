@@ -131,15 +131,6 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     setProgress(0);
   };
 
-  const cycleSpeed = () => {
-    const idx = SPEED_OPTIONS.indexOf(speed);
-    const next = SPEED_OPTIONS[(idx + 1) % SPEED_OPTIONS.length];
-    setSpeed(next);
-    if (audioRef.current) {
-      audioRef.current.playbackRate = next;
-    }
-  };
-
   const toggleMute = () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -271,15 +262,20 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
       </Button>
 
       {/* Speed */}
-      <Button
-        variant="ghost"
-        size="sm"
-        className="h-8 shrink-0 px-2 text-xs font-mono tabular-nums"
-        onClick={cycleSpeed}
+      <select
+        value={speed}
+        onChange={(e) => {
+          const val = parseFloat(e.target.value);
+          setSpeed(val);
+          if (audioRef.current) audioRef.current.playbackRate = val;
+        }}
+        className="h-8 shrink-0 rounded-md border bg-background px-1.5 text-xs font-mono tabular-nums cursor-pointer"
         aria-label="播放速度"
       >
-        {speed === 1 ? "1x" : `${speed}x`}
-      </Button>
+        {SPEED_OPTIONS.map((s) => (
+          <option key={s} value={s}>{s}x</option>
+        ))}
+      </select>
 
       {url && (
         <audio
