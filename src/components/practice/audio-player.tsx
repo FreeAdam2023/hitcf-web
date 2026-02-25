@@ -8,8 +8,6 @@ import {
   Volume2,
   VolumeX,
   Loader2,
-  SkipBack,
-  SkipForward,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getAudioUrl } from "@/lib/api/media";
@@ -231,17 +229,6 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         )}
       </div>
 
-      {/* Skip back */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-8 w-8 shrink-0"
-        onClick={() => skip(-5)}
-        aria-label="后退5秒"
-      >
-        <SkipBack className="h-3.5 w-3.5" />
-      </Button>
-
       {/* Play/Pause */}
       <Button
         variant="outline"
@@ -257,17 +244,6 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         ) : (
           <Play className="h-4 w-4" />
         )}
-      </Button>
-
-      {/* Skip forward */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-8 w-8 shrink-0"
-        onClick={() => skip(5)}
-        aria-label="前进5秒"
-      >
-        <SkipForward className="h-3.5 w-3.5" />
       </Button>
 
       {/* Progress bar + time */}
