@@ -33,8 +33,8 @@ export function QuestionNavigator({
   questions,
 }: QuestionNavigatorProps) {
   const isExam = mode === "exam";
-  const isListening = questions?.[0]?.type === "listening";
-  const useGrouped = !isExam && isListening && questions && questions.length > 0;
+  const isListeningOrReading = questions?.[0]?.type === "listening" || questions?.[0]?.type === "reading";
+  const useGrouped = !isExam && isListeningOrReading && questions && questions.length > 0;
 
   function renderButton(i: number) {
     const qid = questionIds[i];

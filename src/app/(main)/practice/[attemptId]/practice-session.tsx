@@ -30,10 +30,16 @@ export function PracticeSession() {
     goToQuestion,
   } = usePracticeStore();
 
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
   const [completing, setCompleting] = useState(false);
   const [savedIndicator, setSavedIndicator] = useState(false);
+
+  // Clear pending selection when navigating to a different question
+  useEffect(() => {
+    setSelectedKey(null);
+  }, [currentIndex]);
 
   // Warn before closing/refreshing if user has answered questions
   useEffect(() => {
@@ -49,19 +55,25 @@ export function PracticeSession() {
   const question = questions[currentIndex];
   const currentAnswer = question ? (answers.get(question.id) ?? null) : null;
 
-  const handleSelect = useCallback(async (key: string) => {
+  // In practice mode, clicking an option only sets the pending selection (does not submit)
+  const handleSelect = useCallback((key: string) => {
     if (!question || !attemptId) return;
     if (answers.has(question.id) || submitting) return;
+    setSelectedKey(key);
+  }, [question, attemptId, answers, submitting]);
+
+  // Confirm button triggers actual submission
+  const handleConfirm = useCallback(async () => {
+    if (!selectedKey || !question || !attemptId) return;
+    if (answers.has(question.id) || submitting) return;
     setSubmitting(true);
-    setSubmittingKey(key);
+    setSubmittingKey(selectedKey);
     try {
       const res = await submitAnswer(attemptId, {
         question_id: question.id,
         question_number: question.question_number,
-        selected: key,
+        selected: selectedKey,
       });
-      // The practice mode response includes correct_answer
-      // Fetch full detail to get the correct_answer if not returned
       let correctAnswer = res.correct_answer;
       if (correctAnswer === undefined) {
         try {
@@ -72,6 +84,7 @@ export function PracticeSession() {
         }
       }
       setAnswer(question.id, { ...res, correct_answer: correctAnswer ?? null });
+      setSelectedKey(null);
       setSavedIndicator(true);
       setTimeout(() => setSavedIndicator(false), 2000);
     } catch (err) {
@@ -81,7 +94,7 @@ export function PracticeSession() {
       setSubmitting(false);
       setSubmittingKey(null);
     }
-  }, [question, attemptId, answers, submitting, setAnswer]);
+  }, [selectedKey, question, attemptId, answers, submitting, setAnswer]);
 
   const handleComplete = async () => {
     if (!attemptId) return;
@@ -110,6 +123,8 @@ export function PracticeSession() {
   // Stable refs for keyboard handler to avoid listener churn
   const handleSelectRef = useRef(handleSelect);
   useEffect(() => { handleSelectRef.current = handleSelect; });
+  const handleConfirmRef = useRef(handleConfirm);
+  useEffect(() => { handleConfirmRef.current = handleConfirm; });
   const handleNextRef = useRef(handleNext);
   useEffect(() => { handleNextRef.current = handleNext; });
   const handlePrevRef = useRef(handlePrev);
@@ -117,7 +132,7 @@ export function PracticeSession() {
   const answersRef = useRef(answers);
   useEffect(() => { answersRef.current = answers; });
 
-  // Keyboard shortcuts: 1-4 / A-D select, arrows navigate
+  // Keyboard shortcuts: 1-4 / A-D select, Enter confirm, arrows navigate
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName;
@@ -126,6 +141,13 @@ export function PracticeSession() {
       const q = questions[currentIndex];
       if (!q) return;
       const answered = answersRef.current.has(q.id);
+
+      // Enter = confirm pending selection
+      if (e.key === "Enter" && !answered) {
+        e.preventDefault();
+        handleConfirmRef.current();
+        return;
+      }
 
       const keyMap: Record<string, number> = {
         "1": 0, "2": 1, "3": 2, "4": 3,
@@ -159,7 +181,7 @@ export function PracticeSession() {
     <div className="grid gap-6 lg:grid-cols-[200px_1fr_320px]">
       {/* 左侧：题号导航 (桌面) */}
       <div className="hidden lg:block">
-        <div className="sticky top-20">
+        <div className="sticky top-14 max-h-[calc(100vh-3.5rem)] overflow-y-auto py-3 scrollbar-thin">
           <QuestionNavigator
             total={questions.length}
             currentIndex={currentIndex}
@@ -187,8 +209,22 @@ export function PracticeSession() {
           answer={currentAnswer}
           onSelect={handleSelect}
           disabled={submitting}
+          pendingSelected={selectedKey}
           submittingKey={submittingKey}
         />
+
+        {/* Confirm button: visible when option selected but not yet submitted */}
+        {selectedKey && !currentAnswer && (
+          <div className="flex justify-center">
+            <Button
+              onClick={handleConfirm}
+              disabled={submitting}
+              className="min-w-[160px]"
+            >
+              {submitting ? "提交中..." : "确认答案"}
+            </Button>
+          </div>
+        )}
 
         {savedIndicator && (
           <p className="text-xs text-green-600 dark:text-green-400">&#10003; 已保存</p>

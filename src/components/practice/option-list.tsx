@@ -12,6 +12,8 @@ interface OptionListProps {
   mode?: "practice" | "exam";
   /** For exam mode: the currently selected key (may change) */
   examSelected?: string | null;
+  /** Practice mode: pre-selected key (chosen but not yet submitted) */
+  pendingSelected?: string | null;
   /** Read-only mode: shows correct/wrong without interaction (for results/wrong answers) */
   readonly?: boolean;
   /** The correct answer key (for readonly mode) */
@@ -29,6 +31,7 @@ export function OptionList({
   disabled,
   mode = "practice",
   examSelected,
+  pendingSelected,
   readonly = false,
   correctAnswer,
   lastSelected,
@@ -41,6 +44,7 @@ export function OptionList({
     <div className="space-y-2" role="radiogroup" aria-label="答案选项">
       {options.map((opt) => {
         // Readonly mode logic (for wrong-answer-card / results)
+        const isPending = !isExam && !readonly && !answer && pendingSelected === opt.key;
         const isSelected = readonly
           ? lastSelected === opt.key
           : isExam
@@ -68,6 +72,8 @@ export function OptionList({
               !isExam && isWrong && "border-red-500 bg-red-50 dark:bg-red-950/30",
               // Exam mode: selected = blue
               isExam && isSelected && "border-primary bg-primary/10",
+              // Practice mode: pending selection (chosen but not submitted)
+              isPending && "border-primary bg-primary/10",
               // Practice mode: selected but no correct/wrong yet
               !isExam && isSelected && !isWrong && !isCorrect && "border-primary bg-accent",
             )}
@@ -79,7 +85,7 @@ export function OptionList({
                 "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-medium",
                 !isExam && isCorrect && "border-green-500 bg-green-500 text-white",
                 !isExam && isWrong && "border-red-500 bg-red-500 text-white",
-                isSelected && !(isCorrect || isWrong) && "border-primary bg-primary text-primary-foreground",
+                (isSelected || isPending) && !(isCorrect || isWrong) && "border-primary bg-primary text-primary-foreground",
               )}
             >
               {submittingKey === opt.key ? (

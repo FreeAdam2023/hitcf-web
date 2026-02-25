@@ -109,7 +109,6 @@ export function TestCard({ test }: { test: TestSetItem }) {
             </div>
             <div className="min-w-0 flex-1">
               <CardTitle className="text-base leading-tight">{test.name}</CardTitle>
-              <p className="mt-0.5 text-xs text-muted-foreground">{test.code}</p>
             </div>
             {test.is_free ? (
               <Badge variant="secondary" className="shrink-0">
