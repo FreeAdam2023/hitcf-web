@@ -192,6 +192,7 @@ export function ExamSession() {
           disabled={submitting}
           mode="exam"
           examSelected={currentAnswer?.selected ?? null}
+          audioOnly={question.type === "listening" && question.question_number <= 10}
         />
 
         <Separator />

@@ -211,6 +211,7 @@ export function PracticeSession() {
           disabled={submitting}
           pendingSelected={selectedKey}
           submittingKey={submittingKey}
+          audioOnly={question.type === "listening" && question.question_number <= 10}
         />
 
         {/* Confirm button: visible when option selected but not yet submitted */}
