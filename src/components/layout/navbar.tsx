@@ -39,6 +39,9 @@ const NAV_ITEMS = [
 ];
 
 export function Navbar() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const showPricing = useAuthStore((s) => {
     // While loading, hide pricing to avoid flash
     if (s.isLoading) return false;
@@ -49,7 +52,8 @@ export function Navbar() {
   const pathname = usePathname();
   const isImmersive = pathname.startsWith("/practice/") || pathname.startsWith("/exam/");
 
-  const allItems = showPricing
+  // Only apply store-dependent values after mount to avoid SSR/client mismatch
+  const allItems = (mounted && showPricing)
     ? [...NAV_ITEMS, { href: "/pricing", label: "定价" }]
     : NAV_ITEMS;
 
@@ -60,34 +64,41 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex h-14 max-w-5xl items-center px-4">
-        {/* Mobile hamburger */}
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="mr-2 md:hidden">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">打开菜单</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-64">
-            <div className="flex flex-col gap-1 pt-6">
-              {allItems.map((item) => (
-                <SheetClose asChild key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      "rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                      pathname === item.href || pathname.startsWith(item.href + "/")
-                        ? "bg-accent text-accent-foreground"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                </SheetClose>
-              ))}
-            </div>
-          </SheetContent>
-        </Sheet>
+        {/* Mobile hamburger — defer Sheet until mounted to avoid Radix hydration mismatch */}
+        {mounted ? (
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="mr-2 md:hidden">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">打开菜单</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-64">
+              <div className="flex flex-col gap-1 pt-6">
+                {allItems.map((item) => (
+                  <SheetClose asChild key={item.href}>
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                        pathname === item.href || pathname.startsWith(item.href + "/")
+                          ? "bg-accent text-accent-foreground"
+                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  </SheetClose>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+        ) : (
+          <Button variant="ghost" size="icon" className="mr-2 md:hidden" disabled>
+            <Menu className="h-5 w-5" />
+            <span className="sr-only">打开菜单</span>
+          </Button>
+        )}
 
         <Link href="/" className="mr-4 shrink-0">
           <Image src="/logo.png" alt="HiTCF" width={40} height={40} />
@@ -152,7 +163,7 @@ function ImmersiveHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex h-10 max-w-7xl items-center px-4">
-        <Image src="/logo.png" alt="HiTCF" width={32} height={32} />
+        <Image src="/logo.png" alt="HiTCF" width={40} height={40} />
         <div className="ml-4 flex items-center gap-1.5 text-xs tabular-nums text-muted-foreground">
           <Clock className="h-3.5 w-3.5" />
           {formatElapsed(elapsed)}
