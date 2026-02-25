@@ -114,7 +114,7 @@ export function PricingView() {
       const { url } = await createCheckout(plan);
       window.location.href = url;
     } catch {
-      setLoadingPlan(null);
+      window.location.href = "/payment/error";
     }
   };
 

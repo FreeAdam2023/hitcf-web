@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Flag, Send, LayoutGrid } from "lucide-react";
+import { ChevronLeft, ChevronRight, Flag, Send, LayoutGrid, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -26,6 +26,7 @@ import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExamTimer } from "@/components/exam/exam-timer";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { cn } from "@/lib/utils";
+import { ReportDialog } from "@/components/practice/report-dialog";
 
 export function ExamSession() {
   const router = useRouter();
@@ -46,6 +47,30 @@ export function ExamSession() {
 
   const [submitting, setSubmitting] = useState(false);
   const [completing, setCompleting] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
+
+  // Prevent accidental navigation (browser back/forward swipe + tab close)
+  useEffect(() => {
+    // Push a dummy history entry so first back-swipe stays on this page
+    window.history.pushState(null, "", window.location.href);
+
+    const handlePopState = () => {
+      // User tried to go back — push again to stay, show warning
+      window.history.pushState(null, "", window.location.href);
+      toast.error("考试进行中，请通过「提交考试」按钮退出");
+    };
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   const completingRef = useRef(false);
   const handleComplete = useCallback(async () => {
@@ -176,6 +201,16 @@ export function ExamSession() {
               <Flag className="mr-1 h-4 w-4" />
               {isFlagged ? "已标记" : "标记"}
             </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-orange-500"
+              title="题目报错"
+              onClick={() => setReportOpen(true)}
+            >
+              <AlertTriangle className="mr-1 h-4 w-4" />
+              报错
+            </Button>
           </div>
         </div>
 
@@ -283,6 +318,14 @@ export function ExamSession() {
           </div>
         </SheetContent>
       </Sheet>
+
+      {question && (
+        <ReportDialog
+          questionId={question.id}
+          open={reportOpen}
+          onOpenChange={setReportOpen}
+        />
+      )}
     </div>
   );
 }

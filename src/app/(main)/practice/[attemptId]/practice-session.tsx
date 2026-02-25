@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -15,6 +15,7 @@ import { OptionList } from "@/components/practice/option-list";
 import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
+import { ReportDialog } from "@/components/practice/report-dialog";
 
 export function PracticeSession() {
   const router = useRouter();
@@ -35,22 +36,40 @@ export function PracticeSession() {
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
   const [completing, setCompleting] = useState(false);
   const [savedIndicator, setSavedIndicator] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
 
   // Clear pending selection when navigating to a different question
   useEffect(() => {
     setSelectedKey(null);
   }, [currentIndex]);
 
-  // Warn before closing/refreshing if user has answered questions
+  // Prevent accidental navigation (browser back/forward swipe + tab close)
+  const answersRef = useRef(answers);
+  useEffect(() => { answersRef.current = answers; });
+
   useEffect(() => {
-    const handler = (e: BeforeUnloadEvent) => {
-      if (answers.size > 0) {
+    window.history.pushState(null, "", window.location.href);
+
+    const handlePopState = () => {
+      if (answersRef.current.size > 0) {
+        window.history.pushState(null, "", window.location.href);
+        toast.error("练习进行中，请通过「完成练习」按钮退出");
+      }
+    };
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (answersRef.current.size > 0) {
         e.preventDefault();
       }
     };
-    window.addEventListener("beforeunload", handler);
-    return () => window.removeEventListener("beforeunload", handler);
-  }, [answers.size]);
+
+    window.addEventListener("popstate", handlePopState);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   const question = questions[currentIndex];
   const currentAnswer = question ? (answers.get(question.id) ?? null) : null;
@@ -129,8 +148,6 @@ export function PracticeSession() {
   useEffect(() => { handleNextRef.current = handleNext; });
   const handlePrevRef = useRef(handlePrev);
   useEffect(() => { handlePrevRef.current = handlePrev; });
-  const answersRef = useRef(answers);
-  useEffect(() => { answersRef.current = answers; });
 
   // Keyboard shortcuts: 1-4 / A-D select, Enter confirm, arrows navigate
   useEffect(() => {
@@ -198,11 +215,24 @@ export function PracticeSession() {
         {testSetName && (
           <h1 className="text-lg font-semibold">{testSetName}</h1>
         )}
-        <QuestionDisplay
-          question={question}
-          index={currentIndex}
-          total={questions.length}
-        />
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1">
+            <QuestionDisplay
+              question={question}
+              index={currentIndex}
+              total={questions.length}
+            />
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="shrink-0 text-muted-foreground hover:text-orange-500"
+            title="题目报错"
+            onClick={() => setReportOpen(true)}
+          >
+            <AlertTriangle className="h-4 w-4" />
+          </Button>
+        </div>
 
         <OptionList
           options={question.options}
@@ -309,6 +339,14 @@ export function PracticeSession() {
           </div>
         </SheetContent>
       </Sheet>
+
+      {question && (
+        <ReportDialog
+          questionId={question.id}
+          open={reportOpen}
+          onOpenChange={setReportOpen}
+        />
+      )}
     </div>
   );
 }

@@ -2,9 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-export default function NotFound() {
+export default function GlobalNotFound() {
   return (
-    <div className="relative flex min-h-[70vh] items-center justify-center overflow-hidden rounded-2xl">
+    <div className="relative flex min-h-screen items-center justify-center">
       {/* Full background image */}
       <Image
         src="/hero-mountain-404.jpg"
