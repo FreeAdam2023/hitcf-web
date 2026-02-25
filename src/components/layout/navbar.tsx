@@ -55,7 +55,7 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex h-14 max-w-5xl items-center px-4">
         {/* Mobile hamburger */}
         <Sheet>
@@ -147,7 +147,7 @@ function ImmersiveHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex h-10 max-w-7xl items-center px-4">
         <Image src="/logo.png" alt="HiTCF" width={32} height={32} />
         <div className="ml-4 flex items-center gap-1.5 text-xs tabular-nums text-muted-foreground">

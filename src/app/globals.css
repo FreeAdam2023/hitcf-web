@@ -10,53 +10,53 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 224 71% 4%;
+    --background: 240 20% 97%;
+    --foreground: 240 10% 6%;
     --card: 0 0% 100%;
-    --card-foreground: 224 71% 4%;
+    --card-foreground: 240 10% 6%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71% 4%;
-    --primary: 224 76% 48%;
+    --popover-foreground: 240 10% 6%;
+    --primary: 243 75% 59%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 224 71% 4%;
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
-    --accent: 224 76% 96%;
-    --accent-foreground: 224 76% 24%;
-    --destructive: 0 84.2% 60.2%;
+    --secondary: 240 11% 95%;
+    --secondary-foreground: 240 10% 6%;
+    --muted: 240 11% 95%;
+    --muted-foreground: 240 5% 46%;
+    --accent: 243 75% 96%;
+    --accent-foreground: 243 75% 30%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 224 76% 48%;
-    --chart-1: 224 76% 48%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 243 75% 59%;
+    --chart-1: 243 75% 59%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
+    --radius: 0.625rem;
   }
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 210 20% 98%;
-    --card: 224 41% 8%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 41% 8%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 224 76% 56%;
+    --background: 240 10% 4%;
+    --foreground: 0 0% 95%;
+    --card: 240 10% 7%;
+    --card-foreground: 0 0% 95%;
+    --popover: 240 10% 7%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 243 75% 64%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 224 30% 14%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 224 30% 14%;
-    --muted-foreground: 220 9% 64%;
-    --accent: 224 30% 14%;
-    --accent-foreground: 224 76% 80%;
-    --destructive: 0 62.8% 30.6%;
+    --secondary: 240 10% 12%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 240 10% 12%;
+    --muted-foreground: 240 5% 60%;
+    --accent: 243 30% 15%;
+    --accent-foreground: 243 75% 80%;
+    --destructive: 0 63% 31%;
     --destructive-foreground: 0 0% 98%;
-    --border: 224 20% 18%;
-    --input: 224 20% 18%;
-    --ring: 224 76% 56%;
-    --chart-1: 224 76% 56%;
+    --border: 240 8% 15%;
+    --input: 240 8% 15%;
+    --ring: 243 75% 64%;
+    --chart-1: 243 75% 64%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
@@ -129,4 +129,53 @@
 
 .animate-badge-pop {
   animation: badge-pop 0.5s ease-out 1.2s both;
+}
+
+/* ── Global polish ── */
+
+/* Smooth transitions on all interactive elements */
+button, a, [role="button"] {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Cards get a soft lift + glow on hover */
+.card-interactive {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.08),
+    0 2px 4px -2px rgb(0 0 0 / 0.06),
+    0 0 0 1px hsl(var(--primary) / 0.08);
+}
+.dark .card-interactive:hover {
+  box-shadow:
+    0 4px 12px -1px rgb(0 0 0 / 0.3),
+    0 2px 4px -2px rgb(0 0 0 / 0.2),
+    0 0 0 1px hsl(var(--primary) / 0.15);
+}
+
+/* Staggered fade-in for grid children */
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-card-grid > * {
+  animation: card-enter 0.35s ease-out both;
+}
+.animate-card-grid > *:nth-child(1) { animation-delay: 0ms; }
+.animate-card-grid > *:nth-child(2) { animation-delay: 40ms; }
+.animate-card-grid > *:nth-child(3) { animation-delay: 80ms; }
+.animate-card-grid > *:nth-child(4) { animation-delay: 120ms; }
+.animate-card-grid > *:nth-child(5) { animation-delay: 160ms; }
+.animate-card-grid > *:nth-child(6) { animation-delay: 200ms; }
+.animate-card-grid > *:nth-child(n+7) { animation-delay: 240ms; }
+
+/* Subtle background noise texture */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
 }

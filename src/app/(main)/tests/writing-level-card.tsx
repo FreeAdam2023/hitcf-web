@@ -34,7 +34,7 @@ export function WritingLevelCard({
       : topic.question_text || "";
 
   return (
-    <Card className="flex flex-col border-l-4 border-l-purple-500 transition-all hover:shadow-md hover:-translate-y-0.5">
+    <Card className="flex flex-col border-l-4 border-l-violet-500 card-interactive">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <CardTitle className="text-sm font-medium leading-tight text-muted-foreground">

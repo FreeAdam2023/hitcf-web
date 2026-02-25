@@ -14,7 +14,7 @@ export function SpeakingTopicCard({ test }: { test: TestSetItem }) {
   const isTache2 = test.code.includes("tache2");
 
   return (
-    <Card className="flex flex-col border-l-4 border-l-amber-500 transition-all hover:shadow-md hover:-translate-y-0.5">
+    <Card className="flex flex-col border-l-4 border-l-amber-500 card-interactive">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <CardTitle className="text-base leading-tight">

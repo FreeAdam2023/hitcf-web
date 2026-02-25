@@ -11,6 +11,7 @@ import { TestCard } from "./test-card";
 import { SpeakingTopicCard } from "./speaking-topic-card";
 import { WritingTopicCard } from "./writing-topic-card";
 import { WritingLevelCard } from "./writing-level-card";
+import { SpeakingTache1Guide } from "./speaking-tache1-guide";
 import { ContinueBanner } from "@/components/shared/continue-banner";
 import { RecommendedBanner } from "@/components/shared/recommended-banner";
 import { CLB7ProgressBar } from "@/components/shared/clb7-progress-bar";
@@ -116,7 +117,7 @@ export function TestList() {
 
   // Speaking/Writing specific state
   const [browseMode, setBrowseMode] = useState<BrowseMode>("level");
-  const [speakingTache, setSpeakingTache] = useState<2 | 3>(2);
+  const [speakingTache, setSpeakingTache] = useState<1 | 2 | 3>(1);
   const [writingTache, setWritingTache] = useState<1 | 2 | 3>(3);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
 
@@ -131,8 +132,11 @@ export function TestList() {
   const fetchTestSets = useCallback(async () => {
     setLoading(true);
     try {
-      if (tab === "speaking" && browseMode === "level") {
-        const res = await listTestSets({ type: "speaking", task_number: speakingTache, page_size: 100 });
+      if (tab === "speaking" && browseMode === "level" && speakingTache === 1) {
+        // Tâche 1 has no test sets — show guide instead
+        setTests([]);
+      } else if (tab === "speaking" && browseMode === "level") {
+        const res = await listTestSets({ type: "speaking", task_number: speakingTache, page_size: 500 });
         setTests(res.items);
       } else if (tab === "writing" && browseMode === "level") {
         const res = await listWritingTopics({
@@ -143,7 +147,9 @@ export function TestList() {
         setWritingTopics(res.items);
         setTests([]); // clear test sets
       } else {
-        const res = await listTestSets({ type: tab, page_size: 100 });
+        // 按套题 mode: speaking 696, writing 515
+        const size = (tab === "speaking" || tab === "writing") ? 500 : 100;
+        const res = await listTestSets({ type: tab, page_size: size });
         setTests(res.items);
       }
     } catch (err) {
@@ -227,7 +233,7 @@ export function TestList() {
     if (loading) return <SkeletonGrid />;
     if (filteredTests.length === 0) return <EmptyState title="暂无题套" description="该分类下还没有题套" />;
     return (
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
         {filteredTests.map((t) => (
           <TestCard key={t.id} test={t} />
         ))}
@@ -244,7 +250,7 @@ export function TestList() {
         {testSections.map((section) => (
           <div key={section.month}>
             <MonthHeader label={section.label} count={section.items.length} />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
               {section.items.map((t) =>
                 tab === "speaking" ? (
                   <SpeakingTopicCard key={t.id} test={t} />
@@ -268,7 +274,7 @@ export function TestList() {
         {testSections.map((section) => (
           <div key={section.month}>
             <MonthHeader label={section.label} count={section.items.length} />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
               {section.items.map((t) => (
                 <SpeakingTopicCard key={t.id} test={t} />
               ))}
@@ -288,7 +294,7 @@ export function TestList() {
         {writingTopicSections.map((section) => (
           <div key={section.month}>
             <MonthHeader label={section.label} count={section.items.length} />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
               {section.items.map((t) => (
                 <WritingLevelCard key={t.question_id} topic={t} tache={writingTache} />
               ))}
@@ -339,6 +345,9 @@ export function TestList() {
               {/* Tâche pills (按等级 mode only) */}
               {browseMode === "level" && tab === "speaking" && (
                 <div className="flex gap-2">
+                  <Pill active={speakingTache === 1} onClick={() => setSpeakingTache(1)}>
+                    Tâche 1 · 自我介绍
+                  </Pill>
                   <Pill active={speakingTache === 2} onClick={() => setSpeakingTache(2)}>
                     Tâche 2 · 情景对话
                   </Pill>
@@ -384,6 +393,8 @@ export function TestList() {
           {/* ── Content ── */}
           {tab === "listening" || tab === "reading" ? (
             renderFlatGrid()
+          ) : browseMode === "level" && tab === "speaking" && speakingTache === 1 ? (
+            <SpeakingTache1Guide />
           ) : browseMode === "level" && tab === "speaking" ? (
             renderSpeakingByLevel()
           ) : browseMode === "level" && tab === "writing" ? (

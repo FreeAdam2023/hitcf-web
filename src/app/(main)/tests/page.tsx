@@ -12,9 +12,11 @@ export const metadata: Metadata = {
 export default function TestsPage() {
   return (
     <div>
-      <div className="mb-8 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent px-6 py-8">
-        <h1 className="text-2xl font-bold">题库</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+      <div className="relative mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-primary/15 via-primary/5 to-transparent px-6 py-8">
+        <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute -bottom-4 right-16 h-20 w-20 rounded-full bg-chart-2/10 blur-2xl" />
+        <h1 className="relative text-2xl font-bold tracking-tight">题库</h1>
+        <p className="relative mt-1.5 text-sm text-muted-foreground">
           TCF Canada 听力、阅读、口语、写作全真模拟
         </p>
       </div>

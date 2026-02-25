@@ -8,7 +8,7 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex min-h-screen flex-col bg-background bg-noise">
       <Navbar />
       <MainContainer>{children}</MainContainer>
       <ConditionalFooter />

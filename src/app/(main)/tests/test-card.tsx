@@ -66,7 +66,7 @@ export function TestCard({ test }: { test: TestSetItem }) {
     <>
       <Card
         className={cn(
-          "flex flex-col border-l-4 transition-all hover:shadow-md hover:-translate-y-0.5 cursor-pointer",
+          "flex flex-col border-l-4 card-interactive cursor-pointer",
           TYPE_COLORS[test.type]?.border ?? "border-l-transparent",
           locked && "opacity-80",
         )}
