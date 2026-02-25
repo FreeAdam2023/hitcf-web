@@ -59,44 +59,6 @@ export function OptionList({
     return { isPending, isSelected, isCorrect, isWrong };
   }
 
-  // Audio-only: compact horizontal A/B/C/D buttons
-  if (audioOnly) {
-    return (
-      <div className="flex gap-3 justify-center" role="radiogroup" aria-label="答案选项">
-        {options.map((opt) => {
-          const { isPending, isSelected, isCorrect, isWrong } = getOptionState(opt);
-          return (
-            <button
-              key={opt.key}
-              role="radio"
-              aria-checked={isSelected || isPending}
-              aria-label={`选项 ${opt.key}`}
-              className={cn(
-                "flex h-12 w-12 items-center justify-center rounded-full border-2 text-base font-semibold transition-colors",
-                !locked && !disabled && "hover:bg-accent cursor-pointer",
-                locked && "cursor-default",
-                !isExam && isCorrect && "border-green-500 bg-green-500 text-white",
-                !isExam && isWrong && "border-red-500 bg-red-500 text-white",
-                isExam && isSelected && "border-primary bg-primary text-primary-foreground",
-                isPending && "border-primary bg-primary text-primary-foreground",
-                !isExam && isSelected && !isWrong && !isCorrect && "border-primary bg-primary text-primary-foreground",
-                !(isSelected || isPending || isCorrect || isWrong) && "border-muted-foreground/30",
-              )}
-              onClick={() => !locked && !disabled && onSelect(opt.key)}
-              disabled={locked || disabled}
-            >
-              {submittingKey === opt.key ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                opt.key
-              )}
-            </button>
-          );
-        })}
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-2" role="radiogroup" aria-label="答案选项">
       {options.map((opt) => {
@@ -107,7 +69,7 @@ export function OptionList({
             key={opt.key}
             role="radio"
             aria-checked={isSelected}
-            aria-label={`${opt.key}: ${opt.text || ""}`}
+            aria-label={`${opt.key}${opt.text ? `: ${opt.text}` : ""}`}
             className={cn(
               "flex w-full items-start gap-3 rounded-md border p-3 text-left text-sm transition-colors",
               !locked && !disabled && "hover:bg-accent cursor-pointer",
@@ -139,7 +101,7 @@ export function OptionList({
                 opt.key
               )}
             </span>
-            <span className="pt-0.5">{opt.text}</span>
+            {!audioOnly && opt.text && <span className="pt-0.5">{opt.text}</span>}
           </button>
         );
       })}
