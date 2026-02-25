@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SkeletonGrid } from "@/components/shared/skeleton-card";
 import { ErrorState } from "@/components/shared/error-state";
+import { UpgradeBanner } from "@/components/shared/upgrade-banner";
+import { useAuthStore } from "@/stores/auth-store";
 import { AccuracyTrendChart } from "@/components/dashboard/accuracy-trend-chart";
 import { DailyPracticeChart } from "@/components/dashboard/daily-practice-chart";
 import { LevelRadarChart } from "@/components/dashboard/level-radar-chart";
@@ -31,6 +33,11 @@ const LEVEL_BAR_COLORS: Record<string, string> = {
 
 export function DashboardView() {
   const router = useRouter();
+  const canAccessPaid = useAuthStore((s) => {
+    if (s.isLoading) return true;
+    const status = s.user?.subscription?.status;
+    return status === "active" || status === "trialing" || s.user?.role === "admin";
+  });
   const [stats, setStats] = useState<StatsOverview | null>(null);
   const [history, setHistory] = useState<StatsHistory | null>(null);
   const [loading, setLoading] = useState(true);
@@ -88,6 +95,14 @@ export function DashboardView() {
         totalAttempts={stats.total_attempts}
         streakDays={stats.streak_days}
       />
+
+      {/* Upgrade nudge for free users */}
+      {!canAccessPaid && (
+        <UpgradeBanner
+          title="解锁完整备考工具"
+          description="升级 Pro 使用考试模式、错题本、速练等高级功能"
+        />
+      )}
 
       {/* Quick actions */}
       <div className="flex flex-wrap items-center justify-center gap-3">

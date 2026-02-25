@@ -6,7 +6,9 @@ import { Zap, Headphones, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { usePracticeStore } from "@/stores/practice-store";
+import { useAuthStore } from "@/stores/auth-store";
 import { startSpeedDrill } from "@/lib/api/speed-drill";
+import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { cn } from "@/lib/utils";
 
 const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
@@ -24,6 +26,11 @@ const LEVEL_COLORS: Record<string, string> = {
 export function SpeedDrillConfig() {
   const router = useRouter();
   const initPractice = usePracticeStore((s) => s.init);
+  const canAccessPaid = useAuthStore((s) => {
+    if (s.isLoading) return true; // Don't flash paywall while loading
+    const status = s.user?.subscription?.status;
+    return status === "active" || status === "trialing" || s.user?.role === "admin";
+  });
 
   const [type, setType] = useState("listening");
   const [selectedLevels, setSelectedLevels] = useState<Set<string>>(new Set(LEVELS));
@@ -76,7 +83,21 @@ export function SpeedDrillConfig() {
         </p>
       </div>
 
-      <Card className="overflow-hidden">
+      {!canAccessPaid && (
+        <UpgradeBanner
+          variant="hero"
+          title="速练是 Pro 专属功能"
+          description="按等级、按题型精准刷题，利用碎片时间高效突破薄弱环节"
+          features={[
+            "听力 + 阅读全题库",
+            "按 A1–C2 等级筛选",
+            "自定义题目数量",
+            "智能去重，不重复做题",
+          ]}
+        />
+      )}
+
+      <Card className={cn("overflow-hidden", !canAccessPaid && "pointer-events-none opacity-50")}>
         <CardContent className="space-y-6 pt-6">
           {/* Type selection */}
           <div>
@@ -186,7 +207,7 @@ export function SpeedDrillConfig() {
         className="w-full"
         size="lg"
         onClick={handleStart}
-        disabled={loading || selectedLevels.size === 0}
+        disabled={loading || selectedLevels.size === 0 || !canAccessPaid}
       >
         <Zap className="mr-1.5 h-4 w-4" />
         {loading ? "正在生成..." : "开始速练"}

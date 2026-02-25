@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import type { UserResponse } from "@/lib/api/types";
 import { fetchMe } from "@/lib/api/auth";
-import { signOut } from "next-auth/react";
 
 let _fetchController: AbortController | null = null;
 
@@ -40,6 +39,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   logout: async () => {
     set({ user: null, isAuthenticated: false });
+    // Dynamic import to avoid SSR issues with next-auth/react context
+    const { signOut } = await import("next-auth/react");
     await signOut({ callbackUrl: "/tests" });
   },
 

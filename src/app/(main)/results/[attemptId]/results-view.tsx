@@ -14,6 +14,8 @@ import { QuestionReviewItem } from "@/components/results/question-review-item";
 import { createAttempt } from "@/lib/api/attempts";
 import { listTestSets } from "@/lib/api/test-sets";
 import { practiceWrongAnswers } from "@/lib/api/wrong-answers";
+import { useAuthStore } from "@/stores/auth-store";
+import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { TYPE_LABELS, TYPE_COLORS, MODE_LABELS } from "@/lib/constants";
 import type { AttemptReview, TestSetItem } from "@/lib/api/types";
 
@@ -23,6 +25,11 @@ interface ResultsViewProps {
 
 export function ResultsView({ attempt }: ResultsViewProps) {
   const router = useRouter();
+  const canAccessPaid = useAuthStore((s) => {
+    if (s.isLoading) return true;
+    const status = s.user?.subscription?.status;
+    return status === "active" || status === "trialing" || s.user?.role === "admin";
+  });
   const [filter, setFilter] = useState<"all" | "wrong">("all");
   const [practicingWrong, setPracticingWrong] = useState(false);
   const [startingNext, setStartingNext] = useState(false);
@@ -152,6 +159,21 @@ export function ResultsView({ attempt }: ResultsViewProps) {
 
       {/* Level breakdown */}
       <LevelBreakdown answers={attempt.answers} />
+
+      {/* Upgrade prompt for free users */}
+      {!canAccessPaid && (
+        <UpgradeBanner
+          variant="hero"
+          title="想更快提分？"
+          description="Pro 会员解锁全部题库、考试模式、错题本和速练，系统化备考"
+          features={[
+            "8,500+ 道真题全部解锁",
+            "考试模式模拟真实考场",
+            "错题自动收集，定向突破",
+            "速练模式，碎片时间高效刷题",
+          ]}
+        />
+      )}
 
       {/* Per-question review */}
       <div className="space-y-2">

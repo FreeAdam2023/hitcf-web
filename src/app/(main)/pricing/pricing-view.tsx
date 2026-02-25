@@ -169,9 +169,12 @@ export function PricingView() {
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedPlan(plan.key); }}
                 className={cn(
                   "relative cursor-pointer rounded-xl p-[1px] transition-all",
+                  plan.recommended
+                    ? "bg-gradient-to-b from-primary via-violet-500 to-indigo-400"
+                    : "bg-border",
                   isSelected
-                    ? "bg-gradient-to-b from-primary via-violet-500 to-indigo-400 shadow-lg shadow-primary/20 scale-[1.02]"
-                    : "bg-border hover:bg-primary/30",
+                    ? "shadow-lg shadow-primary/20 scale-[1.02] ring-2 ring-primary/50"
+                    : "hover:bg-primary/30",
                 )}
               >
                 {plan.recommended && (

@@ -24,7 +24,9 @@ import {
   getWrongAnswerStats,
 } from "@/lib/api/wrong-answers";
 import { usePracticeStore } from "@/stores/practice-store";
+import { useAuthStore } from "@/stores/auth-store";
 import { getTestSetQuestions } from "@/lib/api/test-sets";
+import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import type { PaginatedResponse, WrongAnswerItem, WrongAnswerStats } from "@/lib/api/types";
 
 const TYPE_OPTIONS = [
@@ -48,6 +50,11 @@ const SORT_OPTIONS = [
 export function WrongAnswerList() {
   const router = useRouter();
   const initPractice = usePracticeStore((s) => s.init);
+  const canAccessPaid = useAuthStore((s) => {
+    if (s.isLoading) return true;
+    const status = s.user?.subscription?.status;
+    return status === "active" || status === "trialing" || s.user?.role === "admin";
+  });
 
   const [data, setData] = useState<PaginatedResponse<WrongAnswerItem> | null>(null);
   const [waStats, setWaStats] = useState<WrongAnswerStats | null>(null);
@@ -143,17 +150,33 @@ export function WrongAnswerList() {
             追踪薄弱环节，定向突破
           </p>
         </div>
-        <Button
-          onClick={handleStartPractice}
-          disabled={startingPractice || !data?.items.length}
-        >
-          <BookOpen className="mr-1.5 h-4 w-4" />
-          {startingPractice ? "生成中..." : "从错题练习"}
-        </Button>
+        {canAccessPaid && (
+          <Button
+            onClick={handleStartPractice}
+            disabled={startingPractice || !data?.items.length}
+          >
+            <BookOpen className="mr-1.5 h-4 w-4" />
+            {startingPractice ? "生成中..." : "从错题练习"}
+          </Button>
+        )}
       </div>
 
+      {!canAccessPaid && (
+        <UpgradeBanner
+          variant="hero"
+          title="错题本是 Pro 专属功能"
+          description="自动收集每次答错的题目，标记掌握状态，支持从错题直接生成练习"
+          features={[
+            "自动收集所有错题",
+            "按类型、等级筛选",
+            "一键从错题生成练习",
+            "标记已掌握，追踪进步",
+          ]}
+        />
+      )}
+
       {/* Stats overview */}
-      {waStats && (
+      {canAccessPaid && waStats && (
         <div className="grid grid-cols-3 gap-3">
           <div className="flex items-center gap-3 rounded-xl border bg-card p-4">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600 dark:bg-red-950 dark:text-red-400">
@@ -185,80 +208,84 @@ export function WrongAnswerList() {
         </div>
       )}
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-3">
-        <Select value={type} onValueChange={(v) => { setType(v); setPage(1); }}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {TYPE_OPTIONS.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <Select value={mastered} onValueChange={(v) => { setMastered(v); setPage(1); }}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {MASTERED_OPTIONS.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <Select value={sortBy} onValueChange={(v) => { setSortBy(v); setPage(1); }}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {SORT_OPTIONS.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* List */}
-      {loading ? (
-        <LoadingSpinner />
-      ) : fetchError ? (
-        <ErrorState message={fetchError} onRetry={fetchData} />
-      ) : !data?.items.length ? (
-        <EmptyState
-          title="还没有错题"
-          description="做完一套题后，答错的题目会自动收集到这里，方便你针对性复习"
-          action={
-            <Button onClick={() => router.push("/tests")}>
-              去题库开始练习
-            </Button>
-          }
-        />
-      ) : (
+      {canAccessPaid && (
         <>
-          <div className="space-y-3">
-            {data.items.map((item) => (
-              <WrongAnswerCard
-                key={item.id}
-                item={item}
-                onToggleMastered={handleToggleMastered}
-              />
-            ))}
+          {/* Filters */}
+          <div className="flex flex-wrap gap-3">
+            <Select value={type} onValueChange={(v) => { setType(v); setPage(1); }}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {TYPE_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={mastered} onValueChange={(v) => { setMastered(v); setPage(1); }}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {MASTERED_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={sortBy} onValueChange={(v) => { setSortBy(v); setPage(1); }}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {SORT_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
-          <Pagination
-            page={page}
-            totalPages={data.total_pages}
-            onPageChange={setPage}
-          />
+          {/* List */}
+          {loading ? (
+            <LoadingSpinner />
+          ) : fetchError ? (
+            <ErrorState message={fetchError} onRetry={fetchData} />
+          ) : !data?.items.length ? (
+            <EmptyState
+              title="还没有错题"
+              description="做完一套题后，答错的题目会自动收集到这里，方便你针对性复习"
+              action={
+                <Button onClick={() => router.push("/tests")}>
+                  去题库开始练习
+                </Button>
+              }
+            />
+          ) : (
+            <>
+              <div className="space-y-3">
+                {data.items.map((item) => (
+                  <WrongAnswerCard
+                    key={item.id}
+                    item={item}
+                    onToggleMastered={handleToggleMastered}
+                  />
+                ))}
+              </div>
+
+              <Pagination
+                page={page}
+                totalPages={data.total_pages}
+                onPageChange={setPage}
+              />
+            </>
+          )}
         </>
       )}
     </div>

@@ -23,7 +23,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useAuthStore } from "@/stores/auth-store";
 import { usePracticeStore } from "@/stores/practice-store";
 import { UserMenu } from "./user-menu";
 import { ThemeToggle } from "./theme-toggle";
@@ -35,6 +34,7 @@ const NAV_ITEMS = [
   { href: "/wrong-answers", label: "错题本" },
   { href: "/history", label: "记录" },
   { href: "/speed-drill", label: "速练" },
+  { href: "/pricing", label: "定价" },
   { href: "/resources", label: "资源" },
 ];
 
@@ -42,20 +42,10 @@ export function Navbar() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const showPricing = useAuthStore((s) => {
-    // While loading, hide pricing to avoid flash
-    if (s.isLoading) return false;
-    const status = s.user?.subscription?.status;
-    const isPaid = status === "active" || status === "trialing" || s.user?.role === "admin";
-    return !isPaid;
-  });
   const pathname = usePathname();
   const isImmersive = pathname.startsWith("/practice/") || pathname.startsWith("/exam/");
 
-  // Only apply store-dependent values after mount to avoid SSR/client mismatch
-  const allItems = (mounted && showPricing)
-    ? [...NAV_ITEMS, { href: "/pricing", label: "定价" }]
-    : NAV_ITEMS;
+  const allItems = NAV_ITEMS;
 
   if (isImmersive) {
     return <ImmersiveHeader />;

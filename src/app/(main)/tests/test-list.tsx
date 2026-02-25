@@ -16,6 +16,8 @@ import { SpeakingTache1Guide } from "./speaking-tache1-guide";
 import { ContinueBanner } from "@/components/shared/continue-banner";
 import { RecommendedBanner } from "@/components/shared/recommended-banner";
 import { CLB7ProgressBar } from "@/components/shared/clb7-progress-bar";
+import { UpgradeBanner } from "@/components/shared/upgrade-banner";
+import { useAuthStore } from "@/stores/auth-store";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
 type BrowseMode = "level" | "set";
@@ -115,6 +117,11 @@ function MonthHeader({ label, count }: { label: string; count: number }) {
 const VALID_TABS: TabType[] = ["listening", "reading", "speaking", "writing"];
 
 export function TestList() {
+  const canAccessPaid = useAuthStore((s) => {
+    if (s.isLoading) return true;
+    const status = s.user?.subscription?.status;
+    return status === "active" || status === "trialing" || s.user?.role === "admin";
+  });
   const [tab, setTab] = useState<TabType>("listening");
 
   // Restore tab from URL on mount
@@ -239,10 +246,39 @@ export function TestList() {
   // ─── Is speaking/writing tab? ─────────────────────────────
   const isSpeakingWriting = tab === "speaking" || tab === "writing";
 
-  // ─── Render: Listening / Reading (unchanged flat grid) ────
+  // ─── Render: Listening / Reading (flat grid with upgrade banner) ────
   const renderFlatGrid = () => {
     if (loading) return <SkeletonGrid />;
     if (filteredTests.length === 0) return <EmptyState title="暂无题套" description="该分类下还没有题套" />;
+
+    // Insert upgrade banner between free and locked tests
+    if (!canAccessPaid) {
+      const freeTests = filteredTests.filter((t) => t.is_free);
+      const paidTests = filteredTests.filter((t) => !t.is_free);
+
+      if (freeTests.length > 0 && paidTests.length > 0) {
+        return (
+          <>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
+              {freeTests.map((t) => (
+                <TestCard key={t.id} test={t} />
+              ))}
+            </div>
+            <UpgradeBanner
+              className="my-6"
+              title="解锁全部题库"
+              description={`还有 ${paidTests.length} 套题等你挑战，升级 Pro 获取完整备考体验`}
+            />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
+              {paidTests.map((t) => (
+                <TestCard key={t.id} test={t} />
+              ))}
+            </div>
+          </>
+        );
+      }
+    }
+
     return (
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
         {filteredTests.map((t) => (
