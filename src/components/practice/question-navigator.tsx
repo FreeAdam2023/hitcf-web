@@ -108,7 +108,7 @@ export function QuestionNavigator({
               <div className="mb-1.5">
                 <LevelBadge level={group.level} size="sm" />
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-1.5 p-0.5">
                 {group.indices.map((i) => renderButton(i))}
               </div>
             </div>
@@ -125,7 +125,7 @@ export function QuestionNavigator({
   return (
     <div className="space-y-2">
       <h3 className="text-sm font-medium text-muted-foreground">题号导航</h3>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-1.5 p-0.5">
         {Array.from({ length: total }, (_, i) => renderButton(i))}
       </div>
       <p className="text-xs text-muted-foreground">
