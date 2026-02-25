@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { ChevronDown, CheckCircle, AlertCircle } from "lucide-react";
+import { ChevronDown, CheckCircle, AlertCircle, Headphones, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,11 @@ import { getWrongAnswerDetail } from "@/lib/api/wrong-answers";
 import type { WrongAnswerItem, WrongAnswerDetail } from "@/lib/api/types";
 
 import { TYPE_LABELS, TYPE_COLORS } from "@/lib/constants";
+
+const TYPE_ICONS: Record<string, React.ElementType> = {
+  listening: Headphones,
+  reading: BookOpen,
+};
 
 interface WrongAnswerCardProps {
   item: WrongAnswerItem;
@@ -54,16 +59,23 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
   );
 
   const q = detail?.question;
+  const colors = TYPE_COLORS[item.question_type || ""];
+  const Icon = TYPE_ICONS[item.question_type || ""] || AlertCircle;
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <Collapsible open={open} onOpenChange={handleOpenChange}>
         <CollapsibleTrigger asChild>
           <CardContent className="flex cursor-pointer items-start gap-3 pt-4">
-            <div className="flex-1 space-y-1.5">
+            {/* Type icon */}
+            <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-lg mt-0.5", colors?.iconBg || "bg-muted text-muted-foreground")}>
+              <Icon className="h-4 w-4" />
+            </div>
+
+            <div className="flex-1 min-w-0 space-y-1.5">
               <div className="flex flex-wrap items-center gap-2">
                 {item.question_number && (
-                  <span className="text-sm font-medium text-muted-foreground">
+                  <span className="text-sm font-medium">
                     #{item.question_number}
                   </span>
                 )}
@@ -76,12 +88,12 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
                   </Badge>
                 )}
                 {item.level && <Badge variant="secondary">{item.level}</Badge>}
-                <span className="text-xs text-muted-foreground">
-                  错误 {item.wrong_count} 次
+                <span className="text-xs text-red-500 font-medium">
+                  错 {item.wrong_count} 次
                 </span>
               </div>
               {item.question_text && (
-                <p className="text-sm line-clamp-2">{item.question_text}</p>
+                <p className="text-sm text-muted-foreground line-clamp-2">{item.question_text}</p>
               )}
             </div>
             <div className="flex shrink-0 items-center gap-2">
@@ -114,7 +126,7 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
               <>
                 {/* Passage */}
                 {q.passage && (
-                  <div className="rounded-md bg-muted/50 p-3">
+                  <div className="rounded-lg bg-muted/50 p-3">
                     <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
                       {q.passage}
                     </p>
@@ -146,7 +158,7 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
 
                 {/* Transcript */}
                 {q.transcript && (
-                  <div className="rounded-md border p-3">
+                  <div className="rounded-lg border p-3">
                     <p className="mb-1 text-xs font-medium text-muted-foreground">
                       听力原文
                     </p>
@@ -174,4 +186,3 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
     </Card>
   );
 }
-

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Clock, FileText, Lock } from "lucide-react";
+import { Clock, FileText, Lock, Headphones, BookOpen } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +19,11 @@ import { createAttempt } from "@/lib/api/attempts";
 import { cn } from "@/lib/utils";
 import { TYPE_COLORS } from "@/lib/constants";
 import type { TestSetItem } from "@/lib/api/types";
+
+const TYPE_ICONS: Record<string, React.ElementType> = {
+  listening: Headphones,
+  reading: BookOpen,
+};
 
 export function TestCard({ test }: { test: TestSetItem }) {
   const router = useRouter();
@@ -62,13 +67,15 @@ export function TestCard({ test }: { test: TestSetItem }) {
     }
   };
 
+  const colors = TYPE_COLORS[test.type];
+  const Icon = TYPE_ICONS[test.type] || FileText;
+
   return (
     <>
       <Card
         className={cn(
-          "flex flex-col border-l-4 card-interactive cursor-pointer",
-          TYPE_COLORS[test.type]?.border ?? "border-l-transparent",
-          locked && "opacity-80",
+          "group relative flex flex-col overflow-hidden card-interactive cursor-pointer",
+          locked && "opacity-75",
         )}
         onClick={locked ? handleLockedClick : () => setOpen(true)}
         {...(locked
@@ -90,28 +97,39 @@ export function TestCard({ test }: { test: TestSetItem }) {
               },
             })}
       >
-        <CardHeader className="pb-3">
-          <div className="flex items-start justify-between">
-            <CardTitle className="text-base leading-tight">{test.name}</CardTitle>
+        {/* Subtle gradient wash */}
+        {colors?.wash && (
+          <div className={cn("absolute inset-0 bg-gradient-to-br pointer-events-none", colors.wash)} />
+        )}
+
+        <CardHeader className="relative pb-3">
+          <div className="flex items-start gap-3">
+            <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl", colors?.iconBg)}>
+              <Icon className="h-5 w-5" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <CardTitle className="text-base leading-tight">{test.name}</CardTitle>
+              <p className="mt-0.5 text-xs text-muted-foreground">{test.code}</p>
+            </div>
             {test.is_free ? (
-              <Badge variant="secondary" className="ml-2 shrink-0">
+              <Badge variant="secondary" className="shrink-0">
                 免费
               </Badge>
             ) : locked ? (
-              <Badge variant="outline" className="ml-2 shrink-0 gap-1">
+              <Badge variant="outline" className="shrink-0 gap-1">
                 <Lock className="h-3 w-3" />
-                订阅解锁
+                订阅
               </Badge>
             ) : null}
           </div>
         </CardHeader>
-        <CardContent className="flex flex-1 flex-col justify-between gap-3">
+        <CardContent className="relative flex flex-1 flex-col justify-end">
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1.5">
               <FileText className="h-3.5 w-3.5" />
               {test.question_count} 题
             </span>
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1.5">
               <Clock className="h-3.5 w-3.5" />
               {test.time_limit_minutes} 分钟
             </span>
@@ -122,16 +140,23 @@ export function TestCard({ test }: { test: TestSetItem }) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{test.name}</DialogTitle>
-            <DialogDescription>
-              {test.question_count} 题 · {test.time_limit_minutes} 分钟
-            </DialogDescription>
+            <div className="flex items-center gap-3">
+              <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl", colors?.iconBg)}>
+                <Icon className="h-5 w-5" />
+              </div>
+              <div>
+                <DialogTitle>{test.name}</DialogTitle>
+                <DialogDescription>
+                  {test.question_count} 题 · {test.time_limit_minutes} 分钟
+                </DialogDescription>
+              </div>
+            </div>
           </DialogHeader>
 
-          <div className="rounded-md bg-muted/50 p-3 text-xs leading-relaxed text-muted-foreground space-y-1">
+          <div className="rounded-lg bg-muted/50 p-3.5 text-xs leading-relaxed text-muted-foreground space-y-1">
             <ul className="list-disc pl-4 space-y-0.5">
-              <li><strong>练习模式</strong>：无时间限制，每题作答后立即显示答案和解析</li>
-              <li><strong>考试模式</strong>：计时进行，不显示答案；提交后显示成绩和预估等级</li>
+              <li><strong className="text-foreground">练习模式</strong>：无时间限制，每题作答后立即显示答案和解析</li>
+              <li><strong className="text-foreground">考试模式</strong>：计时进行，不显示答案；提交后显示成绩和预估等级</li>
             </ul>
           </div>
 

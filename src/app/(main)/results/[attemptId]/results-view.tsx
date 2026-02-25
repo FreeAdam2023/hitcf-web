@@ -109,7 +109,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
     <div className="mx-auto max-w-2xl space-y-6">
       <Breadcrumb
         items={[
-          { label: "题库", href: "/tests" },
+          { label: "题库", href: attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests" },
           ...(attempt.test_set_id
             ? [{ label: attempt.test_set_name || "题套", href: `/tests/${attempt.test_set_id}` }]
             : []),
@@ -207,7 +207,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
           </Button>
         )}
         <Button asChild variant="outline">
-          <Link href="/tests">返回题库</Link>
+          <Link href={attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests"}>返回题库</Link>
         </Button>
       </div>
     </div>

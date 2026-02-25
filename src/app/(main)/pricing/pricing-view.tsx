@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, X, Shield, CreditCard, RefreshCw, Clock } from "lucide-react";
+import Image from "next/image";
+import { Check, X, Shield, CreditCard, RefreshCw, Clock, Sparkles } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -15,6 +15,7 @@ import {
 import { useAuthStore } from "@/stores/auth-store";
 import { createCheckout, getCustomerPortal } from "@/lib/api/subscriptions";
 import { LOGIN_URL } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -53,10 +54,10 @@ const PLANS = [
 ];
 
 const COMPARISON = [
-  { feature: "听力题库（42 套 · 1,629 题 · 含音频）", free: "前 5 套", pro: true },
-  { feature: "阅读题库（44 套 · 1,681 题）", free: "前 5 套", pro: true },
-  { feature: "口语题库（20 套 · 100 个话题）", free: "前 2 套", pro: true },
-  { feature: "写作题库（10 套 · 30 个任务）", free: "前 2 套", pro: true },
+  { feature: "听力题库（44 套 · 1,700+ 题 · 含音频）", free: "前 2 套", pro: true },
+  { feature: "阅读题库（44 套 · 1,700+ 题）", free: "前 2 套", pro: true },
+  { feature: "口语题库（696 套 · 3,500+ 个话题）", free: "前 1 套", pro: true },
+  { feature: "写作题库（515 组 · 1,500+ 个任务）", free: "前 1 套", pro: true },
   { feature: "考试模式（限时 + 随机出题）", free: false, pro: true },
   { feature: "错题本 + 专项突破", free: false, pro: true },
   { feature: "速练模式（按等级 / 题型刷题）", free: false, pro: true },
@@ -131,170 +132,206 @@ export function PricingView() {
     <div className="mx-auto max-w-4xl space-y-12 py-8">
       {/* ---- Hero ---- */}
       <div className="text-center">
-        <Badge variant="outline" className="mb-4 border-primary/30 text-primary">
+        <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+          <Sparkles className="h-3.5 w-3.5" />
           年付享 2 个月免费试用 · 随时取消
-        </Badge>
-        <h1 className="text-3xl font-bold sm:text-4xl">
-          解锁全部 3,400+ 道 TCF 真题
+        </div>
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
+            解锁全部 8,500+ 道 TCF 真题
+          </span>
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
           听力、阅读、口语、写作四科全覆盖。考试模式 + 错题本 + 速练，系统化备考 CLB 7。
         </p>
+        {/* Photo banner */}
+        <div className="relative mx-auto mt-8 max-w-2xl overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5">
+          <Image
+            src="/hero-ottawa.jpg"
+            alt="渥太华国会山"
+            width={800}
+            height={300}
+            className="h-48 w-full object-cover sm:h-56"
+            priority
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          <div className="absolute bottom-4 left-4 text-left text-white">
+            <p className="text-sm font-semibold drop-shadow-md">你的加拿大梦，从这里开始</p>
+          </div>
+        </div>
       </div>
 
       {/* ---- Plan Cards ---- */}
       <div className="grid gap-6 sm:grid-cols-3">
         {PLANS.map((plan) => (
-          <Card
+          <div
             key={plan.key}
-            className={
+            className={cn(
+              "relative rounded-xl p-[1px]",
               plan.recommended
-                ? "relative flex flex-col border-2 border-primary shadow-md"
-                : "flex flex-col"
-            }
+                ? "bg-gradient-to-b from-primary via-violet-500 to-indigo-400 shadow-lg shadow-primary/20"
+                : "bg-border",
+            )}
           >
             {plan.recommended && (
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <Badge className="bg-primary text-primary-foreground shadow-sm">
+              <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
+                <div className="flex items-center gap-1 rounded-full bg-gradient-to-r from-primary to-violet-500 px-3 py-1 text-xs font-semibold text-white shadow-sm">
+                  <Sparkles className="h-3 w-3" />
                   推荐
-                </Badge>
+                </div>
               </div>
             )}
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center justify-between text-base">
-                <span>{plan.name}</span>
-                {plan.badge && (
-                  <Badge
-                    variant="outline"
-                    className="border-primary/30 bg-primary/5 text-primary"
-                  >
-                    {plan.badge}
-                  </Badge>
+            <Card className="flex h-full flex-col border-0 bg-card">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center justify-between text-base">
+                  <span>{plan.name}</span>
+                  {plan.badge && (
+                    <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+                      {plan.badge}
+                    </span>
+                  )}
+                </CardTitle>
+                <div className="mt-3">
+                  <span className="text-4xl font-bold tracking-tight">{plan.price}</span>
+                  <span className="ml-1 text-sm text-muted-foreground">
+                    {plan.unit}
+                  </span>
+                </div>
+                {plan.equiv && (
+                  <p className="mt-1 text-xs text-muted-foreground">{plan.equiv}</p>
                 )}
-              </CardTitle>
-              <div className="mt-2">
-                <span className="text-3xl font-bold">{plan.price}</span>
-                <span className="text-sm text-muted-foreground">
-                  {plan.unit}
-                </span>
-              </div>
-              {plan.equiv && (
-                <p className="text-xs text-muted-foreground">{plan.equiv}</p>
-              )}
-            </CardHeader>
-            <CardContent className="flex flex-1 flex-col justify-end gap-4 pt-2">
-              {isSubscribed ? (
-                <Button
-                  className="w-full"
-                  variant="outline"
-                  onClick={handleManage}
-                  disabled={loadingPlan !== null}
-                >
-                  {loadingPlan === "manage" ? "跳转中..." : "管理订阅"}
-                </Button>
-              ) : isAuthenticated ? (
-                <Button
-                  className="w-full"
-                  onClick={() => handleSubscribe(plan.key)}
-                  disabled={loadingPlan !== null}
-                >
-                  {loadingPlan === plan.key ? "跳转中..." : plan.trialLabel}
-                </Button>
-              ) : (
-                <Button className="w-full" asChild>
-                  <a href={LOGIN_URL}>登录后开始免费试用</a>
-                </Button>
-              )}
-            </CardContent>
-          </Card>
+              </CardHeader>
+              <CardContent className="flex flex-1 flex-col justify-end gap-4 pt-4">
+                {isSubscribed ? (
+                  <Button
+                    className="w-full"
+                    variant="outline"
+                    onClick={handleManage}
+                    disabled={loadingPlan !== null}
+                  >
+                    {loadingPlan === "manage" ? "跳转中..." : "管理订阅"}
+                  </Button>
+                ) : isAuthenticated ? (
+                  <Button
+                    className={cn(
+                      "w-full",
+                      plan.recommended && "bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90",
+                    )}
+                    onClick={() => handleSubscribe(plan.key)}
+                    disabled={loadingPlan !== null}
+                  >
+                    {loadingPlan === plan.key ? "跳转中..." : plan.trialLabel}
+                  </Button>
+                ) : (
+                  <Button
+                    className={cn(
+                      "w-full",
+                      plan.recommended && "bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90",
+                    )}
+                    asChild
+                  >
+                    <a href={LOGIN_URL}>登录后开始免费试用</a>
+                  </Button>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         ))}
       </div>
 
       {/* ---- Free vs Pro Comparison ---- */}
       <div>
-        <h2 className="mb-4 text-center text-xl font-bold">
-          免费版 vs Pro
+        <h2 className="mb-6 text-center text-xl font-bold tracking-tight">
+          免费版 vs <span className="text-primary">Pro</span>
         </h2>
         <Card>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b bg-muted/50">
-                    <th className="px-4 py-3 text-left font-medium">功能</th>
-                    <th className="w-24 px-4 py-3 text-center font-medium">
-                      免费
-                    </th>
-                    <th className="w-24 px-4 py-3 text-center font-medium text-primary">
-                      Pro
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {COMPARISON.map((row, i) => (
-                    <tr
-                      key={i}
-                      className={i < COMPARISON.length - 1 ? "border-b" : ""}
-                    >
-                      <td className="px-4 py-2.5">{row.feature}</td>
-                      <td className="px-4 py-2.5 text-center">
-                        {row.free === true ? (
-                          <Check className="mx-auto h-4 w-4 text-green-600" />
-                        ) : row.free === false ? (
-                          <X className="mx-auto h-4 w-4 text-muted-foreground/40" />
-                        ) : (
-                          <span className="text-xs text-muted-foreground">
-                            {row.free}
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-4 py-2.5 text-center">
-                        {row.pro === true ? (
-                          <Check className="mx-auto h-4 w-4 text-primary" />
-                        ) : (
-                          <span className="text-xs text-muted-foreground">
-                            {String(row.pro)}
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <CardContent className="divide-y p-0">
+            {/* Header row */}
+            <div className="flex items-center gap-3 px-5 py-3">
+              <span className="flex-1 text-sm font-medium text-muted-foreground">功能</span>
+              <span className="w-16 text-center text-xs font-semibold text-muted-foreground">免费</span>
+              <span className="w-16 text-center text-xs font-semibold text-primary">Pro</span>
             </div>
+            {COMPARISON.map((row, i) => (
+              <div key={i} className="flex items-center gap-3 px-5 py-3 transition-colors hover:bg-muted/30">
+                <span className="flex-1 text-sm">{row.feature}</span>
+                <span className="flex w-16 items-center justify-center">
+                  {row.free === true ? (
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 dark:bg-green-950">
+                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                    </div>
+                  ) : row.free === false ? (
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-muted">
+                      <X className="h-3.5 w-3.5 text-muted-foreground/40" />
+                    </div>
+                  ) : (
+                    <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+                      {row.free}
+                    </span>
+                  )}
+                </span>
+                <span className="flex w-16 items-center justify-center">
+                  {row.pro === true ? (
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10">
+                      <Check className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">
+                      {String(row.pro)}
+                    </span>
+                  )}
+                </span>
+              </div>
+            ))}
           </CardContent>
         </Card>
       </div>
 
       {/* ---- Trust Badges ---- */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        {TRUST.map((item) => (
-          <div
-            key={item.label}
-            className="flex flex-col items-center gap-1.5 rounded-lg border bg-muted/30 p-4 text-center"
-          >
-            <item.icon className="h-5 w-5 text-primary" />
-            <span className="text-sm font-medium">{item.label}</span>
-            <span className="text-xs text-muted-foreground">{item.desc}</span>
-          </div>
-        ))}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {TRUST.map((item, i) => {
+          const colors = [
+            "bg-violet-100 text-violet-600 dark:bg-violet-950 dark:text-violet-400",
+            "bg-blue-100 text-blue-600 dark:bg-blue-950 dark:text-blue-400",
+            "bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400",
+            "bg-amber-100 text-amber-600 dark:bg-amber-950 dark:text-amber-400",
+          ];
+          return (
+            <div
+              key={item.label}
+              className="flex flex-col items-center gap-2.5 rounded-xl border bg-card p-4 text-center"
+            >
+              <div className={cn("flex h-10 w-10 items-center justify-center rounded-xl", colors[i])}>
+                <item.icon className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">{item.label}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">{item.desc}</p>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* ---- FAQ ---- */}
       <div>
-        <h2 className="mb-4 text-center text-xl font-bold">常见问题</h2>
-        <Accordion type="single" collapsible className="w-full">
-          {FAQ.map((item, i) => (
-            <AccordionItem key={i} value={`faq-${i}`}>
-              <AccordionTrigger className="text-left text-sm">
-                {item.q}
-              </AccordionTrigger>
-              <AccordionContent className="text-sm text-muted-foreground">
-                {item.a}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <h2 className="mb-6 text-center text-xl font-bold tracking-tight">常见问题</h2>
+        <Card>
+          <CardContent className="p-0">
+            <Accordion type="single" collapsible className="w-full">
+              {FAQ.map((item, i) => (
+                <AccordionItem key={i} value={`faq-${i}`} className="border-b px-5 last:border-0">
+                  <AccordionTrigger className="text-left text-sm hover:no-underline">
+                    {item.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                    {item.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </CardContent>
+        </Card>
       </div>
 
       {/* ---- Legal ---- */}

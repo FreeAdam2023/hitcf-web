@@ -97,7 +97,7 @@ export default function OgImage() {
             fontWeight: 400,
           }}
         >
-          3,400+ 道 TCF Canada 真题 · 在线练习平台
+          8,500+ 道 TCF Canada 真题 · 在线练习平台
         </div>
 
         {/* Stats bar */}
@@ -109,8 +109,8 @@ export default function OgImage() {
           }}
         >
           {[
-            { num: "3,400+", label: "真题" },
-            { num: "116", label: "题套" },
+            { num: "8,500+", label: "真题" },
+            { num: "1,200+", label: "题套" },
             { num: "4", label: "科目" },
           ].map((item) => (
             <div

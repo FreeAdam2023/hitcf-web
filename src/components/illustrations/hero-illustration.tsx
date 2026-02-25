@@ -24,6 +24,7 @@ export function HeroIllustration({ className }: { className?: string }) {
       fill="none"
       className={className}
       aria-hidden="true"
+      style={{ overflow: "visible" }}
     >
       {/* ── shadow ── */}
       <ellipse cx="240" cy="368" rx="170" ry="8" fill={p10} />

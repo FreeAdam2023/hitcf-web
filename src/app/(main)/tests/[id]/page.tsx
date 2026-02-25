@@ -584,7 +584,7 @@ export default function TestDetailPage() {
   }
 
   const backLink = (
-    <Breadcrumb items={[{ label: "题库", href: "/tests" }, { label: test.name }]} />
+    <Breadcrumb items={[{ label: "题库", href: `/tests?tab=${test.type}` }, { label: test.name }]} />
   );
 
   // Speaking type: show topics with ChatGPT buttons

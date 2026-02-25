@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   Headphones,
   BookOpenText,
@@ -27,7 +28,6 @@ import {
 } from "@/components/ui/accordion";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
-import { HeroIllustration } from "@/components/illustrations/hero-illustration";
 import { useAuthStore } from "@/stores/auth-store";
 import { LOGIN_URL } from "@/lib/constants";
 
@@ -35,7 +35,7 @@ const FEATURES = [
   {
     icon: Headphones,
     title: "听力理解",
-    desc: "42 套听力真题，1,600+ 道题目，全部配备原版音频",
+    desc: "44 套听力真题，1,700+ 道题目，全部配备原版音频",
     color: "from-blue-500 to-blue-600",
     iconBg: "bg-blue-100 dark:bg-blue-900/40",
     iconColor: "text-blue-600 dark:text-blue-400",
@@ -44,7 +44,7 @@ const FEATURES = [
   {
     icon: BookOpenText,
     title: "阅读理解",
-    desc: "44 套阅读真题，1,680+ 道题目，覆盖 A1-C2 全部级别",
+    desc: "44 套阅读真题，1,700+ 道题目，覆盖 A1-C2 全部级别",
     color: "from-emerald-500 to-emerald-600",
     iconBg: "bg-emerald-100 dark:bg-emerald-900/40",
     iconColor: "text-emerald-600 dark:text-emerald-400",
@@ -53,7 +53,7 @@ const FEATURES = [
   {
     icon: MessageCircle,
     title: "口语表达",
-    desc: "20 套口语话题，Tâche 2 情景对话 + Tâche 3 观点论述，AI 陪练",
+    desc: "696 套口语话题，3,500+ 个 Tâche 2 + Tâche 3 真题，AI 陪练",
     color: "from-amber-500 to-amber-600",
     iconBg: "bg-amber-100 dark:bg-amber-900/40",
     iconColor: "text-amber-600 dark:text-amber-400",
@@ -62,7 +62,7 @@ const FEATURES = [
   {
     icon: PenLine,
     title: "写作表达",
-    desc: "10 组写作题目，短消息 + 博客 + 议论文三项任务，AI 批改",
+    desc: "515 组写作题目，1,500+ 个任务，短消息 + 博客 + 议论文，AI 批改",
     color: "from-purple-500 to-purple-600",
     iconBg: "bg-purple-100 dark:bg-purple-900/40",
     iconColor: "text-purple-600 dark:text-purple-400",
@@ -71,9 +71,9 @@ const FEATURES = [
 ];
 
 const STATS = [
-  { value: "3,400+", label: "道真题", color: "text-blue-600 dark:text-blue-400" },
-  { value: "116", label: "套模拟题", color: "text-emerald-600 dark:text-emerald-400" },
-  { value: "42", label: "套听力含音频", color: "text-amber-600 dark:text-amber-400" },
+  { value: "8,500+", label: "道真题", color: "text-blue-600 dark:text-blue-400" },
+  { value: "1,200+", label: "套模拟题", color: "text-emerald-600 dark:text-emerald-400" },
+  { value: "44", label: "套听力含音频", color: "text-amber-600 dark:text-amber-400" },
   { value: "78%", label: "CLB 7 门槛正确率", color: "text-purple-600 dark:text-purple-400" },
 ];
 
@@ -196,11 +196,11 @@ const LANDING_FAQ = [
   },
   {
     q: "免费版能做什么？",
-    a: "免费版可使用听力前 5 套、阅读前 5 套、口语前 2 套、写作前 2 套的全部题目，包含练习模式和考试模式。不限次数，永久有效。",
+    a: "免费版可使用听力前 2 套、阅读前 2 套、口语前 1 套、写作前 1 套的全部题目，包含练习模式和考试模式。不限次数，永久有效。",
   },
   {
     q: "Pro 会员有什么好处？",
-    a: "解锁全部 3,400+ 道题目（116 套），包含考试模式、错题本、速练模式和 CLB 等级估算。年付享 2 个月免费试用，不满意随时取消。",
+    a: "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式和 CLB 等级估算。年付享 2 个月免费试用，不满意随时取消。",
   },
   {
     q: "能保证考到 CLB 7 吗？",
@@ -234,23 +234,11 @@ export function LandingPage() {
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-3xl animate-pulse-glow" />
-          <div className="absolute -bottom-20 -right-40 h-[400px] w-[400px] rounded-full bg-gradient-to-br from-emerald-400/15 to-blue-400/15 blur-3xl animate-pulse-glow" style={{ animationDelay: "2s" }} />
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-gradient-to-br from-primary/5 to-transparent blur-3xl" />
-          {/* Grid pattern */}
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: "radial-gradient(circle, hsl(224 76% 48%) 1px, transparent 1px)",
-              backgroundSize: "32px 32px",
-            }}
-          />
-        </div>
+        {/* Subtle background tint */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-50/50 via-background to-purple-50/30 dark:from-blue-950/20 dark:to-purple-950/10" />
 
-        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:py-32">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:py-28">
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
             {/* Left — text */}
             <div className="text-center lg:text-left">
               <Badge
@@ -267,7 +255,7 @@ export function LandingPage() {
                 ，练出来的
               </h1>
               <p className="animate-fade-in-up-d2 mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-                3,400+ 道 TCF Canada 真题，听力阅读口语写作全覆盖。
+                8,500+ 道 TCF Canada 真题，听力阅读口语写作全覆盖。
                 <br className="hidden sm:block" />
                 做题、看解析、练错题——你只需要不断重复这个循环。
               </p>
@@ -295,9 +283,33 @@ export function LandingPage() {
               </div>
             </div>
 
-            {/* Right — illustration */}
-            <div className="animate-fade-in-up-d2 hidden lg:block">
-              <HeroIllustration className="w-full max-w-lg mx-auto drop-shadow-xl" />
+            {/* Right — photo showcase */}
+            <div className="animate-fade-in-up-d2 relative hidden lg:block">
+              <div className="relative">
+                {/* Decorative glow behind photo */}
+                <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary/20 via-blue-400/10 to-purple-400/20 blur-2xl" />
+                {/* Main photo */}
+                <div className="relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5">
+                  <Image
+                    src="/hero-canada-flag.jpg"
+                    alt="加拿大国旗在蓝天下飘扬"
+                    width={640}
+                    height={427}
+                    className="h-auto w-full object-cover"
+                    priority
+                  />
+                </div>
+                {/* Floating stat card */}
+                <div className="absolute -bottom-4 -left-6 rounded-xl border bg-card/95 px-4 py-3 shadow-lg backdrop-blur-sm">
+                  <div className="text-2xl font-extrabold text-primary">8,500+</div>
+                  <div className="text-xs text-muted-foreground">道真题</div>
+                </div>
+                {/* Floating badge */}
+                <div className="absolute -right-3 -top-3 flex items-center gap-1.5 rounded-full bg-gradient-to-r from-primary to-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-lg">
+                  <Sparkles className="h-3 w-3" />
+                  CLB 7 目标
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -406,10 +418,10 @@ export function LandingPage() {
               <tfoot>
                 <tr className="bg-muted/30">
                   <td className="px-4 py-3 font-bold">合计</td>
-                  <td className="px-4 py-3 text-right font-bold">1,629</td>
-                  <td className="px-4 py-3 text-right font-bold">1,681</td>
+                  <td className="px-4 py-3 text-right font-bold">1,709</td>
+                  <td className="px-4 py-3 text-right font-bold">1,716</td>
                   <td className="hidden px-4 py-3 text-sm text-muted-foreground sm:table-cell">
-                    + 口语 100 题 + 写作 30 题
+                    + 口语 3,536 题 + 写作 1,540 题
                   </td>
                 </tr>
               </tfoot>
@@ -679,30 +691,46 @@ export function LandingPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="relative overflow-hidden border-t">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-purple-500/5" />
-        <div className="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 h-[300px] w-[600px] rounded-full bg-primary/10 blur-3xl" />
-        <div className="relative mx-auto max-w-2xl px-4 py-20 text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-            离 CLB 7 还差几步？
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            免费题套直接开练，看看你离 CLB 7 还有多远
-          </p>
-          <div className="mt-8">
-            <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg shadow-primary/25" asChild>
-              {isAuthenticated ? (
-                <Link href="/tests">
-                  继续做题
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              ) : (
-                <a href={LOGIN_URL}>
-                  免费注册，测测你的水平
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              )}
-            </Button>
+      <section className="border-t py-20 sm:py-28">
+        <div className="mx-auto max-w-5xl px-4">
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            {/* Photo */}
+            <div className="relative hidden lg:block">
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-emerald-400/15 via-blue-400/10 to-primary/15 blur-2xl" />
+              <div className="relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5">
+                <Image
+                  src="/hero-ottawa.jpg"
+                  alt="渥太华国会山与渥太华河全景"
+                  width={640}
+                  height={427}
+                  className="h-auto w-full object-cover"
+                />
+              </div>
+            </div>
+            {/* Text */}
+            <div className="text-center lg:text-left">
+              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+                离 CLB 7 还差几步？
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                免费题套直接开练，看看你离 CLB 7 还有多远
+              </p>
+              <div className="mt-8 flex flex-wrap justify-center gap-4 lg:justify-start">
+                <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg shadow-primary/25" asChild>
+                  {isAuthenticated ? (
+                    <Link href="/tests">
+                      继续做题
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  ) : (
+                    <a href={LOGIN_URL}>
+                      免费注册，测测你的水平
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </a>
+                  )}
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>

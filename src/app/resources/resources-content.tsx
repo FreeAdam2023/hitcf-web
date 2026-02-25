@@ -21,10 +21,10 @@ import {
   TableProperties,
   Info,
 } from "lucide-react";
+import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { ResourcesIllustration } from "@/components/illustrations/resources-illustration";
 
 /* ── constants ── */
 
@@ -238,10 +238,7 @@ export function ResourcesContent() {
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-40 -top-40 h-[400px] w-[400px] rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-3xl" />
-          <div className="absolute -bottom-20 -right-40 h-[300px] w-[300px] rounded-full bg-gradient-to-br from-emerald-400/15 to-blue-400/15 blur-3xl" />
-        </div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-50/40 via-background to-blue-50/30 dark:from-emerald-950/10 dark:to-blue-950/10" />
         <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-24">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div className="text-center lg:text-left">
@@ -257,7 +254,19 @@ export function ResourcesContent() {
               </p>
             </div>
             <div className="hidden lg:block">
-              <ResourcesIllustration className="w-full max-w-lg mx-auto drop-shadow-xl" />
+              <div className="relative">
+                <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-emerald-400/15 via-blue-400/10 to-purple-400/15 blur-2xl" />
+                <div className="relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5">
+                  <Image
+                    src="/hero-quebec.jpg"
+                    alt="魁北克老城法式街景"
+                    width={640}
+                    height={427}
+                    className="h-auto w-full object-cover"
+                    priority
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -717,7 +726,7 @@ export function ResourcesContent() {
             了解完考试，开始练题吧
           </h2>
           <p className="mt-3 text-muted-foreground">
-            3,400+ 道 TCF Canada 真题等你来刷
+            8,500+ 道 TCF Canada 真题等你来刷
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link

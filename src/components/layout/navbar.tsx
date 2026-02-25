@@ -39,16 +39,19 @@ const NAV_ITEMS = [
 ];
 
 export function Navbar() {
-  const canAccessPaid = useAuthStore((s) => {
+  const showPricing = useAuthStore((s) => {
+    // While loading, hide pricing to avoid flash
+    if (s.isLoading) return false;
     const status = s.user?.subscription?.status;
-    return status === "active" || status === "trialing" || s.user?.role === "admin";
+    const isPaid = status === "active" || status === "trialing" || s.user?.role === "admin";
+    return !isPaid;
   });
   const pathname = usePathname();
   const isImmersive = pathname.startsWith("/practice/") || pathname.startsWith("/exam/");
 
-  const allItems = canAccessPaid
-    ? NAV_ITEMS
-    : [...NAV_ITEMS, { href: "/pricing", label: "定价" }];
+  const allItems = showPricing
+    ? [...NAV_ITEMS, { href: "/pricing", label: "定价" }]
+    : NAV_ITEMS;
 
   if (isImmersive) {
     return <ImmersiveHeader />;
@@ -86,12 +89,12 @@ export function Navbar() {
           </SheetContent>
         </Sheet>
 
-        <Link href="/" className="mr-6">
-          <Image src="/logo.png" alt="HiTCF" width={56} height={56} />
+        <Link href="/" className="mr-4 shrink-0">
+          <Image src="/logo.png" alt="HiTCF" width={40} height={40} />
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-4 text-sm md:flex">
+        <nav className="hidden items-center gap-0.5 text-sm md:flex">
           {allItems.map((item) => {
             const isCurrent = pathname === item.href || pathname.startsWith(item.href + "/");
             return (
@@ -99,10 +102,10 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative pb-1 transition-colors",
+                  "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
                   isCurrent
-                    ? "font-medium text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-primary"
-                    : "text-muted-foreground hover:text-foreground",
+                    ? "bg-accent text-foreground"
+                    : "text-muted-foreground hover:bg-accent/50 hover:text-foreground",
                 )}
                 aria-current={isCurrent ? "page" : undefined}
               >

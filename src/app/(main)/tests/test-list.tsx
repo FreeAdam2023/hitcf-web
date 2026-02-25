@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useCallback } from "react";
+import { Search } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
 import type { TestSetItem, WritingTopicItem } from "@/lib/api/types";
@@ -85,10 +86,10 @@ function Pill({
     <button
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+      className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
         active
-          ? "bg-primary text-primary-foreground"
-          : "bg-muted text-muted-foreground hover:bg-muted/80"
+          ? "bg-foreground text-background shadow-sm"
+          : "bg-secondary text-muted-foreground hover:bg-secondary/80 hover:text-foreground"
       }`}
     >
       {children}
@@ -99,17 +100,31 @@ function Pill({
 // ─── Month section header ──────────────────────────────────────
 function MonthHeader({ label, count }: { label: string; count: number }) {
   return (
-    <div className="flex items-center gap-3 py-2">
+    <div className="flex items-center gap-3 pb-3 pt-1">
+      <div className="h-1.5 w-1.5 rounded-full bg-primary" />
       <h3 className="text-sm font-semibold text-foreground">{label}</h3>
-      <span className="text-xs text-muted-foreground">{count} 套</span>
-      <div className="flex-1 border-t border-border" />
+      <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+        {count} 套
+      </span>
+      <div className="flex-1 border-t border-border/50" />
     </div>
   );
 }
 
 // ═══════════════════════════════════════════════════════════════
+const VALID_TABS: TabType[] = ["listening", "reading", "speaking", "writing"];
+
 export function TestList() {
   const [tab, setTab] = useState<TabType>("listening");
+
+  // Restore tab from URL on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const param = params.get("tab");
+    if (param && VALID_TABS.includes(param as TabType)) {
+      setTab(param as TabType);
+    }
+  }, []);
   const [tests, setTests] = useState<TestSetItem[]>([]);
   const [writingTopics, setWritingTopics] = useState<WritingTopicItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -133,7 +148,6 @@ export function TestList() {
     setLoading(true);
     try {
       if (tab === "speaking" && browseMode === "level" && speakingTache === 1) {
-        // Tâche 1 has no test sets — show guide instead
         setTests([]);
       } else if (tab === "speaking" && browseMode === "level") {
         const res = await listTestSets({ type: "speaking", task_number: speakingTache, page_size: 500 });
@@ -145,9 +159,8 @@ export function TestList() {
           page_size: 100,
         });
         setWritingTopics(res.items);
-        setTests([]); // clear test sets
+        setTests([]);
       } else {
-        // 按套题 mode: speaking 696, writing 515
         const size = (tab === "speaking" || tab === "writing") ? 500 : 100;
         const res = await listTestSets({ type: tab, page_size: size });
         setTests(res.items);
@@ -182,7 +195,6 @@ export function TestList() {
       if (search && !t.name.toLowerCase().includes(searchLower) && !t.code.toLowerCase().includes(searchLower)) {
         return false;
       }
-      // Year filter for speaking/writing
       if (selectedYear && (tab === "speaking" || tab === "writing")) {
         if (t.source_date && !t.source_date.startsWith(selectedYear)) return false;
         if (!t.source_date && selectedYear !== "original") return false;
@@ -190,7 +202,6 @@ export function TestList() {
       return true;
     });
 
-    // For listening/reading: sort free first, then by number
     if (tab === "listening" || tab === "reading") {
       return filtered.sort((a, b) => {
         const aFree = a.code.includes("gratuit") ? 0 : 1;
@@ -310,16 +321,27 @@ export function TestList() {
     <div>
       <ContinueBanner />
       <CLB7ProgressBar />
-      <Tabs value={tab} onValueChange={(v) => setTab(v as TabType)}>
+      <Tabs value={tab} onValueChange={(v) => {
+        const t = v as TabType;
+        setTab(t);
+        const url = new URL(window.location.href);
+        url.searchParams.set("tab", t);
+        window.history.replaceState({}, "", url.pathname + url.search);
+      }}>
+        {/* Search with icon */}
         <div className="mb-4">
-          <Input
-            placeholder="搜索题套名称或代号..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="max-w-sm"
-          />
+          <div className="relative max-w-sm">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="搜索题套名称或代号..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9"
+            />
+          </div>
         </div>
-        <TabsList>
+
+        <TabsList className="mb-1">
           <TabsTrigger value="listening">听力</TabsTrigger>
           <TabsTrigger value="reading">阅读</TabsTrigger>
           <TabsTrigger value="speaking">口语</TabsTrigger>
@@ -331,7 +353,7 @@ export function TestList() {
 
           {/* ── Speaking/Writing controls ── */}
           {isSpeakingWriting && (
-            <div className="mb-4 space-y-3">
+            <div className="mb-5 space-y-3">
               {/* Mode toggle: 按等级 / 按套题 */}
               <div className="flex gap-2">
                 <Pill active={browseMode === "level"} onClick={() => setBrowseMode("level")}>
@@ -344,7 +366,7 @@ export function TestList() {
 
               {/* Tâche pills (按等级 mode only) */}
               {browseMode === "level" && tab === "speaking" && (
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Pill active={speakingTache === 1} onClick={() => setSpeakingTache(1)}>
                     Tâche 1 · 自我介绍
                   </Pill>
@@ -357,7 +379,7 @@ export function TestList() {
                 </div>
               )}
               {browseMode === "level" && tab === "writing" && (
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Pill active={writingTache === 1} onClick={() => setWritingTache(1)}>
                     Tâche 1 · 基础
                   </Pill>

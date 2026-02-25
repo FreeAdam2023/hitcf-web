@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { BookOpen, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -118,9 +117,7 @@ export function WrongAnswerList() {
         count: 10,
       });
 
-      // Fetch full question details using the first question's test_set_id
       const questions = await getTestSetQuestions(result.test_set_id, "practice");
-      // Filter to only the questions from wrong answers practice
       const questionIdSet = new Set(result.question_ids);
       const practiceQuestions = questions.filter((q) => questionIdSet.has(q.id));
 
@@ -133,49 +130,58 @@ export function WrongAnswerList() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">错题本</h1>
+    <div className="mx-auto max-w-3xl space-y-6">
+      {/* Header */}
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">
+            <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
+              错题本
+            </span>
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            追踪薄弱环节，定向突破
+          </p>
+        </div>
         <Button
-          size="sm"
           onClick={handleStartPractice}
           disabled={startingPractice || !data?.items.length}
         >
-          <BookOpen className="mr-1 h-4 w-4" />
-          {startingPractice ? "正在生成..." : "从错题练习"}
+          <BookOpen className="mr-1.5 h-4 w-4" />
+          {startingPractice ? "生成中..." : "从错题练习"}
         </Button>
       </div>
 
       {/* Stats overview */}
       {waStats && (
         <div className="grid grid-cols-3 gap-3">
-          <Card>
-            <CardContent className="flex items-center gap-2 pt-3 pb-3">
-              <AlertCircle className="h-4 w-4 text-muted-foreground" />
-              <div>
-                <p className="text-xs text-muted-foreground">总错题</p>
-                <p className="text-lg font-bold">{waStats.total}</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex items-center gap-2 pt-3 pb-3">
-              <CheckCircle className="h-4 w-4 text-green-600" />
-              <div>
-                <p className="text-xs text-muted-foreground">已掌握</p>
-                <p className="text-lg font-bold">{waStats.mastered}</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex items-center gap-2 pt-3 pb-3">
-              <XCircle className="h-4 w-4 text-red-500" />
-              <div>
-                <p className="text-xs text-muted-foreground">未掌握</p>
-                <p className="text-lg font-bold">{waStats.unmastered}</p>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="flex items-center gap-3 rounded-xl border bg-card p-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600 dark:bg-red-950 dark:text-red-400">
+              <AlertCircle className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">总错题</p>
+              <p className="text-xl font-bold">{waStats.total}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 rounded-xl border bg-card p-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-green-100 text-green-600 dark:bg-green-950 dark:text-green-400">
+              <CheckCircle className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">已掌握</p>
+              <p className="text-xl font-bold">{waStats.mastered}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 rounded-xl border bg-card p-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600 dark:bg-amber-950 dark:text-amber-400">
+              <XCircle className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">未掌握</p>
+              <p className="text-xl font-bold">{waStats.unmastered}</p>
+            </div>
+          </div>
         </div>
       )}
 

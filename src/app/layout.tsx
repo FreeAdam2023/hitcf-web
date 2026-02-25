@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | HiTCF",
   },
   description:
-    "3,400+ 道 TCF Canada 真题，覆盖听力、阅读、口语、写作四大科目。练习模式 + 考试模式，错题本 + 速练，助你冲刺 CLB 7。",
+    "8,500+ 道 TCF Canada 真题，覆盖听力、阅读、口语、写作四大科目。练习模式 + 考试模式，错题本 + 速练，助你冲刺 CLB 7。",
   keywords: [
     "TCF Canada",
     "CLB 7",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     siteName: "HiTCF",
     title: "HiTCF — CLB 7，练出来的",
     description:
-      "3,400+ 道 TCF Canada 真题，覆盖听力阅读口语写作。练习 + 考试 + 错题本，系统备考冲刺 CLB 7。",
+      "8,500+ 道 TCF Canada 真题，覆盖听力阅读口语写作。练习 + 考试 + 错题本，系统备考冲刺 CLB 7。",
     images: [
       {
         url: "/opengraph-image",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "HiTCF — CLB 7，练出来的",
     description:
-      "3,400+ 道 TCF Canada 真题，系统备考冲刺 CLB 7。",
+      "8,500+ 道 TCF Canada 真题，系统备考冲刺 CLB 7。",
     images: ["/opengraph-image"],
   },
   robots: {
@@ -100,7 +100,7 @@ export default function RootLayout({
               name: "HiTCF",
               url: SITE_URL,
               description:
-                "TCF Canada 在线练习平台，3,400+ 道真题助你冲刺 CLB 7",
+                "TCF Canada 在线练习平台，8,500+ 道真题助你冲刺 CLB 7",
               inLanguage: "zh-CN",
               publisher: {
                 "@type": "Organization",

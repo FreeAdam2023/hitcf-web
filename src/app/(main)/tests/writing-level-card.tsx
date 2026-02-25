@@ -27,24 +27,30 @@ export function WritingLevelCard({
   topic: WritingTopicItem;
   tache: number;
 }) {
-  // Truncate question_text for display
   const preview =
     topic.question_text && topic.question_text.length > 120
       ? topic.question_text.slice(0, 120) + "..."
       : topic.question_text || "";
 
   return (
-    <Card className="flex flex-col border-l-4 border-l-violet-500 card-interactive">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <CardTitle className="text-sm font-medium leading-tight text-muted-foreground">
-            {TACHE_LABELS[tache] || `Tâche ${tache}`}
-            {topic.word_limit && (
-              <span className="ml-2 text-xs text-muted-foreground/70">
-                {WORD_LIMIT_LABELS[topic.word_limit] || topic.word_limit}
-              </span>
-            )}
-          </CardTitle>
+    <Card className="group relative flex flex-col overflow-hidden card-interactive">
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-500/[0.06] via-violet-500/[0.02] to-transparent pointer-events-none" />
+
+      <CardHeader className="relative pb-3">
+        <div className="flex items-start gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-violet-600 dark:bg-violet-950 dark:text-violet-400">
+            <PenLine className="h-5 w-5" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <CardTitle className="text-sm font-medium leading-tight text-muted-foreground">
+              {TACHE_LABELS[tache] || `Tâche ${tache}`}
+              {topic.word_limit && (
+                <span className="ml-2 text-xs text-muted-foreground/70">
+                  {WORD_LIMIT_LABELS[topic.word_limit] || topic.word_limit}
+                </span>
+              )}
+            </CardTitle>
+          </div>
           {topic.is_free && (
             <Badge variant="secondary" className="shrink-0">
               免费
@@ -52,7 +58,7 @@ export function WritingLevelCard({
           )}
         </div>
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col justify-between gap-3">
+      <CardContent className="relative flex flex-1 flex-col justify-between gap-3">
         <p className="line-clamp-3 text-sm leading-relaxed">{preview}</p>
         <Button asChild size="sm" className="w-full">
           <Link href={`/tests/${topic.test_set_id}`}>
