@@ -1,134 +1,398 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { listTestSets } from "@/lib/api/test-sets";
-import type { TestSetItem } from "@/lib/api/types";
+import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
+import type { TestSetItem, WritingTopicItem } from "@/lib/api/types";
 import { SkeletonGrid } from "@/components/shared/skeleton-card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { Input } from "@/components/ui/input";
 import { TestCard } from "./test-card";
 import { SpeakingTopicCard } from "./speaking-topic-card";
 import { WritingTopicCard } from "./writing-topic-card";
+import { WritingLevelCard } from "./writing-level-card";
 import { ContinueBanner } from "@/components/shared/continue-banner";
 import { RecommendedBanner } from "@/components/shared/recommended-banner";
 import { CLB7ProgressBar } from "@/components/shared/clb7-progress-bar";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
+type BrowseMode = "level" | "set";
 
+const MONTH_NAMES: Record<string, string> = {
+  "01": "1月", "02": "2月", "03": "3月", "04": "4月",
+  "05": "5月", "06": "6月", "07": "7月", "08": "8月",
+  "09": "9月", "10": "10月", "11": "11月", "12": "12月",
+};
+
+function formatMonthHeader(sourceDate: string): string {
+  const [year, month] = sourceDate.split("-");
+  return `${year}年${MONTH_NAMES[month] || month}`;
+}
+
+/** Group items by source_date, returning sections sorted newest-first */
+function groupByMonth<T extends { source_date: string | null }>(
+  items: T[],
+): { month: string; label: string; items: T[] }[] {
+  const groups = new Map<string, T[]>();
+  const noDate: T[] = [];
+
+  for (const item of items) {
+    if (item.source_date) {
+      const existing = groups.get(item.source_date);
+      if (existing) existing.push(item);
+      else groups.set(item.source_date, [item]);
+    } else {
+      noDate.push(item);
+    }
+  }
+
+  const sections = Array.from(groups.entries())
+    .sort((a, b) => b[0].localeCompare(a[0]))
+    .map(([month, items]) => ({
+      month,
+      label: formatMonthHeader(month),
+      items,
+    }));
+
+  if (noDate.length > 0) {
+    sections.push({ month: "original", label: "原始题库", items: noDate });
+  }
+
+  return sections;
+}
+
+/** Extract unique years from source_date values, sorted descending */
+function extractYears(items: { source_date: string | null }[]): string[] {
+  const years = new Set<string>();
+  for (const item of items) {
+    if (item.source_date) years.add(item.source_date.slice(0, 4));
+  }
+  return Array.from(years).sort((a, b) => b.localeCompare(a));
+}
+
+// ─── Pill button ───────────────────────────────────────────────
+function Pill({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      aria-pressed={active}
+      className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+        active
+          ? "bg-primary text-primary-foreground"
+          : "bg-muted text-muted-foreground hover:bg-muted/80"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+// ─── Month section header ──────────────────────────────────────
+function MonthHeader({ label, count }: { label: string; count: number }) {
+  return (
+    <div className="flex items-center gap-3 py-2">
+      <h3 className="text-sm font-semibold text-foreground">{label}</h3>
+      <span className="text-xs text-muted-foreground">{count} 套</span>
+      <div className="flex-1 border-t border-border" />
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
 export function TestList() {
   const [tab, setTab] = useState<TabType>("listening");
   const [tests, setTests] = useState<TestSetItem[]>([]);
+  const [writingTopics, setWritingTopics] = useState<WritingTopicItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [speakingFilter, setSpeakingFilter] = useState<"tache2" | "tache3">("tache2");
+
+  // Speaking/Writing specific state
+  const [browseMode, setBrowseMode] = useState<BrowseMode>("level");
+  const [speakingTache, setSpeakingTache] = useState<2 | 3>(2);
+  const [writingTache, setWritingTache] = useState<1 | 2 | 3>(3);
+  const [selectedYear, setSelectedYear] = useState<string | null>(null);
+
+  // Reset filters on tab change
+  useEffect(() => {
+    setSearch("");
+    setSelectedYear(null);
+    setBrowseMode("level");
+  }, [tab]);
+
+  // ─── Data fetching ────────────────────────────────────────
+  const fetchTestSets = useCallback(async () => {
+    setLoading(true);
+    try {
+      if (tab === "speaking" && browseMode === "level") {
+        const res = await listTestSets({ type: "speaking", task_number: speakingTache, page_size: 100 });
+        setTests(res.items);
+      } else if (tab === "writing" && browseMode === "level") {
+        const res = await listWritingTopics({
+          task_number: writingTache,
+          year: selectedYear || undefined,
+          page_size: 100,
+        });
+        setWritingTopics(res.items);
+        setTests([]); // clear test sets
+      } else {
+        const res = await listTestSets({ type: tab, page_size: 100 });
+        setTests(res.items);
+      }
+    } catch (err) {
+      console.error("Failed to load", err);
+      setTests([]);
+      setWritingTopics([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [tab, browseMode, speakingTache, writingTache, selectedYear]);
 
   useEffect(() => {
     const controller = new AbortController();
-    setLoading(true);
-    listTestSets({ type: tab, page_size: 100 })
-      .then((res) => {
-        if (controller.signal.aborted) return;
-        setTests(res.items);
-      })
-      .catch((err) => {
-        if (err instanceof DOMException && err.name === "AbortError") return;
-        console.error("Failed to load test sets", err);
-        setTests([]);
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setLoading(false);
-      });
+    fetchTestSets();
     return () => controller.abort();
-  }, [tab]);
+  }, [fetchTestSets]);
 
-  // Filter by search and speaking type
+  // ─── Derived: available years ─────────────────────────────
+  const availableYears = useMemo(() => {
+    if (tab === "writing" && browseMode === "level") {
+      return extractYears(writingTopics);
+    }
+    return extractYears(tests);
+  }, [tab, browseMode, tests, writingTopics]);
+
+  // ─── Filtered + sorted items (listening/reading + 按套题) ─
   const filteredTests = useMemo(() => {
     const searchLower = search.toLowerCase();
-    return tests.filter((t) => {
+    const filtered = tests.filter((t) => {
       if (search && !t.name.toLowerCase().includes(searchLower) && !t.code.toLowerCase().includes(searchLower)) {
         return false;
       }
-      if (tab === "speaking") {
-        return speakingFilter === "tache2" ? t.code.includes("tache2") : t.code.includes("tache3");
+      // Year filter for speaking/writing
+      if (selectedYear && (tab === "speaking" || tab === "writing")) {
+        if (t.source_date && !t.source_date.startsWith(selectedYear)) return false;
+        if (!t.source_date && selectedYear !== "original") return false;
       }
       return true;
     });
-  }, [tests, search, tab, speakingFilter]);
 
-  const renderCards = () => {
-    if (tab === "speaking") {
-      return filteredTests.map((t) => <SpeakingTopicCard key={t.id} test={t} />);
+    // For listening/reading: sort free first, then by number
+    if (tab === "listening" || tab === "reading") {
+      return filtered.sort((a, b) => {
+        const aFree = a.code.includes("gratuit") ? 0 : 1;
+        const bFree = b.code.includes("gratuit") ? 0 : 1;
+        if (aFree !== bFree) return aFree - bFree;
+        const aNum = parseInt(a.code.match(/\d+/)?.[0] || "999", 10);
+        const bNum = parseInt(b.code.match(/\d+/)?.[0] || "999", 10);
+        return aNum - bNum;
+      });
     }
-    if (tab === "writing") {
-      return filteredTests.map((t) => <WritingTopicCard key={t.id} test={t} />);
-    }
-    return filteredTests.map((t) => <TestCard key={t.id} test={t} />);
+
+    return filtered;
+  }, [tests, search, tab, selectedYear]);
+
+  // ─── Filtered writing topics (按等级 mode) ───────────────
+  const filteredWritingTopics = useMemo(() => {
+    if (!search) return writingTopics;
+    const searchLower = search.toLowerCase();
+    return writingTopics.filter(
+      (t) => t.question_text?.toLowerCase().includes(searchLower) || t.test_set_name?.toLowerCase().includes(searchLower),
+    );
+  }, [writingTopics, search]);
+
+  // ─── Grouped sections ────────────────────────────────────
+  const testSections = useMemo(
+    () => groupByMonth(filteredTests),
+    [filteredTests],
+  );
+
+  const writingTopicSections = useMemo(
+    () => groupByMonth(filteredWritingTopics),
+    [filteredWritingTopics],
+  );
+
+  // ─── Is speaking/writing tab? ─────────────────────────────
+  const isSpeakingWriting = tab === "speaking" || tab === "writing";
+
+  // ─── Render: Listening / Reading (unchanged flat grid) ────
+  const renderFlatGrid = () => {
+    if (loading) return <SkeletonGrid />;
+    if (filteredTests.length === 0) return <EmptyState title="暂无题套" description="该分类下还没有题套" />;
+    return (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {filteredTests.map((t) => (
+          <TestCard key={t.id} test={t} />
+        ))}
+      </div>
+    );
   };
 
+  // ─── Render: Month-grouped test set cards (按套题) ────────
+  const renderGroupedTestSets = () => {
+    if (loading) return <SkeletonGrid />;
+    if (testSections.length === 0) return <EmptyState title="暂无题套" description="该分类下还没有题套" />;
+    return (
+      <div className="space-y-6">
+        {testSections.map((section) => (
+          <div key={section.month}>
+            <MonthHeader label={section.label} count={section.items.length} />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {section.items.map((t) =>
+                tab === "speaking" ? (
+                  <SpeakingTopicCard key={t.id} test={t} />
+                ) : (
+                  <WritingTopicCard key={t.id} test={t} />
+                ),
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // ─── Render: Speaking 按等级 (month-grouped) ──────────────
+  const renderSpeakingByLevel = () => {
+    if (loading) return <SkeletonGrid />;
+    if (testSections.length === 0) return <EmptyState title="暂无话题" description="该等级下还没有话题" />;
+    return (
+      <div className="space-y-6">
+        {testSections.map((section) => (
+          <div key={section.month}>
+            <MonthHeader label={section.label} count={section.items.length} />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {section.items.map((t) => (
+                <SpeakingTopicCard key={t.id} test={t} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // ─── Render: Writing 按等级 (month-grouped topics) ────────
+  const renderWritingByLevel = () => {
+    if (loading) return <SkeletonGrid />;
+    if (writingTopicSections.length === 0) return <EmptyState title="暂无题目" description="该等级下还没有题目" />;
+    return (
+      <div className="space-y-6">
+        {writingTopicSections.map((section) => (
+          <div key={section.month}>
+            <MonthHeader label={section.label} count={section.items.length} />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {section.items.map((t) => (
+                <WritingLevelCard key={t.question_id} topic={t} tache={writingTache} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // ─── Main render ──────────────────────────────────────────
   return (
     <div>
       <ContinueBanner />
       <CLB7ProgressBar />
-    <Tabs
-      value={tab}
-      onValueChange={(v) => setTab(v as TabType)}
-    >
-      <div className="mb-4">
-        <Input
-          placeholder="搜索题套名称或代号..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="max-w-sm"
-        />
-      </div>
-      <TabsList>
-        <TabsTrigger value="listening">听力</TabsTrigger>
-        <TabsTrigger value="reading">阅读</TabsTrigger>
-        <TabsTrigger value="speaking">口语</TabsTrigger>
-        <TabsTrigger value="writing">写作</TabsTrigger>
-      </TabsList>
+      <Tabs value={tab} onValueChange={(v) => setTab(v as TabType)}>
+        <div className="mb-4">
+          <Input
+            placeholder="搜索题套名称或代号..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="max-w-sm"
+          />
+        </div>
+        <TabsList>
+          <TabsTrigger value="listening">听力</TabsTrigger>
+          <TabsTrigger value="reading">阅读</TabsTrigger>
+          <TabsTrigger value="speaking">口语</TabsTrigger>
+          <TabsTrigger value="writing">写作</TabsTrigger>
+        </TabsList>
 
-      <TabsContent value={tab} className="mt-4">
-        <RecommendedBanner type={tab} />
-        {tab === "speaking" && (
-          <div className="mb-4 flex gap-2">
-            <button
-              onClick={() => setSpeakingFilter("tache2")}
-              aria-pressed={speakingFilter === "tache2"}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-                speakingFilter === "tache2"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
-              }`}
-            >
-              Tâche 2 · 情景对话
-            </button>
-            <button
-              onClick={() => setSpeakingFilter("tache3")}
-              aria-pressed={speakingFilter === "tache3"}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-                speakingFilter === "tache3"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
-              }`}
-            >
-              Tâche 3 · 观点论述
-            </button>
-          </div>
-        )}
+        <TabsContent value={tab} className="mt-4">
+          <RecommendedBanner type={tab} />
 
-        {loading ? (
-          <SkeletonGrid />
-        ) : filteredTests.length === 0 ? (
-          <EmptyState title="暂无题套" description="该分类下还没有题套" />
-        ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {renderCards()}
-          </div>
-        )}
-      </TabsContent>
-    </Tabs>
+          {/* ── Speaking/Writing controls ── */}
+          {isSpeakingWriting && (
+            <div className="mb-4 space-y-3">
+              {/* Mode toggle: 按等级 / 按套题 */}
+              <div className="flex gap-2">
+                <Pill active={browseMode === "level"} onClick={() => setBrowseMode("level")}>
+                  按等级
+                </Pill>
+                <Pill active={browseMode === "set"} onClick={() => setBrowseMode("set")}>
+                  按套题
+                </Pill>
+              </div>
+
+              {/* Tâche pills (按等级 mode only) */}
+              {browseMode === "level" && tab === "speaking" && (
+                <div className="flex gap-2">
+                  <Pill active={speakingTache === 2} onClick={() => setSpeakingTache(2)}>
+                    Tâche 2 · 情景对话
+                  </Pill>
+                  <Pill active={speakingTache === 3} onClick={() => setSpeakingTache(3)}>
+                    Tâche 3 · 观点论述
+                  </Pill>
+                </div>
+              )}
+              {browseMode === "level" && tab === "writing" && (
+                <div className="flex gap-2">
+                  <Pill active={writingTache === 1} onClick={() => setWritingTache(1)}>
+                    Tâche 1 · 基础
+                  </Pill>
+                  <Pill active={writingTache === 2} onClick={() => setWritingTache(2)}>
+                    Tâche 2 · 进阶
+                  </Pill>
+                  <Pill active={writingTache === 3} onClick={() => setWritingTache(3)}>
+                    Tâche 3 · 高阶
+                  </Pill>
+                </div>
+              )}
+
+              {/* Year pills */}
+              {availableYears.length > 1 && (
+                <div className="flex flex-wrap gap-2">
+                  <Pill active={selectedYear === null} onClick={() => setSelectedYear(null)}>
+                    全部
+                  </Pill>
+                  {availableYears.map((year) => (
+                    <Pill
+                      key={year}
+                      active={selectedYear === year}
+                      onClick={() => setSelectedYear(year)}
+                    >
+                      {year}
+                    </Pill>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── Content ── */}
+          {tab === "listening" || tab === "reading" ? (
+            renderFlatGrid()
+          ) : browseMode === "level" && tab === "speaking" ? (
+            renderSpeakingByLevel()
+          ) : browseMode === "level" && tab === "writing" ? (
+            renderWritingByLevel()
+          ) : (
+            renderGroupedTestSets()
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

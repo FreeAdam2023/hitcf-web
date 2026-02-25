@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Zap } from "lucide-react";
+import { X, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { listAttempts } from "@/lib/api/attempts";
 import { listTestSets } from "@/lib/api/test-sets";
 import { createAttempt } from "@/lib/api/attempts";
+
+const DISMISS_KEY = "placement-banner-dismissed";
 
 export function PlacementBanner() {
   const router = useRouter();
@@ -15,6 +17,8 @@ export function PlacementBanner() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (localStorage.getItem(DISMISS_KEY)) return;
+
     // Only show if user has zero completed attempts
     Promise.all([
       listAttempts({ page_size: 1 }),
@@ -38,6 +42,11 @@ export function PlacementBanner() {
       });
   }, []);
 
+  function handleDismiss() {
+    localStorage.setItem(DISMISS_KEY, "1");
+    setShow(false);
+  }
+
   if (!show || !firstFreeId) return null;
 
   async function handleStart() {
@@ -55,7 +64,14 @@ export function PlacementBanner() {
   }
 
   return (
-    <div className="mb-6 overflow-hidden rounded-xl border-2 border-primary/30 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-6 text-center">
+    <div className="relative mb-6 overflow-hidden rounded-xl border-2 border-primary/30 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-6 text-center">
+      <button
+        onClick={handleDismiss}
+        aria-label="关闭"
+        className="absolute right-3 top-3 rounded-full p-1 text-muted-foreground/60 hover:bg-muted hover:text-muted-foreground"
+      >
+        <X className="h-4 w-4" />
+      </button>
       <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
         <Zap className="h-6 w-6 text-primary" />
       </div>

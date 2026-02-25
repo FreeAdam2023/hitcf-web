@@ -3,21 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LogOut, LayoutGrid } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { usePracticeStore } from "@/stores/practice-store";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
 import { getQuestionDetail } from "@/lib/api/questions";
@@ -26,12 +15,12 @@ import { OptionList } from "@/components/practice/option-list";
 import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
-import type { Explanation } from "@/lib/api/types";
 
 export function PracticeSession() {
   const router = useRouter();
   const {
     attemptId,
+    testSetName,
     questions,
     currentIndex,
     answers,
@@ -44,7 +33,6 @@ export function PracticeSession() {
   const [submitting, setSubmitting] = useState(false);
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
   const [completing, setCompleting] = useState(false);
-  const [explanation, setExplanation] = useState<Explanation | null>(null);
   const [savedIndicator, setSavedIndicator] = useState(false);
 
   // Warn before closing/refreshing if user has answered questions
@@ -79,9 +67,8 @@ export function PracticeSession() {
         try {
           const detail = await getQuestionDetail(question.id);
           correctAnswer = detail.correct_answer;
-          setExplanation(detail.explanation);
         } catch {
-          // ignore — explanation is optional
+          // ignore
         }
       }
       setAnswer(question.id, { ...res, correct_answer: correctAnswer ?? null });
@@ -109,17 +96,14 @@ export function PracticeSession() {
   };
 
   const handleGoToQuestion = (index: number) => {
-    setExplanation(null);
     goToQuestion(index);
   };
 
   const handleNext = useCallback(() => {
-    setExplanation(null);
     goNext();
   }, [goNext]);
 
   const handlePrev = useCallback(() => {
-    setExplanation(null);
     goPrev();
   }, [goPrev]);
 
@@ -172,8 +156,26 @@ export function PracticeSession() {
   const allAnswered = answers.size === questions.length;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_200px]">
+    <div className="grid gap-6 lg:grid-cols-[200px_1fr_320px]">
+      {/* 左侧：题号导航 (桌面) */}
+      <div className="hidden lg:block">
+        <div className="sticky top-20">
+          <QuestionNavigator
+            total={questions.length}
+            currentIndex={currentIndex}
+            answers={answers}
+            questionIds={questions.map((q) => q.id)}
+            onNavigate={handleGoToQuestion}
+            questions={questions.map((q) => ({ type: q.type, level: q.level }))}
+          />
+        </div>
+      </div>
+
+      {/* 中间：主内容 */}
       <div className="space-y-4">
+        {testSetName && (
+          <h1 className="text-lg font-semibold">{testSetName}</h1>
+        )}
         <QuestionDisplay
           question={question}
           index={currentIndex}
@@ -192,7 +194,10 @@ export function PracticeSession() {
           <p className="text-xs text-green-600 dark:text-green-400">&#10003; 已保存</p>
         )}
 
-        {currentAnswer && <ExplanationPanel explanation={explanation} questionId={question.id} />}
+        {/* 移动端解析面板 */}
+        <div className="lg:hidden">
+          {currentAnswer && <ExplanationPanel explanation={null} questionId={question.id} transcript={question.transcript} />}
+        </div>
 
         <Separator />
 
@@ -207,42 +212,16 @@ export function PracticeSession() {
             上一题
           </Button>
 
-          <div className="flex gap-2">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="sm">
-                  <LogOut className="mr-1 h-4 w-4" />
-                  退出练习
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>确认退出练习？</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    已答 {answers.size} / {questions.length} 题。
-                    {answers.size > 0 && " 退出后当前练习进度将保留。"}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>继续练习</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => router.push("/tests")}>
-                    确认退出
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-
-            {allAnswered && (
-              <Button
-                size="sm"
-                onClick={handleComplete}
-                disabled={completing}
-              >
-                <CheckCircle className="mr-1 h-4 w-4" />
-                {completing ? "正在提交..." : "完成练习"}
-              </Button>
-            )}
-          </div>
+          {allAnswered && (
+            <Button
+              size="sm"
+              onClick={handleComplete}
+              disabled={completing}
+            >
+              <CheckCircle className="mr-1 h-4 w-4" />
+              {completing ? "正在提交..." : "完成练习"}
+            </Button>
+          )}
 
           <Button
             variant="outline"
@@ -256,14 +235,17 @@ export function PracticeSession() {
         </div>
       </div>
 
+      {/* 右侧：解析面板 (桌面) */}
       <div className="hidden lg:block">
-        <QuestionNavigator
-          total={questions.length}
-          currentIndex={currentIndex}
-          answers={answers}
-          questionIds={questions.map((q) => q.id)}
-          onNavigate={handleGoToQuestion}
-        />
+        <div className="sticky top-20">
+          {currentAnswer ? (
+            <ExplanationPanel explanation={null} questionId={question.id} transcript={question.transcript} />
+          ) : (
+            <div className="rounded-md border p-4 text-sm text-muted-foreground">
+              <p>答题后查看解析</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Mobile floating navigator */}
@@ -285,6 +267,7 @@ export function PracticeSession() {
               answers={answers}
               questionIds={questions.map((q) => q.id)}
               onNavigate={handleGoToQuestion}
+              questions={questions.map((q) => ({ type: q.type, level: q.level }))}
             />
           </div>
         </SheetContent>

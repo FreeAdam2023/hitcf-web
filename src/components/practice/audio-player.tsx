@@ -1,7 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, Pause, RotateCcw, Volume2, Loader2 } from "lucide-react";
+import {
+  Play,
+  Pause,
+  RotateCcw,
+  Volume2,
+  VolumeX,
+  Loader2,
+  SkipBack,
+  SkipForward,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getAudioUrl } from "@/lib/api/media";
 import { formatTime } from "@/lib/utils";
@@ -12,6 +21,8 @@ interface AudioPlayerProps {
   questionId: string;
 }
 
+const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5, 2];
+
 export function AudioPlayer({ questionId }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [url, setUrl] = useState<string | null>(null);
@@ -21,6 +32,11 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
   const [duration, setDuration] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [speed, setSpeed] = useState(1);
+  const [volume, setVolume] = useState(1);
+  const [muted, setMuted] = useState(false);
+  const [showVolume, setShowVolume] = useState(false);
+  const volumeRef = useRef<HTMLDivElement>(null);
   const fetchedAtRef = useRef(0);
   const pendingPlayRef = useRef(false);
 
@@ -69,12 +85,22 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     }
   }, [url]);
 
+  // Close volume popup on outside click
+  useEffect(() => {
+    if (!showVolume) return;
+    const handler = (e: MouseEvent) => {
+      if (volumeRef.current && !volumeRef.current.contains(e.target as Node)) {
+        setShowVolume(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showVolume]);
+
   const togglePlay = async () => {
-    // If no URL yet or SAS expired, load it first
     if (!url || Date.now() - fetchedAtRef.current > SAS_REFRESH_MS) {
       pendingPlayRef.current = true;
       await loadUrl();
-      // Play will be triggered by the useEffect above after re-render
       return;
     }
 
@@ -94,11 +120,44 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     }
   };
 
+  const skip = (seconds: number) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.currentTime = Math.max(0, Math.min(audio.duration || 0, audio.currentTime + seconds));
+  };
+
   const restart = () => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.currentTime = 0;
     setProgress(0);
+  };
+
+  const cycleSpeed = () => {
+    const idx = SPEED_OPTIONS.indexOf(speed);
+    const next = SPEED_OPTIONS[(idx + 1) % SPEED_OPTIONS.length];
+    setSpeed(next);
+    if (audioRef.current) {
+      audioRef.current.playbackRate = next;
+    }
+  };
+
+  const toggleMute = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const newMuted = !muted;
+    setMuted(newMuted);
+    audio.muted = newMuted;
+  };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseFloat(e.target.value);
+    setVolume(val);
+    setMuted(val === 0);
+    if (audioRef.current) {
+      audioRef.current.volume = val;
+      audioRef.current.muted = val === 0;
+    }
   };
 
   const onTimeUpdate = () => {
@@ -112,6 +171,9 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     const audio = audioRef.current;
     if (!audio) return;
     setDuration(audio.duration);
+    audio.playbackRate = speed;
+    audio.volume = volume;
+    audio.muted = muted;
   };
 
   const onEnded = () => {
@@ -125,9 +187,62 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
   };
 
   return (
-    <div className="flex items-center gap-3 rounded-md border bg-muted/30 p-3">
-      <Volume2 className="h-4 w-4 shrink-0 text-muted-foreground" />
+    <div className="flex items-center gap-2 rounded-md border bg-muted/30 p-3">
+      {/* Volume control */}
+      <div className="relative" ref={volumeRef}>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 shrink-0"
+          onClick={() => {
+            if (showVolume) {
+              setShowVolume(false);
+            } else {
+              toggleMute();
+            }
+          }}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            setShowVolume(!showVolume);
+          }}
+          onDoubleClick={() => setShowVolume(!showVolume)}
+          aria-label={muted ? "取消静音" : "静音"}
+        >
+          {muted || volume === 0 ? (
+            <VolumeX className="h-4 w-4" />
+          ) : (
+            <Volume2 className="h-4 w-4" />
+          )}
+        </Button>
+        {showVolume && (
+          <div className="absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 rounded-md border bg-popover p-2 shadow-md">
+            <input
+              type="range"
+              min={0}
+              max={1}
+              step={0.05}
+              value={muted ? 0 : volume}
+              onChange={handleVolumeChange}
+              className="h-20 w-1.5 cursor-pointer appearance-none rounded-full bg-muted accent-primary"
+              style={{ writingMode: "vertical-lr", direction: "rtl" }}
+              aria-label="音量"
+            />
+          </div>
+        )}
+      </div>
 
+      {/* Skip back */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-8 w-8 shrink-0"
+        onClick={() => skip(-5)}
+        aria-label="后退5秒"
+      >
+        <SkipBack className="h-3.5 w-3.5" />
+      </Button>
+
+      {/* Play/Pause */}
       <Button
         variant="outline"
         size="icon"
@@ -144,6 +259,18 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         )}
       </Button>
 
+      {/* Skip forward */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-8 w-8 shrink-0"
+        onClick={() => skip(5)}
+        aria-label="前进5秒"
+      >
+        <SkipForward className="h-3.5 w-3.5" />
+      </Button>
+
+      {/* Progress bar + time */}
       <div className="flex flex-1 items-center gap-2">
         <div className="h-1.5 flex-1 rounded-full bg-muted">
           <div
@@ -156,6 +283,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         </span>
       </div>
 
+      {/* Restart */}
       <Button
         variant="ghost"
         size="icon"
@@ -164,6 +292,17 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         aria-label="重新播放"
       >
         <RotateCcw className="h-3.5 w-3.5" />
+      </Button>
+
+      {/* Speed */}
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-8 shrink-0 px-2 text-xs font-mono tabular-nums"
+        onClick={cycleSpeed}
+        aria-label="播放速度"
+      >
+        {speed === 1 ? "1x" : `${speed}x`}
       </Button>
 
       {url && (

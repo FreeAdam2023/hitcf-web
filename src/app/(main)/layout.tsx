@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
+import { ConditionalFooter } from "@/components/layout/conditional-footer";
+import { MainContainer } from "@/components/layout/main-container";
 
 export default function MainLayout({
   children,
@@ -9,8 +10,8 @@ export default function MainLayout({
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 animate-fade-in-up">{children}</main>
-      <Footer />
+      <MainContainer>{children}</MainContainer>
+      <ConditionalFooter />
     </div>
   );
 }

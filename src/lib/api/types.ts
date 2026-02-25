@@ -35,6 +35,18 @@ export interface TestSetItem {
   time_limit_minutes: number;
   is_free: boolean;
   order: number;
+  source_date: string | null;
+}
+
+export interface WritingTopicItem {
+  question_id: string;
+  question_text: string;
+  passage: string;
+  test_set_id: string;
+  source_date: string | null;
+  test_set_name: string;
+  is_free: boolean;
+  word_limit: string | null;
 }
 
 export interface TestSetDetail extends TestSetItem {

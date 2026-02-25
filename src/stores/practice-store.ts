@@ -3,11 +3,13 @@ import type { QuestionBrief, AnswerResponse } from "@/lib/api/types";
 
 interface PracticeState {
   attemptId: string | null;
+  testSetName: string | null;
+  testSetType: string | null;
   questions: QuestionBrief[];
   currentIndex: number;
   answers: Map<string, AnswerResponse>;
 
-  init: (attemptId: string, questions: QuestionBrief[]) => void;
+  init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null) => void;
   setAnswer: (questionId: string, answer: AnswerResponse) => void;
   goToQuestion: (index: number) => void;
   goNext: () => void;
@@ -17,12 +19,14 @@ interface PracticeState {
 
 export const usePracticeStore = create<PracticeState>((set, get) => ({
   attemptId: null,
+  testSetName: null,
+  testSetType: null,
   questions: [],
   currentIndex: 0,
   answers: new Map(),
 
-  init: (attemptId, questions) =>
-    set({ attemptId, questions, currentIndex: 0, answers: new Map() }),
+  init: (attemptId, questions, testSetName, testSetType) =>
+    set({ attemptId, questions, testSetName: testSetName ?? null, testSetType: testSetType ?? null, currentIndex: 0, answers: new Map() }),
 
   setAnswer: (questionId, answer) =>
     set((state) => {
@@ -53,5 +57,5 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   },
 
   reset: () =>
-    set({ attemptId: null, questions: [], currentIndex: 0, answers: new Map() }),
+    set({ attemptId: null, testSetName: null, testSetType: null, questions: [], currentIndex: 0, answers: new Map() }),
 }));

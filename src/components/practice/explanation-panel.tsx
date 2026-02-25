@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronDown, ChevronUp, Lightbulb, Loader2 } from "lucide-react";
+import { ChevronDown, ChevronUp, FileText, Lightbulb, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { generateExplanation } from "@/lib/api/questions";
 import type { Explanation } from "@/lib/api/types";
@@ -9,13 +9,17 @@ import type { Explanation } from "@/lib/api/types";
 interface ExplanationPanelProps {
   explanation: Explanation | null | undefined;
   questionId?: string;
+  defaultOpen?: boolean;
+  transcript?: string | null;
 }
 
 export function ExplanationPanel({
   explanation: initialExplanation,
   questionId,
+  defaultOpen = false,
+  transcript,
 }: ExplanationPanelProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
   const [explanation, setExplanation] = useState(initialExplanation);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -81,6 +85,15 @@ export function ExplanationPanel({
 
       {open && (
         <div className="border-t px-4 py-3 text-sm">
+          {transcript && (
+            <div className="mb-3">
+              <h4 className="mb-1 flex items-center gap-1.5 font-medium">
+                <FileText className="h-4 w-4" />
+                原文
+              </h4>
+              <p className="whitespace-pre-wrap text-muted-foreground">{transcript}</p>
+            </div>
+          )}
           {loading ? (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
