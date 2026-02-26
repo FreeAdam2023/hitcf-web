@@ -119,6 +119,12 @@ const OFFICIAL_RESOURCES = [
     desc: "老牌法语学习网站，大量免费语法、词汇、听力和阅读练习按难度分级。适合系统性补语法基础。",
     tag: "语法",
   },
+  {
+    name: "innerFrench",
+    url: "https://innerfrench.com",
+    desc: "Hugo 的法语学习平台，提供播客、YouTube 视频和系统课程，用自然法语讲文化社会话题。语速适中、内容有深度，适合中级学习者突破瓶颈。",
+    tag: "B1–B2",
+  },
 ];
 
 const YOUTUBE_RESOURCES = [
