@@ -43,11 +43,10 @@ export function ExplanationPanel({
 
   // Auto-fetch when expanded and no explanation available
   useEffect(() => {
-    if (!open || hasContent || loading || !questionId) return;
+    if (!open || hasContent || loading || error || !questionId) return;
 
     let cancelled = false;
     setLoading(true);
-    setError(false);
 
     generateExplanation(questionId)
       .then((data) => {
@@ -63,7 +62,8 @@ export function ExplanationPanel({
     return () => {
       cancelled = true;
     };
-  }, [open, hasContent, questionId, loading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, hasContent, questionId, error]);
 
   return (
     <div className="rounded-md border">
