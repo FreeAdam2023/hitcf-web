@@ -13,6 +13,8 @@ export class ApiError extends Error {
 export interface RequestOptions {
   signal?: AbortSignal;
   timeout?: number;
+  /** When true, 401 responses throw without redirecting to /login */
+  noRedirect?: boolean;
 }
 
 async function request<T>(
@@ -54,7 +56,7 @@ async function request<T>(
     });
 
     if (res.status === 401) {
-      if (typeof window !== "undefined") {
+      if (!extra?.noRedirect && typeof window !== "undefined") {
         window.location.href = "/login";
       }
       throw new ApiError(401, "Unauthorized");
