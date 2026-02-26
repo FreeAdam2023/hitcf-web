@@ -136,6 +136,9 @@ function formatElapsed(seconds: number): string {
 
 function ImmersiveHeader() {
   const router = useRouter();
+  const pathname = usePathname();
+  const isExam = pathname.startsWith("/exam/");
+  const label = isExam ? "考试" : "练习";
   const answersSize = usePracticeStore((s) => s.answers.size);
   const totalQuestions = usePracticeStore((s) => s.questions.length);
   const startedAt = usePracticeStore((s) => s.startedAt);
@@ -168,19 +171,19 @@ function ImmersiveHeader() {
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="ghost" size="sm" className="gap-1.5 text-destructive hover:text-destructive hover:bg-destructive/10">
-                退出练习
+                退出{label}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>确认退出练习？</AlertDialogTitle>
+                <AlertDialogTitle>确认退出{label}？</AlertDialogTitle>
                 <AlertDialogDescription>
                   已答 {answersSize} / {totalQuestions} 题。
-                  {answersSize > 0 && " 退出后当前练习进度将保留。"}
+                  {answersSize > 0 && ` 退出后当前${label}进度将保留。`}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>继续练习</AlertDialogCancel>
+                <AlertDialogCancel>继续{label}</AlertDialogCancel>
                 <AlertDialogAction onClick={() => router.push("/tests")}>
                   确认退出
                 </AlertDialogAction>
