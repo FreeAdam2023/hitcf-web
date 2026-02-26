@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuthStore } from "@/stores/auth-store";
-import { LogOut, User, CreditCard, Sparkles } from "lucide-react";
+import { LogOut, User, CreditCard, Sparkles, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -106,6 +106,10 @@ export function UserMenu() {
             升级 Pro
           </DropdownMenuItem>
         )}
+        <DropdownMenuItem onClick={() => router.push("/account")}>
+          <Settings className="mr-2 h-4 w-4" />
+          账号设置
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => logout()}>
           <LogOut className="mr-2 h-4 w-4" />
           退出登录

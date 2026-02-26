@@ -70,10 +70,10 @@ const PLANS = [
 ];
 
 const COMPARISON = [
-  { feature: "听力题库（44 套 · 1,700+ 题 · 含音频）", free: "前 2 套", pro: true },
+  { feature: "听力题库（44 套 · 1,700+ 题 · 含音频）", free: "前 1 套", pro: true },
   { feature: "阅读题库（44 套 · 1,700+ 题）", free: "前 2 套", pro: true },
-  { feature: "口语题库（696 套 · 3,500+ 个话题）", free: "前 1 套", pro: true },
-  { feature: "写作题库（515 组 · 1,500+ 个任务）", free: "前 1 套", pro: true },
+  { feature: "口语题库（696 套 · 3,500+ 个话题）", free: false, pro: true },
+  { feature: "写作题库（515 组 · 1,500+ 个任务）", free: false, pro: true },
   { feature: "考试模式（限时 + 随机出题）", free: false, pro: true },
   { feature: "错题本 + 专项突破", free: false, pro: true },
   { feature: "速练模式（按等级 / 题型刷题）", free: false, pro: true },
