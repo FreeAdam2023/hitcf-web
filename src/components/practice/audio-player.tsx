@@ -118,12 +118,6 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     }
   };
 
-  const skip = (seconds: number) => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.currentTime = Math.max(0, Math.min(audio.duration || 0, audio.currentTime + seconds));
-  };
-
   const restart = () => {
     const audio = audioRef.current;
     if (!audio) return;
