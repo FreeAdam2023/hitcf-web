@@ -138,17 +138,22 @@ function ImmersiveHeader() {
   const router = useRouter();
   const answersSize = usePracticeStore((s) => s.answers.size);
   const totalQuestions = usePracticeStore((s) => s.questions.length);
+  const startedAt = usePracticeStore((s) => s.startedAt);
 
-  const startRef = useRef(Date.now());
-  const [elapsed, setElapsed] = useState(0);
+  const startRef = useRef(startedAt ? new Date(startedAt).getTime() : Date.now());
+  const [elapsed, setElapsed] = useState(() =>
+    Math.max(0, Math.floor((Date.now() - startRef.current) / 1000))
+  );
 
   useEffect(() => {
-    startRef.current = Date.now();
+    if (startedAt) {
+      startRef.current = new Date(startedAt).getTime();
+    }
     const timer = setInterval(() => {
-      setElapsed(Math.floor((Date.now() - startRef.current) / 1000));
+      setElapsed(Math.max(0, Math.floor((Date.now() - startRef.current) / 1000)));
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [startedAt]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl backdrop-saturate-150">
