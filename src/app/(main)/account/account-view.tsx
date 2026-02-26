@@ -108,6 +108,9 @@ export function AccountView() {
   // Subscription management
   const [portalLoading, setPortalLoading] = useState(false);
 
+  // Random quote — must be before early returns to satisfy React hooks rules
+  const quote = useMemo(() => QUOTES[Math.floor(Math.random() * QUOTES.length)], []);
+
   // Initialize name from user data
   if (user && !nameInitialized) {
     setName(user.name || "");
@@ -197,9 +200,6 @@ export function AccountView() {
   };
 
   const planLabel = subPlan === "monthly" ? "月付" : subPlan === "semi_annual" ? "半年付" : subPlan === "yearly" ? "年付" : subPlan || "";
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const quote = useMemo(() => QUOTES[Math.floor(Math.random() * QUOTES.length)], []);
 
   const firstName = user.name?.split(/\s/)[0] || "同学";
 

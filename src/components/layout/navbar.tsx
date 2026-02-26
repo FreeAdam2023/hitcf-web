@@ -52,7 +52,7 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl backdrop-saturate-150 pt-[env(safe-area-inset-top)]">
       <div className="mx-auto flex h-14 max-w-5xl items-center px-4">
         {/* Mobile hamburger — defer Sheet until mounted to avoid Radix hydration mismatch */}
         {mounted ? (
@@ -156,7 +156,7 @@ function ImmersiveHeader() {
   }, [startedAt]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl backdrop-saturate-150 pt-[env(safe-area-inset-top)]">
       <div className="mx-auto flex h-10 max-w-7xl items-center px-4">
         <Image src="/logo.png" alt="HiTCF" width={40} height={40} />
         <div className="ml-4 flex items-center gap-1.5 text-xs tabular-nums text-muted-foreground">
