@@ -49,26 +49,18 @@ export function ExamSession() {
   const [completing, setCompleting] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
 
-  // Prevent accidental navigation (browser back/forward swipe + tab close)
+  // Prevent accidental back navigation (no beforeunload — exam state persists via sessionStorage)
   useEffect(() => {
-    // Push a dummy history entry so first back-swipe stays on this page
     window.history.pushState(null, "", window.location.href);
 
     const handlePopState = () => {
-      // User tried to go back — push again to stay, show warning
       window.history.pushState(null, "", window.location.href);
       toast.error("考试进行中，请通过「提交考试」按钮退出");
     };
 
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-    };
-
     window.addEventListener("popstate", handlePopState);
-    window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
       window.removeEventListener("popstate", handlePopState);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
