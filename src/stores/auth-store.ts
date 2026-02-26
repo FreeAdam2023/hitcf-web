@@ -44,7 +44,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     await signOut({ callbackUrl: "/tests" });
   },
 
-  reset: () => set({ user: null, isAuthenticated: false, isLoading: true }),
+  reset: () => set({ user: null, isAuthenticated: false, isLoading: false }),
 
   hasActiveSubscription: () => {
     const { user } = get();
