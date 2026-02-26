@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/auth-store";
 import { updateProfile, changePassword } from "@/lib/api/auth";
@@ -26,6 +26,19 @@ import {
   Sparkles,
   LogOut,
 } from "lucide-react";
+
+const QUOTES = [
+  { fr: "Ce n'est pas la volonté de réussir qui compte, c'est la volonté de se préparer à réussir.", zh: "重要的不是想赢的决心，而是为赢去准备的决心。" },
+  { fr: "Petit à petit, l'oiseau fait son nid.", zh: "一点一点，鸟儿筑成了巢。——积少成多，功到自成。" },
+  { fr: "La persévérance est la noblesse de l'obstination.", zh: "坚持是执着最高贵的形式。" },
+  { fr: "Chaque expert était autrefois un débutant.", zh: "每个专家都曾是初学者。" },
+  { fr: "Le secret de la réussite, c'est de commencer.", zh: "成功的秘诀，就是开始行动。" },
+  { fr: "Il n'y a pas de raccourci vers un endroit qui en vaut la peine.", zh: "通往值得去的地方，没有捷径。" },
+  { fr: "La seule façon d'échouer, c'est d'abandonner.", zh: "唯一的失败，就是放弃。" },
+  { fr: "Un voyage de mille lieues commence par un seul pas.", zh: "千里之行，始于足下。" },
+  { fr: "Plus on pratique, plus on a de la chance.", zh: "练得越多，运气越好。" },
+  { fr: "La confiance en soi est le premier secret du succès.", zh: "自信是成功的第一秘诀。" },
+];
 
 function SubscriptionBadge({ status }: { status: string | null }) {
   if (status === "active") {
@@ -173,9 +186,20 @@ export function AccountView() {
 
   const planLabel = subPlan === "monthly" ? "月付" : subPlan === "semi_annual" ? "半年付" : subPlan === "yearly" ? "年付" : subPlan || "";
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const quote = useMemo(() => QUOTES[Math.floor(Math.random() * QUOTES.length)], []);
+
+  const firstName = user.name?.split(/\s/)[0] || "同学";
+
   return (
     <div className="mx-auto max-w-2xl space-y-6 p-4 pt-8">
-      <h1 className="text-2xl font-bold">账号设置</h1>
+      <div>
+        <h1 className="text-2xl font-bold">Salut {firstName},</h1>
+        <blockquote className="mt-3 border-l-4 border-primary/40 pl-4">
+          <p className="text-sm italic text-muted-foreground">{quote.fr}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{quote.zh}</p>
+        </blockquote>
+      </div>
 
       {/* Card 1: Profile */}
       <Card>
