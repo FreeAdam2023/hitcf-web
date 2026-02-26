@@ -304,8 +304,8 @@ export function ExamSession() {
             <LayoutGrid className="h-5 w-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="bottom" className="max-h-[50vh]">
-          <div className="p-4">
+        <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
+          <div className="p-4 pb-8">
             <QuestionNavigator
               total={questions.length}
               currentIndex={currentIndex}
