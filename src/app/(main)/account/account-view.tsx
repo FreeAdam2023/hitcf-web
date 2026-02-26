@@ -28,16 +28,28 @@ import {
 } from "lucide-react";
 
 const QUOTES = [
-  { fr: "Ce n'est pas la volonté de réussir qui compte, c'est la volonté de se préparer à réussir.", zh: "重要的不是想赢的决心，而是为赢去准备的决心。" },
+  // 法语谚语
   { fr: "Petit à petit, l'oiseau fait son nid.", zh: "一点一点，鸟儿筑成了巢。——积少成多，功到自成。" },
-  { fr: "La persévérance est la noblesse de l'obstination.", zh: "坚持是执着最高贵的形式。" },
-  { fr: "Chaque expert était autrefois un débutant.", zh: "每个专家都曾是初学者。" },
-  { fr: "Le secret de la réussite, c'est de commencer.", zh: "成功的秘诀，就是开始行动。" },
-  { fr: "Il n'y a pas de raccourci vers un endroit qui en vaut la peine.", zh: "通往值得去的地方，没有捷径。" },
-  { fr: "La seule façon d'échouer, c'est d'abandonner.", zh: "唯一的失败，就是放弃。" },
-  { fr: "Un voyage de mille lieues commence par un seul pas.", zh: "千里之行，始于足下。" },
-  { fr: "Plus on pratique, plus on a de la chance.", zh: "练得越多，运气越好。" },
-  { fr: "La confiance en soi est le premier secret du succès.", zh: "自信是成功的第一秘诀。" },
+  { fr: "C'est en forgeant qu'on devient forgeron.", zh: "打铁才能成铁匠。——熟能生巧。" },
+  { fr: "Vouloir, c'est pouvoir.", zh: "有志者，事竟成。" },
+  { fr: "Rome ne s'est pas faite en un jour.", zh: "罗马不是一天建成的。" },
+  { fr: "Qui ne tente rien n'a rien.", zh: "不尝试就什么也得不到。" },
+  { fr: "À cœur vaillant rien d'impossible.", zh: "勇者无难事。" },
+  { fr: "Les petits ruisseaux font les grandes rivières.", zh: "涓涓细流汇成大河。——积少成多。" },
+  { fr: "Il faut tourner sept fois sa langue dans sa bouche avant de parler.", zh: "开口之前要三思。——说话前先想清楚。" },
+  { fr: "Après la pluie, le beau temps.", zh: "雨过天晴。——困难之后必有好日子。" },
+  { fr: "Qui vivra verra.", zh: "活着就能看到。——走着瞧，未来可期。" },
+  { fr: "La nuit porte conseil.", zh: "夜晚会带来好主意。——一觉醒来就有办法了。" },
+  { fr: "Mieux vaut tard que jamais.", zh: "迟做总比不做好。" },
+  // 法国名人名言
+  { fr: "Le savoir est la seule matière qui s'accroît quand on la partage.", zh: "知识是唯一越分享越多的东西。——Socrate" },
+  { fr: "La persévérance est la noblesse de l'obstination.", zh: "坚持是执着最高贵的形式。——Adrien Decourcelle" },
+  { fr: "Il n'y a qu'une façon d'échouer, c'est d'abandonner avant d'avoir réussi.", zh: "失败只有一种方式：在成功之前放弃。——Georges Clemenceau" },
+  { fr: "Ce qui compte, ce n'est pas le nombre d'heures que vous consacrez, c'est ce que vous consacrez à ces heures.", zh: "重要的不是你花了多少小时，而是你在这些小时里投入了什么。" },
+  { fr: "L'avenir appartient à ceux qui se lèvent tôt.", zh: "未来属于早起的人。——法语谚语" },
+  { fr: "La lecture est à l'esprit ce que l'exercice est au corps.", zh: "阅读之于心灵，犹如运动之于身体。——Addison" },
+  { fr: "On ne naît pas savant, on le devient.", zh: "没有人生来博学，都是学出来的。" },
+  { fr: "Chaque langue nouvelle est une nouvelle fenêtre sur le monde.", zh: "每学一门新语言，就多了一扇看世界的窗。" },
 ];
 
 function SubscriptionBadge({ status }: { status: string | null }) {
