@@ -1,11 +1,22 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
 import type { QuestionBrief } from "@/lib/api/types";
 import { AudioPlayer } from "./audio-player";
 import { getImageUrl } from "@/lib/api/media";
 import { LevelBadge } from "@/components/shared/level-badge";
+
+const LISTENING_INSTRUCTIONS: Record<string, { fr: string; zh: string }> = {
+  image: {
+    fr: "Écoutez les 4 propositions, choisissez celle qui correspond à l\u2019image.",
+    zh: "听四个选项，选择与图片相符的。",
+  },
+  audio: {
+    fr: "Écoutez l\u2019extrait sonore et les 4 propositions. Choisissez la bonne réponse.",
+    zh: "听录音和四个选项，选择正确答案。",
+  },
+};
 
 interface QuestionDisplayProps {
   question: QuestionBrief;
@@ -19,11 +30,10 @@ export function QuestionDisplay({ question, index, total }: QuestionDisplayProps
   const isImageQuestion =
     isListening &&
     !!question.question_text?.startsWith("![");
-  const instruction = isListening
-    ? isImageQuestion
-      ? "Écoutez les 4 propositions, choisissez celle qui correspond à l\u2019image."
-      : "Écoutez l\u2019extrait sonore et les 4 propositions. Choisissez la bonne réponse."
+  const instructionData = isListening
+    ? LISTENING_INSTRUCTIONS[isImageQuestion ? "image" : "audio"]
     : null;
+  const [showTranslation, setShowTranslation] = useState(false);
 
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(false);
@@ -64,8 +74,25 @@ export function QuestionDisplay({ question, index, total }: QuestionDisplayProps
         <AudioPlayer questionId={question.id} />
       )}
 
-      {instruction && (
-        <p className="text-sm text-muted-foreground italic">{instruction}</p>
+      {instructionData && (
+        <div>
+          <p className="text-sm text-muted-foreground italic">
+            {instructionData.fr}
+            <button
+              type="button"
+              onClick={() => setShowTranslation(!showTranslation)}
+              className="ml-1.5 inline-flex items-center gap-0.5 not-italic text-xs text-primary/70 hover:text-primary"
+            >
+              中文
+              <ChevronDown className={`h-3 w-3 transition-transform ${showTranslation ? "rotate-180" : ""}`} />
+            </button>
+          </p>
+          {showTranslation && (
+            <p className="mt-1 text-xs text-muted-foreground animate-in fade-in slide-in-from-top-1 duration-200">
+              {instructionData.zh}
+            </p>
+          )}
+        </div>
       )}
 
       {isImageQuestion && (
