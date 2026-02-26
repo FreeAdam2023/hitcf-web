@@ -165,13 +165,31 @@ const HIGHLIGHTS = [
   },
 ];
 
-const CONTENT_DEPTH = [
-  { level: "A1", listening: 168, reading: 176, color: "bg-emerald-500" },
-  { level: "A2", listening: 168, reading: 176, color: "bg-emerald-400" },
-  { level: "B1", listening: 168, reading: 176, color: "bg-blue-400" },
-  { level: "B2", listening: 210, reading: 220, color: "bg-blue-500" },
-  { level: "C1", listening: 252, reading: 264, color: "bg-purple-400" },
-  { level: "C2", listening: 252, reading: 264, color: "bg-purple-500" },
+const QUESTION_BANKS = [
+  {
+    icon: Headphones,
+    count: "3,400+",
+    label: "听力 + 阅读",
+    sub: "44 套真题 · A1–C2 全等级",
+    color: "from-blue-500 to-blue-600",
+    iconColor: "text-blue-500",
+  },
+  {
+    icon: MessageCircle,
+    count: "3,500+",
+    label: "口语话题",
+    sub: "696 套 · Tâche 2 + 3 真题",
+    color: "from-amber-500 to-amber-600",
+    iconColor: "text-amber-500",
+  },
+  {
+    icon: PenLine,
+    count: "1,500+",
+    label: "写作任务",
+    sub: "515 组 · 短消息 + 博客 + 议论文",
+    color: "from-purple-500 to-purple-600",
+    iconColor: "text-purple-500",
+  },
 ];
 
 const TCF_GUIDE = [
@@ -378,58 +396,42 @@ export function LandingPage() {
               题库全景
             </Badge>
             <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-              从 A1 到 C2，每个等级都有题做
+              8,500+ 道真题，A1 到 C2 全覆盖
             </h2>
             <p className="mt-3 text-muted-foreground">
-              不管你现在什么水平，都能找到适合自己的练习内容
+              听说读写四科齐全，所有听力均配原版音频
             </p>
           </div>
-          <div className="mt-14 overflow-hidden rounded-xl border">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b bg-muted/50">
-                  <th className="px-4 py-3 text-left font-semibold">等级</th>
-                  <th className="px-4 py-3 text-right font-semibold">听力题数</th>
-                  <th className="px-4 py-3 text-right font-semibold">阅读题数</th>
-                  <th className="hidden px-4 py-3 text-left font-semibold sm:table-cell">覆盖度</th>
-                </tr>
-              </thead>
-              <tbody>
-                {CONTENT_DEPTH.map((row) => (
-                  <tr key={row.level} className="border-b last:border-0">
-                    <td className="px-4 py-3">
-                      <Badge variant="outline" className="font-mono font-bold">
-                        {row.level}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-3 text-right font-medium">{row.listening}</td>
-                    <td className="px-4 py-3 text-right font-medium">{row.reading}</td>
-                    <td className="hidden px-4 py-3 sm:table-cell">
-                      <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
-                        <div
-                          className={`h-full rounded-full ${row.color}`}
-                          style={{ width: "100%" }}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr className="bg-muted/30">
-                  <td className="px-4 py-3 font-bold">合计</td>
-                  <td className="px-4 py-3 text-right font-bold">1,709</td>
-                  <td className="px-4 py-3 text-right font-bold">1,716</td>
-                  <td className="hidden px-4 py-3 text-sm text-muted-foreground sm:table-cell">
-                    + 口语 3,536 题 + 写作 1,540 题
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
+          <div className="mt-14 grid gap-6 sm:grid-cols-3">
+            {QUESTION_BANKS.map((bank, i) => (
+              <Card key={bank.label} className={`relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 animate-fade-in-up-d${i + 1}`}>
+                <div className={`h-1 bg-gradient-to-r ${bank.color}`} />
+                <CardContent className="pt-6 text-center">
+                  <bank.icon className={`mx-auto h-8 w-8 ${bank.iconColor}`} />
+                  <div className="mt-4 text-4xl font-extrabold tracking-tight">
+                    {bank.count}
+                  </div>
+                  <div className="mt-1 text-base font-semibold">{bank.label}</div>
+                  <p className="mt-2 text-sm text-muted-foreground">{bank.sub}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-          <p className="mt-4 text-center text-xs text-muted-foreground">
-            所有听力题目均配备原版音频 · 数据来源于平台实际题库统计
-          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
+              A1–A2
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="inline-block h-2 w-2 rounded-full bg-blue-500" />
+              B1–B2
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="inline-block h-2 w-2 rounded-full bg-purple-500" />
+              C1–C2
+            </span>
+            <span>· 全部 6 个等级均有覆盖</span>
+          </div>
         </div>
       </section>
 
