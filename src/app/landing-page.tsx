@@ -316,7 +316,7 @@ export function LandingPage() {
       </section>
 
       {/* ── Stats ── */}
-      <section className="relative border-y bg-card py-14">
+      <section className="relative border-y border-border/40 bg-card py-14">
         <div className="mx-auto grid max-w-4xl grid-cols-2 gap-8 px-4 sm:grid-cols-4">
           {STATS.map((s, i) => (
             <div key={s.label} className={`text-center animate-fade-in-up-d${i + 1}`}>
@@ -371,7 +371,7 @@ export function LandingPage() {
       </section>
 
       {/* ── Content Depth ── */}
-      <section className="border-y bg-card py-20 sm:py-28">
+      <section className="border-y border-border/40 bg-card py-20 sm:py-28">
         <div className="mx-auto max-w-4xl px-4">
           <div className="text-center">
             <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5 text-primary">
@@ -434,7 +434,7 @@ export function LandingPage() {
       </section>
 
       {/* ── How it works ── */}
-      <section className="border-y bg-card py-20 sm:py-28">
+      <section className="border-y border-border/40 bg-card py-20 sm:py-28">
         <div className="mx-auto max-w-3xl px-4">
           <div className="text-center">
             <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5 text-primary">
@@ -486,7 +486,7 @@ export function LandingPage() {
           <div className="mt-14 grid gap-6 sm:grid-cols-2">
             {/* Free */}
             <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-              <div className="h-1 bg-gradient-to-r from-gray-300 to-gray-400" />
+              <div className="h-1 bg-gradient-to-r from-muted-foreground/30 to-muted-foreground/50" />
               <CardContent className="pt-6">
                 <h3 className="text-lg font-bold">免费版</h3>
                 <div className="mt-3">
@@ -558,7 +558,7 @@ export function LandingPage() {
       </section>
 
       {/* ── Why HiTCF ── */}
-      <section className="border-t py-20 sm:py-28">
+      <section className="border-t border-border/40 py-20 sm:py-28">
         <div className="mx-auto max-w-5xl px-4">
           <div className="text-center">
             <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5 text-primary">
@@ -594,7 +594,7 @@ export function LandingPage() {
       </section>
 
       {/* ── TCF Guide ── */}
-      <section className="border-t bg-card py-20 sm:py-28">
+      <section className="border-t border-border/40 bg-card py-20 sm:py-28">
         <div className="mx-auto max-w-3xl px-4">
           <div className="text-center">
             <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5 text-primary">
@@ -648,7 +648,7 @@ export function LandingPage() {
       </section>
 
       {/* ── Trust Badges ── */}
-      <section className="border-b py-12">
+      <section className="border-b border-border/40 py-12">
         <div className="mx-auto max-w-4xl px-4">
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
             {TRUST_ITEMS.map((item) => (
@@ -691,7 +691,7 @@ export function LandingPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="border-t py-20 sm:py-28">
+      <section className="border-t border-border/40 py-20 sm:py-28">
         <div className="mx-auto max-w-5xl px-4">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
             {/* Photo */}

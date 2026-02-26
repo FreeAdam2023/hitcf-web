@@ -1,0 +1,305 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ApiError } from "@/lib/api/client";
+import {
+  sendResetCode,
+  verifyResetCode,
+  resetPassword,
+} from "@/lib/api/password-reset";
+
+type Step = "email" | "code" | "password";
+
+const STEP_INFO = {
+  email: { title: "重置密码", desc: "输入注册邮箱，我们将发送验证码" },
+  code: { title: "验证邮箱", desc: "" },
+  password: { title: "设置新密码", desc: "请输入新密码" },
+};
+
+export default function ForgotPasswordPage() {
+  const router = useRouter();
+
+  const [step, setStep] = useState<Step>("email");
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [verificationToken, setVerificationToken] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const info = STEP_INFO[step];
+
+  const handleSendCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      await sendResetCode(email.trim().toLowerCase());
+      setStep("code");
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError("发送失败，请稍后重试");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await verifyResetCode(email.trim().toLowerCase(), code.trim());
+      setVerificationToken(res.verification_token);
+      setStep("password");
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError("验证失败，请稍后重试");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (password.length < 8) {
+      setError("密码至少需要 8 位");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("两次输入的密码不一致");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await resetPassword(verificationToken, password);
+      setSuccess(true);
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError("重置失败，请稍后重试");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResend = async () => {
+    setError("");
+    setLoading(true);
+    try {
+      await sendResetCode(email.trim().toLowerCase());
+      setCode("");
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError("发送失败，请稍后重试");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (success) {
+    return (
+      <div className="space-y-6 text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10">
+          <svg className="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">密码重置成功</h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            请使用新密码登录
+          </p>
+        </div>
+        <Button
+          className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
+          onClick={() => router.push("/login")}
+        >
+          去登录
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight">{info.title}</h1>
+        <p className="mt-1.5 text-sm text-muted-foreground">
+          {step === "code" ? `验证码已发送至 ${email}` : info.desc}
+        </p>
+        <div className="mt-4 flex gap-1.5">
+          {(["email", "code", "password"] as const).map((s) => (
+            <div
+              key={s}
+              className={`h-1 flex-1 rounded-full transition-colors ${
+                s === step
+                  ? "bg-primary"
+                  : (["email", "code", "password"] as const).indexOf(s) <
+                    (["email", "code", "password"] as const).indexOf(step)
+                  ? "bg-primary/40"
+                  : "bg-muted"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {step === "email" && (
+        <form onSubmit={handleSendCode} className="space-y-4">
+          <div className="space-y-2">
+            <label htmlFor="email" className="text-sm font-medium">
+              邮箱
+            </label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              autoFocus
+              className="h-11"
+            />
+          </div>
+
+          {error && <p className="text-sm text-destructive">{error}</p>}
+
+          <Button
+            type="submit"
+            className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
+            disabled={loading}
+          >
+            {loading ? "发送中..." : "发送验证码"}
+          </Button>
+        </form>
+      )}
+
+      {step === "code" && (
+        <form onSubmit={handleVerifyCode} className="space-y-4">
+          <div className="space-y-2">
+            <label htmlFor="code" className="text-sm font-medium">
+              6 位验证码
+            </label>
+            <Input
+              id="code"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]{6}"
+              maxLength={6}
+              placeholder="000000"
+              value={code}
+              onChange={(e) =>
+                setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+              }
+              required
+              autoFocus
+              className="h-11 text-center text-lg tracking-[0.5em] font-mono"
+            />
+          </div>
+
+          {error && <p className="text-sm text-destructive">{error}</p>}
+
+          <Button
+            type="submit"
+            className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
+            disabled={loading || code.length !== 6}
+          >
+            {loading ? "验证中..." : "验证"}
+          </Button>
+
+          <button
+            type="button"
+            onClick={handleResend}
+            disabled={loading}
+            className="w-full text-center text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            没收到？重新发送
+          </button>
+        </form>
+      )}
+
+      {step === "password" && (
+        <form onSubmit={handleReset} className="space-y-4">
+          <div className="space-y-2">
+            <label htmlFor="new-password" className="text-sm font-medium">
+              新密码
+            </label>
+            <Input
+              id="new-password"
+              type="password"
+              placeholder="至少 8 位"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={8}
+              autoComplete="new-password"
+              autoFocus
+              className="h-11"
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="confirm-password" className="text-sm font-medium">
+              确认新密码
+            </label>
+            <Input
+              id="confirm-password"
+              type="password"
+              placeholder="再次输入新密码"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              minLength={8}
+              autoComplete="new-password"
+              className="h-11"
+            />
+          </div>
+
+          {error && <p className="text-sm text-destructive">{error}</p>}
+
+          <Button
+            type="submit"
+            className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
+            disabled={loading}
+          >
+            {loading ? "重置中..." : "重置密码"}
+          </Button>
+        </form>
+      )}
+
+      <div className="text-center text-sm text-muted-foreground">
+        想起密码了？{" "}
+        <Link
+          href="/login"
+          className="font-medium text-primary hover:underline underline-offset-4"
+        >
+          返回登录
+        </Link>
+      </div>
+    </div>
+  );
+}
