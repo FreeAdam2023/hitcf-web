@@ -1,15 +1,21 @@
 "use client";
 
 import { useEffect } from "react";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import { useAuthStore } from "@/stores/auth-store";
 
 function AuthInit() {
+  const { status } = useSession();
   const fetchUser = useAuthStore((s) => s.fetchUser);
+  const reset = useAuthStore((s) => s.reset);
 
   useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+    if (status === "authenticated") {
+      fetchUser();
+    } else if (status === "unauthenticated") {
+      reset();
+    }
+  }, [status, fetchUser, reset]);
 
   return null;
 }
