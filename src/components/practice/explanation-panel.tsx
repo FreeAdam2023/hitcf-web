@@ -27,9 +27,10 @@ export function ExplanationPanel({
   // Sync with prop changes (e.g. navigating between questions)
   useEffect(() => {
     setExplanation(initialExplanation);
+    setOpen(defaultOpen);
     setLoading(false);
     setError(false);
-  }, [initialExplanation, questionId]);
+  }, [initialExplanation, questionId, defaultOpen]);
 
   const hasContent =
     explanation &&

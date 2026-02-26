@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -36,11 +36,14 @@ export function PracticeSession() {
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
   const [completing, setCompleting] = useState(false);
   const [savedIndicator, setSavedIndicator] = useState(false);
+  const [wrongCollected, setWrongCollected] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
 
-  // Clear pending selection when navigating to a different question
+  // Clear pending selection and indicators when navigating
   useEffect(() => {
     setSelectedKey(null);
+    setSavedIndicator(false);
+    setWrongCollected(false);
   }, [currentIndex]);
 
   // Prevent accidental navigation (browser back/forward swipe + tab close)
@@ -102,10 +105,16 @@ export function PracticeSession() {
           // ignore
         }
       }
-      setAnswer(question.id, { ...res, correct_answer: correctAnswer ?? null });
+      const fullAnswer = { ...res, correct_answer: correctAnswer ?? null };
+      setAnswer(question.id, fullAnswer);
       setSelectedKey(null);
-      setSavedIndicator(true);
-      setTimeout(() => setSavedIndicator(false), 2000);
+      if (fullAnswer.is_correct === false) {
+        setWrongCollected(true);
+        setTimeout(() => setWrongCollected(false), 2500);
+      } else {
+        setSavedIndicator(true);
+        setTimeout(() => setSavedIndicator(false), 2000);
+      }
     } catch (err) {
       console.error("Failed to submit answer", err);
       toast.error("提交失败，请重试");
@@ -258,12 +267,18 @@ export function PracticeSession() {
         )}
 
         {savedIndicator && (
-          <p className="text-xs text-green-600 dark:text-green-400">&#10003; 已保存</p>
+          <p className="text-xs text-green-600 dark:text-green-400 animate-in fade-in slide-in-from-bottom-2 duration-300">&#10003; 已保存</p>
+        )}
+        {wrongCollected && (
+          <div className="flex items-center gap-1.5 text-xs text-orange-600 dark:text-orange-400 animate-in fade-in slide-in-from-bottom-2 duration-500">
+            <BookmarkCheck className="h-3.5 w-3.5 animate-bounce" />
+            已收入错题本
+          </div>
         )}
 
         {/* 移动端解析面板 */}
         <div className="lg:hidden">
-          {currentAnswer && <ExplanationPanel explanation={null} questionId={question.id} transcript={question.transcript} />}
+          {currentAnswer && <ExplanationPanel explanation={null} questionId={question.id} transcript={question.transcript} defaultOpen={currentAnswer.is_correct === false} />}
         </div>
 
         <Separator />
@@ -306,7 +321,7 @@ export function PracticeSession() {
       <div className="hidden lg:block">
         <div className="sticky top-20">
           {currentAnswer ? (
-            <ExplanationPanel explanation={null} questionId={question.id} transcript={question.transcript} />
+            <ExplanationPanel explanation={null} questionId={question.id} transcript={question.transcript} defaultOpen={currentAnswer.is_correct === false} />
           ) : (
             <div className="rounded-md border p-4 text-sm text-muted-foreground">
               <p>答题后查看解析</p>
