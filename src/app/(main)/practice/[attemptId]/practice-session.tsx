@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -50,6 +50,7 @@ export function PracticeSession() {
   const answersRef = useRef(answers);
   useEffect(() => { answersRef.current = answers; });
 
+  // Prevent accidental back navigation (but no beforeunload — answers are saved in real-time)
   useEffect(() => {
     window.history.pushState(null, "", window.location.href);
 
@@ -60,17 +61,9 @@ export function PracticeSession() {
       }
     };
 
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (answersRef.current.size > 0) {
-        e.preventDefault();
-      }
-    };
-
     window.addEventListener("popstate", handlePopState);
-    window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
       window.removeEventListener("popstate", handlePopState);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
@@ -267,18 +260,31 @@ export function PracticeSession() {
         )}
 
         {savedIndicator && (
-          <p className="text-xs text-green-600 dark:text-green-400 animate-in fade-in slide-in-from-bottom-2 duration-300">&#10003; 已保存</p>
+          <p className="text-xs text-green-600 dark:text-green-400 animate-in fade-in slide-in-from-bottom-2 duration-300">&#10003; 回答正确</p>
         )}
         {wrongCollected && (
-          <div className="flex items-center gap-1.5 text-xs text-orange-600 dark:text-orange-400 animate-in fade-in slide-in-from-bottom-2 duration-500">
-            <BookmarkCheck className="h-3.5 w-3.5 animate-bounce" />
-            已收入错题本
+          <div className="wrong-answer-toast flex items-center gap-2 rounded-lg border border-orange-200 bg-orange-50 px-3 py-2 text-sm text-orange-700 shadow-sm dark:border-orange-800 dark:bg-orange-950/50 dark:text-orange-300">
+            <span className="wrong-answer-icon flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/50">
+              <BookmarkCheck className="h-4 w-4" />
+            </span>
+            <span className="font-medium">已收入错题本</span>
+          </div>
+        )}
+
+        {/* 听力原文 — 答完即显示 */}
+        {currentAnswer && question.transcript && (
+          <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
+            <h4 className="mb-1.5 flex items-center gap-1.5 font-medium">
+              <FileText className="h-4 w-4" />
+              原文
+            </h4>
+            <p className="whitespace-pre-wrap leading-relaxed text-foreground">{question.transcript}</p>
           </div>
         )}
 
         {/* 移动端解析面板 */}
         <div className="lg:hidden">
-          {currentAnswer && <ExplanationPanel explanation={null} questionId={question.id} transcript={question.transcript} defaultOpen={currentAnswer.is_correct === false} />}
+          {currentAnswer && <ExplanationPanel explanation={null} questionId={question.id} defaultOpen={currentAnswer.is_correct === false} />}
         </div>
 
         <Separator />
@@ -319,9 +325,18 @@ export function PracticeSession() {
 
       {/* 右侧：解析面板 (桌面) */}
       <div className="hidden lg:block">
-        <div className="sticky top-20">
+        <div className="sticky top-20 space-y-3">
+          {currentAnswer && question.transcript && (
+            <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
+              <h4 className="mb-1.5 flex items-center gap-1.5 font-medium">
+                <FileText className="h-4 w-4" />
+                原文
+              </h4>
+              <p className="whitespace-pre-wrap leading-relaxed text-foreground">{question.transcript}</p>
+            </div>
+          )}
           {currentAnswer ? (
-            <ExplanationPanel explanation={null} questionId={question.id} transcript={question.transcript} defaultOpen={currentAnswer.is_correct === false} />
+            <ExplanationPanel explanation={null} questionId={question.id} defaultOpen={currentAnswer.is_correct === false} />
           ) : (
             <div className="rounded-md border p-4 text-sm text-muted-foreground">
               <p>答题后查看解析</p>

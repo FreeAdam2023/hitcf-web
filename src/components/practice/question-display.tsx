@@ -13,25 +13,17 @@ interface QuestionDisplayProps {
   total: number;
 }
 
-function getListeningInstruction(questionNumber: number): string | null {
-  if (questionNumber >= 1 && questionNumber <= 2) {
-    return "Écoutez les 4 propositions, choisissez celle qui correspond à l\u2019image.";
-  }
-  if (questionNumber >= 3 && questionNumber <= 39) {
-    return "Écoutez l\u2019extrait sonore et les 4 propositions. Choisissez la bonne réponse.";
-  }
-  return null;
-}
-
 export function QuestionDisplay({ question, index, total }: QuestionDisplayProps) {
   const isListening = question.type === "listening";
-  const instruction = isListening
-    ? getListeningInstruction(question.question_number)
-    : null;
-  // TCF listening Q1-Q2 are always image-based questions
+  // Image questions: question_text contains markdown image syntax ![alt](url)
   const isImageQuestion =
     isListening &&
-    question.question_number <= 2;
+    !!question.question_text?.startsWith("![");
+  const instruction = isListening
+    ? isImageQuestion
+      ? "Écoutez les 4 propositions, choisissez celle qui correspond à l\u2019image."
+      : "Écoutez l\u2019extrait sonore et les 4 propositions. Choisissez la bonne réponse."
+    : null;
 
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(false);
