@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuthStore } from "@/stores/auth-store";
-import { LogOut, User, CreditCard, Sparkles, Settings } from "lucide-react";
+import { LogOut, User, Sparkles, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -15,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getCustomerPortal } from "@/lib/api/subscriptions";
 
 function SubscriptionBadge({ status }: { status: string | null }) {
   if (status === "active") {
@@ -44,7 +42,6 @@ export function UserMenu() {
   const logout = useAuthStore((s) => s.logout);
   const hasActiveSubscription = useAuthStore((s) => s.hasActiveSubscription);
   const router = useRouter();
-  const [portalLoading, setPortalLoading] = useState(false);
 
   if (isLoading) {
     return <Skeleton className="h-8 w-8 rounded-full" />;
@@ -59,16 +56,6 @@ export function UserMenu() {
   }
 
   const isSubscribed = hasActiveSubscription();
-
-  const handleManageSubscription = async () => {
-    setPortalLoading(true);
-    try {
-      const { url } = await getCustomerPortal();
-      window.location.href = url;
-    } catch {
-      setPortalLoading(false);
-    }
-  };
 
   return (
     <DropdownMenu>
@@ -92,15 +79,7 @@ export function UserMenu() {
           </div>
         </div>
         <DropdownMenuSeparator />
-        {isSubscribed ? (
-          <DropdownMenuItem
-            onClick={handleManageSubscription}
-            disabled={portalLoading}
-          >
-            <CreditCard className="mr-2 h-4 w-4" />
-            {portalLoading ? "跳转中..." : "管理订阅"}
-          </DropdownMenuItem>
-        ) : (
+        {!isSubscribed && (
           <DropdownMenuItem onClick={() => router.push("/pricing")}>
             <Sparkles className="mr-2 h-4 w-4" />
             升级 Pro
