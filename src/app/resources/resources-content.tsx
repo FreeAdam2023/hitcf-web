@@ -103,7 +103,7 @@ const OFFICIAL_RESOURCES = [
   },
   {
     name: "Journal en français facile",
-    url: "https://savoirs.rfi.fr/fr/apprendre-enseigner/langue-francaise/journal-en-francais-facile",
+    url: "https://francaisfacile.rfi.fr/fr/podcasts/journal-en-fran%C3%A7ais-facile/",
     desc: "RFI「简明法语新闻」，每天 10 分钟清晰慢速播报国际新闻。坚持每天听一期，有助于稳步提升听力水平。",
     tag: "每日听力",
   },
