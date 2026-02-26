@@ -5,11 +5,12 @@ interface PracticeState {
   attemptId: string | null;
   testSetName: string | null;
   testSetType: string | null;
+  startedAt: string | null;
   questions: QuestionBrief[];
   currentIndex: number;
   answers: Map<string, AnswerResponse>;
 
-  init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null) => void;
+  init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null, startedAt?: string | null) => void;
   setAnswer: (questionId: string, answer: AnswerResponse) => void;
   goToQuestion: (index: number) => void;
   goNext: () => void;
@@ -21,12 +22,13 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   attemptId: null,
   testSetName: null,
   testSetType: null,
+  startedAt: null,
   questions: [],
   currentIndex: 0,
   answers: new Map(),
 
-  init: (attemptId, questions, testSetName, testSetType) =>
-    set({ attemptId, questions, testSetName: testSetName ?? null, testSetType: testSetType ?? null, currentIndex: 0, answers: new Map() }),
+  init: (attemptId, questions, testSetName, testSetType, startedAt) =>
+    set({ attemptId, questions, testSetName: testSetName ?? null, testSetType: testSetType ?? null, startedAt: startedAt ?? null, currentIndex: 0, answers: new Map() }),
 
   setAnswer: (questionId, answer) =>
     set((state) => {
@@ -57,5 +59,5 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   },
 
   reset: () =>
-    set({ attemptId: null, testSetName: null, testSetType: null, questions: [], currentIndex: 0, answers: new Map() }),
+    set({ attemptId: null, testSetName: null, testSetType: null, startedAt: null, questions: [], currentIndex: 0, answers: new Map() }),
 }));

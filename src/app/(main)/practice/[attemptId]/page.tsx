@@ -35,7 +35,7 @@ export default function PracticePage() {
       );
 
       if (signal?.aborted) return;
-      init(params.attemptId, questions, attempt.test_set_name, attempt.test_set_type);
+      init(params.attemptId, questions, attempt.test_set_name, attempt.test_set_type, attempt.started_at);
       setLoading(false);
     } catch (err) {
       if (err instanceof DOMException && err.name === "AbortError") return;
