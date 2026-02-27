@@ -28,7 +28,13 @@ function TranscriptBlock({
 }) {
   const isListening = question.type === "listening";
   const hasTranscript = !!question.transcript;
-  const hasAudioOptions = isListening && question.options.length > 0;
+  // Only show options when ALL have real text (skip empty/placeholder OCR artifacts)
+  const hasAudioOptions =
+    isListening &&
+    question.options.length > 0 &&
+    question.options.every(
+      (o) => o.text && !o.text.startsWith("Proposition"),
+    );
 
   if (!hasTranscript && !hasAudioOptions) return null;
 
