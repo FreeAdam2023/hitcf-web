@@ -18,7 +18,7 @@ import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ReportDialog } from "@/components/practice/report-dialog";
 import type { Explanation, QuestionBrief } from "@/lib/api/types";
 
-/** 听力原文：三语对照（法/英/中） */
+/** 听力原文：逐句三语卡片（法/英/中） */
 function TranscriptBlock({
   question,
   explanation,
@@ -28,7 +28,6 @@ function TranscriptBlock({
 }) {
   const isListening = question.type === "listening";
   const hasTranscript = !!question.transcript;
-  // Only show options when ALL have real text (skip empty/placeholder OCR artifacts)
   const hasAudioOptions =
     isListening &&
     question.options.length > 0 &&
@@ -38,58 +37,65 @@ function TranscriptBlock({
 
   if (!hasTranscript && !hasAudioOptions) return null;
 
-  const transEn = explanation?.transcript_en;
-  const transZh = explanation?.transcript_zh;
+  const sentences = explanation?.sentence_translation;
   const optTrans = explanation?.option_translations;
 
   return (
     <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
-      <h4 className="mb-1.5 flex items-center gap-1.5 font-medium">
+      <h4 className="mb-2 flex items-center gap-1.5 font-medium">
         <FileText className="h-4 w-4" />
         原文
       </h4>
 
-      {/* Transcript: FR → EN → ZH */}
-      {hasTranscript && (
-        <div className="space-y-1.5">
-          <p className="whitespace-pre-wrap leading-relaxed text-foreground">
-            {question.transcript}
-          </p>
-          {transEn && (
-            <p className="whitespace-pre-wrap leading-relaxed text-blue-600 dark:text-blue-400">
-              {transEn}
-            </p>
-          )}
-          {transZh && (
-            <p className="whitespace-pre-wrap leading-relaxed text-emerald-600 dark:text-emerald-400">
-              {transZh}
-            </p>
-          )}
+      {/* Sentence-by-sentence trilingual cards */}
+      {sentences && sentences.length > 0 ? (
+        <div className="space-y-2">
+          {sentences.map((s, i) => (
+            <div key={i} className="space-y-0.5">
+              <p className="font-medium leading-relaxed text-foreground">
+                {s.fr}
+              </p>
+              {s.en && (
+                <p className="leading-relaxed text-blue-600 dark:text-blue-400">
+                  {s.en}
+                </p>
+              )}
+              {s.zh && (
+                <p className="leading-relaxed text-emerald-600 dark:text-emerald-400">
+                  {s.zh}
+                </p>
+              )}
+            </div>
+          ))}
         </div>
-      )}
+      ) : hasTranscript ? (
+        /* Fallback: raw transcript before explanation loads */
+        <p className="whitespace-pre-wrap leading-relaxed text-foreground">
+          {question.transcript}
+        </p>
+      ) : null}
 
-      {/* Options: trilingual */}
+      {/* Options: compact trilingual rows */}
       {hasAudioOptions && (
-        <div className={hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
-          <div className="space-y-1 text-muted-foreground">
+        <div className={sentences || hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
+          <div className="space-y-1">
             {question.options.map((opt) => {
               const t = optTrans?.[opt.key];
               return (
-                <div key={opt.key}>
-                  <p>
-                    <span className="font-medium text-foreground">{opt.key}.</span> {opt.text}
-                    {t?.en && (
-                      <span className="ml-2 text-blue-600 dark:text-blue-400">
-                        {t.en}
-                      </span>
-                    )}
-                    {t?.zh && (
-                      <span className="ml-2 text-emerald-600 dark:text-emerald-400">
-                        {t.zh}
-                      </span>
-                    )}
-                  </p>
-                </div>
+                <p key={opt.key} className="text-muted-foreground">
+                  <span className="font-semibold text-foreground">{opt.key}.</span>{" "}
+                  {opt.text}
+                  {t?.en && (
+                    <span className="ml-1.5 text-blue-600 dark:text-blue-400">
+                      {t.en}
+                    </span>
+                  )}
+                  {t?.zh && (
+                    <span className="ml-1.5 text-emerald-600 dark:text-emerald-400">
+                      {t.zh}
+                    </span>
+                  )}
+                </p>
               );
             })}
           </div>

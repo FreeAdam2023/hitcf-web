@@ -151,36 +151,7 @@ export function ExplanationPanel({
                 </div>
               )}
 
-              {/* 3. 句子翻译 — 逐句卡片 */}
-              {explanation!.sentence_translation &&
-                explanation!.sentence_translation.length > 0 && (
-                  <div>
-                    <h4 className="mb-2 font-medium">句子翻译</h4>
-                    <div className="space-y-1.5">
-                      {explanation!.sentence_translation.map((s, i) => (
-                        <div
-                          key={i}
-                          className={`rounded-lg bg-muted/30 p-2.5 ${
-                            s.is_key
-                              ? "border-l-2 border-amber-400"
-                              : ""
-                          }`}
-                        >
-                          <p className="font-medium text-foreground">
-                            {s.fr}
-                          </p>
-                          {s.zh && (
-                            <p className="mt-0.5 text-xs text-muted-foreground">
-                              {s.zh}
-                            </p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-              {/* 4. 干扰项分析 — 默认折叠 */}
+              {/* 3. 干扰项分析 — 默认折叠 */}
               {explanation!.distractors &&
                 Object.keys(explanation!.distractors).length > 0 && (
                   <Collapsible

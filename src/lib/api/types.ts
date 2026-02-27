@@ -75,6 +75,7 @@ export interface QuestionBrief {
 
 export interface SentenceTranslation {
   fr: string;
+  en: string;
   zh: string;
   is_key?: boolean;
 }
