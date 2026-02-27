@@ -144,6 +144,13 @@ export function PracticeSession() {
     setExplanationError(false);
   }, [currentIndex]);
 
+  // Auto-fetch explanation as soon as user answers (so transcript translations appear immediately)
+  useEffect(() => {
+    if (question && currentAnswer && !explanation && !explanationLoading) {
+      fetchExplanation(question.id);
+    }
+  }, [question, currentAnswer, explanation, explanationLoading, fetchExplanation]);
+
   // Prevent accidental navigation (browser back/forward swipe + tab close)
   const answersRef = useRef(answers);
   useEffect(() => { answersRef.current = answers; });
