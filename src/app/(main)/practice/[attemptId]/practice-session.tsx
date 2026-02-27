@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePracticeStore } from "@/stores/practice-store";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
-import { getQuestionDetail } from "@/lib/api/questions";
+import { getQuestionDetail, generateExplanation } from "@/lib/api/questions";
 import { QuestionDisplay } from "@/components/practice/question-display";
 import { OptionList } from "@/components/practice/option-list";
 import { QuestionNavigator } from "@/components/practice/question-navigator";
@@ -121,6 +121,18 @@ export function PracticeSession() {
   const [wrongCollected, setWrongCollected] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
   const [explanation, setExplanation] = useState<Explanation | null>(null);
+  const [explanationLoading, setExplanationLoading] = useState(false);
+  const [explanationError, setExplanationError] = useState(false);
+
+  // Fetch explanation — called once by parent, shared with both panels
+  const fetchExplanation = useCallback((questionId: string, force?: boolean) => {
+    setExplanationLoading(true);
+    setExplanationError(false);
+    generateExplanation(questionId, force)
+      .then(setExplanation)
+      .catch(() => setExplanationError(true))
+      .finally(() => setExplanationLoading(false));
+  }, []);
 
   // Clear pending selection and indicators when navigating
   useEffect(() => {
@@ -128,6 +140,8 @@ export function PracticeSession() {
     setSavedIndicator(false);
     setWrongCollected(false);
     setExplanation(null);
+    setExplanationLoading(false);
+    setExplanationError(false);
   }, [currentIndex]);
 
   // Prevent accidental navigation (browser back/forward swipe + tab close)
@@ -365,7 +379,18 @@ export function PracticeSession() {
 
         {/* 移动端解析面板 */}
         <div className="lg:hidden">
-          {currentAnswer && <ExplanationPanel explanation={explanation} questionId={question.id} defaultOpen={currentAnswer.is_correct === false} onLoaded={setExplanation} />}
+          {currentAnswer && (
+            <ExplanationPanel
+              explanation={explanation}
+              questionId={question.id}
+              defaultOpen={currentAnswer.is_correct === false}
+              loading={explanationLoading}
+              error={explanationError}
+              onRetry={() => fetchExplanation(question.id)}
+              onForceRefresh={() => fetchExplanation(question.id, true)}
+              onOpen={() => !explanation && !explanationLoading && fetchExplanation(question.id)}
+            />
+          )}
         </div>
 
         <Separator />
@@ -412,7 +437,16 @@ export function PracticeSession() {
             <TranscriptBlock question={question} explanation={explanation} />
           )}
           {currentAnswer ? (
-            <ExplanationPanel explanation={explanation} questionId={question.id} defaultOpen={currentAnswer.is_correct === false} onLoaded={setExplanation} />
+            <ExplanationPanel
+              explanation={explanation}
+              questionId={question.id}
+              defaultOpen={currentAnswer.is_correct === false}
+              loading={explanationLoading}
+              error={explanationError}
+              onRetry={() => fetchExplanation(question.id)}
+              onForceRefresh={() => fetchExplanation(question.id, true)}
+              onOpen={() => !explanation && !explanationLoading && fetchExplanation(question.id)}
+            />
           ) : (
             <div className="rounded-md border p-4 text-sm text-muted-foreground">
               <p>答题后查看解析</p>

@@ -5,7 +5,6 @@ import {
   AlertTriangle,
   ChevronDown,
   ChevronUp,
-  FileText,
   Lightbulb,
   Link2,
   Loader2,
@@ -17,38 +16,49 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { generateExplanation } from "@/lib/api/questions";
 import type { Explanation } from "@/lib/api/types";
 
 interface ExplanationPanelProps {
   explanation: Explanation | null | undefined;
   questionId?: string;
   defaultOpen?: boolean;
-  transcript?: string | null;
-  onLoaded?: (exp: Explanation) => void;
+  /** Externally managed loading state */
+  loading?: boolean;
+  /** Externally managed error state */
+  error?: boolean;
+  /** Called when user clicks retry */
+  onRetry?: () => void;
+  /** Called when user clicks force refresh */
+  onForceRefresh?: () => void;
+  /** Called when panel is opened and needs data */
+  onOpen?: () => void;
 }
 
 export function ExplanationPanel({
-  explanation: initialExplanation,
+  explanation,
   questionId,
   defaultOpen = false,
-  transcript,
-  onLoaded,
+  loading = false,
+  error = false,
+  onRetry,
+  onForceRefresh,
+  onOpen,
 }: ExplanationPanelProps) {
   const [open, setOpen] = useState(defaultOpen);
-  const [explanation, setExplanation] = useState(initialExplanation);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const [distractorsOpen, setDistractorsOpen] = useState(false);
 
-  // Sync with prop changes (e.g. navigating between questions)
+  // Reset when question changes
   useEffect(() => {
-    setExplanation(initialExplanation);
     setOpen(defaultOpen);
-    setLoading(false);
-    setError(false);
     setDistractorsOpen(false);
-  }, [initialExplanation, questionId, defaultOpen]);
+  }, [questionId, defaultOpen]);
+
+  // Trigger fetch when opened and no data
+  useEffect(() => {
+    if (open && !explanation && !loading && !error) {
+      onOpen?.();
+    }
+  }, [open, explanation, loading, error, onOpen]);
 
   const hasContent =
     explanation &&
@@ -60,39 +70,12 @@ export function ExplanationPanel({
       explanation.trap_pattern ||
       explanation.similar_tip);
 
-  // Auto-fetch when expanded and no explanation available
-  useEffect(() => {
-    if (!open || hasContent || loading || error || !questionId) return;
-
-    let cancelled = false;
-    setLoading(true);
-
-    generateExplanation(questionId)
-      .then((data) => {
-        if (!cancelled) {
-          setExplanation(data);
-          onLoaded?.(data);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setError(true);
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, hasContent, questionId, error]);
-
   const hasLearningTips =
     explanation?.exam_skill ||
     explanation?.trap_pattern ||
     explanation?.similar_tip;
 
-  // Only show refresh button on dev/localhost (not on www/prod)
+  // Only show refresh button on dev/localhost
   const [isDevHost, setIsDevHost] = useState(false);
   useEffect(() => {
     const host = window.location.hostname;
@@ -102,16 +85,6 @@ export function ExplanationPanel({
         host.startsWith("dev."),
     );
   }, []);
-
-  const doFetch = (force?: boolean) => {
-    if (!questionId || loading) return;
-    setLoading(true);
-    setError(false);
-    generateExplanation(questionId, force)
-      .then((data) => { setExplanation(data); onLoaded?.(data); })
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
-  };
 
   return (
     <div className="rounded-md border">
@@ -133,19 +106,6 @@ export function ExplanationPanel({
 
       {open && (
         <div className="border-t px-4 py-3 text-sm">
-          {/* 1. 原文 (transcript) — 保持现状 */}
-          {transcript && (
-            <div className="mb-3 rounded-lg bg-muted/50 p-3">
-              <h4 className="mb-1.5 flex items-center gap-1.5 font-medium">
-                <FileText className="h-4 w-4" />
-                原文
-              </h4>
-              <p className="whitespace-pre-wrap leading-relaxed text-foreground">
-                {transcript}
-              </p>
-            </div>
-          )}
-
           {loading ? (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -156,7 +116,7 @@ export function ExplanationPanel({
               加载失败，
               <button
                 className="underline hover:text-foreground"
-                onClick={() => doFetch()}
+                onClick={onRetry}
               >
                 点击重试
               </button>
@@ -168,10 +128,10 @@ export function ExplanationPanel({
           ) : (
             <div className="space-y-3">
               {/* Dev-only: force refresh button */}
-              {isDevHost && questionId && (
+              {isDevHost && questionId && onForceRefresh && (
                 <div className="flex justify-end">
                   <button
-                    onClick={() => doFetch(true)}
+                    onClick={onForceRefresh}
                     disabled={loading}
                     className="flex items-center gap-1 rounded px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50"
                   >
