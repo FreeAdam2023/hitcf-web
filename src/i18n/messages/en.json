@@ -782,5 +782,59 @@
     "B1": { "label": "B1 Intermediate", "description": "Everyday communication" },
     "A2": { "label": "A2 Elementary", "description": "Simple daily expressions" },
     "A1": { "label": "A1 Beginner", "description": "Basic vocabulary and phrases" }
+  },
+  "writingExam": {
+    "title": "Writing Exam",
+    "loadError": "Failed to load writing exam data",
+    "exitWarning": "Exam in progress. Please use the Submit button to exit.",
+    "placeholder": "Write your French essay here...",
+    "wordCount": "Words: ",
+    "unsaved": "Unsaved",
+    "prevTask": "Previous Task",
+    "nextTask": "Next Task",
+    "submitAll": "Submit Exam",
+    "confirmTitle": "Submit Writing Exam?",
+    "words": "words",
+    "empty": "Empty",
+    "emptyWarning": "{count} task(s) are empty and will not be graded.",
+    "wordRangeWarning": "Some tasks are outside the recommended word count range.",
+    "submitWarning": "You cannot make changes after submission. AI will grade all essays.",
+    "continueWriting": "Continue Writing",
+    "confirmSubmit": "Confirm Submit",
+    "gradingInProgress": "Grading your essays...",
+    "gradingWait": "AI is reviewing each essay. Please wait (about 30-60 seconds).",
+    "completeFailed": "Submission failed, please try again",
+    "referenceDocuments": "Reference Documents",
+    "modeDialog": {
+      "subtitle": "Tache 1 + 2 + 3 · Writing Practice & Exam",
+      "practiceLabel": "Practice Mode: ",
+      "practiceDesc": "No time limit, grade each task individually, instant feedback, revise and resubmit",
+      "examLabel": "Exam Mode: ",
+      "examDesc": "60-minute timer, submit all 3 essays together, combined grading and score",
+      "incompletePractice": "You have an incomplete writing practice session",
+      "incompleteExam": "You have an incomplete writing exam session"
+    },
+    "overview": {
+      "examBullet1": "Complete 3 essays in 60 minutes (Tache 1 + 2 + 3)",
+      "examBullet2": "Timed session, auto-submit when time runs out",
+      "examBullet3": "AI grades all essays after submission, shows total score and estimated NCLC level",
+      "practiceBullet1": "No time limit, practice at your own pace",
+      "practiceBullet2": "Grade each essay individually and get instant AI feedback",
+      "practiceBullet3": "Revise and resubmit to improve progressively"
+    },
+    "results": {
+      "title": "Writing Results",
+      "examMode": "Exam Mode",
+      "practiceMode": "Practice Mode",
+      "notFound": "Results not found",
+      "notGraded": "Not graded (no submission)",
+      "backToTests": "Back to Tests",
+      "tryAgain": "Try Again",
+      "showDetails": "Show corrections & suggestions",
+      "hideDetails": "Hide corrections & suggestions"
+    }
+  },
+  "writingPractice": {
+    "title": "Writing Practice"
   }
 }

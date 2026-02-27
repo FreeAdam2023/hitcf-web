@@ -782,5 +782,59 @@
     "B1": { "label": "B1 中级", "description": "日常交流无障碍" },
     "A2": { "label": "A2 初级", "description": "简单日常表达" },
     "A1": { "label": "A1 入门", "description": "基础词汇短语" }
+  },
+  "writingExam": {
+    "title": "写作考试",
+    "loadError": "无法加载写作考试数据",
+    "exitWarning": "考试进行中，请通过「提交考试」按钮退出",
+    "placeholder": "在此输入你的法语作文...",
+    "wordCount": "字数：",
+    "unsaved": "未保存",
+    "prevTask": "上一题",
+    "nextTask": "下一题",
+    "submitAll": "提交考试",
+    "confirmTitle": "确认提交写作考试？",
+    "words": "词",
+    "empty": "未作答",
+    "emptyWarning": "有 {count} 个任务未作答，空白任务不会被评分。",
+    "wordRangeWarning": "部分任务字数不在建议范围内。",
+    "submitWarning": "提交后不可修改，AI 将批改全部作文。",
+    "continueWriting": "继续写作",
+    "confirmSubmit": "确认提交",
+    "gradingInProgress": "正在批改你的作文...",
+    "gradingWait": "AI 正在逐篇评阅，请稍候（约 30-60 秒）",
+    "completeFailed": "提交失败，请重试",
+    "referenceDocuments": "参考文档",
+    "modeDialog": {
+      "subtitle": "Tache 1 + 2 + 3 · 写作练习与考试",
+      "practiceLabel": "练习模式：",
+      "practiceDesc": "无时间限制，逐题提交批改，即时查看反馈，可反复修改",
+      "examLabel": "考试模式：",
+      "examDesc": "60 分钟限时，3 篇作文同时提交，统一批改出分",
+      "incompletePractice": "有未完成的写作练习",
+      "incompleteExam": "有未完成的写作考试"
+    },
+    "overview": {
+      "examBullet1": "60 分钟完成 3 篇作文（Tache 1 + 2 + 3）",
+      "examBullet2": "计时进行，到时自动提交",
+      "examBullet3": "提交后 AI 统一批改，显示总分和 NCLC 预估等级",
+      "practiceBullet1": "无时间限制，按自己节奏练习",
+      "practiceBullet2": "每篇作文单独提交，立即获得 AI 批改反馈",
+      "practiceBullet3": "可反复修改后重新提交，逐步提高"
+    },
+    "results": {
+      "title": "写作成绩报告",
+      "examMode": "考试模式",
+      "practiceMode": "练习模式",
+      "notFound": "成绩报告不存在",
+      "notGraded": "未评分（未作答）",
+      "backToTests": "返回题库",
+      "tryAgain": "再做一次",
+      "showDetails": "展开修改建议",
+      "hideDetails": "收起修改建议"
+    }
+  },
+  "writingPractice": {
+    "title": "写作练习"
   }
 }

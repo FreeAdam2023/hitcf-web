@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Loader2, CheckCircle2, AlertCircle, ArrowRight, Copy, Check, RotateCcw, Play } from "lucide-react";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,8 +15,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { getTestSet, getTestSetQuestions } from "@/lib/api/test-sets";
 import { createAttempt, getActiveAttempt } from "@/lib/api/attempts";
 import type { ActiveAttemptResponse } from "@/lib/api/types";
-import { gradeWriting, getWritingSubmissions } from "@/lib/api/writing";
-import type { TestSetDetail, QuestionBrief, WritingFeedback } from "@/lib/api/types";
+import type { TestSetDetail, QuestionBrief } from "@/lib/api/types";
 
 function buildSpeakingPrompt(topic: QuestionBrief, isTache2: boolean): string {
   return isTache2
@@ -47,18 +46,6 @@ function buildWritingChatGPTUrl(topic: QuestionBrief, taskNum: number): string {
   return `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
 }
 
-const TASK_WORD_RANGES: Record<number, [number, number]> = {
-  1: [60, 120],
-  2: [120, 160],
-  3: [200, 300],
-};
-
-const CRITERION_NAMES: Record<string, string> = {
-  adequation: "Adéquation",
-  coherence: "Cohérence",
-  vocabulaire: "Vocabulaire",
-  grammaire: "Grammaire",
-};
 
 function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTache2: boolean }) {
   const t = useTranslations();
@@ -156,111 +143,6 @@ function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTa
   );
 }
 
-function scoreColor(score: number): string {
-  if (score >= 4) return "bg-green-500";
-  if (score >= 3) return "bg-yellow-500";
-  if (score >= 2) return "bg-orange-500";
-  return "bg-red-500";
-}
-
-function WritingFeedbackPanel({ feedback }: { feedback: WritingFeedback }) {
-  const t = useTranslations();
-  const criteria = ["adequation", "coherence", "vocabulaire", "grammaire"] as const;
-
-  return (
-    <div className="space-y-4 rounded-lg border bg-card p-4">
-      {/* Total score + level */}
-      <div className="flex items-center justify-between">
-        <div>
-          <span className="text-2xl font-bold">{feedback.total_score}</span>
-          <span className="text-sm text-muted-foreground"> / 20</span>
-        </div>
-        <div className="flex gap-2">
-          <Badge variant="secondary">NCLC {feedback.estimated_nclc}</Badge>
-          <Badge variant="outline">{feedback.estimated_level}</Badge>
-        </div>
-      </div>
-
-      {/* 4 criteria scores */}
-      <div className="grid gap-3">
-        {criteria.map((key) => {
-          const c = feedback[key];
-          const criterionDesc = t(`testDetail.criteria.${key}`);
-          return (
-            <div key={key} className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">
-                  {CRITERION_NAMES[key]}
-                  <span className="ml-1 text-xs text-muted-foreground">({criterionDesc})</span>
-                </span>
-                <span className="text-sm font-semibold">{c.score}/5</span>
-              </div>
-              <div className="h-2 rounded-full bg-muted">
-                <div
-                  className={`h-2 rounded-full transition-all ${scoreColor(c.score)}`}
-                  style={{ width: `${(c.score / 5) * 100}%` }}
-                />
-              </div>
-              <p className="text-xs text-muted-foreground">{c.feedback}</p>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Overall comment */}
-      <Separator />
-      <div>
-        <p className="mb-1 text-sm font-medium">{t("testDetail.overallComment")}</p>
-        <p className="text-sm text-muted-foreground">{feedback.overall_comment}</p>
-      </div>
-
-      {/* Corrections */}
-      {feedback.corrections.length > 0 && (
-        <>
-          <Separator />
-          <div>
-            <p className="mb-2 text-sm font-medium">{t("testDetail.corrections")}</p>
-            <div className="space-y-2">
-              {feedback.corrections.map((c, i) => (
-                <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
-                  <div className="flex items-start gap-1.5">
-                    <span className="line-through text-red-500">{c.original}</span>
-                    <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
-                    <span className="font-medium text-green-600">{c.corrected}</span>
-                  </div>
-                  <p className="mt-1 text-muted-foreground">{c.explanation}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Vocab suggestions */}
-      {feedback.vocab_suggestions.length > 0 && (
-        <>
-          <Separator />
-          <div>
-            <p className="mb-2 text-sm font-medium">{t("testDetail.vocabSuggestions")}</p>
-            <div className="space-y-2">
-              {feedback.vocab_suggestions.map((v, i) => (
-                <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
-                  <div className="flex items-start gap-1.5">
-                    <span className="text-muted-foreground">{v.original}</span>
-                    <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
-                    <span className="font-medium text-blue-600">{v.suggestion}</span>
-                  </div>
-                  <p className="mt-1 text-muted-foreground">{v.reason}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
 function WritingTestView({
   test,
   locked,
@@ -275,12 +157,12 @@ function WritingTestView({
   backLink: React.ReactNode;
 }) {
   const t = useTranslations();
-  const [essayTexts, setEssayTexts] = useState<Record<string, string>>({});
-  const [grading, setGrading] = useState<Record<string, boolean>>({});
-  const [gradingResults, setGradingResults] = useState<Record<string, WritingFeedback>>({});
-  const [gradingErrors, setGradingErrors] = useState<Record<string, string>>({});
-  const [submittedTopics, setSubmittedTopics] = useState<Record<string, string>>({});
-  const [historyLoading, setHistoryLoading] = useState(false);
+  const router = useRouter();
+
+  const [starting, setStarting] = useState(false);
+  const [startingExam, setStartingExam] = useState(false);
+  const [activePractice, setActivePractice] = useState<{ id: string } | null>(null);
+  const [activeExam, setActiveExam] = useState<{ id: string } | null>(null);
 
   const taskLabels: Record<number, string> = {
     1: t("testDetail.writingTaskNames.0"),
@@ -288,63 +170,44 @@ function WritingTestView({
     3: t("testDetail.writingTaskNames.2"),
   };
 
-  // Load writing history on mount
+  // Check for active writing attempts on mount
   useEffect(() => {
-    if (topics.length === 0) return;
-    const controller = new AbortController();
-    setHistoryLoading(true);
-
-    Promise.allSettled(
-      topics.map((topic) =>
-        getWritingSubmissions(topic.id, { signal: controller.signal })
-          .then((submissions) => {
-            if (submissions.length > 0) {
-              const latest = submissions[0];
-              setGradingResults((prev) => ({ ...prev, [topic.id]: latest.feedback }));
-              setEssayTexts((prev) => ({ ...prev, [topic.id]: latest.essay_text }));
-              setSubmittedTopics((prev) => ({
-                ...prev,
-                [topic.id]: latest.created_at,
-              }));
-            }
-          })
-      ),
-    ).then((results) => {
-      if (controller.signal.aborted) return;
-      const failed = results.filter((r) => r.status === "rejected");
-      if (failed.length > 0) {
-        toast.error(t("testDetail.writingHistoryFailed"));
-      }
-      setHistoryLoading(false);
+    if (locked) return;
+    import("@/lib/api/writing-attempts").then(({ getActiveWritingAttempt }) => {
+      getActiveWritingAttempt(test.id, "practice").then((a) => setActivePractice(a)).catch(() => {});
+      getActiveWritingAttempt(test.id, "exam").then((a) => setActiveExam(a)).catch(() => {});
     });
+  }, [test.id, locked]);
 
-    return () => controller.abort();
-  }, [topics, t]);
-
-  const handleEssayChange = useCallback((topicId: string, text: string) => {
-    setEssayTexts((prev) => ({ ...prev, [topicId]: text }));
-  }, []);
-
-  const handleGrade = useCallback(async (topic: QuestionBrief, taskNum: number) => {
-    const essay = essayTexts[topic.id]?.trim();
-    if (!essay) return;
-
-    setGrading((prev) => ({ ...prev, [topic.id]: true }));
-    setGradingErrors((prev) => ({ ...prev, [topic.id]: "" }));
-
+  const handleStartPractice = async (forceNew = false) => {
+    setStarting(true);
     try {
-      const result = await gradeWriting(topic.id, taskNum, essay);
-      setGradingResults((prev) => ({ ...prev, [topic.id]: result.feedback }));
-      setSubmittedTopics((prev) => ({ ...prev, [topic.id]: result.created_at }));
-      toast.success(t("testDetail.gradingComplete"));
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : t("testDetail.gradingFailed");
-      setGradingErrors((prev) => ({ ...prev, [topic.id]: message }));
-      toast.error(message);
-    } finally {
-      setGrading((prev) => ({ ...prev, [topic.id]: false }));
+      const { createWritingAttempt } = await import("@/lib/api/writing-attempts");
+      const attempt = await createWritingAttempt(
+        { test_set_id: test.id, mode: "practice" },
+        forceNew ? { forceNew: true } : undefined,
+      );
+      router.push(`/writing-practice/${attempt.id}`);
+    } catch {
+      toast.error(t("common.errors.createPracticeFailed"));
+      setStarting(false);
     }
-  }, [essayTexts, t]);
+  };
+
+  const handleStartExam = async (forceNew = false) => {
+    setStartingExam(true);
+    try {
+      const { createWritingAttempt } = await import("@/lib/api/writing-attempts");
+      const attempt = await createWritingAttempt(
+        { test_set_id: test.id, mode: "exam" },
+        forceNew ? { forceNew: true } : undefined,
+      );
+      router.push(`/writing-exam/${attempt.id}`);
+    } catch {
+      toast.error(t("common.errors.createExamFailed"));
+      setStartingExam(false);
+    }
+  };
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
@@ -376,129 +239,137 @@ function WritingTestView({
       ) : topicsLoading ? (
         <LoadingSpinner />
       ) : (
-        <div className="space-y-4">
-          {historyLoading && (
-            <p className="text-xs text-muted-foreground animate-pulse">{t("testDetail.loadingHistory")}</p>
+        <>
+          {/* Mode description */}
+          <div className="rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-3">
+            <div className="space-y-1">
+              <p className="font-medium text-foreground text-sm">{t("writingExam.modeDialog.examLabel")}</p>
+              <ul className="list-disc pl-4 space-y-0.5">
+                <li>{t("writingExam.overview.examBullet1")}</li>
+                <li>{t("writingExam.overview.examBullet2")}</li>
+                <li>{t("writingExam.overview.examBullet3")}</li>
+              </ul>
+            </div>
+            <div className="space-y-1">
+              <p className="font-medium text-foreground text-sm">{t("writingExam.modeDialog.practiceLabel")}</p>
+              <ul className="list-disc pl-4 space-y-0.5">
+                <li>{t("writingExam.overview.practiceBullet1")}</li>
+                <li>{t("writingExam.overview.practiceBullet2")}</li>
+                <li>{t("writingExam.overview.practiceBullet3")}</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Active attempt resume cards */}
+          {activePractice && (
+            <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
+              <p className="text-sm font-medium">{t("writingExam.modeDialog.incompletePractice")}</p>
+              <div className="mt-2 flex gap-2">
+                <Button
+                  size="sm"
+                  onClick={() => router.push(`/writing-practice/${activePractice.id}`)}
+                  disabled={starting || startingExam}
+                >
+                  <Play className="mr-1.5 h-3.5 w-3.5" />
+                  {t("testCard.continuePractice")}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => handleStartPractice(true)}
+                  disabled={starting || startingExam}
+                >
+                  <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                  {t("testDetail.restart")}
+                </Button>
+              </div>
+            </div>
           )}
-          {topics.map((topic, idx) => {
-            const taskNum = idx + 1;
-            const essay = essayTexts[topic.id] || "";
-            const wordCount = essay.trim() ? essay.trim().split(/\s+/).length : 0;
-            const wordRange = TASK_WORD_RANGES[taskNum] || [60, 300];
-            const isGrading = grading[topic.id] || false;
-            const result = gradingResults[topic.id];
-            const error = gradingErrors[topic.id];
 
-            return (
-              <Card key={topic.id}>
-                <CardHeader className="pb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
-                      {taskNum}
-                    </span>
-                    <span className="text-sm font-medium text-muted-foreground">
-                      {taskLabels[taskNum] || `Tâche ${taskNum}`}
-                    </span>
-                    {submittedTopics[topic.id] && (
-                      <CheckCircle2 className="h-4 w-4 text-green-500" />
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-sm leading-relaxed whitespace-pre-line">
-                    {topic.question_text}
-                  </p>
-                  {topic.passage && (
-                    <div className="rounded-md bg-muted/50 p-3">
-                      <p className="whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
-                        {topic.passage}
-                      </p>
-                    </div>
-                  )}
+          {activeExam && (
+            <div className="rounded-lg border border-orange-200 bg-orange-50/50 p-3 dark:border-orange-800 dark:bg-orange-950/20">
+              <p className="text-sm font-medium">{t("writingExam.modeDialog.incompleteExam")}</p>
+              <div className="mt-2 flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => router.push(`/writing-exam/${activeExam.id}`)}
+                  disabled={starting || startingExam}
+                >
+                  <Play className="mr-1.5 h-3.5 w-3.5" />
+                  {t("testCard.continueExam")}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => handleStartExam(true)}
+                  disabled={starting || startingExam}
+                >
+                  <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                  {t("testDetail.restart")}
+                </Button>
+              </div>
+            </div>
+          )}
 
-                  {/* Essay textarea */}
-                  <textarea
-                    className="w-full rounded-md border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 min-h-[120px] resize-y"
-                    placeholder={t("testDetail.essayPlaceholder")}
-                    value={essay}
-                    onChange={(e) => handleEssayChange(topic.id, e.target.value)}
-                    disabled={isGrading}
-                    rows={6}
-                  />
+          {/* Start buttons */}
+          <div className="flex gap-3">
+            {!activePractice && (
+              <Button
+                className="flex-1"
+                size="lg"
+                onClick={() => handleStartPractice(false)}
+                disabled={starting || startingExam}
+              >
+                {starting ? t("common.actions.starting") : t("testCard.startPractice")}
+              </Button>
+            )}
+            {!activeExam && (
+              <Button
+                className="flex-1"
+                size="lg"
+                variant="outline"
+                onClick={() => handleStartExam(false)}
+                disabled={starting || startingExam}
+              >
+                {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
+              </Button>
+            )}
+          </div>
 
-                  {/* Word count hint */}
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span>
-                      {t("testDetail.wordCount")}
-                      <span className={
-                        wordCount > 0 && (wordCount < wordRange[0] || wordCount > wordRange[1])
-                          ? "text-orange-500 font-medium"
-                          : wordCount >= wordRange[0] && wordCount <= wordRange[1]
-                          ? "text-green-600 font-medium"
-                          : ""
-                      }>
-                        {wordCount}
+          {/* Task preview (read-only) */}
+          <div className="space-y-3">
+            {topics.map((topic, idx) => {
+              const taskNum = idx + 1;
+              return (
+                <Card key={topic.id}>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                        {taskNum}
                       </span>
-                      {" "}{t("testDetail.wordRange", { min: wordRange[0], max: wordRange[1] })}
-                    </span>
-                  </div>
-
-                  {/* Buttons */}
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="sm"
-                      onClick={() => handleGrade(topic, taskNum)}
-                      disabled={isGrading || !essay.trim() || wordCount < 10}
-                    >
-                      {isGrading ? (
-                        <>
-                          <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                          {t("testDetail.grading")}
-                        </>
-                      ) : (
-                        <>
-                          <CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />
-                          {t("testDetail.submitGrading")}
-                        </>
-                      )}
-                    </Button>
-                    <Button variant="ghost" size="sm" asChild>
-                      <a
-                        href={buildWritingChatGPTUrl(topic, taskNum)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5"
-                      >
-                        <ExternalLink className="h-3.5 w-3.5" />
-                        {t("testDetail.chatgptPractice")}
-                      </a>
-                    </Button>
-                  </div>
-
-                  {/* Error */}
-                  {error && (
-                    <div className="flex items-start gap-2 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-                      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                      <span>{error}</span>
+                      <span className="text-sm font-medium text-muted-foreground">
+                        {taskLabels[taskNum] || `Tache ${taskNum}`}
+                      </span>
                     </div>
-                  )}
-
-                  {/* Grading result */}
-                  {result && (
-                    <>
-                      {submittedTopics[topic.id] && (
-                        <p className="text-xs text-muted-foreground">
-                          {t("testDetail.lastSubmitted", { date: new Date(submittedTopics[topic.id]).toLocaleString() })}
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm leading-relaxed whitespace-pre-line">
+                      {topic.question_text}
+                    </p>
+                    {topic.passage && (
+                      <div className="rounded-md bg-muted/50 p-3">
+                        <p className="whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
+                          {topic.passage}
                         </p>
-                      )}
-                      <WritingFeedbackPanel feedback={result} />
-                    </>
-                  )}
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </>
       )}
     </div>
   );

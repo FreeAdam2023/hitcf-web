@@ -348,6 +348,42 @@ export interface WritingGradeResponse {
 
 export type WritingSubmissionItem = WritingGradeResponse;
 
+// Writing Attempts
+export interface WritingAttemptResponse {
+  id: string;
+  user_id: string;
+  test_set_id: string;
+  mode: "practice" | "exam";
+  status: "in_progress" | "grading" | "completed" | "abandoned";
+  essays: Record<string, { text: string; word_count: number }>;
+  total_score: number | null;
+  average_nclc: string | null;
+  started_at: string;
+  completed_at: string | null;
+  time_limit_seconds: number;
+  submission_ids: string[];
+}
+
+export interface WritingAttemptResults {
+  id: string;
+  test_set_id: string;
+  mode: "practice" | "exam";
+  status: string;
+  total_score: number | null;
+  average_nclc: string | null;
+  started_at: string;
+  completed_at: string | null;
+  time_limit_seconds: number;
+  tasks: WritingAttemptTaskResult[];
+}
+
+export interface WritingAttemptTaskResult {
+  task_number: number;
+  essay_text: string;
+  word_count: number;
+  feedback: WritingFeedback | null;
+}
+
 // Vocabulary Card
 export interface ConjugationTable {
   je: string;
