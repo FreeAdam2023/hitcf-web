@@ -150,13 +150,6 @@ export function PracticeSession() {
     setExplanationError(false);
   }, [currentIndex]);
 
-  // Auto-fetch explanation as soon as user answers (so transcript translations appear immediately)
-  useEffect(() => {
-    if (question && currentAnswer && !explanation && !explanationLoading) {
-      fetchExplanation(question.id);
-    }
-  }, [question, currentAnswer, explanation, explanationLoading, fetchExplanation]);
-
   // Prevent accidental navigation (browser back/forward swipe + tab close)
   const answersRef = useRef(answers);
   useEffect(() => { answersRef.current = answers; });
@@ -180,6 +173,13 @@ export function PracticeSession() {
 
   const question = questions[currentIndex];
   const currentAnswer = question ? (answers.get(question.id) ?? null) : null;
+
+  // Auto-fetch explanation as soon as user answers (so transcript translations appear immediately)
+  useEffect(() => {
+    if (question && currentAnswer && !explanation && !explanationLoading) {
+      fetchExplanation(question.id);
+    }
+  }, [question, currentAnswer, explanation, explanationLoading, fetchExplanation]);
 
   // In practice mode, clicking an option only sets the pending selection (does not submit)
   const handleSelect = useCallback((key: string) => {
