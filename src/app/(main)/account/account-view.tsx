@@ -208,8 +208,8 @@ export function AccountView() {
   const planLabel =
     subPlan === "monthly"
       ? "月付"
-      : subPlan === "semi_annual"
-        ? "半年付"
+      : subPlan === "quarterly"
+        ? "季付"
         : subPlan === "yearly"
           ? "年付"
           : subPlan || "";

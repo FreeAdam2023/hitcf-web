@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePracticeStore } from "@/stores/practice-store";
+import { useTranscriptLang } from "@/hooks/use-transcript-lang";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
 import { getQuestionDetail, generateExplanation } from "@/lib/api/questions";
 import { QuestionDisplay } from "@/components/practice/question-display";
@@ -22,9 +23,17 @@ import type { Explanation, QuestionBrief } from "@/lib/api/types";
 function TranscriptBlock({
   question,
   explanation,
+  showEn,
+  showZh,
+  onToggleEn,
+  onToggleZh,
 }: {
   question: QuestionBrief;
   explanation: Explanation | null;
+  showEn: boolean;
+  showZh: boolean;
+  onToggleEn: () => void;
+  onToggleZh: () => void;
 }) {
   const isListening = question.type === "listening";
   const hasTranscript = !!question.transcript;
@@ -42,10 +51,34 @@ function TranscriptBlock({
 
   return (
     <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
-      <h4 className="mb-2 flex items-center gap-1.5 font-medium">
-        <FileText className="h-4 w-4" />
-        原文
-      </h4>
+      <div className="mb-2 flex items-center justify-between">
+        <h4 className="flex items-center gap-1.5 font-medium">
+          <FileText className="h-4 w-4" />
+          原文
+        </h4>
+        <div className="flex gap-1">
+          <button
+            onClick={onToggleEn}
+            className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
+              showEn
+                ? "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300"
+                : "bg-muted text-muted-foreground"
+            }`}
+          >
+            EN
+          </button>
+          <button
+            onClick={onToggleZh}
+            className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
+              showZh
+                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300"
+                : "bg-muted text-muted-foreground"
+            }`}
+          >
+            ZH
+          </button>
+        </div>
+      </div>
 
       {/* Sentence-by-sentence trilingual cards */}
       {sentences && sentences.length > 0 ? (
@@ -55,12 +88,12 @@ function TranscriptBlock({
               <p className="font-medium leading-relaxed text-foreground">
                 {s.fr}
               </p>
-              {s.en && (
+              {showEn && s.en && (
                 <p className="leading-relaxed text-blue-600 dark:text-blue-400">
                   {s.en}
                 </p>
               )}
-              {s.zh && (
+              {showZh && s.zh && (
                 <p className="leading-relaxed text-emerald-600 dark:text-emerald-400">
                   {s.zh}
                 </p>
@@ -86,10 +119,10 @@ function TranscriptBlock({
                   <p className="font-medium text-foreground">
                     {opt.key}. {opt.text}
                   </p>
-                  {t?.en && (
+                  {showEn && t?.en && (
                     <p className="pl-5 text-blue-600 dark:text-blue-400">{t.en}</p>
                   )}
-                  {t?.zh && (
+                  {showZh && t?.zh && (
                     <p className="pl-5 text-emerald-600 dark:text-emerald-400">{t.zh}</p>
                   )}
                 </div>
@@ -115,6 +148,8 @@ export function PracticeSession() {
     goPrev,
     goToQuestion,
   } = usePracticeStore();
+
+  const { showEn, showZh, toggleEn, toggleZh } = useTranscriptLang();
 
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -385,7 +420,7 @@ export function PracticeSession() {
         {/* 移动端：原文 + 解析面板 */}
         <div className="lg:hidden">
           {currentAnswer && question.type === "listening" && (
-            <TranscriptBlock question={question} explanation={explanation} />
+            <TranscriptBlock question={question} explanation={explanation} showEn={showEn} showZh={showZh} onToggleEn={toggleEn} onToggleZh={toggleZh} />
           )}
           {currentAnswer && (
             <ExplanationPanel
@@ -442,7 +477,7 @@ export function PracticeSession() {
         <div className="sticky top-20 space-y-3">
           {/* 听力原文（桌面侧栏） */}
           {currentAnswer && question.type === "listening" && (
-            <TranscriptBlock question={question} explanation={explanation} />
+            <TranscriptBlock question={question} explanation={explanation} showEn={showEn} showZh={showZh} onToggleEn={toggleEn} onToggleZh={toggleZh} />
           )}
           {currentAnswer ? (
             <ExplanationPanel
