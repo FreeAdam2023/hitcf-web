@@ -25,6 +25,7 @@ interface ExplanationPanelProps {
   questionId?: string;
   defaultOpen?: boolean;
   transcript?: string | null;
+  onLoaded?: (exp: Explanation) => void;
 }
 
 export function ExplanationPanel({
@@ -32,6 +33,7 @@ export function ExplanationPanel({
   questionId,
   defaultOpen = false,
   transcript,
+  onLoaded,
 }: ExplanationPanelProps) {
   const [open, setOpen] = useState(defaultOpen);
   const [explanation, setExplanation] = useState(initialExplanation);
@@ -67,7 +69,10 @@ export function ExplanationPanel({
 
     generateExplanation(questionId)
       .then((data) => {
-        if (!cancelled) setExplanation(data);
+        if (!cancelled) {
+          setExplanation(data);
+          onLoaded?.(data);
+        }
       })
       .catch(() => {
         if (!cancelled) setError(true);
@@ -103,7 +108,7 @@ export function ExplanationPanel({
     setLoading(true);
     setError(false);
     generateExplanation(questionId, true)
-      .then((data) => setExplanation(data))
+      .then((data) => { setExplanation(data); onLoaded?.(data); })
       .catch(() => setError(true))
       .finally(() => setLoading(false));
   };

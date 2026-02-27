@@ -91,6 +91,11 @@ export interface VocabularyItem {
   freq: string | null;
 }
 
+export interface OptionTranslation {
+  en: string;
+  zh: string;
+}
+
 export interface Explanation {
   sentence_translation: SentenceTranslation[] | null;
   correct_reasoning: string | null;
@@ -99,6 +104,9 @@ export interface Explanation {
   trap_pattern: string | null;
   vocabulary: VocabularyItem[] | null;
   similar_tip: string | null;
+  transcript_en: string | null;
+  transcript_zh: string | null;
+  option_translations: Record<string, OptionTranslation> | null;
 }
 
 export interface QuestionDetail extends QuestionBrief {

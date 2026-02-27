@@ -16,16 +16,25 @@ import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ReportDialog } from "@/components/practice/report-dialog";
-import type { QuestionBrief } from "@/lib/api/types";
+import type { Explanation, QuestionBrief } from "@/lib/api/types";
 
-/** 听力原文：展示完整音频内容（对话 + 选项朗读） */
-function TranscriptBlock({ question }: { question: QuestionBrief }) {
+/** 听力原文：三语对照（法/英/中） */
+function TranscriptBlock({
+  question,
+  explanation,
+}: {
+  question: QuestionBrief;
+  explanation: Explanation | null;
+}) {
   const isListening = question.type === "listening";
   const hasTranscript = !!question.transcript;
   const hasAudioOptions = isListening && question.options.length > 0;
 
-  // 没有任何内容可展示
   if (!hasTranscript && !hasAudioOptions) return null;
+
+  const transEn = explanation?.transcript_en;
+  const transZh = explanation?.transcript_zh;
+  const optTrans = explanation?.option_translations;
 
   return (
     <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
@@ -33,19 +42,50 @@ function TranscriptBlock({ question }: { question: QuestionBrief }) {
         <FileText className="h-4 w-4" />
         原文
       </h4>
+
+      {/* Transcript: FR → EN → ZH */}
       {hasTranscript && (
-        <p className="whitespace-pre-wrap leading-relaxed text-foreground">
-          {question.transcript}
-        </p>
+        <div className="space-y-1.5">
+          <p className="whitespace-pre-wrap leading-relaxed text-foreground">
+            {question.transcript}
+          </p>
+          {transEn && (
+            <p className="whitespace-pre-wrap leading-relaxed text-blue-600 dark:text-blue-400">
+              {transEn}
+            </p>
+          )}
+          {transZh && (
+            <p className="whitespace-pre-wrap leading-relaxed text-emerald-600 dark:text-emerald-400">
+              {transZh}
+            </p>
+          )}
+        </div>
       )}
+
+      {/* Options: trilingual */}
       {hasAudioOptions && (
         <div className={hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
-          <div className="space-y-0.5 text-muted-foreground">
-            {question.options.map((opt) => (
-              <p key={opt.key}>
-                <span className="font-medium text-foreground">{opt.key}.</span> {opt.text}
-              </p>
-            ))}
+          <div className="space-y-1 text-muted-foreground">
+            {question.options.map((opt) => {
+              const t = optTrans?.[opt.key];
+              return (
+                <div key={opt.key}>
+                  <p>
+                    <span className="font-medium text-foreground">{opt.key}.</span> {opt.text}
+                    {t?.en && (
+                      <span className="ml-2 text-blue-600 dark:text-blue-400">
+                        {t.en}
+                      </span>
+                    )}
+                    {t?.zh && (
+                      <span className="ml-2 text-emerald-600 dark:text-emerald-400">
+                        {t.zh}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
@@ -74,12 +114,14 @@ export function PracticeSession() {
   const [savedIndicator, setSavedIndicator] = useState(false);
   const [wrongCollected, setWrongCollected] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
+  const [explanation, setExplanation] = useState<Explanation | null>(null);
 
   // Clear pending selection and indicators when navigating
   useEffect(() => {
     setSelectedKey(null);
     setSavedIndicator(false);
     setWrongCollected(false);
+    setExplanation(null);
   }, [currentIndex]);
 
   // Prevent accidental navigation (browser back/forward swipe + tab close)
@@ -310,14 +352,14 @@ export function PracticeSession() {
           </div>
         )}
 
-        {/* 听力原文 — 答完即显示（含对话 + 选项朗读） */}
+        {/* 听力原文（三语对照）— 答完即显示，解析加载后补充翻译 */}
         {currentAnswer && question.type === "listening" && (
-          <TranscriptBlock question={question} />
+          <TranscriptBlock question={question} explanation={explanation} />
         )}
 
         {/* 移动端解析面板 */}
         <div className="lg:hidden">
-          {currentAnswer && <ExplanationPanel explanation={null} questionId={question.id} defaultOpen={currentAnswer.is_correct === false} />}
+          {currentAnswer && <ExplanationPanel explanation={explanation} questionId={question.id} defaultOpen={currentAnswer.is_correct === false} onLoaded={setExplanation} />}
         </div>
 
         <Separator />
@@ -356,11 +398,15 @@ export function PracticeSession() {
         </div>
       </div>
 
-      {/* 右侧：解析面板 (桌面) */}
+      {/* 右侧：原文 + 解析面板 (桌面) */}
       <div className="hidden lg:block">
         <div className="sticky top-20 space-y-3">
+          {/* 听力原文（桌面侧栏） */}
+          {currentAnswer && question.type === "listening" && (
+            <TranscriptBlock question={question} explanation={explanation} />
+          )}
           {currentAnswer ? (
-            <ExplanationPanel explanation={null} questionId={question.id} defaultOpen={currentAnswer.is_correct === false} />
+            <ExplanationPanel explanation={explanation} questionId={question.id} defaultOpen={currentAnswer.is_correct === false} onLoaded={setExplanation} />
           ) : (
             <div className="rounded-md border p-4 text-sm text-muted-foreground">
               <p>答题后查看解析</p>
