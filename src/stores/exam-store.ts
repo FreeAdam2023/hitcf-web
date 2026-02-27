@@ -54,6 +54,8 @@ interface ExamState {
   flaggedQuestions: Set<number>;
   timeLimitSeconds: number;
   startedAt: string | null;
+  testType: "listening" | "reading" | null;
+  playedAudioQuestionIds: Set<string>;
 
   init: (
     attemptId: string,
@@ -65,6 +67,7 @@ interface ExamState {
   ) => void;
   setAnswer: (questionId: string, answer: ExamAnswer) => void;
   toggleFlag: (questionNumber: number) => void;
+  markAudioPlayed: (questionId: string) => void;
   goToQuestion: (index: number) => void;
   goNext: () => void;
   goPrev: () => void;
@@ -79,6 +82,8 @@ export const useExamStore = create<ExamState>((set, get) => ({
   flaggedQuestions: new Set(),
   timeLimitSeconds: 0,
   startedAt: null,
+  testType: null,
+  playedAudioQuestionIds: new Set(),
 
   init: (attemptId, questions, timeLimitSeconds, startedAt, existingAnswers, existingFlags) => {
     const answers = new Map<string, ExamAnswer>();
@@ -99,6 +104,9 @@ export const useExamStore = create<ExamState>((set, get) => ({
       if (!answers.has(k)) answers.set(k, v);
     });
     const flaggedQuestions = new Set<number>(existingFlags || []);
+    const firstType = questions[0]?.type;
+    const testType: "listening" | "reading" | null =
+      firstType === "listening" ? "listening" : firstType === "reading" ? "reading" : null;
     set({
       attemptId,
       questions,
@@ -107,6 +115,8 @@ export const useExamStore = create<ExamState>((set, get) => ({
       flaggedQuestions,
       timeLimitSeconds,
       startedAt,
+      testType,
+      playedAudioQuestionIds: new Set(),
     });
     saveAnswersToSession(attemptId, answers);
   },
@@ -117,6 +127,13 @@ export const useExamStore = create<ExamState>((set, get) => ({
       next.set(questionId, answer);
       if (state.attemptId) saveAnswersToSession(state.attemptId, next);
       return { answers: next };
+    }),
+
+  markAudioPlayed: (questionId) =>
+    set((state) => {
+      const next = new Set(state.playedAudioQuestionIds);
+      next.add(questionId);
+      return { playedAudioQuestionIds: next };
     }),
 
   toggleFlag: (questionNumber) =>
@@ -161,6 +178,8 @@ export const useExamStore = create<ExamState>((set, get) => ({
       flaggedQuestions: new Set(),
       timeLimitSeconds: 0,
       startedAt: null,
+      testType: null,
+      playedAudioQuestionIds: new Set(),
     });
   },
 }));

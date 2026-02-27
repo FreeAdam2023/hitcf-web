@@ -18,7 +18,7 @@ import { CLB7Readiness } from "@/components/dashboard/clb7-readiness";
 import { getStatsOverview, getStatsHistory } from "@/lib/api/stats";
 import type { StatsOverview } from "@/lib/api/stats";
 import type { StatsHistory } from "@/lib/api/types";
-import { getEstimatedTcfLevel } from "@/lib/tcf-levels";
+import { estimateTcfLevelFromRatio } from "@/lib/tcf-levels";
 import { MODE_LABELS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -195,7 +195,7 @@ export function DashboardView() {
                   </CardHeader>
                   <CardContent className="space-y-1">
                     {stats.recent_attempts.map((a) => {
-                      const tcf = a.score != null ? getEstimatedTcfLevel(a.score, a.total) : null;
+                      const tcf = a.score != null ? estimateTcfLevelFromRatio(a.score, a.total) : null;
                       const scorePct = a.score != null && a.total > 0 ? Math.round((a.score / a.total) * 100) : null;
                       return (
                         <div

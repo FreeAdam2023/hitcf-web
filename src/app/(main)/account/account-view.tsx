@@ -1,21 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useAuthStore } from "@/stores/auth-store";
 import { updateProfile, changePassword } from "@/lib/api/auth";
 import { getCustomerPortal } from "@/lib/api/subscriptions";
+import { getStatsOverview, type StatsOverview } from "@/lib/api/stats";
 import { ApiError } from "@/lib/api/client";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   ChevronDown,
@@ -25,10 +25,17 @@ import {
   ExternalLink,
   Sparkles,
   LogOut,
+  Crown,
+  Target,
+  Flame,
+  BookOpen,
+  Headphones,
+  BookOpenText,
+  ArrowRight,
+  BarChart3,
 } from "lucide-react";
 
 const QUOTES = [
-  // 法语谚语
   { fr: "Petit à petit, l'oiseau fait son nid.", zh: "一点一点，鸟儿筑成了巢。——积少成多，功到自成。" },
   { fr: "C'est en forgeant qu'on devient forgeron.", zh: "打铁才能成铁匠。——熟能生巧。" },
   { fr: "Vouloir, c'est pouvoir.", zh: "有志者，事竟成。" },
@@ -36,39 +43,14 @@ const QUOTES = [
   { fr: "Qui ne tente rien n'a rien.", zh: "不尝试就什么也得不到。" },
   { fr: "À cœur vaillant rien d'impossible.", zh: "勇者无难事。" },
   { fr: "Les petits ruisseaux font les grandes rivières.", zh: "涓涓细流汇成大河。——积少成多。" },
-  { fr: "Il faut tourner sept fois sa langue dans sa bouche avant de parler.", zh: "开口之前要三思。——说话前先想清楚。" },
   { fr: "Après la pluie, le beau temps.", zh: "雨过天晴。——困难之后必有好日子。" },
   { fr: "Qui vivra verra.", zh: "活着就能看到。——走着瞧，未来可期。" },
   { fr: "La nuit porte conseil.", zh: "夜晚会带来好主意。——一觉醒来就有办法了。" },
   { fr: "Mieux vaut tard que jamais.", zh: "迟做总比不做好。" },
-  // 法国名人名言
-  { fr: "Le savoir est la seule matière qui s'accroît quand on la partage.", zh: "知识是唯一越分享越多的东西。——Socrate" },
   { fr: "La persévérance est la noblesse de l'obstination.", zh: "坚持是执着最高贵的形式。——Adrien Decourcelle" },
-  { fr: "Il n'y a qu'une façon d'échouer, c'est d'abandonner avant d'avoir réussi.", zh: "失败只有一种方式：在成功之前放弃。——Georges Clemenceau" },
-  { fr: "Ce qui compte, ce n'est pas le nombre d'heures que vous consacrez, c'est ce que vous consacrez à ces heures.", zh: "重要的不是你花了多少小时，而是你在这些小时里投入了什么。" },
-  { fr: "L'avenir appartient à ceux qui se lèvent tôt.", zh: "未来属于早起的人。——法语谚语" },
-  { fr: "La lecture est à l'esprit ce que l'exercice est au corps.", zh: "阅读之于心灵，犹如运动之于身体。——Addison" },
-  { fr: "On ne naît pas savant, on le devient.", zh: "没有人生来博学，都是学出来的。" },
+  { fr: "L'avenir appartient à ceux qui se lèvent tôt.", zh: "未来属于早起的人。" },
   { fr: "Chaque langue nouvelle est une nouvelle fenêtre sur le monde.", zh: "每学一门新语言，就多了一扇看世界的窗。" },
 ];
-
-function SubscriptionBadge({ status }: { status: string | null }) {
-  if (status === "active") {
-    return (
-      <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
-        Pro 会员
-      </Badge>
-    );
-  }
-  if (status === "trialing") {
-    return (
-      <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
-        试用中
-      </Badge>
-    );
-  }
-  return <Badge variant="secondary">免费用户</Badge>;
-}
 
 function formatDate(dateStr: string | null | undefined): string {
   if (!dateStr) return "-";
@@ -80,6 +62,81 @@ function formatDate(dateStr: string | null | undefined): string {
   });
 }
 
+function StatCell({
+  icon: Icon,
+  value,
+  label,
+  accent,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  value: string | number;
+  label: string;
+  accent?: string;
+}) {
+  return (
+    <div className="flex flex-col items-center gap-1 text-center">
+      <Icon className={`h-5 w-5 ${accent || "text-white/70"}`} />
+      <p className="text-2xl font-bold text-white">{value}</p>
+      <p className="text-xs text-white/60">{label}</p>
+    </div>
+  );
+}
+
+function AccuracyRing({
+  value,
+  label,
+  size = 72,
+}: {
+  value: number;
+  label: string;
+  size?: number;
+}) {
+  const radius = (size - 8) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference * (1 - value / 100);
+
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <div className="relative" style={{ width: size, height: size }}>
+        <svg width={size} height={size} className="-rotate-90">
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke="rgba(255,255,255,0.15)"
+            strokeWidth={4}
+          />
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke="url(#ring-gradient)"
+            strokeWidth={4}
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={offset}
+            className="transition-all duration-1000"
+          />
+          <defs>
+            <linearGradient id="ring-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#fbbf24" />
+              <stop offset="100%" stopColor="#f59e0b" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-sm font-bold text-white">
+            {Math.round(value)}%
+          </span>
+        </div>
+      </div>
+      <p className="text-xs text-white/60">{label}</p>
+    </div>
+  );
+}
+
 export function AccountView() {
   const user = useAuthStore((s) => s.user);
   const isLoading = useAuthStore((s) => s.isLoading);
@@ -88,6 +145,9 @@ export function AccountView() {
   const fetchUser = useAuthStore((s) => s.fetchUser);
   const logout = useAuthStore((s) => s.logout);
   const router = useRouter();
+
+  // Stats
+  const [stats, setStats] = useState<StatsOverview | null>(null);
 
   // Profile editing
   const [name, setName] = useState("");
@@ -108,8 +168,18 @@ export function AccountView() {
   // Subscription management
   const [portalLoading, setPortalLoading] = useState(false);
 
-  // Random quote — must be before early returns to satisfy React hooks rules
-  const quote = useMemo(() => QUOTES[Math.floor(Math.random() * QUOTES.length)], []);
+  const quote = useMemo(
+    () => QUOTES[Math.floor(Math.random() * QUOTES.length)],
+    []
+  );
+
+  const loadStats = useCallback(() => {
+    getStatsOverview().then(setStats).catch(() => setStats(null));
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) loadStats();
+  }, [isAuthenticated, loadStats]);
 
   // Initialize name from user data
   if (user && !nameInitialized) {
@@ -120,8 +190,7 @@ export function AccountView() {
   if (isLoading) {
     return (
       <div className="mx-auto max-w-2xl space-y-6 p-4 pt-8">
-        <Skeleton className="h-8 w-48" />
-        <Skeleton className="h-48 w-full rounded-xl" />
+        <Skeleton className="h-52 w-full rounded-2xl" />
         <Skeleton className="h-36 w-full rounded-xl" />
         <Skeleton className="h-24 w-full rounded-xl" />
       </div>
@@ -136,6 +205,16 @@ export function AccountView() {
   const isSubscribed = hasActiveSubscription();
   const subStatus = user.subscription?.status;
   const subPlan = user.subscription?.plan;
+  const planLabel =
+    subPlan === "monthly"
+      ? "月付"
+      : subPlan === "semi_annual"
+        ? "半年付"
+        : subPlan === "yearly"
+          ? "年付"
+          : subPlan || "";
+
+  const firstName = user.name?.split(/\s/)[0] || "同学";
 
   const handleSaveName = async () => {
     const trimmed = name.trim();
@@ -158,7 +237,6 @@ export function AccountView() {
   const handleChangePassword = async () => {
     setPasswordError("");
     setPasswordSuccess(false);
-
     if (newPassword.length < 8) {
       setPasswordError("新密码至少需要 8 位");
       return;
@@ -167,7 +245,6 @@ export function AccountView() {
       setPasswordError("两次输入的新密码不一致");
       return;
     }
-
     setPasswordSaving(true);
     try {
       await changePassword({
@@ -199,27 +276,215 @@ export function AccountView() {
     }
   };
 
-  const planLabel = subPlan === "monthly" ? "月付" : subPlan === "semi_annual" ? "半年付" : subPlan === "yearly" ? "年付" : subPlan || "";
-
-  const firstName = user.name?.split(/\s/)[0] || "同学";
-
   return (
     <div className="mx-auto max-w-2xl space-y-6 p-4 pt-8">
-      <div>
-        <h1 className="text-2xl font-bold">Salut {firstName},</h1>
-        <blockquote className="mt-3 border-l-4 border-primary/40 pl-4">
-          <p className="text-sm italic text-muted-foreground">{quote.fr}</p>
-          <p className="mt-1 text-sm text-muted-foreground">{quote.zh}</p>
-        </blockquote>
-      </div>
+      {/* ── Hero Card ── */}
+      {isSubscribed ? (
+        /* ─── Pro Member Hero ─── */
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6 shadow-xl">
+          {/* Subtle glow */}
+          <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-amber-500/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-blue-500/10 blur-2xl" />
 
-      {/* Card 1: Profile */}
+          {/* Header */}
+          <div className="relative flex items-start justify-between">
+            <div>
+              <div className="flex items-center gap-2">
+                <Crown className="h-5 w-5 text-amber-400" />
+                <span className="text-sm font-semibold tracking-wide text-amber-400">
+                  PRO{" "}
+                  {subStatus === "trialing"
+                    ? "试用中"
+                    : planLabel
+                      ? `· ${planLabel}`
+                      : "会员"}
+                </span>
+              </div>
+              <h1 className="mt-2 text-2xl font-bold text-white">
+                Bonjour, {firstName}
+              </h1>
+              {subStatus === "trialing" && user.subscription?.trial_end && (
+                <p className="mt-1 text-xs text-white/50">
+                  试用至 {formatDate(user.subscription.trial_end)}
+                </p>
+              )}
+              {subStatus === "active" &&
+                user.subscription?.current_period_end && (
+                  <p className="mt-1 text-xs text-white/50">
+                    续费日 {formatDate(user.subscription.current_period_end)}
+                  </p>
+                )}
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-white/50 hover:bg-white/10 hover:text-white"
+              onClick={handleManageSubscription}
+              disabled={portalLoading}
+            >
+              {portalLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <ExternalLink className="h-4 w-4" />
+              )}
+              <span className="ml-1 text-xs">管理订阅</span>
+            </Button>
+          </div>
+
+          {/* Stats Row */}
+          {stats && (
+            <div className="relative mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+              <StatCell
+                icon={BookOpen}
+                value={stats.total_attempts}
+                label="练习次数"
+              />
+              <StatCell
+                icon={Target}
+                value={
+                  stats.accuracy_rate > 0
+                    ? `${Math.round(stats.accuracy_rate)}%`
+                    : "-"
+                }
+                label="总正确率"
+              />
+              <StatCell
+                icon={Flame}
+                value={stats.streak_days}
+                label="连续天数"
+                accent="text-orange-400"
+              />
+              <StatCell
+                icon={BarChart3}
+                value={stats.total_questions_answered}
+                label="做题总数"
+              />
+            </div>
+          )}
+
+          {/* Accuracy Rings */}
+          {stats &&
+            (stats.listening_accuracy > 0 || stats.reading_accuracy > 0) && (
+              <div className="relative mt-6 flex items-center justify-center gap-8 border-t border-white/10 pt-6">
+                <div className="flex items-center gap-2">
+                  <Headphones className="h-4 w-4 text-white/40" />
+                  <AccuracyRing
+                    value={stats.listening_accuracy}
+                    label="听力正确率"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <BookOpenText className="h-4 w-4 text-white/40" />
+                  <AccuracyRing
+                    value={stats.reading_accuracy}
+                    label="阅读正确率"
+                  />
+                </div>
+              </div>
+            )}
+
+          {/* Quote */}
+          <div className="relative mt-6 border-t border-white/10 pt-4">
+            <p className="text-sm italic text-white/40">
+              &ldquo;{quote.fr}&rdquo;
+            </p>
+            <p className="mt-1 text-xs text-white/30">{quote.zh}</p>
+          </div>
+
+          {/* Quick link */}
+          <div className="relative mt-4 flex gap-2">
+            <Link href="/dashboard">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-white/60 hover:bg-white/10 hover:text-white"
+              >
+                <BarChart3 className="mr-1 h-4 w-4" />
+                学习统计
+                <ArrowRight className="ml-1 h-3 w-3" />
+              </Button>
+            </Link>
+            <Link href="/tests">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-white/60 hover:bg-white/10 hover:text-white"
+              >
+                <BookOpen className="mr-1 h-4 w-4" />
+                继续练习
+                <ArrowRight className="ml-1 h-3 w-3" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      ) : (
+        /* ─── Free User Hero ─── */
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 p-6 dark:from-slate-900 dark:to-slate-800">
+          <div>
+            <h1 className="text-2xl font-bold">Salut {firstName},</h1>
+            <blockquote className="mt-3 border-l-4 border-primary/40 pl-4">
+              <p className="text-sm italic text-muted-foreground">
+                {quote.fr}
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">{quote.zh}</p>
+            </blockquote>
+          </div>
+
+          {/* Stats summary for free user */}
+          {stats && stats.total_attempts > 0 && (
+            <div className="mt-4 flex gap-6 text-sm text-muted-foreground">
+              <span>
+                <strong className="text-foreground">
+                  {stats.total_attempts}
+                </strong>{" "}
+                次练习
+              </span>
+              <span>
+                <strong className="text-foreground">
+                  {stats.total_questions_answered}
+                </strong>{" "}
+                道题
+              </span>
+              {stats.accuracy_rate > 0 && (
+                <span>
+                  正确率{" "}
+                  <strong className="text-foreground">
+                    {Math.round(stats.accuracy_rate)}%
+                  </strong>
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* Upgrade CTA */}
+          <div className="mt-5 flex items-center gap-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 p-4 dark:from-amber-950/30 dark:to-orange-950/30">
+            <Sparkles className="h-8 w-8 shrink-0 text-amber-500" />
+            <div className="flex-1">
+              <p className="text-sm font-medium">
+                解锁全部 8,500+ 道真题 + 考试模式
+              </p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                年付低至 $6.66/月，含 2 个月免费试用
+              </p>
+            </div>
+            <Button
+              size="sm"
+              className="shrink-0 bg-amber-500 hover:bg-amber-600"
+              onClick={() => router.push("/pricing")}
+            >
+              升级 Pro
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Profile Card ── */}
       <Card>
         <CardHeader>
           <CardTitle>个人信息</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Email (read-only) */}
+          {/* Email */}
           <div>
             <label className="text-sm font-medium text-muted-foreground">
               邮箱
@@ -361,61 +626,7 @@ export function AccountView() {
         </CardContent>
       </Card>
 
-      {/* Card 2: Subscription */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>我的订阅</CardTitle>
-            <SubscriptionBadge status={subStatus ?? null} />
-          </div>
-        </CardHeader>
-        <CardContent>
-          {isSubscribed ? (
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium">
-                  Pro {planLabel}
-                  {subStatus === "trialing" && user.subscription?.trial_end && (
-                    <span className="ml-1 text-muted-foreground">
-                      · 试用至 {formatDate(user.subscription.trial_end)}
-                    </span>
-                  )}
-                  {subStatus === "active" &&
-                    user.subscription?.current_period_end && (
-                      <span className="ml-1 text-muted-foreground">
-                        · 续费{" "}
-                        {formatDate(user.subscription.current_period_end)}
-                      </span>
-                    )}
-                </p>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleManageSubscription}
-                disabled={portalLoading}
-              >
-                {portalLoading ? (
-                  <Loader2 className="mr-1 h-4 w-4 animate-spin" />
-                ) : (
-                  <ExternalLink className="mr-1 h-4 w-4" />
-                )}
-                管理订阅
-              </Button>
-            </div>
-          ) : (
-            <div className="flex items-center justify-between">
-              <CardDescription>解锁全部 8,500+ 道题</CardDescription>
-              <Button size="sm" onClick={() => router.push("/pricing")}>
-                <Sparkles className="mr-1 h-4 w-4" />
-                去升级
-              </Button>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Card 3: Account */}
+      {/* ── Account Card ── */}
       <Card>
         <CardHeader>
           <CardTitle>账号</CardTitle>

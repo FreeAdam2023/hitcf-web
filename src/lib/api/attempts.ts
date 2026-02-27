@@ -1,6 +1,7 @@
 import { get, post, put } from "./client";
 import type { RequestOptions } from "./client";
 import type {
+  ActiveAttemptResponse,
   CreateAttemptRequest,
   CreateAttemptResponse,
   SubmitAnswerRequest,
@@ -12,11 +13,25 @@ import type {
   PaginatedResponse,
 } from "./types";
 
+export function getActiveAttempt(
+  testSetId: string,
+  mode: string = "practice",
+  options?: RequestOptions,
+): Promise<ActiveAttemptResponse | null> {
+  return get<ActiveAttemptResponse | null>(
+    `/api/attempts/active?test_set_id=${testSetId}&mode=${mode}`,
+    options,
+  );
+}
+
 export function createAttempt(
   body: CreateAttemptRequest,
-  options?: RequestOptions,
+  options?: RequestOptions & { forceNew?: boolean },
 ): Promise<CreateAttemptResponse> {
-  return post<CreateAttemptResponse>("/api/attempts", body, options);
+  const url = options?.forceNew
+    ? "/api/attempts?force_new=true"
+    : "/api/attempts";
+  return post<CreateAttemptResponse>(url, body, options);
 }
 
 export function submitAnswer(

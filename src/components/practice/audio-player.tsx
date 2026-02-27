@@ -17,11 +17,13 @@ const SAS_REFRESH_MS = 12 * 60 * 1000; // refresh after 12 minutes
 
 interface AudioPlayerProps {
   questionId: string;
+  maxPlays?: number;
+  onPlaybackComplete?: () => void;
 }
 
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
-export function AudioPlayer({ questionId }: AudioPlayerProps) {
+export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [url, setUrl] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -34,9 +36,12 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
+  const [playCount, setPlayCount] = useState(0);
   const volumeRef = useRef<HTMLDivElement>(null);
   const fetchedAtRef = useRef(0);
   const pendingPlayRef = useRef(false);
+
+  const exhausted = maxPlays !== undefined && playCount >= maxPlays;
 
   const loadUrl = useCallback(async () => {
     setLoading(true);
@@ -60,6 +65,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     setCurrentTime(0);
     setDuration(0);
     setError(null);
+    setPlayCount(0);
     fetchedAtRef.current = 0;
     pendingPlayRef.current = false;
   }, [questionId]);
@@ -96,6 +102,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
   }, [showVolume]);
 
   const togglePlay = async () => {
+    if (exhausted) return;
     if (!url || Date.now() - fetchedAtRef.current > SAS_REFRESH_MS) {
       pendingPlayRef.current = true;
       await loadUrl();
@@ -162,6 +169,11 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
   const onEnded = () => {
     setPlaying(false);
     setProgress(100);
+    const newCount = playCount + 1;
+    setPlayCount(newCount);
+    if (maxPlays !== undefined && newCount >= maxPlays) {
+      onPlaybackComplete?.();
+    }
   };
 
   const onError = () => {
@@ -220,7 +232,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         size="icon"
         className="h-8 w-8 shrink-0"
         onClick={togglePlay}
-        disabled={loading}
+        disabled={loading || exhausted}
       >
         {loading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -250,26 +262,33 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         size="icon"
         className="h-8 w-8 shrink-0"
         onClick={restart}
+        disabled={exhausted}
         aria-label="重新播放"
       >
         <RotateCcw className="h-3.5 w-3.5" />
       </Button>
 
-      {/* Speed */}
-      <select
-        value={speed}
-        onChange={(e) => {
-          const val = parseFloat(e.target.value);
-          setSpeed(val);
-          if (audioRef.current) audioRef.current.playbackRate = val;
-        }}
-        className="h-8 shrink-0 rounded-md border bg-background px-1.5 text-xs font-mono tabular-nums cursor-pointer"
-        aria-label="播放速度"
-      >
-        {SPEED_OPTIONS.map((s) => (
-          <option key={s} value={s}>{s}x</option>
-        ))}
-      </select>
+      {/* Speed — hidden when plays exhausted */}
+      {!exhausted && (
+        <select
+          value={speed}
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            setSpeed(val);
+            if (audioRef.current) audioRef.current.playbackRate = val;
+          }}
+          className="h-8 shrink-0 rounded-md border bg-background px-1.5 text-xs font-mono tabular-nums cursor-pointer"
+          aria-label="播放速度"
+        >
+          {SPEED_OPTIONS.map((s) => (
+            <option key={s} value={s}>{s}x</option>
+          ))}
+        </select>
+      )}
+
+      {exhausted && (
+        <span className="shrink-0 text-xs text-muted-foreground">已播放</span>
+      )}
 
       {url && (
         <audio

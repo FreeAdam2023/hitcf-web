@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Loader2, CheckCircle2, AlertCircle, ArrowRight, Copy, Check } from "lucide-react";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Loader2, CheckCircle2, AlertCircle, ArrowRight, Copy, Check, RotateCcw, Play } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,8 @@ import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { useAuthStore } from "@/stores/auth-store";
 import { getTestSet, getTestSetQuestions } from "@/lib/api/test-sets";
-import { createAttempt } from "@/lib/api/attempts";
+import { createAttempt, getActiveAttempt } from "@/lib/api/attempts";
+import type { ActiveAttemptResponse } from "@/lib/api/types";
 import { gradeWriting, getWritingSubmissions } from "@/lib/api/writing";
 import type { TestSetDetail, QuestionBrief, WritingFeedback } from "@/lib/api/types";
 
@@ -522,6 +523,8 @@ export default function TestDetailPage() {
   const [startingExam, setStartingExam] = useState(false);
   const [topics, setTopics] = useState<QuestionBrief[]>([]);
   const [topicsLoading, setTopicsLoading] = useState(false);
+  const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
+  const [activeExam, setActiveExam] = useState<ActiveAttemptResponse | null>(null);
 
   const locked = test ? !test.is_free && !canAccessPaid : false;
 
@@ -537,19 +540,24 @@ export default function TestDetailPage() {
             .catch(() => setTopics([]))
             .finally(() => setTopicsLoading(false));
         }
+        // Check for active attempts (listening/reading only)
+        if (data.type === "listening" || data.type === "reading") {
+          getActiveAttempt(data.id, "practice").then(setActivePractice).catch(() => {});
+          getActiveAttempt(data.id, "exam").then(setActiveExam).catch(() => {});
+        }
       })
       .catch(() => setTest(null))
       .finally(() => setLoading(false));
   }, [params.id]);
 
-  const handleStart = async () => {
+  const handleStart = async (forceNew = false) => {
     if (!test) return;
     setStarting(true);
     try {
-      const attempt = await createAttempt({
-        test_set_id: test.id,
-        mode: "practice",
-      });
+      const attempt = await createAttempt(
+        { test_set_id: test.id, mode: "practice" },
+        { forceNew },
+      );
       router.push(`/practice/${attempt.id}`);
     } catch (err) {
       console.error("Failed to create attempt", err);
@@ -558,14 +566,14 @@ export default function TestDetailPage() {
     }
   };
 
-  const handleStartExam = async () => {
+  const handleStartExam = async (forceNew = false) => {
     if (!test) return;
     setStartingExam(true);
     try {
-      const attempt = await createAttempt({
-        test_set_id: test.id,
-        mode: "exam",
-      });
+      const attempt = await createAttempt(
+        { test_set_id: test.id, mode: "exam" },
+        { forceNew },
+      );
       router.push(`/exam/${attempt.id}`);
     } catch (err) {
       console.error("Failed to create exam attempt", err);
@@ -681,38 +689,127 @@ export default function TestDetailPage() {
             <div className="font-medium">{test.time_limit_minutes} 分钟</div>
           </div>
 
-          {/* Exam tips */}
-          <div className="mt-6 rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-1">
-            <p className="font-medium text-foreground text-sm">考前须知</p>
-            <ul className="list-disc pl-4 space-y-0.5">
-              <li>考试模式：计时进行，不可暂停；不显示即时答案；可标记题目稍后回顾</li>
-              <li>提交后显示成绩报告和 TCF 预估等级</li>
-              <li>练习模式：无时间限制，每题作答后立即显示正确答案和解析</li>
-            </ul>
+          {/* Exam tips — type-specific */}
+          <div className="mt-6 rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-3">
+            <div className="space-y-1">
+              <p className="font-medium text-foreground text-sm">
+                {test.type === "listening" ? "听力考试模式" : "阅读考试模式"}
+              </p>
+              <ul className="list-disc pl-4 space-y-0.5">
+                {test.type === "listening" ? (
+                  <>
+                    <li>听力音频仅播放一次，不可重听</li>
+                    <li>选择答案后自动进入下一题，不可返回修改</li>
+                    <li>全程计时，{test.time_limit_minutes} 分钟内完成 {test.question_count} 题</li>
+                  </>
+                ) : (
+                  <>
+                    <li>可自由切换题目，答案可修改</li>
+                    <li>全程计时，{test.time_limit_minutes} 分钟内完成 {test.question_count} 题</li>
+                  </>
+                )}
+                <li>提交后显示成绩报告和 TCF 预估等级</li>
+              </ul>
+            </div>
+            <div className="space-y-1">
+              <p className="font-medium text-foreground text-sm">练习模式</p>
+              <ul className="list-disc pl-4 space-y-0.5">
+                <li>无时间限制，可反复听音频</li>
+                <li>每题作答后立即显示正确答案和详细解析</li>
+                <li>错题自动收入错题本</li>
+              </ul>
+            </div>
           </div>
 
-          <div className="mt-4 flex gap-3">
+          {/* Suggestion card */}
+          <div className="mt-3 rounded-md border border-blue-200 bg-blue-50/50 p-3 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950/20 dark:text-blue-300">
+            建议：先用练习模式熟悉题型，再用考试模式模拟真实考试节奏。
+          </div>
+
+          <div className="mt-4 space-y-3">
             {locked ? (
               <PaywallButton />
             ) : (
               <>
-                <Button
-                  className="flex-1"
-                  size="lg"
-                  onClick={handleStart}
-                  disabled={starting || startingExam}
-                >
-                  {starting ? "正在开始..." : "开始练习"}
-                </Button>
-                <Button
-                  className="flex-1"
-                  size="lg"
-                  variant="outline"
-                  onClick={handleStartExam}
-                  disabled={starting || startingExam}
-                >
-                  {startingExam ? "正在开始..." : "开始考试"}
-                </Button>
+                {/* Active practice resume card */}
+                {activePractice && activePractice.answered_count > 0 && (
+                  <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
+                    <p className="text-sm font-medium">
+                      上次练习进度：{activePractice.answered_count} / {activePractice.total} 题
+                    </p>
+                    <div className="mt-2 flex gap-2">
+                      <Button
+                        size="sm"
+                        onClick={() => handleStart(false)}
+                        disabled={starting || startingExam}
+                      >
+                        <Play className="mr-1.5 h-3.5 w-3.5" />
+                        {starting ? "正在开始..." : "继续练习"}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleStart(true)}
+                        disabled={starting || startingExam}
+                      >
+                        <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                        重新开始
+                      </Button>
+                    </div>
+                  </div>
+                )}
+                {/* Active exam resume card */}
+                {activeExam && activeExam.answered_count > 0 && (
+                  <div className="rounded-lg border border-orange-200 bg-orange-50/50 p-3 dark:border-orange-800 dark:bg-orange-950/20">
+                    <p className="text-sm font-medium">
+                      上次考试进度：{activeExam.answered_count} / {activeExam.total} 题
+                    </p>
+                    <div className="mt-2 flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleStartExam(false)}
+                        disabled={starting || startingExam}
+                      >
+                        <Play className="mr-1.5 h-3.5 w-3.5" />
+                        {startingExam ? "正在开始..." : "继续考试"}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleStartExam(true)}
+                        disabled={starting || startingExam}
+                      >
+                        <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                        重新开始
+                      </Button>
+                    </div>
+                  </div>
+                )}
+                {/* Default buttons */}
+                <div className="flex gap-3">
+                  {!activePractice || activePractice.answered_count === 0 ? (
+                    <Button
+                      className="flex-1"
+                      size="lg"
+                      onClick={() => handleStart(false)}
+                      disabled={starting || startingExam}
+                    >
+                      {starting ? "正在开始..." : "开始练习"}
+                    </Button>
+                  ) : null}
+                  {!activeExam || activeExam.answered_count === 0 ? (
+                    <Button
+                      className="flex-1"
+                      size="lg"
+                      variant="outline"
+                      onClick={() => handleStartExam(false)}
+                      disabled={starting || startingExam}
+                    >
+                      {startingExam ? "正在开始..." : "开始考试"}
+                    </Button>
+                  ) : null}
+                </div>
               </>
             )}
           </div>

@@ -16,6 +16,42 @@ import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ReportDialog } from "@/components/practice/report-dialog";
+import type { QuestionBrief } from "@/lib/api/types";
+
+/** 听力原文：展示完整音频内容（对话 + 选项朗读） */
+function TranscriptBlock({ question }: { question: QuestionBrief }) {
+  const isListening = question.type === "listening";
+  const hasTranscript = !!question.transcript;
+  const hasAudioOptions = isListening && question.options.length > 0;
+
+  // 没有任何内容可展示
+  if (!hasTranscript && !hasAudioOptions) return null;
+
+  return (
+    <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
+      <h4 className="mb-1.5 flex items-center gap-1.5 font-medium">
+        <FileText className="h-4 w-4" />
+        原文
+      </h4>
+      {hasTranscript && (
+        <p className="whitespace-pre-wrap leading-relaxed text-foreground">
+          {question.transcript}
+        </p>
+      )}
+      {hasAudioOptions && (
+        <div className={hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
+          <div className="space-y-0.5 text-muted-foreground">
+            {question.options.map((opt) => (
+              <p key={opt.key}>
+                <span className="font-medium text-foreground">{opt.key}.</span> {opt.text}
+              </p>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function PracticeSession() {
   const router = useRouter();
@@ -168,6 +204,9 @@ export function PracticeSession() {
         return;
       }
 
+      // Ignore when modifier keys are held (e.g. Ctrl+C to copy)
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+
       const keyMap: Record<string, number> = {
         "1": 0, "2": 1, "3": 2, "4": 3,
         a: 0, b: 1, c: 2, d: 3,
@@ -271,15 +310,9 @@ export function PracticeSession() {
           </div>
         )}
 
-        {/* 听力原文 — 答完即显示 */}
-        {currentAnswer && question.transcript && (
-          <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
-            <h4 className="mb-1.5 flex items-center gap-1.5 font-medium">
-              <FileText className="h-4 w-4" />
-              原文
-            </h4>
-            <p className="whitespace-pre-wrap leading-relaxed text-foreground">{question.transcript}</p>
-          </div>
+        {/* 听力原文 — 答完即显示（含对话 + 选项朗读） */}
+        {currentAnswer && question.type === "listening" && (
+          <TranscriptBlock question={question} />
         )}
 
         {/* 移动端解析面板 */}
@@ -326,15 +359,6 @@ export function PracticeSession() {
       {/* 右侧：解析面板 (桌面) */}
       <div className="hidden lg:block">
         <div className="sticky top-20 space-y-3">
-          {currentAnswer && question.transcript && (
-            <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
-              <h4 className="mb-1.5 flex items-center gap-1.5 font-medium">
-                <FileText className="h-4 w-4" />
-                原文
-              </h4>
-              <p className="whitespace-pre-wrap leading-relaxed text-foreground">{question.transcript}</p>
-            </div>
-          )}
           {currentAnswer ? (
             <ExplanationPanel explanation={null} questionId={question.id} defaultOpen={currentAnswer.is_correct === false} />
           ) : (

@@ -6,6 +6,7 @@ import type { QuestionBrief } from "@/lib/api/types";
 import { AudioPlayer } from "./audio-player";
 import { getImageUrl } from "@/lib/api/media";
 import { LevelBadge } from "@/components/shared/level-badge";
+import { getTcfPoints } from "@/lib/tcf-levels";
 
 const LISTENING_INSTRUCTIONS: Record<string, { fr: string; zh: string }> = {
   image: {
@@ -22,9 +23,11 @@ interface QuestionDisplayProps {
   question: QuestionBrief;
   index: number;
   total: number;
+  audioMaxPlays?: number;
+  onAudioPlaybackComplete?: () => void;
 }
 
-export function QuestionDisplay({ question, index, total }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete }: QuestionDisplayProps) {
   const isListening = question.type === "listening";
   // Image questions: question_text contains markdown image syntax ![alt](url)
   const isImageQuestion =
@@ -67,11 +70,18 @@ export function QuestionDisplay({ question, index, total }: QuestionDisplayProps
         <span className="flex items-center gap-2 text-sm text-muted-foreground">
           {isListening ? "听力" : "阅读"}
           {question.level && <LevelBadge level={question.level} />}
+          <span className="rounded bg-muted px-1.5 py-0.5 text-xs font-medium tabular-nums">
+            {getTcfPoints(question.question_number)} 分
+          </span>
         </span>
       </div>
 
       {isListening && question.audio_url && (
-        <AudioPlayer questionId={question.id} />
+        <AudioPlayer
+          questionId={question.id}
+          maxPlays={audioMaxPlays}
+          onPlaybackComplete={onAudioPlaybackComplete}
+        />
       )}
 
       {instructionData && (

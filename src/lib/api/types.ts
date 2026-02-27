@@ -123,6 +123,16 @@ export interface WrongAnswerItem {
 }
 
 // Attempts
+export interface ActiveAttemptResponse {
+  id: string;
+  test_set_id: string;
+  mode: string;
+  total: number;
+  answered_count: number;
+  status: string;
+  started_at: string;
+}
+
 export interface CreateAttemptRequest {
   test_set_id: string;
   mode: "practice" | "exam" | "speed_drill";

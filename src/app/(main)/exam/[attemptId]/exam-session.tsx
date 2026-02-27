@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Flag, Send, LayoutGrid, AlertTriangle } from "lucide-react";
+import { ChevronLeft, ChevronRight, Send, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -19,14 +19,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useExamStore } from "@/stores/exam-store";
-import { submitAnswer, flagQuestion, completeAttempt } from "@/lib/api/attempts";
+import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
 import { QuestionDisplay } from "@/components/practice/question-display";
 import { OptionList } from "@/components/practice/option-list";
 import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExamTimer } from "@/components/exam/exam-timer";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
-import { cn } from "@/lib/utils";
-import { ReportDialog } from "@/components/practice/report-dialog";
 
 export function ExamSession() {
   const router = useRouter();
@@ -35,19 +33,20 @@ export function ExamSession() {
     questions,
     currentIndex,
     answers,
-    flaggedQuestions,
     timeLimitSeconds,
     startedAt,
+    testType,
     setAnswer,
-    toggleFlag,
     goNext,
     goPrev,
     goToQuestion,
   } = useExamStore();
 
+  const isListening = testType === "listening";
+  const isReading = testType === "reading";
+
   const [submitting, setSubmitting] = useState(false);
   const [completing, setCompleting] = useState(false);
-  const [reportOpen, setReportOpen] = useState(false);
 
   // Prevent accidental back navigation (no beforeunload — exam state persists via sessionStorage)
   useEffect(() => {
@@ -87,6 +86,9 @@ export function ExamSession() {
 
   const handleSelect = useCallback(async (key: string) => {
     if (!question || !attemptId || submitting) return;
+    // Listening mode: once answered, lock the question
+    if (isListening && answers.has(question.id)) return;
+
     setSubmitting(true);
     try {
       await submitAnswer(attemptId, {
@@ -99,13 +101,20 @@ export function ExamSession() {
         question_number: question.question_number,
         selected: key,
       });
+
+      // Listening mode: auto-advance after 800ms (except last question)
+      if (isListening && currentIndex < questions.length - 1) {
+        setTimeout(() => {
+          goNext();
+        }, 800);
+      }
     } catch (err) {
       console.error("Failed to submit answer", err);
       toast.error("提交失败，请重试");
     } finally {
       setSubmitting(false);
     }
-  }, [question, attemptId, submitting, setAnswer]);
+  }, [question, attemptId, submitting, setAnswer, isListening, answers, currentIndex, questions.length, goNext]);
 
   // Stable refs for keyboard handler to avoid listener churn
   const handleSelectRef = useRef(handleSelect);
@@ -114,6 +123,8 @@ export function ExamSession() {
   useEffect(() => { goNextRef.current = goNext; });
   const goPrevRef = useRef(goPrev);
   useEffect(() => { goPrevRef.current = goPrev; });
+  const isListeningRef = useRef(isListening);
+  useEffect(() => { isListeningRef.current = isListening; });
 
   // Keyboard shortcuts: 1-4 / A-D select, arrows navigate
   useEffect(() => {
@@ -123,6 +134,9 @@ export function ExamSession() {
 
       const q = questions[currentIndex];
       if (!q) return;
+
+      // Ignore when modifier keys are held (e.g. Ctrl+C to copy)
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
 
       const keyMap: Record<string, number> = {
         "1": 0, "2": 1, "3": 2, "4": 3,
@@ -135,10 +149,11 @@ export function ExamSession() {
         return;
       }
 
+      // Listening mode: disable left arrow (no going back)
       if (e.key === "ArrowRight" && currentIndex < questions.length - 1) {
         e.preventDefault();
         goNextRef.current();
-      } else if (e.key === "ArrowLeft" && currentIndex > 0) {
+      } else if (e.key === "ArrowLeft" && !isListeningRef.current && currentIndex > 0) {
         e.preventDefault();
         goPrevRef.current();
       }
@@ -151,59 +166,111 @@ export function ExamSession() {
 
   const currentAnswer = answers.get(question.id);
   const isLast = currentIndex === questions.length - 1;
-  const isFlagged = flaggedQuestions.has(question.question_number);
 
-  const handleFlag = async () => {
-    try {
-      await flagQuestion(attemptId, question.question_number);
-      toggleFlag(question.question_number);
-      toast.success(isFlagged ? "已取消标记" : "已标记该题");
-    } catch (err) {
-      console.error("Failed to flag question", err);
-      toast.error("操作失败，请重试");
-    }
-  };
-
-  // Build a compatible answers map for QuestionNavigator
+  // Build a compatible answers map for QuestionNavigator (reading only)
   const navigatorAnswers = new Map<string, { is_correct?: boolean | null }>();
-  answers.forEach((ans, qid) => {
+  answers.forEach((_ans, qid) => {
     navigatorAnswers.set(qid, { is_correct: null });
   });
 
-  return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_200px]">
-      <div className="space-y-4">
-        {/* Header with timer and flag */}
+  // Submit dialog shared by both modes
+  const submitDialog = (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button size="sm" disabled={completing}>
+          <Send className="mr-1 h-4 w-4" />
+          {completing ? "正在提交..." : "提交考试"}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>确认提交考试？</AlertDialogTitle>
+          <AlertDialogDescription>
+            已答 {answers.size} / {questions.length} 题。
+            {answers.size < questions.length &&
+              ` 还有 ${questions.length - answers.size} 题未作答。`}
+            提交后不可修改。
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>继续答题</AlertDialogCancel>
+          <AlertDialogAction onClick={handleComplete}>
+            确认提交
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+
+  // --- Listening layout: single column, no navigator, no prev button ---
+  if (isListening) {
+    return (
+      <div className="mx-auto max-w-2xl space-y-4">
+        {/* Prominent centered timer */}
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">
             第 {currentIndex + 1} / {questions.length} 题
           </h2>
-          <div className="flex items-center gap-3">
-            <ExamTimer
-              timeLimitSeconds={timeLimitSeconds}
-              startedAt={startedAt}
-              onTimeUp={handleTimeUp}
-            />
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleFlag}
-              className={cn(isFlagged && "text-orange-500")}
-            >
-              <Flag className="mr-1 h-4 w-4" />
-              {isFlagged ? "已标记" : "标记"}
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-muted-foreground hover:text-orange-500"
-              title="题目报错"
-              onClick={() => setReportOpen(true)}
-            >
-              <AlertTriangle className="mr-1 h-4 w-4" />
-              报错
-            </Button>
-          </div>
+          <ExamTimer
+            timeLimitSeconds={timeLimitSeconds}
+            startedAt={startedAt}
+            onTimeUp={handleTimeUp}
+            prominent
+          />
+        </div>
+
+        <QuestionDisplay
+          question={question}
+          index={currentIndex}
+          total={questions.length}
+          audioMaxPlays={1}
+        />
+
+        <OptionList
+          options={question.options}
+          answer={null}
+          onSelect={handleSelect}
+          disabled={submitting || answers.has(question.id)}
+          mode="exam"
+          examSelected={currentAnswer?.selected ?? null}
+          audioOnly={question.question_number <= 10}
+        />
+
+        <Separator />
+
+        <div className="flex items-center justify-between">
+          {/* No prev button in listening mode — spacer for layout */}
+          <div />
+          {submitDialog}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={goNext}
+            disabled={isLast}
+          >
+            下一题
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // --- Reading layout: two-column with navigator ---
+  return (
+    <div className="grid gap-6 lg:grid-cols-[1fr_200px]">
+      <div className="space-y-4">
+        {/* Header with prominent timer */}
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">
+            第 {currentIndex + 1} / {questions.length} 题
+          </h2>
+          <ExamTimer
+            timeLimitSeconds={timeLimitSeconds}
+            startedAt={startedAt}
+            onTimeUp={handleTimeUp}
+            prominent
+          />
         </div>
 
         <QuestionDisplay
@@ -219,7 +286,7 @@ export function ExamSession() {
           disabled={submitting}
           mode="exam"
           examSelected={currentAnswer?.selected ?? null}
-          audioOnly={question.type === "listening" && question.question_number <= 10}
+          audioOnly={false}
         />
 
         <Separator />
@@ -235,31 +302,7 @@ export function ExamSession() {
             上一题
           </Button>
 
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button size="sm" disabled={completing}>
-                <Send className="mr-1 h-4 w-4" />
-                {completing ? "正在提交..." : "提交考试"}
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>确认提交考试？</AlertDialogTitle>
-                <AlertDialogDescription>
-                  已答 {answers.size} / {questions.length} 题。
-                  {answers.size < questions.length &&
-                    ` 还有 ${questions.length - answers.size} 题未作答。`}
-                  提交后不可修改。
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>继续答题</AlertDialogCancel>
-                <AlertDialogAction onClick={handleComplete}>
-                  确认提交
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          {submitDialog}
 
           <Button
             variant="outline"
@@ -273,6 +316,7 @@ export function ExamSession() {
         </div>
       </div>
 
+      {/* Desktop sidebar navigator */}
       <div className="hidden lg:block">
         <QuestionNavigator
           total={questions.length}
@@ -281,7 +325,7 @@ export function ExamSession() {
           questionIds={questions.map((q) => q.id)}
           onNavigate={goToQuestion}
           mode="exam"
-          flaggedQuestions={flaggedQuestions}
+          flaggedQuestions={new Set()}
         />
       </div>
 
@@ -305,19 +349,11 @@ export function ExamSession() {
               questionIds={questions.map((q) => q.id)}
               onNavigate={goToQuestion}
               mode="exam"
-              flaggedQuestions={flaggedQuestions}
+              flaggedQuestions={new Set()}
             />
           </div>
         </SheetContent>
       </Sheet>
-
-      {question && (
-        <ReportDialog
-          questionId={question.id}
-          open={reportOpen}
-          onOpenChange={setReportOpen}
-        />
-      )}
     </div>
   );
 }

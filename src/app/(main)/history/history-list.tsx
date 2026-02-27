@@ -10,7 +10,7 @@ import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { Pagination } from "@/components/shared/pagination";
 import { EmptyState } from "@/components/shared/empty-state";
 import { listAttempts } from "@/lib/api/attempts";
-import { getEstimatedTcfLevel } from "@/lib/tcf-levels";
+import { estimateTcfLevelFromRatio } from "@/lib/tcf-levels";
 import type { PaginatedResponse, AttemptResponse } from "@/lib/api/types";
 import { MODE_LABELS, TYPE_LABELS, TYPE_COLORS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -37,7 +37,7 @@ function HistoryCard({ attempt }: { attempt: AttemptResponse }) {
   const isCompleted = attempt.status === "completed";
   const tcf =
     isCompleted && attempt.score != null
-      ? getEstimatedTcfLevel(attempt.score, attempt.total)
+      ? estimateTcfLevelFromRatio(attempt.score, attempt.total)
       : null;
 
   const resumeUrl = isCompleted

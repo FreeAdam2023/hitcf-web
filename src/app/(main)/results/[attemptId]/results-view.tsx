@@ -9,8 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { ScoreCard } from "@/components/results/score-card";
 import { EncouragementCard } from "@/components/results/encouragement-card";
+import { TcfScoreGrid } from "@/components/results/tcf-score-grid";
+import { NclcTable } from "@/components/results/nclc-table";
 import { LevelBreakdown } from "@/components/results/level-breakdown";
 import { QuestionReviewItem } from "@/components/results/question-review-item";
+import { calcTcfScore } from "@/lib/tcf-levels";
 import { createAttempt } from "@/lib/api/attempts";
 import { listTestSets } from "@/lib/api/test-sets";
 import { practiceWrongAnswers } from "@/lib/api/wrong-answers";
@@ -36,6 +39,8 @@ export function ResultsView({ attempt }: ResultsViewProps) {
   const [nextTestSet, setNextTestSet] = useState<TestSetItem | null>(null);
 
   const score = attempt.score ?? 0;
+  const isPointBased = attempt.test_set_type === "listening" || attempt.test_set_type === "reading";
+  const tcfPoints = isPointBased ? calcTcfScore(attempt.answers) : undefined;
   const sortedAnswers = [...attempt.answers].sort(
     (a, b) => a.question_number - b.question_number,
   );
@@ -152,10 +157,22 @@ export function ResultsView({ attempt }: ResultsViewProps) {
         total={attempt.total}
         answeredCount={attempt.answered_count}
         timeTakenSeconds={timeTakenSeconds}
+        tcfPoints={tcfPoints}
       />
 
+      {/* TCF score grid (listening/reading only) */}
+      {isPointBased && <TcfScoreGrid answers={sortedAnswers} />}
+
       {/* Encouragement card */}
-      <EncouragementCard score={score} total={attempt.total} />
+      <EncouragementCard score={score} total={attempt.total} tcfPoints={tcfPoints} />
+
+      {/* NCLC level table (listening/reading only) */}
+      {isPointBased && tcfPoints != null && (
+        <NclcTable
+          tcfPoints={tcfPoints}
+          testType={attempt.test_set_type as "listening" | "reading"}
+        />
+      )}
 
       {/* Level breakdown */}
       <LevelBreakdown answers={attempt.answers} />
