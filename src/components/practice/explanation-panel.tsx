@@ -103,11 +103,11 @@ export function ExplanationPanel({
     );
   }, []);
 
-  const handleForceRefresh = () => {
+  const doFetch = (force?: boolean) => {
     if (!questionId || loading) return;
     setLoading(true);
     setError(false);
-    generateExplanation(questionId, true)
+    generateExplanation(questionId, force)
       .then((data) => { setExplanation(data); onLoaded?.(data); })
       .catch(() => setError(true))
       .finally(() => setLoading(false));
@@ -156,11 +156,7 @@ export function ExplanationPanel({
               加载失败，
               <button
                 className="underline hover:text-foreground"
-                onClick={() => {
-                  setError(false);
-                  setLoading(false);
-                  setExplanation(null);
-                }}
+                onClick={() => doFetch()}
               >
                 点击重试
               </button>
@@ -175,7 +171,7 @@ export function ExplanationPanel({
               {isDevHost && questionId && (
                 <div className="flex justify-end">
                   <button
-                    onClick={handleForceRefresh}
+                    onClick={() => doFetch(true)}
                     disabled={loading}
                     className="flex items-center gap-1 rounded px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50"
                   >
