@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText } from "lucide-react";
@@ -75,19 +75,24 @@ function TranscriptBlock({
         </p>
       ) : null}
 
-      {/* Options: grid-aligned trilingual rows */}
+      {/* Options: vertical with indented EN/ZH */}
       {hasAudioOptions && (
         <div className={sentences || hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
-          <div className="grid gap-x-3 gap-y-1" style={{ gridTemplateColumns: "auto 1fr auto auto" }}>
+          <div className="space-y-2">
             {question.options.map((opt) => {
               const t = optTrans?.[opt.key];
               return (
-                <React.Fragment key={opt.key}>
-                  <span className="font-semibold text-foreground">{opt.key}.</span>
-                  <span className="text-foreground">{opt.text}</span>
-                  <span className="text-blue-600 dark:text-blue-400">{t?.en ?? ""}</span>
-                  <span className="text-emerald-600 dark:text-emerald-400">{t?.zh ?? ""}</span>
-                </React.Fragment>
+                <div key={opt.key}>
+                  <p className="font-medium text-foreground">
+                    {opt.key}. {opt.text}
+                  </p>
+                  {t?.en && (
+                    <p className="pl-5 text-blue-600 dark:text-blue-400">{t.en}</p>
+                  )}
+                  {t?.zh && (
+                    <p className="pl-5 text-emerald-600 dark:text-emerald-400">{t.zh}</p>
+                  )}
+                </div>
               );
             })}
           </div>
