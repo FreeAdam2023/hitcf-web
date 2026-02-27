@@ -29,20 +29,21 @@ interface QuestionDisplayProps {
 
 export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete }: QuestionDisplayProps) {
   const isListening = question.type === "listening";
-  // Image questions: question_text contains markdown image syntax ![alt](url)
-  const isImageQuestion =
-    isListening &&
-    !!question.question_text?.startsWith("![");
-  const instructionData = isListening
-    ? LISTENING_INSTRUCTIONS[isImageQuestion ? "image" : "audio"]
-    : null;
+  // Listening A1/A2 questions (Q1-10) may have an associated image in Azure
+  const mayHaveImage = isListening && question.question_number <= 10;
   const [showTranslation, setShowTranslation] = useState(false);
 
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(false);
+  // Whether the image actually rendered successfully
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const instructionData = isListening
+    ? LISTENING_INSTRUCTIONS[imageLoaded ? "image" : "audio"]
+    : null;
 
   const loadImage = useCallback(async () => {
-    if (!isImageQuestion) return;
+    if (!mayHaveImage) return;
     setImageLoading(true);
     try {
       const res = await getImageUrl(question.id);
@@ -52,14 +53,15 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
     } finally {
       setImageLoading(false);
     }
-  }, [question.id, isImageQuestion]);
+  }, [question.id, mayHaveImage]);
 
   useEffect(() => {
     setImageSrc(null);
-    if (isImageQuestion) {
+    setImageLoaded(false);
+    if (mayHaveImage) {
       loadImage();
     }
-  }, [question.id, isImageQuestion, loadImage]);
+  }, [question.id, mayHaveImage, loadImage]);
 
   return (
     <div className="space-y-4">
@@ -105,8 +107,8 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
         </div>
       )}
 
-      {isImageQuestion && (
-        <div className="flex justify-center">
+      {mayHaveImage && (imageLoading || imageSrc) && (
+        <div className={`flex justify-center${!imageLoaded && !imageLoading ? " hidden" : ""}`}>
           {imageLoading ? (
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           ) : imageSrc ? (
@@ -115,6 +117,8 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
               src={imageSrc}
               alt={`Question ${question.question_number}`}
               className="max-h-64 rounded-md border"
+              onLoad={() => setImageLoaded(true)}
+              onError={() => { setImageSrc(null); setImageLoaded(false); }}
             />
           ) : null}
         </div>
@@ -126,7 +130,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
         </div>
       )}
 
-      {question.question_text && !isImageQuestion && !isListening && (
+      {question.question_text && !isListening && (
         <p className="text-base font-medium">{question.question_text}</p>
       )}
     </div>

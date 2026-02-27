@@ -13,7 +13,11 @@ function AuthInit() {
     if (status === "authenticated") {
       fetchUser();
     } else if (status === "unauthenticated") {
-      reset();
+      if (process.env.NODE_ENV === "development") {
+        fetchUser(); // Backend DEV_AUTH_BYPASS returns dev user
+      } else {
+        reset();
+      }
     }
   }, [status, fetchUser, reset]);
 
