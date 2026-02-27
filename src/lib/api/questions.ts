@@ -8,9 +8,12 @@ export function getQuestionDetail(questionId: string): Promise<QuestionDetail> {
 export function generateExplanation(
   questionId: string,
   force?: boolean,
+  locale?: string,
 ): Promise<Explanation> {
-  const url = force
-    ? `/api/questions/${questionId}/explanation?force=true`
-    : `/api/questions/${questionId}/explanation`;
+  const params = new URLSearchParams();
+  if (force) params.set("force", "true");
+  if (locale) params.set("locale", locale);
+  const qs = params.toString();
+  const url = `/api/questions/${questionId}/explanation${qs ? `?${qs}` : ""}`;
   return post<Explanation>(url);
 }

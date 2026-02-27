@@ -12,6 +12,8 @@ import { Badge } from "@/components/ui/badge";
 import { OptionList } from "@/components/practice/option-list";
 import { AudioPlayer } from "@/components/practice/audio-player";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
+import { FrenchText } from "@/components/practice/french-text";
+import { useTranslations } from "next-intl";
 import type { ReviewAnswer, AnswerResponse } from "@/lib/api/types";
 import { getTcfPoints } from "@/lib/tcf-levels";
 
@@ -20,6 +22,7 @@ interface QuestionReviewItemProps {
 }
 
 export function QuestionReviewItem({ answer }: QuestionReviewItemProps) {
+  const t = useTranslations();
   const [open, setOpen] = useState(false);
 
   // Build an AnswerResponse for OptionList (practice mode = show green/red)
@@ -42,7 +45,7 @@ export function QuestionReviewItem({ answer }: QuestionReviewItemProps) {
         </Badge>
         {(answer.type === "listening" || answer.type === "reading") && (
           <span className="shrink-0 rounded bg-muted px-1 py-0.5 text-[10px] font-medium text-muted-foreground tabular-nums">
-            {getTcfPoints(answer.question_number)}分
+            {t('results.reviewItem.points', { points: getTcfPoints(answer.question_number) })}
           </span>
         )}
 
@@ -73,14 +76,14 @@ export function QuestionReviewItem({ answer }: QuestionReviewItemProps) {
               answer.is_correct === false && "text-red-600",
             )}
           >
-            {answer.selected || "未作答"}
+            {answer.selected || t('results.reviewItem.notAnswered')}
           </span>
         </span>
 
         {/* Correct answer when wrong */}
         {answer.is_correct === false && answer.correct_answer && (
           <span className="text-muted-foreground">
-            正确: <span className="font-medium text-green-600">{answer.correct_answer}</span>
+            {t('results.reviewItem.correctAnswer', { answer: answer.correct_answer })}
           </span>
         )}
 
@@ -98,13 +101,15 @@ export function QuestionReviewItem({ answer }: QuestionReviewItemProps) {
           {/* Passage */}
           {answer.passage && (
             <div className="rounded-md border bg-muted/50 p-4 text-sm leading-relaxed whitespace-pre-wrap">
-              {answer.passage}
+              <FrenchText text={answer.passage} />
             </div>
           )}
 
           {/* Question text */}
           {answer.question_text && (
-            <p className="text-base font-medium">{answer.question_text}</p>
+            <p className="text-base font-medium">
+              <FrenchText text={answer.question_text} />
+            </p>
           )}
 
           {/* Options with correct/wrong highlighting */}
@@ -126,10 +131,12 @@ export function QuestionReviewItem({ answer }: QuestionReviewItemProps) {
           {/* Transcript (full audio content: dialogue + spoken options) */}
           {isListening && (answer.transcript || answer.options.length > 0) && (
             <div className="space-y-1">
-              <h4 className="text-sm font-medium">听力原文</h4>
+              <h4 className="text-sm font-medium">{t('results.reviewItem.transcript')}</h4>
               <div className="rounded-md border bg-muted/50 p-3 text-sm leading-relaxed">
                 {answer.transcript && (
-                  <p className="whitespace-pre-wrap">{answer.transcript}</p>
+                  <p className="whitespace-pre-wrap">
+                    <FrenchText text={answer.transcript} />
+                  </p>
                 )}
                 {answer.options.length > 0 && (
                   <div className={answer.transcript ? "mt-2 border-t border-border/50 pt-2" : ""}>

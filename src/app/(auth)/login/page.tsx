@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -11,6 +12,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/tests";
+  const t = useTranslations();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,9 +20,17 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (!isValidEmail(email.trim())) {
+      setError(t("auth.login.invalidEmail"));
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -31,13 +41,13 @@ function LoginForm() {
       });
 
       if (result?.error) {
-        setError("邮箱或密码错误");
+        setError(t("auth.login.invalidCredentials"));
       } else {
         router.push(callbackUrl);
         router.refresh();
       }
     } catch {
-      setError("登录失败，请稍后重试");
+      setError(t("auth.login.genericError"));
     } finally {
       setLoading(false);
     }
@@ -46,16 +56,16 @@ function LoginForm() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">欢迎回来</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("auth.login.title")}</h1>
         <p className="mt-1.5 text-sm text-muted-foreground">
-          登录你的 HiTCF 账号继续备考
+          {t("auth.login.subtitle")}
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} noValidate className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium">
-            邮箱
+            {t("auth.login.email")}
           </label>
           <Input
             id="email"
@@ -72,20 +82,20 @@ function LoginForm() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label htmlFor="password" className="text-sm font-medium">
-              密码
+              {t("auth.login.password")}
             </label>
             <Link
               href="/forgot-password"
               className="text-xs text-muted-foreground hover:text-primary"
             >
-              忘记密码？
+              {t("auth.login.forgotPassword")}
             </Link>
           </div>
           <div className="relative">
             <Input
               id="password"
               type={showPassword ? "text" : "password"}
-              placeholder="输入密码"
+              placeholder={t("auth.login.passwordPlaceholder")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -117,14 +127,14 @@ function LoginForm() {
           className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
           disabled={loading}
         >
-          {loading ? "登录中..." : "登录"}
+          {loading ? t("auth.login.submitting") : t("auth.login.submit")}
         </Button>
       </form>
 
       <div className="text-center text-sm text-muted-foreground">
-        还没有账号？{" "}
+        {t("auth.login.noAccount")}{" "}
         <Link href="/register" className="font-medium text-primary hover:underline underline-offset-4">
-          免费注册
+          {t("auth.login.register")}
         </Link>
       </div>
     </div>

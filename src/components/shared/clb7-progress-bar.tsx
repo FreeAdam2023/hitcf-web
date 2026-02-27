@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { getStatsOverview, type StatsOverview } from "@/lib/api/stats";
 import { useAuthStore } from "@/stores/auth-store";
 import { CLB7_TARGET } from "@/lib/constants";
+import { useTranslations } from "next-intl";
 
 function getBarColor(accuracy: number): string {
   if (accuracy >= CLB7_TARGET) return "[&>div]:bg-green-500";
@@ -14,15 +15,16 @@ function getBarColor(accuracy: number): string {
   return "[&>div]:bg-orange-500";
 }
 
-function getStatusLabel(accuracy: number): { text: string; color: string } {
+function getStatusLabel(accuracy: number): { gap: number; reached: boolean; color: string } {
   if (accuracy >= CLB7_TARGET) {
-    return { text: "达标", color: "text-green-600 dark:text-green-400" };
+    return { gap: 0, reached: true, color: "text-green-600 dark:text-green-400" };
   }
   const gap = Math.round((CLB7_TARGET - accuracy) * 100);
-  return { text: `差${gap}%`, color: "text-muted-foreground" };
+  return { gap, reached: false, color: "text-muted-foreground" };
 }
 
 export function CLB7ProgressBar() {
+  const t = useTranslations();
   const user = useAuthStore((s) => s.user);
   const [stats, setStats] = useState<StatsOverview | null>(null);
 
@@ -46,14 +48,14 @@ export function CLB7ProgressBar() {
     <div className="mb-4 rounded-lg border bg-card p-3">
       <div className="flex items-center gap-2 mb-2">
         <Target className="h-4 w-4 text-primary" />
-        <span className="text-sm font-semibold">CLB 7 目标 (78%)</span>
+        <span className="text-sm font-semibold">{t('clb7Progress.target')}</span>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-medium">听力 {listeningPct}%</span>
+            <span className="font-medium">{t('clb7Progress.listening', { pct: listeningPct })}</span>
             <span className={cn("font-medium", listeningStatus.color)}>
-              {listeningStatus.text}
+              {listeningStatus.reached ? t('clb7Progress.reached') : t('clb7Progress.gap', { gap: listeningStatus.gap })}
             </span>
           </div>
           <div className="relative">
@@ -69,9 +71,9 @@ export function CLB7ProgressBar() {
         </div>
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-medium">阅读 {readingPct}%</span>
+            <span className="font-medium">{t('clb7Progress.reading', { pct: readingPct })}</span>
             <span className={cn("font-medium", readingStatus.color)}>
-              {readingStatus.text}
+              {readingStatus.reached ? t('clb7Progress.reached') : t('clb7Progress.gap', { gap: readingStatus.gap })}
             </span>
           </div>
           <div className="relative">

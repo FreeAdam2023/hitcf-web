@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PenLine, Layers, Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { cn } from "@/lib/utils";
 import type { TestSetItem } from "@/lib/api/types";
 
 export function WritingTopicCard({ test }: { test: TestSetItem }) {
+  const t = useTranslations();
   const router = useRouter();
   const canAccessPaid = useAuthStore((s) => {
     const status = s.user?.subscription?.status;
@@ -40,12 +42,12 @@ export function WritingTopicCard({ test }: { test: TestSetItem }) {
           </div>
           {test.is_free ? (
             <Badge variant="secondary" className="shrink-0">
-              免费
+              {t("common.status.free")}
             </Badge>
           ) : locked ? (
             <Badge variant="outline" className="shrink-0 gap-1">
               <Lock className="h-3 w-3" />
-              订阅
+              {t("common.status.subscription")}
             </Badge>
           ) : null}
         </div>
@@ -54,17 +56,17 @@ export function WritingTopicCard({ test }: { test: TestSetItem }) {
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <Layers className="h-3.5 w-3.5" />
-            {test.question_count} 个任务
+            {t("tests.tasksCount", { count: test.question_count })}
           </span>
         </div>
         {locked ? (
           <Button size="sm" className="w-full" variant="outline" onClick={() => router.push("/pricing")}>
             <Lock className="mr-1.5 h-3.5 w-3.5" />
-            订阅解锁
+            {t("testCard.subscribeUnlock")}
           </Button>
         ) : (
           <Button asChild size="sm" className="w-full">
-            <Link href={`/tests/${test.id}`}>查看题目</Link>
+            <Link href={`/tests/${test.id}`}>{t("tests.viewQuestions")}</Link>
           </Button>
         )}
       </CardContent>

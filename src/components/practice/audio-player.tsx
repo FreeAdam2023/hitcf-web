@@ -9,6 +9,7 @@ import {
   VolumeX,
   Loader2,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { getAudioUrl } from "@/lib/api/media";
 import { formatTime } from "@/lib/utils";
@@ -24,6 +25,7 @@ interface AudioPlayerProps {
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
 export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioPlayerProps) {
+  const t = useTranslations();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [url, setUrl] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -51,11 +53,11 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
       setUrl(res.url);
       fetchedAtRef.current = Date.now();
     } catch {
-      setError("无法加载音频");
+      setError(t("audio.loadError"));
     } finally {
       setLoading(false);
     }
-  }, [questionId]);
+  }, [questionId, t]);
 
   // Reset when question changes
   useEffect(() => {
@@ -79,7 +81,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
     const tryPlay = () => {
       audio.play()
         .then(() => setPlaying(true))
-        .catch(() => setError("播放失败"));
+        .catch(() => setError(t("audio.playError")));
     };
 
     if (audio.readyState >= 2) {
@@ -120,7 +122,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
         await audio.play();
         setPlaying(true);
       } catch {
-        setError("播放失败");
+        setError(t("audio.playError"));
       }
     }
   };
@@ -178,7 +180,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
 
   const onError = () => {
     setPlaying(false);
-    setError("音频加载失败，请重试");
+    setError(t("audio.loadRetryError"));
   };
 
   return (
@@ -201,7 +203,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
             setShowVolume(!showVolume);
           }}
           onDoubleClick={() => setShowVolume(!showVolume)}
-          aria-label={muted ? "取消静音" : "静音"}
+          aria-label={muted ? t("audio.unmute") : t("audio.mute")}
         >
           {muted || volume === 0 ? (
             <VolumeX className="h-4 w-4" />
@@ -220,7 +222,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
               onChange={handleVolumeChange}
               className="h-20 w-1.5 cursor-pointer appearance-none rounded-full bg-muted accent-primary"
               style={{ writingMode: "vertical-lr", direction: "rtl" }}
-              aria-label="音量"
+              aria-label={t("audio.volume")}
             />
           </div>
         )}
@@ -263,7 +265,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
         className="h-8 w-8 shrink-0"
         onClick={restart}
         disabled={exhausted}
-        aria-label="重新播放"
+        aria-label={t("audio.replay")}
       >
         <RotateCcw className="h-3.5 w-3.5" />
       </Button>
@@ -278,7 +280,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
             if (audioRef.current) audioRef.current.playbackRate = val;
           }}
           className="h-8 shrink-0 rounded-md border bg-background px-1.5 text-xs font-mono tabular-nums cursor-pointer"
-          aria-label="播放速度"
+          aria-label={t("audio.speed")}
         >
           {SPEED_OPTIONS.map((s) => (
             <option key={s} value={s}>{s}x</option>
@@ -287,7 +289,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
       )}
 
       {exhausted && (
-        <span className="shrink-0 text-xs text-muted-foreground">已播放</span>
+        <span className="shrink-0 text-xs text-muted-foreground">{t("audio.played")}</span>
       )}
 
       {url && (

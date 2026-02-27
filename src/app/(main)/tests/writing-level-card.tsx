@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PenLine, Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ export function WritingLevelCard({
   topic: WritingTopicItem;
   tache: number;
 }) {
+  const t = useTranslations();
   const router = useRouter();
   const canAccessPaid = useAuthStore((s) => {
     const status = s.user?.subscription?.status;
@@ -63,12 +65,12 @@ export function WritingLevelCard({
           </div>
           {topic.is_free ? (
             <Badge variant="secondary" className="shrink-0">
-              免费
+              {t("common.status.free")}
             </Badge>
           ) : locked ? (
             <Badge variant="outline" className="shrink-0 gap-1">
               <Lock className="h-3 w-3" />
-              订阅
+              {t("common.status.subscription")}
             </Badge>
           ) : null}
         </div>
@@ -78,13 +80,13 @@ export function WritingLevelCard({
         {locked ? (
           <Button size="sm" className="w-full" variant="outline" onClick={() => router.push("/pricing")}>
             <Lock className="mr-1.5 h-3.5 w-3.5" />
-            订阅解锁
+            {t("testCard.subscribeUnlock")}
           </Button>
         ) : (
           <Button asChild size="sm" className="w-full">
             <Link href={`/tests/${topic.test_set_id}`}>
               <PenLine className="mr-1.5 h-3.5 w-3.5" />
-              开始练习
+              {t("testCard.startPractice")}
             </Link>
           </Button>
         )}

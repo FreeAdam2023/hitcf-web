@@ -15,9 +15,10 @@ import { AudioPlayer } from "@/components/practice/audio-player";
 import { OptionList } from "@/components/practice/option-list";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { getWrongAnswerDetail } from "@/lib/api/wrong-answers";
+import { useTranslations } from "next-intl";
 import type { WrongAnswerItem, WrongAnswerDetail } from "@/lib/api/types";
 
-import { TYPE_LABELS, TYPE_COLORS } from "@/lib/constants";
+import { TYPE_COLORS } from "@/lib/constants";
 
 const TYPE_ICONS: Record<string, React.ElementType> = {
   listening: Headphones,
@@ -30,6 +31,7 @@ interface WrongAnswerCardProps {
 }
 
 export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps) {
+  const t = useTranslations();
   const [open, setOpen] = useState(false);
   const [detail, setDetail] = useState<WrongAnswerDetail | null>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
@@ -84,12 +86,12 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
                     variant="outline"
                     className={TYPE_COLORS[item.question_type]?.badge ?? ""}
                   >
-                    {TYPE_LABELS[item.question_type] || item.question_type}
+                    {t(`common.types.${item.question_type}`)}
                   </Badge>
                 )}
                 {item.level && <Badge variant="secondary">{item.level}</Badge>}
                 <span className="text-xs text-red-500 font-medium">
-                  错 {item.wrong_count} 次
+                  {t("wrongAnswers.card.wrongCount", { count: item.wrong_count })}
                 </span>
               </div>
               {item.question_text && (
@@ -106,7 +108,7 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
                 }}
               >
                 <CheckCircle className="mr-1 h-3.5 w-3.5" />
-                {item.is_mastered ? "已掌握" : "标记掌握"}
+                {item.is_mastered ? t("wrongAnswers.card.mastered") : t("wrongAnswers.card.markMastered")}
               </Button>
               <ChevronDown
                 className={cn(
@@ -121,7 +123,7 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
         <CollapsibleContent>
           <div className="border-t px-6 py-4 space-y-4">
             {loadingDetail ? (
-              <p className="text-sm text-muted-foreground">加载中...</p>
+              <p className="text-sm text-muted-foreground">{t("wrongAnswers.card.loading")}</p>
             ) : q ? (
               <>
                 {/* Passage */}
@@ -160,7 +162,7 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
                 {q.transcript && (
                   <div className="rounded-lg border p-3">
                     <p className="mb-1 text-xs font-medium text-muted-foreground">
-                      听力原文
+                      {t("wrongAnswers.card.transcript")}
                     </p>
                     <p className="whitespace-pre-line text-sm">{q.transcript}</p>
                   </div>
@@ -172,13 +174,13 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
             ) : detailError ? (
               <div className="flex items-center gap-2 text-sm text-destructive">
                 <AlertCircle className="h-4 w-4 shrink-0" />
-                <span>加载详情失败</span>
+                <span>{t("wrongAnswers.card.loadFailed")}</span>
                 <Button variant="outline" size="sm" onClick={loadDetail}>
-                  重试
+                  {t("wrongAnswers.card.retry")}
                 </Button>
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">无法加载题目详情</p>
+              <p className="text-sm text-muted-foreground">{t("wrongAnswers.card.loadError")}</p>
             )}
           </div>
         </CollapsibleContent>

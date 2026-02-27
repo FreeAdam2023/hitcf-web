@@ -9,6 +9,7 @@ import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { startSpeedDrill } from "@/lib/api/speed-drill";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
@@ -24,6 +25,7 @@ const LEVEL_COLORS: Record<string, string> = {
 };
 
 export function SpeedDrillConfig() {
+  const t = useTranslations();
   const router = useRouter();
   const initPractice = usePracticeStore((s) => s.init);
   const canAccessPaid = useAuthStore((s) => {
@@ -57,7 +59,7 @@ export function SpeedDrillConfig() {
       const result = await startSpeedDrill({ type, levels, count });
 
       if (!result.questions.length) {
-        setError("没有更多未做过的题目");
+        setError(t("speedDrill.noMoreQuestions"));
         setLoading(false);
         return;
       }
@@ -65,7 +67,7 @@ export function SpeedDrillConfig() {
       initPractice(result.attempt_id, result.questions);
       router.push(`/practice/${result.attempt_id}`);
     } catch {
-      setError("启动速练失败，请重试");
+      setError(t("speedDrill.startFailed"));
       setLoading(false);
     }
   };
@@ -75,24 +77,24 @@ export function SpeedDrillConfig() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
-            速练模式
+            {t("speedDrill.title")}
           </span>
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          选择类型和等级，利用碎片时间高效刷题
+          {t("speedDrill.subtitle")}
         </p>
       </div>
 
       {!canAccessPaid && (
         <UpgradeBanner
           variant="hero"
-          title="速练是 Pro 专属功能"
-          description="按等级、按题型精准刷题，利用碎片时间高效突破薄弱环节"
+          title={t("speedDrill.upgradeBanner.title")}
+          description={t("speedDrill.upgradeBanner.description")}
           features={[
-            "听力 + 阅读全题库",
-            "按 A1–C2 等级筛选",
-            "自定义题目数量",
-            "智能去重，不重复做题",
+            t("speedDrill.upgradeBanner.features.0"),
+            t("speedDrill.upgradeBanner.features.1"),
+            t("speedDrill.upgradeBanner.features.2"),
+            t("speedDrill.upgradeBanner.features.3"),
           ]}
         />
       )}
@@ -101,7 +103,7 @@ export function SpeedDrillConfig() {
         <CardContent className="space-y-6 pt-6">
           {/* Type selection */}
           <div>
-            <p className="mb-3 text-sm font-medium">选择类型</p>
+            <p className="mb-3 text-sm font-medium">{t("speedDrill.selectType")}</p>
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => setType("listening")}
@@ -119,7 +121,7 @@ export function SpeedDrillConfig() {
                   <Headphones className="h-5 w-5" />
                 </div>
                 <span className={cn("text-sm font-medium", type === "listening" ? "text-foreground" : "text-muted-foreground")}>
-                  听力
+                  {t("common.types.listening")}
                 </span>
               </button>
               <button
@@ -138,7 +140,7 @@ export function SpeedDrillConfig() {
                   <BookOpen className="h-5 w-5" />
                 </div>
                 <span className={cn("text-sm font-medium", type === "reading" ? "text-foreground" : "text-muted-foreground")}>
-                  阅读
+                  {t("common.types.reading")}
                 </span>
               </button>
             </div>
@@ -147,12 +149,12 @@ export function SpeedDrillConfig() {
           {/* Level selection */}
           <div>
             <div className="mb-3 flex items-center justify-between">
-              <p className="text-sm font-medium">选择等级</p>
+              <p className="text-sm font-medium">{t("speedDrill.selectLevel")}</p>
               <button
                 onClick={selectAll}
                 className="text-xs text-primary hover:underline"
               >
-                全选
+                {t("speedDrill.selectAll")}
               </button>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -178,7 +180,7 @@ export function SpeedDrillConfig() {
 
           {/* Count selection */}
           <div>
-            <p className="mb-3 text-sm font-medium">题目数量</p>
+            <p className="mb-3 text-sm font-medium">{t("speedDrill.questionCount")}</p>
             <div className="flex gap-2">
               {COUNT_OPTIONS.map((n) => (
                 <button
@@ -191,7 +193,7 @@ export function SpeedDrillConfig() {
                       : "bg-secondary text-muted-foreground hover:text-foreground",
                   )}
                 >
-                  {n} 题
+                  {t("speedDrill.questionsLabel", { count: n })}
                 </button>
               ))}
             </div>
@@ -210,7 +212,7 @@ export function SpeedDrillConfig() {
         disabled={loading || selectedLevels.size === 0 || !canAccessPaid}
       >
         <Zap className="mr-1.5 h-4 w-4" />
-        {loading ? "正在生成..." : "开始速练"}
+        {loading ? t("speedDrill.generating") : t("speedDrill.startDrill")}
       </Button>
     </div>
   );

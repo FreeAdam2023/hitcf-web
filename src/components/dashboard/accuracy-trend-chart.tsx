@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
 import type { AccuracyTrendItem } from "@/lib/api/types";
 
 interface AccuracyTrendChartProps {
@@ -17,15 +18,16 @@ interface AccuracyTrendChartProps {
 }
 
 export function AccuracyTrendChart({ data }: AccuracyTrendChartProps) {
+  const t = useTranslations();
   if (data.length < 2) {
     return (
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-base">正确率趋势</CardTitle>
+          <CardTitle className="text-base">{t("dashboard.charts.accuracyTrend")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex h-[240px] items-center justify-center text-sm text-muted-foreground">
-            完成 2 次练习后显示趋势图
+            {t("dashboard.charts.accuracyTrendEmpty")}
           </div>
         </CardContent>
       </Card>
@@ -45,7 +47,7 @@ export function AccuracyTrendChart({ data }: AccuracyTrendChartProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base">正确率趋势</CardTitle>
+        <CardTitle className="text-base">{t("dashboard.charts.accuracyTrend")}</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={240}>
@@ -65,7 +67,7 @@ export function AccuracyTrendChart({ data }: AccuracyTrendChartProps) {
             <Tooltip
               formatter={(value, _name, props) => [
                 `${value}% (${(props.payload as { score: number; total: number }).score}/${(props.payload as { score: number; total: number }).total})`,
-                "正确率",
+                t("dashboard.charts.accuracyLabel"),
               ]}
             />
             <Line

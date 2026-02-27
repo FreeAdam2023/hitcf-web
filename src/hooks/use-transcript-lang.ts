@@ -4,32 +4,33 @@ import { useCallback, useEffect, useState } from "react";
 
 const STORAGE_KEY = "hitcf-transcript-langs";
 
-interface LangPrefs {
-  en: boolean;
-  zh: boolean;
-}
-
+/**
+ * Toggle visibility of EN (bridge) and Native translation lines
+ * in the transcript block. For EN users, only the native toggle matters
+ * (since EN = native). Persists preferences to localStorage.
+ */
 export function useTranscriptLang() {
   const [showEn, setShowEn] = useState(true);
-  const [showZh, setShowZh] = useState(true);
+  const [showNative, setShowNative] = useState(true);
 
   // Read from localStorage on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        const prefs: LangPrefs = JSON.parse(saved);
-        setShowEn(prefs.en);
-        setShowZh(prefs.zh);
+        const prefs = JSON.parse(saved);
+        // Support both old format {en, zh} and new format {en, native}
+        setShowEn(prefs.en ?? true);
+        setShowNative(prefs.native ?? prefs.zh ?? true);
       }
     } catch {
       // ignore corrupt data
     }
   }, []);
 
-  const persist = useCallback((en: boolean, zh: boolean) => {
+  const persist = useCallback((en: boolean, native: boolean) => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ en, zh }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ en, native }));
     } catch {
       // storage full or unavailable
     }
@@ -38,16 +39,16 @@ export function useTranscriptLang() {
   const toggleEn = useCallback(() => {
     setShowEn((prev) => {
       const next = !prev;
-      setShowZh((zh) => {
-        persist(next, zh);
-        return zh;
+      setShowNative((n) => {
+        persist(next, n);
+        return n;
       });
       return next;
     });
   }, [persist]);
 
-  const toggleZh = useCallback(() => {
-    setShowZh((prev) => {
+  const toggleNative = useCallback(() => {
+    setShowNative((prev) => {
       const next = !prev;
       setShowEn((en) => {
         persist(en, next);
@@ -57,5 +58,5 @@ export function useTranscriptLang() {
     });
   }, [persist]);
 
-  return { showEn, showZh, toggleEn, toggleZh } as const;
+  return { showEn, showNative, toggleEn, toggleNative } as const;
 }

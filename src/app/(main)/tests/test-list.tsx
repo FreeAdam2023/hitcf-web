@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useState, useCallback } from "react";
-import { Search } from "lucide-react";
+import { Search, ChevronDown, ChevronUp } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
-import type { TestSetItem, WritingTopicItem } from "@/lib/api/types";
+import { listAttempts } from "@/lib/api/attempts";
+import type { TestSetItem, WritingTopicItem, AttemptResponse } from "@/lib/api/types";
+import type { TestAttemptInfo } from "./test-card";
 import { SkeletonGrid } from "@/components/shared/skeleton-card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { Input } from "@/components/ui/input";
@@ -22,20 +25,11 @@ import { useAuthStore } from "@/stores/auth-store";
 type TabType = "listening" | "reading" | "speaking" | "writing";
 type BrowseMode = "level" | "set";
 
-const MONTH_NAMES: Record<string, string> = {
-  "01": "1月", "02": "2月", "03": "3月", "04": "4月",
-  "05": "5月", "06": "6月", "07": "7月", "08": "8月",
-  "09": "9月", "10": "10月", "11": "11月", "12": "12月",
-};
-
-function formatMonthHeader(sourceDate: string): string {
-  const [year, month] = sourceDate.split("-");
-  return `${year}年${MONTH_NAMES[month] || month}`;
-}
-
-/** Group items by source_date, returning sections sorted newest-first */
+/** Group items by source_date, returning sections sorted newest-first.
+ *  `label` is the raw "YYYY-MM" key; actual display formatting happens at render time. */
 function groupByMonth<T extends { source_date: string | null }>(
   items: T[],
+  originalLabel: string,
 ): { month: string; label: string; items: T[] }[] {
   const groups = new Map<string, T[]>();
   const noDate: T[] = [];
@@ -52,14 +46,14 @@ function groupByMonth<T extends { source_date: string | null }>(
 
   const sections = Array.from(groups.entries())
     .sort((a, b) => b[0].localeCompare(a[0]))
-    .map(([month, items]) => ({
+    .map(([month]) => ({
       month,
-      label: formatMonthHeader(month),
-      items,
+      label: month, // raw key — formatted via t() at render
+      items: groups.get(month)!,
     }));
 
   if (noDate.length > 0) {
-    sections.push({ month: "original", label: "原始题库", items: noDate });
+    sections.push({ month: "original", label: originalLabel, items: noDate });
   }
 
   return sections;
@@ -100,13 +94,13 @@ function Pill({
 }
 
 // ─── Month section header ──────────────────────────────────────
-function MonthHeader({ label, count }: { label: string; count: number }) {
+function MonthHeader({ label, countLabel }: { label: string; countLabel: string }) {
   return (
     <div className="flex items-center gap-3 pb-3 pt-1">
       <div className="h-1.5 w-1.5 rounded-full bg-primary" />
       <h3 className="text-sm font-semibold text-foreground">{label}</h3>
       <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-        {count} 套
+        {countLabel}
       </span>
       <div className="flex-1 border-t border-border/50" />
     </div>
@@ -116,13 +110,70 @@ function MonthHeader({ label, count }: { label: string; count: number }) {
 // ═══════════════════════════════════════════════════════════════
 const VALID_TABS: TabType[] = ["listening", "reading", "speaking", "writing"];
 
+function buildAttemptMap(attempts: AttemptResponse[]): Map<string, TestAttemptInfo> {
+  const map = new Map<string, TestAttemptInfo>();
+  for (const a of attempts) {
+    const existing = map.get(a.test_set_id);
+    if (!existing) {
+      map.set(a.test_set_id, {
+        bestScore: a.status === "completed" ? a.score : null,
+        bestTotal: a.total,
+        hasInProgress: a.status === "in_progress",
+        attemptCount: 1,
+      });
+    } else {
+      existing.attemptCount++;
+      if (a.status === "completed" && a.score !== null) {
+        if (existing.bestScore === null || a.score > existing.bestScore) {
+          existing.bestScore = a.score;
+          existing.bestTotal = a.total;
+        }
+      }
+      if (a.status === "in_progress") {
+        existing.hasInProgress = true;
+      }
+    }
+  }
+  return map;
+}
+
 export function TestList() {
+  const t = useTranslations();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const canAccessPaid = useAuthStore((s) => {
     if (s.isLoading) return true;
     const status = s.user?.subscription?.status;
     return status === "active" || status === "trialing" || s.user?.role === "admin";
   });
   const [tab, setTab] = useState<TabType>("listening");
+  const [expanded, setExpanded] = useState(false);
+  const [attemptMap, setAttemptMap] = useState<Map<string, TestAttemptInfo>>(new Map());
+
+  // Helper: format "YYYY-MM" into localized month header
+  const formatMonthLabel = useCallback(
+    (rawMonth: string) => {
+      if (rawMonth === "original") return t("tests.originalSets");
+      const [year, monthStr] = rawMonth.split("-");
+      const monthIdx = parseInt(monthStr, 10) - 1;
+      const months = [
+        t("tests.months.0"), t("tests.months.1"), t("tests.months.2"),
+        t("tests.months.3"), t("tests.months.4"), t("tests.months.5"),
+        t("tests.months.6"), t("tests.months.7"), t("tests.months.8"),
+        t("tests.months.9"), t("tests.months.10"), t("tests.months.11"),
+      ];
+      const monthName = months[monthIdx] || monthStr;
+      return t("tests.yearMonth", { year, month: monthName });
+    },
+    [t],
+  );
+
+  // Fetch all user attempts once to build progress map
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    listAttempts({ page_size: 500 })
+      .then((res) => setAttemptMap(buildAttemptMap(res.items)))
+      .catch(() => {});
+  }, [isAuthenticated]);
 
   // Restore tab from URL on mount
   useEffect(() => {
@@ -195,7 +246,7 @@ export function TestList() {
     return extractYears(tests);
   }, [tab, browseMode, tests, writingTopics]);
 
-  // ─── Filtered + sorted items (listening/reading + 按套题) ─
+  // ─── Filtered + sorted items (listening/reading + by-set) ─
   const filteredTests = useMemo(() => {
     const searchLower = search.toLowerCase();
     const filtered = tests.filter((t) => {
@@ -223,7 +274,7 @@ export function TestList() {
     return filtered;
   }, [tests, search, tab, selectedYear]);
 
-  // ─── Filtered writing topics (按等级 mode) ───────────────
+  // ─── Filtered writing topics (by-level mode) ───────────────
   const filteredWritingTopics = useMemo(() => {
     if (!search) return writingTopics;
     const searchLower = search.toLowerCase();
@@ -233,70 +284,98 @@ export function TestList() {
   }, [writingTopics, search]);
 
   // ─── Grouped sections ────────────────────────────────────
+  const originalLabel = t("tests.originalSets");
   const testSections = useMemo(
-    () => groupByMonth(filteredTests),
-    [filteredTests],
+    () => groupByMonth(filteredTests, originalLabel),
+    [filteredTests, originalLabel],
   );
 
   const writingTopicSections = useMemo(
-    () => groupByMonth(filteredWritingTopics),
-    [filteredWritingTopics],
+    () => groupByMonth(filteredWritingTopics, originalLabel),
+    [filteredWritingTopics, originalLabel],
   );
 
   // ─── Is speaking/writing tab? ─────────────────────────────
   const isSpeakingWriting = tab === "speaking" || tab === "writing";
 
   // ─── Render: Listening / Reading (flat grid with upgrade banner) ────
+  const INITIAL_SHOW = 6;
+
   const renderFlatGrid = () => {
     if (loading) return <SkeletonGrid />;
-    if (filteredTests.length === 0) return <EmptyState title="暂无题套" description="该分类下还没有题套" />;
+    if (filteredTests.length === 0) return <EmptyState title={t("tests.emptyTitle")} description={t("tests.emptyDescription")} />;
+
+    const isSearching = search.trim().length > 0;
+    const showAll = expanded || isSearching;
 
     // Insert upgrade banner between free and locked tests
     if (!canAccessPaid) {
       const freeTests = filteredTests.filter((t) => t.is_free);
       const paidTests = filteredTests.filter((t) => !t.is_free);
+      const visiblePaid = showAll ? paidTests : paidTests.slice(0, Math.max(0, INITIAL_SHOW - freeTests.length));
+      const hiddenCount = paidTests.length - visiblePaid.length;
 
       if (freeTests.length > 0 && paidTests.length > 0) {
         return (
           <>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
               {freeTests.map((t) => (
-                <TestCard key={t.id} test={t} />
+                <TestCard key={t.id} test={t} attemptInfo={attemptMap.get(t.id)} />
               ))}
             </div>
             <UpgradeBanner
               className="my-6"
-              title="解锁全部题库"
-              description={`还有 ${paidTests.length} 套题等你挑战，升级 Pro 获取完整备考体验`}
+              title={t("tests.unlockAll")}
+              description={t("tests.unlockDescription", { count: paidTests.length })}
             />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
-              {paidTests.map((t) => (
-                <TestCard key={t.id} test={t} />
+              {visiblePaid.map((t) => (
+                <TestCard key={t.id} test={t} attemptInfo={attemptMap.get(t.id)} />
               ))}
             </div>
+            {hiddenCount > 0 && (
+              <ShowMoreButton count={hiddenCount} onClick={() => setExpanded(true)} />
+            )}
           </>
         );
       }
     }
 
+    const visible = showAll ? filteredTests : filteredTests.slice(0, INITIAL_SHOW);
+    const hiddenCount = filteredTests.length - visible.length;
+
     return (
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
-        {filteredTests.map((t) => (
-          <TestCard key={t.id} test={t} />
-        ))}
-      </div>
+      <>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
+          {visible.map((t) => (
+            <TestCard key={t.id} test={t} attemptInfo={attemptMap.get(t.id)} />
+          ))}
+        </div>
+        {hiddenCount > 0 && (
+          <ShowMoreButton count={hiddenCount} onClick={() => setExpanded(true)} />
+        )}
+        {showAll && filteredTests.length > INITIAL_SHOW && (
+          <button
+            onClick={() => { setExpanded(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+            className="mx-auto mt-4 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ChevronUp className="h-4 w-4" />
+            {t("tests.showLess")}
+          </button>
+        )}
+      </>
     );
   };
 
-  // ─── Render: Month-grouped test set cards (按套题) ────────
+  // ─── Render: Month-grouped test set cards (by-set) ────────
   const renderGroupedTestSets = () => {
     if (loading) return <SkeletonGrid />;
-    if (testSections.length === 0) return <EmptyState title="暂无题套" description="该分类下还没有题套" />;
+    if (testSections.length === 0) return <EmptyState title={t("tests.emptyTitle")} description={t("tests.emptyDescription")} />;
     return (
       <div className="space-y-6">
         {testSections.map((section) => (
           <div key={section.month}>
-            <MonthHeader label={section.label} count={section.items.length} />
+            <MonthHeader label={formatMonthLabel(section.month)} countLabel={t("tests.setsCount", { count: section.items.length })} />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
               {section.items.map((t) =>
                 tab === "speaking" ? (
@@ -312,15 +391,15 @@ export function TestList() {
     );
   };
 
-  // ─── Render: Speaking 按等级 (month-grouped) ──────────────
+  // ─── Render: Speaking by-level (month-grouped) ──────────────
   const renderSpeakingByLevel = () => {
     if (loading) return <SkeletonGrid />;
-    if (testSections.length === 0) return <EmptyState title="暂无话题" description="该等级下还没有话题" />;
+    if (testSections.length === 0) return <EmptyState title={t("tests.emptyTopicTitle")} description={t("tests.emptyTopicDesc")} />;
     return (
       <div className="space-y-6">
         {testSections.map((section) => (
           <div key={section.month}>
-            <MonthHeader label={section.label} count={section.items.length} />
+            <MonthHeader label={formatMonthLabel(section.month)} countLabel={t("tests.setsCount", { count: section.items.length })} />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
               {section.items.map((t) => (
                 <SpeakingTopicCard key={t.id} test={t} />
@@ -332,15 +411,15 @@ export function TestList() {
     );
   };
 
-  // ─── Render: Writing 按等级 (month-grouped topics) ────────
+  // ─── Render: Writing by-level (month-grouped topics) ────────
   const renderWritingByLevel = () => {
     if (loading) return <SkeletonGrid />;
-    if (writingTopicSections.length === 0) return <EmptyState title="暂无题目" description="该等级下还没有题目" />;
+    if (writingTopicSections.length === 0) return <EmptyState title={t("tests.emptyQuestionTitle")} description={t("tests.emptyQuestionDesc")} />;
     return (
       <div className="space-y-6">
         {writingTopicSections.map((section) => (
           <div key={section.month}>
-            <MonthHeader label={section.label} count={section.items.length} />
+            <MonthHeader label={formatMonthLabel(section.month)} countLabel={t("tests.setsCount", { count: section.items.length })} />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
               {section.items.map((t) => (
                 <WritingLevelCard key={t.question_id} topic={t} tache={writingTache} />
@@ -360,6 +439,7 @@ export function TestList() {
       <Tabs value={tab} onValueChange={(v) => {
         const t = v as TabType;
         setTab(t);
+        setExpanded(false);
         const url = new URL(window.location.href);
         url.searchParams.set("tab", t);
         window.history.replaceState({}, "", url.pathname + url.search);
@@ -369,7 +449,7 @@ export function TestList() {
           <div className="relative max-w-sm">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="搜索题套名称或代号..."
+              placeholder={t("tests.searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-9"
@@ -378,10 +458,10 @@ export function TestList() {
         </div>
 
         <TabsList className="mb-1">
-          <TabsTrigger value="listening">听力</TabsTrigger>
-          <TabsTrigger value="reading">阅读</TabsTrigger>
-          <TabsTrigger value="speaking">口语</TabsTrigger>
-          <TabsTrigger value="writing">写作</TabsTrigger>
+          <TabsTrigger value="listening">{t("common.types.listening")}</TabsTrigger>
+          <TabsTrigger value="reading">{t("common.types.reading")}</TabsTrigger>
+          <TabsTrigger value="speaking">{t("common.types.speaking")}</TabsTrigger>
+          <TabsTrigger value="writing">{t("common.types.writing")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value={tab} className="mt-4">
@@ -390,40 +470,40 @@ export function TestList() {
           {/* ── Speaking/Writing controls ── */}
           {isSpeakingWriting && (
             <div className="mb-5 space-y-3">
-              {/* Mode toggle: 按等级 / 按套题 */}
+              {/* Mode toggle */}
               <div className="flex gap-2">
                 <Pill active={browseMode === "level"} onClick={() => setBrowseMode("level")}>
-                  按等级
+                  {t("tests.byLevel")}
                 </Pill>
                 <Pill active={browseMode === "set"} onClick={() => setBrowseMode("set")}>
-                  按套题
+                  {t("tests.bySet")}
                 </Pill>
               </div>
 
-              {/* Tâche pills (按等级 mode only) */}
+              {/* Tâche pills (by-level mode only) */}
               {browseMode === "level" && tab === "speaking" && (
                 <div className="flex flex-wrap gap-2">
                   <Pill active={speakingTache === 1} onClick={() => setSpeakingTache(1)}>
-                    Tâche 1 · 自我介绍
+                    {t("tests.writingTache1")}
                   </Pill>
                   <Pill active={speakingTache === 2} onClick={() => setSpeakingTache(2)}>
-                    Tâche 2 · 情景对话
+                    {t("tests.writingTache2")}
                   </Pill>
                   <Pill active={speakingTache === 3} onClick={() => setSpeakingTache(3)}>
-                    Tâche 3 · 观点论述
+                    {t("tests.writingTache3")}
                   </Pill>
                 </div>
               )}
               {browseMode === "level" && tab === "writing" && (
                 <div className="flex flex-wrap gap-2">
                   <Pill active={writingTache === 1} onClick={() => setWritingTache(1)}>
-                    Tâche 1 · 基础
+                    {t("tests.speakingTache1")}
                   </Pill>
                   <Pill active={writingTache === 2} onClick={() => setWritingTache(2)}>
-                    Tâche 2 · 进阶
+                    {t("tests.speakingTache2")}
                   </Pill>
                   <Pill active={writingTache === 3} onClick={() => setWritingTache(3)}>
-                    Tâche 3 · 高阶
+                    {t("tests.speakingTache3")}
                   </Pill>
                 </div>
               )}
@@ -432,7 +512,7 @@ export function TestList() {
               {availableYears.length > 1 && (
                 <div className="flex flex-wrap gap-2">
                   <Pill active={selectedYear === null} onClick={() => setSelectedYear(null)}>
-                    全部
+                    {t("tests.all")}
                   </Pill>
                   {availableYears.map((year) => (
                     <Pill
@@ -463,5 +543,18 @@ export function TestList() {
         </TabsContent>
       </Tabs>
     </div>
+  );
+}
+
+function ShowMoreButton({ count, onClick }: { count: number; onClick: () => void }) {
+  const t = useTranslations();
+  return (
+    <button
+      onClick={onClick}
+      className="mx-auto mt-6 flex items-center gap-2 rounded-full border border-border bg-background px-6 py-2.5 text-sm font-medium text-muted-foreground shadow-sm transition-all hover:border-primary/30 hover:text-foreground hover:shadow-md"
+    >
+      <ChevronDown className="h-4 w-4" />
+      {t("tests.showMore", { count })}
+    </button>
   );
 }

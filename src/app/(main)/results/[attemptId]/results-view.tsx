@@ -19,7 +19,8 @@ import { listTestSets } from "@/lib/api/test-sets";
 import { practiceWrongAnswers } from "@/lib/api/wrong-answers";
 import { useAuthStore } from "@/stores/auth-store";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
-import { TYPE_LABELS, TYPE_COLORS, MODE_LABELS } from "@/lib/constants";
+import { TYPE_COLORS } from "@/lib/constants";
+import { useTranslations } from "next-intl";
 import type { AttemptReview, TestSetItem } from "@/lib/api/types";
 
 interface ResultsViewProps {
@@ -27,6 +28,7 @@ interface ResultsViewProps {
 }
 
 export function ResultsView({ attempt }: ResultsViewProps) {
+  const t = useTranslations();
   const router = useRouter();
   const canAccessPaid = useAuthStore((s) => {
     if (s.isLoading) return true;
@@ -121,28 +123,28 @@ export function ResultsView({ attempt }: ResultsViewProps) {
     <div className="mx-auto max-w-2xl space-y-6">
       <Breadcrumb
         items={[
-          { label: "题库", href: attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests" },
+          { label: t("results.breadcrumbTests"), href: attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests" },
           ...(attempt.test_set_id
-            ? [{ label: attempt.test_set_name || "题套", href: `/tests/${attempt.test_set_id}` }]
+            ? [{ label: attempt.test_set_name || t("results.breadcrumbReport"), href: `/tests/${attempt.test_set_id}` }]
             : []),
-          { label: "成绩报告" },
+          { label: t("results.breadcrumbReport") },
         ]}
       />
       {/* Header */}
       <div>
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold">
-            {attempt.test_set_name || "成绩报告"}
+            {attempt.test_set_name || t("results.defaultTitle")}
           </h1>
           <Badge variant="secondary">
-            {MODE_LABELS[attempt.mode] || attempt.mode}
+            {t(`common.modes.${attempt.mode}`)}
           </Badge>
           {attempt.test_set_type && (
             <Badge
               variant="outline"
               className={TYPE_COLORS[attempt.test_set_type]?.badge ?? ""}
             >
-              {TYPE_LABELS[attempt.test_set_type] || attempt.test_set_type}
+              {t(`common.types.${attempt.test_set_type}`)}
             </Badge>
           )}
         </div>
@@ -181,13 +183,13 @@ export function ResultsView({ attempt }: ResultsViewProps) {
       {!canAccessPaid && (
         <UpgradeBanner
           variant="hero"
-          title="想更快提分？"
-          description="Pro 会员解锁全部题库、考试模式、错题本和速练，系统化备考"
+          title={t("results.upgradeBanner.title")}
+          description={t("results.upgradeBanner.description")}
           features={[
-            "8,500+ 道真题全部解锁",
-            "考试模式模拟真实考场",
-            "错题自动收集，定向突破",
-            "速练模式，碎片时间高效刷题",
+            t("results.upgradeBanner.features.0"),
+            t("results.upgradeBanner.features.1"),
+            t("results.upgradeBanner.features.2"),
+            t("results.upgradeBanner.features.3"),
           ]}
         />
       )}
@@ -195,21 +197,21 @@ export function ResultsView({ attempt }: ResultsViewProps) {
       {/* Per-question review */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">逐题回顾</h2>
+          <h2 className="text-lg font-semibold">{t("results.reviewTitle")}</h2>
           <div className="flex gap-1">
             <Button
               variant={filter === "all" ? "default" : "outline"}
               size="sm"
               onClick={() => setFilter("all")}
             >
-              全部
+              {t("results.filterAll")}
             </Button>
             <Button
               variant={filter === "wrong" ? "default" : "outline"}
               size="sm"
               onClick={() => setFilter("wrong")}
             >
-              仅错题{wrongCount > 0 && ` (${wrongCount})`}
+              {t("results.filterWrongOnly")}{wrongCount > 0 && ` (${wrongCount})`}
             </Button>
           </div>
         </div>
@@ -221,7 +223,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
             ))
           ) : (
             <div className="px-4 py-8 text-center text-sm text-muted-foreground">
-              {filter === "wrong" ? "没有答错的题目" : "没有答题记录"}
+              {filter === "wrong" ? t("results.noWrongAnswers") : t("results.noAnswerRecords")}
             </div>
           )}
         </div>
@@ -236,17 +238,17 @@ export function ResultsView({ attempt }: ResultsViewProps) {
             className="bg-orange-600 hover:bg-orange-700 dark:bg-orange-700 dark:hover:bg-orange-600 text-white"
           >
             <RotateCcw className="mr-1.5 h-4 w-4" />
-            {practicingWrong ? "正在创建..." : `练习错题 (${wrongCount}题)`}
+            {practicingWrong ? t("common.actions.creating") : t("results.practiceWrong", { count: wrongCount })}
           </Button>
         )}
         {nextTestSet && (
           <Button onClick={handleNextTest} disabled={startingNext}>
             <ArrowRight className="mr-1.5 h-4 w-4" />
-            {startingNext ? "正在创建..." : `下一套: ${nextTestSet.name}`}
+            {startingNext ? t("common.actions.creating") : t("results.nextSet", { name: nextTestSet.name })}
           </Button>
         )}
         <Button asChild variant="outline">
-          <Link href={attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests"}>返回题库</Link>
+          <Link href={attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests"}>{t("results.backToTests")}</Link>
         </Button>
       </div>
     </div>

@@ -1,8 +1,10 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import type { Option, AnswerResponse } from "@/lib/api/types";
+import { FrenchText } from "./french-text";
 
 interface OptionListProps {
   options: Option[];
@@ -24,6 +26,8 @@ interface OptionListProps {
   submittingKey?: string | null;
   /** Audio-only options: show only A/B/C/D buttons without text (TCF listening A1/A2) */
   audioOnly?: boolean;
+  /** Disable vocabulary cards (e.g., exam mode) */
+  vocabDisabled?: boolean;
 }
 
 export function OptionList({
@@ -39,7 +43,9 @@ export function OptionList({
   lastSelected,
   submittingKey,
   audioOnly = false,
+  vocabDisabled,
 }: OptionListProps) {
+  const t = useTranslations();
   const isExam = mode === "exam";
   const locked = readonly || (!isExam && !!answer);
 
@@ -60,7 +66,7 @@ export function OptionList({
   }
 
   return (
-    <div className="space-y-2" role="radiogroup" aria-label="答案选项">
+    <div className="space-y-2" role="radiogroup" aria-label={t("practice.optionList.ariaLabel")}>
       {options.map((opt) => {
         const { isPending, isSelected, isCorrect, isWrong } = getOptionState(opt);
 
@@ -101,7 +107,11 @@ export function OptionList({
                 opt.key
               )}
             </span>
-            {!audioOnly && opt.text && <span className="pt-0.5">{opt.text}</span>}
+            {!audioOnly && opt.text && (
+              <span className="pt-0.5">
+                <FrenchText text={opt.text} disabled={vocabDisabled} />
+              </span>
+            )}
           </button>
         );
       })}

@@ -5,10 +5,11 @@ import Link from "next/link";
 import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { listAttempts } from "@/lib/api/attempts";
-import { MODE_LABELS } from "@/lib/constants";
+import { useTranslations } from "next-intl";
 import type { AttemptResponse } from "@/lib/api/types";
 
 export function ContinueBanner() {
+  const t = useTranslations();
   const [attempt, setAttempt] = useState<AttemptResponse | null>(null);
 
   useEffect(() => {
@@ -33,21 +34,21 @@ export function ContinueBanner() {
   if (!attempt) return null;
 
   const path = attempt.mode === "exam" ? "exam" : "practice";
-  const modeLabel = MODE_LABELS[attempt.mode] || attempt.mode;
+  const modeLabel = t(`common.modes.${attempt.mode}`);
 
   return (
     <div className="mb-4 overflow-hidden rounded-lg bg-gradient-to-r from-primary to-primary/80 p-4 text-primary-foreground shadow-md">
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-medium opacity-90">你有一套未完成的练习</p>
+          <p className="text-sm font-medium opacity-90">{t('continueBanner.title')}</p>
           <p className="mt-0.5 truncate text-base font-semibold">
-            {attempt.test_set_name || "练习"}
+            {attempt.test_set_name || t('continueBanner.name')}
             <span className="ml-2 inline-block rounded-full bg-white/20 px-2 py-0.5 text-xs font-medium">
               {modeLabel}
             </span>
           </p>
           <p className="mt-0.5 text-xs opacity-80">
-            进度: {attempt.answered_count} / {attempt.total} 题
+            {t('continueBanner.progress', { answered: attempt.answered_count, total: attempt.total })}
           </p>
         </div>
         <Button
@@ -58,7 +59,7 @@ export function ContinueBanner() {
         >
           <Link href={`/${path}/${attempt.id}`}>
             <Play className="mr-1.5 h-4 w-4" />
-            继续答题
+            {t('continueBanner.continue')}
           </Link>
         </Button>
       </div>

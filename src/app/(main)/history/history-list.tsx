@@ -11,8 +11,9 @@ import { Pagination } from "@/components/shared/pagination";
 import { EmptyState } from "@/components/shared/empty-state";
 import { listAttempts } from "@/lib/api/attempts";
 import { estimateTcfLevelFromRatio } from "@/lib/tcf-levels";
+import { useTranslations } from "next-intl";
 import type { PaginatedResponse, AttemptResponse } from "@/lib/api/types";
-import { MODE_LABELS, TYPE_LABELS, TYPE_COLORS } from "@/lib/constants";
+import { TYPE_COLORS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 const TYPE_ICONS: Record<string, React.ElementType> = {
@@ -33,6 +34,7 @@ function formatDate(dateStr: string): string {
 }
 
 function HistoryCard({ attempt }: { attempt: AttemptResponse }) {
+  const t = useTranslations();
   const router = useRouter();
   const isCompleted = attempt.status === "completed";
   const tcf =
@@ -74,16 +76,16 @@ function HistoryCard({ attempt }: { attempt: AttemptResponse }) {
           </span>
           {!isCompleted && (
             <Badge variant="outline" className="shrink-0 border-amber-300 bg-amber-50 text-amber-700 text-[10px] dark:border-amber-800 dark:bg-amber-950 dark:text-amber-400">
-              未完成
+              {t("history.incomplete")}
             </Badge>
           )}
         </div>
 
         <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
           {attempt.test_set_type && (
-            <span>{TYPE_LABELS[attempt.test_set_type]}</span>
+            <span>{t(`common.types.${attempt.test_set_type}`)}</span>
           )}
-          <span>{MODE_LABELS[attempt.mode] || attempt.mode}</span>
+          <span>{t(`common.modes.${attempt.mode}`)}</span>
           <span className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
             {attempt.completed_at
@@ -138,6 +140,7 @@ function HistoryCard({ attempt }: { attempt: AttemptResponse }) {
 }
 
 export function HistoryList() {
+  const t = useTranslations();
   const [data, setData] = useState<PaginatedResponse<AttemptResponse> | null>(null);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -163,11 +166,11 @@ export function HistoryList() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
-            练习记录
+            {t("history.title")}
           </span>
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          查看所有练习和考试成绩
+          {t("history.subtitle")}
         </p>
       </div>
 
@@ -175,11 +178,11 @@ export function HistoryList() {
         <LoadingSpinner />
       ) : !data?.items.length ? (
         <EmptyState
-          title="暂无记录"
-          description="完成一套练习后，成绩和历史记录会出现在这里"
+          title={t("history.empty.title")}
+          description={t("history.empty.description")}
           action={
             <Button asChild>
-              <Link href="/tests">去题库开始练习</Link>
+              <Link href="/tests">{t("history.goToTests")}</Link>
             </Button>
           }
         />

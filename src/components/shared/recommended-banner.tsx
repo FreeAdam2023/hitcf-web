@@ -6,6 +6,7 @@ import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { listAttempts } from "@/lib/api/attempts";
 import { listTestSets } from "@/lib/api/test-sets";
+import { useTranslations } from "next-intl";
 import type { TestSetItem } from "@/lib/api/types";
 
 interface RecommendedBannerProps {
@@ -13,6 +14,7 @@ interface RecommendedBannerProps {
 }
 
 export function RecommendedBanner({ type }: RecommendedBannerProps) {
+  const t = useTranslations();
   const [recommended, setRecommended] = useState<TestSetItem | null>(null);
 
   useEffect(() => {
@@ -53,7 +55,7 @@ export function RecommendedBanner({ type }: RecommendedBannerProps) {
         </div>
         <div className="min-w-0">
           <p className="text-sm font-medium text-primary">
-            推荐下一步
+            {t('recommendedBanner.title')}
           </p>
           <p className="truncate text-sm text-muted-foreground">
             {recommended.name}
@@ -61,7 +63,7 @@ export function RecommendedBanner({ type }: RecommendedBannerProps) {
         </div>
       </div>
       <Button asChild size="sm" className="shrink-0">
-        <Link href={`/tests/${recommended.id}`}>开始</Link>
+        <Link href={`/tests/${recommended.id}`}>{t('recommendedBanner.start')}</Link>
       </Button>
     </div>
   );

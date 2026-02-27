@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface NclcTableProps {
   tcfPoints: number;
@@ -28,14 +29,15 @@ function getUserNclcLevel(tcfPoints: number, testType: "listening" | "reading"):
 }
 
 export function NclcTable({ tcfPoints, testType }: NclcTableProps) {
+  const t = useTranslations();
   const userLevel = getUserNclcLevel(tcfPoints, testType);
   const scoreCol = testType === "listening" ? "co" : "ce";
-  const colLabel = testType === "listening" ? "听力 (CO)" : "阅读 (CE)";
+  const colLabel = testType === "listening" ? t('results.nclc.listening') : t('results.nclc.reading');
 
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">NCLC 等级对照</CardTitle>
+        <CardTitle className="text-base">{t('results.nclc.title')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
@@ -74,7 +76,7 @@ export function NclcTable({ tcfPoints, testType }: NclcTableProps) {
                       {row[scoreCol]}
                       {isActive && (
                         <span className="ml-2 text-xs text-primary font-semibold">
-                          ← 你的位置
+                          {t('results.nclc.yourPosition')}
                         </span>
                       )}
                     </td>
@@ -85,7 +87,7 @@ export function NclcTable({ tcfPoints, testType }: NclcTableProps) {
           </table>
         </div>
         <p className="mt-2 text-xs text-muted-foreground">
-          * NCLC 7 = CLB 7，Express Entry / PEQ 最低语言要求
+          {t('results.nclc.footnote')}
         </p>
       </CardContent>
     </Card>

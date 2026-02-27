@@ -27,27 +27,11 @@ import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { getTestSetQuestions } from "@/lib/api/test-sets";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
+import { useTranslations } from "next-intl";
 import type { PaginatedResponse, WrongAnswerItem, WrongAnswerStats } from "@/lib/api/types";
 
-const TYPE_OPTIONS = [
-  { value: "all", label: "全部类型" },
-  { value: "listening", label: "听力" },
-  { value: "reading", label: "阅读" },
-];
-
-const MASTERED_OPTIONS = [
-  { value: "all", label: "全部状态" },
-  { value: "false", label: "未掌握" },
-  { value: "true", label: "已掌握" },
-];
-
-const SORT_OPTIONS = [
-  { value: "recent", label: "最近错误" },
-  { value: "most_wrong", label: "错误最多" },
-  { value: "level", label: "按等级" },
-];
-
 export function WrongAnswerList() {
+  const t = useTranslations();
   const router = useRouter();
   const initPractice = usePracticeStore((s) => s.init);
   const canAccessPaid = useAuthStore((s) => {
@@ -87,7 +71,7 @@ export function WrongAnswerList() {
       setData(result);
     } catch (err) {
       setData({ items: [], page: 1, page_size: 20, total: 0, total_pages: 0 } as PaginatedResponse<WrongAnswerItem>);
-      setFetchError(err instanceof Error ? err.message : "加载错题失败");
+      setFetchError(err instanceof Error ? err.message : t("wrongAnswers.loadFailed"));
     } finally {
       setLoading(false);
     }
@@ -109,10 +93,10 @@ export function WrongAnswerList() {
           ),
         };
       });
-      toast.success(result.is_mastered ? "已标记为掌握" : "已取消掌握标记");
+      toast.success(result.is_mastered ? t("wrongAnswers.markMastered") : t("wrongAnswers.markUnmastered"));
     } catch (err) {
       console.error("Failed to toggle mastered", err);
-      toast.error("操作失败，请重试");
+      toast.error(t("common.errors.operationFailed"));
     }
   };
 
@@ -143,11 +127,11 @@ export function WrongAnswerList() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
             <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
-              错题本
+              {t("wrongAnswers.title")}
             </span>
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            追踪薄弱环节，定向突破
+            {t("wrongAnswers.subtitle")}
           </p>
         </div>
         {canAccessPaid && (
@@ -156,7 +140,7 @@ export function WrongAnswerList() {
             disabled={startingPractice || !data?.items.length}
           >
             <BookOpen className="mr-1.5 h-4 w-4" />
-            {startingPractice ? "生成中..." : "从错题练习"}
+            {startingPractice ? t("wrongAnswers.generating") : t("wrongAnswers.practiceFromWrong")}
           </Button>
         )}
       </div>
@@ -164,13 +148,13 @@ export function WrongAnswerList() {
       {!canAccessPaid && (
         <UpgradeBanner
           variant="hero"
-          title="错题本是 Pro 专属功能"
-          description="自动收集每次答错的题目，标记掌握状态，支持从错题直接生成练习"
+          title={t("wrongAnswers.upgradeBanner.title")}
+          description={t("wrongAnswers.upgradeBanner.description")}
           features={[
-            "自动收集所有错题",
-            "按类型、等级筛选",
-            "一键从错题生成练习",
-            "标记已掌握，追踪进步",
+            t("wrongAnswers.upgradeBanner.features.0"),
+            t("wrongAnswers.upgradeBanner.features.1"),
+            t("wrongAnswers.upgradeBanner.features.2"),
+            t("wrongAnswers.upgradeBanner.features.3"),
           ]}
         />
       )}
@@ -183,7 +167,7 @@ export function WrongAnswerList() {
               <AlertCircle className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">总错题</p>
+              <p className="text-xs text-muted-foreground">{t("wrongAnswers.stats.total")}</p>
               <p className="text-xl font-bold">{waStats.total}</p>
             </div>
           </div>
@@ -192,7 +176,7 @@ export function WrongAnswerList() {
               <CheckCircle className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">已掌握</p>
+              <p className="text-xs text-muted-foreground">{t("wrongAnswers.stats.mastered")}</p>
               <p className="text-xl font-bold">{waStats.mastered}</p>
             </div>
           </div>
@@ -201,7 +185,7 @@ export function WrongAnswerList() {
               <XCircle className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">未掌握</p>
+              <p className="text-xs text-muted-foreground">{t("wrongAnswers.stats.unmastered")}</p>
               <p className="text-xl font-bold">{waStats.unmastered}</p>
             </div>
           </div>
@@ -217,11 +201,9 @@ export function WrongAnswerList() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {TYPE_OPTIONS.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
+                <SelectItem value="all">{t("wrongAnswers.filters.allTypes")}</SelectItem>
+                <SelectItem value="listening">{t("common.types.listening")}</SelectItem>
+                <SelectItem value="reading">{t("common.types.reading")}</SelectItem>
               </SelectContent>
             </Select>
 
@@ -230,11 +212,9 @@ export function WrongAnswerList() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {MASTERED_OPTIONS.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
+                <SelectItem value="all">{t("wrongAnswers.filters.allStatus")}</SelectItem>
+                <SelectItem value="false">{t("wrongAnswers.filters.unmastered")}</SelectItem>
+                <SelectItem value="true">{t("wrongAnswers.filters.mastered")}</SelectItem>
               </SelectContent>
             </Select>
 
@@ -243,11 +223,9 @@ export function WrongAnswerList() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {SORT_OPTIONS.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
+                <SelectItem value="recent">{t("wrongAnswers.filters.recentWrong")}</SelectItem>
+                <SelectItem value="most_wrong">{t("wrongAnswers.filters.mostWrong")}</SelectItem>
+                <SelectItem value="level">{t("wrongAnswers.filters.byLevel")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -259,11 +237,11 @@ export function WrongAnswerList() {
             <ErrorState message={fetchError} onRetry={fetchData} />
           ) : !data?.items.length ? (
             <EmptyState
-              title="还没有错题"
-              description="做完一套题后，答错的题目会自动收集到这里，方便你针对性复习"
+              title={t("wrongAnswers.empty.title")}
+              description={t("wrongAnswers.empty.description")}
               action={
                 <Button onClick={() => router.push("/tests")}>
-                  去题库开始练习
+                  {t("wrongAnswers.goToTests")}
                 </Button>
               }
             />

@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Clock, CheckCircle2 } from "lucide-react";
 import { getEstimatedTcfLevel, TCF_MAX_SCORE } from "@/lib/tcf-levels";
 import { cn, formatTime } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface ScoreCardProps {
   score: number;
@@ -96,6 +97,7 @@ export function ScoreCard({
   timeTakenSeconds,
   tcfPoints,
 }: ScoreCardProps) {
+  const t = useTranslations();
   const isPointBased = tcfPoints != null;
   const pct = isPointBased
     ? Math.round((tcfPoints / TCF_MAX_SCORE) * 100)
@@ -151,7 +153,7 @@ export function ScoreCard({
             <span
               className={`inline-block rounded-full px-4 py-1.5 text-sm font-semibold ${tcf.color} ${tcf.bgColor}`}
             >
-              {tcf.level} · {tcf.description}
+              {tcf.level} · {t(`tcfLevels.${tcf.level}.description`)}
             </span>
           </div>
         )}
@@ -161,13 +163,13 @@ export function ScoreCard({
           {answeredCount != null && (
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="h-4 w-4" />
-              答对 {score}/{total} 题
+              {t('results.scoreCard.answered', { score, total })}
             </span>
           )}
           {timeTakenSeconds != null && timeTakenSeconds > 0 && (
             <span className="flex items-center gap-1.5">
               <Clock className="h-4 w-4" />
-              用时 {formatTime(timeTakenSeconds)}
+              {t('results.scoreCard.timeUsed', { time: formatTime(timeTakenSeconds) })}
             </span>
           )}
         </div>

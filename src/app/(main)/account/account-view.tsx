@@ -3,11 +3,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useAuthStore } from "@/stores/auth-store";
 import { updateProfile, changePassword } from "@/lib/api/auth";
 import { getCustomerPortal } from "@/lib/api/subscriptions";
 import { getStatsOverview, type StatsOverview } from "@/lib/api/stats";
 import { ApiError } from "@/lib/api/client";
+import { SUPPORTED_LOCALES, LOCALE_LABELS, type Locale } from "@/i18n/locales";
 import {
   Card,
   CardContent,
@@ -33,6 +35,7 @@ import {
   BookOpenText,
   ArrowRight,
   BarChart3,
+  Globe,
 } from "lucide-react";
 
 const QUOTES = [
@@ -52,10 +55,11 @@ const QUOTES = [
   { fr: "Chaque langue nouvelle est une nouvelle fenêtre sur le monde.", zh: "每学一门新语言，就多了一扇看世界的窗。" },
 ];
 
-function formatDate(dateStr: string | null | undefined): string {
+function formatDate(dateStr: string | null | undefined, locale = "zh"): string {
   if (!dateStr) return "-";
   const d = new Date(dateStr);
-  return d.toLocaleDateString("zh-CN", {
+  const loc = locale === "zh" ? "zh-CN" : "en-US";
+  return d.toLocaleDateString(loc, {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -138,6 +142,7 @@ function AccuracyRing({
 }
 
 export function AccountView() {
+  const t = useTranslations();
   const user = useAuthStore((s) => s.user);
   const isLoading = useAuthStore((s) => s.isLoading);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -145,6 +150,7 @@ export function AccountView() {
   const fetchUser = useAuthStore((s) => s.fetchUser);
   const logout = useAuthStore((s) => s.logout);
   const router = useRouter();
+  const locale = (user?.ui_language || "zh") as Locale;
 
   // Stats
   const [stats, setStats] = useState<StatsOverview | null>(null);
@@ -164,6 +170,9 @@ export function AccountView() {
   const [passwordSaving, setPasswordSaving] = useState(false);
   const [passwordSuccess, setPasswordSuccess] = useState(false);
   const [passwordError, setPasswordError] = useState("");
+
+  // Language
+  const [langSaving, setLangSaving] = useState(false);
 
   // Subscription management
   const [portalLoading, setPortalLoading] = useState(false);
@@ -207,14 +216,14 @@ export function AccountView() {
   const subPlan = user.subscription?.plan;
   const planLabel =
     subPlan === "monthly"
-      ? "月付"
+      ? t("account.subscription.monthly")
       : subPlan === "quarterly"
-        ? "季付"
+        ? t("account.subscription.quarterly")
         : subPlan === "yearly"
-          ? "年付"
+          ? t("account.subscription.yearly")
           : subPlan || "";
 
-  const firstName = user.name?.split(/\s/)[0] || "同学";
+  const firstName = user.name?.split(/\s/)[0] || t("account.defaultName");
 
   const handleSaveName = async () => {
     const trimmed = name.trim();
@@ -228,7 +237,7 @@ export function AccountView() {
       setNameSuccess(true);
       setTimeout(() => setNameSuccess(false), 2000);
     } catch (err) {
-      setNameError(err instanceof ApiError ? err.message : "保存失败");
+      setNameError(err instanceof ApiError ? err.message : t("account.saveFailed"));
     } finally {
       setNameSaving(false);
     }
@@ -238,11 +247,11 @@ export function AccountView() {
     setPasswordError("");
     setPasswordSuccess(false);
     if (newPassword.length < 8) {
-      setPasswordError("新密码至少需要 8 位");
+      setPasswordError(t("account.passwordMinLength"));
       return;
     }
     if (newPassword !== confirmPassword) {
-      setPasswordError("两次输入的新密码不一致");
+      setPasswordError(t("account.passwordMismatch"));
       return;
     }
     setPasswordSaving(true);
@@ -260,7 +269,7 @@ export function AccountView() {
         setShowPasswordForm(false);
       }, 2000);
     } catch (err) {
-      setPasswordError(err instanceof ApiError ? err.message : "修改失败");
+      setPasswordError(err instanceof ApiError ? err.message : t("account.passwordChangeFailed"));
     } finally {
       setPasswordSaving(false);
     }
@@ -294,10 +303,10 @@ export function AccountView() {
                 <span className="text-sm font-semibold tracking-wide text-amber-400">
                   PRO{" "}
                   {subStatus === "trialing"
-                    ? "试用中"
+                    ? t("account.subscription.trialing")
                     : planLabel
                       ? `· ${planLabel}`
-                      : "会员"}
+                      : t("account.subscription.member")}
                 </span>
               </div>
               <h1 className="mt-2 text-2xl font-bold text-white">
@@ -305,13 +314,13 @@ export function AccountView() {
               </h1>
               {subStatus === "trialing" && user.subscription?.trial_end && (
                 <p className="mt-1 text-xs text-white/50">
-                  试用至 {formatDate(user.subscription.trial_end)}
+                  {t("account.subscription.trialUntil", { date: formatDate(user.subscription.trial_end, locale) })}
                 </p>
               )}
               {subStatus === "active" &&
                 user.subscription?.current_period_end && (
                   <p className="mt-1 text-xs text-white/50">
-                    续费日 {formatDate(user.subscription.current_period_end)}
+                    {t("account.subscription.renewalDate", { date: formatDate(user.subscription.current_period_end, locale) })}
                   </p>
                 )}
             </div>
@@ -327,7 +336,7 @@ export function AccountView() {
               ) : (
                 <ExternalLink className="h-4 w-4" />
               )}
-              <span className="ml-1 text-xs">管理订阅</span>
+              <span className="ml-1 text-xs">{t("account.subscription.manageSubscription")}</span>
             </Button>
           </div>
 
@@ -337,7 +346,7 @@ export function AccountView() {
               <StatCell
                 icon={BookOpen}
                 value={stats.total_attempts}
-                label="练习次数"
+                label={t("account.stats.practiceCount")}
               />
               <StatCell
                 icon={Target}
@@ -346,18 +355,18 @@ export function AccountView() {
                     ? `${Math.round(stats.accuracy_rate)}%`
                     : "-"
                 }
-                label="总正确率"
+                label={t("account.stats.totalAccuracy")}
               />
               <StatCell
                 icon={Flame}
                 value={stats.streak_days}
-                label="连续天数"
+                label={t("account.stats.streakDays")}
                 accent="text-orange-400"
               />
               <StatCell
                 icon={BarChart3}
                 value={stats.total_questions_answered}
-                label="做题总数"
+                label={t("account.stats.totalQuestions")}
               />
             </div>
           )}
@@ -370,14 +379,14 @@ export function AccountView() {
                   <Headphones className="h-4 w-4 text-white/40" />
                   <AccuracyRing
                     value={stats.listening_accuracy}
-                    label="听力正确率"
+                    label={t("account.stats.listeningAccuracy")}
                   />
                 </div>
                 <div className="flex items-center gap-2">
                   <BookOpenText className="h-4 w-4 text-white/40" />
                   <AccuracyRing
                     value={stats.reading_accuracy}
-                    label="阅读正确率"
+                    label={t("account.stats.readingAccuracy")}
                   />
                 </div>
               </div>
@@ -400,7 +409,7 @@ export function AccountView() {
                 className="text-white/60 hover:bg-white/10 hover:text-white"
               >
                 <BarChart3 className="mr-1 h-4 w-4" />
-                学习统计
+                {t("account.stats.title")}
                 <ArrowRight className="ml-1 h-3 w-3" />
               </Button>
             </Link>
@@ -411,7 +420,7 @@ export function AccountView() {
                 className="text-white/60 hover:bg-white/10 hover:text-white"
               >
                 <BookOpen className="mr-1 h-4 w-4" />
-                继续练习
+                {t("account.continuePractice")}
                 <ArrowRight className="ml-1 h-3 w-3" />
               </Button>
             </Link>
@@ -437,17 +446,17 @@ export function AccountView() {
                 <strong className="text-foreground">
                   {stats.total_attempts}
                 </strong>{" "}
-                次练习
+                {t("account.stats.practices")}
               </span>
               <span>
                 <strong className="text-foreground">
                   {stats.total_questions_answered}
                 </strong>{" "}
-                道题
+                {t("account.stats.questionsCount")}
               </span>
               {stats.accuracy_rate > 0 && (
                 <span>
-                  正确率{" "}
+                  {t("account.stats.accuracy")}{" "}
                   <strong className="text-foreground">
                     {Math.round(stats.accuracy_rate)}%
                   </strong>
@@ -461,10 +470,10 @@ export function AccountView() {
             <Sparkles className="h-8 w-8 shrink-0 text-amber-500" />
             <div className="flex-1">
               <p className="text-sm font-medium">
-                解锁全部 8,500+ 道真题 + 考试模式
+                {t("account.unlockAll")}
               </p>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                年付低至 $6.66/月，含 2 个月免费试用
+                {t("account.yearlyDeal")}
               </p>
             </div>
             <Button
@@ -472,7 +481,7 @@ export function AccountView() {
               className="shrink-0 bg-amber-500 hover:bg-amber-600"
               onClick={() => router.push("/pricing")}
             >
-              升级 Pro
+              {t("account.upgradePro")}
             </Button>
           </div>
         </div>
@@ -481,13 +490,13 @@ export function AccountView() {
       {/* ── Profile Card ── */}
       <Card>
         <CardHeader>
-          <CardTitle>个人信息</CardTitle>
+          <CardTitle>{t("account.profile.title")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Email */}
           <div>
             <label className="text-sm font-medium text-muted-foreground">
-              邮箱
+              {t("account.profile.email")}
             </label>
             <p className="mt-1 text-sm">{user.email}</p>
           </div>
@@ -495,7 +504,7 @@ export function AccountView() {
           {/* Name */}
           <div>
             <label className="text-sm font-medium text-muted-foreground">
-              姓名
+              {t("account.profile.name")}
             </label>
             <div className="mt-1 flex gap-2">
               <Input
@@ -505,7 +514,7 @@ export function AccountView() {
                   setNameSuccess(false);
                   setNameError("");
                 }}
-                placeholder="输入姓名"
+                placeholder={t("account.profile.namePlaceholder")}
                 maxLength={100}
                 className="max-w-xs"
               />
@@ -521,7 +530,7 @@ export function AccountView() {
                 ) : nameSuccess ? (
                   <Check className="h-4 w-4" />
                 ) : (
-                  "保存"
+                  t("common.actions.save")
                 )}
               </Button>
             </div>
@@ -533,7 +542,7 @@ export function AccountView() {
           {/* Password */}
           <div>
             <label className="text-sm font-medium text-muted-foreground">
-              密码
+              {t("account.profile.password")}
             </label>
             <div className="mt-1">
               <Button
@@ -550,7 +559,7 @@ export function AccountView() {
                 ) : (
                   <ChevronDown className="mr-1 h-4 w-4" />
                 )}
-                修改密码
+                {t("account.profile.changePassword")}
               </Button>
             </div>
 
@@ -558,7 +567,7 @@ export function AccountView() {
               <div className="mt-3 space-y-3 rounded-lg border p-4">
                 <div>
                   <label className="text-sm text-muted-foreground">
-                    当前密码
+                    {t("account.profile.currentPassword")}
                   </label>
                   <Input
                     type="password"
@@ -572,7 +581,7 @@ export function AccountView() {
                 </div>
                 <div>
                   <label className="text-sm text-muted-foreground">
-                    新密码
+                    {t("account.profile.newPassword")}
                   </label>
                   <Input
                     type="password"
@@ -581,13 +590,13 @@ export function AccountView() {
                       setNewPassword(e.target.value);
                       setPasswordError("");
                     }}
-                    placeholder="至少 8 位"
+                    placeholder={t("account.profile.newPasswordPlaceholder")}
                     className="mt-1 max-w-xs"
                   />
                 </div>
                 <div>
                   <label className="text-sm text-muted-foreground">
-                    确认新密码
+                    {t("account.profile.confirmPassword")}
                   </label>
                   <Input
                     type="password"
@@ -603,7 +612,7 @@ export function AccountView() {
                   <p className="text-sm text-destructive">{passwordError}</p>
                 )}
                 {passwordSuccess && (
-                  <p className="text-sm text-green-600">密码修改成功</p>
+                  <p className="text-sm text-green-600">{t("account.profile.passwordChanged")}</p>
                 )}
                 <Button
                   size="sm"
@@ -618,7 +627,7 @@ export function AccountView() {
                   {passwordSaving ? (
                     <Loader2 className="mr-1 h-4 w-4 animate-spin" />
                   ) : null}
-                  确认修改
+                  {t("account.profile.confirmChange")}
                 </Button>
               </div>
             )}
@@ -626,19 +635,61 @@ export function AccountView() {
         </CardContent>
       </Card>
 
+      {/* ── Language Selector Card ── */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Globe className="h-5 w-5" />
+            {t("account.language.title")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="mb-3 text-sm text-muted-foreground">
+            {t("account.language.description")}
+          </p>
+          <div className="flex gap-2">
+            {SUPPORTED_LOCALES.map((loc) => (
+              <Button
+                key={loc}
+                size="sm"
+                variant={locale === loc ? "default" : "outline"}
+                disabled={langSaving}
+                onClick={async () => {
+                  if (loc === locale) return;
+                  setLangSaving(true);
+                  try {
+                    await updateProfile({ ui_language: loc });
+                    await fetchUser();
+                  } finally {
+                    setLangSaving(false);
+                  }
+                }}
+              >
+                {langSaving && locale !== loc ? (
+                  <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+                ) : locale === loc ? (
+                  <Check className="mr-1 h-3 w-3" />
+                ) : null}
+                {LOCALE_LABELS[loc]}
+              </Button>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* ── Account Card ── */}
       <Card>
         <CardHeader>
-          <CardTitle>账号</CardTitle>
+          <CardTitle>{t("account.accountCard.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-between">
             <div className="text-sm text-muted-foreground">
-              注册时间：{formatDate(user.created_at)}
+              {t("account.accountCard.registeredAt", { date: formatDate(user.created_at, locale) })}
             </div>
             <Button variant="outline" size="sm" onClick={() => logout()}>
               <LogOut className="mr-1 h-4 w-4" />
-              退出登录
+              {t("account.accountCard.logout")}
             </Button>
           </div>
         </CardContent>

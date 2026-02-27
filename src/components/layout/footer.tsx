@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export function Footer() {
+  const t = useTranslations();
   return (
     <footer className="border-t bg-card py-10">
       <div className="mx-auto max-w-5xl px-4">
@@ -19,25 +23,25 @@ export function Footer() {
               href="/tests"
               className="transition-colors hover:text-foreground"
             >
-              题库
+              {t('footer.tests')}
             </Link>
             <Link
               href="/pricing"
               className="transition-colors hover:text-foreground"
             >
-              定价
+              {t('footer.pricing')}
             </Link>
             <Link
               href="/resources"
               className="transition-colors hover:text-foreground"
             >
-              资源
+              {t('footer.resources')}
             </Link>
             <a
               href="mailto:support@hitcf.com"
               className="transition-colors hover:text-foreground"
             >
-              联系我们
+              {t('footer.contact')}
             </a>
           </div>
 
@@ -47,25 +51,25 @@ export function Footer() {
               href="/terms-of-service"
               className="transition-colors hover:text-foreground"
             >
-              服务条款
+              {t('footer.terms')}
             </Link>
             <Link
               href="/privacy-policy"
               className="transition-colors hover:text-foreground"
             >
-              隐私政策
+              {t('footer.privacy')}
             </Link>
             <Link
               href="/refund-policy"
               className="transition-colors hover:text-foreground"
             >
-              退款政策
+              {t('footer.refund')}
             </Link>
             <Link
               href="/disclaimer"
               className="transition-colors hover:text-foreground"
             >
-              免责声明
+              {t('footer.disclaimer')}
             </Link>
           </div>
         </div>

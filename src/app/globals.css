@@ -239,6 +239,12 @@ button, a, [role="button"] {
   animation: wrong-icon-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
 }
 
+/* Shimmer animation for in-progress bars */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
 /* Subtle dot grid background */
 .bg-dots {
   background-image: radial-gradient(circle, hsl(var(--border) / 0.5) 1px, transparent 1px);

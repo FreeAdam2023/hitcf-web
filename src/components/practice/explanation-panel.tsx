@@ -10,12 +10,14 @@ import {
   Loader2,
   RefreshCw,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { FrenchText } from "./french-text";
 import type { Explanation } from "@/lib/api/types";
 
 interface ExplanationPanelProps {
@@ -44,6 +46,7 @@ export function ExplanationPanel({
   onForceRefresh,
   onOpen,
 }: ExplanationPanelProps) {
+  const t = useTranslations();
   const [open, setOpen] = useState(defaultOpen);
   const [distractorsOpen, setDistractorsOpen] = useState(false);
 
@@ -95,7 +98,7 @@ export function ExplanationPanel({
       >
         <span className="flex items-center gap-2 text-sm">
           <Lightbulb className="h-4 w-4" />
-          查看解析
+          {t("explanation.viewExplanation")}
         </span>
         {open ? (
           <ChevronUp className="h-4 w-4" />
@@ -109,21 +112,21 @@ export function ExplanationPanel({
           {loading ? (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              正在加载解析...
+              {t("explanation.loading")}
             </div>
           ) : error ? (
             <p className="text-muted-foreground">
-              加载失败，
+              {t("explanation.loadFailed")}
               <button
                 className="underline hover:text-foreground"
                 onClick={onRetry}
               >
-                点击重试
+                {t("explanation.clickRetry")}
               </button>
             </p>
           ) : !hasContent ? (
             <p className="text-muted-foreground">
-              解析即将推出，敬请期待。
+              {t("explanation.comingSoon")}
             </p>
           ) : (
             <div className="space-y-3">
@@ -136,7 +139,7 @@ export function ExplanationPanel({
                     className="flex items-center gap-1 rounded px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50"
                   >
                     <RefreshCw className="h-3 w-3" />
-                    强制刷新
+                    {t("explanation.forceRefresh")}
                   </button>
                 </div>
               )}
@@ -144,7 +147,7 @@ export function ExplanationPanel({
               {/* 2. 答案解析 — Hero Section */}
               {explanation!.correct_reasoning && (
                 <div className="rounded-lg border-l-4 border-emerald-500 bg-emerald-50/50 p-3 dark:bg-emerald-950/20">
-                  <h4 className="mb-1 font-medium">答案解析</h4>
+                  <h4 className="mb-1 font-medium">{t("explanation.title")}</h4>
                   <p className="leading-relaxed text-foreground/90">
                     {explanation!.correct_reasoning}
                   </p>
@@ -158,16 +161,19 @@ export function ExplanationPanel({
                     open={distractorsOpen}
                     onOpenChange={setDistractorsOpen}
                   >
-                    <CollapsibleTrigger className="flex w-full items-center gap-1.5 rounded-md px-1 py-1 text-left hover:bg-muted/50">
+                    <CollapsibleTrigger className="flex w-full items-center gap-1.5 rounded-lg border border-dashed border-muted-foreground/30 px-2.5 py-1.5 text-left transition-colors hover:bg-muted/60 hover:border-muted-foreground/50">
                       <ChevronDown
                         className={`h-3.5 w-3.5 text-muted-foreground transition-transform ${
                           distractorsOpen ? "rotate-180" : ""
                         }`}
                       />
-                      <h4 className="font-medium">干扰项分析</h4>
+                      <h4 className="font-medium">{t("explanation.distractors")}</h4>
                       <span className="text-xs text-muted-foreground">
-                        ({Object.keys(explanation!.distractors).length}项)
+                        {t("explanation.distractorCount", { count: Object.keys(explanation!.distractors).length })}
                       </span>
+                      {!distractorsOpen && (
+                        <span className="ml-auto text-[10px] text-muted-foreground/60">{t("explanation.expandHint")}</span>
+                      )}
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <div className="mt-1.5 space-y-2 pl-1">
@@ -199,7 +205,7 @@ export function ExplanationPanel({
               {explanation!.vocabulary &&
                 explanation!.vocabulary.length > 0 && (
                   <div>
-                    <h4 className="mb-2 font-medium">重点词汇</h4>
+                    <h4 className="mb-2 font-medium">{t("explanation.vocabulary")}</h4>
                     <div className="grid grid-cols-2 gap-2">
                       {explanation!.vocabulary.map((v, i) => (
                         <div
@@ -208,7 +214,7 @@ export function ExplanationPanel({
                         >
                           <div className="flex items-start justify-between gap-1">
                             <span className="font-medium">
-                              {v.word}
+                              {v.word && <FrenchText text={v.word} />}
                             </span>
                             {v.freq && (
                               <span className="shrink-0 rounded bg-muted px-1 py-0.5 text-[10px] text-muted-foreground">
@@ -230,7 +236,7 @@ export function ExplanationPanel({
               {/* 6. 学习要点 — 合并 exam_skill + trap_pattern + similar_tip */}
               {hasLearningTips && (
                 <div className="rounded-lg bg-blue-50/50 p-3 dark:bg-blue-950/20">
-                  <h4 className="mb-2 font-medium">学习要点</h4>
+                  <h4 className="mb-2 font-medium">{t("explanation.studyPoints")}</h4>
                   <div className="space-y-2">
                     {explanation!.exam_skill && (
                       <div className="flex gap-2">

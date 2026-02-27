@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,23 +18,28 @@ import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ReportDialog } from "@/components/practice/report-dialog";
+import { FrenchText } from "@/components/practice/french-text";
 import type { Explanation, QuestionBrief } from "@/lib/api/types";
 
-/** 听力原文：逐句三语卡片（法/英/中） */
+/** Transcript block: sentence-by-sentence trilingual cards (FR / EN bridge / Native) */
 function TranscriptBlock({
   question,
   explanation,
   showEn,
-  showZh,
+  showNative,
   onToggleEn,
-  onToggleZh,
+  onToggleNative,
+  transcriptLabel,
+  locale,
 }: {
   question: QuestionBrief;
   explanation: Explanation | null;
   showEn: boolean;
-  showZh: boolean;
+  showNative: boolean;
   onToggleEn: () => void;
-  onToggleZh: () => void;
+  onToggleNative: () => void;
+  transcriptLabel: string;
+  locale: string;
 }) {
   const isListening = question.type === "listening";
   const hasTranscript = !!question.transcript;
@@ -50,32 +56,36 @@ function TranscriptBlock({
   const optTrans = explanation?.option_translations;
 
   return (
-    <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
+    <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300 max-h-[40vh] overflow-y-auto scrollbar-thin">
       <div className="mb-2 flex items-center justify-between">
         <h4 className="flex items-center gap-1.5 font-medium">
           <FileText className="h-4 w-4" />
-          原文
+          {transcriptLabel}
         </h4>
         <div className="flex gap-1">
+          {/* EN bridge toggle — hidden for English-native users (bridge = native) */}
+          {locale !== "en" && (
+            <button
+              onClick={onToggleEn}
+              className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
+                showEn
+                  ? "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              EN
+            </button>
+          )}
+          {/* Native toggle */}
           <button
-            onClick={onToggleEn}
+            onClick={onToggleNative}
             className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
-              showEn
-                ? "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300"
-                : "bg-muted text-muted-foreground"
-            }`}
-          >
-            EN
-          </button>
-          <button
-            onClick={onToggleZh}
-            className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
-              showZh
+              showNative
                 ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300"
                 : "bg-muted text-muted-foreground"
             }`}
           >
-            ZH
+            {locale === "en" ? "EN" : locale.toUpperCase()}
           </button>
         </div>
       </div>
@@ -83,28 +93,33 @@ function TranscriptBlock({
       {/* Sentence-by-sentence trilingual cards */}
       {sentences && sentences.length > 0 ? (
         <div className="space-y-2">
-          {sentences.map((s, i) => (
-            <div key={i} className="space-y-0.5">
-              <p className="font-medium leading-relaxed text-foreground">
-                {s.fr}
-              </p>
-              {showEn && s.en && (
-                <p className="leading-relaxed text-blue-600 dark:text-blue-400">
-                  {s.en}
+          {sentences.map((s, i) => {
+            const nativeText = s.native || s.zh;
+            return (
+              <div key={i} className="space-y-0.5">
+                <p className="font-medium leading-relaxed text-foreground">
+                  <FrenchText text={s.fr} />
                 </p>
-              )}
-              {showZh && s.zh && (
-                <p className="leading-relaxed text-emerald-600 dark:text-emerald-400">
-                  {s.zh}
-                </p>
-              )}
-            </div>
-          ))}
+                {/* EN bridge (hidden for EN-native users since native toggle covers it) */}
+                {locale !== "en" && showEn && s.en && (
+                  <p className="leading-relaxed text-blue-600 dark:text-blue-400">
+                    {s.en}
+                  </p>
+                )}
+                {/* Native translation */}
+                {showNative && nativeText && (
+                  <p className="leading-relaxed text-emerald-600 dark:text-emerald-400">
+                    {nativeText}
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </div>
       ) : hasTranscript ? (
         /* Fallback: raw transcript before explanation loads */
         <p className="whitespace-pre-wrap leading-relaxed text-foreground">
-          {question.transcript}
+          <FrenchText text={question.transcript!} />
         </p>
       ) : null}
 
@@ -113,17 +128,18 @@ function TranscriptBlock({
         <div className={sentences || hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
           <div className="space-y-2">
             {question.options.map((opt) => {
-              const t = optTrans?.[opt.key];
+              const tr = optTrans?.[opt.key];
+              const optNative = tr?.native || tr?.zh;
               return (
                 <div key={opt.key}>
                   <p className="font-medium text-foreground">
-                    {opt.key}. {opt.text}
+                    {opt.key}. <FrenchText text={opt.text} />
                   </p>
-                  {showEn && t?.en && (
-                    <p className="pl-5 text-blue-600 dark:text-blue-400">{t.en}</p>
+                  {locale !== "en" && showEn && tr?.en && (
+                    <p className="pl-5 text-blue-600 dark:text-blue-400">{tr.en}</p>
                   )}
-                  {showZh && t?.zh && (
-                    <p className="pl-5 text-emerald-600 dark:text-emerald-400">{t.zh}</p>
+                  {showNative && optNative && (
+                    <p className="pl-5 text-emerald-600 dark:text-emerald-400">{optNative}</p>
                   )}
                 </div>
               );
@@ -136,10 +152,10 @@ function TranscriptBlock({
 }
 
 export function PracticeSession() {
+  const t = useTranslations();
   const router = useRouter();
   const {
     attemptId,
-    testSetName,
     questions,
     currentIndex,
     answers,
@@ -149,7 +165,8 @@ export function PracticeSession() {
     goToQuestion,
   } = usePracticeStore();
 
-  const { showEn, showZh, toggleEn, toggleZh } = useTranscriptLang();
+  const locale = useLocale();
+  const { showEn, showNative, toggleEn, toggleNative } = useTranscriptLang();
 
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -166,11 +183,11 @@ export function PracticeSession() {
   const fetchExplanation = useCallback((questionId: string, force?: boolean) => {
     setExplanationLoading(true);
     setExplanationError(false);
-    generateExplanation(questionId, force)
+    generateExplanation(questionId, force, locale)
       .then(setExplanation)
       .catch(() => setExplanationError(true))
       .finally(() => setExplanationLoading(false));
-  }, []);
+  }, [locale]);
 
   // Clear pending selection and indicators when navigating
   useEffect(() => {
@@ -193,7 +210,7 @@ export function PracticeSession() {
     const handlePopState = () => {
       if (answersRef.current.size > 0) {
         window.history.pushState(null, "", window.location.href);
-        toast.error("练习进行中，请通过「完成练习」按钮退出");
+        toast.error(t("practice.session.exitWarning"));
       }
     };
 
@@ -253,7 +270,7 @@ export function PracticeSession() {
       }
     } catch (err) {
       console.error("Failed to submit answer", err);
-      toast.error("提交失败，请重试");
+      toast.error(t("common.errors.submitFailed"));
     } finally {
       setSubmitting(false);
       setSubmittingKey(null);
@@ -343,10 +360,10 @@ export function PracticeSession() {
   const allAnswered = answers.size === questions.length;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[200px_1fr_320px]">
+    <div className="grid gap-6 lg:grid-cols-[200px_1fr_320px] h-full overflow-hidden">
       {/* 左侧：题号导航 (桌面) */}
-      <div className="hidden lg:block">
-        <div className="sticky top-14 max-h-[calc(100vh-3.5rem)] overflow-y-auto py-3 scrollbar-thin">
+      <div className="hidden lg:block overflow-y-auto scrollbar-thin">
+        <div className="py-3">
           <QuestionNavigator
             total={questions.length}
             currentIndex={currentIndex}
@@ -359,10 +376,7 @@ export function PracticeSession() {
       </div>
 
       {/* 中间：主内容 */}
-      <div className="space-y-4">
-        {testSetName && (
-          <h1 className="text-lg font-semibold">{testSetName}</h1>
-        )}
+      <div className="space-y-4 overflow-y-auto scrollbar-thin">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
             <QuestionDisplay
@@ -375,7 +389,7 @@ export function PracticeSession() {
             variant="ghost"
             size="icon"
             className="shrink-0 text-muted-foreground hover:text-orange-500"
-            title="题目报错"
+            title={t("practice.session.reportTitle")}
             onClick={() => setReportOpen(true)}
           >
             <AlertTriangle className="h-4 w-4" />
@@ -400,28 +414,65 @@ export function PracticeSession() {
               disabled={submitting}
               className="min-w-[160px]"
             >
-              {submitting ? "提交中..." : "确认答案"}
+              {submitting ? t("common.actions.submitting") : t("practice.session.confirmAnswer")}
             </Button>
           </div>
         )}
 
         {savedIndicator && (
-          <p className="text-xs text-green-600 dark:text-green-400 animate-in fade-in slide-in-from-bottom-2 duration-300">&#10003; 回答正确</p>
+          <p className="text-xs text-green-600 dark:text-green-400 animate-in fade-in slide-in-from-bottom-2 duration-300">{t("practice.session.answerCorrect")}</p>
         )}
         {wrongCollected && (
           <div className="wrong-answer-toast flex items-center gap-2 rounded-lg border border-orange-200 bg-orange-50 px-3 py-2 text-sm text-orange-700 shadow-sm dark:border-orange-800 dark:bg-orange-950/50 dark:text-orange-300">
             <span className="wrong-answer-icon flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/50">
               <BookmarkCheck className="h-4 w-4" />
             </span>
-            <span className="font-medium">已收入错题本</span>
+            <span className="font-medium">{t("practice.session.addedToWrongNote")}</span>
           </div>
         )}
 
-        {/* 移动端：原文 + 解析面板 */}
-        <div className="lg:hidden">
-          {currentAnswer && question.type === "listening" && (
-            <TranscriptBlock question={question} explanation={explanation} showEn={showEn} showZh={showZh} onToggleEn={toggleEn} onToggleZh={toggleZh} />
+        <Separator />
+
+        <div className="flex items-center justify-between">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
+          >
+            <ChevronLeft className="mr-1 h-4 w-4" />
+            {t("practice.session.prev")}
+          </Button>
+
+          {allAnswered && (
+            <Button
+              size="sm"
+              onClick={handleComplete}
+              disabled={completing}
+            >
+              <CheckCircle className="mr-1 h-4 w-4" />
+              {completing ? t("common.actions.submitting") : t("practice.session.completePractice")}
+            </Button>
           )}
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleNext}
+            disabled={isLast}
+          >
+            {t("practice.session.next")}
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        </div>
+
+        {/* 听力原文（导航按钮下方，内容可滚动） */}
+        {currentAnswer && question.type === "listening" && (
+          <TranscriptBlock question={question} explanation={explanation} showEn={showEn} showNative={showNative} onToggleEn={toggleEn} onToggleNative={toggleNative} transcriptLabel={t("practice.session.tabTranscript")} locale={locale} />
+        )}
+
+        {/* 移动端：解析面板 */}
+        <div className="lg:hidden">
           {currentAnswer && (
             <ExplanationPanel
               explanation={explanation}
@@ -435,50 +486,11 @@ export function PracticeSession() {
             />
           )}
         </div>
-
-        <Separator />
-
-        <div className="flex items-center justify-between">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handlePrev}
-            disabled={currentIndex === 0}
-          >
-            <ChevronLeft className="mr-1 h-4 w-4" />
-            上一题
-          </Button>
-
-          {allAnswered && (
-            <Button
-              size="sm"
-              onClick={handleComplete}
-              disabled={completing}
-            >
-              <CheckCircle className="mr-1 h-4 w-4" />
-              {completing ? "正在提交..." : "完成练习"}
-            </Button>
-          )}
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleNext}
-            disabled={isLast}
-          >
-            下一题
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
-        </div>
       </div>
 
-      {/* 右侧：原文 + 解析面板 (桌面) */}
-      <div className="hidden lg:block">
-        <div className="sticky top-20 space-y-3">
-          {/* 听力原文（桌面侧栏） */}
-          {currentAnswer && question.type === "listening" && (
-            <TranscriptBlock question={question} explanation={explanation} showEn={showEn} showZh={showZh} onToggleEn={toggleEn} onToggleZh={toggleZh} />
-          )}
+      {/* 右侧：解析面板 (桌面) */}
+      <div className="hidden lg:block overflow-y-auto scrollbar-thin">
+        <div className="space-y-3">
           {currentAnswer ? (
             <ExplanationPanel
               explanation={explanation}
@@ -492,7 +504,7 @@ export function PracticeSession() {
             />
           ) : (
             <div className="rounded-md border p-4 text-sm text-muted-foreground">
-              <p>答题后查看解析</p>
+              <p>{t("practice.session.viewAfterAnswer")}</p>
             </div>
           )}
         </div>

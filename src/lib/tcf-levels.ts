@@ -1,18 +1,20 @@
 export interface TcfLevel {
   level: string;
+  /** @deprecated Use useTranslations('tcfLevels') with t(`${level}.label`) instead */
   label: string;
   color: string;
   bgColor: string;
+  /** @deprecated Use useTranslations('tcfLevels') with t(`${level}.description`) instead */
   description: string;
 }
 
 const LEVELS: TcfLevel[] = [
-  { level: "C2", label: "C2 优秀", color: "text-purple-700", bgColor: "bg-purple-100", description: "接近母语水平" },
-  { level: "C1", label: "C1 熟练", color: "text-blue-700", bgColor: "bg-blue-100", description: "流利且自如" },
-  { level: "B2", label: "B2 中高级", color: "text-green-700", bgColor: "bg-green-100", description: "独立使用语言" },
-  { level: "B1", label: "B1 中级", color: "text-yellow-700", bgColor: "bg-yellow-100", description: "日常交流无障碍" },
-  { level: "A2", label: "A2 初级", color: "text-orange-700", bgColor: "bg-orange-100", description: "简单日常表达" },
-  { level: "A1", label: "A1 入门", color: "text-red-700", bgColor: "bg-red-100", description: "基础词汇短语" },
+  { level: "C2", label: "C2", color: "text-purple-700", bgColor: "bg-purple-100", description: "" },
+  { level: "C1", label: "C1", color: "text-blue-700", bgColor: "bg-blue-100", description: "" },
+  { level: "B2", label: "B2", color: "text-green-700", bgColor: "bg-green-100", description: "" },
+  { level: "B1", label: "B1", color: "text-yellow-700", bgColor: "bg-yellow-100", description: "" },
+  { level: "A2", label: "A2", color: "text-orange-700", bgColor: "bg-orange-100", description: "" },
+  { level: "A1", label: "A1", color: "text-red-700", bgColor: "bg-red-100", description: "" },
 ];
 
 /** TCF Canada 听力+阅读分值：按题号区间递增 */

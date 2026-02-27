@@ -19,7 +19,7 @@ import { getStatsOverview, getStatsHistory } from "@/lib/api/stats";
 import type { StatsOverview } from "@/lib/api/stats";
 import type { StatsHistory } from "@/lib/api/types";
 import { estimateTcfLevelFromRatio } from "@/lib/tcf-levels";
-import { MODE_LABELS } from "@/lib/constants";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 const LEVEL_BAR_COLORS: Record<string, string> = {
@@ -32,6 +32,7 @@ const LEVEL_BAR_COLORS: Record<string, string> = {
 };
 
 export function DashboardView() {
+  const t = useTranslations();
   const router = useRouter();
   const canAccessPaid = useAuthStore((s) => {
     if (s.isLoading) return true;
@@ -65,7 +66,7 @@ export function DashboardView() {
       <div className="mx-auto max-w-3xl space-y-6">
         <h1 className="text-3xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
-            仪表盘
+            {t("dashboard.title")}
           </span>
         </h1>
         <SkeletonGrid count={2} />
@@ -74,7 +75,7 @@ export function DashboardView() {
   }
 
   if (error || !stats) {
-    return <ErrorState message="无法加载统计数据" onRetry={load} />;
+    return <ErrorState message={t("dashboard.loadError")} onRetry={load} />;
   }
 
   const pct = (v: number) => `${(v * 100).toFixed(1)}%`;
@@ -84,7 +85,7 @@ export function DashboardView() {
     <div className="mx-auto max-w-3xl space-y-6">
       <h1 className="text-3xl font-bold tracking-tight">
         <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
-          仪表盘
+          {t("dashboard.title")}
         </span>
       </h1>
 
@@ -99,20 +100,20 @@ export function DashboardView() {
       {/* Upgrade nudge for free users */}
       {!canAccessPaid && (
         <UpgradeBanner
-          title="解锁完整备考工具"
-          description="升级 Pro 使用考试模式、错题本、速练等高级功能"
+          title={t("dashboard.upgradeBanner.title")}
+          description={t("dashboard.upgradeBanner.description")}
         />
       )}
 
       {/* Quick actions */}
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Button asChild>
-          <Link href="/tests">{hasData ? "继续练习" : "开始练习"}</Link>
+          <Link href="/tests">{hasData ? t("dashboard.continuePractice") : t("dashboard.startPractice")}</Link>
         </Button>
         <Button variant="outline" className="gap-1.5" asChild>
           <a href="https://t.me/hitcf_group" target="_blank" rel="noopener noreferrer">
             <Users className="h-4 w-4" />
-            加入备考群
+            {t("dashboard.joinStudyGroup")}
           </a>
         </Button>
       </div>
@@ -129,7 +130,7 @@ export function DashboardView() {
             onClick={() => setShowDetails(!showDetails)}
             className="flex w-full items-center justify-center gap-1.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            {showDetails ? "收起详情" : "查看详情"}
+            {showDetails ? t("dashboard.hideDetails") : t("dashboard.showDetails")}
             <ChevronDown
               className={cn("h-4 w-4 transition-transform", showDetails && "rotate-180")}
             />
@@ -149,7 +150,7 @@ export function DashboardView() {
               {Object.keys(stats.by_level).length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-base">等级分布</CardTitle>
+                    <CardTitle className="text-base">{t("dashboard.levelDistribution")}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     {Object.entries(stats.by_level)
@@ -164,7 +165,7 @@ export function DashboardView() {
                                   {level}
                                 </Badge>
                                 <span className="text-muted-foreground">
-                                  {data.correct}/{data.answered} 题
+                                  {t("dashboard.levelScore", { correct: data.correct, answered: data.answered })}
                                 </span>
                               </div>
                               <span className={cn(
@@ -191,7 +192,7 @@ export function DashboardView() {
               {stats.recent_attempts.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-base">最近记录</CardTitle>
+                    <CardTitle className="text-base">{t("dashboard.recentRecords")}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-1">
                     {stats.recent_attempts.map((a) => {
@@ -211,7 +212,7 @@ export function DashboardView() {
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2 text-sm">
-                              <span className="font-medium">{MODE_LABELS[a.mode] || a.mode}</span>
+                              <span className="font-medium">{t(`common.modes.${a.mode}`)}</span>
                               <span className="text-muted-foreground">
                                 {a.score ?? "-"}/{a.total}
                                 {scorePct !== null && <span className="ml-1">({scorePct}%)</span>}

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface PaginationProps {
   page: number;
@@ -10,6 +11,7 @@ interface PaginationProps {
 }
 
 export function Pagination({ page, totalPages, onPageChange }: PaginationProps) {
+  const t = useTranslations();
   if (totalPages <= 1) return null;
 
   return (
@@ -19,7 +21,7 @@ export function Pagination({ page, totalPages, onPageChange }: PaginationProps) 
         size="icon"
         disabled={page <= 1}
         onClick={() => onPageChange(page - 1)}
-        aria-label="上一页"
+        aria-label={t('common.pagination.prev')}
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
@@ -31,7 +33,7 @@ export function Pagination({ page, totalPages, onPageChange }: PaginationProps) 
         size="icon"
         disabled={page >= totalPages}
         onClick={() => onPageChange(page + 1)}
-        aria-label="下一页"
+        aria-label={t('common.pagination.next')}
       >
         <ChevronRight className="h-4 w-4" />
       </Button>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { usePracticeStore } from "@/stores/practice-store";
 import { getAttempt } from "@/lib/api/attempts";
 import { getTestSetQuestions } from "@/lib/api/test-sets";
@@ -10,6 +11,7 @@ import { ErrorState } from "@/components/shared/error-state";
 import { PracticeSession } from "./practice-session";
 
 export default function PracticePage() {
+  const t = useTranslations();
   const params = useParams<{ attemptId: string }>();
   const init = usePracticeStore((s) => s.init);
   const storeAttemptId = usePracticeStore((s) => s.attemptId);
@@ -39,7 +41,7 @@ export default function PracticePage() {
       setLoading(false);
     } catch (err) {
       if (err instanceof DOMException && err.name === "AbortError") return;
-      setError("无法加载练习数据");
+      setError(t("practice.session.loadError"));
       setLoading(false);
     }
   }, [params.attemptId, init]);

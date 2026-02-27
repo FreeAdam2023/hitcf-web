@@ -1,0 +1,786 @@
+{
+  "common": {
+    "types": {
+      "listening": "Listening",
+      "reading": "Reading",
+      "speaking": "Speaking",
+      "writing": "Writing"
+    },
+    "modes": {
+      "practice": "Practice",
+      "exam": "Exam",
+      "speed_drill": "Speed Drill"
+    },
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "retry": "Retry",
+      "close": "Close",
+      "confirm": "Confirm",
+      "back": "Back",
+      "start": "Start",
+      "continue": "Continue",
+      "submit": "Submit",
+      "loading": "Loading...",
+      "submitting": "Submitting...",
+      "creating": "Creating...",
+      "starting": "Starting...",
+      "copied": "Copied",
+      "copyPrompt": "Copy Prompt"
+    },
+    "status": {
+      "free": "Free",
+      "subscription": "Pro",
+      "inProgress": "In Progress",
+      "incomplete": "Incomplete",
+      "unanswered": "Unanswered",
+      "correct": "Correct",
+      "wrong": "Wrong",
+      "answered": "Answered",
+      "unknown": "Unknown"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again later.",
+      "loadFailed": "Failed to load",
+      "submitFailed": "Submission failed. Please try again.",
+      "createPracticeFailed": "Failed to create practice session. Please retry.",
+      "createExamFailed": "Failed to create exam session. Please retry.",
+      "operationFailed": "Operation failed. Please try again."
+    },
+    "time": {
+      "minutes": "{minutes} min",
+      "minutesShort": "{minutes}m {seconds}s"
+    },
+    "empty": {
+      "title": "No data",
+      "description": "Nothing here yet"
+    },
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "breadcrumb": "Breadcrumb",
+    "points": "{points} pts",
+    "questions": "{count} questions",
+    "questionsWithMinutes": "{count} questions · {minutes} min",
+    "answeredProgress": "{answered} / {total} answered",
+    "questionCounter": "Q {current} / {total}"
+  },
+  "nav": {
+    "tests": "Tests",
+    "dashboard": "Dashboard",
+    "wrongAnswers": "Wrong Notes",
+    "history": "History",
+    "speedDrill": "Speed Drill",
+    "pricing": "Pricing",
+    "resources": "Resources",
+    "openMenu": "Open menu",
+    "exitLabel": "Exit {label}",
+    "exitConfirmTitle": "Exit {label}?",
+    "exitConfirmAnswered": "{answered} / {total} questions answered.",
+    "exitConfirmProgress": "Your progress will be saved.",
+    "exitConfirmContinue": "Continue {label}",
+    "exitConfirmExit": "Confirm Exit"
+  },
+  "userMenu": {
+    "pro": "Pro Member",
+    "trial": "Trial",
+    "free": "Free User",
+    "login": "Log In",
+    "userMenuLabel": "User menu",
+    "defaultName": "User",
+    "upgradePro": "Upgrade to Pro",
+    "accountSettings": "Account Settings",
+    "logout": "Log Out"
+  },
+  "footer": {
+    "tests": "Tests",
+    "pricing": "Pricing",
+    "resources": "Resources",
+    "contact": "Contact Us",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "refund": "Refund Policy",
+    "disclaimer": "Disclaimer"
+  },
+  "theme": {
+    "lightMode": "Switch to light mode",
+    "darkMode": "Switch to dark mode"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Log in to your HiTCF account to continue studying",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot password?",
+      "passwordPlaceholder": "Enter password",
+      "submitting": "Logging in...",
+      "submit": "Log In",
+      "noAccount": "Don't have an account?",
+      "register": "Sign up free",
+      "invalidCredentials": "Invalid email or password",
+      "invalidEmail": "Please enter a valid email address",
+      "genericError": "Login failed. Please try again later."
+    },
+    "register": {
+      "emailStep": { "title": "Create Account", "desc": "Enter your email to get started" },
+      "codeStep": { "title": "Verify Email", "desc": "" },
+      "passwordStep": { "title": "Set Password", "desc": "Last step — complete your registration" },
+      "invalidEmail": "Please enter a valid email address",
+      "sendFailed": "Failed to send. Please try again later.",
+      "verifyFailed": "Verification failed. Please try again later.",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "nameRequired": "Please enter your name",
+      "registerFailed": "Registration failed. Please try again later.",
+      "resendFailed": "Failed to send. Please try again later.",
+      "codeSent": "Verification code sent to {email}",
+      "emailLabel": "Email",
+      "sending": "Sending...",
+      "sendCode": "Send Code",
+      "codeLabel": "6-digit code",
+      "verifying": "Verifying...",
+      "verify": "Verify",
+      "resend": "Didn't receive it? Resend",
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "At least 8 characters",
+      "registering": "Signing up...",
+      "complete": "Complete Registration",
+      "hasAccount": "Already have an account?",
+      "login": "Log In"
+    },
+    "forgotPassword": {
+      "emailStep": { "title": "Reset Password", "desc": "Enter your email and we'll send a verification code" },
+      "codeStep": { "title": "Verify Email", "desc": "" },
+      "passwordStep": { "title": "Set New Password", "desc": "Enter your new password" },
+      "invalidEmail": "Please enter a valid email address",
+      "sendFailed": "Failed to send. Please try again later.",
+      "verifyFailed": "Verification failed. Please try again later.",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "passwordMismatch": "Passwords do not match",
+      "resetFailed": "Reset failed. Please try again later.",
+      "resendFailed": "Failed to send. Please try again later.",
+      "resetSuccess": "Password reset successful",
+      "resetSuccessDesc": "Please log in with your new password",
+      "goLogin": "Go to Login",
+      "codeSent": "Verification code sent to {email}",
+      "emailLabel": "Email",
+      "sending": "Sending...",
+      "sendCode": "Send Code",
+      "codeLabel": "6-digit code",
+      "verifying": "Verifying...",
+      "verify": "Verify",
+      "resend": "Didn't receive it? Resend",
+      "newPasswordLabel": "New Password",
+      "newPasswordPlaceholder": "At least 8 characters",
+      "confirmPasswordLabel": "Confirm New Password",
+      "confirmPasswordPlaceholder": "Enter new password again",
+      "resetting": "Resetting...",
+      "resetPassword": "Reset Password",
+      "rememberPassword": "Remember your password?",
+      "backToLogin": "Back to Login"
+    },
+    "layout": {
+      "tagline": "Reach CLB 7 through practice",
+      "description1": "8,500+ TCF Canada questions covering listening, reading, speaking, and writing.",
+      "description2": "Systematic preparation — pass with confidence, not luck."
+    }
+  },
+  "tests": {
+    "pageTitle": "Tests",
+    "pageSubtitle": "TCF Canada listening, reading, speaking & writing practice",
+    "statsListening": "44 listening sets",
+    "statsReading": "44 reading sets",
+    "statsSpeaking": "696 speaking topics",
+    "statsWriting": "515 writing sets",
+    "searchPlaceholder": "Search by name or code...",
+    "byLevel": "By Level",
+    "bySet": "By Set",
+    "all": "All",
+    "originalSets": "Original Sets",
+    "setsCount": "{count} sets",
+    "emptyTitle": "No test sets",
+    "emptyDescription": "No test sets in this category",
+    "emptyTopicTitle": "No topics",
+    "emptyTopicDesc": "No topics at this level",
+    "emptyQuestionTitle": "No questions",
+    "emptyQuestionDesc": "No questions at this level",
+    "unlockAll": "Unlock All Tests",
+    "unlockDescription": "{count} more test sets await you. Upgrade to Pro for the full experience.",
+    "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "yearMonth": "{month} {year}",
+    "writingTache1": "Tâche 1 · Short Message",
+    "writingTache2": "Tâche 2 · Blog Article",
+    "writingTache3": "Tâche 3 · Argumentative Essay",
+    "speakingTache1": "Tâche 1 · Basic",
+    "speakingTache2": "Tâche 2 · Intermediate",
+    "speakingTache3": "Tâche 3 · Advanced",
+    "speakingSetNum": "Set {num}",
+    "speakingTopicsTache2": "Tâche 2 · Role Play",
+    "speakingTopicsTache3": "Tâche 3 · Opinion Presentation",
+    "topicsCount": "{count} topics",
+    "viewTopics": "View Topics",
+    "tasksCount": "{count} tasks",
+    "viewQuestions": "View Questions",
+    "showMore": "Show {count} more",
+    "showLess": "Show less"
+  },
+  "testCard": {
+    "best": "Best {score}/{total} ({pct}%)",
+    "practiceMode": "Practice Mode",
+    "practiceDesc": "No time limit. Answers and explanations shown after each question.",
+    "examMode": "Exam Mode",
+    "examDesc": "Timed. Answers hidden until submission. Score and estimated level shown after.",
+    "incompletePractice": "Incomplete practice · {answered} answered",
+    "incompleteExam": "Incomplete exam · {answered} answered",
+    "continuePractice": "Continue Practice",
+    "continueExam": "Continue Exam",
+    "startPractice": "Start Practice",
+    "startExam": "Start Exam",
+    "restartPractice": "Restart Practice",
+    "restartExam": "Restart Exam",
+    "subscribeUnlock": "Subscribe to Unlock",
+    "attempts": "{count}x"
+  },
+  "testDetail": {
+    "breadcrumbTests": "Tests",
+    "questionCount": "Questions",
+    "timeLimit": "Time Limit",
+    "listeningExam": "Listening Exam Mode",
+    "readingExam": "Reading Exam Mode",
+    "examBullets": {
+      "timer": "Strict timing (Listening 25 min / Reading 45 min)",
+      "noGoBack": "Cannot go back or modify answers",
+      "autoSubmit": "Auto-submit when time runs out",
+      "showScore": "Score + estimated NCLC level shown after submission"
+    },
+    "listeningExamBullets": {
+      "audioOnce": "Audio plays once only, no replaying",
+      "autoNext": "Auto-advances after answering, cannot go back",
+      "timedCompletion": "Timed: complete {count} questions in {minutes} minutes",
+      "showScore": "Score report and estimated TCF level shown after submission"
+    },
+    "readingExamBullets": {
+      "freeNav": "Free navigation between questions, answers can be changed",
+      "timedCompletion": "Timed: complete {count} questions in {minutes} minutes",
+      "showScore": "Score report and estimated TCF level shown after submission"
+    },
+    "practiceBullets": {
+      "noTimer": "No time limit, review freely",
+      "replayAudio": "No time limit, replay audio as needed",
+      "showAnswer": "Correct answer and detailed explanation after each question",
+      "wrongNote": "Wrong answers automatically added to notebook"
+    },
+    "suggestion": "Tip: Start with Practice mode to learn the format, then use Exam mode to simulate the real test.",
+    "practiceProgress": "Last practice: {answered} / {total} questions",
+    "examProgress": "Last exam: {answered} / {total} questions",
+    "restart": "Restart",
+    "speakingDescTache2": "Practice role-play scenarios. Copy the prompt and paste it into your favorite AI tool for conversation practice.",
+    "speakingDescTache3": "Express and defend your opinion on a topic. Copy the prompt and paste it into your favorite AI tool for speaking practice.",
+    "notFound": "Test set not found or has been deleted",
+    "writingBadge": "Writing",
+    "speakingBadge": "Speaking",
+    "speakingTache2": "Tâche 2 · Role Play",
+    "speakingTache3": "Tâche 3 · Opinion Presentation",
+    "writingTaskNames": [
+      "Tâche 1 · Short Message (60-120 words)",
+      "Tâche 2 · Blog Article (120-160 words)",
+      "Tâche 3 · Argumentative Essay (200-300 words)"
+    ],
+    "criteria": {
+      "adequation": "Task Completion",
+      "coherence": "Coherence",
+      "vocabulaire": "Vocabulary",
+      "grammaire": "Grammar"
+    },
+    "overallComment": "Overall",
+    "corrections": "Grammar Corrections",
+    "vocabSuggestions": "Vocabulary Suggestions",
+    "writingHistoryFailed": "Failed to load some writing history",
+    "gradingComplete": "Grading complete!",
+    "gradingFailed": "Grading failed. Please try again later.",
+    "writingDescription": "Each set contains 3 writing tasks (short message, blog article, argumentative essay). Enter your essay below for AI grading, or practice with ChatGPT.",
+    "loadingHistory": "Loading writing history...",
+    "essayPlaceholder": "Type your French essay here...",
+    "wordCount": "Words: ",
+    "wordRange": "/ {min}-{max} words",
+    "grading": "Grading...",
+    "submitGrading": "Submit for Grading",
+    "chatgptPractice": "ChatGPT Practice",
+    "lastSubmitted": "Last submitted: {date}",
+    "speakingModeDesc": {
+      "tache2": "Role play dialogue with the examiner. Read the scenario description, then interact to complete the task.",
+      "tache3": "Present your personal opinion on a social topic in a ~4 minute monologue. The examiner may ask follow-up questions."
+    }
+  },
+  "speakingGuide": {
+    "topics": ["Identity", "Education", "Work", "Hobbies", "Family", "Daily Life", "Immigration"],
+    "title": "Tâche 1 · Guided Interview",
+    "subtitle": "Entretien dirigé — The examiner asks spontaneous questions on everyday topics, ~2 minutes",
+    "commonTopics": "Common Topics",
+    "chatgptSimulation": "ChatGPT Simulation",
+    "grokSimulation": "Grok Simulation",
+    "examFlow": "Exam Flow",
+    "noFixedTopics": "No fixed questions",
+    "noFixedTopicsDesc": "The examiner asks spontaneous questions that cannot be predicted",
+    "prepStrategy": "Preparation: Prepare 2-3 natural sentences per topic. Don't memorize — keep it conversational.",
+    "flowSteps": [
+      "Examiner says 'Bonjour, installez-vous' and the timer starts",
+      "Brief self-introduction (name, nationality, occupation)",
+      "Examiner asks 1-2 questions on 3-4 topics",
+      "Answer naturally, 2-3 sentences each, ~2 minutes total"
+    ]
+  },
+  "practice": {
+    "questionDisplay": {
+      "imageListening": "Listen to the four options and choose the one matching the image.",
+      "imageListeningShort": "Listen to the recording and four options, choose the correct answer.",
+      "tabChinese": "Chinese"
+    },
+    "navigator": {
+      "title": "Question Navigator",
+      "unanswered": "Unanswered",
+      "correct": "Correct",
+      "wrong": "Wrong",
+      "answered": "Answered",
+      "questionLabel": "Question {n}, {status}"
+    },
+    "session": {
+      "tabTranscript": "Transcript",
+      "exitWarning": "Practice in progress. Please use the \"Complete Practice\" button to exit.",
+      "confirmAnswer": "Confirm Answer",
+      "answerCorrect": "✓ Correct!",
+      "addedToWrongNote": "Added to wrong answer notebook",
+      "prev": "Previous",
+      "completePractice": "Complete Practice",
+      "next": "Next",
+      "viewAfterAnswer": "Answer to view explanation",
+      "reportTitle": "Report Issue",
+      "loadError": "Failed to load practice data"
+    },
+    "optionList": {
+      "ariaLabel": "Answer options"
+    },
+    "report": {
+      "title": "Report Issue",
+      "description": "Found a problem? Select the issue type and describe the details.",
+      "types": {
+        "wrong_answer": "Wrong answer",
+        "audio_issue": "Audio problem",
+        "option_error": "Option content error",
+        "other": "Other issue"
+      },
+      "typeLabel": "Issue Type",
+      "typePlaceholder": "Select issue type",
+      "detailLabel": "Details (optional)",
+      "detailPlaceholder": "Describe the issue...",
+      "selectType": "Please select an issue type",
+      "success": "Feedback submitted. Thank you!",
+      "duplicate": "You have already reported this issue type",
+      "cancel": "Cancel",
+      "submit": "Submit Feedback"
+    }
+  },
+  "audio": {
+    "loadError": "Failed to load audio",
+    "playError": "Playback failed",
+    "loadRetryError": "Audio failed to load. Please retry.",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "volume": "Volume",
+    "replay": "Replay",
+    "speed": "Playback speed",
+    "played": "Played"
+  },
+  "explanation": {
+    "viewExplanation": "View Explanation",
+    "loading": "Loading explanation...",
+    "loadFailed": "Failed to load. ",
+    "clickRetry": "Click to retry",
+    "comingSoon": "Explanations coming soon.",
+    "forceRefresh": "Force Refresh",
+    "title": "Explanation",
+    "distractors": "Distractor Analysis",
+    "distractorCount": "({count} items)",
+    "expandHint": "Click to expand",
+    "vocabulary": "Key Vocabulary",
+    "studyPoints": "Study Points"
+  },
+  "wordCard": {
+    "loading": "Loading...",
+    "error": "Failed to load. Please retry.",
+    "plural": "Plural: {form}",
+    "adjForms": "Adjective Forms",
+    "masc": "M",
+    "fem": "F",
+    "sg": "Sg",
+    "pl": "Pl",
+    "mascSg": "M.Sg",
+    "femSg": "F.Sg",
+    "mascPl": "M.Pl",
+    "femPl": "F.Pl",
+    "examples": "Examples",
+    "tenses": {
+      "present": "Present",
+      "passeCompose": "Passé Composé",
+      "imparfait": "Imperfect",
+      "futurSimple": "Future",
+      "conditionnel": "Conditional",
+      "subjonctif": "Subjunctive"
+    },
+    "verbConj": "Verb Conjugation",
+    "verbGroup": "Group {group}",
+    "pastParticiple": "Past Participle: {form}",
+    "auxiliary": "Auxiliary: {aux}"
+  },
+  "exam": {
+    "session": {
+      "exitWarning": "Exam in progress. Please use the \"Submit Exam\" button to exit.",
+      "submitExam": "Submit Exam",
+      "confirmTitle": "Submit exam?",
+      "answeredCount": "{answered} / {total} questions answered.",
+      "unansweredCount": "{count} questions unanswered.",
+      "submitWarning": "You cannot modify answers after submission.",
+      "continueExam": "Continue Exam",
+      "confirmSubmit": "Confirm Submit",
+      "questionNumber": "Q {current} / {total}",
+      "next": "Next",
+      "prev": "Previous",
+      "loadError": "Failed to load exam data"
+    },
+    "timer": {
+      "fiveMinutes": "Warning: 5 minutes remaining",
+      "oneMinute": "Warning: 1 minute remaining",
+      "remaining": "{minutes}m {seconds}s remaining"
+    }
+  },
+  "results": {
+    "breadcrumbTests": "Tests",
+    "breadcrumbReport": "Score Report",
+    "defaultTitle": "Score Report",
+    "upgradeBanner": {
+      "title": "Want to improve faster?",
+      "description": "Pro members unlock all tests, exam mode, wrong answer notebook, and speed drill",
+      "features": [
+        "All 8,500+ questions unlocked",
+        "Exam mode simulates the real test",
+        "Wrong answers tracked automatically",
+        "Speed drill for efficient practice"
+      ]
+    },
+    "reviewTitle": "Question Review",
+    "filterAll": "All",
+    "filterWrongOnly": "Wrong Only",
+    "noWrongAnswers": "No wrong answers",
+    "noAnswerRecords": "No answer records",
+    "practiceWrong": "Practice Wrong ({count})",
+    "nextSet": "Next: {name}",
+    "backToTests": "Back to Tests",
+    "loadError": "Failed to load score data",
+    "scoreCard": {
+      "answered": "{score}/{total} correct",
+      "timeUsed": "Time: {time}"
+    },
+    "reviewItem": {
+      "points": "{points} pts",
+      "notAnswered": "Not answered",
+      "correctAnswer": "Correct: {answer}",
+      "transcript": "Listening Transcript"
+    },
+    "nclc": {
+      "listening": "Listening (CO)",
+      "reading": "Reading (CE)",
+      "title": "NCLC Level Chart",
+      "yourPosition": "← You",
+      "footnote": "* NCLC 7 = CLB 7, minimum language requirement for Express Entry / PEQ"
+    },
+    "scoreGrid": {
+      "title": "Question Point Breakdown",
+      "correct": "Correct",
+      "wrong": "Wrong",
+      "unanswered": "Unanswered",
+      "total": "{earned} / {max} pts ({pct}%)"
+    },
+    "levelBreakdown": {
+      "ungraded": "Ungraded",
+      "title": "Level Breakdown",
+      "level": "Level",
+      "count": "Count",
+      "correct": "Correct",
+      "accuracy": "Accuracy"
+    }
+  },
+  "encouragement": {
+    "nclc7Requirement": "TCF {level} · NCLC 7 requires ≥ 458",
+    "scoreDisplay": "{score}/{total} correct"
+  },
+  "account": {
+    "defaultName": "Student",
+    "saveFailed": "Failed to save",
+    "passwordMinLength": "New password must be at least 8 characters",
+    "passwordMismatch": "Passwords do not match",
+    "passwordChangeFailed": "Failed to change password",
+    "subscription": {
+      "monthly": "Monthly",
+      "quarterly": "Quarterly",
+      "yearly": "Yearly",
+      "trialing": "Trial",
+      "member": "Member",
+      "trialUntil": "Trial until {date}",
+      "renewalDate": "Renews {date}",
+      "manageSubscription": "Manage Subscription"
+    },
+    "stats": {
+      "title": "Study Stats",
+      "practiceCount": "Sessions",
+      "totalAccuracy": "Accuracy",
+      "streakDays": "Streak",
+      "totalQuestions": "Questions",
+      "listeningAccuracy": "Listening Accuracy",
+      "readingAccuracy": "Reading Accuracy",
+      "practices": "sessions",
+      "questionsCount": "questions",
+      "accuracy": "accuracy"
+    },
+    "continuePractice": "Continue Practice",
+    "unlockAll": "Unlock all 8,500+ questions + exam mode",
+    "yearlyDeal": "Yearly plan from $6.66/mo with 2 months free trial",
+    "upgradePro": "Upgrade to Pro",
+    "profile": {
+      "title": "Profile",
+      "email": "Email",
+      "name": "Name",
+      "namePlaceholder": "Enter name",
+      "password": "Password",
+      "changePassword": "Change Password",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "At least 8 characters",
+      "confirmPassword": "Confirm New Password",
+      "passwordChanged": "Password changed successfully",
+      "confirmChange": "Confirm Change"
+    },
+    "accountCard": {
+      "title": "Account",
+      "registeredAt": "Registered: {date}",
+      "logout": "Log Out"
+    },
+    "language": {
+      "title": "Interface Language",
+      "description": "Choose display language"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "loadError": "Failed to load statistics",
+    "upgradeBanner": {
+      "title": "Unlock Full Study Tools",
+      "description": "Upgrade to Pro for exam mode, wrong answer notebook, speed drill, and more"
+    },
+    "continuePractice": "Continue Practice",
+    "startPractice": "Start Practice",
+    "joinStudyGroup": "Join Study Group",
+    "hideDetails": "Hide Details",
+    "showDetails": "Show Details",
+    "levelDistribution": "Level Distribution",
+    "levelScore": "{correct}/{answered}",
+    "recentRecords": "Recent Records",
+    "readiness": {
+      "title": "CLB 7 Readiness",
+      "reached": "Reached ✓",
+      "gap": "{gap}% to go",
+      "keepGoing": "Keep going",
+      "nearTarget": "Almost there",
+      "needEffort": "Keep practicing",
+      "practiceCount": "Sessions",
+      "startStreak": "Start your streak",
+      "listening": "Listening",
+      "reading": "Reading",
+      "summaryBothReached": "Both listening and reading have reached the target. Keep it up!",
+      "summaryListeningReached": "Listening has reached the target. Reading needs {gap}% more to reach CLB 7!",
+      "summaryReadingReached": "Reading has reached the target. Listening needs {gap}% more to reach CLB 7!",
+      "summaryKeepGoing": "Keep practicing and push for CLB 7!",
+      "streakLegend": "{days} days! You're a legend",
+      "streakWeek": "{days}-day streak, don't let it die!",
+      "streakDays": "{days}-day streak, keep going!",
+      "streakToday": "Practiced today, continue tomorrow",
+      "streakNone": "Haven't practiced today",
+      "milestone30": "30-day achievement",
+      "milestone14": "14-day achievement",
+      "milestone7": "7-day achievement",
+      "milestone3": "3-day achievement"
+    },
+    "charts": {
+      "levelRadar": "Level Radar",
+      "levelRadarEmpty": "Complete multiple levels to see the radar chart",
+      "radarTooltip": "{value}% ({answered} questions)",
+      "radarLabel": "Accuracy",
+      "dailyPractice": "Daily Practice",
+      "dailyPracticeEmpty": "Complete a session to see daily practice",
+      "dailyTooltip": "{value} sessions",
+      "dailyLabel": "Sessions",
+      "accuracyTrend": "Accuracy Trend",
+      "accuracyTrendEmpty": "Complete 2 sessions to see the trend",
+      "accuracyLabel": "Accuracy"
+    }
+  },
+  "wrongAnswers": {
+    "title": "Wrong Answer Notebook",
+    "subtitle": "Track weak points and improve systematically",
+    "generating": "Generating...",
+    "practiceFromWrong": "Practice Wrong Answers",
+    "filters": {
+      "allTypes": "All Types",
+      "allStatus": "All Status",
+      "unmastered": "Unmastered",
+      "mastered": "Mastered",
+      "recentWrong": "Most Recent",
+      "mostWrong": "Most Wrong",
+      "byLevel": "By Level"
+    },
+    "stats": {
+      "total": "Total",
+      "mastered": "Mastered",
+      "unmastered": "Unmastered"
+    },
+    "empty": {
+      "title": "No wrong answers yet",
+      "description": "Complete a test set and any wrong answers will be collected here for targeted review"
+    },
+    "goToTests": "Go to Tests",
+    "loadFailed": "Failed to load wrong answers",
+    "markMastered": "Marked as mastered",
+    "markUnmastered": "Unmarked mastered",
+    "card": {
+      "wrongCount": "Wrong {count}x",
+      "mastered": "Mastered",
+      "markMastered": "Mark Mastered",
+      "loading": "Loading...",
+      "transcript": "Listening Transcript",
+      "loadFailed": "Failed to load details",
+      "retry": "Retry",
+      "loadError": "Cannot load question details"
+    },
+    "upgradeBanner": {
+      "title": "Wrong Answer Notebook is Pro-only",
+      "description": "Automatically collect wrong answers, mark mastery status, and generate targeted practice",
+      "features": [
+        "Automatically collect all wrong answers",
+        "Filter by type and level",
+        "One-click practice from wrong answers",
+        "Mark mastered, track progress"
+      ]
+    }
+  },
+  "speedDrill": {
+    "title": "Speed Drill",
+    "subtitle": "Select type and level for focused practice",
+    "selectType": "Select Type",
+    "selectLevel": "Select Level",
+    "selectAll": "Select All",
+    "questionCount": "Number of Questions",
+    "questionsLabel": "{count} questions",
+    "startDrill": "Start Drill",
+    "generating": "Generating...",
+    "noMoreQuestions": "No more new questions available",
+    "startFailed": "Failed to start speed drill. Please retry.",
+    "upgradeBanner": {
+      "title": "Speed Drill is Pro-only",
+      "description": "Targeted practice by level and type, perfect for short study sessions",
+      "features": [
+        "Full listening + reading library",
+        "Filter by A1-C2 level",
+        "Custom question count",
+        "Smart deduplication, no repeats"
+      ]
+    }
+  },
+  "history": {
+    "title": "Practice History",
+    "subtitle": "View all practice and exam results",
+    "empty": {
+      "title": "No records yet",
+      "description": "Complete a practice session and your results will appear here"
+    },
+    "goToTests": "Go to Tests",
+    "incomplete": "Incomplete"
+  },
+  "payment": {
+    "success": {
+      "title": "Welcome to HiTCF Pro",
+      "description": "All 8,500+ questions are now unlocked. Exam mode, wrong answer notebook, speed drill, and CLB level estimation are all available.",
+      "syncing": "Syncing subscription status...",
+      "startPractice": "Start Practicing",
+      "viewSubscription": "View Subscription"
+    },
+    "cancel": {
+      "title": "Like the Canada goose, take your time",
+      "description": "Payment was not completed — no charges were made. The Canada goose flies south in winter but always returns — we'll be here when you're ready.",
+      "choosePlan": "Choose a Plan",
+      "backToTests": "Back to Tests"
+    },
+    "unsubscribed": {
+      "title": "Until we meet again",
+      "description": "Your Pro access continues until the end of your current billing period. Like the Canada goose, we always welcome you back.",
+      "continuePractice": "Continue Practicing",
+      "resubscribe": "Resubscribe"
+    },
+    "error": {
+      "title": "Something went wrong",
+      "description": "An error occurred during payment. If you were charged but your subscription wasn't activated, please contact us.",
+      "retry": "Try Again",
+      "backToTests": "Back to Tests"
+    }
+  },
+  "errorPage": {
+    "title": "Something went wrong",
+    "description": "An error occurred while loading the page. Please try again later."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "This page doesn't exist or has been removed. Don't worry — head back and keep practicing.",
+    "backToTests": "Back to Tests",
+    "backToHome": "Back to Home"
+  },
+  "upgradeBanner": {
+    "defaultTitle": "Unlock the Full Experience",
+    "defaultDescription": "Upgrade to Pro for all 8,500+ questions and advanced features",
+    "viewPlans": "View Plans",
+    "yearlyTrial": "2 months free with yearly plan",
+    "upgradePro": "Upgrade to Pro"
+  },
+  "continueBanner": {
+    "title": "You have an incomplete practice session",
+    "name": "Practice",
+    "progress": "Progress: {answered} / {total}",
+    "continue": "Continue"
+  },
+  "recommendedBanner": {
+    "title": "Recommended Next",
+    "start": "Start"
+  },
+  "placementBanner": {
+    "title": "Test your CLB level",
+    "description": "Take a free listening test and find out how close you are to CLB 7",
+    "preparing": "Preparing...",
+    "startTest": "Take the Test"
+  },
+  "clb7Progress": {
+    "reached": "Reached",
+    "gap": "{gap}% to go",
+    "keepGoing": "Keep going",
+    "target": "CLB 7 Target (78%)",
+    "listening": "Listening {pct}%",
+    "reading": "Reading {pct}%"
+  },
+  "tcfLevels": {
+    "C2": { "label": "C2 Superior", "description": "Near-native proficiency" },
+    "C1": { "label": "C1 Advanced", "description": "Fluent and confident" },
+    "B2": { "label": "B2 Upper Intermediate", "description": "Independent language use" },
+    "B1": { "label": "B1 Intermediate", "description": "Everyday communication" },
+    "A2": { "label": "A2 Elementary", "description": "Simple daily expressions" },
+    "A1": { "label": "A1 Beginner", "description": "Basic vocabulary and phrases" }
+  }
+}

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { LocaleProvider } from "@/components/providers/locale-provider";
 import { Toaster } from "sonner";
 
 const geistSans = localFont({
@@ -53,9 +54,9 @@ export const metadata: Metadata = {
     locale: "zh_CN",
     url: SITE_URL,
     siteName: "HiTCF",
-    title: "HiTCF — CLB 7，练出来的",
+    title: "HiTCF — 打开就练，刷到 CLB 7",
     description:
-      "8,500+ 道 TCF Canada 真题，覆盖听力阅读口语写作。练习 + 考试 + 错题本，系统备考冲刺 CLB 7。",
+      "每月一杯咖啡钱，8,500+ 道 TCF Canada 真题随时练。错题自动收集，薄弱环节一目了然，从练习到模考一站搞定。",
     images: [
       {
         url: "/opengraph-image",
@@ -67,9 +68,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "HiTCF — CLB 7，练出来的",
+    title: "HiTCF — 打开就练，刷到 CLB 7",
     description:
-      "8,500+ 道 TCF Canada 真题，系统备考冲刺 CLB 7。",
+      "每月一杯咖啡钱，8,500+ 道 TCF Canada 真题随时练。错题自动收集，薄弱环节一目了然，从练习到模考一站搞定。",
     images: ["/opengraph-image"],
   },
   robots: {
@@ -260,7 +261,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <LocaleProvider>{children}</LocaleProvider>
+          </AuthProvider>
           <Toaster richColors position="top-center" />
         </ThemeProvider>
       </body>

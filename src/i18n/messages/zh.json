@@ -1,0 +1,786 @@
+{
+  "common": {
+    "types": {
+      "listening": "听力",
+      "reading": "阅读",
+      "speaking": "口语",
+      "writing": "写作"
+    },
+    "modes": {
+      "practice": "练习",
+      "exam": "考试",
+      "speed_drill": "速练"
+    },
+    "actions": {
+      "save": "保存",
+      "cancel": "取消",
+      "retry": "重试",
+      "close": "关闭",
+      "confirm": "确认",
+      "back": "返回",
+      "start": "开始",
+      "continue": "继续",
+      "submit": "提交",
+      "loading": "加载中...",
+      "submitting": "提交中...",
+      "creating": "正在创建...",
+      "starting": "正在开始...",
+      "copied": "已复制",
+      "copyPrompt": "复制 Prompt"
+    },
+    "status": {
+      "free": "免费",
+      "subscription": "订阅",
+      "inProgress": "进行中",
+      "incomplete": "未完成",
+      "unanswered": "未答",
+      "correct": "正确",
+      "wrong": "错误",
+      "answered": "已答",
+      "unknown": "未知"
+    },
+    "errors": {
+      "generic": "发生了错误，请稍后再试。",
+      "loadFailed": "加载失败",
+      "submitFailed": "提交失败，请重试",
+      "createPracticeFailed": "创建练习失败，请重试",
+      "createExamFailed": "创建考试失败，请重试",
+      "operationFailed": "操作失败，请重试"
+    },
+    "time": {
+      "minutes": "{minutes} 分钟",
+      "minutesShort": "{minutes} 分 {seconds} 秒"
+    },
+    "empty": {
+      "title": "暂无数据",
+      "description": "这里还什么都没有"
+    },
+    "pagination": {
+      "prev": "上一页",
+      "next": "下一页"
+    },
+    "breadcrumb": "面包屑",
+    "points": "{points} 分",
+    "questions": "{count} 题",
+    "questionsWithMinutes": "{count} 题 · {minutes} 分钟",
+    "answeredProgress": "已答 {answered} / {total}",
+    "questionCounter": "第 {current} 题 / 共 {total} 题"
+  },
+  "nav": {
+    "tests": "题库",
+    "dashboard": "仪表盘",
+    "wrongAnswers": "错题本",
+    "history": "记录",
+    "speedDrill": "速练",
+    "pricing": "定价",
+    "resources": "资源",
+    "openMenu": "打开菜单",
+    "exitLabel": "退出{label}",
+    "exitConfirmTitle": "确认退出{label}？",
+    "exitConfirmAnswered": "已答 {answered} / {total} 题。",
+    "exitConfirmProgress": "退出后当前{label}进度将保留。",
+    "exitConfirmContinue": "继续{label}",
+    "exitConfirmExit": "确认退出"
+  },
+  "userMenu": {
+    "pro": "Pro 会员",
+    "trial": "试用中",
+    "free": "免费用户",
+    "login": "登录",
+    "userMenuLabel": "用户菜单",
+    "defaultName": "用户",
+    "upgradePro": "升级 Pro",
+    "accountSettings": "账号设置",
+    "logout": "退出登录"
+  },
+  "footer": {
+    "tests": "题库",
+    "pricing": "定价",
+    "resources": "资源",
+    "contact": "联系我们",
+    "terms": "服务条款",
+    "privacy": "隐私政策",
+    "refund": "退款政策",
+    "disclaimer": "免责声明"
+  },
+  "theme": {
+    "lightMode": "切换到浅色模式",
+    "darkMode": "切换到深色模式"
+  },
+  "auth": {
+    "login": {
+      "title": "欢迎回来",
+      "subtitle": "登录你的 HiTCF 账号继续备考",
+      "email": "邮箱",
+      "password": "密码",
+      "forgotPassword": "忘记密码？",
+      "passwordPlaceholder": "输入密码",
+      "submitting": "登录中...",
+      "submit": "登录",
+      "noAccount": "还没有账号？",
+      "register": "免费注册",
+      "invalidCredentials": "邮箱或密码错误",
+      "invalidEmail": "请输入有效的邮箱地址",
+      "genericError": "登录失败，请稍后重试"
+    },
+    "register": {
+      "emailStep": { "title": "创建账号", "desc": "输入邮箱开始注册" },
+      "codeStep": { "title": "验证邮箱", "desc": "" },
+      "passwordStep": { "title": "设置密码", "desc": "最后一步，完成注册" },
+      "invalidEmail": "请输入有效的邮箱地址",
+      "sendFailed": "发送失败，请稍后重试",
+      "verifyFailed": "验证失败，请稍后重试",
+      "passwordMinLength": "密码至少需要 8 位",
+      "nameRequired": "请输入姓名",
+      "registerFailed": "注册失败，请稍后重试",
+      "resendFailed": "发送失败，请稍后重试",
+      "codeSent": "验证码已发送至 {email}",
+      "emailLabel": "邮箱",
+      "sending": "发送中...",
+      "sendCode": "发送验证码",
+      "codeLabel": "6 位验证码",
+      "verifying": "验证中...",
+      "verify": "验证",
+      "resend": "没收到？重新发送",
+      "nameLabel": "姓名",
+      "namePlaceholder": "你的名字",
+      "passwordLabel": "密码",
+      "passwordPlaceholder": "至少 8 位",
+      "registering": "注册中...",
+      "complete": "完成注册",
+      "hasAccount": "已有账号？",
+      "login": "登录"
+    },
+    "forgotPassword": {
+      "emailStep": { "title": "重置密码", "desc": "输入注册邮箱，我们将发送验证码" },
+      "codeStep": { "title": "验证邮箱", "desc": "" },
+      "passwordStep": { "title": "设置新密码", "desc": "请输入新密码" },
+      "invalidEmail": "请输入有效的邮箱地址",
+      "sendFailed": "发送失败，请稍后重试",
+      "verifyFailed": "验证失败，请稍后重试",
+      "passwordMinLength": "密码至少需要 8 位",
+      "passwordMismatch": "两次输入的密码不一致",
+      "resetFailed": "重置失败，请稍后重试",
+      "resendFailed": "发送失败，请稍后重试",
+      "resetSuccess": "密码重置成功",
+      "resetSuccessDesc": "请使用新密码登录",
+      "goLogin": "去登录",
+      "codeSent": "验证码已发送至 {email}",
+      "emailLabel": "邮箱",
+      "sending": "发送中...",
+      "sendCode": "发送验证码",
+      "codeLabel": "6 位验证码",
+      "verifying": "验证中...",
+      "verify": "验证",
+      "resend": "没收到？重新发送",
+      "newPasswordLabel": "新密码",
+      "newPasswordPlaceholder": "至少 8 位",
+      "confirmPasswordLabel": "确认新密码",
+      "confirmPasswordPlaceholder": "再次输入新密码",
+      "resetting": "重置中...",
+      "resetPassword": "重置密码",
+      "rememberPassword": "想起密码了？",
+      "backToLogin": "返回登录"
+    },
+    "layout": {
+      "tagline": "CLB 7，练出来的",
+      "description1": "8,500+ 道 TCF Canada 真题，听力阅读口语写作四科全覆盖。",
+      "description2": "系统化备考，让通过不再靠运气。"
+    }
+  },
+  "tests": {
+    "pageTitle": "题库",
+    "pageSubtitle": "TCF Canada 听力、阅读、口语、写作全真模拟",
+    "statsListening": "44 套听力",
+    "statsReading": "44 套阅读",
+    "statsSpeaking": "696 口语话题",
+    "statsWriting": "515 写作套题",
+    "searchPlaceholder": "搜索题套名称或代号...",
+    "byLevel": "按等级",
+    "bySet": "按套题",
+    "all": "全部",
+    "originalSets": "原始题库",
+    "setsCount": "{count} 套",
+    "emptyTitle": "暂无题套",
+    "emptyDescription": "该分类下还没有题套",
+    "emptyTopicTitle": "暂无话题",
+    "emptyTopicDesc": "该等级下还没有话题",
+    "emptyQuestionTitle": "暂无题目",
+    "emptyQuestionDesc": "该等级下还没有题目",
+    "unlockAll": "解锁全部题库",
+    "unlockDescription": "还有 {count} 套题等你挑战，升级 Pro 获取完整备考体验",
+    "months": ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+    "yearMonth": "{year}年{month}",
+    "writingTache1": "Tâche 1 · 自我介绍",
+    "writingTache2": "Tâche 2 · 情景对话",
+    "writingTache3": "Tâche 3 · 观点论述",
+    "speakingTache1": "Tâche 1 · 基础",
+    "speakingTache2": "Tâche 2 · 进阶",
+    "speakingTache3": "Tâche 3 · 高阶",
+    "speakingSetNum": "第 {num} 套",
+    "speakingTopicsTache2": "Tâche 2 · 情景对话",
+    "speakingTopicsTache3": "Tâche 3 · 观点论述",
+    "topicsCount": "{count} 个话题",
+    "viewTopics": "查看话题",
+    "tasksCount": "{count} 个任务",
+    "viewQuestions": "查看题目",
+    "showMore": "展开剩余 {count} 套",
+    "showLess": "收起"
+  },
+  "testCard": {
+    "best": "最高 {score}/{total} ({pct}%)",
+    "practiceMode": "练习模式",
+    "practiceDesc": "无时间限制，每题作答后立即显示答案和解析",
+    "examMode": "考试模式",
+    "examDesc": "计时进行，不显示答案；提交后显示成绩和预估等级",
+    "incompletePractice": "未完成的练习 · 已答 {answered} 题",
+    "incompleteExam": "未完成的考试 · 已答 {answered} 题",
+    "continuePractice": "继续练习",
+    "continueExam": "继续考试",
+    "startPractice": "开始练习",
+    "startExam": "开始考试",
+    "restartPractice": "重新开始练习",
+    "restartExam": "重新开始考试",
+    "subscribeUnlock": "订阅解锁",
+    "attempts": "{count} 次"
+  },
+  "testDetail": {
+    "breadcrumbTests": "题库",
+    "questionCount": "题目数量",
+    "timeLimit": "限时",
+    "listeningExam": "听力考试模式",
+    "readingExam": "阅读考试模式",
+    "examBullets": {
+      "timer": "严格计时（听力 25 分钟 / 阅读 45 分钟）",
+      "noGoBack": "答题后不可回看、不可修改",
+      "autoSubmit": "时间到自动提交",
+      "showScore": "提交后显示成绩 + 预估 NCLC 等级"
+    },
+    "listeningExamBullets": {
+      "audioOnce": "听力音频仅播放一次，不可重听",
+      "autoNext": "选择答案后自动进入下一题，不可返回修改",
+      "timedCompletion": "全程计时，{minutes} 分钟内完成 {count} 题",
+      "showScore": "提交后显示成绩报告和 TCF 预估等级"
+    },
+    "readingExamBullets": {
+      "freeNav": "可自由切换题目，答案可修改",
+      "timedCompletion": "全程计时，{minutes} 分钟内完成 {count} 题",
+      "showScore": "提交后显示成绩报告和 TCF 预估等级"
+    },
+    "practiceBullets": {
+      "noTimer": "无时间限制，可反复回看",
+      "replayAudio": "无时间限制，可反复听音频",
+      "showAnswer": "每题作答后立即显示正确答案和详细解析",
+      "wrongNote": "错题自动收入错题本"
+    },
+    "suggestion": "建议：先用练习模式熟悉题型，再用考试模式模拟真实考试节奏。",
+    "practiceProgress": "上次练习进度：{answered} / {total} 题",
+    "examProgress": "上次考试进度：{answered} / {total} 题",
+    "restart": "重新开始",
+    "speakingDescTache2": "在角色扮演场景中提问和互动。复制 Prompt 后粘贴到你喜欢的 AI 工具进行对话练习。",
+    "speakingDescTache3": "就某个话题表达你的观点并论证。复制 Prompt 后粘贴到你喜欢的 AI 工具进行表达练习。",
+    "notFound": "题套不存在或已删除",
+    "writingBadge": "写作",
+    "speakingBadge": "口语",
+    "speakingTache2": "Tâche 2 · 情景对话",
+    "speakingTache3": "Tâche 3 · 观点论述",
+    "writingTaskNames": [
+      "Tâche 1 · 短消息 (60-120 词)",
+      "Tâche 2 · 博客文章 (120-160 词)",
+      "Tâche 3 · 议论文 (200-300 词)"
+    ],
+    "criteria": {
+      "adequation": "任务完成度",
+      "coherence": "连贯性",
+      "vocabulaire": "词汇",
+      "grammaire": "语法"
+    },
+    "overallComment": "总评",
+    "corrections": "语法修正",
+    "vocabSuggestions": "词汇建议",
+    "writingHistoryFailed": "部分写作历史加载失败",
+    "gradingComplete": "批改完成！",
+    "gradingFailed": "批改失败，请稍后重试",
+    "writingDescription": "每组包含 3 个写作任务（短消息、博客文章、议论文）。在下方输入作文并提交 AI 批改，或使用 ChatGPT 练习。",
+    "loadingHistory": "加载写作历史...",
+    "essayPlaceholder": "在此输入你的法语作文...",
+    "wordCount": "字数：",
+    "wordRange": "/ {min}-{max} 词",
+    "grading": "批改中...",
+    "submitGrading": "提交批改",
+    "chatgptPractice": "ChatGPT 练习",
+    "lastSubmitted": "上次提交：{date}",
+    "speakingModeDesc": {
+      "tache2": "考生与考官进行角色扮演对话。阅读场景描述后，与考官互动完成交际任务。",
+      "tache3": "考生就一个社会话题发表个人观点，进行约 4 分钟的独白。考官可能追问。"
+    }
+  },
+  "speakingGuide": {
+    "topics": ["身份", "学业", "工作", "爱好", "家庭", "日常", "移民"],
+    "title": "Tâche 1 · 自我介绍面试",
+    "subtitle": "Entretien dirigé — 考官围绕日常话题即兴提问，约 2 分钟",
+    "commonTopics": "常见提问主题",
+    "chatgptSimulation": "ChatGPT 模拟",
+    "grokSimulation": "Grok 模拟",
+    "examFlow": "考试流程",
+    "noFixedTopics": "没有固定题目",
+    "noFixedTopicsDesc": "考官即兴提问，不可预测具体问题",
+    "prepStrategy": "准备策略：每个主题准备 2-3 句自然回答，不要背诵，保持对话感",
+    "flowSteps": [
+      "考官说「Bonjour, installez-vous」，开始计时",
+      "简短自我介绍（姓名、国籍、职业）",
+      "考官就 3-4 个主题各问 1-2 个问题",
+      "自然回答，每个回答 2-3 句即可，共约 2 分钟"
+    ]
+  },
+  "practice": {
+    "questionDisplay": {
+      "imageListening": "听四个选项，选择与图片相符的。",
+      "imageListeningShort": "听录音和四个选项，选择正确答案。",
+      "tabChinese": "中文"
+    },
+    "navigator": {
+      "title": "题号导航",
+      "unanswered": "未答",
+      "correct": "正确",
+      "wrong": "错误",
+      "answered": "已答",
+      "questionLabel": "第{n}题，{status}"
+    },
+    "session": {
+      "tabTranscript": "原文",
+      "exitWarning": "练习进行中，请通过「完成练习」按钮退出",
+      "confirmAnswer": "确认答案",
+      "answerCorrect": "✓ 回答正确",
+      "addedToWrongNote": "已收入错题本",
+      "prev": "上一题",
+      "completePractice": "完成练习",
+      "next": "下一题",
+      "viewAfterAnswer": "答题后查看解析",
+      "reportTitle": "题目报错",
+      "loadError": "无法加载练习数据"
+    },
+    "optionList": {
+      "ariaLabel": "答案选项"
+    },
+    "report": {
+      "title": "题目报错",
+      "description": "发现题目有问题？请选择问题类型并描述具体情况。",
+      "types": {
+        "wrong_answer": "答案错误",
+        "audio_issue": "音频有问题",
+        "option_error": "选项内容错误",
+        "other": "其他问题"
+      },
+      "typeLabel": "问题类型",
+      "typePlaceholder": "请选择问题类型",
+      "detailLabel": "详细描述（可选）",
+      "detailPlaceholder": "请描述具体问题...",
+      "selectType": "请选择问题类型",
+      "success": "反馈已提交，感谢您的帮助！",
+      "duplicate": "您已反馈过该问题类型",
+      "cancel": "取消",
+      "submit": "提交反馈"
+    }
+  },
+  "audio": {
+    "loadError": "无法加载音频",
+    "playError": "播放失败",
+    "loadRetryError": "音频加载失败，请重试",
+    "mute": "静音",
+    "unmute": "取消静音",
+    "volume": "音量",
+    "replay": "重新播放",
+    "speed": "播放速度",
+    "played": "已播放"
+  },
+  "explanation": {
+    "viewExplanation": "查看解析",
+    "loading": "正在加载解析...",
+    "loadFailed": "加载失败，",
+    "clickRetry": "点击重试",
+    "comingSoon": "解析即将推出，敬请期待。",
+    "forceRefresh": "强制刷新",
+    "title": "答案解析",
+    "distractors": "干扰项分析",
+    "distractorCount": "({count}项)",
+    "expandHint": "点击展开",
+    "vocabulary": "重点词汇",
+    "studyPoints": "学习要点"
+  },
+  "wordCard": {
+    "loading": "加载中...",
+    "error": "加载失败，请重试",
+    "plural": "复数: {form}",
+    "adjForms": "形容词变位",
+    "masc": "阳",
+    "fem": "阴",
+    "sg": "单",
+    "pl": "复",
+    "mascSg": "阳单",
+    "femSg": "阴单",
+    "mascPl": "阳复",
+    "femPl": "阴复",
+    "examples": "例句",
+    "tenses": {
+      "present": "现在",
+      "passeCompose": "复合过去",
+      "imparfait": "未完成过去",
+      "futurSimple": "简单将来",
+      "conditionnel": "条件",
+      "subjonctif": "虚拟"
+    },
+    "verbConj": "动词变位",
+    "verbGroup": "第{group}组",
+    "pastParticiple": "过去分词: {form}",
+    "auxiliary": "助动词: {aux}"
+  },
+  "exam": {
+    "session": {
+      "exitWarning": "考试进行中，请通过「提交考试」按钮退出",
+      "submitExam": "提交考试",
+      "confirmTitle": "确认提交考试？",
+      "answeredCount": "已答 {answered} / {total} 题。",
+      "unansweredCount": "还有 {count} 题未作答。",
+      "submitWarning": "提交后不可修改。",
+      "continueExam": "继续答题",
+      "confirmSubmit": "确认提交",
+      "questionNumber": "第 {current} / {total} 题",
+      "next": "下一题",
+      "prev": "上一题",
+      "loadError": "无法加载考试数据"
+    },
+    "timer": {
+      "fiveMinutes": "注意：剩余 5 分钟",
+      "oneMinute": "注意：剩余 1 分钟",
+      "remaining": "剩余时间 {minutes} 分 {seconds} 秒"
+    }
+  },
+  "results": {
+    "breadcrumbTests": "题库",
+    "breadcrumbReport": "成绩报告",
+    "defaultTitle": "成绩报告",
+    "upgradeBanner": {
+      "title": "想更快提分？",
+      "description": "Pro 会员解锁全部题库、考试模式、错题本和速练，系统化备考",
+      "features": [
+        "8,500+ 道真题全部解锁",
+        "考试模式模拟真实考场",
+        "错题自动收集，定向突破",
+        "速练模式，碎片时间高效刷题"
+      ]
+    },
+    "reviewTitle": "逐题回顾",
+    "filterAll": "全部",
+    "filterWrongOnly": "仅错题",
+    "noWrongAnswers": "没有答错的题目",
+    "noAnswerRecords": "没有答题记录",
+    "practiceWrong": "练习错题 ({count}题)",
+    "nextSet": "下一套: {name}",
+    "backToTests": "返回题库",
+    "loadError": "无法加载成绩数据",
+    "scoreCard": {
+      "answered": "答对 {score}/{total} 题",
+      "timeUsed": "用时 {time}"
+    },
+    "reviewItem": {
+      "points": "{points}分",
+      "notAnswered": "未作答",
+      "correctAnswer": "正确: {answer}",
+      "transcript": "听力原文"
+    },
+    "nclc": {
+      "listening": "听力 (CO)",
+      "reading": "阅读 (CE)",
+      "title": "NCLC 等级对照",
+      "yourPosition": "← 你的位置",
+      "footnote": "* NCLC 7 = CLB 7，Express Entry / PEQ 最低语言要求"
+    },
+    "scoreGrid": {
+      "title": "题目分值一览",
+      "correct": "正确",
+      "wrong": "错误",
+      "unanswered": "未答",
+      "total": "{earned} / {max} 分 ({pct}%)"
+    },
+    "levelBreakdown": {
+      "ungraded": "未分级",
+      "title": "等级分布",
+      "level": "等级",
+      "count": "题数",
+      "correct": "正确",
+      "accuracy": "正确率"
+    }
+  },
+  "encouragement": {
+    "nclc7Requirement": "TCF {level} · NCLC 7 要求 ≥ 458 分",
+    "scoreDisplay": "答对 {score}/{total} 题"
+  },
+  "account": {
+    "defaultName": "同学",
+    "saveFailed": "保存失败",
+    "passwordMinLength": "新密码至少需要 8 位",
+    "passwordMismatch": "两次输入的新密码不一致",
+    "passwordChangeFailed": "修改失败",
+    "subscription": {
+      "monthly": "月付",
+      "quarterly": "季付",
+      "yearly": "年付",
+      "trialing": "试用中",
+      "member": "会员",
+      "trialUntil": "试用至 {date}",
+      "renewalDate": "续费日 {date}",
+      "manageSubscription": "管理订阅"
+    },
+    "stats": {
+      "title": "学习统计",
+      "practiceCount": "练习次数",
+      "totalAccuracy": "总正确率",
+      "streakDays": "连续天数",
+      "totalQuestions": "做题总数",
+      "listeningAccuracy": "听力正确率",
+      "readingAccuracy": "阅读正确率",
+      "practices": "次练习",
+      "questionsCount": "道题",
+      "accuracy": "正确率"
+    },
+    "continuePractice": "继续练习",
+    "unlockAll": "解锁全部 8,500+ 道真题 + 考试模式",
+    "yearlyDeal": "年付低至 $6.66/月，含 2 个月免费试用",
+    "upgradePro": "升级 Pro",
+    "profile": {
+      "title": "个人信息",
+      "email": "邮箱",
+      "name": "姓名",
+      "namePlaceholder": "输入姓名",
+      "password": "密码",
+      "changePassword": "修改密码",
+      "currentPassword": "当前密码",
+      "newPassword": "新密码",
+      "newPasswordPlaceholder": "至少 8 位",
+      "confirmPassword": "确认新密码",
+      "passwordChanged": "密码修改成功",
+      "confirmChange": "确认修改"
+    },
+    "accountCard": {
+      "title": "账号",
+      "registeredAt": "注册时间：{date}",
+      "logout": "退出登录"
+    },
+    "language": {
+      "title": "界面语言",
+      "description": "选择平台显示语言"
+    }
+  },
+  "dashboard": {
+    "title": "仪表盘",
+    "loadError": "无法加载统计数据",
+    "upgradeBanner": {
+      "title": "解锁完整备考工具",
+      "description": "升级 Pro 使用考试模式、错题本、速练等高级功能"
+    },
+    "continuePractice": "继续练习",
+    "startPractice": "开始练习",
+    "joinStudyGroup": "加入备考群",
+    "hideDetails": "收起详情",
+    "showDetails": "查看详情",
+    "levelDistribution": "等级分布",
+    "levelScore": "{correct}/{answered} 题",
+    "recentRecords": "最近记录",
+    "readiness": {
+      "title": "CLB 7 准备度",
+      "reached": "已达标 ✓",
+      "gap": "还差 {gap}%",
+      "keepGoing": "继续加油",
+      "nearTarget": "接近目标",
+      "needEffort": "继续努力",
+      "practiceCount": "练习次数",
+      "startStreak": "开始连续打卡",
+      "listening": "听力",
+      "reading": "阅读",
+      "summaryBothReached": "听力和阅读均已达标，继续保持！",
+      "summaryListeningReached": "听力已达标，阅读还差 {gap}% 就能达到 CLB 7！",
+      "summaryReadingReached": "阅读已达标，听力还差 {gap}% 就能达到 CLB 7！",
+      "summaryKeepGoing": "坚持练习，向 CLB 7 发起冲刺！",
+      "streakLegend": "{days} 天！你就是传奇",
+      "streakWeek": "连续 {days} 天，别让火灭了！",
+      "streakDays": "连续 {days} 天，保持住！",
+      "streakToday": "今天已练习，明天继续",
+      "streakNone": "今天还没练习哦",
+      "milestone30": "30 天成就",
+      "milestone14": "14 天成就",
+      "milestone7": "7 天成就",
+      "milestone3": "3 天成就"
+    },
+    "charts": {
+      "levelRadar": "等级雷达图",
+      "levelRadarEmpty": "完成多个等级的练习后显示雷达图",
+      "radarTooltip": "{value}% ({answered} 题)",
+      "radarLabel": "正确率",
+      "dailyPractice": "每日练习量",
+      "dailyPracticeEmpty": "完成练习后显示每日练习量",
+      "dailyTooltip": "{value} 次",
+      "dailyLabel": "练习次数",
+      "accuracyTrend": "正确率趋势",
+      "accuracyTrendEmpty": "完成 2 次练习后显示趋势图",
+      "accuracyLabel": "正确率"
+    }
+  },
+  "wrongAnswers": {
+    "title": "错题本",
+    "subtitle": "追踪薄弱环节，定向突破",
+    "generating": "生成中...",
+    "practiceFromWrong": "从错题练习",
+    "filters": {
+      "allTypes": "全部类型",
+      "allStatus": "全部状态",
+      "unmastered": "未掌握",
+      "mastered": "已掌握",
+      "recentWrong": "最近错误",
+      "mostWrong": "错误最多",
+      "byLevel": "按等级"
+    },
+    "stats": {
+      "total": "总错题",
+      "mastered": "已掌握",
+      "unmastered": "未掌握"
+    },
+    "empty": {
+      "title": "还没有错题",
+      "description": "做完一套题后，答错的题目会自动收集到这里，方便你针对性复习"
+    },
+    "goToTests": "去题库开始练习",
+    "loadFailed": "加载错题失败",
+    "markMastered": "已标记为掌握",
+    "markUnmastered": "已取消掌握标记",
+    "card": {
+      "wrongCount": "错 {count} 次",
+      "mastered": "已掌握",
+      "markMastered": "标记掌握",
+      "loading": "加载中...",
+      "transcript": "听力原文",
+      "loadFailed": "加载详情失败",
+      "retry": "重试",
+      "loadError": "无法加载题目详情"
+    },
+    "upgradeBanner": {
+      "title": "错题本是 Pro 专属功能",
+      "description": "自动收集每次答错的题目，标记掌握状态，支持从错题直接生成练习",
+      "features": [
+        "自动收集所有错题",
+        "按类型、等级筛选",
+        "一键从错题生成练习",
+        "标记已掌握，追踪进步"
+      ]
+    }
+  },
+  "speedDrill": {
+    "title": "速练模式",
+    "subtitle": "选择类型和等级，利用碎片时间高效刷题",
+    "selectType": "选择类型",
+    "selectLevel": "选择等级",
+    "selectAll": "全选",
+    "questionCount": "题目数量",
+    "questionsLabel": "{count} 题",
+    "startDrill": "开始速练",
+    "generating": "正在生成...",
+    "noMoreQuestions": "没有更多未做过的题目",
+    "startFailed": "启动速练失败，请重试",
+    "upgradeBanner": {
+      "title": "速练是 Pro 专属功能",
+      "description": "按等级、按题型精准刷题，利用碎片时间高效突破薄弱环节",
+      "features": [
+        "听力 + 阅读全题库",
+        "按 A1–C2 等级筛选",
+        "自定义题目数量",
+        "智能去重，不重复做题"
+      ]
+    }
+  },
+  "history": {
+    "title": "练习记录",
+    "subtitle": "查看所有练习和考试成绩",
+    "empty": {
+      "title": "暂无记录",
+      "description": "完成一套练习后，成绩和历史记录会出现在这里"
+    },
+    "goToTests": "去题库开始练习",
+    "incomplete": "未完成"
+  },
+  "payment": {
+    "success": {
+      "title": "欢迎加入 HiTCF Pro",
+      "description": "全部 8,500+ 道题库已解锁。考试模式、错题本、速练、CLB 等级估算等功能现在都可以使用了。",
+      "syncing": "正在同步订阅状态...",
+      "startPractice": "开始刷题",
+      "viewSubscription": "查看订阅详情"
+    },
+    "cancel": {
+      "title": "像加拿大雁一样，先飞一会儿",
+      "description": "本次支付未完成，没有产生任何费用。加拿大雁冬天飞走，春天还会回来——我们也在这里等你。",
+      "choosePlan": "重新选择方案",
+      "backToTests": "返回题库"
+    },
+    "unsubscribed": {
+      "title": "雁过留痕，后会有期",
+      "description": "Pro 权限保留至当前付费周期结束。加拿大雁每年都会飞回来，我们也随时欢迎你归队。",
+      "continuePractice": "继续刷题",
+      "resubscribe": "重新订阅"
+    },
+    "error": {
+      "title": "可能受到极光干扰了",
+      "description": "支付过程中出现了异常，大概率不是极光的锅。如果已经扣款但订阅未开通，请联系我们。",
+      "retry": "重新尝试",
+      "backToTests": "返回题库"
+    }
+  },
+  "errorPage": {
+    "title": "出现了一些问题",
+    "description": "页面加载时发生了错误，请稍后再试。"
+  },
+  "notFound": {
+    "title": "迷路了？这条路不通",
+    "description": "页面不存在或已被移除。别慌，备考的路还在，回去继续刷题吧。",
+    "backToTests": "返回题库",
+    "backToHome": "回到首页"
+  },
+  "upgradeBanner": {
+    "defaultTitle": "解锁完整备考体验",
+    "defaultDescription": "升级 Pro 会员，获取全部 8,500+ 道题目和高级功能",
+    "viewPlans": "查看方案",
+    "yearlyTrial": "年付享 2 个月免费试用",
+    "upgradePro": "升级 Pro"
+  },
+  "continueBanner": {
+    "title": "你有一套未完成的练习",
+    "name": "练习",
+    "progress": "进度: {answered} / {total} 题",
+    "continue": "继续答题"
+  },
+  "recommendedBanner": {
+    "title": "推荐下一步",
+    "start": "开始"
+  },
+  "placementBanner": {
+    "title": "测一测你的 CLB 水平",
+    "description": "做一套免费听力真题，2 分钟后告诉你离 CLB 7 还差多远",
+    "preparing": "正在准备...",
+    "startTest": "立即测试"
+  },
+  "clb7Progress": {
+    "reached": "达标",
+    "gap": "差{gap}%",
+    "keepGoing": "继续加油",
+    "target": "CLB 7 目标 (78%)",
+    "listening": "听力 {pct}%",
+    "reading": "阅读 {pct}%"
+  },
+  "tcfLevels": {
+    "C2": { "label": "C2 优秀", "description": "接近母语水平" },
+    "C1": { "label": "C1 熟练", "description": "流利且自如" },
+    "B2": { "label": "B2 中高级", "description": "独立使用语言" },
+    "B1": { "label": "B1 中级", "description": "日常交流无障碍" },
+    "A2": { "label": "A2 初级", "description": "简单日常表达" },
+    "A1": { "label": "A1 入门", "description": "基础词汇短语" }
+  }
+}

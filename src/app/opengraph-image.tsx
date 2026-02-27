@@ -6,7 +6,16 @@ export const alt = "HiTCF — TCF Canada 在线练习平台";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OgImage() {
+export default async function OgImage() {
+  let iconData: ArrayBuffer | null = null;
+  try {
+    iconData = await fetch(
+      new URL("../../public/icon.png", import.meta.url),
+    ).then((r) => r.arrayBuffer());
+  } catch {
+    // fallback: text-only if icon unavailable
+  }
+
   return new ImageResponse(
     (
       <div
@@ -17,45 +26,68 @@ export default function OgImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #1e40af 0%, #2563eb 40%, #3b82f6 100%)",
+          background:
+            "linear-gradient(135deg, #1e3a8a 0%, #1e40af 30%, #2563eb 60%, #3b82f6 100%)",
           fontFamily: "sans-serif",
+          position: "relative",
         }}
       >
         {/* Decorative circles */}
         <div
           style={{
             position: "absolute",
-            top: -80,
-            right: -80,
-            width: 300,
-            height: 300,
+            top: -100,
+            right: -100,
+            width: 360,
+            height: 360,
             borderRadius: "50%",
-            background: "rgba(255,255,255,0.06)",
+            background: "rgba(255,255,255,0.05)",
           }}
         />
         <div
           style={{
             position: "absolute",
-            bottom: -60,
-            left: -60,
-            width: 240,
-            height: 240,
+            bottom: -80,
+            left: -80,
+            width: 280,
+            height: 280,
             borderRadius: "50%",
             background: "rgba(255,255,255,0.04)",
           }}
         />
+        <div
+          style={{
+            position: "absolute",
+            top: 100,
+            left: -40,
+            width: 160,
+            height: 160,
+            borderRadius: "50%",
+            background: "rgba(255,255,255,0.03)",
+          }}
+        />
 
-        {/* Logo text */}
+        {/* Logo + Brand */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            marginBottom: 24,
+            gap: 24,
+            marginBottom: 28,
           }}
         >
+          {iconData ? (
+            <img
+              // @ts-expect-error Satori accepts ArrayBuffer as img src
+              src={iconData}
+              width={110}
+              height={110}
+              style={{ borderRadius: 24 }}
+            />
+          ) : null}
           <div
             style={{
-              fontSize: 72,
+              fontSize: 80,
               fontWeight: 800,
               color: "#ffffff",
               letterSpacing: "-2px",
@@ -68,14 +100,13 @@ export default function OgImage() {
         {/* Slogan */}
         <div
           style={{
-            fontSize: 48,
+            fontSize: 44,
             fontWeight: 700,
             color: "#ffffff",
             marginBottom: 16,
-            letterSpacing: "1px",
           }}
         >
-          CLB 7，练出来的
+          打开就练，刷到 CLB 7
         </div>
 
         {/* Divider */}
@@ -83,9 +114,9 @@ export default function OgImage() {
           style={{
             width: 80,
             height: 4,
-            background: "rgba(255,255,255,0.5)",
+            background: "rgba(255,255,255,0.4)",
             borderRadius: 2,
-            marginBottom: 24,
+            marginBottom: 20,
           }}
         />
 
@@ -97,7 +128,7 @@ export default function OgImage() {
             fontWeight: 400,
           }}
         >
-          8,500+ 道 TCF Canada 真题 · 在线练习平台
+          每月一杯咖啡钱，8,500+ 道真题随时练
         </div>
 
         {/* Stats bar */}
@@ -105,7 +136,7 @@ export default function OgImage() {
           style={{
             display: "flex",
             gap: 48,
-            marginTop: 40,
+            marginTop: 36,
           }}
         >
           {[
@@ -123,7 +154,7 @@ export default function OgImage() {
             >
               <div
                 style={{
-                  fontSize: 36,
+                  fontSize: 34,
                   fontWeight: 700,
                   color: "#ffffff",
                 }}
@@ -132,8 +163,8 @@ export default function OgImage() {
               </div>
               <div
                 style={{
-                  fontSize: 16,
-                  color: "rgba(255,255,255,0.7)",
+                  fontSize: 15,
+                  color: "rgba(255,255,255,0.65)",
                   marginTop: 4,
                 }}
               >
@@ -142,8 +173,22 @@ export default function OgImage() {
             </div>
           ))}
         </div>
+
+        {/* Domain */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 24,
+            right: 36,
+            fontSize: 18,
+            color: "rgba(255,255,255,0.45)",
+            fontWeight: 500,
+          }}
+        >
+          hitcf.com
+        </div>
       </div>
     ),
-    { ...size }
+    { ...size },
   );
 }

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Send, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ import { ExamTimer } from "@/components/exam/exam-timer";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 
 export function ExamSession() {
+  const t = useTranslations();
   const router = useRouter();
   const {
     attemptId,
@@ -43,7 +45,6 @@ export function ExamSession() {
   } = useExamStore();
 
   const isListening = testType === "listening";
-  const isReading = testType === "reading";
 
   const [submitting, setSubmitting] = useState(false);
   const [completing, setCompleting] = useState(false);
@@ -54,7 +55,7 @@ export function ExamSession() {
 
     const handlePopState = () => {
       window.history.pushState(null, "", window.location.href);
-      toast.error("考试进行中，请通过「提交考试」按钮退出");
+      toast.error(t("exam.session.exitWarning"));
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -110,7 +111,7 @@ export function ExamSession() {
       }
     } catch (err) {
       console.error("Failed to submit answer", err);
-      toast.error("提交失败，请重试");
+      toast.error(t("common.errors.submitFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -179,23 +180,23 @@ export function ExamSession() {
       <AlertDialogTrigger asChild>
         <Button size="sm" disabled={completing}>
           <Send className="mr-1 h-4 w-4" />
-          {completing ? "正在提交..." : "提交考试"}
+          {completing ? t("common.actions.submitting") : t("exam.session.submitExam")}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>确认提交考试？</AlertDialogTitle>
+          <AlertDialogTitle>{t("exam.session.confirmTitle")}</AlertDialogTitle>
           <AlertDialogDescription>
-            已答 {answers.size} / {questions.length} 题。
+            {t("exam.session.answeredCount", { answered: answers.size, total: questions.length })}
             {answers.size < questions.length &&
-              ` 还有 ${questions.length - answers.size} 题未作答。`}
-            提交后不可修改。
+              ` ${t("exam.session.unansweredCount", { count: questions.length - answers.size })}`}
+            {t("exam.session.submitWarning")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>继续答题</AlertDialogCancel>
+          <AlertDialogCancel>{t("exam.session.continueExam")}</AlertDialogCancel>
           <AlertDialogAction onClick={handleComplete}>
-            确认提交
+            {t("exam.session.confirmSubmit")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -209,7 +210,7 @@ export function ExamSession() {
         {/* Prominent centered timer */}
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">
-            第 {currentIndex + 1} / {questions.length} 题
+            {t("exam.session.questionNumber", { current: currentIndex + 1, total: questions.length })}
           </h2>
           <ExamTimer
             timeLimitSeconds={timeLimitSeconds}
@@ -224,6 +225,7 @@ export function ExamSession() {
           index={currentIndex}
           total={questions.length}
           audioMaxPlays={1}
+          vocabDisabled
         />
 
         <OptionList
@@ -234,6 +236,7 @@ export function ExamSession() {
           mode="exam"
           examSelected={currentAnswer?.selected ?? null}
           audioOnly={question.question_number <= 10}
+          vocabDisabled
         />
 
         <Separator />
@@ -248,7 +251,7 @@ export function ExamSession() {
             onClick={goNext}
             disabled={isLast}
           >
-            下一题
+            {t("exam.session.next")}
             <ChevronRight className="ml-1 h-4 w-4" />
           </Button>
         </div>
@@ -263,7 +266,7 @@ export function ExamSession() {
         {/* Header with prominent timer */}
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">
-            第 {currentIndex + 1} / {questions.length} 题
+            {t("exam.session.questionNumber", { current: currentIndex + 1, total: questions.length })}
           </h2>
           <ExamTimer
             timeLimitSeconds={timeLimitSeconds}
@@ -277,6 +280,7 @@ export function ExamSession() {
           question={question}
           index={currentIndex}
           total={questions.length}
+          vocabDisabled
         />
 
         <OptionList
@@ -287,6 +291,7 @@ export function ExamSession() {
           mode="exam"
           examSelected={currentAnswer?.selected ?? null}
           audioOnly={false}
+          vocabDisabled
         />
 
         <Separator />
@@ -299,7 +304,7 @@ export function ExamSession() {
             disabled={currentIndex === 0}
           >
             <ChevronLeft className="mr-1 h-4 w-4" />
-            上一题
+            {t("exam.session.prev")}
           </Button>
 
           {submitDialog}
@@ -310,7 +315,7 @@ export function ExamSession() {
             onClick={goNext}
             disabled={isLast}
           >
-            下一题
+            {t("exam.session.next")}
             <ChevronRight className="ml-1 h-4 w-4" />
           </Button>
         </div>

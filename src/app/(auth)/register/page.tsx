@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
@@ -15,14 +16,15 @@ import {
 
 type Step = "email" | "code" | "password";
 
-const STEP_INFO = {
-  email: { title: "创建账号", desc: "输入邮箱开始注册" },
-  code: { title: "验证邮箱", desc: "" },
-  password: { title: "设置密码", desc: "最后一步，完成注册" },
-};
-
 export default function RegisterPage() {
   const router = useRouter();
+  const t = useTranslations();
+
+  const STEP_INFO = {
+    email: { title: t("auth.register.emailStep.title"), desc: t("auth.register.emailStep.desc") },
+    code: { title: t("auth.register.codeStep.title"), desc: t("auth.register.codeStep.desc") },
+    password: { title: t("auth.register.passwordStep.title"), desc: t("auth.register.passwordStep.desc") },
+  };
 
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
@@ -36,9 +38,17 @@ export default function RegisterPage() {
 
   const info = STEP_INFO[step];
 
+  const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (!isValidEmail(email.trim())) {
+      setError(t("auth.register.invalidEmail"));
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -48,7 +58,7 @@ export default function RegisterPage() {
       if (err instanceof ApiError) {
         setError(err.message);
       } else {
-        setError("发送失败，请稍后重试");
+        setError(t("auth.register.sendFailed"));
       }
     } finally {
       setLoading(false);
@@ -68,7 +78,7 @@ export default function RegisterPage() {
       if (err instanceof ApiError) {
         setError(err.message);
       } else {
-        setError("验证失败，请稍后重试");
+        setError(t("auth.register.verifyFailed"));
       }
     } finally {
       setLoading(false);
@@ -80,11 +90,11 @@ export default function RegisterPage() {
     setError("");
 
     if (password.length < 8) {
-      setError("密码至少需要 8 位");
+      setError(t("auth.register.passwordMinLength"));
       return;
     }
     if (!name.trim()) {
-      setError("请输入姓名");
+      setError(t("auth.register.nameRequired"));
       return;
     }
 
@@ -109,7 +119,7 @@ export default function RegisterPage() {
       if (err instanceof ApiError) {
         setError(err.message);
       } else {
-        setError("注册失败，请稍后重试");
+        setError(t("auth.register.registerFailed"));
       }
     } finally {
       setLoading(false);
@@ -126,7 +136,7 @@ export default function RegisterPage() {
       if (err instanceof ApiError) {
         setError(err.message);
       } else {
-        setError("发送失败，请稍后重试");
+        setError(t("auth.register.resendFailed"));
       }
     } finally {
       setLoading(false);
@@ -138,7 +148,7 @@ export default function RegisterPage() {
       <div>
         <h1 className="text-2xl font-bold tracking-tight">{info.title}</h1>
         <p className="mt-1.5 text-sm text-muted-foreground">
-          {step === "code" ? `验证码已发送至 ${email}` : info.desc}
+          {step === "code" ? t("auth.register.codeSent", { email }) : info.desc}
         </p>
         {/* Step indicator */}
         <div className="mt-4 flex gap-1.5">
@@ -159,10 +169,10 @@ export default function RegisterPage() {
       </div>
 
       {step === "email" && (
-        <form onSubmit={handleSendCode} className="space-y-4">
+        <form onSubmit={handleSendCode} noValidate className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="email" className="text-sm font-medium">
-              邮箱
+              {t("auth.register.emailLabel")}
             </label>
             <Input
               id="email"
@@ -184,7 +194,7 @@ export default function RegisterPage() {
             className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
             disabled={loading}
           >
-            {loading ? "发送中..." : "发送验证码"}
+            {loading ? t("auth.register.sending") : t("auth.register.sendCode")}
           </Button>
         </form>
       )}
@@ -193,7 +203,7 @@ export default function RegisterPage() {
         <form onSubmit={handleVerifyCode} className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="code" className="text-sm font-medium">
-              6 位验证码
+              {t("auth.register.codeLabel")}
             </label>
             <Input
               id="code"
@@ -219,7 +229,7 @@ export default function RegisterPage() {
             className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
             disabled={loading || code.length !== 6}
           >
-            {loading ? "验证中..." : "验证"}
+            {loading ? t("auth.register.verifying") : t("auth.register.verify")}
           </Button>
 
           <button
@@ -228,7 +238,7 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full text-center text-sm text-muted-foreground hover:text-primary transition-colors"
           >
-            没收到？重新发送
+            {t("auth.register.resend")}
           </button>
         </form>
       )}
@@ -237,12 +247,12 @@ export default function RegisterPage() {
         <form onSubmit={handleComplete} className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="name" className="text-sm font-medium">
-              姓名
+              {t("auth.register.nameLabel")}
             </label>
             <Input
               id="name"
               type="text"
-              placeholder="你的名字"
+              placeholder={t("auth.register.namePlaceholder")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -253,13 +263,13 @@ export default function RegisterPage() {
           </div>
           <div className="space-y-2">
             <label htmlFor="reg-password" className="text-sm font-medium">
-              密码
+              {t("auth.register.passwordLabel")}
             </label>
             <div className="relative">
               <Input
                 id="reg-password"
                 type={showPassword ? "text" : "password"}
-                placeholder="至少 8 位"
+                placeholder={t("auth.register.passwordPlaceholder")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -289,18 +299,18 @@ export default function RegisterPage() {
             className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
             disabled={loading}
           >
-            {loading ? "注册中..." : "完成注册"}
+            {loading ? t("auth.register.registering") : t("auth.register.complete")}
           </Button>
         </form>
       )}
 
       <div className="text-center text-sm text-muted-foreground">
-        已有账号？{" "}
+        {t("auth.register.hasAccount")}{" "}
         <Link
           href="/login"
           className="font-medium text-primary hover:underline underline-offset-4"
         >
-          登录
+          {t("auth.register.login")}
         </Link>
       </div>
     </div>

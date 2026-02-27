@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useTranslations } from "next-intl";
 import type { ReviewAnswer } from "@/lib/api/types";
 
 interface LevelBreakdownProps {
@@ -17,10 +18,13 @@ interface LevelBreakdownProps {
 const LEVEL_ORDER = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 export function LevelBreakdown({ answers }: LevelBreakdownProps) {
+  const t = useTranslations();
+  const ungradedLabel = t('results.levelBreakdown.ungraded');
+
   // Group by level
   const groups = new Map<string, { total: number; correct: number }>();
   for (const a of answers) {
-    const level = a.level || "未分级";
+    const level = a.level || ungradedLabel;
     const entry = groups.get(level) || { total: 0, correct: 0 };
     entry.total++;
     if (a.is_correct) entry.correct++;
@@ -28,11 +32,11 @@ export function LevelBreakdown({ answers }: LevelBreakdownProps) {
   }
 
   // If all levels are null, don't render
-  if (groups.size === 0 || (groups.size === 1 && groups.has("未分级"))) {
+  if (groups.size === 0 || (groups.size === 1 && groups.has(ungradedLabel))) {
     return null;
   }
 
-  // Sort: known levels first in order, then "未分级" at end
+  // Sort: known levels first in order, then ungraded at end
   const sorted = Array.from(groups.entries()).sort(([a], [b]) => {
     const ai = LEVEL_ORDER.indexOf(a);
     const bi = LEVEL_ORDER.indexOf(b);
@@ -44,15 +48,15 @@ export function LevelBreakdown({ answers }: LevelBreakdownProps) {
 
   return (
     <div className="space-y-2">
-      <h2 className="text-lg font-semibold">等级分布</h2>
+      <h2 className="text-lg font-semibold">{t('results.levelBreakdown.title')}</h2>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>等级</TableHead>
-              <TableHead className="text-center">题数</TableHead>
-              <TableHead className="text-center">正确</TableHead>
-              <TableHead className="text-center">正确率</TableHead>
+              <TableHead>{t('results.levelBreakdown.level')}</TableHead>
+              <TableHead className="text-center">{t('results.levelBreakdown.count')}</TableHead>
+              <TableHead className="text-center">{t('results.levelBreakdown.correct')}</TableHead>
+              <TableHead className="text-center">{t('results.levelBreakdown.accuracy')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

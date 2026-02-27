@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { getEstimatedTcfLevel } from "@/lib/tcf-levels";
+import { useTranslations } from "next-intl";
 
 interface EncouragementCardProps {
   score: number;
@@ -102,6 +103,7 @@ function getTier(tcfPoints: number | undefined, score: number, total: number): T
 }
 
 export function EncouragementCard({ score, total, tcfPoints }: EncouragementCardProps) {
+  const t = useTranslations();
   const tier = getTier(tcfPoints, score, total);
   const isPointBased = tcfPoints != null;
   const tcf = isPointBased ? getEstimatedTcfLevel(tcfPoints) : null;
@@ -116,8 +118,8 @@ export function EncouragementCard({ score, total, tcfPoints }: EncouragementCard
           </p>
           <p className="mt-0.5 text-sm text-muted-foreground">
             {isPointBased && tcf
-              ? `TCF ${tcf.level} · NCLC 7 要求 ≥ 458 分`
-              : `答对 ${score}/${total} 题`}
+              ? t('encouragement.nclc7Requirement', { level: tcf.level })
+              : t('encouragement.scoreDisplay', { score, total })}
           </p>
         </div>
       </CardContent>

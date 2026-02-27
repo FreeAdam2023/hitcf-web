@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useExamStore } from "@/stores/exam-store";
 import { getAttempt } from "@/lib/api/attempts";
 import { getTestSet, getTestSetQuestions } from "@/lib/api/test-sets";
@@ -10,6 +11,7 @@ import { ErrorState } from "@/components/shared/error-state";
 import { ExamSession } from "./exam-session";
 
 export default function ExamPage() {
+  const t = useTranslations();
   const params = useParams<{ attemptId: string }>();
   const init = useExamStore((s) => s.init);
   const storeAttemptId = useExamStore((s) => s.attemptId);
@@ -53,7 +55,7 @@ export default function ExamPage() {
       setLoading(false);
     } catch (err) {
       if (err instanceof DOMException && err.name === "AbortError") return;
-      setError("无法加载考试数据");
+      setError(t("exam.session.loadError"));
       setLoading(false);
     }
   }, [params.attemptId, init]);

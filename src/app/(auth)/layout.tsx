@@ -1,11 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations();
+
   return (
     <div className="flex min-h-screen">
       {/* Left: landscape photo (hidden on mobile) */}
@@ -23,11 +28,11 @@ export default function AuthLayout({
             <Image src="/logo.png" alt="HiTCF" width={48} height={48} className="brightness-0 invert" />
           </Link>
           <h2 className="mt-4 text-2xl font-bold text-white">
-            CLB 7，练出来的
+            {t("auth.layout.tagline")}
           </h2>
           <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/80">
-            8,500+ 道 TCF Canada 真题，听力阅读口语写作四科全覆盖。
-            系统化备考，让通过不再靠运气。
+            {t("auth.layout.description1")}
+            {t("auth.layout.description2")}
           </p>
         </div>
       </div>

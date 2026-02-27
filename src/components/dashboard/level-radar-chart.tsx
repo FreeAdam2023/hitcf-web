@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
 
 interface LevelRadarChartProps {
   data: Record<string, { answered: number; correct: number; accuracy: number }>;
@@ -18,6 +19,7 @@ interface LevelRadarChartProps {
 const LEVEL_ORDER = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 export function LevelRadarChart({ data }: LevelRadarChartProps) {
+  const t = useTranslations();
   const entries = Object.entries(data);
   const chartData = LEVEL_ORDER.filter((level) => data[level]).map((level) => ({
     level,
@@ -29,11 +31,11 @@ export function LevelRadarChart({ data }: LevelRadarChartProps) {
     return (
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-base">等级雷达图</CardTitle>
+          <CardTitle className="text-base">{t("dashboard.charts.levelRadar")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex h-[200px] items-center justify-center text-sm text-muted-foreground">
-            完成多个等级的练习后显示雷达图
+            {t("dashboard.charts.levelRadarEmpty")}
           </div>
         </CardContent>
       </Card>
@@ -43,7 +45,7 @@ export function LevelRadarChart({ data }: LevelRadarChartProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base">等级雷达图</CardTitle>
+        <CardTitle className="text-base">{t("dashboard.charts.levelRadar")}</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
@@ -61,8 +63,8 @@ export function LevelRadarChart({ data }: LevelRadarChartProps) {
             />
             <Tooltip
               formatter={(value, _name, props) => [
-                `${value}% (${(props.payload as { answered: number }).answered} 题)`,
-                "正确率",
+                t("dashboard.charts.radarTooltip", { value: String(value), answered: (props.payload as { answered: number }).answered }),
+                t("dashboard.charts.radarLabel"),
               ]}
             />
             <Radar

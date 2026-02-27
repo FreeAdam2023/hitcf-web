@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,12 +23,14 @@ import {
 import { reportQuestion } from "@/lib/api/reports";
 import { ApiError } from "@/lib/api/client";
 
-const ISSUE_TYPES = [
-  { value: "wrong_answer", label: "答案错误" },
-  { value: "bad_audio", label: "音频有问题" },
-  { value: "wrong_option", label: "选项内容错误" },
-  { value: "other", label: "其他问题" },
-] as const;
+const ISSUE_TYPE_VALUES = ["wrong_answer", "bad_audio", "wrong_option", "other"] as const;
+
+const ISSUE_TYPE_KEYS: Record<string, string> = {
+  wrong_answer: "practice.report.types.wrong_answer",
+  bad_audio: "practice.report.types.audio_issue",
+  wrong_option: "practice.report.types.option_error",
+  other: "practice.report.types.other",
+};
 
 interface ReportDialogProps {
   questionId: string;
@@ -36,13 +39,14 @@ interface ReportDialogProps {
 }
 
 export function ReportDialog({ questionId, open, onOpenChange }: ReportDialogProps) {
+  const t = useTranslations();
   const [issueType, setIssueType] = useState<string>("");
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
     if (!issueType) {
-      toast.error("请选择问题类型");
+      toast.error(t("practice.report.selectType"));
       return;
     }
     setSubmitting(true);
@@ -51,15 +55,15 @@ export function ReportDialog({ questionId, open, onOpenChange }: ReportDialogPro
         issue_type: issueType as "wrong_answer" | "bad_audio" | "wrong_option" | "other",
         description: description.trim() || undefined,
       });
-      toast.success("反馈已提交，感谢您的帮助！");
+      toast.success(t("practice.report.success"));
       onOpenChange(false);
       setIssueType("");
       setDescription("");
     } catch (err) {
       if (err instanceof ApiError && err.status === 409) {
-        toast.error("您已反馈过该问题类型");
+        toast.error(t("practice.report.duplicate"));
       } else {
-        toast.error("提交失败，请重试");
+        toast.error(t("common.errors.submitFailed"));
       }
     } finally {
       setSubmitting(false);
@@ -70,23 +74,23 @@ export function ReportDialog({ questionId, open, onOpenChange }: ReportDialogPro
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>题目报错</DialogTitle>
+          <DialogTitle>{t("practice.report.title")}</DialogTitle>
           <DialogDescription>
-            发现题目有问题？请选择问题类型并描述具体情况。
+            {t("practice.report.description")}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
           <div className="space-y-2">
-            <label className="text-sm font-medium">问题类型</label>
+            <label className="text-sm font-medium">{t("practice.report.typeLabel")}</label>
             <Select value={issueType} onValueChange={setIssueType}>
               <SelectTrigger>
-                <SelectValue placeholder="请选择问题类型" />
+                <SelectValue placeholder={t("practice.report.typePlaceholder")} />
               </SelectTrigger>
               <SelectContent>
-                {ISSUE_TYPES.map((t) => (
-                  <SelectItem key={t.value} value={t.value}>
-                    {t.label}
+                {ISSUE_TYPE_VALUES.map((value) => (
+                  <SelectItem key={value} value={value}>
+                    {t(ISSUE_TYPE_KEYS[value])}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -94,10 +98,10 @@ export function ReportDialog({ questionId, open, onOpenChange }: ReportDialogPro
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">详细描述（可选）</label>
+            <label className="text-sm font-medium">{t("practice.report.detailLabel")}</label>
             <textarea
               className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-              placeholder="请描述具体问题..."
+              placeholder={t("practice.report.detailPlaceholder")}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               maxLength={1000}
@@ -111,11 +115,11 @@ export function ReportDialog({ questionId, open, onOpenChange }: ReportDialogPro
             onClick={() => onOpenChange(false)}
             disabled={submitting}
           >
-            取消
+            {t("practice.report.cancel")}
           </Button>
           <Button onClick={handleSubmit} disabled={submitting || !issueType}>
             {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            提交反馈
+            {t("practice.report.submit")}
           </Button>
         </DialogFooter>
       </DialogContent>

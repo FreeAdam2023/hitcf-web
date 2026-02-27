@@ -2,20 +2,22 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ChevronDown, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { QuestionBrief } from "@/lib/api/types";
 import { AudioPlayer } from "./audio-player";
 import { getImageUrl } from "@/lib/api/media";
 import { LevelBadge } from "@/components/shared/level-badge";
 import { getTcfPoints } from "@/lib/tcf-levels";
+import { FrenchText } from "./french-text";
 
-const LISTENING_INSTRUCTIONS: Record<string, { fr: string; zh: string }> = {
+const LISTENING_INSTRUCTIONS: Record<string, { fr: string; zhKey: string }> = {
   image: {
     fr: "Écoutez les 4 propositions, choisissez celle qui correspond à l\u2019image.",
-    zh: "听四个选项，选择与图片相符的。",
+    zhKey: "practice.questionDisplay.imageListening",
   },
   audio: {
     fr: "Écoutez l\u2019extrait sonore et les 4 propositions. Choisissez la bonne réponse.",
-    zh: "听录音和四个选项，选择正确答案。",
+    zhKey: "practice.questionDisplay.imageListeningShort",
   },
 };
 
@@ -25,9 +27,12 @@ interface QuestionDisplayProps {
   total: number;
   audioMaxPlays?: number;
   onAudioPlaybackComplete?: () => void;
+  /** Disable vocabulary cards (e.g., exam mode) */
+  vocabDisabled?: boolean;
 }
 
-export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled }: QuestionDisplayProps) {
+  const t = useTranslations();
   const isListening = question.type === "listening";
   // Listening A1/A2 questions (Q1-10) may have an associated image in Azure
   const mayHaveImage = isListening && question.question_number <= 10;
@@ -67,13 +72,13 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">
-          第 {index + 1} 题 / 共 {total} 题
+          {t("common.questionCounter", { current: index + 1, total })}
         </h2>
         <span className="flex items-center gap-2 text-sm text-muted-foreground">
-          {isListening ? "听力" : "阅读"}
+          {isListening ? t("common.types.listening") : t("common.types.reading")}
           {question.level && <LevelBadge level={question.level} />}
           <span className="rounded bg-muted px-1.5 py-0.5 text-xs font-medium tabular-nums">
-            {getTcfPoints(question.question_number)} 分
+            {t("common.points", { points: getTcfPoints(question.question_number) })}
           </span>
         </span>
       </div>
@@ -95,13 +100,13 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
               onClick={() => setShowTranslation(!showTranslation)}
               className="ml-1.5 inline-flex items-center gap-0.5 not-italic text-xs text-primary/70 hover:text-primary"
             >
-              中文
+              {t("practice.questionDisplay.tabChinese")}
               <ChevronDown className={`h-3 w-3 transition-transform ${showTranslation ? "rotate-180" : ""}`} />
             </button>
           </p>
           {showTranslation && (
             <p className="mt-1 text-xs text-muted-foreground animate-in fade-in slide-in-from-top-1 duration-200">
-              {instructionData.zh}
+              {t(instructionData.zhKey)}
             </p>
           )}
         </div>
@@ -126,12 +131,14 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
 
       {question.passage && (
         <div className="max-h-[40vh] md:max-h-[60vh] overflow-y-auto rounded-md border bg-muted/50 p-4 text-sm leading-relaxed whitespace-pre-wrap">
-          {question.passage}
+          <FrenchText text={question.passage} disabled={vocabDisabled} />
         </div>
       )}
 
       {question.question_text && !isListening && (
-        <p className="text-base font-medium">{question.question_text}</p>
+        <p className="text-base font-medium">
+          <FrenchText text={question.question_text} disabled={vocabDisabled} />
+        </p>
       )}
     </div>
   );

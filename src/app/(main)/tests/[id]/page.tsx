@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Loader2, CheckCircle2, AlertCircle, ArrowRight, Copy, Check, RotateCcw, Play } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -46,26 +47,21 @@ function buildWritingChatGPTUrl(topic: QuestionBrief, taskNum: number): string {
   return `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
 }
 
-const TASK_LABELS: Record<number, string> = {
-  1: "Tâche 1 · 短消息 (60-120 词)",
-  2: "Tâche 2 · 博客文章 (120-160 词)",
-  3: "Tâche 3 · 议论文 (200-300 词)",
-};
-
 const TASK_WORD_RANGES: Record<number, [number, number]> = {
   1: [60, 120],
   2: [120, 160],
   3: [200, 300],
 };
 
-const CRITERION_LABELS: Record<string, { name: string; desc: string }> = {
-  adequation: { name: "Adéquation", desc: "任务完成度" },
-  coherence: { name: "Cohérence", desc: "连贯性" },
-  vocabulaire: { name: "Vocabulaire", desc: "词汇" },
-  grammaire: { name: "Grammaire", desc: "语法" },
+const CRITERION_NAMES: Record<string, string> = {
+  adequation: "Adéquation",
+  coherence: "Cohérence",
+  vocabulaire: "Vocabulaire",
+  grammaire: "Grammaire",
 };
 
 function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTache2: boolean }) {
+  const t = useTranslations();
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const handleCopy = useCallback(async (topic: QuestionBrief) => {
@@ -97,12 +93,12 @@ function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTa
                     {copiedId === topic.id ? (
                       <>
                         <Check className="mr-1.5 h-3.5 w-3.5" />
-                        已复制
+                        {t("common.actions.copied")}
                       </>
                     ) : (
                       <>
                         <Copy className="mr-1.5 h-3.5 w-3.5" />
-                        复制 Prompt
+                        {t("common.actions.copyPrompt")}
                       </>
                     )}
                   </Button>
@@ -168,6 +164,7 @@ function scoreColor(score: number): string {
 }
 
 function WritingFeedbackPanel({ feedback }: { feedback: WritingFeedback }) {
+  const t = useTranslations();
   const criteria = ["adequation", "coherence", "vocabulaire", "grammaire"] as const;
 
   return (
@@ -188,13 +185,13 @@ function WritingFeedbackPanel({ feedback }: { feedback: WritingFeedback }) {
       <div className="grid gap-3">
         {criteria.map((key) => {
           const c = feedback[key];
-          const label = CRITERION_LABELS[key];
+          const criterionDesc = t(`testDetail.criteria.${key}`);
           return (
             <div key={key} className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">
-                  {label.name}
-                  <span className="ml-1 text-xs text-muted-foreground">({label.desc})</span>
+                  {CRITERION_NAMES[key]}
+                  <span className="ml-1 text-xs text-muted-foreground">({criterionDesc})</span>
                 </span>
                 <span className="text-sm font-semibold">{c.score}/5</span>
               </div>
@@ -213,7 +210,7 @@ function WritingFeedbackPanel({ feedback }: { feedback: WritingFeedback }) {
       {/* Overall comment */}
       <Separator />
       <div>
-        <p className="mb-1 text-sm font-medium">总评</p>
+        <p className="mb-1 text-sm font-medium">{t("testDetail.overallComment")}</p>
         <p className="text-sm text-muted-foreground">{feedback.overall_comment}</p>
       </div>
 
@@ -222,7 +219,7 @@ function WritingFeedbackPanel({ feedback }: { feedback: WritingFeedback }) {
         <>
           <Separator />
           <div>
-            <p className="mb-2 text-sm font-medium">语法修正</p>
+            <p className="mb-2 text-sm font-medium">{t("testDetail.corrections")}</p>
             <div className="space-y-2">
               {feedback.corrections.map((c, i) => (
                 <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
@@ -244,7 +241,7 @@ function WritingFeedbackPanel({ feedback }: { feedback: WritingFeedback }) {
         <>
           <Separator />
           <div>
-            <p className="mb-2 text-sm font-medium">词汇建议</p>
+            <p className="mb-2 text-sm font-medium">{t("testDetail.vocabSuggestions")}</p>
             <div className="space-y-2">
               {feedback.vocab_suggestions.map((v, i) => (
                 <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
@@ -277,12 +274,19 @@ function WritingTestView({
   topics: QuestionBrief[];
   backLink: React.ReactNode;
 }) {
+  const t = useTranslations();
   const [essayTexts, setEssayTexts] = useState<Record<string, string>>({});
   const [grading, setGrading] = useState<Record<string, boolean>>({});
   const [gradingResults, setGradingResults] = useState<Record<string, WritingFeedback>>({});
   const [gradingErrors, setGradingErrors] = useState<Record<string, string>>({});
   const [submittedTopics, setSubmittedTopics] = useState<Record<string, string>>({});
   const [historyLoading, setHistoryLoading] = useState(false);
+
+  const taskLabels: Record<number, string> = {
+    1: t("testDetail.writingTaskNames.0"),
+    2: t("testDetail.writingTaskNames.1"),
+    3: t("testDetail.writingTaskNames.2"),
+  };
 
   // Load writing history on mount
   useEffect(() => {
@@ -309,13 +313,13 @@ function WritingTestView({
       if (controller.signal.aborted) return;
       const failed = results.filter((r) => r.status === "rejected");
       if (failed.length > 0) {
-        toast.error("部分写作历史加载失败");
+        toast.error(t("testDetail.writingHistoryFailed"));
       }
       setHistoryLoading(false);
     });
 
     return () => controller.abort();
-  }, [topics]);
+  }, [topics, t]);
 
   const handleEssayChange = useCallback((topicId: string, text: string) => {
     setEssayTexts((prev) => ({ ...prev, [topicId]: text }));
@@ -332,15 +336,15 @@ function WritingTestView({
       const result = await gradeWriting(topic.id, taskNum, essay);
       setGradingResults((prev) => ({ ...prev, [topic.id]: result.feedback }));
       setSubmittedTopics((prev) => ({ ...prev, [topic.id]: result.created_at }));
-      toast.success("批改完成！");
+      toast.success(t("testDetail.gradingComplete"));
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "批改失败，请稍后重试";
+      const message = err instanceof Error ? err.message : t("testDetail.gradingFailed");
       setGradingErrors((prev) => ({ ...prev, [topic.id]: message }));
       toast.error(message);
     } finally {
       setGrading((prev) => ({ ...prev, [topic.id]: false }));
     }
-  }, [essayTexts]);
+  }, [essayTexts, t]);
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
@@ -352,11 +356,11 @@ function WritingTestView({
             <div className="flex-1">
               <CardTitle className="text-xl">{test.name}</CardTitle>
               <div className="mt-2 flex flex-wrap items-center gap-2">
-                <Badge variant="outline">写作</Badge>
-                {test.is_free && <Badge variant="secondary">免费</Badge>}
+                <Badge variant="outline">{t("testDetail.writingBadge")}</Badge>
+                {test.is_free && <Badge variant="secondary">{t("common.status.free")}</Badge>}
               </div>
               <p className="mt-3 text-sm text-muted-foreground">
-                每组包含 3 个写作任务（短消息、博客文章、议论文）。在下方输入作文并提交 AI 批改，或使用 ChatGPT 练习。
+                {t("testDetail.writingDescription")}
               </p>
             </div>
           </div>
@@ -374,7 +378,7 @@ function WritingTestView({
       ) : (
         <div className="space-y-4">
           {historyLoading && (
-            <p className="text-xs text-muted-foreground animate-pulse">加载写作历史...</p>
+            <p className="text-xs text-muted-foreground animate-pulse">{t("testDetail.loadingHistory")}</p>
           )}
           {topics.map((topic, idx) => {
             const taskNum = idx + 1;
@@ -393,7 +397,7 @@ function WritingTestView({
                       {taskNum}
                     </span>
                     <span className="text-sm font-medium text-muted-foreground">
-                      {TASK_LABELS[taskNum] || `Tâche ${taskNum}`}
+                      {taskLabels[taskNum] || `Tâche ${taskNum}`}
                     </span>
                     {submittedTopics[topic.id] && (
                       <CheckCircle2 className="h-4 w-4 text-green-500" />
@@ -415,7 +419,7 @@ function WritingTestView({
                   {/* Essay textarea */}
                   <textarea
                     className="w-full rounded-md border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 min-h-[120px] resize-y"
-                    placeholder="在此输入你的法语作文..."
+                    placeholder={t("testDetail.essayPlaceholder")}
                     value={essay}
                     onChange={(e) => handleEssayChange(topic.id, e.target.value)}
                     disabled={isGrading}
@@ -425,7 +429,7 @@ function WritingTestView({
                   {/* Word count hint */}
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <span>
-                      字数：
+                      {t("testDetail.wordCount")}
                       <span className={
                         wordCount > 0 && (wordCount < wordRange[0] || wordCount > wordRange[1])
                           ? "text-orange-500 font-medium"
@@ -435,7 +439,7 @@ function WritingTestView({
                       }>
                         {wordCount}
                       </span>
-                      {" "}/ {wordRange[0]}-{wordRange[1]} 词
+                      {" "}{t("testDetail.wordRange", { min: wordRange[0], max: wordRange[1] })}
                     </span>
                   </div>
 
@@ -449,12 +453,12 @@ function WritingTestView({
                       {isGrading ? (
                         <>
                           <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                          批改中...
+                          {t("testDetail.grading")}
                         </>
                       ) : (
                         <>
                           <CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />
-                          提交批改
+                          {t("testDetail.submitGrading")}
                         </>
                       )}
                     </Button>
@@ -466,7 +470,7 @@ function WritingTestView({
                         className="inline-flex items-center gap-1.5"
                       >
                         <ExternalLink className="h-3.5 w-3.5" />
-                        ChatGPT 练习
+                        {t("testDetail.chatgptPractice")}
                       </a>
                     </Button>
                   </div>
@@ -484,7 +488,7 @@ function WritingTestView({
                     <>
                       {submittedTopics[topic.id] && (
                         <p className="text-xs text-muted-foreground">
-                          上次提交：{new Date(submittedTopics[topic.id]).toLocaleString("zh-CN")}
+                          {t("testDetail.lastSubmitted", { date: new Date(submittedTopics[topic.id]).toLocaleString() })}
                         </p>
                       )}
                       <WritingFeedbackPanel feedback={result} />
@@ -501,16 +505,18 @@ function WritingTestView({
 }
 
 function PaywallButton() {
+  const t = useTranslations();
   const router = useRouter();
   return (
     <Button className="w-full" size="lg" onClick={() => router.push("/pricing")}>
       <Lock className="mr-2 h-4 w-4" />
-      订阅解锁
+      {t("testCard.subscribeUnlock")}
     </Button>
   );
 }
 
 export default function TestDetailPage() {
+  const t = useTranslations();
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const canAccessPaid = useAuthStore((s) => {
@@ -561,7 +567,7 @@ export default function TestDetailPage() {
       router.push(`/practice/${attempt.id}`);
     } catch (err) {
       console.error("Failed to create attempt", err);
-      toast.error("创建练习失败，请重试");
+      toast.error(t("common.errors.createPracticeFailed"));
       setStarting(false);
     }
   };
@@ -577,7 +583,7 @@ export default function TestDetailPage() {
       router.push(`/exam/${attempt.id}`);
     } catch (err) {
       console.error("Failed to create exam attempt", err);
-      toast.error("创建考试失败，请重试");
+      toast.error(t("common.errors.createExamFailed"));
       setStartingExam(false);
     }
   };
@@ -586,13 +592,13 @@ export default function TestDetailPage() {
   if (!test) {
     return (
       <div className="py-16 text-center text-muted-foreground">
-        题套不存在或已删除
+        {t("testDetail.notFound")}
       </div>
     );
   }
 
   const backLink = (
-    <Breadcrumb items={[{ label: "题库", href: `/tests?tab=${test.type}` }, { label: test.name }]} />
+    <Breadcrumb items={[{ label: t("testDetail.breadcrumbTests"), href: `/tests?tab=${test.type}` }, { label: test.name }]} />
   );
 
   // Speaking type: show topics with ChatGPT buttons
@@ -608,16 +614,16 @@ export default function TestDetailPage() {
               <div className="flex-1">
                 <CardTitle className="text-xl">{test.name}</CardTitle>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <Badge variant="outline">口语</Badge>
+                  <Badge variant="outline">{t("testDetail.speakingBadge")}</Badge>
                   <Badge variant="outline">
-                    {isTache2 ? "Tâche 2 · 情景对话" : "Tâche 3 · 观点论述"}
+                    {isTache2 ? t("testDetail.speakingTache2") : t("testDetail.speakingTache3")}
                   </Badge>
-                  {test.is_free && <Badge variant="secondary">免费</Badge>}
+                  {test.is_free && <Badge variant="secondary">{t("common.status.free")}</Badge>}
                 </div>
                 <p className="mt-3 text-sm text-muted-foreground">
                   {isTache2
-                    ? "在角色扮演场景中提问和互动。复制 Prompt 后粘贴到你喜欢的 AI 工具进行对话练习。"
-                    : "就某个话题表达你的观点并论证。复制 Prompt 后粘贴到你喜欢的 AI 工具进行表达练习。"}
+                    ? t("testDetail.speakingDescTache2")
+                    : t("testDetail.speakingDescTache3")}
                 </p>
               </div>
             </div>
@@ -666,9 +672,9 @@ export default function TestDetailPage() {
               <CardTitle className="text-xl">{test.name}</CardTitle>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <Badge variant="outline">
-                  {test.type === "listening" ? "听力" : "阅读"}
+                  {test.type === "listening" ? t("common.types.listening") : t("common.types.reading")}
                 </Badge>
-                {test.is_free && <Badge variant="secondary">免费</Badge>}
+                {test.is_free && <Badge variant="secondary">{t("common.status.free")}</Badge>}
               </div>
             </div>
           </div>
@@ -678,52 +684,52 @@ export default function TestDetailPage() {
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="flex items-center gap-2 text-muted-foreground">
               <FileText className="h-4 w-4" />
-              <span>题目数量</span>
+              <span>{t("testDetail.questionCount")}</span>
             </div>
-            <div className="font-medium">{test.question_count} 题</div>
+            <div className="font-medium">{t("common.questions", { count: test.question_count })}</div>
 
             <div className="flex items-center gap-2 text-muted-foreground">
               <Clock className="h-4 w-4" />
-              <span>限时</span>
+              <span>{t("testDetail.timeLimit")}</span>
             </div>
-            <div className="font-medium">{test.time_limit_minutes} 分钟</div>
+            <div className="font-medium">{t("common.time.minutes", { minutes: test.time_limit_minutes })}</div>
           </div>
 
           {/* Exam tips — type-specific */}
           <div className="mt-6 rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-3">
             <div className="space-y-1">
               <p className="font-medium text-foreground text-sm">
-                {test.type === "listening" ? "听力考试模式" : "阅读考试模式"}
+                {test.type === "listening" ? t("testDetail.listeningExam") : t("testDetail.readingExam")}
               </p>
               <ul className="list-disc pl-4 space-y-0.5">
                 {test.type === "listening" ? (
                   <>
-                    <li>听力音频仅播放一次，不可重听</li>
-                    <li>选择答案后自动进入下一题，不可返回修改</li>
-                    <li>全程计时，{test.time_limit_minutes} 分钟内完成 {test.question_count} 题</li>
+                    <li>{t("testDetail.listeningExamBullets.audioOnce")}</li>
+                    <li>{t("testDetail.listeningExamBullets.autoNext")}</li>
+                    <li>{t("testDetail.listeningExamBullets.timedCompletion", { minutes: test.time_limit_minutes, count: test.question_count })}</li>
                   </>
                 ) : (
                   <>
-                    <li>可自由切换题目，答案可修改</li>
-                    <li>全程计时，{test.time_limit_minutes} 分钟内完成 {test.question_count} 题</li>
+                    <li>{t("testDetail.readingExamBullets.freeNav")}</li>
+                    <li>{t("testDetail.readingExamBullets.timedCompletion", { minutes: test.time_limit_minutes, count: test.question_count })}</li>
                   </>
                 )}
-                <li>提交后显示成绩报告和 TCF 预估等级</li>
+                <li>{test.type === "listening" ? t("testDetail.listeningExamBullets.showScore") : t("testDetail.readingExamBullets.showScore")}</li>
               </ul>
             </div>
             <div className="space-y-1">
-              <p className="font-medium text-foreground text-sm">练习模式</p>
+              <p className="font-medium text-foreground text-sm">{t("testCard.practiceMode")}</p>
               <ul className="list-disc pl-4 space-y-0.5">
-                <li>无时间限制，可反复听音频</li>
-                <li>每题作答后立即显示正确答案和详细解析</li>
-                <li>错题自动收入错题本</li>
+                <li>{t("testDetail.practiceBullets.replayAudio")}</li>
+                <li>{t("testDetail.practiceBullets.showAnswer")}</li>
+                <li>{t("testDetail.practiceBullets.wrongNote")}</li>
               </ul>
             </div>
           </div>
 
           {/* Suggestion card */}
           <div className="mt-3 rounded-md border border-blue-200 bg-blue-50/50 p-3 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950/20 dark:text-blue-300">
-            建议：先用练习模式熟悉题型，再用考试模式模拟真实考试节奏。
+            {t("testDetail.suggestion")}
           </div>
 
           <div className="mt-4 space-y-3">
@@ -735,7 +741,7 @@ export default function TestDetailPage() {
                 {activePractice && activePractice.answered_count > 0 && (
                   <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
                     <p className="text-sm font-medium">
-                      上次练习进度：{activePractice.answered_count} / {activePractice.total} 题
+                      {t("testDetail.practiceProgress", { answered: activePractice.answered_count, total: activePractice.total })}
                     </p>
                     <div className="mt-2 flex gap-2">
                       <Button
@@ -744,7 +750,7 @@ export default function TestDetailPage() {
                         disabled={starting || startingExam}
                       >
                         <Play className="mr-1.5 h-3.5 w-3.5" />
-                        {starting ? "正在开始..." : "继续练习"}
+                        {starting ? t("common.actions.starting") : t("testCard.continuePractice")}
                       </Button>
                       <Button
                         size="sm"
@@ -753,7 +759,7 @@ export default function TestDetailPage() {
                         disabled={starting || startingExam}
                       >
                         <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
-                        重新开始
+                        {t("testDetail.restart")}
                       </Button>
                     </div>
                   </div>
@@ -762,7 +768,7 @@ export default function TestDetailPage() {
                 {activeExam && activeExam.answered_count > 0 && (
                   <div className="rounded-lg border border-orange-200 bg-orange-50/50 p-3 dark:border-orange-800 dark:bg-orange-950/20">
                     <p className="text-sm font-medium">
-                      上次考试进度：{activeExam.answered_count} / {activeExam.total} 题
+                      {t("testDetail.examProgress", { answered: activeExam.answered_count, total: activeExam.total })}
                     </p>
                     <div className="mt-2 flex gap-2">
                       <Button
@@ -772,7 +778,7 @@ export default function TestDetailPage() {
                         disabled={starting || startingExam}
                       >
                         <Play className="mr-1.5 h-3.5 w-3.5" />
-                        {startingExam ? "正在开始..." : "继续考试"}
+                        {startingExam ? t("common.actions.starting") : t("testCard.continueExam")}
                       </Button>
                       <Button
                         size="sm"
@@ -781,7 +787,7 @@ export default function TestDetailPage() {
                         disabled={starting || startingExam}
                       >
                         <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
-                        重新开始
+                        {t("testDetail.restart")}
                       </Button>
                     </div>
                   </div>
@@ -795,7 +801,7 @@ export default function TestDetailPage() {
                       onClick={() => handleStart(false)}
                       disabled={starting || startingExam}
                     >
-                      {starting ? "正在开始..." : "开始练习"}
+                      {starting ? t("common.actions.starting") : t("testCard.startPractice")}
                     </Button>
                   ) : null}
                   {!activeExam || activeExam.answered_count === 0 ? (
@@ -806,7 +812,7 @@ export default function TestDetailPage() {
                       onClick={() => handleStartExam(false)}
                       disabled={starting || startingExam}
                     >
-                      {startingExam ? "正在开始..." : "开始考试"}
+                      {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
                     </Button>
                   ) : null}
                 </div>
