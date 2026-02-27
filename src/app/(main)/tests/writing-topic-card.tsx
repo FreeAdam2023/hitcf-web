@@ -25,6 +25,11 @@ export function WritingTopicCard({ test }: { test: TestSetItem }) {
 
   return (
     <Card className={cn("group relative flex flex-col overflow-hidden card-interactive", locked && "opacity-75")}>
+      {num && (
+        <span className="absolute -right-2 -top-3 text-[72px] font-black leading-none text-foreground/[0.04] select-none pointer-events-none">
+          {num}
+        </span>
+      )}
       <div className="absolute inset-0 bg-gradient-to-br from-violet-500/[0.06] via-violet-500/[0.02] to-transparent pointer-events-none" />
 
       <CardHeader className="relative pb-3">
@@ -45,11 +50,14 @@ export function WritingTopicCard({ test }: { test: TestSetItem }) {
               {t("common.status.free")}
             </Badge>
           ) : locked ? (
-            <Badge variant="outline" className="shrink-0 gap-1">
+            <Badge variant="outline" className="shrink-0 gap-1 text-muted-foreground">
               <Lock className="h-3 w-3" />
-              {t("common.status.subscription")}
             </Badge>
-          ) : null}
+          ) : (
+            <Badge className="shrink-0 bg-gradient-to-r from-primary to-violet-500 text-white text-[10px] px-1.5 py-0 border-0">
+              PRO
+            </Badge>
+          )}
         </div>
       </CardHeader>
       <CardContent className="relative flex flex-1 flex-col justify-between gap-3">

@@ -68,11 +68,14 @@ export function WritingLevelCard({
               {t("common.status.free")}
             </Badge>
           ) : locked ? (
-            <Badge variant="outline" className="shrink-0 gap-1">
+            <Badge variant="outline" className="shrink-0 gap-1 text-muted-foreground">
               <Lock className="h-3 w-3" />
-              {t("common.status.subscription")}
             </Badge>
-          ) : null}
+          ) : (
+            <Badge className="shrink-0 bg-gradient-to-r from-primary to-violet-500 text-white text-[10px] px-1.5 py-0 border-0">
+              PRO
+            </Badge>
+          )}
         </div>
       </CardHeader>
       <CardContent className="relative flex flex-1 flex-col justify-between gap-3">

@@ -94,16 +94,29 @@ function Pill({
 }
 
 // ─── Month section header ──────────────────────────────────────
-function MonthHeader({ label, countLabel }: { label: string; countLabel: string }) {
+function MonthHeader({ label, countLabel, collapsible, open, onToggle }: {
+  label: string;
+  countLabel: string;
+  collapsible?: boolean;
+  open?: boolean;
+  onToggle?: () => void;
+}) {
+  const Wrapper = collapsible ? "button" : "div";
   return (
-    <div className="flex items-center gap-3 pb-3 pt-1">
+    <Wrapper
+      className="flex w-full items-center gap-3 pb-3 pt-1"
+      {...(collapsible ? { onClick: onToggle, type: "button" as const } : {})}
+    >
       <div className="h-1.5 w-1.5 rounded-full bg-primary" />
       <h3 className="text-sm font-semibold text-foreground">{label}</h3>
       <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
         {countLabel}
       </span>
       <div className="flex-1 border-t border-border/50" />
-    </div>
+      {collapsible && (
+        open ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />
+      )}
+    </Wrapper>
   );
 }
 
@@ -147,6 +160,7 @@ export function TestList() {
   });
   const [tab, setTab] = useState<TabType>("listening");
   const [expanded, setExpanded] = useState(false);
+  const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
   const [attemptMap, setAttemptMap] = useState<Map<string, TestAttemptInfo>>(new Map());
 
   // Helper: format "YYYY-MM" into localized month header
@@ -367,26 +381,57 @@ export function TestList() {
     );
   };
 
+  // ─── Collapsible month helper ─────────────────────────────
+  const toggleMonth = useCallback((month: string) => {
+    setExpandedMonths((prev) => {
+      const next = new Set(prev);
+      if (next.has(month)) next.delete(month);
+      else next.add(month);
+      return next;
+    });
+  }, []);
+
+  const isMonthOpen = useCallback(
+    (month: string, index: number) => {
+      // If user explicitly toggled, respect that; otherwise auto-expand first 2
+      if (expandedMonths.has(month)) return true;
+      if (expandedMonths.size === 0 && index < 2) return true;
+      return false;
+    },
+    [expandedMonths],
+  );
+
   // ─── Render: Month-grouped test set cards (by-set) ────────
   const renderGroupedTestSets = () => {
     if (loading) return <SkeletonGrid />;
     if (testSections.length === 0) return <EmptyState title={t("tests.emptyTitle")} description={t("tests.emptyDescription")} />;
     return (
-      <div className="space-y-6">
-        {testSections.map((section) => (
-          <div key={section.month}>
-            <MonthHeader label={formatMonthLabel(section.month)} countLabel={t("tests.setsCount", { count: section.items.length })} />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
-              {section.items.map((t) =>
-                tab === "speaking" ? (
-                  <SpeakingTopicCard key={t.id} test={t} />
-                ) : (
-                  <WritingTopicCard key={t.id} test={t} />
-                ),
+      <div className="space-y-4">
+        {testSections.map((section, i) => {
+          const open = isMonthOpen(section.month, i);
+          return (
+            <div key={section.month}>
+              <MonthHeader
+                label={formatMonthLabel(section.month)}
+                countLabel={t("tests.setsCount", { count: section.items.length })}
+                collapsible
+                open={open}
+                onToggle={() => toggleMonth(section.month)}
+              />
+              {open && (
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
+                  {section.items.map((t) =>
+                    tab === "speaking" ? (
+                      <SpeakingTopicCard key={t.id} test={t} />
+                    ) : (
+                      <WritingTopicCard key={t.id} test={t} />
+                    ),
+                  )}
+                </div>
               )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     );
   };
@@ -396,17 +441,28 @@ export function TestList() {
     if (loading) return <SkeletonGrid />;
     if (testSections.length === 0) return <EmptyState title={t("tests.emptyTopicTitle")} description={t("tests.emptyTopicDesc")} />;
     return (
-      <div className="space-y-6">
-        {testSections.map((section) => (
-          <div key={section.month}>
-            <MonthHeader label={formatMonthLabel(section.month)} countLabel={t("tests.setsCount", { count: section.items.length })} />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
-              {section.items.map((t) => (
-                <SpeakingTopicCard key={t.id} test={t} />
-              ))}
+      <div className="space-y-4">
+        {testSections.map((section, i) => {
+          const open = isMonthOpen(section.month, i);
+          return (
+            <div key={section.month}>
+              <MonthHeader
+                label={formatMonthLabel(section.month)}
+                countLabel={t("tests.setsCount", { count: section.items.length })}
+                collapsible
+                open={open}
+                onToggle={() => toggleMonth(section.month)}
+              />
+              {open && (
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
+                  {section.items.map((t) => (
+                    <SpeakingTopicCard key={t.id} test={t} />
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     );
   };
@@ -416,17 +472,28 @@ export function TestList() {
     if (loading) return <SkeletonGrid />;
     if (writingTopicSections.length === 0) return <EmptyState title={t("tests.emptyQuestionTitle")} description={t("tests.emptyQuestionDesc")} />;
     return (
-      <div className="space-y-6">
-        {writingTopicSections.map((section) => (
-          <div key={section.month}>
-            <MonthHeader label={formatMonthLabel(section.month)} countLabel={t("tests.setsCount", { count: section.items.length })} />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
-              {section.items.map((t) => (
-                <WritingLevelCard key={t.question_id} topic={t} tache={writingTache} />
-              ))}
+      <div className="space-y-4">
+        {writingTopicSections.map((section, i) => {
+          const open = isMonthOpen(section.month, i);
+          return (
+            <div key={section.month}>
+              <MonthHeader
+                label={formatMonthLabel(section.month)}
+                countLabel={t("tests.setsCount", { count: section.items.length })}
+                collapsible
+                open={open}
+                onToggle={() => toggleMonth(section.month)}
+              />
+              {open && (
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
+                  {section.items.map((t) => (
+                    <WritingLevelCard key={t.question_id} topic={t} tache={writingTache} />
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     );
   };
@@ -440,6 +507,7 @@ export function TestList() {
         const t = v as TabType;
         setTab(t);
         setExpanded(false);
+        setExpandedMonths(new Set());
         const url = new URL(window.location.href);
         url.searchParams.set("tab", t);
         window.history.replaceState({}, "", url.pathname + url.search);
