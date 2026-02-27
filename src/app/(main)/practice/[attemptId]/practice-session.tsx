@@ -372,13 +372,11 @@ export function PracticeSession() {
           </div>
         )}
 
-        {/* 听力原文（三语对照）— 答完即显示，解析加载后补充翻译 */}
-        {currentAnswer && question.type === "listening" && (
-          <TranscriptBlock question={question} explanation={explanation} />
-        )}
-
-        {/* 移动端解析面板 */}
+        {/* 移动端：原文 + 解析面板 */}
         <div className="lg:hidden">
+          {currentAnswer && question.type === "listening" && (
+            <TranscriptBlock question={question} explanation={explanation} />
+          )}
           {currentAnswer && (
             <ExplanationPanel
               explanation={explanation}
