@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { OtpInput } from "@/components/ui/otp-input";
 import { PasswordStrength } from "@/components/ui/password-strength";
 import { ApiError } from "@/lib/api/client";
-import { register, verifyAndComplete, sendCode } from "@/lib/api/registration";
+import { register, verifyAndComplete } from "@/lib/api/registration";
 
 type Step = "create" | "verify";
 

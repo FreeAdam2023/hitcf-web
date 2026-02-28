@@ -30,6 +30,7 @@ function scoreColor(score: number): string {
   return "bg-red-500";
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 function TaskFeedbackPanel({
   taskNumber,
   feedback,
@@ -40,7 +41,8 @@ function TaskFeedbackPanel({
   feedback: WritingFeedback;
   essayText: string;
   wordCount: number;
-}) {
+})
+/* eslint-enable @typescript-eslint/no-unused-vars */ {
   const t = useTranslations();
   const [expanded, setExpanded] = useState(false);
   const criteria = ["adequation", "coherence", "vocabulaire", "grammaire"] as const;

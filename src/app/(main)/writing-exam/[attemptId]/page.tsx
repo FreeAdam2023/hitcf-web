@@ -7,7 +7,7 @@ import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { getWritingAttempt } from "@/lib/api/writing-attempts";
 import { getTestSetQuestions } from "@/lib/api/test-sets";
 import { useWritingExamStore } from "@/stores/writing-exam-store";
-import type { WritingAttemptResponse, QuestionBrief } from "@/lib/api/types";
+import type { QuestionBrief } from "@/lib/api/types";
 import { WritingExamSession } from "./writing-exam-session";
 
 export default function WritingExamPage() {

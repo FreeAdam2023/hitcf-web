@@ -39,6 +39,7 @@ function buildGeminiUrl(): string {
   return "https://gemini.google.com/app";
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function buildWritingChatGPTUrl(topic: QuestionBrief, taskNum: number): string {
   const passageText = topic.passage ? `\n\nDocuments de référence :\n${topic.passage}` : "";
   const prompt = `Tu es mon correcteur pour le TCF Canada Expression Écrite Tâche ${taskNum}. Voici le sujet :\n\n"${topic.question_text}"${passageText}\n\nJe vais écrire mon texte ci-dessous. Corrige-le et donne-moi un feedback détaillé sur : la grammaire, l'orthographe, le vocabulaire, la cohérence, la structure. Donne une note estimée (A1-C2) et des suggestions d'amélioration. Réponds en français.`;

@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import {
   ChevronLeft,
   ChevronRight,
-  Check,
   Minus,
   Loader2,
   CheckCircle2,
@@ -52,19 +51,17 @@ function scoreColor(score: number): string {
 export default function WritingPracticePage() {
   const t = useTranslations();
   const params = useParams<{ attemptId: string }>();
-  const router = useRouter();
+  useRouter(); // kept for potential future navigation
 
   const {
     attemptId,
     tasks,
     currentTaskIndex,
     essays,
-    dirty,
     setEssay,
     goToTask,
     markSaved,
     init,
-    reset,
   } = useWritingExamStore();
 
   const [loading, setLoading] = useState(true);
