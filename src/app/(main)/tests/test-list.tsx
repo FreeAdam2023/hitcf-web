@@ -227,8 +227,7 @@ export function TestList() {
       } else if (tab === "writing" && browseMode === "level") {
         const res = await listWritingTopics({
           task_number: writingTache,
-          year: selectedYear || undefined,
-          page_size: 100,
+          page_size: 600,
         });
         setWritingTopics(res.items);
         setTests([]);
@@ -244,7 +243,7 @@ export function TestList() {
     } finally {
       setLoading(false);
     }
-  }, [tab, browseMode, speakingTache, writingTache, selectedYear]);
+  }, [tab, browseMode, speakingTache, writingTache]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -290,12 +289,18 @@ export function TestList() {
 
   // ─── Filtered writing topics (by-level mode) ───────────────
   const filteredWritingTopics = useMemo(() => {
-    if (!search) return writingTopics;
     const searchLower = search.toLowerCase();
-    return writingTopics.filter(
-      (t) => t.question_text?.toLowerCase().includes(searchLower) || t.test_set_name?.toLowerCase().includes(searchLower),
-    );
-  }, [writingTopics, search]);
+    return writingTopics.filter((t) => {
+      if (search && !t.question_text?.toLowerCase().includes(searchLower) && !t.test_set_name?.toLowerCase().includes(searchLower)) {
+        return false;
+      }
+      if (selectedYear) {
+        if (t.source_date && !t.source_date.startsWith(selectedYear)) return false;
+        if (!t.source_date && selectedYear !== "original") return false;
+      }
+      return true;
+    });
+  }, [writingTopics, search, selectedYear]);
 
   // ─── Grouped sections ────────────────────────────────────
   const originalLabel = t("tests.originalSets");
