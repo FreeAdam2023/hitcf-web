@@ -2,16 +2,19 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { RotateCcw, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function PaymentCancelPage() {
+  const t = useTranslations();
+
   return (
     <div className="relative flex min-h-[70vh] items-center justify-center overflow-hidden rounded-2xl">
       {/* Full background image */}
       <Image
         src="/hero-geese-fly.jpg"
-        alt="加拿大雁"
+        alt="Canada geese"
         fill
         className="object-cover"
         priority
@@ -24,10 +27,10 @@ export default function PaymentCancelPage() {
       <div className="relative z-10 space-y-6 px-4 text-center text-white">
         <div className="space-y-3">
           <h1 className="text-3xl font-bold tracking-tight drop-shadow-lg sm:text-4xl">
-            像加拿大雁一样，先飞一会儿
+            {t("payment.cancel.title")}
           </h1>
           <p className="mx-auto max-w-md text-sm text-white/85 drop-shadow-sm">
-            本次支付未完成，没有产生任何费用。加拿大雁冬天飞走，春天还会回来——我们也在这里等你。
+            {t("payment.cancel.description")}
           </p>
         </div>
 
@@ -35,13 +38,13 @@ export default function PaymentCancelPage() {
           <Button asChild size="lg" className="gap-2 bg-white text-black hover:bg-white/90">
             <Link href="/pricing">
               <RotateCcw className="h-4 w-4" />
-              重新选择方案
+              {t("payment.cancel.choosePlan")}
             </Link>
           </Button>
           <Button asChild size="lg" className="!bg-white/20 !text-white backdrop-blur-sm hover:!bg-white/30 border border-white/40 gap-2">
             <Link href="/tests">
               <ArrowLeft className="h-4 w-4" />
-              返回题库
+              {t("payment.cancel.backToTests")}
             </Link>
           </Button>
         </div>

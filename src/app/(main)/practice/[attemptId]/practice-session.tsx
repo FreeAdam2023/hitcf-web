@@ -2,26 +2,160 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePracticeStore } from "@/stores/practice-store";
+import { useTranscriptLang } from "@/hooks/use-transcript-lang";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
-import { getQuestionDetail } from "@/lib/api/questions";
+import { getQuestionDetail, generateExplanation } from "@/lib/api/questions";
 import { QuestionDisplay } from "@/components/practice/question-display";
 import { OptionList } from "@/components/practice/option-list";
 import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ReportDialog } from "@/components/practice/report-dialog";
+import { FrenchText } from "@/components/practice/french-text";
+import type { Explanation, QuestionBrief } from "@/lib/api/types";
+
+/** Transcript block: sentence-by-sentence trilingual cards (FR / EN bridge / Native) */
+function TranscriptBlock({
+  question,
+  explanation,
+  showEn,
+  showNative,
+  onToggleEn,
+  onToggleNative,
+  transcriptLabel,
+  locale,
+}: {
+  question: QuestionBrief;
+  explanation: Explanation | null;
+  showEn: boolean;
+  showNative: boolean;
+  onToggleEn: () => void;
+  onToggleNative: () => void;
+  transcriptLabel: string;
+  locale: string;
+}) {
+  const isListening = question.type === "listening";
+  const hasTranscript = !!question.transcript;
+  const hasAudioOptions =
+    isListening &&
+    question.options.length > 0 &&
+    question.options.every(
+      (o) => o.text && !o.text.startsWith("Proposition"),
+    );
+
+  if (!hasTranscript && !hasAudioOptions) return null;
+
+  const sentences = explanation?.sentence_translation;
+  const optTrans = explanation?.option_translations;
+
+  return (
+    <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300 max-h-[40vh] overflow-y-auto scrollbar-thin">
+      <div className="mb-2 flex items-center justify-between">
+        <h4 className="flex items-center gap-1.5 font-medium">
+          <FileText className="h-4 w-4" />
+          {transcriptLabel}
+        </h4>
+        <div className="flex gap-1">
+          {/* EN bridge toggle — hidden for English-native users (bridge = native) */}
+          {locale !== "en" && (
+            <button
+              onClick={onToggleEn}
+              className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
+                showEn
+                  ? "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              EN
+            </button>
+          )}
+          {/* Native toggle */}
+          <button
+            onClick={onToggleNative}
+            className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
+              showNative
+                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300"
+                : "bg-muted text-muted-foreground"
+            }`}
+          >
+            {locale === "en" ? "EN" : locale.toUpperCase()}
+          </button>
+        </div>
+      </div>
+
+      {/* Sentence-by-sentence trilingual cards */}
+      {sentences && sentences.length > 0 ? (
+        <div className="space-y-2">
+          {sentences.map((s, i) => {
+            const nativeText = s.native || s.zh;
+            return (
+              <div key={i} className="space-y-0.5">
+                <p className="font-medium leading-relaxed text-foreground">
+                  <FrenchText text={s.fr} />
+                </p>
+                {/* EN bridge (hidden for EN-native users since native toggle covers it) */}
+                {locale !== "en" && showEn && s.en && (
+                  <p className="leading-relaxed text-blue-600 dark:text-blue-400">
+                    {s.en}
+                  </p>
+                )}
+                {/* Native translation */}
+                {showNative && nativeText && (
+                  <p className="leading-relaxed text-emerald-600 dark:text-emerald-400">
+                    {nativeText}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ) : hasTranscript ? (
+        /* Fallback: raw transcript before explanation loads */
+        <p className="whitespace-pre-wrap leading-relaxed text-foreground">
+          <FrenchText text={question.transcript!} />
+        </p>
+      ) : null}
+
+      {/* Options: vertical with indented EN/ZH */}
+      {hasAudioOptions && (
+        <div className={sentences || hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
+          <div className="space-y-2">
+            {question.options.map((opt) => {
+              const tr = optTrans?.[opt.key];
+              const optNative = tr?.native || tr?.zh;
+              return (
+                <div key={opt.key}>
+                  <p className="font-medium text-foreground">
+                    {opt.key}. <FrenchText text={opt.text} />
+                  </p>
+                  {locale !== "en" && showEn && tr?.en && (
+                    <p className="pl-5 text-blue-600 dark:text-blue-400">{tr.en}</p>
+                  )}
+                  {showNative && optNative && (
+                    <p className="pl-5 text-emerald-600 dark:text-emerald-400">{optNative}</p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function PracticeSession() {
+  const t = useTranslations();
   const router = useRouter();
   const {
     attemptId,
-    testSetName,
     questions,
     currentIndex,
     answers,
@@ -31,6 +165,9 @@ export function PracticeSession() {
     goToQuestion,
   } = usePracticeStore();
 
+  const locale = useLocale();
+  const { showEn, showNative, toggleEn, toggleNative } = useTranscriptLang();
+
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
@@ -38,44 +175,60 @@ export function PracticeSession() {
   const [savedIndicator, setSavedIndicator] = useState(false);
   const [wrongCollected, setWrongCollected] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
+  const [explanation, setExplanation] = useState<Explanation | null>(null);
+  const [explanationLoading, setExplanationLoading] = useState(false);
+  const [explanationError, setExplanationError] = useState(false);
+
+  // Fetch explanation — called once by parent, shared with both panels
+  const fetchExplanation = useCallback((questionId: string, force?: boolean) => {
+    setExplanationLoading(true);
+    setExplanationError(false);
+    generateExplanation(questionId, force, locale)
+      .then(setExplanation)
+      .catch(() => setExplanationError(true))
+      .finally(() => setExplanationLoading(false));
+  }, [locale]);
 
   // Clear pending selection and indicators when navigating
   useEffect(() => {
     setSelectedKey(null);
     setSavedIndicator(false);
     setWrongCollected(false);
+    setExplanation(null);
+    setExplanationLoading(false);
+    setExplanationError(false);
   }, [currentIndex]);
 
   // Prevent accidental navigation (browser back/forward swipe + tab close)
   const answersRef = useRef(answers);
   useEffect(() => { answersRef.current = answers; });
 
+  // Prevent accidental back navigation (but no beforeunload — answers are saved in real-time)
   useEffect(() => {
     window.history.pushState(null, "", window.location.href);
 
     const handlePopState = () => {
       if (answersRef.current.size > 0) {
         window.history.pushState(null, "", window.location.href);
-        toast.error("练习进行中，请通过「完成练习」按钮退出");
-      }
-    };
-
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (answersRef.current.size > 0) {
-        e.preventDefault();
+        toast.error(t("practice.session.exitWarning"));
       }
     };
 
     window.addEventListener("popstate", handlePopState);
-    window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
       window.removeEventListener("popstate", handlePopState);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
   const question = questions[currentIndex];
   const currentAnswer = question ? (answers.get(question.id) ?? null) : null;
+
+  // Auto-fetch explanation as soon as user answers (so transcript translations appear immediately)
+  useEffect(() => {
+    if (question && currentAnswer && !explanation && !explanationLoading) {
+      fetchExplanation(question.id);
+    }
+  }, [question, currentAnswer, explanation, explanationLoading, fetchExplanation]);
 
   // In practice mode, clicking an option only sets the pending selection (does not submit)
   const handleSelect = useCallback((key: string) => {
@@ -117,7 +270,7 @@ export function PracticeSession() {
       }
     } catch (err) {
       console.error("Failed to submit answer", err);
-      toast.error("提交失败，请重试");
+      toast.error(t("common.errors.submitFailed"));
     } finally {
       setSubmitting(false);
       setSubmittingKey(null);
@@ -175,6 +328,9 @@ export function PracticeSession() {
         return;
       }
 
+      // Ignore when modifier keys are held (e.g. Ctrl+C to copy)
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+
       const keyMap: Record<string, number> = {
         "1": 0, "2": 1, "3": 2, "4": 3,
         a: 0, b: 1, c: 2, d: 3,
@@ -204,10 +360,10 @@ export function PracticeSession() {
   const allAnswered = answers.size === questions.length;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[200px_1fr_320px]">
+    <div className="grid gap-6 lg:grid-cols-[200px_1fr_320px] h-full overflow-hidden">
       {/* 左侧：题号导航 (桌面) */}
-      <div className="hidden lg:block">
-        <div className="sticky top-14 max-h-[calc(100vh-3.5rem)] overflow-y-auto py-3 scrollbar-thin">
+      <div className="hidden lg:block overflow-y-auto scrollbar-thin">
+        <div className="py-3">
           <QuestionNavigator
             total={questions.length}
             currentIndex={currentIndex}
@@ -220,10 +376,7 @@ export function PracticeSession() {
       </div>
 
       {/* 中间：主内容 */}
-      <div className="space-y-4">
-        {testSetName && (
-          <h1 className="text-lg font-semibold">{testSetName}</h1>
-        )}
+      <div className="space-y-4 overflow-y-auto scrollbar-thin">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
             <QuestionDisplay
@@ -236,7 +389,7 @@ export function PracticeSession() {
             variant="ghost"
             size="icon"
             className="shrink-0 text-muted-foreground hover:text-orange-500"
-            title="题目报错"
+            title={t("practice.session.reportTitle")}
             onClick={() => setReportOpen(true)}
           >
             <AlertTriangle className="h-4 w-4" />
@@ -261,25 +414,22 @@ export function PracticeSession() {
               disabled={submitting}
               className="min-w-[160px]"
             >
-              {submitting ? "提交中..." : "确认答案"}
+              {submitting ? t("common.actions.submitting") : t("practice.session.confirmAnswer")}
             </Button>
           </div>
         )}
 
         {savedIndicator && (
-          <p className="text-xs text-green-600 dark:text-green-400 animate-in fade-in slide-in-from-bottom-2 duration-300">&#10003; 已保存</p>
+          <p className="text-xs text-green-600 dark:text-green-400 animate-in fade-in slide-in-from-bottom-2 duration-300">{t("practice.session.answerCorrect")}</p>
         )}
         {wrongCollected && (
-          <div className="flex items-center gap-1.5 text-xs text-orange-600 dark:text-orange-400 animate-in fade-in slide-in-from-bottom-2 duration-500">
-            <BookmarkCheck className="h-3.5 w-3.5 animate-bounce" />
-            已收入错题本
+          <div className="wrong-answer-toast flex items-center gap-2 rounded-lg border border-orange-200 bg-orange-50 px-3 py-2 text-sm text-orange-700 shadow-sm dark:border-orange-800 dark:bg-orange-950/50 dark:text-orange-300">
+            <span className="wrong-answer-icon flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/50">
+              <BookmarkCheck className="h-4 w-4" />
+            </span>
+            <span className="font-medium">{t("practice.session.addedToWrongNote")}</span>
           </div>
         )}
-
-        {/* 移动端解析面板 */}
-        <div className="lg:hidden">
-          {currentAnswer && <ExplanationPanel explanation={null} questionId={question.id} transcript={question.transcript} defaultOpen={currentAnswer.is_correct === false} />}
-        </div>
 
         <Separator />
 
@@ -291,7 +441,7 @@ export function PracticeSession() {
             disabled={currentIndex === 0}
           >
             <ChevronLeft className="mr-1 h-4 w-4" />
-            上一题
+            {t("practice.session.prev")}
           </Button>
 
           {allAnswered && (
@@ -301,7 +451,7 @@ export function PracticeSession() {
               disabled={completing}
             >
               <CheckCircle className="mr-1 h-4 w-4" />
-              {completing ? "正在提交..." : "完成练习"}
+              {completing ? t("common.actions.submitting") : t("practice.session.completePractice")}
             </Button>
           )}
 
@@ -311,20 +461,50 @@ export function PracticeSession() {
             onClick={handleNext}
             disabled={isLast}
           >
-            下一题
+            {t("practice.session.next")}
             <ChevronRight className="ml-1 h-4 w-4" />
           </Button>
+        </div>
+
+        {/* 听力原文（导航按钮下方，内容可滚动） */}
+        {currentAnswer && question.type === "listening" && (
+          <TranscriptBlock question={question} explanation={explanation} showEn={showEn} showNative={showNative} onToggleEn={toggleEn} onToggleNative={toggleNative} transcriptLabel={t("practice.session.tabTranscript")} locale={locale} />
+        )}
+
+        {/* 移动端：解析面板 */}
+        <div className="lg:hidden">
+          {currentAnswer && (
+            <ExplanationPanel
+              explanation={explanation}
+              questionId={question.id}
+              defaultOpen={currentAnswer.is_correct === false}
+              loading={explanationLoading}
+              error={explanationError}
+              onRetry={() => fetchExplanation(question.id)}
+              onForceRefresh={() => fetchExplanation(question.id, true)}
+              onOpen={() => !explanation && !explanationLoading && fetchExplanation(question.id)}
+            />
+          )}
         </div>
       </div>
 
       {/* 右侧：解析面板 (桌面) */}
-      <div className="hidden lg:block">
-        <div className="sticky top-20">
+      <div className="hidden lg:block overflow-y-auto scrollbar-thin">
+        <div className="space-y-3">
           {currentAnswer ? (
-            <ExplanationPanel explanation={null} questionId={question.id} transcript={question.transcript} defaultOpen={currentAnswer.is_correct === false} />
+            <ExplanationPanel
+              explanation={explanation}
+              questionId={question.id}
+              defaultOpen={currentAnswer.is_correct === false}
+              loading={explanationLoading}
+              error={explanationError}
+              onRetry={() => fetchExplanation(question.id)}
+              onForceRefresh={() => fetchExplanation(question.id, true)}
+              onOpen={() => !explanation && !explanationLoading && fetchExplanation(question.id)}
+            />
           ) : (
             <div className="rounded-md border p-4 text-sm text-muted-foreground">
-              <p>答题后查看解析</p>
+              <p>{t("practice.session.viewAfterAnswer")}</p>
             </div>
           )}
         </div>

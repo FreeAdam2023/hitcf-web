@@ -41,7 +41,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ user: null, isAuthenticated: false });
     // Dynamic import to avoid SSR issues with next-auth/react context
     const { signOut } = await import("next-auth/react");
-    await signOut({ callbackUrl: "/tests" });
+    await signOut({ callbackUrl: "/login" });
   },
 
   reset: () => set({ user: null, isAuthenticated: false, isLoading: false }),

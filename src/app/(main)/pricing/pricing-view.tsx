@@ -42,17 +42,17 @@ const PLANS = [
     savingsVsTutor: "比请家教便宜 97%",
   },
   {
-    key: "semi_annual" as const,
-    name: "半年付",
-    price: "US$49.90",
-    unit: "/ 6 个月",
-    equiv: "≈ US$8.32 / 月",
-    badge: "省 58%",
+    key: "quarterly" as const,
+    name: "季付",
+    price: "US$39.90",
+    unit: "/ 3 个月",
+    equiv: "≈ US$13.30 / 月",
+    badge: "省 33%",
     trialLabel: "14 天免费试用",
     recommended: false,
-    monthlyPrice: "US$8.32",
+    monthlyPrice: "US$13.30",
     valueDesc: "每月一杯奶茶的钱，刷完四科 8,500 道题",
-    savingsVsTutor: "比请家教便宜 99%",
+    savingsVsTutor: "比请家教便宜 98%",
   },
   {
     key: "yearly" as const,
@@ -84,7 +84,7 @@ const COMPARISON = [
 const FAQ = [
   {
     q: "免费试用需要绑定信用卡吗？",
-    a: "需要。通过 Stripe 安全绑定后开始免费试用（年付 2 个月，月付/季付 7 天）。试用期内随时取消，不会扣费。",
+    a: "需要。通过 Stripe 安全绑定后开始免费试用（年付 2 个月，季付 14 天，月付 7 天）。试用期内随时取消，不会扣费。",
   },
   {
     q: "可以随时取消吗？",
@@ -115,11 +115,11 @@ const FAQ = [
 export function PricingView() {
   const { isAuthenticated, hasActiveSubscription } = useAuthStore();
   const isSubscribed = hasActiveSubscription();
-  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "semi_annual" | "yearly">("yearly");
+  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "quarterly" | "yearly">("yearly");
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const activePlan = PLANS.find((p) => p.key === selectedPlan)!;
 
-  const handleSubscribe = async (plan: "monthly" | "semi_annual" | "yearly") => {
+  const handleSubscribe = async (plan: "monthly" | "quarterly" | "yearly") => {
     setLoadingPlan(plan);
     try {
       const { url } = await createCheckout(plan);

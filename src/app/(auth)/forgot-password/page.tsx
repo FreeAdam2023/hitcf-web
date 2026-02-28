@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { OtpInput } from "@/components/ui/otp-input";
 import { ApiError } from "@/lib/api/client";
 import {
   sendResetCode,
@@ -14,14 +16,15 @@ import {
 
 type Step = "email" | "code" | "password";
 
-const STEP_INFO = {
-  email: { title: "重置密码", desc: "输入注册邮箱，我们将发送验证码" },
-  code: { title: "验证邮箱", desc: "" },
-  password: { title: "设置新密码", desc: "请输入新密码" },
-};
-
 export default function ForgotPasswordPage() {
   const router = useRouter();
+  const t = useTranslations();
+
+  const STEP_INFO = {
+    email: { title: t("auth.forgotPassword.emailStep.title"), desc: t("auth.forgotPassword.emailStep.desc") },
+    code: { title: t("auth.forgotPassword.codeStep.title"), desc: t("auth.forgotPassword.codeStep.desc") },
+    password: { title: t("auth.forgotPassword.passwordStep.title"), desc: t("auth.forgotPassword.passwordStep.desc") },
+  };
 
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
@@ -36,9 +39,17 @@ export default function ForgotPasswordPage() {
 
   const info = STEP_INFO[step];
 
+  const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (!isValidEmail(email.trim())) {
+      setError(t("auth.forgotPassword.invalidEmail"));
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -48,7 +59,7 @@ export default function ForgotPasswordPage() {
       if (err instanceof ApiError) {
         setError(err.message);
       } else {
-        setError("发送失败，请稍后重试");
+        setError(t("auth.forgotPassword.sendFailed"));
       }
     } finally {
       setLoading(false);
@@ -68,7 +79,7 @@ export default function ForgotPasswordPage() {
       if (err instanceof ApiError) {
         setError(err.message);
       } else {
-        setError("验证失败，请稍后重试");
+        setError(t("auth.forgotPassword.verifyFailed"));
       }
     } finally {
       setLoading(false);
@@ -80,11 +91,11 @@ export default function ForgotPasswordPage() {
     setError("");
 
     if (password.length < 8) {
-      setError("密码至少需要 8 位");
+      setError(t("auth.forgotPassword.passwordMinLength"));
       return;
     }
     if (password !== confirmPassword) {
-      setError("两次输入的密码不一致");
+      setError(t("auth.forgotPassword.passwordMismatch"));
       return;
     }
 
@@ -97,7 +108,7 @@ export default function ForgotPasswordPage() {
       if (err instanceof ApiError) {
         setError(err.message);
       } else {
-        setError("重置失败，请稍后重试");
+        setError(t("auth.forgotPassword.resetFailed"));
       }
     } finally {
       setLoading(false);
@@ -114,7 +125,7 @@ export default function ForgotPasswordPage() {
       if (err instanceof ApiError) {
         setError(err.message);
       } else {
-        setError("发送失败，请稍后重试");
+        setError(t("auth.forgotPassword.resendFailed"));
       }
     } finally {
       setLoading(false);
@@ -130,16 +141,16 @@ export default function ForgotPasswordPage() {
           </svg>
         </div>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">密码重置成功</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{t("auth.forgotPassword.resetSuccess")}</h1>
           <p className="mt-1.5 text-sm text-muted-foreground">
-            请使用新密码登录
+            {t("auth.forgotPassword.resetSuccessDesc")}
           </p>
         </div>
         <Button
           className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
           onClick={() => router.push("/login")}
         >
-          去登录
+          {t("auth.forgotPassword.goLogin")}
         </Button>
       </div>
     );
@@ -150,7 +161,7 @@ export default function ForgotPasswordPage() {
       <div>
         <h1 className="text-2xl font-bold tracking-tight">{info.title}</h1>
         <p className="mt-1.5 text-sm text-muted-foreground">
-          {step === "code" ? `验证码已发送至 ${email}` : info.desc}
+          {step === "code" ? t("auth.forgotPassword.codeSent", { email }) : info.desc}
         </p>
         <div className="mt-4 flex gap-1.5">
           {(["email", "code", "password"] as const).map((s) => (
@@ -170,10 +181,10 @@ export default function ForgotPasswordPage() {
       </div>
 
       {step === "email" && (
-        <form onSubmit={handleSendCode} className="space-y-4">
+        <form onSubmit={handleSendCode} noValidate className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="email" className="text-sm font-medium">
-              邮箱
+              {t("auth.forgotPassword.emailLabel")}
             </label>
             <Input
               id="email"
@@ -195,33 +206,19 @@ export default function ForgotPasswordPage() {
             className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
             disabled={loading}
           >
-            {loading ? "发送中..." : "发送验证码"}
+            {loading ? t("auth.forgotPassword.sending") : t("auth.forgotPassword.sendCode")}
           </Button>
         </form>
       )}
 
       {step === "code" && (
         <form onSubmit={handleVerifyCode} className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="code" className="text-sm font-medium">
-              6 位验证码
-            </label>
-            <Input
-              id="code"
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]{6}"
-              maxLength={6}
-              placeholder="000000"
-              value={code}
-              onChange={(e) =>
-                setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
-              }
-              required
-              autoFocus
-              className="h-11 text-center text-lg tracking-[0.5em] font-mono"
-            />
-          </div>
+          <OtpInput
+            value={code}
+            onChange={setCode}
+            disabled={loading}
+            autoFocus
+          />
 
           {error && <p className="text-sm text-destructive">{error}</p>}
 
@@ -230,7 +227,7 @@ export default function ForgotPasswordPage() {
             className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
             disabled={loading || code.length !== 6}
           >
-            {loading ? "验证中..." : "验证"}
+            {loading ? t("auth.forgotPassword.verifying") : t("auth.forgotPassword.verify")}
           </Button>
 
           <button
@@ -239,7 +236,7 @@ export default function ForgotPasswordPage() {
             disabled={loading}
             className="w-full text-center text-sm text-muted-foreground hover:text-primary transition-colors"
           >
-            没收到？重新发送
+            {t("auth.forgotPassword.resend")}
           </button>
         </form>
       )}
@@ -248,13 +245,13 @@ export default function ForgotPasswordPage() {
         <form onSubmit={handleReset} className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="new-password" className="text-sm font-medium">
-              新密码
+              {t("auth.forgotPassword.newPasswordLabel")}
             </label>
             <div className="relative">
               <Input
                 id="new-password"
                 type={showPassword ? "text" : "password"}
-                placeholder="至少 8 位"
+                placeholder={t("auth.forgotPassword.newPasswordPlaceholder")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -279,13 +276,13 @@ export default function ForgotPasswordPage() {
           </div>
           <div className="space-y-2">
             <label htmlFor="confirm-password" className="text-sm font-medium">
-              确认新密码
+              {t("auth.forgotPassword.confirmPasswordLabel")}
             </label>
             <div className="relative">
               <Input
                 id="confirm-password"
                 type={showPassword ? "text" : "password"}
-                placeholder="再次输入新密码"
+                placeholder={t("auth.forgotPassword.confirmPasswordPlaceholder")}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -315,18 +312,18 @@ export default function ForgotPasswordPage() {
             className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
             disabled={loading}
           >
-            {loading ? "重置中..." : "重置密码"}
+            {loading ? t("auth.forgotPassword.resetting") : t("auth.forgotPassword.resetPassword")}
           </Button>
         </form>
       )}
 
       <div className="text-center text-sm text-muted-foreground">
-        想起密码了？{" "}
+        {t("auth.forgotPassword.rememberPassword")}{" "}
         <Link
           href="/login"
           className="font-medium text-primary hover:underline underline-offset-4"
         >
-          返回登录
+          {t("auth.forgotPassword.backToLogin")}
         </Link>
       </div>
     </div>

@@ -1,36 +1,67 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronDown, ChevronUp, FileText, Lightbulb, Loader2 } from "lucide-react";
+import {
+  AlertTriangle,
+  ChevronDown,
+  ChevronUp,
+  Lightbulb,
+  Link2,
+  Loader2,
+  RefreshCw,
+} from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { generateExplanation } from "@/lib/api/questions";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { FrenchText } from "./french-text";
 import type { Explanation } from "@/lib/api/types";
 
 interface ExplanationPanelProps {
   explanation: Explanation | null | undefined;
   questionId?: string;
   defaultOpen?: boolean;
-  transcript?: string | null;
+  /** Externally managed loading state */
+  loading?: boolean;
+  /** Externally managed error state */
+  error?: boolean;
+  /** Called when user clicks retry */
+  onRetry?: () => void;
+  /** Called when user clicks force refresh */
+  onForceRefresh?: () => void;
+  /** Called when panel is opened and needs data */
+  onOpen?: () => void;
 }
 
 export function ExplanationPanel({
-  explanation: initialExplanation,
+  explanation,
   questionId,
   defaultOpen = false,
-  transcript,
+  loading = false,
+  error = false,
+  onRetry,
+  onForceRefresh,
+  onOpen,
 }: ExplanationPanelProps) {
+  const t = useTranslations();
   const [open, setOpen] = useState(defaultOpen);
-  const [explanation, setExplanation] = useState(initialExplanation);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [distractorsOpen, setDistractorsOpen] = useState(false);
 
-  // Sync with prop changes (e.g. navigating between questions)
+  // Reset when question changes
   useEffect(() => {
-    setExplanation(initialExplanation);
     setOpen(defaultOpen);
-    setLoading(false);
-    setError(false);
-  }, [initialExplanation, questionId, defaultOpen]);
+    setDistractorsOpen(false);
+  }, [questionId, defaultOpen]);
+
+  // Trigger fetch when opened and no data
+  useEffect(() => {
+    if (open && !explanation && !loading && !error) {
+      onOpen?.();
+    }
+  }, [open, explanation, loading, error, onOpen]);
 
   const hasContent =
     explanation &&
@@ -42,29 +73,21 @@ export function ExplanationPanel({
       explanation.trap_pattern ||
       explanation.similar_tip);
 
-  // Auto-fetch when expanded and no explanation available
+  const hasLearningTips =
+    explanation?.exam_skill ||
+    explanation?.trap_pattern ||
+    explanation?.similar_tip;
+
+  // Only show refresh button on dev/localhost
+  const [isDevHost, setIsDevHost] = useState(false);
   useEffect(() => {
-    if (!open || hasContent || loading || error || !questionId) return;
-
-    let cancelled = false;
-    setLoading(true);
-
-    generateExplanation(questionId)
-      .then((data) => {
-        if (!cancelled) setExplanation(data);
-      })
-      .catch(() => {
-        if (!cancelled) setError(true);
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, hasContent, questionId, error]);
+    const host = window.location.hostname;
+    setIsDevHost(
+      host === "localhost" ||
+        host === "127.0.0.1" ||
+        host.startsWith("dev."),
+    );
+  }, []);
 
   return (
     <div className="rounded-md border">
@@ -75,7 +98,7 @@ export function ExplanationPanel({
       >
         <span className="flex items-center gap-2 text-sm">
           <Lightbulb className="h-4 w-4" />
-          查看解析
+          {t("explanation.viewExplanation")}
         </span>
         {open ? (
           <ChevronUp className="h-4 w-4" />
@@ -86,128 +109,160 @@ export function ExplanationPanel({
 
       {open && (
         <div className="border-t px-4 py-3 text-sm">
-          {transcript && (
-            <div className="mb-3">
-              <h4 className="mb-1 flex items-center gap-1.5 font-medium">
-                <FileText className="h-4 w-4" />
-                原文
-              </h4>
-              <p className="whitespace-pre-wrap text-muted-foreground">{transcript}</p>
-            </div>
-          )}
           {loading ? (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              正在加载解析...
+              {t("explanation.loading")}
             </div>
           ) : error ? (
             <p className="text-muted-foreground">
-              加载失败，
+              {t("explanation.loadFailed")}
               <button
                 className="underline hover:text-foreground"
-                onClick={() => {
-                  setError(false);
-                  setLoading(false);
-                  // Re-trigger fetch by resetting state — useEffect will pick it up
-                  setExplanation(null);
-                }}
+                onClick={onRetry}
               >
-                点击重试
+                {t("explanation.clickRetry")}
               </button>
             </p>
           ) : !hasContent ? (
-            <p className="text-muted-foreground">解析即将推出，敬请期待。</p>
+            <p className="text-muted-foreground">
+              {t("explanation.comingSoon")}
+            </p>
           ) : (
             <div className="space-y-3">
+              {/* Dev-only: force refresh button */}
+              {isDevHost && questionId && onForceRefresh && (
+                <div className="flex justify-end">
+                  <button
+                    onClick={onForceRefresh}
+                    disabled={loading}
+                    className="flex items-center gap-1 rounded px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50"
+                  >
+                    <RefreshCw className="h-3 w-3" />
+                    {t("explanation.forceRefresh")}
+                  </button>
+                </div>
+              )}
+
+              {/* 2. 答案解析 — Hero Section */}
               {explanation!.correct_reasoning && (
-                <div>
-                  <h4 className="mb-1 font-medium">答案解析</h4>
-                  <p className="text-muted-foreground">
+                <div className="rounded-lg border-l-4 border-emerald-500 bg-emerald-50/50 p-3 dark:bg-emerald-950/20">
+                  <h4 className="mb-1 font-medium">{t("explanation.title")}</h4>
+                  <p className="leading-relaxed text-foreground/90">
                     {explanation!.correct_reasoning}
                   </p>
                 </div>
               )}
 
-              {explanation!.sentence_translation &&
-                explanation!.sentence_translation.length > 0 && (
+              {/* 3. 干扰项分析 — 默认折叠 */}
+              {explanation!.distractors &&
+                Object.keys(explanation!.distractors).length > 0 && (
+                  <Collapsible
+                    open={distractorsOpen}
+                    onOpenChange={setDistractorsOpen}
+                  >
+                    <CollapsibleTrigger className="flex w-full items-center gap-1.5 rounded-lg border border-dashed border-muted-foreground/30 px-2.5 py-1.5 text-left transition-colors hover:bg-muted/60 hover:border-muted-foreground/50">
+                      <ChevronDown
+                        className={`h-3.5 w-3.5 text-muted-foreground transition-transform ${
+                          distractorsOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                      <h4 className="font-medium">{t("explanation.distractors")}</h4>
+                      <span className="text-xs text-muted-foreground">
+                        {t("explanation.distractorCount", { count: Object.keys(explanation!.distractors).length })}
+                      </span>
+                      {!distractorsOpen && (
+                        <span className="ml-auto text-[10px] text-muted-foreground/60">{t("explanation.expandHint")}</span>
+                      )}
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <div className="mt-1.5 space-y-2 pl-1">
+                        {Object.entries(explanation!.distractors).map(
+                          ([key, d]) => (
+                            <div key={key} className="flex gap-2">
+                              <span className="mt-0.5 shrink-0 rounded bg-muted px-1.5 py-0.5 font-mono text-xs font-semibold">
+                                {key}
+                              </span>
+                              <div className="min-w-0">
+                                <p className="text-muted-foreground">
+                                  {d.analysis || d.text}
+                                </p>
+                                {d.trap_type && (
+                                  <span className="mt-0.5 inline-block text-xs text-muted-foreground/70">
+                                    {d.trap_type}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    </CollapsibleContent>
+                  </Collapsible>
+                )}
+
+              {/* 5. 重点词汇 — 2 列 Grid */}
+              {explanation!.vocabulary &&
+                explanation!.vocabulary.length > 0 && (
                   <div>
-                    <h4 className="mb-1 font-medium">句子翻译</h4>
-                    <div className="space-y-1">
-                      {explanation!.sentence_translation.map((s, i) => (
-                        <div key={i} className="text-muted-foreground">
-                          <span className="text-foreground">{s.fr}</span>
-                          {s.zh && <span className="ml-2">— {s.zh}</span>}
+                    <h4 className="mb-2 font-medium">{t("explanation.vocabulary")}</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {explanation!.vocabulary.map((v, i) => (
+                        <div
+                          key={i}
+                          className="rounded-lg border p-2"
+                        >
+                          <div className="flex items-start justify-between gap-1">
+                            <span className="font-medium">
+                              {v.word && <FrenchText text={v.word} />}
+                            </span>
+                            {v.freq && (
+                              <span className="shrink-0 rounded bg-muted px-1 py-0.5 text-[10px] text-muted-foreground">
+                                {v.freq}
+                              </span>
+                            )}
+                          </div>
+                          {v.meaning && (
+                            <p className="mt-0.5 text-xs text-muted-foreground">
+                              {v.meaning}
+                            </p>
+                          )}
                         </div>
                       ))}
                     </div>
                   </div>
                 )}
 
-              {explanation!.distractors &&
-                Object.keys(explanation!.distractors).length > 0 && (
-                  <div>
-                    <h4 className="mb-1 font-medium">干扰项分析</h4>
-                    <div className="space-y-1">
-                      {Object.entries(explanation!.distractors).map(
-                        ([key, d]) => (
-                          <div key={key} className="text-muted-foreground">
-                            <span className="font-medium text-foreground">
-                              {key}:
-                            </span>{" "}
-                            {d.analysis || d.text}
-                            {d.trap_type && (
-                              <span className="ml-1 text-xs">
-                                ({d.trap_type})
-                              </span>
-                            )}
-                          </div>
-                        ),
-                      )}
-                    </div>
+              {/* 6. 学习要点 — 合并 exam_skill + trap_pattern + similar_tip */}
+              {hasLearningTips && (
+                <div className="rounded-lg bg-blue-50/50 p-3 dark:bg-blue-950/20">
+                  <h4 className="mb-2 font-medium">{t("explanation.studyPoints")}</h4>
+                  <div className="space-y-2">
+                    {explanation!.exam_skill && (
+                      <div className="flex gap-2">
+                        <Lightbulb className="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-500" />
+                        <p className="text-foreground/90">
+                          {explanation!.exam_skill}
+                        </p>
+                      </div>
+                    )}
+                    {explanation!.trap_pattern && (
+                      <div className="flex gap-2">
+                        <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500" />
+                        <p className="text-foreground/90">
+                          {explanation!.trap_pattern}
+                        </p>
+                      </div>
+                    )}
+                    {explanation!.similar_tip && (
+                      <div className="flex gap-2">
+                        <Link2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-500" />
+                        <p className="text-foreground/90">
+                          {explanation!.similar_tip}
+                        </p>
+                      </div>
+                    )}
                   </div>
-                )}
-
-              {explanation!.vocabulary &&
-                explanation!.vocabulary.length > 0 && (
-                  <div>
-                    <h4 className="mb-1 font-medium">重点词汇</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {explanation!.vocabulary.map((v, i) => (
-                        <span
-                          key={i}
-                          className="rounded-full bg-muted px-2 py-0.5 text-xs"
-                        >
-                          {v.word} — {v.meaning}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-              {explanation!.exam_skill && (
-                <div>
-                  <h4 className="mb-1 font-medium">考试技巧</h4>
-                  <p className="text-muted-foreground">
-                    {explanation!.exam_skill}
-                  </p>
-                </div>
-              )}
-
-              {explanation!.trap_pattern && (
-                <div>
-                  <h4 className="mb-1 font-medium">陷阱模式</h4>
-                  <p className="text-muted-foreground">
-                    {explanation!.trap_pattern}
-                  </p>
-                </div>
-              )}
-
-              {explanation!.similar_tip && (
-                <div>
-                  <h4 className="mb-1 font-medium">类似题提示</h4>
-                  <p className="text-muted-foreground">
-                    {explanation!.similar_tip}
-                  </p>
                 </div>
               )}
             </div>

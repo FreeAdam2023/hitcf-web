@@ -20,6 +20,7 @@ export interface UserResponse {
   email: string;
   name: string | null;
   role: string;
+  ui_language: string;
   subscription: SubscriptionInfo;
   created_at: string;
   last_login_at: string | null;
@@ -75,7 +76,10 @@ export interface QuestionBrief {
 
 export interface SentenceTranslation {
   fr: string;
-  zh: string;
+  en: string;
+  zh?: string;
+  /** Locale-resolved translation (set by backend based on user's locale) */
+  native?: string;
   is_key?: boolean;
 }
 
@@ -91,6 +95,13 @@ export interface VocabularyItem {
   freq: string | null;
 }
 
+export interface OptionTranslation {
+  en: string;
+  zh?: string;
+  /** Locale-resolved translation (set by backend based on user's locale) */
+  native?: string;
+}
+
 export interface Explanation {
   sentence_translation: SentenceTranslation[] | null;
   correct_reasoning: string | null;
@@ -99,6 +110,13 @@ export interface Explanation {
   trap_pattern: string | null;
   vocabulary: VocabularyItem[] | null;
   similar_tip: string | null;
+  transcript_en: string | null;
+  transcript_zh: string | null;
+  /** Transcript in user's locale (set by backend) */
+  transcript_native: string | null;
+  option_translations: Record<string, OptionTranslation> | null;
+  /** Which locale this explanation was serialized for */
+  locale?: string;
 }
 
 export interface QuestionDetail extends QuestionBrief {
@@ -123,6 +141,16 @@ export interface WrongAnswerItem {
 }
 
 // Attempts
+export interface ActiveAttemptResponse {
+  id: string;
+  test_set_id: string;
+  mode: string;
+  total: number;
+  answered_count: number;
+  status: string;
+  started_at: string;
+}
+
 export interface CreateAttemptRequest {
   test_set_id: string;
   mode: "practice" | "exam" | "speed_drill";
@@ -319,3 +347,88 @@ export interface WritingGradeResponse {
 }
 
 export type WritingSubmissionItem = WritingGradeResponse;
+
+// Writing Attempts
+export interface WritingAttemptResponse {
+  id: string;
+  user_id: string;
+  test_set_id: string;
+  mode: "practice" | "exam";
+  status: "in_progress" | "grading" | "completed" | "abandoned";
+  essays: Record<string, { text: string; word_count: number }>;
+  total_score: number | null;
+  average_nclc: string | null;
+  started_at: string;
+  completed_at: string | null;
+  time_limit_seconds: number;
+  submission_ids: string[];
+}
+
+export interface WritingAttemptResults {
+  id: string;
+  test_set_id: string;
+  mode: "practice" | "exam";
+  status: string;
+  total_score: number | null;
+  average_nclc: string | null;
+  started_at: string;
+  completed_at: string | null;
+  time_limit_seconds: number;
+  tasks: WritingAttemptTaskResult[];
+}
+
+export interface WritingAttemptTaskResult {
+  task_number: number;
+  essay_text: string;
+  word_count: number;
+  feedback: WritingFeedback | null;
+}
+
+// Vocabulary Card
+export interface ConjugationTable {
+  je: string;
+  tu: string;
+  il: string;
+  nous: string;
+  vous: string;
+  ils: string;
+}
+
+export interface AdjectiveForms {
+  masculine_singular: string;
+  feminine_singular: string;
+  masculine_plural: string;
+  feminine_plural: string;
+}
+
+export interface VocabularyCardData {
+  word: string;
+  display_form: string;
+  ipa: string | null;
+  part_of_speech: string | null;
+  gender: string | null;
+  article: string | null;
+  plural_form?: string | null;
+  meaning_en: string | null;
+  meaning_zh: string | null;
+  /** Meaning in the user's requested locale */
+  meaning_native: string | null;
+  /** Which locale this response was serialized for */
+  locale?: string;
+  // Verb
+  verb_group?: number;
+  present?: ConjugationTable;
+  passe_compose?: ConjugationTable;
+  imparfait?: ConjugationTable;
+  futur_simple?: ConjugationTable;
+  conditionnel?: ConjugationTable;
+  subjonctif?: ConjugationTable;
+  past_participle?: string;
+  auxiliary?: string;
+  // Adjective
+  adjective_forms?: AdjectiveForms;
+  // Other
+  examples: { fr: string; en: string; zh?: string; native?: string }[];
+  cefr_level: string | null;
+  audio_url: string | null;
+}

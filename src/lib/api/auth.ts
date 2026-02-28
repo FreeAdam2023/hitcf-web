@@ -6,8 +6,8 @@ export function fetchMe(options?: RequestOptions): Promise<UserResponse> {
   return get<UserResponse>("/api/user/me", { noRedirect: true, ...options });
 }
 
-export function updateProfile(body: { name?: string }): Promise<{ message: string; name: string }> {
-  return put<{ message: string; name: string }>("/api/user/me", body);
+export function updateProfile(body: { name?: string; ui_language?: string }): Promise<{ message: string; name: string; ui_language: string }> {
+  return put<{ message: string; name: string; ui_language: string }>("/api/user/me", body);
 }
 
 export function changePassword(body: {

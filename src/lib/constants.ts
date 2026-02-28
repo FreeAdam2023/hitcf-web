@@ -1,15 +1,10 @@
-export const TYPE_LABELS: Record<string, string> = {
-  listening: "听力",
-  reading: "阅读",
-  speaking: "口语",
-  writing: "写作",
-};
-
-export const MODE_LABELS: Record<string, string> = {
-  practice: "练习",
-  exam: "考试",
-  speed_drill: "速练",
-};
+/**
+ * Type/mode label keys — use with useTranslations('common'):
+ *   t(`types.${type}`)   e.g. t('types.listening')
+ *   t(`modes.${mode}`)   e.g. t('modes.practice')
+ */
+export const TYPE_KEYS = ["listening", "reading", "speaking", "writing"] as const;
+export const MODE_KEYS = ["practice", "exam", "speed_drill"] as const;
 
 /** Per-type colour classes for badges, borders, icons, backgrounds */
 export const TYPE_COLORS: Record<

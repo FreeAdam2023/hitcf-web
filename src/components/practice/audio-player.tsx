@@ -9,6 +9,7 @@ import {
   VolumeX,
   Loader2,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { getAudioUrl } from "@/lib/api/media";
 import { formatTime } from "@/lib/utils";
@@ -17,11 +18,14 @@ const SAS_REFRESH_MS = 12 * 60 * 1000; // refresh after 12 minutes
 
 interface AudioPlayerProps {
   questionId: string;
+  maxPlays?: number;
+  onPlaybackComplete?: () => void;
 }
 
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
-export function AudioPlayer({ questionId }: AudioPlayerProps) {
+export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioPlayerProps) {
+  const t = useTranslations();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [url, setUrl] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -34,9 +38,12 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
+  const [playCount, setPlayCount] = useState(0);
   const volumeRef = useRef<HTMLDivElement>(null);
   const fetchedAtRef = useRef(0);
   const pendingPlayRef = useRef(false);
+
+  const exhausted = maxPlays !== undefined && playCount >= maxPlays;
 
   const loadUrl = useCallback(async () => {
     setLoading(true);
@@ -46,11 +53,11 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
       setUrl(res.url);
       fetchedAtRef.current = Date.now();
     } catch {
-      setError("无法加载音频");
+      setError(t("audio.loadError"));
     } finally {
       setLoading(false);
     }
-  }, [questionId]);
+  }, [questionId, t]);
 
   // Reset when question changes
   useEffect(() => {
@@ -60,6 +67,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     setCurrentTime(0);
     setDuration(0);
     setError(null);
+    setPlayCount(0);
     fetchedAtRef.current = 0;
     pendingPlayRef.current = false;
   }, [questionId]);
@@ -73,7 +81,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
     const tryPlay = () => {
       audio.play()
         .then(() => setPlaying(true))
-        .catch(() => setError("播放失败"));
+        .catch(() => setError(t("audio.playError")));
     };
 
     if (audio.readyState >= 2) {
@@ -96,6 +104,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
   }, [showVolume]);
 
   const togglePlay = async () => {
+    if (exhausted) return;
     if (!url || Date.now() - fetchedAtRef.current > SAS_REFRESH_MS) {
       pendingPlayRef.current = true;
       await loadUrl();
@@ -113,7 +122,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         await audio.play();
         setPlaying(true);
       } catch {
-        setError("播放失败");
+        setError(t("audio.playError"));
       }
     }
   };
@@ -162,11 +171,16 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
   const onEnded = () => {
     setPlaying(false);
     setProgress(100);
+    const newCount = playCount + 1;
+    setPlayCount(newCount);
+    if (maxPlays !== undefined && newCount >= maxPlays) {
+      onPlaybackComplete?.();
+    }
   };
 
   const onError = () => {
     setPlaying(false);
-    setError("音频加载失败，请重试");
+    setError(t("audio.loadRetryError"));
   };
 
   return (
@@ -189,7 +203,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
             setShowVolume(!showVolume);
           }}
           onDoubleClick={() => setShowVolume(!showVolume)}
-          aria-label={muted ? "取消静音" : "静音"}
+          aria-label={muted ? t("audio.unmute") : t("audio.mute")}
         >
           {muted || volume === 0 ? (
             <VolumeX className="h-4 w-4" />
@@ -208,7 +222,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
               onChange={handleVolumeChange}
               className="h-20 w-1.5 cursor-pointer appearance-none rounded-full bg-muted accent-primary"
               style={{ writingMode: "vertical-lr", direction: "rtl" }}
-              aria-label="音量"
+              aria-label={t("audio.volume")}
             />
           </div>
         )}
@@ -220,7 +234,7 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         size="icon"
         className="h-8 w-8 shrink-0"
         onClick={togglePlay}
-        disabled={loading}
+        disabled={loading || exhausted}
       >
         {loading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -250,26 +264,33 @@ export function AudioPlayer({ questionId }: AudioPlayerProps) {
         size="icon"
         className="h-8 w-8 shrink-0"
         onClick={restart}
-        aria-label="重新播放"
+        disabled={exhausted}
+        aria-label={t("audio.replay")}
       >
         <RotateCcw className="h-3.5 w-3.5" />
       </Button>
 
-      {/* Speed */}
-      <select
-        value={speed}
-        onChange={(e) => {
-          const val = parseFloat(e.target.value);
-          setSpeed(val);
-          if (audioRef.current) audioRef.current.playbackRate = val;
-        }}
-        className="h-8 shrink-0 rounded-md border bg-background px-1.5 text-xs font-mono tabular-nums cursor-pointer"
-        aria-label="播放速度"
-      >
-        {SPEED_OPTIONS.map((s) => (
-          <option key={s} value={s}>{s}x</option>
-        ))}
-      </select>
+      {/* Speed — hidden when plays exhausted */}
+      {!exhausted && (
+        <select
+          value={speed}
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            setSpeed(val);
+            if (audioRef.current) audioRef.current.playbackRate = val;
+          }}
+          className="h-8 shrink-0 rounded-md border bg-background px-1.5 text-xs font-mono tabular-nums cursor-pointer"
+          aria-label={t("audio.speed")}
+        >
+          {SPEED_OPTIONS.map((s) => (
+            <option key={s} value={s}>{s}x</option>
+          ))}
+        </select>
+      )}
+
+      {exhausted && (
+        <span className="shrink-0 text-xs text-muted-foreground">{t("audio.played")}</span>
+      )}
 
       {url && (
         <audio

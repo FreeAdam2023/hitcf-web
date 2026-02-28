@@ -1,6 +1,7 @@
 import { get, post, put } from "./client";
 import type { RequestOptions } from "./client";
 import type {
+  ActiveAttemptResponse,
   CreateAttemptRequest,
   CreateAttemptResponse,
   SubmitAnswerRequest,
@@ -12,11 +13,25 @@ import type {
   PaginatedResponse,
 } from "./types";
 
+export function getActiveAttempt(
+  testSetId: string,
+  mode: string = "practice",
+  options?: RequestOptions,
+): Promise<ActiveAttemptResponse | null> {
+  return get<ActiveAttemptResponse | null>(
+    `/api/attempts/active?test_set_id=${testSetId}&mode=${mode}`,
+    options,
+  );
+}
+
 export function createAttempt(
   body: CreateAttemptRequest,
-  options?: RequestOptions,
+  options?: RequestOptions & { forceNew?: boolean },
 ): Promise<CreateAttemptResponse> {
-  return post<CreateAttemptResponse>("/api/attempts", body, options);
+  const url = options?.forceNew
+    ? "/api/attempts?force_new=true"
+    : "/api/attempts";
+  return post<CreateAttemptResponse>(url, body, options);
 }
 
 export function submitAnswer(
@@ -57,10 +72,12 @@ export function getAttemptReview(attemptId: string, options?: RequestOptions): P
 export function listAttempts(params?: {
   page?: number;
   page_size?: number;
+  type?: string;
 }): Promise<PaginatedResponse<AttemptResponse>> {
   const searchParams = new URLSearchParams();
   if (params?.page) searchParams.set("page", String(params.page));
   if (params?.page_size) searchParams.set("page_size", String(params.page_size));
+  if (params?.type) searchParams.set("type", params.type);
   const qs = searchParams.toString();
   return get<PaginatedResponse<AttemptResponse>>(
     `/api/attempts${qs ? `?${qs}` : ""}`,

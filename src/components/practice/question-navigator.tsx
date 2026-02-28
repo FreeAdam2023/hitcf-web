@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import type { AnswerResponse } from "@/lib/api/types";
 import { LevelBadge } from "@/components/shared/level-badge";
 
@@ -32,6 +33,7 @@ export function QuestionNavigator({
   flaggedQuestions,
   questions,
 }: QuestionNavigatorProps) {
+  const t = useTranslations();
   const isExam = mode === "exam";
   const isListeningOrReading = questions?.[0]?.type === "listening" || questions?.[0]?.type === "reading";
   const useGrouped = !isExam && isListeningOrReading && questions && questions.length > 0;
@@ -48,16 +50,16 @@ export function QuestionNavigator({
     const isCorrect = !isExam && !!typedAnswer && typedAnswer.is_correct === true;
     const isWrong = !isExam && !!typedAnswer && typedAnswer.is_correct === false;
 
-    let statusLabel = "未答";
-    if (isCorrect) statusLabel = "正确";
-    else if (isWrong) statusLabel = "错误";
-    else if (isAnswered) statusLabel = "已答";
+    let statusLabel = t("practice.navigator.unanswered");
+    if (isCorrect) statusLabel = t("practice.navigator.correct");
+    else if (isWrong) statusLabel = t("practice.navigator.wrong");
+    else if (isAnswered) statusLabel = t("practice.navigator.answered");
 
     return (
       <button
         key={i}
         onClick={() => onNavigate(i)}
-        aria-label={`第${questionNum}题，${statusLabel}`}
+        aria-label={t("practice.navigator.questionLabel", { n: questionNum, status: statusLabel })}
         className={cn(
           "relative flex h-8 w-8 items-center justify-center rounded text-xs font-medium transition-colors",
           isCurrent && "ring-2 ring-primary ring-offset-1",
@@ -83,7 +85,7 @@ export function QuestionNavigator({
     let currentGroup: { level: string; indices: number[] } | null = null;
 
     for (let i = 0; i < questions.length; i++) {
-      const level = questions[i].level?.toUpperCase() ?? "未知";
+      const level = questions[i].level?.toUpperCase() ?? t("common.status.unknown");
       if (!currentGroup || currentGroup.level !== level) {
         currentGroup = { level, indices: [i] };
         groups.push(currentGroup);
@@ -101,7 +103,7 @@ export function QuestionNavigator({
 
     return (
       <div className="space-y-2">
-        <h3 className="text-sm font-medium text-muted-foreground">题号导航</h3>
+        <h3 className="text-sm font-medium text-muted-foreground">{t("practice.navigator.title")}</h3>
         <div className="space-y-3">
           {groups.map((group) => (
             <div key={group.level}>
@@ -115,7 +117,7 @@ export function QuestionNavigator({
           ))}
         </div>
         <p className="text-xs text-muted-foreground">
-          已答 {answers.size} / {total}
+          {t("common.answeredProgress", { answered: answers.size, total })}
         </p>
       </div>
     );
@@ -124,12 +126,12 @@ export function QuestionNavigator({
   // Flat grid (reading, exam, or no questions metadata)
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-medium text-muted-foreground">题号导航</h3>
+      <h3 className="text-sm font-medium text-muted-foreground">{t("practice.navigator.title")}</h3>
       <div className="flex flex-wrap gap-1.5 p-0.5">
         {Array.from({ length: total }, (_, i) => renderButton(i))}
       </div>
       <p className="text-xs text-muted-foreground">
-        已答 {answers.size} / {total}
+        {t("common.answeredProgress", { answered: answers.size, total })}
       </p>
     </div>
   );

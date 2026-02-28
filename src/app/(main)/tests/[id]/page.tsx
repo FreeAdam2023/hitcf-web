@@ -3,7 +3,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Loader2, CheckCircle2, AlertCircle, ArrowRight, Copy, Check } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,9 +13,9 @@ import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { useAuthStore } from "@/stores/auth-store";
 import { getTestSet, getTestSetQuestions } from "@/lib/api/test-sets";
-import { createAttempt } from "@/lib/api/attempts";
-import { gradeWriting, getWritingSubmissions } from "@/lib/api/writing";
-import type { TestSetDetail, QuestionBrief, WritingFeedback } from "@/lib/api/types";
+import { createAttempt, getActiveAttempt } from "@/lib/api/attempts";
+import type { ActiveAttemptResponse } from "@/lib/api/types";
+import type { TestSetDetail, QuestionBrief } from "@/lib/api/types";
 
 function buildSpeakingPrompt(topic: QuestionBrief, isTache2: boolean): string {
   return isTache2
@@ -38,6 +39,7 @@ function buildGeminiUrl(): string {
   return "https://gemini.google.com/app";
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function buildWritingChatGPTUrl(topic: QuestionBrief, taskNum: number): string {
   const passageText = topic.passage ? `\n\nDocuments de référence :\n${topic.passage}` : "";
   const prompt = `Tu es mon correcteur pour le TCF Canada Expression Écrite Tâche ${taskNum}. Voici le sujet :\n\n"${topic.question_text}"${passageText}\n\nJe vais écrire mon texte ci-dessous. Corrige-le et donne-moi un feedback détaillé sur : la grammaire, l'orthographe, le vocabulaire, la cohérence, la structure. Donne une note estimée (A1-C2) et des suggestions d'amélioration. Réponds en français.`;
@@ -45,26 +47,9 @@ function buildWritingChatGPTUrl(topic: QuestionBrief, taskNum: number): string {
   return `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
 }
 
-const TASK_LABELS: Record<number, string> = {
-  1: "Tâche 1 · 短消息 (60-120 词)",
-  2: "Tâche 2 · 博客文章 (120-160 词)",
-  3: "Tâche 3 · 议论文 (200-300 词)",
-};
-
-const TASK_WORD_RANGES: Record<number, [number, number]> = {
-  1: [60, 120],
-  2: [120, 160],
-  3: [200, 300],
-};
-
-const CRITERION_LABELS: Record<string, { name: string; desc: string }> = {
-  adequation: { name: "Adéquation", desc: "任务完成度" },
-  coherence: { name: "Cohérence", desc: "连贯性" },
-  vocabulaire: { name: "Vocabulaire", desc: "词汇" },
-  grammaire: { name: "Grammaire", desc: "语法" },
-};
 
 function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTache2: boolean }) {
+  const t = useTranslations();
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const handleCopy = useCallback(async (topic: QuestionBrief) => {
@@ -96,12 +81,12 @@ function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTa
                     {copiedId === topic.id ? (
                       <>
                         <Check className="mr-1.5 h-3.5 w-3.5" />
-                        已复制
+                        {t("common.actions.copied")}
                       </>
                     ) : (
                       <>
                         <Copy className="mr-1.5 h-3.5 w-3.5" />
-                        复制 Prompt
+                        {t("common.actions.copyPrompt")}
                       </>
                     )}
                   </Button>
@@ -159,110 +144,6 @@ function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTa
   );
 }
 
-function scoreColor(score: number): string {
-  if (score >= 4) return "bg-green-500";
-  if (score >= 3) return "bg-yellow-500";
-  if (score >= 2) return "bg-orange-500";
-  return "bg-red-500";
-}
-
-function WritingFeedbackPanel({ feedback }: { feedback: WritingFeedback }) {
-  const criteria = ["adequation", "coherence", "vocabulaire", "grammaire"] as const;
-
-  return (
-    <div className="space-y-4 rounded-lg border bg-card p-4">
-      {/* Total score + level */}
-      <div className="flex items-center justify-between">
-        <div>
-          <span className="text-2xl font-bold">{feedback.total_score}</span>
-          <span className="text-sm text-muted-foreground"> / 20</span>
-        </div>
-        <div className="flex gap-2">
-          <Badge variant="secondary">NCLC {feedback.estimated_nclc}</Badge>
-          <Badge variant="outline">{feedback.estimated_level}</Badge>
-        </div>
-      </div>
-
-      {/* 4 criteria scores */}
-      <div className="grid gap-3">
-        {criteria.map((key) => {
-          const c = feedback[key];
-          const label = CRITERION_LABELS[key];
-          return (
-            <div key={key} className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">
-                  {label.name}
-                  <span className="ml-1 text-xs text-muted-foreground">({label.desc})</span>
-                </span>
-                <span className="text-sm font-semibold">{c.score}/5</span>
-              </div>
-              <div className="h-2 rounded-full bg-muted">
-                <div
-                  className={`h-2 rounded-full transition-all ${scoreColor(c.score)}`}
-                  style={{ width: `${(c.score / 5) * 100}%` }}
-                />
-              </div>
-              <p className="text-xs text-muted-foreground">{c.feedback}</p>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Overall comment */}
-      <Separator />
-      <div>
-        <p className="mb-1 text-sm font-medium">总评</p>
-        <p className="text-sm text-muted-foreground">{feedback.overall_comment}</p>
-      </div>
-
-      {/* Corrections */}
-      {feedback.corrections.length > 0 && (
-        <>
-          <Separator />
-          <div>
-            <p className="mb-2 text-sm font-medium">语法修正</p>
-            <div className="space-y-2">
-              {feedback.corrections.map((c, i) => (
-                <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
-                  <div className="flex items-start gap-1.5">
-                    <span className="line-through text-red-500">{c.original}</span>
-                    <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
-                    <span className="font-medium text-green-600">{c.corrected}</span>
-                  </div>
-                  <p className="mt-1 text-muted-foreground">{c.explanation}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Vocab suggestions */}
-      {feedback.vocab_suggestions.length > 0 && (
-        <>
-          <Separator />
-          <div>
-            <p className="mb-2 text-sm font-medium">词汇建议</p>
-            <div className="space-y-2">
-              {feedback.vocab_suggestions.map((v, i) => (
-                <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
-                  <div className="flex items-start gap-1.5">
-                    <span className="text-muted-foreground">{v.original}</span>
-                    <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
-                    <span className="font-medium text-blue-600">{v.suggestion}</span>
-                  </div>
-                  <p className="mt-1 text-muted-foreground">{v.reason}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
 function WritingTestView({
   test,
   locked,
@@ -276,70 +157,58 @@ function WritingTestView({
   topics: QuestionBrief[];
   backLink: React.ReactNode;
 }) {
-  const [essayTexts, setEssayTexts] = useState<Record<string, string>>({});
-  const [grading, setGrading] = useState<Record<string, boolean>>({});
-  const [gradingResults, setGradingResults] = useState<Record<string, WritingFeedback>>({});
-  const [gradingErrors, setGradingErrors] = useState<Record<string, string>>({});
-  const [submittedTopics, setSubmittedTopics] = useState<Record<string, string>>({});
-  const [historyLoading, setHistoryLoading] = useState(false);
+  const t = useTranslations();
+  const router = useRouter();
 
-  // Load writing history on mount
+  const [starting, setStarting] = useState(false);
+  const [startingExam, setStartingExam] = useState(false);
+  const [activePractice, setActivePractice] = useState<{ id: string } | null>(null);
+  const [activeExam, setActiveExam] = useState<{ id: string } | null>(null);
+
+  const taskLabels: Record<number, string> = {
+    1: t("testDetail.writingTaskNames.0"),
+    2: t("testDetail.writingTaskNames.1"),
+    3: t("testDetail.writingTaskNames.2"),
+  };
+
+  // Check for active writing attempts on mount
   useEffect(() => {
-    if (topics.length === 0) return;
-    const controller = new AbortController();
-    setHistoryLoading(true);
-
-    Promise.allSettled(
-      topics.map((topic) =>
-        getWritingSubmissions(topic.id, { signal: controller.signal })
-          .then((submissions) => {
-            if (submissions.length > 0) {
-              const latest = submissions[0];
-              setGradingResults((prev) => ({ ...prev, [topic.id]: latest.feedback }));
-              setEssayTexts((prev) => ({ ...prev, [topic.id]: latest.essay_text }));
-              setSubmittedTopics((prev) => ({
-                ...prev,
-                [topic.id]: latest.created_at,
-              }));
-            }
-          })
-      ),
-    ).then((results) => {
-      if (controller.signal.aborted) return;
-      const failed = results.filter((r) => r.status === "rejected");
-      if (failed.length > 0) {
-        toast.error("部分写作历史加载失败");
-      }
-      setHistoryLoading(false);
+    if (locked) return;
+    import("@/lib/api/writing-attempts").then(({ getActiveWritingAttempt }) => {
+      getActiveWritingAttempt(test.id, "practice").then((a) => setActivePractice(a)).catch(() => {});
+      getActiveWritingAttempt(test.id, "exam").then((a) => setActiveExam(a)).catch(() => {});
     });
+  }, [test.id, locked]);
 
-    return () => controller.abort();
-  }, [topics]);
-
-  const handleEssayChange = useCallback((topicId: string, text: string) => {
-    setEssayTexts((prev) => ({ ...prev, [topicId]: text }));
-  }, []);
-
-  const handleGrade = useCallback(async (topic: QuestionBrief, taskNum: number) => {
-    const essay = essayTexts[topic.id]?.trim();
-    if (!essay) return;
-
-    setGrading((prev) => ({ ...prev, [topic.id]: true }));
-    setGradingErrors((prev) => ({ ...prev, [topic.id]: "" }));
-
+  const handleStartPractice = async (forceNew = false) => {
+    setStarting(true);
     try {
-      const result = await gradeWriting(topic.id, taskNum, essay);
-      setGradingResults((prev) => ({ ...prev, [topic.id]: result.feedback }));
-      setSubmittedTopics((prev) => ({ ...prev, [topic.id]: result.created_at }));
-      toast.success("批改完成！");
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "批改失败，请稍后重试";
-      setGradingErrors((prev) => ({ ...prev, [topic.id]: message }));
-      toast.error(message);
-    } finally {
-      setGrading((prev) => ({ ...prev, [topic.id]: false }));
+      const { createWritingAttempt } = await import("@/lib/api/writing-attempts");
+      const attempt = await createWritingAttempt(
+        { test_set_id: test.id, mode: "practice" },
+        forceNew ? { forceNew: true } : undefined,
+      );
+      router.push(`/writing-practice/${attempt.id}`);
+    } catch {
+      toast.error(t("common.errors.createPracticeFailed"));
+      setStarting(false);
     }
-  }, [essayTexts]);
+  };
+
+  const handleStartExam = async (forceNew = false) => {
+    setStartingExam(true);
+    try {
+      const { createWritingAttempt } = await import("@/lib/api/writing-attempts");
+      const attempt = await createWritingAttempt(
+        { test_set_id: test.id, mode: "exam" },
+        forceNew ? { forceNew: true } : undefined,
+      );
+      router.push(`/writing-exam/${attempt.id}`);
+    } catch {
+      toast.error(t("common.errors.createExamFailed"));
+      setStartingExam(false);
+    }
+  };
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
@@ -351,11 +220,11 @@ function WritingTestView({
             <div className="flex-1">
               <CardTitle className="text-xl">{test.name}</CardTitle>
               <div className="mt-2 flex flex-wrap items-center gap-2">
-                <Badge variant="outline">写作</Badge>
-                {test.is_free && <Badge variant="secondary">免费</Badge>}
+                <Badge variant="outline">{t("testDetail.writingBadge")}</Badge>
+                {test.is_free && <Badge variant="secondary">{t("common.status.free")}</Badge>}
               </div>
               <p className="mt-3 text-sm text-muted-foreground">
-                每组包含 3 个写作任务（短消息、博客文章、议论文）。在下方输入作文并提交 AI 批改，或使用 ChatGPT 练习。
+                {t("testDetail.writingDescription")}
               </p>
             </div>
           </div>
@@ -371,145 +240,155 @@ function WritingTestView({
       ) : topicsLoading ? (
         <LoadingSpinner />
       ) : (
-        <div className="space-y-4">
-          {historyLoading && (
-            <p className="text-xs text-muted-foreground animate-pulse">加载写作历史...</p>
+        <>
+          {/* Mode description */}
+          <div className="rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-3">
+            <div className="space-y-1">
+              <p className="font-medium text-foreground text-sm">{t("writingExam.modeDialog.examLabel")}</p>
+              <ul className="list-disc pl-4 space-y-0.5">
+                <li>{t("writingExam.overview.examBullet1")}</li>
+                <li>{t("writingExam.overview.examBullet2")}</li>
+                <li>{t("writingExam.overview.examBullet3")}</li>
+              </ul>
+            </div>
+            <div className="space-y-1">
+              <p className="font-medium text-foreground text-sm">{t("writingExam.modeDialog.practiceLabel")}</p>
+              <ul className="list-disc pl-4 space-y-0.5">
+                <li>{t("writingExam.overview.practiceBullet1")}</li>
+                <li>{t("writingExam.overview.practiceBullet2")}</li>
+                <li>{t("writingExam.overview.practiceBullet3")}</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Active attempt resume cards */}
+          {activePractice && (
+            <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
+              <p className="text-sm font-medium">{t("writingExam.modeDialog.incompletePractice")}</p>
+              <div className="mt-2 flex gap-2">
+                <Button
+                  size="sm"
+                  onClick={() => router.push(`/writing-practice/${activePractice.id}`)}
+                  disabled={starting || startingExam}
+                >
+                  <Play className="mr-1.5 h-3.5 w-3.5" />
+                  {t("testCard.continuePractice")}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => handleStartPractice(true)}
+                  disabled={starting || startingExam}
+                >
+                  <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                  {t("testDetail.restart")}
+                </Button>
+              </div>
+            </div>
           )}
-          {topics.map((topic, idx) => {
-            const taskNum = idx + 1;
-            const essay = essayTexts[topic.id] || "";
-            const wordCount = essay.trim() ? essay.trim().split(/\s+/).length : 0;
-            const wordRange = TASK_WORD_RANGES[taskNum] || [60, 300];
-            const isGrading = grading[topic.id] || false;
-            const result = gradingResults[topic.id];
-            const error = gradingErrors[topic.id];
 
-            return (
-              <Card key={topic.id}>
-                <CardHeader className="pb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
-                      {taskNum}
-                    </span>
-                    <span className="text-sm font-medium text-muted-foreground">
-                      {TASK_LABELS[taskNum] || `Tâche ${taskNum}`}
-                    </span>
-                    {submittedTopics[topic.id] && (
-                      <CheckCircle2 className="h-4 w-4 text-green-500" />
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-sm leading-relaxed whitespace-pre-line">
-                    {topic.question_text}
-                  </p>
-                  {topic.passage && (
-                    <div className="rounded-md bg-muted/50 p-3">
-                      <p className="whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
-                        {topic.passage}
-                      </p>
-                    </div>
-                  )}
+          {activeExam && (
+            <div className="rounded-lg border border-orange-200 bg-orange-50/50 p-3 dark:border-orange-800 dark:bg-orange-950/20">
+              <p className="text-sm font-medium">{t("writingExam.modeDialog.incompleteExam")}</p>
+              <div className="mt-2 flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => router.push(`/writing-exam/${activeExam.id}`)}
+                  disabled={starting || startingExam}
+                >
+                  <Play className="mr-1.5 h-3.5 w-3.5" />
+                  {t("testCard.continueExam")}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => handleStartExam(true)}
+                  disabled={starting || startingExam}
+                >
+                  <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                  {t("testDetail.restart")}
+                </Button>
+              </div>
+            </div>
+          )}
 
-                  {/* Essay textarea */}
-                  <textarea
-                    className="w-full rounded-md border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 min-h-[120px] resize-y"
-                    placeholder="在此输入你的法语作文..."
-                    value={essay}
-                    onChange={(e) => handleEssayChange(topic.id, e.target.value)}
-                    disabled={isGrading}
-                    rows={6}
-                  />
+          {/* Start buttons */}
+          <div className="flex gap-3">
+            {!activePractice && (
+              <Button
+                className="flex-1"
+                size="lg"
+                onClick={() => handleStartPractice(false)}
+                disabled={starting || startingExam}
+              >
+                {starting ? t("common.actions.starting") : t("testCard.startPractice")}
+              </Button>
+            )}
+            {!activeExam && (
+              <Button
+                className="flex-1"
+                size="lg"
+                variant="outline"
+                onClick={() => handleStartExam(false)}
+                disabled={starting || startingExam}
+              >
+                {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
+              </Button>
+            )}
+          </div>
 
-                  {/* Word count hint */}
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span>
-                      字数：
-                      <span className={
-                        wordCount > 0 && (wordCount < wordRange[0] || wordCount > wordRange[1])
-                          ? "text-orange-500 font-medium"
-                          : wordCount >= wordRange[0] && wordCount <= wordRange[1]
-                          ? "text-green-600 font-medium"
-                          : ""
-                      }>
-                        {wordCount}
+          {/* Task preview (read-only) */}
+          <div className="space-y-3">
+            {topics.map((topic, idx) => {
+              const taskNum = idx + 1;
+              return (
+                <Card key={topic.id}>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                        {taskNum}
                       </span>
-                      {" "}/ {wordRange[0]}-{wordRange[1]} 词
-                    </span>
-                  </div>
-
-                  {/* Buttons */}
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="sm"
-                      onClick={() => handleGrade(topic, taskNum)}
-                      disabled={isGrading || !essay.trim() || wordCount < 10}
-                    >
-                      {isGrading ? (
-                        <>
-                          <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                          批改中...
-                        </>
-                      ) : (
-                        <>
-                          <CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />
-                          提交批改
-                        </>
-                      )}
-                    </Button>
-                    <Button variant="ghost" size="sm" asChild>
-                      <a
-                        href={buildWritingChatGPTUrl(topic, taskNum)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5"
-                      >
-                        <ExternalLink className="h-3.5 w-3.5" />
-                        ChatGPT 练习
-                      </a>
-                    </Button>
-                  </div>
-
-                  {/* Error */}
-                  {error && (
-                    <div className="flex items-start gap-2 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-                      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                      <span>{error}</span>
+                      <span className="text-sm font-medium text-muted-foreground">
+                        {taskLabels[taskNum] || `Tache ${taskNum}`}
+                      </span>
                     </div>
-                  )}
-
-                  {/* Grading result */}
-                  {result && (
-                    <>
-                      {submittedTopics[topic.id] && (
-                        <p className="text-xs text-muted-foreground">
-                          上次提交：{new Date(submittedTopics[topic.id]).toLocaleString("zh-CN")}
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm leading-relaxed whitespace-pre-line">
+                      {topic.question_text}
+                    </p>
+                    {topic.passage && (
+                      <div className="rounded-md bg-muted/50 p-3">
+                        <p className="whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
+                          {topic.passage}
                         </p>
-                      )}
-                      <WritingFeedbackPanel feedback={result} />
-                    </>
-                  )}
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </>
       )}
     </div>
   );
 }
 
 function PaywallButton() {
+  const t = useTranslations();
   const router = useRouter();
   return (
     <Button className="w-full" size="lg" onClick={() => router.push("/pricing")}>
       <Lock className="mr-2 h-4 w-4" />
-      订阅解锁
+      {t("testCard.subscribeUnlock")}
     </Button>
   );
 }
 
 export default function TestDetailPage() {
+  const t = useTranslations();
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const canAccessPaid = useAuthStore((s) => {
@@ -522,6 +401,8 @@ export default function TestDetailPage() {
   const [startingExam, setStartingExam] = useState(false);
   const [topics, setTopics] = useState<QuestionBrief[]>([]);
   const [topicsLoading, setTopicsLoading] = useState(false);
+  const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
+  const [activeExam, setActiveExam] = useState<ActiveAttemptResponse | null>(null);
 
   const locked = test ? !test.is_free && !canAccessPaid : false;
 
@@ -537,39 +418,44 @@ export default function TestDetailPage() {
             .catch(() => setTopics([]))
             .finally(() => setTopicsLoading(false));
         }
+        // Check for active attempts (listening/reading only)
+        if (data.type === "listening" || data.type === "reading") {
+          getActiveAttempt(data.id, "practice").then(setActivePractice).catch(() => {});
+          getActiveAttempt(data.id, "exam").then(setActiveExam).catch(() => {});
+        }
       })
       .catch(() => setTest(null))
       .finally(() => setLoading(false));
   }, [params.id]);
 
-  const handleStart = async () => {
+  const handleStart = async (forceNew = false) => {
     if (!test) return;
     setStarting(true);
     try {
-      const attempt = await createAttempt({
-        test_set_id: test.id,
-        mode: "practice",
-      });
+      const attempt = await createAttempt(
+        { test_set_id: test.id, mode: "practice" },
+        { forceNew },
+      );
       router.push(`/practice/${attempt.id}`);
     } catch (err) {
       console.error("Failed to create attempt", err);
-      toast.error("创建练习失败，请重试");
+      toast.error(t("common.errors.createPracticeFailed"));
       setStarting(false);
     }
   };
 
-  const handleStartExam = async () => {
+  const handleStartExam = async (forceNew = false) => {
     if (!test) return;
     setStartingExam(true);
     try {
-      const attempt = await createAttempt({
-        test_set_id: test.id,
-        mode: "exam",
-      });
+      const attempt = await createAttempt(
+        { test_set_id: test.id, mode: "exam" },
+        { forceNew },
+      );
       router.push(`/exam/${attempt.id}`);
     } catch (err) {
       console.error("Failed to create exam attempt", err);
-      toast.error("创建考试失败，请重试");
+      toast.error(t("common.errors.createExamFailed"));
       setStartingExam(false);
     }
   };
@@ -578,13 +464,13 @@ export default function TestDetailPage() {
   if (!test) {
     return (
       <div className="py-16 text-center text-muted-foreground">
-        题套不存在或已删除
+        {t("testDetail.notFound")}
       </div>
     );
   }
 
   const backLink = (
-    <Breadcrumb items={[{ label: "题库", href: `/tests?tab=${test.type}` }, { label: test.name }]} />
+    <Breadcrumb items={[{ label: t("testDetail.breadcrumbTests"), href: `/tests?tab=${test.type}` }, { label: test.name }]} />
   );
 
   // Speaking type: show topics with ChatGPT buttons
@@ -600,16 +486,16 @@ export default function TestDetailPage() {
               <div className="flex-1">
                 <CardTitle className="text-xl">{test.name}</CardTitle>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <Badge variant="outline">口语</Badge>
+                  <Badge variant="outline">{t("testDetail.speakingBadge")}</Badge>
                   <Badge variant="outline">
-                    {isTache2 ? "Tâche 2 · 情景对话" : "Tâche 3 · 观点论述"}
+                    {isTache2 ? t("testDetail.speakingTache2") : t("testDetail.speakingTache3")}
                   </Badge>
-                  {test.is_free && <Badge variant="secondary">免费</Badge>}
+                  {test.is_free && <Badge variant="secondary">{t("common.status.free")}</Badge>}
                 </div>
                 <p className="mt-3 text-sm text-muted-foreground">
                   {isTache2
-                    ? "在角色扮演场景中提问和互动。复制 Prompt 后粘贴到你喜欢的 AI 工具进行对话练习。"
-                    : "就某个话题表达你的观点并论证。复制 Prompt 后粘贴到你喜欢的 AI 工具进行表达练习。"}
+                    ? t("testDetail.speakingDescTache2")
+                    : t("testDetail.speakingDescTache3")}
                 </p>
               </div>
             </div>
@@ -658,9 +544,9 @@ export default function TestDetailPage() {
               <CardTitle className="text-xl">{test.name}</CardTitle>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <Badge variant="outline">
-                  {test.type === "listening" ? "听力" : "阅读"}
+                  {test.type === "listening" ? t("common.types.listening") : t("common.types.reading")}
                 </Badge>
-                {test.is_free && <Badge variant="secondary">免费</Badge>}
+                {test.is_free && <Badge variant="secondary">{t("common.status.free")}</Badge>}
               </div>
             </div>
           </div>
@@ -670,49 +556,138 @@ export default function TestDetailPage() {
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="flex items-center gap-2 text-muted-foreground">
               <FileText className="h-4 w-4" />
-              <span>题目数量</span>
+              <span>{t("testDetail.questionCount")}</span>
             </div>
-            <div className="font-medium">{test.question_count} 题</div>
+            <div className="font-medium">{t("common.questions", { count: test.question_count })}</div>
 
             <div className="flex items-center gap-2 text-muted-foreground">
               <Clock className="h-4 w-4" />
-              <span>限时</span>
+              <span>{t("testDetail.timeLimit")}</span>
             </div>
-            <div className="font-medium">{test.time_limit_minutes} 分钟</div>
+            <div className="font-medium">{t("common.time.minutes", { minutes: test.time_limit_minutes })}</div>
           </div>
 
-          {/* Exam tips */}
-          <div className="mt-6 rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-1">
-            <p className="font-medium text-foreground text-sm">考前须知</p>
-            <ul className="list-disc pl-4 space-y-0.5">
-              <li>考试模式：计时进行，不可暂停；不显示即时答案；可标记题目稍后回顾</li>
-              <li>提交后显示成绩报告和 TCF 预估等级</li>
-              <li>练习模式：无时间限制，每题作答后立即显示正确答案和解析</li>
-            </ul>
+          {/* Exam tips — type-specific */}
+          <div className="mt-6 rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-3">
+            <div className="space-y-1">
+              <p className="font-medium text-foreground text-sm">
+                {test.type === "listening" ? t("testDetail.listeningExam") : t("testDetail.readingExam")}
+              </p>
+              <ul className="list-disc pl-4 space-y-0.5">
+                {test.type === "listening" ? (
+                  <>
+                    <li>{t("testDetail.listeningExamBullets.audioOnce")}</li>
+                    <li>{t("testDetail.listeningExamBullets.autoNext")}</li>
+                    <li>{t("testDetail.listeningExamBullets.timedCompletion", { minutes: test.time_limit_minutes, count: test.question_count })}</li>
+                  </>
+                ) : (
+                  <>
+                    <li>{t("testDetail.readingExamBullets.freeNav")}</li>
+                    <li>{t("testDetail.readingExamBullets.timedCompletion", { minutes: test.time_limit_minutes, count: test.question_count })}</li>
+                  </>
+                )}
+                <li>{test.type === "listening" ? t("testDetail.listeningExamBullets.showScore") : t("testDetail.readingExamBullets.showScore")}</li>
+              </ul>
+            </div>
+            <div className="space-y-1">
+              <p className="font-medium text-foreground text-sm">{t("testCard.practiceMode")}</p>
+              <ul className="list-disc pl-4 space-y-0.5">
+                <li>{t("testDetail.practiceBullets.replayAudio")}</li>
+                <li>{t("testDetail.practiceBullets.showAnswer")}</li>
+                <li>{t("testDetail.practiceBullets.wrongNote")}</li>
+              </ul>
+            </div>
           </div>
 
-          <div className="mt-4 flex gap-3">
+          {/* Suggestion card */}
+          <div className="mt-3 rounded-md border border-blue-200 bg-blue-50/50 p-3 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950/20 dark:text-blue-300">
+            {t("testDetail.suggestion")}
+          </div>
+
+          <div className="mt-4 space-y-3">
             {locked ? (
               <PaywallButton />
             ) : (
               <>
-                <Button
-                  className="flex-1"
-                  size="lg"
-                  onClick={handleStart}
-                  disabled={starting || startingExam}
-                >
-                  {starting ? "正在开始..." : "开始练习"}
-                </Button>
-                <Button
-                  className="flex-1"
-                  size="lg"
-                  variant="outline"
-                  onClick={handleStartExam}
-                  disabled={starting || startingExam}
-                >
-                  {startingExam ? "正在开始..." : "开始考试"}
-                </Button>
+                {/* Active practice resume card */}
+                {activePractice && activePractice.answered_count > 0 && (
+                  <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
+                    <p className="text-sm font-medium">
+                      {t("testDetail.practiceProgress", { answered: activePractice.answered_count, total: activePractice.total })}
+                    </p>
+                    <div className="mt-2 flex gap-2">
+                      <Button
+                        size="sm"
+                        onClick={() => handleStart(false)}
+                        disabled={starting || startingExam}
+                      >
+                        <Play className="mr-1.5 h-3.5 w-3.5" />
+                        {starting ? t("common.actions.starting") : t("testCard.continuePractice")}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleStart(true)}
+                        disabled={starting || startingExam}
+                      >
+                        <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                        {t("testDetail.restart")}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+                {/* Active exam resume card */}
+                {activeExam && activeExam.answered_count > 0 && (
+                  <div className="rounded-lg border border-orange-200 bg-orange-50/50 p-3 dark:border-orange-800 dark:bg-orange-950/20">
+                    <p className="text-sm font-medium">
+                      {t("testDetail.examProgress", { answered: activeExam.answered_count, total: activeExam.total })}
+                    </p>
+                    <div className="mt-2 flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleStartExam(false)}
+                        disabled={starting || startingExam}
+                      >
+                        <Play className="mr-1.5 h-3.5 w-3.5" />
+                        {startingExam ? t("common.actions.starting") : t("testCard.continueExam")}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleStartExam(true)}
+                        disabled={starting || startingExam}
+                      >
+                        <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                        {t("testDetail.restart")}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+                {/* Default buttons */}
+                <div className="flex gap-3">
+                  {!activePractice || activePractice.answered_count === 0 ? (
+                    <Button
+                      className="flex-1"
+                      size="lg"
+                      onClick={() => handleStart(false)}
+                      disabled={starting || startingExam}
+                    >
+                      {starting ? t("common.actions.starting") : t("testCard.startPractice")}
+                    </Button>
+                  ) : null}
+                  {!activeExam || activeExam.answered_count === 0 ? (
+                    <Button
+                      className="flex-1"
+                      size="lg"
+                      variant="outline"
+                      onClick={() => handleStartExam(false)}
+                      disabled={starting || startingExam}
+                    >
+                      {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
+                    </Button>
+                  ) : null}
+                </div>
               </>
             )}
           </div>

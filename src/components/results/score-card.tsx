@@ -3,14 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, CheckCircle2 } from "lucide-react";
-import { getEstimatedTcfLevel } from "@/lib/tcf-levels";
+import { getEstimatedTcfLevel, TCF_MAX_SCORE } from "@/lib/tcf-levels";
 import { cn, formatTime } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface ScoreCardProps {
   score: number;
   total: number;
   answeredCount?: number;
   timeTakenSeconds?: number | null;
+  tcfPoints?: number;
 }
 
 function useCountUp(target: number, duration = 1200): number {
@@ -93,10 +95,19 @@ export function ScoreCard({
   total,
   answeredCount,
   timeTakenSeconds,
+  tcfPoints,
 }: ScoreCardProps) {
-  const pct = total > 0 ? Math.round((score / total) * 100) : 0;
-  const tcf = getEstimatedTcfLevel(score, total);
-  const displayScore = useCountUp(score, 1400);
+  const t = useTranslations();
+  const isPointBased = tcfPoints != null;
+  const pct = isPointBased
+    ? Math.round((tcfPoints / TCF_MAX_SCORE) * 100)
+    : total > 0
+      ? Math.round((score / total) * 100)
+      : 0;
+  const tcf = isPointBased
+    ? getEstimatedTcfLevel(tcfPoints)
+    : getEstimatedTcfLevel(0);
+  const displayTcf = useCountUp(isPointBased ? tcfPoints : score, 1400);
   const displayPct = useCountUp(pct, 1400);
 
   return (
@@ -107,42 +118,58 @@ export function ScoreCard({
         <div className="relative flex items-center justify-center">
           <CircularProgress value={pct} />
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <div className="text-4xl font-bold leading-none">
-              {displayScore}
-              <span className="text-lg text-muted-foreground">/{total}</span>
-            </div>
-            <div className="mt-1 text-sm text-muted-foreground">
-              {displayPct}%
-            </div>
+            {isPointBased ? (
+              <>
+                <div className="text-4xl font-bold leading-none">
+                  {displayTcf}
+                  <span className="text-lg text-muted-foreground">/{TCF_MAX_SCORE}</span>
+                </div>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  {displayPct}%
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="text-4xl font-bold leading-none">
+                  {displayTcf}
+                  <span className="text-lg text-muted-foreground">/{total}</span>
+                </div>
+                <div className="mt-1 text-sm text-muted-foreground">
+                  {displayPct}%
+                </div>
+              </>
+            )}
           </div>
         </div>
 
         {/* Level badge — pops in after count-up */}
-        <div
-          className={cn(
-            "mt-4 opacity-0 scale-75 transition-all duration-500 ease-out",
-            "animate-badge-pop",
-          )}
-        >
-          <span
-            className={`inline-block rounded-full px-4 py-1.5 text-sm font-semibold ${tcf.color} ${tcf.bgColor}`}
+        {isPointBased && (
+          <div
+            className={cn(
+              "mt-4 opacity-0 scale-75 transition-all duration-500 ease-out",
+              "animate-badge-pop",
+            )}
           >
-            {tcf.level} · {tcf.description}
-          </span>
-        </div>
+            <span
+              className={`inline-block rounded-full px-4 py-1.5 text-sm font-semibold ${tcf.color} ${tcf.bgColor}`}
+            >
+              {tcf.level} · {t(`tcfLevels.${tcf.level}.description`)}
+            </span>
+          </div>
+        )}
 
         {/* Meta info */}
         <div className="mt-4 flex items-center gap-6 text-sm text-muted-foreground">
           {answeredCount != null && (
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="h-4 w-4" />
-              已答 {answeredCount}/{total} 题
+              {t('results.scoreCard.answered', { score, total })}
             </span>
           )}
           {timeTakenSeconds != null && timeTakenSeconds > 0 && (
             <span className="flex items-center gap-1.5">
               <Clock className="h-4 w-4" />
-              用时 {formatTime(timeTakenSeconds)}
+              {t('results.scoreCard.timeUsed', { time: formatTime(timeTakenSeconds) })}
             </span>
           )}
         </div>

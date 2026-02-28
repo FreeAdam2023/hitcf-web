@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
 import type { DailyPracticeItem } from "@/lib/api/types";
 
 interface DailyPracticeChartProps {
@@ -17,16 +18,17 @@ interface DailyPracticeChartProps {
 }
 
 export function DailyPracticeChart({ data }: DailyPracticeChartProps) {
+  const t = useTranslations();
   const hasAny = data.some((d) => d.count > 0);
   if (!hasAny) {
     return (
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-base">每日练习量</CardTitle>
+          <CardTitle className="text-base">{t("dashboard.charts.dailyPractice")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex h-[200px] items-center justify-center text-sm text-muted-foreground">
-            完成练习后显示每日练习量
+            {t("dashboard.charts.dailyPracticeEmpty")}
           </div>
         </CardContent>
       </Card>
@@ -48,7 +50,7 @@ export function DailyPracticeChart({ data }: DailyPracticeChartProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base">每日练习量</CardTitle>
+        <CardTitle className="text-base">{t("dashboard.charts.dailyPractice")}</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
@@ -74,7 +76,7 @@ export function DailyPracticeChart({ data }: DailyPracticeChartProps) {
                 }
                 return "";
               }}
-              formatter={(value) => [`${value} 次`, "练习次数"]}
+              formatter={(value) => [t("dashboard.charts.dailyTooltip", { value: String(value) }), t("dashboard.charts.dailyLabel")]}
             />
             <Bar
               dataKey="count"

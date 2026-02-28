@@ -7,10 +7,12 @@ import { Button } from "@/components/ui/button";
 import { listAttempts } from "@/lib/api/attempts";
 import { listTestSets } from "@/lib/api/test-sets";
 import { createAttempt } from "@/lib/api/attempts";
+import { useTranslations } from "next-intl";
 
 const DISMISS_KEY = "placement-banner-dismissed";
 
 export function PlacementBanner() {
+  const t = useTranslations();
   const router = useRouter();
   const [show, setShow] = useState(false);
   const [firstFreeId, setFirstFreeId] = useState<string | null>(null);
@@ -67,7 +69,7 @@ export function PlacementBanner() {
     <div className="relative mb-6 overflow-hidden rounded-xl border-2 border-primary/30 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-6 text-center">
       <button
         onClick={handleDismiss}
-        aria-label="关闭"
+        aria-label={t('common.actions.close')}
         className="absolute right-3 top-3 rounded-full p-1 text-muted-foreground/60 hover:bg-muted hover:text-muted-foreground"
       >
         <X className="h-4 w-4" />
@@ -76,17 +78,17 @@ export function PlacementBanner() {
         <Zap className="h-6 w-6 text-primary" />
       </div>
       <h2 className="mt-3 text-lg font-bold">
-        测一测你的 CLB 水平
+        {t('placementBanner.title')}
       </h2>
       <p className="mt-1.5 text-sm text-muted-foreground">
-        做一套免费听力真题，2 分钟后告诉你离 CLB 7 还差多远
+        {t('placementBanner.description')}
       </p>
       <Button
         className="mt-4"
         onClick={handleStart}
         disabled={loading}
       >
-        {loading ? "正在准备..." : "立即测试"}
+        {loading ? t('placementBanner.preparing') : t('placementBanner.startTest')}
       </Button>
     </div>
   );
