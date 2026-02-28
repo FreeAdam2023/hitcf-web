@@ -12,6 +12,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { AudioPlayer } from "@/components/practice/audio-player";
+import { FrenchText } from "@/components/practice/french-text";
 import { OptionList } from "@/components/practice/option-list";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { getWrongAnswerDetail } from "@/lib/api/wrong-answers";
@@ -171,13 +172,15 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
                 {/* 4. Context: passage + question text */}
                 {q.passage && (
                   <div className="rounded-lg bg-muted/50 p-3">
-                    <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
-                      {q.passage}
-                    </p>
+                    <div className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+                      <FrenchText text={q.passage} />
+                    </div>
                   </div>
                 )}
                 {q.question_text && (
-                  <p className="text-sm font-medium">{q.question_text}</p>
+                  <p className="text-sm font-medium">
+                    <FrenchText text={q.question_text} />
+                  </p>
                 )}
 
                 {/* 5. Transcript */}
@@ -186,7 +189,7 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
                     <p className="mb-1 text-xs font-medium text-muted-foreground">
                       {t("wrongAnswers.card.transcript")}
                     </p>
-                    <p className="whitespace-pre-line text-sm">{q.transcript}</p>
+                    <div className="whitespace-pre-line text-sm"><FrenchText text={q.transcript} /></div>
                   </div>
                 )}
 

@@ -964,5 +964,13 @@
       "closing.toSum": "总而言之",
       "closing.allConsidered": "总的来说"
     }
+  },
+  "consigneTranslation": {
+    "showTranslation": "显示翻译",
+    "hideTranslation": "隐藏翻译",
+    "loading": "翻译中…",
+    "translationLabel": "题目翻译",
+    "passageLabel": "参考文档翻译",
+    "fetchError": "翻译加载失败，请重试"
   }
 }

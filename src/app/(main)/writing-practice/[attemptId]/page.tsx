@@ -23,6 +23,7 @@ import { AccentToolbar } from "@/components/writing/accent-toolbar";
 import { FrenchText } from "@/components/practice/french-text";
 import { WritingGuidePanel } from "@/components/writing/writing-guide-panel";
 import { ExpressionsDrawer } from "@/components/writing/expressions-drawer";
+import { ConsigneTranslationToggle } from "@/components/writing/consigne-translation";
 import { getWritingAttempt } from "@/lib/api/writing-attempts";
 import { saveWritingEssays } from "@/lib/api/writing-attempts";
 import { getTestSetQuestions, getTestSet } from "@/lib/api/test-sets";
@@ -262,6 +263,8 @@ export default function WritingPracticePage() {
               </div>
             </div>
           )}
+
+          {task && <ConsigneTranslationToggle key={task.id} questionId={task.id} />}
 
           <WritingGuidePanel taskNumber={taskNum} />
         </div>

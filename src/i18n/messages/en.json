@@ -964,5 +964,13 @@
       "closing.toSum": "To conclude",
       "closing.allConsidered": "All things considered"
     }
+  },
+  "consigneTranslation": {
+    "showTranslation": "Show Translation",
+    "hideTranslation": "Hide Translation",
+    "loading": "Translating…",
+    "translationLabel": "Translated Instructions",
+    "passageLabel": "Translated Reference Document",
+    "fetchError": "Failed to load translation. Please try again."
   }
 }

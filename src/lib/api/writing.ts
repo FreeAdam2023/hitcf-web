@@ -24,3 +24,19 @@ export function getWritingSubmissions(
     options,
   );
 }
+
+export interface ConsigneTranslation {
+  question_text: string | null;
+  passage: string | null;
+}
+
+export function getConsigneTranslation(
+  questionId: string,
+  locale: string = "zh",
+  options?: RequestOptions,
+): Promise<ConsigneTranslation> {
+  return get<ConsigneTranslation>(
+    `/api/writing/consigne-translation/${questionId}?locale=${locale}`,
+    options,
+  );
+}
