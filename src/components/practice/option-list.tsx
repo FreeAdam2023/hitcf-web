@@ -99,7 +99,8 @@ export function OptionList({
               !isExam && isSelected && !isWrong && !isCorrect && "border-primary bg-accent",
             )}
             onClick={() => !locked && !disabled && onSelect(opt.key)}
-            disabled={locked || disabled}
+            disabled={disabled}
+            aria-disabled={locked || disabled}
           >
             <span
               className={cn(
