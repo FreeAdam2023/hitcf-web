@@ -20,6 +20,9 @@ import { Separator } from "@/components/ui/separator";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { AccentToolbar } from "@/components/writing/accent-toolbar";
+import { FrenchText } from "@/components/practice/french-text";
+import { WritingGuidePanel } from "@/components/writing/writing-guide-panel";
+import { ExpressionsDrawer } from "@/components/writing/expressions-drawer";
 import { getWritingAttempt } from "@/lib/api/writing-attempts";
 import { saveWritingEssays } from "@/lib/api/writing-attempts";
 import { getTestSetQuestions, getTestSet } from "@/lib/api/test-sets";
@@ -247,7 +250,7 @@ export default function WritingPracticePage() {
             Consigne
           </h3>
           <div className="prose prose-sm max-w-none text-sm leading-relaxed whitespace-pre-line">
-            {task?.question_text}
+            <FrenchText text={task?.question_text ?? ""} />
           </div>
           {task?.passage && (
             <div className="mt-3 rounded-md bg-muted/50 p-3">
@@ -255,10 +258,12 @@ export default function WritingPracticePage() {
                 {t("writingExam.referenceDocuments")}
               </p>
               <div className="whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
-                {task.passage}
+                <FrenchText text={task.passage} />
               </div>
             </div>
           )}
+
+          <WritingGuidePanel taskNumber={taskNum} />
         </div>
 
         {/* Right: Editor + Feedback */}
@@ -272,7 +277,10 @@ export default function WritingPracticePage() {
             disabled={isGrading}
           />
 
-          <AccentToolbar textareaRef={textareaRef} />
+          <div className="flex items-center gap-2">
+            <AccentToolbar textareaRef={textareaRef} className="flex-1" />
+            <ExpressionsDrawer taskNumber={taskNum} textareaRef={textareaRef} />
+          </div>
 
           {/* Word count + Grade button */}
           <div className="flex items-center justify-between">
@@ -379,9 +387,9 @@ export default function WritingPracticePage() {
                     {feedback.corrections.map((c, i) => (
                       <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
                         <div className="flex items-start gap-1.5">
-                          <span className="line-through text-red-500">{c.original}</span>
+                          <span className="line-through text-red-500"><FrenchText text={c.original} /></span>
                           <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
-                          <span className="font-medium text-green-600">{c.corrected}</span>
+                          <span className="font-medium text-green-600"><FrenchText text={c.corrected} /></span>
                         </div>
                         <p className="mt-1 text-muted-foreground">{c.explanation}</p>
                       </div>
@@ -401,9 +409,9 @@ export default function WritingPracticePage() {
                     {feedback.vocab_suggestions.map((v, i) => (
                       <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
                         <div className="flex items-start gap-1.5">
-                          <span className="text-muted-foreground">{v.original}</span>
+                          <span className="text-muted-foreground"><FrenchText text={v.original} /></span>
                           <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
-                          <span className="font-medium text-blue-600">{v.suggestion}</span>
+                          <span className="font-medium text-blue-600"><FrenchText text={v.suggestion} /></span>
                         </div>
                         <p className="mt-1 text-muted-foreground">{v.reason}</p>
                       </div>

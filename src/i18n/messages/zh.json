@@ -861,5 +861,107 @@
   },
   "writingPractice": {
     "title": "写作练习"
+  },
+  "writingGuide": {
+    "title": "写作指南",
+    "format": "格式要求",
+    "register": "语域提醒",
+    "structure": "写作结构",
+    "connectors": "常用连接词",
+    "wordTarget": "字数目标",
+    "task1": {
+      "format": "电子邮件/信件/留言，写给指定收件人。包含问候语和结束语。",
+      "register": "根据 consigne 判断使用 tu（朋友/同事）或 vous（正式/陌生人）。",
+      "steps": [
+        "问候语（Cher/Chère…, Bonjour…）",
+        "说明目的（Je vous écris pour…）",
+        "提供所需信息/细节",
+        "结束语（Cordialement, Amicalement…）"
+      ],
+      "words": "60-120 词（A2-B1 水平）"
+    },
+    "task2": {
+      "format": "文章、信函或短文，面向多位读者。讲述经历并附评论/观点。",
+      "register": "一般使用 vous 或无人称结构。正式但不过度学术化。",
+      "steps": [
+        "引言 — 引出话题",
+        "正文 — 叙述+评论/观点（2-3 段）",
+        "结论 — 总结立场"
+      ],
+      "words": "120-150 词（B1-B2 水平）"
+    },
+    "task3": {
+      "format": "发表在期刊/网站上的分析文章。基于两份观点对立的参考文档。",
+      "register": "正式学术语域。使用 on、il est + adj. que 等无人称结构。",
+      "steps": [
+        "第一部分（40-60 词）：概括两份文档的对立观点",
+        "第二部分（80-120 词）：阐述个人立场 + 论据支撑"
+      ],
+      "words": "120-180 词（B2-C1 水平）"
+    }
+  },
+  "expressionsDrawer": {
+    "trigger": "常用表达",
+    "title": "常用法语表达",
+    "subtitle": "点击即可插入到光标位置",
+    "categories": {
+      "greeting": "问候",
+      "opening": "开头",
+      "connector": "连接",
+      "opinion": "观点",
+      "closing": "结尾"
+    },
+    "notes": {
+      "greeting.dear": "亲爱的…",
+      "greeting.hello": "你好…",
+      "greeting.formal": "正式称呼",
+      "opening.writeTo": "我写信是为了…",
+      "opening.contactFor": "冒昧联系您是为了…",
+      "opening.followingAd": "看到您的广告后…",
+      "opening.wouldLike": "我想要…",
+      "opening.talkAbout": "我想跟你聊聊…",
+      "opening.fewDaysAgo": "几天前…",
+      "opening.recently": "最近我有机会…",
+      "opening.heartfelt": "这是我很关心的话题",
+      "opening.opposingViews": "两份文档对…持相反观点",
+      "opening.firstDoc": "根据第一份文档…",
+      "opening.secondDoc": "第二份文档认为…",
+      "opening.accordingTo": "据作者所说…",
+      "connector.moreover": "此外",
+      "connector.indeed": "的确",
+      "connector.furthermore": "另外",
+      "connector.thatIsWhy": "因此",
+      "connector.however": "然而",
+      "connector.onTheOtherHand": "相反",
+      "connector.onOneHand": "一方面…另一方面",
+      "connector.forExample": "例如",
+      "connector.despite": "尽管如此",
+      "connector.nevertheless": "尽管如此",
+      "connector.nonetheless": "不过",
+      "connector.consequently": "因此",
+      "connector.regarding": "关于…",
+      "connector.mustNote": "不得不承认",
+      "connector.undeniable": "不可否认的是",
+      "opinion.inMyOpinion": "在我看来",
+      "opinion.iConsider": "我认为",
+      "opinion.itSeemsToMe": "我觉得",
+      "opinion.convinced": "我深信",
+      "opinion.personally": "就我个人而言",
+      "opinion.iMaintain": "至于我，我主张",
+      "opinion.obvious": "显然",
+      "opinion.cannotDeny": "不能否认",
+      "opinion.worthNoting": "值得强调的是",
+      "closing.thankYou": "提前感谢您",
+      "closing.awaitReply": "期待您的回复",
+      "closing.regards": "此致敬礼",
+      "closing.friendly": "友好地",
+      "closing.seeYou": "回见",
+      "closing.inConclusion": "总之",
+      "closing.forAllReasons": "基于以上原因",
+      "closing.ultimately": "归根结底",
+      "closing.inSummary": "综上所述",
+      "closing.toSum": "总而言之",
+      "closing.allConsidered": "总的来说"
+    }
   }
 }

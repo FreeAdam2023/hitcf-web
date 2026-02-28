@@ -861,5 +861,107 @@
   },
   "writingPractice": {
     "title": "Writing Practice"
+  },
+  "writingGuide": {
+    "title": "Writing Guide",
+    "format": "Format",
+    "register": "Register",
+    "structure": "Structure",
+    "connectors": "Useful Connectors",
+    "wordTarget": "Word Count Target",
+    "task1": {
+      "format": "Email/letter/note to a specific recipient. Include greeting and closing.",
+      "register": "Use tu (friend/colleague) or vous (formal/stranger) based on the consigne.",
+      "steps": [
+        "Greeting (Cher/Chère…, Bonjour…)",
+        "State your purpose (Je vous écris pour…)",
+        "Provide required information/details",
+        "Closing (Cordialement, Amicalement…)"
+      ],
+      "words": "60-120 words (A2-B1 level)"
+    },
+    "task2": {
+      "format": "Article, letter, or short essay for multiple readers. Recount an experience with commentary/opinions.",
+      "register": "Generally use vous or impersonal structures. Formal but not overly academic.",
+      "steps": [
+        "Introduction — present the topic",
+        "Body — narrative + commentary/opinions (2-3 paragraphs)",
+        "Conclusion — summarize your position"
+      ],
+      "words": "120-150 words (B1-B2 level)"
+    },
+    "task3": {
+      "format": "Analytical article for a journal/website. Based on two documents with opposing viewpoints.",
+      "register": "Formal academic register. Use on, il est + adj. que, and other impersonal structures.",
+      "steps": [
+        "Part 1 (40-60 words): Summarize the opposing viewpoints of both documents",
+        "Part 2 (80-120 words): Present your position with supporting arguments"
+      ],
+      "words": "120-180 words (B2-C1 level)"
+    }
+  },
+  "expressionsDrawer": {
+    "trigger": "Expressions",
+    "title": "Common French Expressions",
+    "subtitle": "Click to insert at cursor position",
+    "categories": {
+      "greeting": "Greeting",
+      "opening": "Opening",
+      "connector": "Connectors",
+      "opinion": "Opinion",
+      "closing": "Closing"
+    },
+    "notes": {
+      "greeting.dear": "Dear…",
+      "greeting.hello": "Hello…",
+      "greeting.formal": "Formal address",
+      "opening.writeTo": "I'm writing to…",
+      "opening.contactFor": "I'm reaching out to…",
+      "opening.followingAd": "Following your ad…",
+      "opening.wouldLike": "I would like…",
+      "opening.talkAbout": "I'd like to tell you about…",
+      "opening.fewDaysAgo": "A few days ago…",
+      "opening.recently": "Recently I had the chance to…",
+      "opening.heartfelt": "A topic close to my heart",
+      "opening.opposingViews": "Two documents with opposing views on…",
+      "opening.firstDoc": "According to the first document…",
+      "opening.secondDoc": "The second document states that…",
+      "opening.accordingTo": "According to the author…",
+      "connector.moreover": "Moreover",
+      "connector.indeed": "Indeed",
+      "connector.furthermore": "Furthermore",
+      "connector.thatIsWhy": "That is why",
+      "connector.however": "However",
+      "connector.onTheOtherHand": "On the other hand",
+      "connector.onOneHand": "On one hand… on the other hand",
+      "connector.forExample": "For example",
+      "connector.despite": "Despite this",
+      "connector.nevertheless": "Nevertheless",
+      "connector.nonetheless": "Nonetheless",
+      "connector.consequently": "Consequently",
+      "connector.regarding": "Regarding…",
+      "connector.mustNote": "One must note that",
+      "connector.undeniable": "It is undeniable that",
+      "opinion.inMyOpinion": "In my opinion",
+      "opinion.iConsider": "I consider that",
+      "opinion.itSeemsToMe": "It seems to me that",
+      "opinion.convinced": "I am convinced that",
+      "opinion.personally": "Personally, I think that",
+      "opinion.iMaintain": "As for me, I maintain that",
+      "opinion.obvious": "It is obvious that",
+      "opinion.cannotDeny": "One cannot deny that",
+      "opinion.worthNoting": "It is worth noting that",
+      "closing.thankYou": "Thank you in advance",
+      "closing.awaitReply": "Awaiting your reply",
+      "closing.regards": "Best regards",
+      "closing.friendly": "In a friendly manner",
+      "closing.seeYou": "See you soon",
+      "closing.inConclusion": "In conclusion",
+      "closing.forAllReasons": "For all these reasons",
+      "closing.ultimately": "Ultimately",
+      "closing.inSummary": "In summary",
+      "closing.toSum": "To conclude",
+      "closing.allConsidered": "All things considered"
+    }
   }
 }
