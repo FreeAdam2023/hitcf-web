@@ -353,6 +353,7 @@
     },
     "session": {
       "tabTranscript": "Transcript",
+      "passageTranslation": "Sentence Translation",
       "exitWarning": "Practice in progress. Please use the \"Complete Practice\" button to exit.",
       "confirmAnswer": "Confirm Answer",
       "answerCorrect": "✓ Correct!",

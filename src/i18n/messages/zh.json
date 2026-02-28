@@ -353,6 +353,7 @@
     },
     "session": {
       "tabTranscript": "原文",
+      "passageTranslation": "逐句翻译",
       "exitWarning": "练习进行中，请通过「完成练习」按钮退出",
       "confirmAnswer": "确认答案",
       "answerCorrect": "✓ 回答正确",

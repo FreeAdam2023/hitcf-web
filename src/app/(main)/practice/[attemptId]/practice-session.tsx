@@ -21,6 +21,16 @@ import { ReportDialog } from "@/components/practice/report-dialog";
 import { FrenchText } from "@/components/practice/french-text";
 import type { Explanation, QuestionBrief } from "@/lib/api/types";
 
+/** Strip leading key prefix from option translation text (e.g. "a happy birthday" → "happy birthday") */
+function stripKeyPrefix(text: string, key: string): string {
+  const lower = key.toLowerCase();
+  const upper = key.toUpperCase();
+  for (const prefix of [`${upper}. `, `${lower}. `, `${upper} `, `${lower} `]) {
+    if (text.startsWith(prefix)) return text.slice(prefix.length);
+  }
+  return text;
+}
+
 /** Transcript block: sentence-by-sentence trilingual cards (FR / EN bridge / Native) */
 function TranscriptBlock({
   question,
@@ -42,6 +52,7 @@ function TranscriptBlock({
   locale: string;
 }) {
   const isListening = question.type === "listening";
+  const isReading = question.type === "reading";
   const hasTranscript = !!question.transcript;
   // Show options in transcript for listening Q1-10 only when real French text exists
   const showTranscriptOptions =
@@ -52,10 +63,13 @@ function TranscriptBlock({
       (o) => o.text && o.text.length > 2 && !o.text.startsWith("Proposition"),
     );
 
-  if (!hasTranscript && !showTranscriptOptions) return null;
-
   const sentences = explanation?.sentence_translation;
   const optTrans = explanation?.option_translations;
+
+  // Reading: only show when sentence translations are available
+  if (isReading && (!sentences || sentences.length === 0)) return null;
+  // Listening: show when transcript or options exist
+  if (!isReading && !hasTranscript && !showTranscriptOptions) return null;
 
   return (
     <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300 max-h-[40vh] overflow-y-auto scrollbar-on-hover">
@@ -94,30 +108,67 @@ function TranscriptBlock({
 
       {/* Sentence-by-sentence trilingual cards */}
       {sentences && sentences.length > 0 ? (
-        <div className="space-y-2">
-          {sentences.map((s, i) => {
-            const nativeText = s.native || s.zh;
-            return (
-              <div key={i} className="space-y-0.5">
-                <p className="font-medium leading-relaxed text-foreground">
-                  <FrenchText text={s.fr} />
-                </p>
-                {/* EN bridge (hidden for EN-native users since native toggle covers it) */}
-                {locale !== "en" && showEn && s.en && (
-                  <p className="leading-relaxed text-blue-600 dark:text-blue-400">
-                    {s.en}
-                  </p>
-                )}
-                {/* Native translation */}
-                {showNative && nativeText && (
-                  <p className="leading-relaxed text-emerald-600 dark:text-emerald-400">
-                    {nativeText}
-                  </p>
-                )}
-              </div>
-            );
-          })}
-        </div>
+        (() => {
+          // Detect if ALL sentences are option-format (e.g. "a joyeux anniversaire")
+          const optPattern = /^([a-dA-D])[\.\s]+(.+)$/;
+          const isOptionFormat = sentences.every((s) => optPattern.test(s.fr.trim()));
+
+          return isOptionFormat ? (
+            <div className="space-y-3">
+              {sentences.map((s, i) => {
+                const match = s.fr.trim().match(optPattern)!;
+                const key = match[1].toUpperCase();
+                const frText = match[2];
+                const nativeText = s.native || s.zh;
+                return (
+                  <div key={i} className="space-y-0.5">
+                    <p className="font-medium leading-relaxed text-foreground">
+                      {key}. <FrenchText text={frText} />
+                    </p>
+                    {locale !== "en" && showEn && s.en && (
+                      <p className="pl-6 leading-relaxed text-blue-600 dark:text-blue-400">
+                        {stripKeyPrefix(s.en, key)}
+                      </p>
+                    )}
+                    {showNative && nativeText && (
+                      <p className="pl-6 leading-relaxed text-emerald-600 dark:text-emerald-400">
+                        {stripKeyPrefix(nativeText, key)}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {sentences.map((s, i) => {
+                const nativeText = s.native || s.zh;
+                const isKey = isReading && s.is_key;
+                return (
+                  <div
+                    key={i}
+                    className={`space-y-0.5${isKey ? " rounded-md bg-amber-50/60 px-2 py-1 dark:bg-amber-950/20" : ""}`}
+                  >
+                    <p className="font-medium leading-relaxed text-foreground">
+                      <FrenchText text={s.fr} />
+                      {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400">★</span>}
+                    </p>
+                    {locale !== "en" && showEn && s.en && (
+                      <p className="leading-relaxed text-blue-600 dark:text-blue-400">
+                        {s.en}
+                      </p>
+                    )}
+                    {showNative && nativeText && (
+                      <p className="leading-relaxed text-emerald-600 dark:text-emerald-400">
+                        {nativeText}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })()
       ) : hasTranscript ? (
         /* Fallback: raw transcript before explanation loads */
         <p className="whitespace-pre-wrap leading-relaxed text-foreground">
@@ -128,21 +179,25 @@ function TranscriptBlock({
       {/* Options: vertical with indented EN/ZH */}
       {showTranscriptOptions && (
         <div className={sentences || hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
-          <div className="space-y-2">
+          <div className="space-y-3">
             {question.options.map((opt) => {
               const tr = optTrans?.[opt.key];
               const optNative = tr?.native || tr?.zh;
               const hasRealText = opt.text && opt.text.length > 2 && !opt.text.startsWith("Proposition");
               return (
-                <div key={opt.key}>
+                <div key={opt.key} className="space-y-0.5">
                   <p className="font-medium text-foreground">
-                    {opt.key}. {hasRealText && <FrenchText text={opt.text} />}
+                    {opt.key.toUpperCase()}. {hasRealText && <FrenchText text={opt.text} />}
                   </p>
                   {locale !== "en" && showEn && tr?.en && (
-                    <p className="pl-5 text-blue-600 dark:text-blue-400">{tr.en}</p>
+                    <p className="pl-6 text-blue-600 dark:text-blue-400">
+                      {stripKeyPrefix(tr.en, opt.key)}
+                    </p>
                   )}
                   {showNative && optNative && (
-                    <p className="pl-5 text-emerald-600 dark:text-emerald-400">{optNative}</p>
+                    <p className="pl-6 text-emerald-600 dark:text-emerald-400">
+                      {stripKeyPrefix(optNative, opt.key)}
+                    </p>
                   )}
                 </div>
               );
@@ -480,9 +535,22 @@ export function PracticeSession() {
           </Button>
         </div>
 
-        {/* 听力原文（导航按钮下方，内容可滚动） */}
-        {currentAnswer && question.type === "listening" && (
-          <TranscriptBlock question={question} explanation={explanation} showEn={showEn} showNative={showNative} onToggleEn={toggleEn} onToggleNative={toggleNative} transcriptLabel={t("practice.session.tabTranscript")} locale={locale} />
+        {/* 听力原文 / 阅读逐句翻译（导航按钮下方，内容可滚动） */}
+        {currentAnswer && (question.type === "listening" || question.type === "reading") && (
+          <TranscriptBlock
+            question={question}
+            explanation={explanation}
+            showEn={showEn}
+            showNative={showNative}
+            onToggleEn={toggleEn}
+            onToggleNative={toggleNative}
+            transcriptLabel={
+              question.type === "listening"
+                ? t("practice.session.tabTranscript")
+                : t("practice.session.passageTranslation")
+            }
+            locale={locale}
+          />
         )}
 
         {/* 移动端：解析面板 */}
