@@ -58,7 +58,7 @@ function TranscriptBlock({
   const optTrans = explanation?.option_translations;
 
   return (
-    <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300 max-h-[40vh] overflow-y-auto scrollbar-thin">
+    <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300 max-h-[40vh] overflow-y-auto scrollbar-hidden">
       <div className="mb-2 flex items-center justify-between">
         <h4 className="flex items-center gap-1.5 font-medium">
           <FileText className="h-4 w-4" />
@@ -374,7 +374,7 @@ export function PracticeSession() {
   return (
     <div className="grid gap-6 lg:grid-cols-[200px_1fr_320px] h-full overflow-hidden">
       {/* 左侧：题号导航 (桌面) */}
-      <div className="hidden lg:block overflow-y-auto scrollbar-thin">
+      <div className="hidden lg:block overflow-y-auto scrollbar-hidden">
         <div className="py-3">
           <QuestionNavigator
             total={questions.length}
@@ -503,7 +503,7 @@ export function PracticeSession() {
       </div>
 
       {/* 右侧：解析面板 (桌面) */}
-      <div className="hidden lg:block overflow-y-auto scrollbar-thin">
+      <div className="hidden lg:block overflow-y-auto scrollbar-hidden">
         <div className="space-y-3">
           {currentAnswer ? (
             <ExplanationPanel
