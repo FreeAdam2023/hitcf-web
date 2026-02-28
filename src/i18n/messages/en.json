@@ -121,33 +121,33 @@
       "register": "Sign up free",
       "invalidCredentials": "Invalid email or password",
       "invalidEmail": "Please enter a valid email address",
-      "genericError": "Login failed. Please try again later."
+      "genericError": "Login failed. Please try again later.",
+      "googleLogin": "Continue with Google",
+      "orDivider": "or"
     },
     "register": {
-      "emailStep": { "title": "Create Account", "desc": "Enter your email to get started" },
-      "codeStep": { "title": "Verify Email", "desc": "" },
-      "passwordStep": { "title": "Set Password", "desc": "Last step — complete your registration" },
-      "invalidEmail": "Please enter a valid email address",
-      "sendFailed": "Failed to send. Please try again later.",
-      "verifyFailed": "Verification failed. Please try again later.",
-      "passwordMinLength": "Password must be at least 8 characters",
-      "nameRequired": "Please enter your name",
-      "registerFailed": "Registration failed. Please try again later.",
-      "resendFailed": "Failed to send. Please try again later.",
-      "codeSent": "Verification code sent to {email}",
+      "title": "Create Account",
+      "subtitle": "Start practicing TCF Canada",
+      "googleRegister": "Continue with Google",
+      "orDivider": "or",
       "emailLabel": "Email",
-      "sending": "Sending...",
-      "sendCode": "Send Code",
-      "codeLabel": "6-digit code",
-      "verifying": "Verifying...",
-      "verify": "Verify",
-      "resend": "Didn't receive it? Resend",
-      "nameLabel": "Name",
-      "namePlaceholder": "Your name",
       "passwordLabel": "Password",
       "passwordPlaceholder": "At least 8 characters",
-      "registering": "Signing up...",
-      "complete": "Complete Registration",
+      "createAccount": "Create Account",
+      "creating": "Creating...",
+      "verifyTitle": "Verify Email",
+      "verifySentTo": "Enter the code sent to {email}",
+      "verifyButton": "Verify & Complete",
+      "verifying": "Verifying...",
+      "resend": "Didn't receive it? Resend",
+      "resendFailed": "Failed to send. Please try again later.",
+      "invalidEmail": "Please enter a valid email address",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "registerFailed": "Registration failed. Please try again later.",
+      "verifyFailed": "Verification failed. Please try again later.",
+      "strengthWeak": "Weak",
+      "strengthMedium": "Medium",
+      "strengthStrong": "Strong",
       "hasAccount": "Already have an account?",
       "login": "Log In"
     },
@@ -185,7 +185,11 @@
     "layout": {
       "tagline": "Reach CLB 7 through practice",
       "description1": "8,500+ TCF Canada questions covering listening, reading, speaking, and writing.",
-      "description2": "Systematic preparation — pass with confidence, not luck."
+      "description2": "Systematic preparation — pass with confidence, not luck.",
+      "stat1": "8,500+ questions",
+      "stat2": "1,297 test sets",
+      "stat3": "All 4 sections",
+      "trustLine": "Free to try"
     }
   },
   "tests": {
@@ -630,7 +634,7 @@
     "title": "Wrong Answer Notebook",
     "subtitle": "Track weak points and improve systematically",
     "generating": "Generating...",
-    "practiceFromWrong": "Practice Wrong Answers",
+    "practiceFromWrong": "Practice {count} Questions",
     "filters": {
       "allTypes": "All Types",
       "allStatus": "All Status",
@@ -638,12 +642,17 @@
       "mastered": "Mastered",
       "recentWrong": "Most Recent",
       "mostWrong": "Most Wrong",
-      "byLevel": "By Level"
+      "byLevel": "By Level",
+      "hideUnmastered": "Hide mastered"
     },
     "stats": {
       "total": "Total",
       "mastered": "Mastered",
       "unmastered": "Unmastered"
+    },
+    "progress": {
+      "title": "Mastery Progress",
+      "masteredOf": "{mastered} / {total} mastered"
     },
     "empty": {
       "title": "No wrong answers yet",
@@ -657,6 +666,7 @@
       "wrongCount": "Wrong {count}x",
       "mastered": "Mastered",
       "markMastered": "Mark Mastered",
+      "understoodIt": "I understood this question",
       "loading": "Loading...",
       "transcript": "Listening Transcript",
       "loadFailed": "Failed to load details",
@@ -705,7 +715,22 @@
       "description": "Complete a practice session and your results will appear here"
     },
     "goToTests": "Go to Tests",
-    "incomplete": "Incomplete"
+    "incomplete": "Incomplete",
+    "loadMore": "Load More",
+    "summary": {
+      "title": "My Progress",
+      "totalAttempts": "Total",
+      "avgScore": "Avg Score",
+      "bestLevel": "Best Level"
+    },
+    "filter": {
+      "all": "All"
+    },
+    "groups": {
+      "today": "Today",
+      "thisWeek": "This Week",
+      "earlier": "Earlier"
+    }
   },
   "payment": {
     "success": {

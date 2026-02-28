@@ -14,6 +14,17 @@ export interface CompleteResponse {
   user: { id: string; email: string; name: string };
 }
 
+export interface RegisterResponse {
+  message: string;
+  code?: string; // only in dev mode
+}
+
+export interface VerifyAndCompleteResponse {
+  message: string;
+  user: { id: string; email: string };
+}
+
+// Legacy 3-step flow (kept for forgot-password which reuses sendCode)
 export function sendCode(email: string): Promise<SendCodeResponse> {
   return post<SendCodeResponse>("/api/registration/send-code", { email });
 }
@@ -38,4 +49,25 @@ export function completeRegistration(
     password,
     name,
   });
+}
+
+// New 2-step flow
+export function register(
+  email: string,
+  password: string,
+): Promise<RegisterResponse> {
+  return post<RegisterResponse>("/api/registration/register", {
+    email,
+    password,
+  });
+}
+
+export function verifyAndComplete(
+  email: string,
+  code: string,
+): Promise<VerifyAndCompleteResponse> {
+  return post<VerifyAndCompleteResponse>(
+    "/api/registration/verify-and-complete",
+    { email, code },
+  );
 }

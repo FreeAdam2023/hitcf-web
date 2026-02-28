@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { OtpInput } from "@/components/ui/otp-input";
 import { ApiError } from "@/lib/api/client";
 import {
   sendResetCode,
@@ -212,26 +213,12 @@ export default function ForgotPasswordPage() {
 
       {step === "code" && (
         <form onSubmit={handleVerifyCode} className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="code" className="text-sm font-medium">
-              {t("auth.forgotPassword.codeLabel")}
-            </label>
-            <Input
-              id="code"
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]{6}"
-              maxLength={6}
-              placeholder="000000"
-              value={code}
-              onChange={(e) =>
-                setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
-              }
-              required
-              autoFocus
-              className="h-11 text-center text-lg tracking-[0.5em] font-mono"
-            />
-          </div>
+          <OtpInput
+            value={code}
+            onChange={setCode}
+            disabled={loading}
+            autoFocus
+          />
 
           {error && <p className="text-sm text-destructive">{error}</p>}
 

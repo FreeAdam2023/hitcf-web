@@ -72,10 +72,12 @@ export function getAttemptReview(attemptId: string, options?: RequestOptions): P
 export function listAttempts(params?: {
   page?: number;
   page_size?: number;
+  type?: string;
 }): Promise<PaginatedResponse<AttemptResponse>> {
   const searchParams = new URLSearchParams();
   if (params?.page) searchParams.set("page", String(params.page));
   if (params?.page_size) searchParams.set("page_size", String(params.page_size));
+  if (params?.type) searchParams.set("type", params.type);
   const qs = searchParams.toString();
   return get<PaginatedResponse<AttemptResponse>>(
     `/api/attempts${qs ? `?${qs}` : ""}`,

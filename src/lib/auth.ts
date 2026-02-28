@@ -1,5 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import jwt from "jsonwebtoken";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8001";
@@ -12,6 +13,10 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -47,6 +52,37 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider === "google") {
+        try {
+          const res = await fetch(
+            `${BACKEND_URL}/api/google-auth/login-or-create`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-Internal-Secret": NEXTAUTH_SECRET,
+              },
+              body: JSON.stringify({
+                google_id: account.providerAccountId,
+                email: user.email,
+                name: user.name,
+              }),
+            },
+          );
+          if (!res.ok) return false;
+          const backendUser = await res.json();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const u = user as any;
+          u.id = backendUser.id;
+          u.role = backendUser.role;
+          u.name = backendUser.name;
+        } catch {
+          return false;
+        }
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;

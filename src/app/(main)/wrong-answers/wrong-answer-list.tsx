@@ -3,15 +3,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { BookOpen, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import { BookOpen, Headphones, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -28,7 +21,37 @@ import { useAuthStore } from "@/stores/auth-store";
 import { getTestSetQuestions } from "@/lib/api/test-sets";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { useTranslations } from "next-intl";
+import { Checkbox } from "@/components/ui/checkbox";
+import { TYPE_COLORS } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 import type { PaginatedResponse, WrongAnswerItem, WrongAnswerStats } from "@/lib/api/types";
+
+const TYPE_CHIPS: Array<{ key: string; Icon?: React.ElementType }> = [
+  { key: "all" },
+  { key: "listening", Icon: Headphones },
+  { key: "reading", Icon: BookOpen },
+];
+
+function MasteryRing({ mastered, total }: { mastered: number; total: number }) {
+  const pct = total > 0 ? Math.round((mastered / total) * 100) : 0;
+  const r = 26;
+  const circ = 2 * Math.PI * r;
+  const offset = circ * (1 - pct / 100);
+  return (
+    <div className="relative flex shrink-0 items-center justify-center" style={{ width: 64, height: 64 }}>
+      <svg width="64" height="64" className="-rotate-90">
+        <circle cx="32" cy="32" r={r} fill="none" strokeWidth="6"
+          className="stroke-muted" />
+        <circle cx="32" cy="32" r={r} fill="none" strokeWidth="6"
+          className="stroke-green-500 transition-all duration-700"
+          strokeDasharray={circ}
+          strokeDashoffset={offset}
+          strokeLinecap="round" />
+      </svg>
+      <span className="absolute text-sm font-bold tabular-nums">{pct}%</span>
+    </div>
+  );
+}
 
 export function WrongAnswerList() {
   const t = useTranslations();
@@ -46,15 +69,16 @@ export function WrongAnswerList() {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [startingPractice, setStartingPractice] = useState(false);
 
-  // Filters
+  // Filters — defaults: unmastered only, sorted by most wrong
   const [type, setType] = useState("all");
-  const [mastered, setMastered] = useState("all");
-  const [sortBy, setSortBy] = useState("recent");
+  const [hideUnmastered, setHideUnmastered] = useState(true);
   const [page, setPage] = useState(1);
 
   // Fetch stats once
   useEffect(() => {
-    getWrongAnswerStats().then(setWaStats).catch((err) => { console.warn("Stats fetch failed:", err); });
+    getWrongAnswerStats()
+      .then(setWaStats)
+      .catch((err) => { console.warn("Stats fetch failed:", err); });
   }, []);
 
   const fetchData = useCallback(async () => {
@@ -63,8 +87,8 @@ export function WrongAnswerList() {
     try {
       const result = await listWrongAnswers({
         type: type === "all" ? undefined : type,
-        is_mastered: mastered === "all" ? undefined : mastered === "true",
-        sort_by: sortBy,
+        is_mastered: hideUnmastered ? false : undefined,
+        sort_by: "most_wrong",
         page,
         page_size: 20,
       });
@@ -75,11 +99,16 @@ export function WrongAnswerList() {
     } finally {
       setLoading(false);
     }
-  }, [type, mastered, sortBy, page]);
+  }, [type, hideUnmastered, page, t]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const handleTypeChange = (v: string) => {
+    setType(v);
+    setPage(1);
+  };
 
   const handleToggleMastered = async (id: string) => {
     try {
@@ -93,7 +122,11 @@ export function WrongAnswerList() {
           ),
         };
       });
-      toast.success(result.is_mastered ? t("wrongAnswers.markMastered") : t("wrongAnswers.markUnmastered"));
+      // Also refresh stats
+      getWrongAnswerStats().then(setWaStats).catch(() => {});
+      toast.success(
+        result.is_mastered ? t("wrongAnswers.markMastered") : t("wrongAnswers.markUnmastered"),
+      );
     } catch (err) {
       console.error("Failed to toggle mastered", err);
       toast.error(t("common.errors.operationFailed"));
@@ -112,7 +145,10 @@ export function WrongAnswerList() {
       const questionIdSet = new Set(result.question_ids);
       const practiceQuestions = questions.filter((q) => questionIdSet.has(q.id));
 
-      initPractice(result.id, practiceQuestions.length > 0 ? practiceQuestions : questions.slice(0, result.total));
+      initPractice(
+        result.id,
+        practiceQuestions.length > 0 ? practiceQuestions : questions.slice(0, result.total),
+      );
       router.push(`/practice/${result.id}`);
     } catch (err) {
       console.error("Failed to start practice", err);
@@ -123,26 +159,15 @@ export function WrongAnswerList() {
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
-              {t("wrongAnswers.title")}
-            </span>
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {t("wrongAnswers.subtitle")}
-          </p>
-        </div>
-        {canAccessPaid && (
-          <Button
-            onClick={handleStartPractice}
-            disabled={startingPractice || !data?.items.length}
-          >
-            <BookOpen className="mr-1.5 h-4 w-4" />
-            {startingPractice ? t("wrongAnswers.generating") : t("wrongAnswers.practiceFromWrong")}
-          </Button>
-        )}
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">
+          <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
+            {t("wrongAnswers.title")}
+          </span>
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {t("wrongAnswers.subtitle")}
+        </p>
       </div>
 
       {!canAccessPaid && (
@@ -159,75 +184,77 @@ export function WrongAnswerList() {
         />
       )}
 
-      {/* Stats overview */}
+      {/* Progress card + Practice button */}
       {canAccessPaid && waStats && (
-        <div className="grid grid-cols-3 gap-3">
-          <div className="flex items-center gap-3 rounded-xl border bg-card p-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600 dark:bg-red-950 dark:text-red-400">
-              <AlertCircle className="h-5 w-5" />
-            </div>
+        <div className="flex items-center justify-between rounded-xl border bg-card p-4">
+          <div className="flex items-center gap-4">
+            <MasteryRing mastered={waStats.mastered} total={waStats.total} />
             <div>
-              <p className="text-xs text-muted-foreground">{t("wrongAnswers.stats.total")}</p>
-              <p className="text-xl font-bold">{waStats.total}</p>
+              <p className="text-sm font-medium">{t("wrongAnswers.progress.title")}</p>
+              <p className="text-sm text-muted-foreground">
+                {t("wrongAnswers.progress.masteredOf", {
+                  mastered: waStats.mastered,
+                  total: waStats.total,
+                })}
+              </p>
             </div>
           </div>
-          <div className="flex items-center gap-3 rounded-xl border bg-card p-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-green-100 text-green-600 dark:bg-green-950 dark:text-green-400">
-              <CheckCircle className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground">{t("wrongAnswers.stats.mastered")}</p>
-              <p className="text-xl font-bold">{waStats.mastered}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 rounded-xl border bg-card p-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600 dark:bg-amber-950 dark:text-amber-400">
-              <XCircle className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground">{t("wrongAnswers.stats.unmastered")}</p>
-              <p className="text-xl font-bold">{waStats.unmastered}</p>
-            </div>
-          </div>
+          <Button
+            onClick={handleStartPractice}
+            disabled={startingPractice || !data?.items.length}
+          >
+            {startingPractice ? (
+              <>
+                <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
+                {t("wrongAnswers.generating")}
+              </>
+            ) : (
+              <>
+                <BookOpen className="mr-1.5 h-4 w-4" />
+                {t("wrongAnswers.practiceFromWrong", { count: 10 })}
+              </>
+            )}
+          </Button>
         </div>
       )}
 
       {canAccessPaid && (
         <>
-          {/* Filters */}
-          <div className="flex flex-wrap gap-3">
-            <Select value={type} onValueChange={(v) => { setType(v); setPage(1); }}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t("wrongAnswers.filters.allTypes")}</SelectItem>
-                <SelectItem value="listening">{t("common.types.listening")}</SelectItem>
-                <SelectItem value="reading">{t("common.types.reading")}</SelectItem>
-              </SelectContent>
-            </Select>
+          {/* Filters: type chips + hide-mastered toggle */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap gap-2">
+              {TYPE_CHIPS.map(({ key, Icon }) => {
+                const colors = TYPE_COLORS[key];
+                const isActive = type === key;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => handleTypeChange(key)}
+                    className={cn(
+                      "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors",
+                      isActive
+                        ? key === "all"
+                          ? "bg-primary text-primary-foreground"
+                          : colors?.iconBg
+                        : "bg-muted text-muted-foreground hover:bg-muted/80",
+                    )}
+                  >
+                    {Icon && <Icon className="h-3 w-3" />}
+                    {key === "all"
+                      ? t("wrongAnswers.filters.allTypes")
+                      : t(`common.types.${key}`)}
+                  </button>
+                );
+              })}
+            </div>
 
-            <Select value={mastered} onValueChange={(v) => { setMastered(v); setPage(1); }}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t("wrongAnswers.filters.allStatus")}</SelectItem>
-                <SelectItem value="false">{t("wrongAnswers.filters.unmastered")}</SelectItem>
-                <SelectItem value="true">{t("wrongAnswers.filters.mastered")}</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={sortBy} onValueChange={(v) => { setSortBy(v); setPage(1); }}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="recent">{t("wrongAnswers.filters.recentWrong")}</SelectItem>
-                <SelectItem value="most_wrong">{t("wrongAnswers.filters.mostWrong")}</SelectItem>
-                <SelectItem value="level">{t("wrongAnswers.filters.byLevel")}</SelectItem>
-              </SelectContent>
-            </Select>
+            <label className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground">
+              <Checkbox
+                checked={hideUnmastered}
+                onCheckedChange={(checked) => { setHideUnmastered(!!checked); setPage(1); }}
+              />
+              {t("wrongAnswers.filters.hideUnmastered")}
+            </label>
           </div>
 
           {/* List */}
