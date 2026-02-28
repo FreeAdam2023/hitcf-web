@@ -42,7 +42,7 @@ export function useFrenchSpeech() {
 function _webSpeech(word: string) {
   if (typeof window === "undefined" || !window.speechSynthesis) return;
   const utterance = new SpeechSynthesisUtterance(word);
-  utterance.lang = "fr-FR";
+  utterance.lang = "fr-CA";
   utterance.rate = 0.9;
   window.speechSynthesis.speak(utterance);
 }
