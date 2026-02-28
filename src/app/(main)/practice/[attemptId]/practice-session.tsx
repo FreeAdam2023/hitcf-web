@@ -43,11 +43,14 @@ function TranscriptBlock({
 }) {
   const isListening = question.type === "listening";
   const hasTranscript = !!question.transcript;
-  // Show options in transcript for listening Q1-10 (audio-only display in main area)
+  // Show options in transcript for listening Q1-10 only when real French text exists
   const showTranscriptOptions =
     isListening &&
     question.question_number <= 10 &&
-    question.options.length > 0;
+    question.options.length > 0 &&
+    question.options.some(
+      (o) => o.text && o.text.length > 2 && !o.text.startsWith("Proposition"),
+    );
 
   if (!hasTranscript && !showTranscriptOptions) return null;
 
