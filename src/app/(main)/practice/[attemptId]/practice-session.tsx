@@ -184,13 +184,19 @@ export function PracticeSession() {
   const [hasImage, setHasImage] = useState(false);
 
   // Fetch explanation — called once by parent, shared with both panels
+  const fetchingRef = useRef(false);
   const fetchExplanation = useCallback((questionId: string, force?: boolean) => {
+    if (fetchingRef.current && !force) return;
+    fetchingRef.current = true;
     setExplanationLoading(true);
     setExplanationError(false);
     generateExplanation(questionId, force, locale)
       .then(setExplanation)
       .catch(() => setExplanationError(true))
-      .finally(() => setExplanationLoading(false));
+      .finally(() => {
+        fetchingRef.current = false;
+        setExplanationLoading(false);
+      });
   }, [locale]);
 
   // Clear pending selection and indicators when navigating
@@ -202,6 +208,7 @@ export function PracticeSession() {
     setExplanationLoading(false);
     setExplanationError(false);
     setHasImage(false);
+    fetchingRef.current = false;
   }, [currentIndex]);
 
   // Prevent accidental navigation (browser back/forward swipe + tab close)

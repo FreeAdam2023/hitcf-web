@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AlertTriangle,
   ChevronDown,
@@ -49,6 +49,8 @@ export function ExplanationPanel({
   const t = useTranslations();
   const [open, setOpen] = useState(defaultOpen);
   const [distractorsOpen, setDistractorsOpen] = useState(false);
+  const onOpenRef = useRef(onOpen);
+  onOpenRef.current = onOpen;
 
   // Reset when question changes
   useEffect(() => {
@@ -56,12 +58,12 @@ export function ExplanationPanel({
     setDistractorsOpen(false);
   }, [questionId, defaultOpen]);
 
-  // Trigger fetch when opened and no data
+  // Trigger fetch when opened and no data (use ref to avoid re-runs from callback prop changes)
   useEffect(() => {
     if (open && !explanation && !loading && !error) {
-      onOpen?.();
+      onOpenRef.current?.();
     }
-  }, [open, explanation, loading, error, onOpen]);
+  }, [open, explanation, loading, error]);
 
   const hasContent =
     explanation &&
