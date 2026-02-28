@@ -223,12 +223,12 @@ export function PracticeSession() {
   const question = questions[currentIndex];
   const currentAnswer = question ? (answers.get(question.id) ?? null) : null;
 
-  // Auto-fetch explanation as soon as user answers (so transcript translations appear immediately)
+  // Prefetch explanation as soon as question loads (transcript translations + explanation ready before user answers)
   useEffect(() => {
-    if (question && currentAnswer && !explanation && !explanationLoading) {
+    if (question && !explanation && !explanationLoading) {
       fetchExplanation(question.id);
     }
-  }, [question, currentAnswer, explanation, explanationLoading, fetchExplanation]);
+  }, [question, explanation, explanationLoading, fetchExplanation]);
 
   // In practice mode, clicking an option only sets the pending selection (does not submit)
   const handleSelect = useCallback((key: string) => {
