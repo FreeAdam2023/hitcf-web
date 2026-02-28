@@ -216,6 +216,30 @@ button, a, [role="button"] {
   display: none;
 }
 
+/* Scrollbar visible on hover only — elegant scroll hint */
+.scrollbar-on-hover {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s;
+}
+.scrollbar-on-hover:hover {
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+.scrollbar-on-hover::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-on-hover::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-on-hover::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 2px;
+  transition: background-color 0.3s;
+}
+.scrollbar-on-hover:hover::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--border));
+}
+
 /* Thin scrollbar for sidebar panels */
 .scrollbar-thin {
   scrollbar-width: thin;
