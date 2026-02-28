@@ -43,14 +43,13 @@ function TranscriptBlock({
 }) {
   const isListening = question.type === "listening";
   const hasTranscript = !!question.transcript;
-  const hasAudioOptions =
+  // Show options in transcript for listening Q1-10 (audio-only display in main area)
+  const showTranscriptOptions =
     isListening &&
-    question.options.length > 0 &&
-    question.options.every(
-      (o) => o.text && !o.text.startsWith("Proposition"),
-    );
+    question.question_number <= 10 &&
+    question.options.length > 0;
 
-  if (!hasTranscript && !hasAudioOptions) return null;
+  if (!hasTranscript && !showTranscriptOptions) return null;
 
   const sentences = explanation?.sentence_translation;
   const optTrans = explanation?.option_translations;
@@ -124,16 +123,17 @@ function TranscriptBlock({
       ) : null}
 
       {/* Options: vertical with indented EN/ZH */}
-      {hasAudioOptions && (
+      {showTranscriptOptions && (
         <div className={sentences || hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
           <div className="space-y-2">
             {question.options.map((opt) => {
               const tr = optTrans?.[opt.key];
               const optNative = tr?.native || tr?.zh;
+              const hasRealText = opt.text && opt.text.length > 2 && !opt.text.startsWith("Proposition");
               return (
                 <div key={opt.key}>
                   <p className="font-medium text-foreground">
-                    {opt.key}. <FrenchText text={opt.text} />
+                    {opt.key}. {hasRealText && <FrenchText text={opt.text} />}
                   </p>
                   {locale !== "en" && showEn && tr?.en && (
                     <p className="pl-5 text-blue-600 dark:text-blue-400">{tr.en}</p>
@@ -178,6 +178,7 @@ export function PracticeSession() {
   const [explanation, setExplanation] = useState<Explanation | null>(null);
   const [explanationLoading, setExplanationLoading] = useState(false);
   const [explanationError, setExplanationError] = useState(false);
+  const [hasImage, setHasImage] = useState(false);
 
   // Fetch explanation — called once by parent, shared with both panels
   const fetchExplanation = useCallback((questionId: string, force?: boolean) => {
@@ -197,6 +198,7 @@ export function PracticeSession() {
     setExplanation(null);
     setExplanationLoading(false);
     setExplanationError(false);
+    setHasImage(false);
   }, [currentIndex]);
 
   // Prevent accidental navigation (browser back/forward swipe + tab close)
@@ -376,13 +378,14 @@ export function PracticeSession() {
       </div>
 
       {/* 中间：主内容 */}
-      <div className="space-y-4 overflow-y-auto scrollbar-thin">
+      <div className="min-h-0 space-y-4 overflow-y-auto scrollbar-thin">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
             <QuestionDisplay
               question={question}
               index={currentIndex}
               total={questions.length}
+              onImageLoaded={setHasImage}
             />
           </div>
           <Button
@@ -404,6 +407,7 @@ export function PracticeSession() {
           pendingSelected={selectedKey}
           submittingKey={submittingKey}
           audioOnly={question.type === "listening" && question.question_number <= 10}
+          horizontal={hasImage}
         />
 
         {/* Confirm button: visible when option selected but not yet submitted */}

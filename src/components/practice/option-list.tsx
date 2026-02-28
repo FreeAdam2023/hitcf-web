@@ -26,6 +26,8 @@ interface OptionListProps {
   submittingKey?: string | null;
   /** Audio-only options: show only A/B/C/D buttons without text (TCF listening A1/A2) */
   audioOnly?: boolean;
+  /** Display options in a horizontal row (for image-based questions) */
+  horizontal?: boolean;
   /** Disable vocabulary cards (e.g., exam mode) */
   vocabDisabled?: boolean;
 }
@@ -43,6 +45,7 @@ export function OptionList({
   lastSelected,
   submittingKey,
   audioOnly = false,
+  horizontal = false,
   vocabDisabled,
 }: OptionListProps) {
   const t = useTranslations();
@@ -65,8 +68,10 @@ export function OptionList({
     return { isPending, isSelected, isCorrect, isWrong };
   }
 
+  const isHorizontal = audioOnly && horizontal;
+
   return (
-    <div className="space-y-2" role="radiogroup" aria-label={t("practice.optionList.ariaLabel")}>
+    <div className={cn(isHorizontal ? "flex gap-2" : "space-y-2")} role="radiogroup" aria-label={t("practice.optionList.ariaLabel")}>
       {options.map((opt) => {
         const { isPending, isSelected, isCorrect, isWrong } = getOptionState(opt);
 
@@ -77,7 +82,10 @@ export function OptionList({
             aria-checked={isSelected}
             aria-label={`${opt.key}${opt.text ? `: ${opt.text}` : ""}`}
             className={cn(
-              "flex w-full items-start gap-3 rounded-md border p-3 text-left text-sm transition-colors",
+              "rounded-md border text-sm transition-colors",
+              isHorizontal
+                ? "flex flex-1 items-center justify-center p-3"
+                : "flex w-full items-start gap-3 p-3 text-left",
               !locked && !disabled && "hover:bg-accent cursor-pointer",
               locked && "cursor-default",
               // Practice mode colors
@@ -95,7 +103,8 @@ export function OptionList({
           >
             <span
               className={cn(
-                "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-medium",
+                "flex shrink-0 items-center justify-center rounded-full border text-xs font-medium",
+                isHorizontal ? "h-8 w-8" : "h-6 w-6",
                 !isExam && isCorrect && "border-green-500 bg-green-500 text-white",
                 !isExam && isWrong && "border-red-500 bg-red-500 text-white",
                 (isSelected || isPending) && !(isCorrect || isWrong) && "border-primary bg-primary text-primary-foreground",

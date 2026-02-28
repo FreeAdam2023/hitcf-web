@@ -29,9 +29,11 @@ interface QuestionDisplayProps {
   onAudioPlaybackComplete?: () => void;
   /** Disable vocabulary cards (e.g., exam mode) */
   vocabDisabled?: boolean;
+  /** Callback when image load state changes (for layout adaptation) */
+  onImageLoaded?: (loaded: boolean) => void;
 }
 
-export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded }: QuestionDisplayProps) {
   const t = useTranslations();
   const isListening = question.type === "listening";
   // Listening A1/A2 questions (Q1-10) may have an associated image in Azure
@@ -67,6 +69,11 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
       loadImage();
     }
   }, [question.id, mayHaveImage, loadImage]);
+
+  // Notify parent when image load state changes
+  useEffect(() => {
+    onImageLoaded?.(imageLoaded);
+  }, [imageLoaded, onImageLoaded]);
 
   return (
     <div className="space-y-4">
