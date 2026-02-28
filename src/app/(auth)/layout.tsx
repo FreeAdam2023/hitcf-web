@@ -13,30 +13,40 @@ export default function AuthLayout({
 
   return (
     <div className="flex min-h-screen">
-      {/* Left: gradient panel with stats (hidden on mobile) */}
-      <div className="relative hidden w-1/2 lg:flex lg:flex-col lg:justify-between bg-gradient-to-br from-primary via-primary/90 to-violet-600 p-10">
-        <Link href="/tests">
-          <Image src="/logo.png" alt="HiTCF" width={48} height={48} className="brightness-0 invert" />
-        </Link>
-        <div className="space-y-6">
-          <div className="flex flex-wrap gap-3">
-            <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium text-white">
-              {t("auth.layout.stat1")}
-            </span>
-            <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium text-white">
-              {t("auth.layout.stat2")}
-            </span>
-            <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium text-white">
-              {t("auth.layout.stat3")}
-            </span>
+      {/* Left: landscape photo + overlay with stats (hidden on mobile) */}
+      <div className="relative hidden w-1/2 lg:block">
+        <Image
+          src="/login-bg.jpg"
+          alt="Canadian landscape"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
+        <div className="absolute inset-0 flex flex-col justify-between p-10">
+          <Link href="/tests">
+            <Image src="/logo.png" alt="HiTCF" width={48} height={48} className="brightness-0 invert" />
+          </Link>
+          <div className="space-y-5">
+            <div className="flex flex-wrap gap-2">
+              <span className="rounded-full bg-white/20 backdrop-blur-sm px-3.5 py-1 text-sm font-medium text-white">
+                {t("auth.layout.stat1")}
+              </span>
+              <span className="rounded-full bg-white/20 backdrop-blur-sm px-3.5 py-1 text-sm font-medium text-white">
+                {t("auth.layout.stat2")}
+              </span>
+              <span className="rounded-full bg-white/20 backdrop-blur-sm px-3.5 py-1 text-sm font-medium text-white">
+                {t("auth.layout.stat3")}
+              </span>
+            </div>
+            <h2 className="text-2xl font-bold text-white">
+              {t("auth.layout.tagline")}
+            </h2>
+            <p className="max-w-sm text-sm leading-relaxed text-white/80">
+              {t("auth.layout.description1")}
+              {t("auth.layout.description2")}
+            </p>
           </div>
-          <h2 className="text-3xl font-bold text-white">
-            {t("auth.layout.tagline")}
-          </h2>
-          <p className="max-w-sm text-sm leading-relaxed text-white/80">
-            {t("auth.layout.description1")}
-            {t("auth.layout.description2")}
-          </p>
         </div>
       </div>
 
