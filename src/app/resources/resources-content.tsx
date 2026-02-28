@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import {
   Headphones,
@@ -222,16 +222,38 @@ const CANADA_CENTERS = [
 
 export function ResourcesContent() {
   const [activeTab, setActiveTab] = useState("exam");
+  const [autoRotate, setAutoRotate] = useState(true);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
     if (tab && VALID_TABS.includes(tab)) {
       setActiveTab(tab);
+      setAutoRotate(false);
     }
   }, []);
 
+  const rotateTab = useCallback(() => {
+    setActiveTab((prev) => {
+      const idx = VALID_TABS.indexOf(prev);
+      return VALID_TABS[(idx + 1) % VALID_TABS.length];
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!autoRotate) {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      return;
+    }
+    intervalRef.current = setInterval(rotateTab, 4000);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [autoRotate, rotateTab]);
+
   function handleTabChange(value: string) {
+    setAutoRotate(false);
     setActiveTab(value);
     const url = new URL(window.location.href);
     url.searchParams.set("tab", value);
@@ -283,8 +305,14 @@ export function ResourcesContent() {
         <div className="mx-auto max-w-5xl px-4">
           <div className="mb-6 text-center">
             <p className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-1.5">
-              <ArrowRight className="h-3.5 w-3.5 animate-bounce-x" />
-              点击切换查看不同板块
+              {autoRotate ? (
+                <>自动浏览中 · 点击任意板块停止</>
+              ) : (
+                <>
+                  <ArrowRight className="h-3.5 w-3.5 animate-bounce-x" />
+                  点击切换查看不同板块
+                </>
+              )}
             </p>
           </div>
           <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
