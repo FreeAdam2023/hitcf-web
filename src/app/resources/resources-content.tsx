@@ -281,21 +281,27 @@ export function ResourcesContent() {
       {/* ── Tabs ── */}
       <section className="py-10 sm:py-14">
         <div className="mx-auto max-w-5xl px-4">
+          <div className="mb-6 text-center">
+            <p className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-1.5">
+              <ArrowRight className="h-3.5 w-3.5 animate-bounce-x" />
+              点击切换查看不同板块
+            </p>
+          </div>
           <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-            <TabsList className="mx-auto mb-10 grid w-full max-w-xl grid-cols-4 h-auto p-1">
-              <TabsTrigger value="exam" className="gap-1.5 py-2.5 text-xs sm:text-sm">
+            <TabsList className="mx-auto mb-10 grid w-full max-w-2xl grid-cols-4 h-auto p-1.5 bg-muted/80 rounded-xl shadow-sm ring-1 ring-border/50">
+              <TabsTrigger value="exam" className="gap-1.5 py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=active]:shadow-md data-[state=active]:bg-background transition-all">
                 <BookOpen className="h-4 w-4 hidden sm:block" />
                 考试内容
               </TabsTrigger>
-              <TabsTrigger value="scores" className="gap-1.5 py-2.5 text-xs sm:text-sm">
+              <TabsTrigger value="scores" className="gap-1.5 py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=active]:shadow-md data-[state=active]:bg-background transition-all">
                 <TableProperties className="h-4 w-4 hidden sm:block" />
                 分数对照
               </TabsTrigger>
-              <TabsTrigger value="resources" className="gap-1.5 py-2.5 text-xs sm:text-sm">
+              <TabsTrigger value="resources" className="gap-1.5 py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=active]:shadow-md data-[state=active]:bg-background transition-all">
                 <GraduationCap className="h-4 w-4 hidden sm:block" />
                 学习资源
               </TabsTrigger>
-              <TabsTrigger value="centers" className="gap-1.5 py-2.5 text-xs sm:text-sm">
+              <TabsTrigger value="centers" className="gap-1.5 py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=active]:shadow-md data-[state=active]:bg-background transition-all">
                 <MapPin className="h-4 w-4 hidden sm:block" />
                 考场信息
               </TabsTrigger>
