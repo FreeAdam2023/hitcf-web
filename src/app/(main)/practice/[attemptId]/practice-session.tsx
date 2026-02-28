@@ -72,7 +72,7 @@ function TranscriptBlock({
   if (!isReading && !hasTranscript && !showTranscriptOptions) return null;
 
   return (
-    <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
+    <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300 min-h-0 flex-1 overflow-y-auto scrollbar-on-hover">
       <div className="mb-2 flex items-center justify-between">
         <h4 className="flex items-center gap-1.5 font-medium">
           <FileText className="h-4 w-4" />
@@ -443,7 +443,7 @@ export function PracticeSession() {
       </div>
 
       {/* 中间：主内容 */}
-      <div className="space-y-4 overflow-y-auto scrollbar-on-hover">
+      <div className="flex flex-col gap-4 overflow-hidden">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
             <QuestionDisplay
@@ -554,7 +554,7 @@ export function PracticeSession() {
         )}
 
         {/* 移动端：解析面板 */}
-        <div className="lg:hidden">
+        <div className="shrink-0 lg:hidden">
           {currentAnswer && (
             <ExplanationPanel
               explanation={explanation}
