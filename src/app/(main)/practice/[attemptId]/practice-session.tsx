@@ -388,7 +388,7 @@ export function PracticeSession() {
       </div>
 
       {/* 中间：主内容 */}
-      <div className="min-h-0 space-y-4 overflow-y-auto scrollbar-thin">
+      <div className="min-h-0 space-y-4 overflow-y-auto scrollbar-hidden">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
             <QuestionDisplay
