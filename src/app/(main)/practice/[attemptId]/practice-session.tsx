@@ -54,14 +54,15 @@ function TranscriptBlock({
   const isListening = question.type === "listening";
   const isReading = question.type === "reading";
   const hasTranscript = !!question.transcript;
-  // Show options in transcript for listening Q1-10 only when real French text exists
+  // Show option translations: listening Q1-10 (with real text) + all reading
   const showTranscriptOptions =
-    isListening &&
-    question.question_number <= 10 &&
     question.options.length > 0 &&
-    question.options.some(
-      (o) => o.text && o.text.length > 2 && !o.text.startsWith("Proposition"),
-    );
+    (isReading ||
+      (isListening &&
+        question.question_number <= 10 &&
+        question.options.some(
+          (o) => o.text && o.text.length > 2 && !o.text.startsWith("Proposition"),
+        )));
 
   const sentences = explanation?.sentence_translation;
   const optTrans = explanation?.option_translations;
