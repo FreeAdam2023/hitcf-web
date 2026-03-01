@@ -2,11 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+const WHATSAPP_LINK = "https://chat.whatsapp.com/Fvbx6XR8EQPDSvx4VW2yn7";
 
 export function Footer() {
   const t = useTranslations();
+  const locale = useLocale();
   return (
     <footer className="border-t bg-card py-10">
       <div className="mx-auto max-w-5xl px-4">
@@ -53,28 +56,49 @@ export function Footer() {
                 >
                   support@hitcf.com
                 </a>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="flex flex-col items-center gap-1.5">
-                    <Image
-                      src="/qr-xiaohongshu-cropped.jpg"
-                      alt="Xiaohongshu QR"
-                      width={100}
-                      height={100}
-                      className="rounded border"
-                    />
-                    <span className="text-[11px] text-muted-foreground">{t('footer.socialXhs')}</span>
+
+                {locale === "zh" ? (
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex flex-col items-center gap-1.5">
+                      <Image
+                        src="/qr-xiaohongshu-cropped.jpg"
+                        alt="Xiaohongshu QR"
+                        width={100}
+                        height={100}
+                        className="rounded border"
+                      />
+                      <span className="text-[11px] text-muted-foreground">{t('footer.socialXhs')}</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-1.5">
+                      <Image
+                        src="/qr-wechat-cropped.jpg"
+                        alt="WeChat QR"
+                        width={100}
+                        height={100}
+                        className="rounded border"
+                      />
+                      <span className="text-[11px] text-muted-foreground">{t('footer.socialWechat')}</span>
+                    </div>
                   </div>
-                  <div className="flex flex-col items-center gap-1.5">
+                ) : (
+                  <a
+                    href={WHATSAPP_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex flex-col items-center gap-2"
+                  >
                     <Image
-                      src="/qr-wechat-cropped.jpg"
-                      alt="WeChat QR"
-                      width={100}
-                      height={100}
-                      className="rounded border"
+                      src="/qr-whatsapp.png"
+                      alt="WhatsApp Group QR"
+                      width={160}
+                      height={160}
+                      className="rounded-lg border transition-transform group-hover:scale-105"
                     />
-                    <span className="text-[11px] text-muted-foreground">{t('footer.socialWechat')}</span>
-                  </div>
-                </div>
+                    <span className="text-[11px] text-muted-foreground group-hover:text-foreground transition-colors">
+                      {t('footer.socialWhatsApp')}
+                    </span>
+                  </a>
+                )}
               </PopoverContent>
             </Popover>
           </div>

@@ -27,7 +27,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 /* ── constants ── */
 
@@ -108,6 +108,7 @@ const CANADA_CENTERS = [
 
 export function ResourcesContent() {
   const t = useTranslations();
+  const locale = useLocale();
   const [activeTab, setActiveTab] = useState("exam");
   const [autoRotate, setAutoRotate] = useState(true);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -187,16 +188,23 @@ export function ResourcesContent() {
                   <PopoverContent side="bottom" className="w-64 p-4">
                     <p className="text-xs font-semibold mb-1">{t("resources.hero.communityTitle")}</p>
                     <p className="text-[11px] text-muted-foreground mb-3">{t("resources.hero.communityDesc")}</p>
-                    <div className="grid grid-cols-2 gap-3">
-                      <a href="https://www.xiaohongshu.com/user/profile/605439725" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-1.5">
-                        <Image src="/qr-xiaohongshu-cropped.jpg" alt="Xiaohongshu QR" width={100} height={100} className="rounded-lg border transition-transform group-hover:scale-105" />
-                        <span className="text-[11px] text-muted-foreground group-hover:text-foreground transition-colors">{t("resources.hero.followXhs")}</span>
-                      </a>
-                      <div className="flex flex-col items-center gap-1.5">
-                        <Image src="/qr-wechat-cropped.jpg" alt="WeChat QR" width={100} height={100} className="rounded-lg border" />
-                        <span className="text-[11px] text-muted-foreground">{t("resources.hero.addWechat")}</span>
+                    {locale === "zh" ? (
+                      <div className="grid grid-cols-2 gap-3">
+                        <a href="https://www.xiaohongshu.com/user/profile/605439725" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-1.5">
+                          <Image src="/qr-xiaohongshu-cropped.jpg" alt="Xiaohongshu QR" width={100} height={100} className="rounded-lg border transition-transform group-hover:scale-105" />
+                          <span className="text-[11px] text-muted-foreground group-hover:text-foreground transition-colors">{t("resources.hero.followXhs")}</span>
+                        </a>
+                        <div className="flex flex-col items-center gap-1.5">
+                          <Image src="/qr-wechat-cropped.jpg" alt="WeChat QR" width={100} height={100} className="rounded-lg border" />
+                          <span className="text-[11px] text-muted-foreground">{t("resources.hero.addWechat")}</span>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <a href="https://chat.whatsapp.com/Fvbx6XR8EQPDSvx4VW2yn7" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-2">
+                        <Image src="/qr-whatsapp.png" alt="WhatsApp Group QR" width={160} height={160} className="rounded-lg border transition-transform group-hover:scale-105" />
+                        <span className="text-[11px] text-muted-foreground group-hover:text-foreground transition-colors">{t("community.joinWhatsApp")}</span>
+                      </a>
+                    )}
                   </PopoverContent>
                 </Popover>
               </div>

@@ -105,6 +105,7 @@
     "disclaimer": "免责声明",
     "socialXhs": "小红书 @HiTCF",
     "socialWechat": "微信 Hi_TCF",
+    "socialWhatsApp": "WhatsApp 群",
     "scanXhs": "扫码关注小红书",
     "scanWechat": "扫码加微信好友",
     "studyGroup": "备考群",
@@ -1134,7 +1135,8 @@
     "title": "加入备考社区",
     "description": "和 TCF 考友一起备考，互助答疑，分享经验",
     "followXhs": "关注小红书",
-    "addWechat": "加微信入群"
+    "addWechat": "加微信入群",
+    "joinWhatsApp": "加入 WhatsApp 群"
   },
   "pricing": {
     "title": "8,500+ 道 TCF 真题 + 词汇工具，四科全覆盖",
