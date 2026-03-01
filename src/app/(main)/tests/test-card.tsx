@@ -240,11 +240,11 @@ export function TestCard({
           {hasInProgress && (
             <div className="space-y-1.5">
               <div className="flex items-center gap-1.5 text-xs">
-                <div className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+                <div className="h-2 w-2 rounded-full bg-amber-400" />
                 <span className="text-amber-600 dark:text-amber-400">{t("common.status.inProgress")}</span>
               </div>
               <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
-                <div className="h-full w-1/3 rounded-full bg-amber-400 animate-[shimmer_1.5s_ease-in-out_infinite]" />
+                <div className="h-full w-1/3 rounded-full bg-amber-400" />
               </div>
             </div>
           )}
