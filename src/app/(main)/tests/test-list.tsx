@@ -209,11 +209,16 @@ export function TestList() {
   const [writingTache, setWritingTache] = useState<1 | 2 | 3>(3);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
 
+  // Status filter for listening/reading tabs
+  type StatusFilter = "all" | "inProgress" | "completed" | "notStarted";
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+
   // Reset filters on tab change
   useEffect(() => {
     setSearch("");
     setSelectedYear(null);
     setBrowseMode("level");
+    setStatusFilter("all");
   }, [tab]);
 
   // ─── Data fetching ────────────────────────────────────────
@@ -263,6 +268,39 @@ export function TestList() {
     return extractYears(tests);
   }, [tab, browseMode, tests, writingTopics]);
 
+  // ─── Status helpers for listening/reading ────────────────
+  const getTestStatus = useCallback(
+    (testId: string): "completed" | "inProgress" | "notStarted" => {
+      const info = attemptMap.get(testId);
+      if (!info) return "notStarted";
+      if (info.bestScore !== null && info.bestScore !== undefined) return "completed";
+      if (info.hasInProgress) return "inProgress";
+      return "notStarted";
+    },
+    [attemptMap],
+  );
+
+  // ─── Status counts for filter chips ─────────────────────
+  const statusCounts = useMemo(() => {
+    if (tab !== "listening" && tab !== "reading") return null;
+    const searchLower = search.toLowerCase();
+    const searchFiltered = tests.filter((t) => {
+      if (search && !t.name.toLowerCase().includes(searchLower) && !t.code.toLowerCase().includes(searchLower)) {
+        return false;
+      }
+      return true;
+    });
+    let all = 0, inProgress = 0, completed = 0, notStarted = 0;
+    for (const t of searchFiltered) {
+      all++;
+      const s = getTestStatus(t.id);
+      if (s === "completed") completed++;
+      else if (s === "inProgress") inProgress++;
+      else notStarted++;
+    }
+    return { all, inProgress, completed, notStarted };
+  }, [tests, search, tab, getTestStatus]);
+
   // ─── Filtered + sorted items (listening/reading + by-set) ─
   const filteredTests = useMemo(() => {
     const searchLower = search.toLowerCase();
@@ -274,14 +312,26 @@ export function TestList() {
         if (t.source_date && !t.source_date.startsWith(selectedYear)) return false;
         if (!t.source_date && selectedYear !== "original") return false;
       }
+      // Status filter for listening/reading
+      if ((tab === "listening" || tab === "reading") && statusFilter !== "all") {
+        const status = getTestStatus(t.id);
+        if (status !== statusFilter) return false;
+      }
       return true;
     });
 
     if (tab === "listening" || tab === "reading") {
       return filtered.sort((a, b) => {
+        // 1. Free tests first
         const aFree = a.code.includes("gratuit") ? 0 : 1;
         const bFree = b.code.includes("gratuit") ? 0 : 1;
         if (aFree !== bFree) return aFree - bFree;
+        // 2. inProgress → notStarted → completed
+        const statusOrder = { inProgress: 0, notStarted: 1, completed: 2 };
+        const aStatus = statusOrder[getTestStatus(a.id)];
+        const bStatus = statusOrder[getTestStatus(b.id)];
+        if (aStatus !== bStatus) return aStatus - bStatus;
+        // 3. By number ascending
         const aNum = parseInt(a.code.match(/\d+/)?.[0] || "999", 10);
         const bNum = parseInt(b.code.match(/\d+/)?.[0] || "999", 10);
         return aNum - bNum;
@@ -289,7 +339,7 @@ export function TestList() {
     }
 
     return filtered;
-  }, [tests, search, tab, selectedYear]);
+  }, [tests, search, tab, selectedYear, statusFilter, getTestStatus]);
 
   // ─── Filtered writing topics (by-level mode) ───────────────
   const filteredWritingTopics = useMemo(() => {
@@ -566,6 +616,24 @@ export function TestList() {
         </TabsList>
 
         <TabsContent value={tab} className="mt-4">
+          {/* ── Status filter chips (listening/reading only) ── */}
+          {(tab === "listening" || tab === "reading") && statusCounts && (
+            <div className="mb-4 flex flex-wrap gap-2">
+              <Pill active={statusFilter === "all"} onClick={() => setStatusFilter("all")}>
+                {t("tests.filterAll")}({statusCounts.all})
+              </Pill>
+              <Pill active={statusFilter === "inProgress"} onClick={() => setStatusFilter("inProgress")}>
+                {t("tests.filterInProgress")}({statusCounts.inProgress})
+              </Pill>
+              <Pill active={statusFilter === "completed"} onClick={() => setStatusFilter("completed")}>
+                {t("tests.filterCompleted")}({statusCounts.completed})
+              </Pill>
+              <Pill active={statusFilter === "notStarted"} onClick={() => setStatusFilter("notStarted")}>
+                {t("tests.filterNotStarted")}({statusCounts.notStarted})
+              </Pill>
+            </div>
+          )}
+
           <RecommendedBanner type={tab} />
 
           {/* ── Speaking/Writing controls ── */}

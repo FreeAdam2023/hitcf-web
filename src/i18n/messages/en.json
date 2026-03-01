@@ -237,7 +237,11 @@
     "tasksCount": "{count} tasks",
     "viewQuestions": "View Questions",
     "showMore": "Show {count} more",
-    "showLess": "Show less"
+    "showLess": "Show less",
+    "filterAll": "All",
+    "filterInProgress": "In Progress",
+    "filterCompleted": "Completed",
+    "filterNotStarted": "Not Started"
   },
   "testCard": {
     "best": "Best {score}/{total} ({pct}%)",
@@ -263,7 +267,7 @@
     "listeningExam": "Listening Exam Mode",
     "readingExam": "Reading Exam Mode",
     "examBullets": {
-      "timer": "Strict timing (Listening 25 min / Reading 45 min)",
+      "timer": "Strict timing (Listening 35 min / Reading 60 min)",
       "noGoBack": "Cannot go back or modify answers",
       "autoSubmit": "Auto-submit when time runs out",
       "showScore": "Score + estimated NCLC level shown after submission"
@@ -1557,5 +1561,56 @@
       "title": "Disclaimer · Content Sources & Exam Result Notice",
       "description": "HiTCF Disclaimer: independent third-party practice platform, not affiliated with TCF officials. CLB level estimates are for reference only. Content sourced from public materials."
     }
+  },
+  "disclaimerPage": {
+    "heading": "Disclaimer",
+    "lastUpdated": "Last updated: February 23, 2026",
+    "notOfficial": {
+      "title": "1. Not an Official Platform",
+      "p1": "HiTCF is an <b>independently operated third-party practice platform</b>. The Platform has <b>no affiliation, partnership, or authorization</b> with France \u00c9ducation international (formerly CIEP), the official TCF examination body, Immigration, Refugees and Citizenship Canada (IRCC), or any government agency.",
+      "p2": "\u201cTCF\u201d (Test de connaissance du fran\u00e7ais) and \u201cTCF Canada\u201d are registered trademarks of France \u00c9ducation international. Their use on this Platform is solely to indicate the target format of our practice content."
+    },
+    "noGuarantee": {
+      "title": "2. No Guarantee of Exam Results",
+      "p1": "<b>Using this Platform does not guarantee that you will pass the TCF Canada exam or achieve any specific CLB level.</b>",
+      "li1": "The \u201cCLB level estimates\u201d, \u201creadiness assessments\u201d, and \u201cpredicted levels\u201d displayed are based on statistical analysis of your practice data and are <b>for reference only</b> \u2014 they do not equal or predict actual TCF exam scores.",
+      "li2": "Actual TCF exam results depend on numerous factors, including but not limited to your condition on exam day, question selection, and scoring criteria, all of which are beyond this Platform\u2019s control.",
+      "li3": "Promotional phrases such as \u201cPractice Your Way to CLB 7\u201d are intended to encourage consistent practice and <b>do not constitute any form of score promise or result guarantee</b>."
+    },
+    "contentSources": {
+      "title": "3. Content Sources & Accuracy",
+      "li1": "Practice questions, audio, and related materials on this Platform are <b>compiled and edited from publicly available internet sources</b>. The intellectual property of original content belongs to its respective rights holders.",
+      "li2": "Content has been organized and reviewed, but we <b>do not guarantee 100% accuracy, completeness, or correctness</b>, nor do we guarantee consistency with the actual TCF exam\u2019s format, difficulty, or content.",
+      "li3": "If any rights holder believes content on this Platform infringes their rights, please contact <email>support@hitcf.com</email> and we will address it promptly after verification (including removing relevant content).",
+      "li4": "If you find content errors, we also welcome feedback via the above email and will correct them as soon as possible."
+    },
+    "notImmigrationAdvice": {
+      "title": "4. Not Immigration Advice",
+      "p1": "Any information provided on this Platform (including CLB level explanations, immigration-related terminology, etc.) <b>does not constitute immigration advice, legal advice, or professional consultation</b>. Immigration applications involve complex regulations and policies; we recommend consulting a licensed immigration consultant (RCIC) or immigration lawyer."
+    },
+    "thirdPartyLinks": {
+      "title": "5. Third-Party Links",
+      "p1": "This Platform may contain links to third-party websites or services (such as ChatGPT, WhatsApp, etc.). We are not responsible for third-party content, and accessing these links is at the user\u2019s own risk."
+    },
+    "userReviews": {
+      "title": "6. User Reviews & Testimonials",
+      "p1": "User reviews and score shares displayed on the Platform represent individual experiences and <b>do not imply that all users will achieve the same results</b>. Each user\u2019s background, time investment, and study methods differ, and results vary accordingly."
+    },
+    "serviceAvailability": {
+      "title": "7. Service Availability",
+      "p1": "We strive to maintain 24/7 Platform availability, but do not guarantee uninterrupted or error-free service. We are not liable for service interruptions due to maintenance, upgrades, network issues, or force majeure."
+    },
+    "liability": {
+      "title": "8. Limitation of Liability",
+      "p1": "To the maximum extent permitted by law, HiTCF and its operators shall not be liable for any losses arising from the use of or reliance on Platform content, including but not limited to:",
+      "li1": "Failing an exam or not achieving the expected level;",
+      "li2": "Immigration application denial or delay;",
+      "li3": "Consequences of any decisions made based on Platform estimates."
+    },
+    "contact": {
+      "title": "9. Contact",
+      "p1": "If you have any questions about this Disclaimer, please contact: <email>support@hitcf.com</email>"
+    },
+    "footerLinks": "Other legal documents: <terms>Terms of Service</terms> \u00b7 <privacy>Privacy Policy</privacy> \u00b7 <refund>Refund Policy</refund>"
   }
 }
