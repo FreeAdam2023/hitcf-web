@@ -990,6 +990,7 @@
     "title": "生词本",
     "subtitle": "做题时点词查义，收藏生词，翻卡复习",
     "loginHint": "请先登录以使用生词本功能",
+    "loginToSave": "登录后收藏生词",
     "viewAll": "查看全部 →",
     "recentSaved": "最近收藏",
     "stats": {
@@ -1012,6 +1013,7 @@
     },
     "flashcard": {
       "empty": "暂无收藏词汇，请先去做题收藏一些生词",
+      "emptyNihao": "暂无词汇数据，请选择一个级别或课号",
       "tapToFlip": "点击翻转"
     },
     "export": {
@@ -1020,6 +1022,8 @@
       "description": "导出 {count} 个词汇到文件",
       "ankiTitle": "Anki 卡片 (.apkg)",
       "ankiDesc": "导入 Anki 桌面版，内含正反面卡片模板",
+      "previewFront": "正面",
+      "previewBack": "背面",
       "downloadButton": "下载",
       "exporting": "导出中…",
       "errorRateLimit": "今日导出次数已达上限，请明天再试",
@@ -1028,9 +1032,14 @@
       "errorGeneric": "导出失败，请稍后再试"
     },
     "nihaoFrench": {
-      "title": "你好法语",
-      "subtitle": "你好法语教材配套词汇，按级别/课号浏览",
-      "poolTitle": "你好法语词汇",
+      "title": "《你好！法语》",
+      "subtitle": "《你好！法语》(Le nouveau Taxi) 教材配套词汇，按级别/课号浏览",
+      "heroDesc": "教材配套词汇，翻卡复习、导出Anki、听写练习",
+      "startFlashcard": "开始翻卡复习",
+      "totalWords": "共 {count} 词",
+      "wordCount": "共 {total} 个词汇",
+      "wordCountFiltered": "（筛选自 {total} 个词汇）",
+      "poolTitle": "《你好！法语》词汇",
       "poolDesc": "{count} 个词",
       "filterLevel": "级别",
       "filterLesson": "课号",

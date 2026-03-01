@@ -8,7 +8,7 @@ import { AudioPlayer } from "./audio-player";
 import { getImageUrl } from "@/lib/api/media";
 import { LevelBadge } from "@/components/shared/level-badge";
 import { getTcfPoints } from "@/lib/tcf-levels";
-import { FrenchText } from "./french-text";
+import { FrenchText, type WordSaveContext } from "./french-text";
 
 const LISTENING_INSTRUCTIONS: Record<string, { fr: string; zhKey: string }> = {
   image: {
@@ -31,9 +31,11 @@ interface QuestionDisplayProps {
   vocabDisabled?: boolean;
   /** Callback when image load state changes (for layout adaptation) */
   onImageLoaded?: (loaded: boolean) => void;
+  /** Context for saving vocabulary words */
+  saveContext?: WordSaveContext;
 }
 
-export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext }: QuestionDisplayProps) {
   const t = useTranslations();
   const isListening = question.type === "listening";
   // Listening A1/A2 questions (Q1-10) may have an associated image in Azure
@@ -138,13 +140,13 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
 
       {question.passage && (
         <div className="max-h-[40vh] md:max-h-[60vh] overflow-y-auto rounded-md border bg-muted/50 p-4 text-sm leading-relaxed whitespace-pre-wrap">
-          <FrenchText text={question.passage} disabled={vocabDisabled} />
+          <FrenchText text={question.passage} disabled={vocabDisabled} saveContext={saveContext} />
         </div>
       )}
 
       {question.question_text && !isListening && (
         <p className="text-base font-medium">
-          <FrenchText text={question.question_text} disabled={vocabDisabled} />
+          <FrenchText text={question.question_text} disabled={vocabDisabled} saveContext={saveContext} />
         </p>
       )}
     </div>

@@ -17,7 +17,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { FrenchText } from "./french-text";
+import { FrenchText, type WordSaveContext } from "./french-text";
 import type { Explanation } from "@/lib/api/types";
 
 interface ExplanationPanelProps {
@@ -34,6 +34,8 @@ interface ExplanationPanelProps {
   onForceRefresh?: () => void;
   /** Called when panel is opened and needs data */
   onOpen?: () => void;
+  /** Context for saving vocabulary words */
+  saveContext?: WordSaveContext;
 }
 
 export function ExplanationPanel({
@@ -45,6 +47,7 @@ export function ExplanationPanel({
   onRetry,
   onForceRefresh,
   onOpen,
+  saveContext,
 }: ExplanationPanelProps) {
   const t = useTranslations();
   const [open, setOpen] = useState(defaultOpen);
@@ -216,7 +219,7 @@ export function ExplanationPanel({
                         >
                           <div className="flex items-start justify-between gap-1">
                             <span className="font-medium">
-                              {v.word && <FrenchText text={v.word} />}
+                              {v.word && <FrenchText text={v.word} saveContext={saveContext} />}
                             </span>
                             {v.freq && (
                               <span className="shrink-0 rounded bg-muted px-1 py-0.5 text-[10px] text-muted-foreground">

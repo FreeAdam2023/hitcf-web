@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Download, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ExportLimitError } from "@/lib/api/vocabulary";
+import { AnkiCardPreview } from "@/components/vocabulary/anki-card-preview";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -65,9 +66,10 @@ export function ExportDialog({ wordCount, onExport }: ExportDialogProps) {
             {t("vocabulary.export.description", { count: wordCount })}
           </DialogDescription>
         </DialogHeader>
-        <div className="rounded-lg border p-3 my-2">
+        <div className="my-1">
           <p className="font-medium">{t("vocabulary.export.ankiTitle")}</p>
-          <p className="text-sm text-muted-foreground">{t("vocabulary.export.ankiDesc")}</p>
+          <p className="text-sm text-muted-foreground mb-2">{t("vocabulary.export.ankiDesc")}</p>
+          <AnkiCardPreview />
         </div>
         {error && (
           <p className="text-sm text-destructive">{error}</p>

@@ -3,6 +3,7 @@ name: Build & Deploy
 on:
   push:
     branches: [main, dev]
+  workflow_dispatch:
 
 env:
   ACR_REGISTRY: tomtroveacr.azurecr.io

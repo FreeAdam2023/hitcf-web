@@ -227,7 +227,7 @@ export function TestList() {
       } else if (tab === "writing" && browseMode === "level") {
         const res = await listWritingTopics({
           task_number: writingTache,
-          page_size: 600,
+          page_size: 500,
         });
         setWritingTopics(res.items);
         setTests([]);

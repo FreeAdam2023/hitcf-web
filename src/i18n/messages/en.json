@@ -990,6 +990,7 @@
     "title": "Vocabulary",
     "subtitle": "Click words while practicing, save them, and review with flashcards",
     "loginHint": "Please log in to use the vocabulary feature",
+    "loginToSave": "Log in to save words",
     "viewAll": "View all →",
     "recentSaved": "Recently Saved",
     "stats": {
@@ -1012,6 +1013,7 @@
     },
     "flashcard": {
       "empty": "No saved words yet. Go practice and save some words first.",
+      "emptyNihao": "No vocabulary data. Try selecting a level or lesson.",
       "tapToFlip": "Tap to flip"
     },
     "export": {
@@ -1020,6 +1022,8 @@
       "description": "Export {count} words to a file",
       "ankiTitle": "Anki Deck (.apkg)",
       "ankiDesc": "Import into Anki Desktop with front/back card templates",
+      "previewFront": "Front",
+      "previewBack": "Back",
       "downloadButton": "Download",
       "exporting": "Exporting…",
       "errorRateLimit": "Daily export limit reached. Please try again tomorrow",
@@ -1028,9 +1032,14 @@
       "errorGeneric": "Export failed. Please try again later"
     },
     "nihaoFrench": {
-      "title": "Nihao French",
-      "subtitle": "Vocabulary from Nihao French textbooks, browse by level/lesson",
-      "poolTitle": "Nihao French Vocabulary",
+      "title": "Le nouveau Taxi",
+      "subtitle": "Vocabulary from Le nouveau Taxi (《你好！法语》) textbooks, browse by level/lesson",
+      "heroDesc": "Textbook vocabulary — flashcard review, Anki export, dictation drills",
+      "startFlashcard": "Start Flashcard Review",
+      "totalWords": "{count} words total",
+      "wordCount": "{total} words",
+      "wordCountFiltered": "(filtered from {total})",
+      "poolTitle": "Le nouveau Taxi Vocabulary",
       "poolDesc": "{count} words",
       "filterLevel": "Level",
       "filterLesson": "Lesson",
