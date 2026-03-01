@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export function Footer() {
   const t = useTranslations();
@@ -37,12 +39,44 @@ export function Footer() {
             >
               {t('footer.resources')}
             </Link>
-            <a
-              href="mailto:support@hitcf.com"
-              className="transition-colors hover:text-foreground"
-            >
-              {t('footer.contact')}
-            </a>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="cursor-pointer transition-colors hover:text-foreground">
+                  {t('footer.contact')}
+                </button>
+              </PopoverTrigger>
+              <PopoverContent side="top" className="w-64 p-4">
+                <p className="text-xs font-semibold mb-3">{t('footer.contact')}</p>
+                <a
+                  href="mailto:support@hitcf.com"
+                  className="block text-xs text-muted-foreground hover:text-foreground transition-colors mb-3"
+                >
+                  support@hitcf.com
+                </a>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="flex flex-col items-center gap-1.5">
+                    <Image
+                      src="/qr-xiaohongshu-cropped.jpg"
+                      alt="Xiaohongshu QR"
+                      width={100}
+                      height={100}
+                      className="rounded border"
+                    />
+                    <span className="text-[11px] text-muted-foreground">{t('footer.socialXhs')}</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5">
+                    <Image
+                      src="/qr-wechat-cropped.jpg"
+                      alt="WeChat QR"
+                      width={100}
+                      height={100}
+                      className="rounded border"
+                    />
+                    <span className="text-[11px] text-muted-foreground">{t('footer.socialWechat')}</span>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
           {/* Right — legal links */}

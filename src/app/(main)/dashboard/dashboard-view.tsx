@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ChevronDown, ChevronRight, Users, Trophy } from "lucide-react";
+import { ChevronDown, ChevronRight, Trophy } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -109,12 +109,6 @@ export function DashboardView() {
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Button asChild>
           <Link href="/tests">{hasData ? t("dashboard.continuePractice") : t("dashboard.startPractice")}</Link>
-        </Button>
-        <Button variant="outline" className="gap-1.5" asChild>
-          <a href="https://t.me/hitcf_group" target="_blank" rel="noopener noreferrer">
-            <Users className="h-4 w-4" />
-            {t("dashboard.joinStudyGroup")}
-          </a>
         </Button>
       </div>
 
@@ -245,6 +239,7 @@ export function DashboardView() {
           )}
         </>
       )}
+
     </div>
   );
 }
