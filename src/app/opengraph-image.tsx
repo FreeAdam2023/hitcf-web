@@ -128,7 +128,7 @@ export default async function OgImage() {
             fontWeight: 400,
           }}
         >
-          每月一杯咖啡钱，8,500+ 道真题随时练
+          8,500+ 道真题 + 词汇工具，刷题翻卡一站搞定
         </div>
 
         {/* Stats bar */}

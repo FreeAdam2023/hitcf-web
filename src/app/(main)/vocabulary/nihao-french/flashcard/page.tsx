@@ -17,14 +17,11 @@ function NihaoFlashcardInner() {
     return res.items.map((item) => ({
       word: item.word,
       display_form: item.display_form,
-      ipa: item.ipa,
       audio_url: item.audio_url,
-      cefr_level: item.cefr_level || item.level,
-      meaning_zh: item.meaning_zh,
-      meaning_en: item.meaning_en,
-      part_of_speech: item.part_of_speech,
       source_label: `${item.level} · ${t("vocabulary.nihaoFrench.lesson", { num: item.lesson })}${item.theme ? ` · ${item.theme}` : ""}`,
-      sentence: item.example_fr,
+      pool_meaning_zh: item.meaning_zh,
+      gender: item.gender,
+      part_of_speech: item.part_of_speech,
     }));
   }, [level, lesson, t]);
 

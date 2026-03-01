@@ -32,14 +32,12 @@ function FlashcardInner() {
       return {
         word: item.word,
         display_form: item.display_form,
-        ipa: item.ipa,
         audio_url: item.audio_url,
-        cefr_level: item.cefr_level,
-        meaning_zh: item.meaning_zh,
-        meaning_en: item.meaning_en,
-        part_of_speech: item.part_of_speech,
         source_label: sourceParts.join(" · ") || null,
-        sentence: item.sentence,
+        pool_meaning_zh: item.meaning_zh,
+        gender: item.gender,
+        article: item.article,
+        part_of_speech: item.part_of_speech,
       };
     });
   }, [session?.user, sourceType, t]);

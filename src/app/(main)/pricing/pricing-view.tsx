@@ -57,14 +57,14 @@ const PLANS = [
   {
     key: "yearly" as const,
     name: "年付",
-    price: "US$79.90",
+    price: "US$99.90",
     unit: "/ 年",
-    equiv: "含 2 个月免费，≈ US$6.66 / 月",
+    equiv: "含 2 个月免费，≈ US$8.33 / 月",
     badge: "最受欢迎",
     trialLabel: "2 个月免费试用",
     recommended: true,
-    monthlyPrice: "US$6.66",
-    valueDesc: "每月一杯星巴克的钱，刷完四科 8,500 道题",
+    monthlyPrice: "US$8.33",
+    valueDesc: "每月一杯咖啡的钱，刷题 + 翻卡 + 听写 + 导出 Anki",
     savingsVsTutor: "比请家教便宜 99%",
   },
 ];
@@ -78,6 +78,8 @@ const COMPARISON = [
   { feature: "错题本 + 专项突破", free: false, pro: true },
   { feature: "速练模式（按等级 / 题型刷题）", free: false, pro: true },
   { feature: "CLB 等级估算 + 准备度分析", free: false, pro: true },
+  { feature: "生词本 + 翻卡复习 + 听写模式", free: false, pro: true },
+  { feature: "Anki 导出 + 教材词汇池", free: false, pro: true },
   { feature: "练习历史 + 统计仪表盘", free: "基础", pro: true },
 ];
 
@@ -148,10 +150,10 @@ export function PricingView() {
       {/* ---- Headline ---- */}
       <div className="text-center">
         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
-          8,500+ 道 TCF 真题，四科全覆盖
+          8,500+ 道 TCF 真题 + 词汇工具，四科全覆盖
         </h1>
         <p className="mt-2 text-muted-foreground">
-          考试模式 + 错题本 + 速练，系统化备考 CLB 7
+          刷题 + 翻卡 + 听写 + Anki 导出，系统化备考 CLB 7
         </p>
       </div>
 

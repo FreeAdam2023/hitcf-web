@@ -20,9 +20,11 @@ import {
   BookOpen,
   TableProperties,
   Info,
+  Users,
 } from "lucide-react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 
@@ -782,6 +784,28 @@ export function ResourcesContent() {
             >
               查看学习资源
             </Link>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="inline-flex h-11 items-center gap-2 rounded-md border px-6 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer">
+                  <Users className="h-4 w-4" />
+                  加入备考社区
+                </button>
+              </PopoverTrigger>
+              <PopoverContent side="top" className="w-64 p-4">
+                <p className="text-xs font-semibold mb-1">加入备考社区</p>
+                <p className="text-[11px] text-muted-foreground mb-3">和考友一起备考，互助答疑</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <a href="https://www.xiaohongshu.com/user/profile/605439725" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-1.5">
+                    <Image src="/qr-xiaohongshu-cropped.jpg" alt="Xiaohongshu QR" width={100} height={100} className="rounded-lg border transition-transform group-hover:scale-105" />
+                    <span className="text-[11px] text-muted-foreground group-hover:text-foreground transition-colors">关注小红书</span>
+                  </a>
+                  <div className="flex flex-col items-center gap-1.5">
+                    <Image src="/qr-wechat-cropped.jpg" alt="WeChat QR" width={100} height={100} className="rounded-lg border" />
+                    <span className="text-[11px] text-muted-foreground">加微信入群</span>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </section>

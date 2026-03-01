@@ -8,6 +8,8 @@ type Tab = "front" | "back";
 export function AnkiCardPreview() {
   const t = useTranslations();
   const [tab, setTab] = useState<Tab>("front");
+  const [conjOpen, setConjOpen] = useState(false);
+  const [exOpen, setExOpen] = useState(false);
 
   return (
     <div className="rounded-lg border overflow-hidden my-2">
@@ -48,8 +50,10 @@ export function AnkiCardPreview() {
       >
         {tab === "front" ? (
           <>
-            <div style={{ fontSize: "18px", color: "#888" }}>la</div>
-            <div style={{ fontSize: "32px", fontWeight: "bold", marginBottom: "4px" }}>
+            {/* Article — rose for féminin */}
+            <div style={{ fontSize: "18px", color: "#e11d48" }}>la</div>
+            {/* Word — rose for féminin */}
+            <div style={{ fontSize: "32px", fontWeight: "bold", marginBottom: "4px", color: "#e11d48" }}>
               bienvenue
             </div>
             <div style={{ fontSize: "20px", opacity: 0.5 }}>🔊</div>
@@ -80,11 +84,12 @@ export function AnkiCardPreview() {
               <span
                 style={{
                   display: "inline-block",
-                  background: "#f0e4f7",
+                  background: "#fce4ec",
                   borderRadius: "4px",
                   padding: "2px 8px",
                   fontSize: "12px",
                   margin: "2px",
+                  color: "#e11d48",
                 }}
               >
                 fém.
@@ -102,10 +107,34 @@ export function AnkiCardPreview() {
                 A1
               </span>
             </div>
-            <div style={{ fontSize: "14px", color: "#555", marginTop: "8px" }}>
-              <span style={{ fontStyle: "italic" }}>Bienvenue en France !</span>
+
+            {/* Expandable: Conjugation example */}
+            <div style={{ marginTop: "10px", textAlign: "left" }}>
+              <button
+                onClick={() => setConjOpen(!conjOpen)}
+                style={{
+                  cursor: "pointer",
+                  fontSize: "13px",
+                  color: "#888",
+                  textAlign: "center",
+                  padding: "4px 0",
+                  background: "none",
+                  border: "none",
+                  width: "100%",
+                }}
+              >
+                Exemple ▼
+              </button>
+              {conjOpen && (
+                <div style={{ marginTop: "6px" }}>
+                  <div style={{ fontSize: "14px", color: "#555" }}>
+                    <span style={{ fontStyle: "italic" }}>Bienvenue en France !</span>
+                  </div>
+                  <div style={{ fontSize: "13px", color: "#777" }}>欢迎来到法国！</div>
+                </div>
+              )}
             </div>
-            <div style={{ fontSize: "13px", color: "#777" }}>欢迎来到法国！</div>
+
             <div
               style={{
                 marginTop: "16px",
@@ -115,7 +144,7 @@ export function AnkiCardPreview() {
                 color: "#bbb",
               }}
             >
-              HiTCF.com
+              HiTCF.com — TCF Canada 在线练习平台
             </div>
           </>
         )}

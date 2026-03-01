@@ -218,7 +218,7 @@ const LANDING_FAQ = [
   },
   {
     q: "Pro 会员有什么好处？",
-    a: "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式和 CLB 等级估算。年付享 2 个月免费试用，不满意随时取消。",
+    a: "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式、生词本、翻卡复习、听写练习和 Anki 导出。年付享 2 个月免费试用，不满意随时取消。",
   },
   {
     q: "能保证考到 CLB 7 吗？",
@@ -239,6 +239,7 @@ const PLAN_FEATURES = [
   "考试模式（计时 + 评分）",
   "错题本 + 速练",
   "口语 + 写作 AI 练习",
+  "生词本 + 翻卡 + 听写 + Anki 导出",
 ];
 
 export function LandingPage() {
@@ -273,9 +274,9 @@ export function LandingPage() {
                 ，练出来的
               </h1>
               <p className="animate-fade-in-up-d2 mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-                8,500+ 道 TCF Canada 真题，听力阅读口语写作全覆盖。
+                8,500+ 道 TCF Canada 真题 + 词汇工具，四科全覆盖。
                 <br className="hidden sm:block" />
-                做题、看解析、练错题——你只需要不断重复这个循环。
+                刷题、翻卡、听写、导出 Anki——系统化备考，练到 CLB 7。
               </p>
               <div className="animate-fade-in-up-d3 mt-10 flex flex-wrap justify-center gap-4 lg:justify-start">
                 {isAuthenticated ? (
@@ -570,7 +571,7 @@ export function LandingPage() {
               不只是题库，是完整的备考系统
             </h2>
             <p className="mt-3 text-muted-foreground">
-              做题 → 看解析 → 练错题 → 再做题，循环直到达标
+              刷题 → 错题本 → 生词本 → 翻卡复习 → 再做题，循环直到达标
             </p>
           </div>
           <div className="mt-14 grid gap-8 sm:grid-cols-3">
