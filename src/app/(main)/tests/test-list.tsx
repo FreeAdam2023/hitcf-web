@@ -184,7 +184,7 @@ export function TestList() {
   // Fetch all user attempts once to build progress map
   useEffect(() => {
     if (!isAuthenticated) return;
-    listAttempts({ page_size: 500 })
+    listAttempts({ page_size: 100 })
       .then((res) => setAttemptMap(buildAttemptMap(res.items)))
       .catch(() => {});
   }, [isAuthenticated]);
