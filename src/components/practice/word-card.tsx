@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Loader2, Star, Volume2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
@@ -142,10 +142,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
       >
         <div className="p-3 space-y-2.5">
           {loading ? (
-            <div className="flex items-center justify-center py-6">
-              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-              <span className="ml-2 text-sm text-muted-foreground">{t("wordCard.loading")}</span>
-            </div>
+            <WordCardLoading />
           ) : error ? (
             <div className="py-4 text-center text-sm text-muted-foreground">
               {t("wordCard.error")}
@@ -394,6 +391,42 @@ function VerbConjugation({ data }: { data: VocabularyCardData }) {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+/** Progressive loading messages for first-time word generation */
+function WordCardLoading() {
+  const t = useTranslations();
+  const messages = useMemo(
+    () => [
+      t("wordCard.loadMsg1"),
+      t("wordCard.loadMsg2"),
+      t("wordCard.loadMsg3"),
+      t("wordCard.loadMsg4"),
+      t("wordCard.loadMsg5"),
+      t("wordCard.loadMsg6"),
+    ],
+    [t],
+  );
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    const delays = [4000, 5000, 7000, 9000, 15000];
+    if (idx >= delays.length) return;
+    const timer = setTimeout(() => setIdx((i) => i + 1), delays[idx]);
+    return () => clearTimeout(timer);
+  }, [idx]);
+
+  return (
+    <div className="flex flex-col items-center justify-center py-8 gap-3">
+      <Loader2 className="h-6 w-6 animate-spin text-primary/60" />
+      <p
+        key={idx}
+        className="text-sm text-muted-foreground animate-in fade-in duration-500 text-center px-4"
+      >
+        {messages[idx]}
+      </p>
     </div>
   );
 }

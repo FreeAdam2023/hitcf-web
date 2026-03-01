@@ -260,6 +260,26 @@
     "subscribeUnlock": "Subscribe to Unlock",
     "attempts": "{count}x"
   },
+  "sharePoster": {
+    "subtitle": "TCF Canada Online Practice",
+    "tagline": "Your TCF Canada Prep Tool",
+    "correct": "Correct {score}/{total}",
+    "timeTaken": "\u00b7 Time {time}",
+    "tierExcellent": "Excellent! NCLC 10+ level!",
+    "tierGreat": "Amazing! Reached NCLC 7!",
+    "tierGood": "Great! Push harder to reach NCLC 7!",
+    "tierProgress": "Making progress! Keep practicing!",
+    "tierKeepGoing": "Keep going! Every practice counts!",
+    "tierExcellentShort": "Excellent!",
+    "tierGreatShort": "Amazing!",
+    "tierGoodShort": "Great! Keep it up!",
+    "tierProgressShort": "Making progress!",
+    "tierKeepGoingShort": "Keep going! Every practice counts!",
+    "typeListening": "Listening",
+    "typeReading": "Reading",
+    "typeSpeaking": "Speaking",
+    "typeWriting": "Writing"
+  },
   "testDetail": {
     "breadcrumbTests": "Tests",
     "questionCount": "Questions",
@@ -454,7 +474,13 @@
     "save": "Save",
     "saved": "Saved",
     "unsave": "Unsave",
-    "familyTitle": "Word Family"
+    "familyTitle": "Word Family",
+    "loadMsg1": "Exploring uncharted word territory...",
+    "loadMsg2": "First discovery! Mining the word vein...",
+    "loadMsg3": "AI is hand-crafting your word card...",
+    "loadMsg4": "Pronunciation, meanings, examples... building them all",
+    "loadMsg5": "You're the first to explore this word!",
+    "loadMsg6": "Almost there, just a moment more..."
   },
   "exam": {
     "session": {
@@ -1612,5 +1638,229 @@
       "p1": "If you have any questions about this Disclaimer, please contact: <email>support@hitcf.com</email>"
     },
     "footerLinks": "Other legal documents: <terms>Terms of Service</terms> \u00b7 <privacy>Privacy Policy</privacy> \u00b7 <refund>Refund Policy</refund>"
+  },
+  "termsPage": {
+    "heading": "Terms of Service",
+    "lastUpdated": "Last updated: February 23, 2026",
+    "intro": "Welcome to HiTCF (hereinafter referred to as \u201cthe Platform\u201d or \u201cwe\u201d). The Platform is operated by HiTCF, registered in Canada. By using the Platform, you agree to the following terms. If you do not agree, please stop using the Platform.",
+    "service": {
+      "title": "1. Service Description",
+      "p1": "HiTCF is a TCF Canada online practice platform that provides mock practice questions for listening, reading, speaking, and writing. The content provided is for practice and reference purposes only and <b>does not represent or guarantee actual TCF Canada exam scores or results</b>."
+    },
+    "account": {
+      "title": "2. Account & Registration",
+      "li1": "Users authenticate via email-based registration. You are responsible for keeping your login credentials secure.",
+      "li2": "Each account is for personal use only and may not be transferred, lent, or shared with others.",
+      "li3": "If abnormal usage, abuse, or violation of these terms is detected, we reserve the right to suspend or terminate the account."
+    },
+    "subscription": {
+      "title": "3. Subscription & Payment",
+      "li1": "The Platform offers free content and paid subscription (Pro) services. Payments are processed through Stripe.",
+      "li2": "Subscriptions are <b>auto-renewing</b>. Unless you cancel before the end of the current billing cycle, you will be automatically charged for the next cycle.",
+      "li3": "You may cancel your subscription at any time via the Stripe customer portal. After cancellation, your current period remains active.",
+      "li4": "Prices may change. We will notify you by email before any price changes, which take effect at the next renewal.",
+      "li5": "For refund details, please see our <refund>Refund Policy</refund>."
+    },
+    "trial": {
+      "title": "4. Free Trial",
+      "p1": "We may offer a free trial period. After the trial ends, if you have not cancelled, you will be automatically charged according to your selected plan. Each user is eligible for one free trial only."
+    },
+    "acceptableUse": {
+      "title": "5. Acceptable Use",
+      "p1": "You agree not to:",
+      "li1": "Use any automated means (crawlers, scripts, etc.) to scrape, copy, or download Platform content;",
+      "li2": "Redistribute, sell, or commercially use Platform content (questions, audio, explanations, etc.);",
+      "li3": "Attempt to bypass payment restrictions, tamper with data, or reverse-engineer or penetration-test the Platform;",
+      "li4": "Interfere with the normal operation of the Platform or other users\u2019 experience."
+    },
+    "ip": {
+      "title": "6. Intellectual Property",
+      "li1": "The Platform\u2019s website design, branding, user interface, and original code are owned by HiTCF and protected by copyright law. They may not be copied, modified, or distributed without written authorization.",
+      "li2": "Practice questions, audio, and related materials are compiled and edited from publicly available sources. The intellectual property of the original content belongs to its respective rights holders. If any rights holder believes content on this Platform infringes their rights, please contact <email>support@hitcf.com</email> and we will address it promptly after verification.",
+      "li3": "Users may not scrape, copy, or redistribute any content on this Platform for commercial purposes, regardless of its original source."
+    },
+    "disclaimer": {
+      "title": "7. Disclaimer",
+      "li1": "Platform content is for learning and practice reference only and <b>does not constitute any form of exam score guarantee, immigration advice, or legal advice</b>.",
+      "li2": "The \u201cCLB level estimates\u201d and \u201creadiness assessments\u201d provided are based on statistical analysis of practice data and are <b>for reference only \u2014 they do not represent actual exam scores</b>.",
+      "li3": "We strive to ensure content accuracy but are not liable for any errors or omissions in question content.",
+      "li4": "For the full disclaimer, please see our <disclaimerLink>Disclaimer</disclaimerLink> page."
+    },
+    "serviceChanges": {
+      "title": "8. Service Changes & Interruptions",
+      "p1": "We reserve the right to modify, suspend, or terminate all or part of the service without prior notice. We are not liable for any losses caused by service interruptions. We will make reasonable efforts to provide advance notice of significant changes."
+    },
+    "liability": {
+      "title": "9. Limitation of Liability",
+      "p1": "To the maximum extent permitted by law, HiTCF and its operators shall not be liable for any direct, indirect, incidental, special, or consequential damages arising from the use or inability to use the Platform, including but not limited to unsatisfactory exam results, immigration application outcomes, or data loss."
+    },
+    "governing": {
+      "title": "10. Governing Law & Dispute Resolution",
+      "p1": "These terms are governed by the laws of Canada. Any disputes arising from these terms or use of the Platform shall first be resolved through good-faith negotiation; if negotiation fails, they shall be submitted to a court of competent jurisdiction in Canada."
+    },
+    "modifications": {
+      "title": "11. Modifications to Terms",
+      "p1": "We reserve the right to modify these terms at any time. Updated terms will be posted on this page with an updated \u201cLast updated\u201d date. Continued use of the Platform constitutes acceptance of the modified terms. We will notify you by email of significant changes."
+    },
+    "contact": {
+      "title": "12. Contact",
+      "p1": "If you have any questions about these terms, please contact: <email>support@hitcf.com</email>"
+    }
+  },
+  "privacyPage": {
+    "heading": "Privacy Policy",
+    "lastUpdated": "Last updated: February 23, 2026",
+    "intro": "HiTCF (hereinafter referred to as \u201cthe Platform\u201d or \u201cwe\u201d) values your privacy. This Privacy Policy explains how we collect, use, store, and protect your personal information, in compliance with Canada\u2019s Personal Information Protection and Electronic Documents Act (PIPEDA).",
+    "infoCollect": {
+      "title": "1. Information We Collect",
+      "authTitle": "1.1 Authentication Information",
+      "authP1": "Users register and log in via email. Through this process, we collect:",
+      "authLi1": "Email address",
+      "authLi2": "Name (provided during registration)",
+      "payTitle": "1.2 Payment Information",
+      "payP1": "Paid subscriptions are processed through Stripe. We <b>do not</b> directly store your credit card numbers or bank card information. Stripe, as a PCI DSS Level 1 certified payment processor, independently manages your payment data. We only store:",
+      "payLi1": "Stripe customer ID",
+      "payLi2": "Subscription status and expiration date",
+      "payLi3": "Payment event records (success/failure, no card numbers)",
+      "usageTitle": "1.3 Usage Data",
+      "usageP1": "During your use of the Platform, we automatically collect:",
+      "usageLi1": "Practice and exam records (answers, scores, time spent)",
+      "usageLi2": "Wrong answer records",
+      "usageLi3": "Practice statistics (accuracy rates, streak days, etc.)",
+      "cookieTitle": "1.4 Cookies & Similar Technologies",
+      "cookieP1": "The Platform uses the following cookies or similar technologies:",
+      "cookieLi1": "<b>Authentication Token</b>: Used for identity verification and maintaining login state (essential cookie)",
+      "cookieLi2": "<b>Locale Preference</b>: Used to remember your language preference (essential cookie)",
+      "cookieP2": "The Platform currently <b>does not use</b> third-party analytics tools (such as Google Analytics) or advertising tracking cookies. If introduced in the future, this policy will be updated and users will be notified."
+    },
+    "purpose": {
+      "title": "2. Purpose of Information Use",
+      "p1": "Personal information we collect is used solely for:",
+      "li1": "Providing and maintaining Platform services (authentication, practice records, performance statistics)",
+      "li2": "Processing subscription payments and managing account status",
+      "li3": "Sending you important account-related notifications (subscription changes, terms updates)",
+      "li4": "Improving Platform features and user experience",
+      "li5": "Preventing fraud and abuse",
+      "p2": "We <b>will not</b> use your personal information for advertising or sell it to third parties."
+    },
+    "storage": {
+      "title": "3. Data Storage & Security",
+      "li1": "User data is stored in a MongoDB database deployed in a secure cloud server environment.",
+      "li2": "Audio files are hosted on Microsoft Azure Blob Storage.",
+      "li3": "All data transmission is encrypted via HTTPS/TLS.",
+      "li4": "We take reasonable technical and organizational measures to protect your data, but no internet transmission or electronic storage is 100% secure."
+    },
+    "thirdParty": {
+      "title": "4. Third-Party Services",
+      "p1": "The Platform uses the following third-party services, each with their own privacy policies:",
+      "thService": "Service",
+      "thPurpose": "Purpose",
+      "thData": "Data Type",
+      "stripe": "Payment processing",
+      "stripeData": "Payment info, subscription status",
+      "azure": "Audio file storage",
+      "azureData": "Audio files (no personal info)",
+      "vercel": "Website hosting",
+      "vercelData": "Access logs"
+    },
+    "retention": {
+      "title": "5. Data Retention",
+      "li1": "Account information: Retained for the duration of your account.",
+      "li2": "Practice records: Retained for the duration of your account. If you delete your account, related data will be deleted within 30 days.",
+      "li3": "Payment records: May be retained for up to 7 years as required by tax and legal obligations."
+    },
+    "rights": {
+      "title": "6. Your Rights",
+      "p1": "Under PIPEDA and applicable laws, you have the right to:",
+      "li1": "<b>Access</b>: View the personal information we hold about you.",
+      "li2": "<b>Correction</b>: Request correction of inaccurate personal information.",
+      "li3": "<b>Deletion</b>: Request deletion of your personal information (subject to legal retention obligations).",
+      "li4": "<b>Data Export</b>: Obtain a copy of your practice data.",
+      "li5": "<b>Withdraw Consent</b>: Withdraw consent for data processing (which may result in inability to use certain services).",
+      "p2": "To exercise these rights, please contact: <email>support@hitcf.com</email>. We will respond to your request within 30 days."
+    },
+    "minors": {
+      "title": "7. Minors",
+      "p1": "The Platform is not intended for individuals under 16 years of age. We do not knowingly collect personal information from minors. If we discover we have collected information from a minor, it will be immediately deleted."
+    },
+    "crossBorder": {
+      "title": "8. Cross-Border Data Transfers",
+      "p1": "Your data may be stored and processed on servers outside of Canada (including but not limited to the United States, due to the use of Stripe, Azure, and similar services). We ensure that these service providers maintain adequate data protection measures."
+    },
+    "policyChanges": {
+      "title": "9. Policy Changes",
+      "p1": "We may update this Privacy Policy from time to time. Updated policies will be posted on this page with an updated \u201cLast updated\u201d date. For significant changes, we will notify you by email."
+    },
+    "contact": {
+      "title": "10. Contact",
+      "p1": "If you have any questions about this Privacy Policy or need to exercise your data rights, please contact:",
+      "li1": "Email: <email>support@hitcf.com</email>"
+    }
+  },
+  "refundPage": {
+    "heading": "Refund Policy",
+    "lastUpdated": "Last updated: February 23, 2026",
+    "intro": "Thank you for choosing HiTCF. This refund policy applies to all paid subscription services purchased through the Platform.",
+    "freeTrial": {
+      "title": "1. Free Trial",
+      "li1": "All new users are eligible for a free trial (<b>2 months for the yearly plan</b>, 7 days for monthly/quarterly plans). No charges during the trial period.",
+      "li2": "You may cancel at any time during the trial at no cost.",
+      "li3": "After the trial ends, if not cancelled, you will be automatically charged according to your selected plan.",
+      "li4": "Each user (per email address) is eligible for one free trial only."
+    },
+    "cancellation": {
+      "title": "2. Subscription Cancellation",
+      "li1": "You may cancel your subscription at any time via the \u201cManage Subscription\u201d button on the <pricing>Pricing page</pricing>, which opens the Stripe customer portal.",
+      "li2": "After cancellation, your Pro access remains active until the end of the current billing period, after which you will be downgraded to a free user.",
+      "li3": "Cancelling a subscription <b>does not</b> automatically generate a refund."
+    },
+    "conditions": {
+      "title": "3. Refund Conditions",
+      "p1": "The following situations are eligible for a refund:",
+      "fullTitle": "3.1 Full Refund",
+      "fullLi1": "Within <b>48 hours</b> of your first payment, if you are unsatisfied with the service.",
+      "fullLi2": "If a Platform technical issue (such as prolonged login failures or widespread feature outages) prevents you from using the service, and we fail to resolve it within 72 hours.",
+      "fullLi3": "Duplicate or erroneous charges.",
+      "proTitle": "3.2 Prorated Refund",
+      "proLi1": "Quarterly or yearly subscribers who request a refund within <b>14 days</b> of payment may receive a prorated refund for unused days.",
+      "noTitle": "3.3 Non-Refundable",
+      "noLi1": "Monthly subscribers requesting a refund after the initial 48 hours.",
+      "noLi2": "Quarterly/yearly subscribers requesting a refund after 14 days.",
+      "noLi3": "Non-use due to personal reasons (e.g., forgetting to cancel auto-renewal, personal scheduling).",
+      "noLi4": "Refund requests based on unsatisfactory exam results (the Platform does not guarantee exam outcomes \u2014 see our <disclaimerLink>Disclaimer</disclaimerLink>).",
+      "noLi5": "Account suspension or termination due to violation of <termsLink>Terms of Service</termsLink>."
+    },
+    "process": {
+      "title": "4. Refund Process",
+      "step1": "Send an email to <email>support@hitcf.com</email> with:",
+      "step1Li1": "Your registered email address",
+      "step1Li2": "Subscription plan and payment date",
+      "step1Li3": "Reason for refund",
+      "step2": "We will review and respond within <b>3 business days</b>.",
+      "step3": "Once approved, the refund will be processed via Stripe to your original payment method, typically arriving within <b>5\u201310 business days</b>."
+    },
+    "disputes": {
+      "title": "5. Stripe Disputes",
+      "p1": "If you initiate a dispute (chargeback) through your bank or credit card company, we will provide transaction records and service usage evidence in response. <b>We recommend contacting us before initiating a dispute</b> \u2014 we prefer to resolve issues through friendly communication."
+    },
+    "contact": {
+      "title": "6. Contact",
+      "p1": "For refund-related questions, please contact: <email>support@hitcf.com</email>"
+    }
+  },
+  "schema": {
+    "siteDescription": "TCF Canada online practice platform \u2014 8,500+ questions to help you reach CLB 7",
+    "faq1q": "Is HiTCF an official platform?",
+    "faq1a": "No. HiTCF is an independently operated third-party practice platform with no affiliation to France \u00c9ducation international or IRCC. Practice questions are compiled from publicly available materials and formatted to match TCF Canada, but are not actual exam questions.",
+    "faq2q": "What can I do with the free version?",
+    "faq2a": "The free version includes the first listening set and first 2 reading sets with all questions, in both practice and exam mode. Unlimited attempts, forever free.",
+    "faq3q": "What are the benefits of Pro?",
+    "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, and Anki export. Yearly plans include a 2-month free trial, cancel anytime.",
+    "faq4q": "Can you guarantee I\u2019ll reach CLB 7?",
+    "faq4a": "No. HiTCF provides a practice environment aligned with TCF Canada to help you identify and improve weak areas. However, actual scores depend on many factors \u2014 we do not promise any exam results.",
+    "faq5q": "How do I practice speaking and writing?",
+    "faq5a": "Speaking and writing sections provide real exam topics and tasks, with the option to jump to ChatGPT for AI conversation practice and essay correction \u2014 essentially a free AI tutor.",
+    "faq6q": "How do I request a refund?",
+    "faq6a": "Full refund within 48 hours of first payment. Quarterly/yearly subscribers can get a prorated refund within 14 days. Simply email support@hitcf.com \u2014 processed within 3 business days."
   }
 }
