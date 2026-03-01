@@ -384,6 +384,65 @@ export interface WritingAttemptTaskResult {
   feedback: WritingFeedback | null;
 }
 
+// Saved Words
+export interface SavedWordItem {
+  id: string;
+  word: string;
+  source_type: string | null;
+  test_set_id: string | null;
+  test_set_name: string | null;
+  question_number: number | null;
+  sentence: string | null;
+  created_at: string;
+  // Joined from vocabulary_cards:
+  meaning_zh: string | null;
+  meaning_en: string | null;
+  meaning_native: string | null;
+  ipa: string | null;
+  cefr_level: string | null;
+  part_of_speech: string | null;
+  audio_url: string | null;
+  display_form: string | null;
+  gender: string | null;
+  article: string | null;
+}
+
+export interface SavedWordStats {
+  total: number;
+  by_source_type: Record<string, number>;
+}
+
+// Nihao French Words
+export interface NihaoWordItem {
+  id: string;
+  word: string;
+  display_form: string;
+  level: string;
+  lesson: number;
+  lesson_title: string | null;
+  theme: string | null;
+  example_fr: string | null;
+  example_zh: string | null;
+  part_of_speech: string | null;
+  gender: string | null;
+  ipa: string | null;
+  meaning_zh: string | null;
+  meaning_en: string | null;
+  cefr_level: string | null;
+  audio_url: string | null;
+}
+
+export interface NihaoFilters {
+  levels: string[];
+  lessons: { lesson: number; level: string; lesson_title: string | null }[];
+  themes: string[];
+}
+
+export interface NihaoStats {
+  total: number;
+  by_level: Record<string, number>;
+}
+
 // Vocabulary Card
 export interface ConjugationTable {
   je: string;
@@ -431,4 +490,13 @@ export interface VocabularyCardData {
   examples: { fr: string; en: string; zh?: string; native?: string }[];
   cefr_level: string | null;
   audio_url: string | null;
+  // Word family (if the word belongs to a curated group)
+  word_family?: {
+    group_key: string;
+    label_zh: string;
+    label_en: string;
+    emoji: string;
+    members: { word: string; display: string; display_full: string; meaning_zh: string }[];
+    current_word: string;
+  };
 }

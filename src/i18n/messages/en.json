@@ -70,6 +70,7 @@
     "tests": "Tests",
     "dashboard": "Dashboard",
     "wrongAnswers": "Wrong Notes",
+    "vocabulary": "Vocabulary",
     "history": "History",
     "speedDrill": "Speed Drill",
     "pricing": "Pricing",
@@ -438,7 +439,11 @@
     "verbConj": "Verb Conjugation",
     "verbGroup": "Group {group}",
     "pastParticiple": "Past Participle: {form}",
-    "auxiliary": "Auxiliary: {aux}"
+    "auxiliary": "Auxiliary: {aux}",
+    "save": "Save",
+    "saved": "Saved",
+    "unsave": "Unsave",
+    "familyTitle": "Word Family"
   },
   "exam": {
     "session": {
@@ -515,6 +520,14 @@
       "count": "Count",
       "correct": "Correct",
       "accuracy": "Accuracy"
+    },
+    "share": {
+      "button": "Share Score",
+      "title": "Share Your Score",
+      "subtitle": "Save the image and share it on social media!",
+      "save": "Save Image",
+      "saving": "Generating...",
+      "saved": "Saved! Go share it! 🎉"
     }
   },
   "encouragement": {
@@ -972,5 +985,98 @@
     "translationLabel": "Translated Instructions",
     "passageLabel": "Translated Reference Document",
     "fetchError": "Failed to load translation. Please try again."
+  },
+  "vocabulary": {
+    "title": "Vocabulary",
+    "subtitle": "Click words while practicing, save them, and review with flashcards",
+    "loginHint": "Please log in to use the vocabulary feature",
+    "viewAll": "View all →",
+    "recentSaved": "Recently Saved",
+    "stats": {
+      "total": "Total Saved"
+    },
+    "pools": {
+      "mySaved": "My Saved Words",
+      "savedCount": "{count} words",
+      "tcfCorpus": "TCF Corpus",
+      "comingSoon": "Coming soon"
+    },
+    "mySaved": {
+      "title": "My Saved Words",
+      "filterAll": "All",
+      "emptyTitle": "No saved words yet",
+      "emptyDesc": "Click any French word while practicing, then tap the ⭐ to save it",
+      "goToTests": "Go to Tests",
+      "flashcardReview": "Flashcard Review",
+      "remove": "Remove"
+    },
+    "flashcard": {
+      "empty": "No saved words yet. Go practice and save some words first.",
+      "tapToFlip": "Tap to flip"
+    },
+    "export": {
+      "button": "Export",
+      "title": "Export Vocabulary",
+      "description": "Export {count} words to a file",
+      "ankiTitle": "Anki Deck (.apkg)",
+      "ankiDesc": "Import into Anki Desktop with front/back card templates",
+      "downloadButton": "Download",
+      "exporting": "Exporting…"
+    },
+    "nihaoFrench": {
+      "title": "Nihao French",
+      "subtitle": "Vocabulary from Nihao French textbooks, browse by level/lesson",
+      "poolTitle": "Nihao French Vocabulary",
+      "poolDesc": "{count} words",
+      "filterLevel": "Level",
+      "filterLesson": "Lesson",
+      "filterTheme": "Theme",
+      "filterAll": "All",
+      "lesson": "Lesson {num}",
+      "emptyTitle": "No vocabulary data yet",
+      "emptyDesc": "The Nihao French vocabulary pool is being built"
+    },
+    "dictation": {
+      "button": "Dictation",
+      "title": "Dictation Mode",
+      "subtitle": "Listen and type the word",
+      "emptyTitle": "No words available for dictation",
+      "emptyDesc": "Save some words first",
+      "inputPlaceholder": "Type the word you hear…",
+      "strict": "Strict Mode",
+      "lenient": "Lenient Mode",
+      "strictDesc": "Accents must match",
+      "lenientDesc": "Ignore accent marks",
+      "correct": "Correct!",
+      "incorrect": "Incorrect",
+      "correctAnswer": "Correct answer: {word}",
+      "pressEnter": "Press Enter to continue",
+      "replayHint": "Press R to replay",
+      "resultsTitle": "Dictation Complete",
+      "accuracy": "Accuracy",
+      "correctCount": "{correct} / {total} correct",
+      "errorList": "Errors",
+      "restart": "Start Over",
+      "yourAnswer": "Your answer",
+      "back": "Back"
+    }
+  },
+  "speakingPractice": {
+    "title": "Speaking Practice",
+    "startPractice": "Practice",
+    "clickToRecord": "Click the microphone to start recording",
+    "stopRecording": "Stop Recording",
+    "transcript": "Transcript",
+    "tryAgain": "Try Again",
+    "noTopicSelected": "Please select a topic from the speaking topics list to start practicing",
+    "accuracy": "Accuracy",
+    "fluency": "Fluency",
+    "completeness": "Completeness",
+    "prosody": "Prosody",
+    "grade": "Grade",
+    "wordByWord": "Word-by-Word Scores",
+    "legendGood": "80+ Good",
+    "legendFair": "60-79 Fair",
+    "legendPoor": "<60 Needs Work"
   }
 }
