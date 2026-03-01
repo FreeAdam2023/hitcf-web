@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Loader2, RotateCcw, Volume2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, Volume2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -118,52 +118,65 @@ export function FlashCardView({ loadCards, backLink, backLabel, emptyMessage }: 
       {/* Progress bar */}
       <Progress value={progress} className="h-1.5" />
 
-      {/* Card */}
+      {/* Card — 3D flip */}
       <div
         onClick={handleFlip}
-        className="relative flex min-h-[280px] cursor-pointer items-center justify-center rounded-xl border-2 p-8 transition-all hover:shadow-md select-none"
+        className="cursor-pointer select-none"
+        style={{ perspective: "800px" }}
       >
-        {!flipped ? (
-          /* Front: word + IPA + audio */
-          <div className="text-center space-y-4">
-            <p className="text-3xl font-bold">{card.display_form || card.word}</p>
-            <div className="flex items-center justify-center gap-3">
-              {card.ipa && <span className="text-sm text-muted-foreground font-mono">{card.ipa}</span>}
+        <div
+          className="relative min-h-[280px] transition-transform duration-500"
+          style={{
+            transformStyle: "preserve-3d",
+            transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          }}
+        >
+          {/* Front — only the word + speaker, nothing else */}
+          <div
+            className="absolute inset-0 flex items-center justify-center rounded-xl border-2 p-8 bg-background shadow-sm hover:shadow-md transition-shadow"
+            style={{ backfaceVisibility: "hidden" }}
+          >
+            <div className="text-center space-y-4">
+              <p className="text-3xl font-semibold tracking-tight">{card.display_form || card.word}</p>
               <button
                 onClick={(e) => { e.stopPropagation(); speak(card.word, card.audio_url); }}
-                className="rounded-full p-1.5 hover:bg-muted transition-colors"
+                className="rounded-full p-2 hover:bg-muted transition-colors mx-auto"
               >
                 <Volume2 className={`h-5 w-5 ${playing ? "text-blue-500 animate-pulse" : "text-muted-foreground"}`} />
               </button>
-              {card.cefr_level && (
-                <Badge variant="secondary" className="text-xs">{card.cefr_level}</Badge>
+            </div>
+          </div>
+
+          {/* Back — full reveal, WordCard style */}
+          <div
+            className="absolute inset-0 flex items-center justify-center rounded-xl border-2 p-8 bg-background shadow-sm hover:shadow-md transition-shadow"
+            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+          >
+            <div className="text-center space-y-3 w-full max-w-sm">
+              <p className="text-lg font-semibold">{card.display_form || card.word}</p>
+              <div className="flex flex-wrap items-center justify-center gap-2 text-muted-foreground">
+                {card.ipa && <span className="text-sm font-mono">{card.ipa}</span>}
+                {card.part_of_speech && card.part_of_speech !== "OTHER" && (
+                  <Badge variant="outline" className="text-[10px] px-1 py-0">{card.part_of_speech}</Badge>
+                )}
+                {card.cefr_level && (
+                  <Badge variant="secondary" className="text-[10px] px-1.5 py-0">{card.cefr_level}</Badge>
+                )}
+              </div>
+              <div className="space-y-0.5">
+                {card.meaning_zh && <p className="text-base font-medium">{card.meaning_zh}</p>}
+                {card.meaning_en && <p className="text-xs text-muted-foreground">{card.meaning_en}</p>}
+              </div>
+              {card.sentence && (
+                <div className="rounded bg-muted/30 px-3 py-2 text-sm">
+                  <p className="italic text-foreground">{card.sentence}</p>
+                </div>
+              )}
+              {card.source_label && (
+                <p className="text-xs text-muted-foreground">{card.source_label}</p>
               )}
             </div>
-            {card.source_label && (
-              <p className="text-xs text-muted-foreground">{card.source_label}</p>
-            )}
-            <p className="text-xs text-muted-foreground/60">{t("vocabulary.flashcard.tapToFlip")}</p>
           </div>
-        ) : (
-          /* Back: meanings + sentence */
-          <div className="text-center space-y-3 w-full">
-            <p className="text-xl font-semibold">{card.display_form || card.word}</p>
-            {card.meaning_zh && <p className="text-lg">{card.meaning_zh}</p>}
-            {card.meaning_en && <p className="text-sm text-muted-foreground">{card.meaning_en}</p>}
-            {card.part_of_speech && card.part_of_speech !== "OTHER" && (
-              <Badge variant="outline" className="text-xs">{card.part_of_speech}</Badge>
-            )}
-            {card.sentence && (
-              <div className="mt-4 rounded-lg bg-muted/50 p-3">
-                <p className="text-sm italic">{card.sentence}</p>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Flip indicator */}
-        <div className="absolute bottom-3 right-3">
-          <RotateCcw className="h-4 w-4 text-muted-foreground/40" />
         </div>
       </div>
 

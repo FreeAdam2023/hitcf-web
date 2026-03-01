@@ -307,8 +307,6 @@ function WordFamilyChips({
   label: string;
   onWordClick: (word: string) => void;
 }) {
-  const t = useTranslations();
-
   return (
     <div className="rounded-md border border-border/50 bg-muted/20 px-2 py-1.5">
       <p className="text-[10px] font-medium text-muted-foreground mb-1">
