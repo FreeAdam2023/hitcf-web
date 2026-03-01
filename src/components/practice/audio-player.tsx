@@ -142,16 +142,6 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
     audio.muted = newMuted;
   };
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseFloat(e.target.value);
-    setVolume(val);
-    setMuted(val === 0);
-    if (audioRef.current) {
-      audioRef.current.volume = val;
-      audioRef.current.muted = val === 0;
-    }
-  };
-
   const onTimeUpdate = () => {
     const audio = audioRef.current;
     if (!audio || !audio.duration) return;
@@ -191,18 +181,11 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
           variant="ghost"
           size="icon"
           className="h-8 w-8 shrink-0"
-          onClick={() => {
-            if (showVolume) {
-              setShowVolume(false);
-            } else {
-              toggleMute();
-            }
-          }}
+          onClick={() => setShowVolume(!showVolume)}
           onContextMenu={(e) => {
             e.preventDefault();
-            setShowVolume(!showVolume);
+            toggleMute();
           }}
-          onDoubleClick={() => setShowVolume(!showVolume)}
           aria-label={muted ? t("audio.unmute") : t("audio.mute")}
         >
           {muted || volume === 0 ? (
@@ -212,18 +195,43 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
           )}
         </Button>
         {showVolume && (
-          <div className="absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 rounded-md border bg-popover p-2 shadow-md">
-            <input
-              type="range"
-              min={0}
-              max={1}
-              step={0.05}
-              value={muted ? 0 : volume}
-              onChange={handleVolumeChange}
-              className="h-20 w-1.5 cursor-pointer appearance-none rounded-full bg-muted accent-primary"
-              style={{ writingMode: "vertical-lr", direction: "rtl" }}
+          <div className="absolute top-full left-1/2 z-50 mt-2 -translate-x-1/2 rounded-lg border bg-popover px-2.5 py-3 shadow-md">
+            <div
+              className="relative h-20 w-1.5 rounded-full bg-muted cursor-pointer"
               aria-label={t("audio.volume")}
-            />
+              role="slider"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round((muted ? 0 : volume) * 100)}
+              onPointerDown={(e) => {
+                const el = e.currentTarget;
+                el.setPointerCapture(e.pointerId);
+                const rect = el.getBoundingClientRect();
+                const update = (clientY: number) => {
+                  const ratio = 1 - Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+                  const val = Math.round(ratio * 20) / 20;
+                  setVolume(val);
+                  setMuted(val === 0);
+                  if (audioRef.current) {
+                    audioRef.current.volume = val;
+                    audioRef.current.muted = val === 0;
+                  }
+                };
+                update(e.clientY);
+                const onMove = (ev: PointerEvent) => update(ev.clientY);
+                const onUp = () => {
+                  el.removeEventListener("pointermove", onMove);
+                  el.removeEventListener("pointerup", onUp);
+                };
+                el.addEventListener("pointermove", onMove);
+                el.addEventListener("pointerup", onUp);
+              }}
+            >
+              <div
+                className="absolute inset-x-0 bottom-0 rounded-full bg-primary transition-[height] duration-75"
+                style={{ height: `${(muted ? 0 : volume) * 100}%` }}
+              />
+            </div>
           </div>
         )}
       </div>
