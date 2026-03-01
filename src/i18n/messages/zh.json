@@ -563,8 +563,8 @@
       "accuracy": "正确率"
     },
     "continuePractice": "继续练习",
-    "unlockAll": "解锁全部 8,500+ 道真题 + 考试模式",
-    "yearlyDeal": "年付低至 $6.66/月，含 2 个月免费试用",
+    "unlockAll": "解锁全部 8,500+ 道真题 + 词汇工具",
+    "yearlyDeal": "年付低至 $8.33/月，含 2 个月免费试用",
     "upgradePro": "升级 Pro",
     "profile": {
       "title": "个人信息",
@@ -1014,7 +1014,11 @@
     "flashcard": {
       "empty": "暂无收藏词汇，请先去做题收藏一些生词",
       "emptyNihao": "暂无词汇数据，请选择一个级别或课号",
-      "tapToFlip": "点击翻转"
+      "tapToFlip": "点击翻转",
+      "showDict": "查看词典",
+      "hideDict": "收起词典",
+      "proDesc": "音标、变位、例句、发音等完整词典内容包含在 Pro 中",
+      "proUpgrade": "了解 Pro"
     },
     "export": {
       "button": "导出",

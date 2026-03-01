@@ -563,8 +563,8 @@
       "accuracy": "accuracy"
     },
     "continuePractice": "Continue Practice",
-    "unlockAll": "Unlock all 8,500+ questions + exam mode",
-    "yearlyDeal": "Yearly plan from $6.66/mo with 2 months free trial",
+    "unlockAll": "Unlock all 8,500+ questions + vocabulary tools",
+    "yearlyDeal": "Yearly plan from $8.33/mo with 2 months free trial",
     "upgradePro": "Upgrade to Pro",
     "profile": {
       "title": "Profile",
@@ -1014,7 +1014,11 @@
     "flashcard": {
       "empty": "No saved words yet. Go practice and save some words first.",
       "emptyNihao": "No vocabulary data. Try selecting a level or lesson.",
-      "tapToFlip": "Tap to flip"
+      "tapToFlip": "Tap to flip",
+      "showDict": "Dictionary",
+      "hideDict": "Hide dictionary",
+      "proDesc": "IPA, conjugations, examples & audio are included with Pro",
+      "proUpgrade": "Learn about Pro"
     },
     "export": {
       "button": "Export",
