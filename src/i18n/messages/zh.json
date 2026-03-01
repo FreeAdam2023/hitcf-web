@@ -102,7 +102,13 @@
     "terms": "服务条款",
     "privacy": "隐私政策",
     "refund": "退款政策",
-    "disclaimer": "免责声明"
+    "disclaimer": "免责声明",
+    "socialXhs": "小红书 @HiTCF",
+    "socialWechat": "微信 Hi_TCF",
+    "scanXhs": "扫码关注小红书",
+    "scanWechat": "扫码加微信好友",
+    "studyGroup": "备考群",
+    "scanGroup": "微信扫码入群"
   },
   "theme": {
     "lightMode": "切换到浅色模式",
@@ -563,8 +569,8 @@
       "accuracy": "正确率"
     },
     "continuePractice": "继续练习",
-    "unlockAll": "解锁全部 8,500+ 道真题 + 考试模式",
-    "yearlyDeal": "年付低至 $6.66/月，含 2 个月免费试用",
+    "unlockAll": "解锁全部 8,500+ 道真题 + 词汇工具",
+    "yearlyDeal": "年付低至 $8.33/月，含 2 个月免费试用",
     "upgradePro": "升级 Pro",
     "profile": {
       "title": "个人信息",
@@ -588,6 +594,24 @@
     "language": {
       "title": "界面语言",
       "description": "选择平台显示语言"
+    },
+    "heroGreetingPro": "Bonjour, {name}",
+    "heroGreetingFree": "Salut {name},",
+    "quotes": {
+      "0": "一点一点，鸟儿筑成了巢。——积少成多，功到自成。",
+      "1": "打铁才能成铁匠。——熟能生巧。",
+      "2": "有志者，事竟成。",
+      "3": "罗马不是一天建成的。",
+      "4": "不尝试就什么也得不到。",
+      "5": "勇者无难事。",
+      "6": "涓涓细流汇成大河。——积少成多。",
+      "7": "雨过天晴。——困难之后必有好日子。",
+      "8": "活着就能看到。——走着瞧，未来可期。",
+      "9": "夜晚会带来好主意。——一觉醒来就有办法了。",
+      "10": "迟做总比不做好。",
+      "11": "坚持是执着最高贵的形式。——Adrien Decourcelle",
+      "12": "未来属于早起的人。",
+      "13": "每学一门新语言，就多了一扇看世界的窗。"
     }
   },
   "dashboard": {
@@ -600,6 +624,12 @@
     "continuePractice": "继续练习",
     "startPractice": "开始练习",
     "joinStudyGroup": "加入备考群",
+    "community": {
+      "title": "加入备考社区",
+      "description": "和 TCF 考友一起备考，互助答疑，分享经验",
+      "followXhs": "关注小红书",
+      "joinGroup": "微信扫码入群"
+    },
     "hideDetails": "收起详情",
     "showDetails": "查看详情",
     "levelDistribution": "等级分布",
@@ -1014,7 +1044,11 @@
     "flashcard": {
       "empty": "暂无收藏词汇，请先去做题收藏一些生词",
       "emptyNihao": "暂无词汇数据，请选择一个级别或课号",
-      "tapToFlip": "点击翻转"
+      "tapToFlip": "点击翻转",
+      "showDict": "查看词典",
+      "hideDict": "收起词典",
+      "proDesc": "音标、变位、例句、发音等完整词典内容包含在 Pro 中",
+      "proUpgrade": "了解 Pro"
     },
     "export": {
       "button": "导出",
@@ -1024,6 +1058,9 @@
       "ankiDesc": "导入 Anki 桌面版，内含正反面卡片模板",
       "previewFront": "正面",
       "previewBack": "背面",
+      "previewMeaning": "欢迎",
+      "previewExample": "欢迎来到法国！",
+      "previewFooter": "HiTCF.com — TCF Canada 在线练习平台",
       "downloadButton": "下载",
       "exporting": "导出中…",
       "errorRateLimit": "今日导出次数已达上限，请明天再试",
@@ -1091,5 +1128,432 @@
     "legendGood": "80+ 正确",
     "legendFair": "60-79 可改进",
     "legendPoor": "<60 需注意"
+  },
+  "community": {
+    "fab": "社区",
+    "title": "加入备考社区",
+    "description": "和 TCF 考友一起备考，互助答疑，分享经验",
+    "followXhs": "关注小红书",
+    "addWechat": "加微信入群"
+  },
+  "pricing": {
+    "title": "8,500+ 道 TCF 真题 + 词汇工具，四科全覆盖",
+    "subtitle": "刷题 + 翻卡 + 听写 + Anki 导出，系统化备考 CLB 7",
+    "plans": {
+      "monthly": {
+        "name": "月付",
+        "unit": "/ 月",
+        "trialLabel": "7 天免费试用",
+        "valueDesc": "每天不到 7 毛钱，刷完四科 8,500 道题",
+        "savingsVsTutor": "比请家教便宜 97%"
+      },
+      "quarterly": {
+        "name": "季付",
+        "unit": "/ 3 个月",
+        "equiv": "≈ US$13.30 / 月",
+        "badge": "省 33%",
+        "trialLabel": "14 天免费试用",
+        "valueDesc": "每月一杯奶茶的钱，刷完四科 8,500 道题",
+        "savingsVsTutor": "比请家教便宜 98%"
+      },
+      "yearly": {
+        "name": "年付",
+        "unit": "/ 年",
+        "equiv": "含 2 个月免费，≈ US$8.33 / 月",
+        "badge": "最受欢迎",
+        "trialLabel": "2 个月免费试用",
+        "valueDesc": "每月一杯咖啡的钱，刷题 + 翻卡 + 听写 + 导出 Anki",
+        "savingsVsTutor": "比请家教便宜 99%"
+      }
+    },
+    "mostPopular": "最受欢迎",
+    "cta": {
+      "redirecting": "跳转中...",
+      "trialSuffix": "，不满意不花钱",
+      "manageSubscription": "管理订阅"
+    },
+    "usdNote": "所有价格均以美元（USD）计价 · 试用期内取消不收费",
+    "trust": {
+      "trial": "最长 2 个月免费试用",
+      "stripe": "Stripe 安全支付",
+      "refund": "48h 无理由退款",
+      "cancel": "随时一键取消"
+    },
+    "comparison": {
+      "title": "免费版 vs",
+      "titlePro": "Pro",
+      "feature": "功能",
+      "free": "免费",
+      "pro": "Pro",
+      "rows": [
+        "听力题库（44 套 · 1,700+ 题 · 含音频）",
+        "阅读题库（44 套 · 1,700+ 题）",
+        "口语题库（696 套 · 3,500+ 个话题）",
+        "写作题库（515 组 · 1,500+ 个任务）",
+        "考试模式（限时 + 随机出题）",
+        "错题本 + 专项突破",
+        "速练模式（按等级 / 题型刷题）",
+        "CLB 等级估算 + 准备度分析",
+        "生词本 + 翻卡复习 + 听写模式",
+        "Anki 导出 + 教材词汇池",
+        "练习历史 + 统计仪表盘"
+      ],
+      "freeValues": ["前 1 套", "前 2 套", "基础"]
+    },
+    "faq": {
+      "title": "常见问题",
+      "items": [
+        {
+          "q": "免费试用需要绑定信用卡吗？",
+          "a": "需要。通过 Stripe 安全绑定后开始免费试用（年付 2 个月，季付 14 天，月付 7 天）。试用期内随时取消，不会扣费。"
+        },
+        {
+          "q": "可以随时取消吗？",
+          "a": "可以。在定价页点击「管理订阅」进入 Stripe 客户门户即可一键取消，无需联系客服。取消后 Pro 权限保留至当前付费周期结束。"
+        },
+        {
+          "q": "支持哪些支付方式？",
+          "a": "支持 Visa、Mastercard、American Express 等主流信用卡和借记卡，通过 Stripe 安全处理（PCI DSS Level 1 认证）。"
+        },
+        {
+          "q": "能保证考到 CLB 7 吗？",
+          "a": "我们不承诺任何考试成绩。HiTCF 提供与 TCF Canada 对标的高质量练习环境，帮助你针对性地找到薄弱环节并提升。最终成绩取决于多种因素。详见免责声明。"
+        },
+        {
+          "q": "题目和真题一样吗？",
+          "a": "练习题目来源于公开资料的整理和编辑，覆盖 A1–C2 各等级，格式对标 TCF Canada。但本平台非官方出品，题目不等同于考场原题。"
+        },
+        {
+          "q": "如何申请退款？",
+          "a": "首次付款后 48 小时内可申请全额退款；季付 / 年付用户 14 天内可按比例退款。发送邮件至 support@hitcf.com 即可。详见退款政策。"
+        }
+      ]
+    },
+    "legal": "订阅即表示同意",
+    "legalTerms": "服务条款",
+    "legalComma": "、",
+    "legalPrivacy": "隐私政策",
+    "legalAnd": " 和",
+    "legalRefund": "退款政策",
+    "legalPeriod": "。"
+  },
+  "resources": {
+    "hero": {
+      "badge": "考试指南",
+      "title": "TCF Canada 备考全攻略",
+      "subtitle": "考试内容、分数对照、免费学习资源、中加两国考场信息——分类查看，快速找到你需要的。",
+      "startPractice": "开始练习",
+      "joinCommunity": "加入备考社区",
+      "communityTitle": "加入备考社区",
+      "communityDesc": "和考友一起备考，互助答疑",
+      "followXhs": "关注小红书",
+      "addWechat": "加微信入群",
+      "imageAlt": "魁北克老城法式街景"
+    },
+    "tabs": {
+      "autoRotateHint": "自动浏览中 · 点击任意板块停止",
+      "manualHint": "点击切换查看不同板块",
+      "exam": "考试内容",
+      "scores": "分数对照",
+      "resources": "学习资源",
+      "centers": "考场信息"
+    },
+    "exam": {
+      "title": "什么是 TCF Canada",
+      "desc": "TCF Canada（Test de connaissance du français pour le Canada）是由 <b>France Éducation international</b>（原 CIEP）开发的法语能力测试，专为加拿大移民和公民申请设计。",
+      "purposes": [
+        "联邦快速通道（Express Entry）移民",
+        "省提名计划（PNP）",
+        "加拿大公民入籍",
+        "魁北克移民（CSQ / PEQ）"
+      ],
+      "validityLabel": "成绩有效期",
+      "validityValue": "2 年",
+      "intervalLabel": "两次考试间隔至少",
+      "intervalValue": "30 天",
+      "subjects": [
+        { "name": "听力理解 (CO)", "questions": "39 题选择题", "duration": "35 分钟" },
+        { "name": "阅读理解 (CE)", "questions": "39 题选择题", "duration": "60 分钟" },
+        { "name": "写作表达 (EE)", "questions": "3 个写作任务", "duration": "60 分钟" },
+        { "name": "口语表达 (EO)", "questions": "3 个口语任务", "duration": "12 分钟" }
+      ],
+      "questionCount": "题量",
+      "durationLabel": "时长",
+      "scoreLabel": "分数",
+      "writingTitle": "写作 3 个 Tâche",
+      "speakingTitle": "口语 3 个 Tâche",
+      "writingTasks": [
+        "短消息（60–120 词）",
+        "正式信 / 文章（120–150 词）",
+        "议论文（120–180 词）"
+      ],
+      "speakingTasks": [
+        "引导面试（2 分钟）",
+        "角色扮演（5.5 分钟，含 2 分钟准备）",
+        "观点论述（4.5 分钟）"
+      ]
+    },
+    "scores": {
+      "title": "NCLC / CLB 分数对照表",
+      "subtitle": "加拿大移民局（IRCC）使用 NCLC / CLB 等级评估语言能力，以下为 TCF Canada 分数对照",
+      "headers": {
+        "nclc": "NCLC",
+        "co": "听力 (CO)",
+        "ce": "阅读 (CE)",
+        "ee": "写作 (EE)",
+        "eo": "口语 (EO)"
+      },
+      "footnote": "* NCLC 7 是大部分 Express Entry 和 PNP 项目的<b>最低语言要求</b>，也是多数考生的目标等级",
+      "nclc7Title": "为什么 NCLC 7 这么重要？",
+      "nclc7Desc": "NCLC 7（即 CLB 7）是加拿大大部分经济类移民项目的<b>最低法语要求</b>。达到 NCLC 7 意味着你可以在 Express Entry（CEC、FSW）和大部分省提名项目（PNP）中满足语言门槛。更高的 NCLC 等级（8、9、10）可以为你的 CRS 综合评分系统获得<b>额外加分</b>，NCLC 9 可获得语言满分加分。",
+      "immigrationTitle": "常见移民项目语言要求",
+      "programs": [
+        { "name": "Express Entry (CEC)", "desc": "加拿大经验类移民" },
+        { "name": "Express Entry (FSW)", "desc": "联邦技术移民" },
+        { "name": "魁北克 PEQ", "desc": "魁北克经验类移民" },
+        { "name": "公民入籍", "desc": "加拿大公民申请" }
+      ]
+    },
+    "learn": {
+      "title": "免费法语学习资源推荐",
+      "subtitle": "全部免费或官方渠道，帮你从不同维度提升法语能力",
+      "officialTitle": "官方 & 机构资源",
+      "youtubeTitle": "YouTube 频道",
+      "toolsTitle": "工具 & 中文资源",
+      "official": [
+        { "desc": "法国国际电视台旗下免费法语学习平台，A1–C1 全等级视频课程 + 互动练习。按文化、社会、科学等主题分类，同时提升听力和阅读。", "tag": "A1–C1" },
+        { "desc": "法国国际广播电台学习频道，用真实法语新闻音频配练习题。语速从慢到正常都有，练 TCF 听力的绝佳素材。", "tag": "听力" },
+        { "desc": "RFI「简明法语新闻」，每天 10 分钟清晰慢速播报国际新闻。坚持每天听一期，有助于稳步提升听力水平。", "tag": "每日听力" },
+        { "desc": "TCF 官方出题机构网站，查看考试介绍、评分标准和官方样题。备考前务必先了解真实考试格式。", "tag": "官方" },
+        { "desc": "老牌法语学习网站，大量免费语法、词汇、听力和阅读练习按难度分级。适合系统性补语法基础。", "tag": "语法" },
+        { "desc": "Hugo 的法语学习平台，提供播客、YouTube 视频和系统课程，用自然法语讲文化社会话题。语速适中、内容有深度，适合中级学习者突破瓶颈。", "tag": "B1–B2" }
+      ],
+      "youtube": [
+        { "desc": "百万粉丝沉浸式法语频道，Johan 纯法语讲日常话题。不教语法规则，通过大量自然输入培养语感。", "tag": "B1+ 语感" },
+        { "desc": "法国人 Dylane 的教学频道，专注语法讲解和词汇扩展，每期短小精悍、清晰有条理。", "tag": "语法词汇" },
+        { "desc": "法语教师 Pierre 的综合教学频道，语法、词汇、发音、文化全覆盖。法语 + 字幕形式适合精听。", "tag": "B1–C1" },
+        { "desc": "Hugo 的纯法语播客频道，每期 20–30 分钟讨论文化社会话题。语速适中，适合泛听 + 积累口语写作素材。", "tag": "播客泛听" },
+        { "desc": "法国街头随机采访系列，真实法国人日常口语 + 法英双字幕。听课本学不到的地道表达和口语节奏。", "tag": "真实口语" },
+        { "desc": "英法双语教学频道，Alexa 用英语解释法语语法和发音。讲解慢、例子多，零基础到 A2 打基础首选。", "tag": "零基础" }
+      ],
+      "tools": [
+        { "name": "B 站 (Bilibili)", "desc": "搜索「你好法语 A1 教材音频」「TCF 备考」等关键词，大量中文讲解的法语教学视频。中文学习者最容易上手的资源。" },
+        { "name": "Anki", "desc": "开源免费的间隔重复记忆卡片软件，可下载社区共享的 TCF/DELF 词汇牌组。科学算法安排复习节奏，长期记忆效果远超死记硬背。" },
+        { "name": "Duolingo", "desc": "游戏化语言学习 App，每天 10–15 分钟一课。虽达不到 TCF 深度，但适合保持每日法语接触。" },
+        { "name": "LogicielÉducatif", "desc": "法国本土教育游戏网站，小游戏练习拼写、语法和词汇。面向法国学生但对学习者同样有效。" },
+        { "name": "Lawless French", "desc": "全面的法语语法参考网站，从初级到高级所有语法点 + 例句练习。遇到语法疑问当字典查。" }
+      ]
+    },
+    "centers": {
+      "title": "中国 & 加拿大考场",
+      "subtitle": "考场信息可能变动，请以各考点官方网站通知为准",
+      "website": "官网",
+      "chinaTitle": "中国考场",
+      "canadaTitle": "加拿大考场",
+      "china": [
+        { "city": "北京", "org": "北京语言大学", "note": "" },
+        { "city": "北京", "org": "北京法语联盟", "note": "" },
+        { "city": "上海", "org": "上海法语培训中心", "note": "" },
+        { "city": "广州", "org": "广州法语联盟", "note": "" },
+        { "city": "成都", "org": "成都法语联盟", "note": "" },
+        { "city": "武汉", "org": "武汉法语联盟", "note": "微信报名" },
+        { "city": "大连", "org": "大连法语联盟", "note": "" },
+        { "city": "昆明", "org": "昆明法语联盟", "note": "微信报名" },
+        { "city": "山东", "org": "山东法语联盟", "note": "新增" },
+        { "city": "南京", "org": "南京法语联盟", "note": "新增" },
+        { "city": "香港", "org": "香港法语联盟", "note": "" }
+      ],
+      "chinaFee": "费用约 <b>¥2,500–2,800</b>（因城市和机构略有差异）",
+      "globalSearch": "全球考场查询：",
+      "canadaFee": "费用约 <b>CAD $390</b>，每季度开放报名"
+    },
+    "cta": {
+      "title": "了解完考试，开始练题吧",
+      "subtitle": "8,500+ 道 TCF Canada 真题等你来刷",
+      "button": "开始练习"
+    },
+    "disclaimer": {
+      "text": "以上信息仅供参考，不构成移民建议。考试政策和考场安排可能随时调整，请以官方渠道为准。",
+      "link": "免责声明"
+    }
+  },
+  "landing": {
+    "hero": {
+      "badge": "TCF Canada 备考平台",
+      "titleHighlight": "CLB 7",
+      "titleSuffix": "，练出来的",
+      "subtitle1": "8,500+ 道 TCF Canada 真题 + 词汇工具，四科全覆盖。",
+      "subtitle2": "刷题、翻卡、听写、导出 Anki——系统化备考，练到 CLB 7。",
+      "startPractice": "开始练习",
+      "registerCta": "免费注册，立刻做题",
+      "viewPricing": "查看定价",
+      "imageAlt": "加拿大国旗在蓝天下飘扬",
+      "questionsLabel": "道真题",
+      "clb7Target": "CLB 7 目标"
+    },
+    "features": [
+      { "title": "听力理解", "desc": "44 套听力真题，1,700+ 道题目，全部配备原版音频" },
+      { "title": "阅读理解", "desc": "44 套阅读真题，1,700+ 道题目，覆盖 A1-C2 全部级别" },
+      { "title": "口语表达", "desc": "696 套口语话题，3,500+ 个 Tâche 2 + Tâche 3 真题，AI 陪练" },
+      { "title": "写作表达", "desc": "515 组写作题目，1,500+ 个任务，短消息 + 博客 + 议论文，AI 批改" }
+    ],
+    "stats": [
+      "道真题",
+      "套模拟题",
+      "套听力含音频",
+      "CLB 7 门槛正确率"
+    ],
+    "featuresBadge": "四大科目",
+    "featuresTitle": "全面覆盖 TCF 考试",
+    "featuresSubtitle": "听说读写一站搞定，从 A1 到 C2 全等级覆盖",
+    "contentBadge": "题库全景",
+    "contentTitle": "8,500+ 道真题，A1 到 C2 全覆盖",
+    "contentSubtitle": "听说读写四科齐全，所有听力均配原版音频",
+    "banks": [
+      { "label": "听力 + 阅读", "sub": "44 套真题 · A1–C2 全等级" },
+      { "label": "口语话题", "sub": "696 套 · Tâche 2 + 3 真题" },
+      { "label": "写作任务", "sub": "515 组 · 短消息 + 博客 + 议论文" }
+    ],
+    "allLevels": "· 全部 6 个等级均有覆盖",
+    "stepsBadge": "简单三步",
+    "stepsTitle": "如何使用",
+    "steps": [
+      { "title": "注册账号", "desc": "邮箱一键登录，无需复杂注册" },
+      { "title": "选择题套", "desc": "按科目浏览，免费题套可直接练习" },
+      { "title": "开始练习", "desc": "练习模式逐题做，考试模式模拟真实考试" }
+    ],
+    "highlights": [
+      { "title": "CLB 7 目标导向", "desc": "所有功能围绕 CLB 7（≈78% 正确率）设计，准备度仪表盘实时追踪你的听力和阅读离目标还差多远。" },
+      { "title": "错题本 + 速练", "desc": "系统自动收集错题，按题型和等级归纳薄弱环节。速练模式利用碎片时间定向突破。" },
+      { "title": "考试模式模拟真实考场", "desc": "严格计时、不可回看、交卷后出分。提前适应考场压力，上场不慌。" }
+    ],
+    "svgReached": "已达标",
+    "svgRemaining": "剩余",
+    "pricingBadge": "定价",
+    "pricingTitle": "简单透明的定价",
+    "pricingSubtitle": "免费题套随时练习，订阅解锁全部内容",
+    "freeName": "免费版",
+    "freeUnit": "/ 永久",
+    "freeFeature1": "免费题套练习",
+    "freeFeature2": "练习 + 考试模式",
+    "freeStart": "开始使用",
+    "freeRegister": "免费注册",
+    "proBadge": "推荐",
+    "proTrial": "2 个月免费",
+    "proTrialUnit": "试用（年付）",
+    "proFeatures": [
+      "全部听力 + 阅读题库",
+      "考试模式（计时 + 评分）",
+      "错题本 + 速练",
+      "口语 + 写作 AI 练习",
+      "生词本 + 翻卡 + 听写 + Anki 导出"
+    ],
+    "proGoToTests": "进入题库",
+    "proStartTrial": "开始免费试用",
+    "whyBadge": "为什么选 HiTCF",
+    "whyTitle": "不只是题库，是完整的备考系统",
+    "whySubtitle": "刷题 → 错题本 → 生词本 → 翻卡复习 → 再做题，循环直到达标",
+    "guideBadge": "考试科普",
+    "guideTitle": "TCF Canada 分数 vs CLB 等级",
+    "guideSubtitle": "加拿大移民局（IRCC）要求的语言成绩对照表",
+    "guideRows": [
+      "移民（EE / PNP）最低要求",
+      "EE 加分，部分 PNP 优先",
+      "EE 满分语言加分",
+      "最高等级"
+    ],
+    "guideFootnote": "CLB 7 ≈ 78% 正确率 · 这是大部分 EE 和 PNP 项目的最低语言要求",
+    "guideLink": "查看完整考试指南",
+    "trust": [
+      { "label": "超长免费试用", "desc": "年付 2 个月 · 月付/季付 7 天" },
+      { "label": "安全支付", "desc": "信用卡信息由 Stripe 处理" },
+      { "label": "首次扣款可退", "desc": "扣款后 48 小时内无理由退款" },
+      { "label": "不自动扣费", "desc": "试用期内取消 = 零费用" }
+    ],
+    "faqTitle": "常见问题",
+    "faq": [
+      { "q": "HiTCF 是官方平台吗？", "a": "不是。HiTCF 是独立运营的第三方练习平台，与 France Éducation international 或 IRCC 无关。练习题目来源于公开资料的整理和编辑，格式对标 TCF Canada，但不等同于考场原题。" },
+      { "q": "免费版能做什么？", "a": "免费版可使用听力前 1 套、阅读前 2 套的全部题目，包含练习模式和考试模式。不限次数，永久有效。" },
+      { "q": "Pro 会员有什么好处？", "a": "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式、生词本、翻卡复习、听写练习和 Anki 导出。年付享 2 个月免费试用，不满意随时取消。" },
+      { "q": "能保证考到 CLB 7 吗？", "a": "不能。HiTCF 提供与 TCF Canada 对标的练习环境，帮助你针对性地找到薄弱环节并提升。但实际成绩取决于多种因素，我们不承诺任何考试结果。" },
+      { "q": "口语和写作怎么练？", "a": "口语和写作提供真题话题和写作任务，支持跳转到 ChatGPT 进行 AI 模拟对话和作文批改。相当于免费的 AI 外教。" },
+      { "q": "如何申请退款？", "a": "首次付款后 48 小时内可全额退款，季付 / 年付用户 14 天内可按比例退款。发邮件至 support@hitcf.com 即可，3 个工作日内处理。" }
+    ],
+    "ctaImageAlt": "渥太华国会山与渥太华河全景",
+    "ctaTitle": "离 CLB 7 还差几步？",
+    "ctaSubtitle": "免费题套直接开练，看看你离 CLB 7 还有多远",
+    "ctaContinue": "继续做题",
+    "ctaRegister": "免费注册，测测你的水平"
+  },
+  "meta": {
+    "siteTitle": "HiTCF — TCF Canada 在线练习平台",
+    "titleTemplate": "%s | HiTCF",
+    "siteDescription": "8,500+ 道 TCF Canada 真题 + 词汇工具，覆盖听力、阅读、口语、写作四大科目。刷题、翻卡复习、听写练习、Anki 导出，助你冲刺 CLB 7。",
+    "ogTitle": "HiTCF — 打开就练，刷到 CLB 7",
+    "ogDescription": "8,500+ 道 TCF Canada 真题 + 生词本 + Anki 导出。刷题、翻卡、听写一站搞定，薄弱环节一目了然。",
+    "ogImageAlt": "HiTCF — TCF Canada 在线练习平台",
+    "keywords": "TCF Canada,CLB 7,TCF 练习,TCF 听力,TCF 阅读,TCF Canada 备考,加拿大移民法语,TCF 在线模拟,TCF 真题,TCF 词汇,法语 Anki,法语翻卡",
+    "home": {
+      "title": "HiTCF — CLB 7，练出来的 | TCF Canada 在线练习",
+      "description": "8,500+ 道 TCF Canada 真题，覆盖听力、阅读、口语、写作。练习模式 + 考试模式 + 错题本，助你系统备考冲刺 CLB 7。"
+    },
+    "tests": {
+      "title": "TCF Canada 题库 · 8,500+ 道听力阅读口语写作真题",
+      "description": "TCF Canada 听力、阅读、口语、写作全真模拟题库。42 套听力含音频，44 套阅读，覆盖 A1-C2 全等级。"
+    },
+    "dashboard": {
+      "title": "我的仪表盘 · CLB 7 准备度与练习统计",
+      "description": "查看你的 CLB 7 准备度、听力和阅读正确率、练习统计、连续打卡天数。实时追踪与 78% 目标正确率的差距。"
+    },
+    "pricing": {
+      "title": "订阅方案 · 年付享 2 个月免费试用全部 TCF 题库 + 词汇工具",
+      "description": "HiTCF 订阅方案：免费题套直接练习，Pro 版解锁全部 8,500+ 道真题、考试模式、错题本、生词本、翻卡复习、听写练习和 Anki 导出。年付 2 个月免费试用，随时取消。"
+    },
+    "speedDrill": {
+      "title": "速练模式 · 按等级和题型定向刷题",
+      "description": "TCF Canada 速练模式：选择听力或阅读，按 A1-C2 等级筛选，利用碎片时间高效刷题。自动跳过已做题目，专注薄弱环节。"
+    },
+    "wrongAnswers": {
+      "title": "错题本 · 追踪薄弱环节定向突破",
+      "description": "自动收集 TCF Canada 听力和阅读的错题，按类型、等级和掌握状态筛选。支持一键生成错题练习，针对性突破薄弱环节。"
+    },
+    "history": {
+      "title": "练习记录 · 查看所有 TCF 练习和考试成绩",
+      "description": "查看你的所有 TCF Canada 练习和考试记录，包括得分、CLB 等级估算和用时。追踪每套题的完成进度和成绩趋势。"
+    },
+    "account": {
+      "title": "账号设置",
+      "description": "管理个人信息、密码和订阅状态。"
+    },
+    "vocabulary": {
+      "title": "生词本"
+    },
+    "vocabularyMySaved": {
+      "title": "我的收藏"
+    },
+    "vocabularyNihao": {
+      "title": "你好法语"
+    },
+    "resources": {
+      "title": "TCF Canada 考试指南 · 分数对照、学习资源、考场信息",
+      "description": "TCF Canada 考试全面指南：考试内容与格式、NCLC/CLB 分数对照表、免费法语学习资源推荐、中国及加拿大考场信息汇总。",
+      "keywords": "TCF Canada 考试,CLB 分数对照,NCLC 对照表,TCF 考场,法语学习资源,TCF Canada 报名,加拿大移民法语考试"
+    },
+    "terms": {
+      "title": "服务条款 · 用户协议与订阅规则",
+      "description": "HiTCF 服务条款：了解账户注册、Pro 订阅自动续订规则、内容使用规范、知识产权声明和责任限制等用户协议详情。"
+    },
+    "privacy": {
+      "title": "隐私政策 · 数据收集与 PIPEDA 合规",
+      "description": "HiTCF 隐私政策：了解我们如何通过 Cloudflare Access 验证身份、通过 Stripe 处理支付，以及数据存储、Cookie 使用和您的 PIPEDA 权利。"
+    },
+    "refund": {
+      "title": "退款政策 · 免费试用与退款申请流程",
+      "description": "HiTCF 退款政策：免费试用（年付 2 个月，月付/季付 7 天）随时取消不扣费，首次付款 48 小时内全额退款，季付年付 14 天内按比例退款。通过 Stripe 原路返回。"
+    },
+    "disclaimer": {
+      "title": "免责声明 · 内容来源与考试结果声明",
+      "description": "HiTCF 免责声明：本平台为独立第三方练习平台，与 TCF 官方无关。CLB 等级估算仅供参考，不保证实际考试成绩。内容来源于公开资料。"
+    }
   }
 }

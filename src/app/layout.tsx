@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { getTranslations } from "next-intl/server";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { Toaster } from "sonner";
+import { CommunityFab } from "@/components/layout/community-fab";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,70 +27,60 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export const metadata: Metadata = {
-  title: {
-    default: "HiTCF — TCF Canada 在线练习平台",
-    template: "%s | HiTCF",
-  },
-  description:
-    "8,500+ 道 TCF Canada 真题，覆盖听力、阅读、口语、写作四大科目。练习模式 + 考试模式，错题本 + 速练，助你冲刺 CLB 7。",
-  keywords: [
-    "TCF Canada",
-    "CLB 7",
-    "TCF 练习",
-    "TCF 听力",
-    "TCF 阅读",
-    "TCF Canada 备考",
-    "加拿大移民法语",
-    "TCF 在线模拟",
-    "TCF 真题",
-  ],
-  authors: [{ name: "HiTCF" }],
-  creator: "HiTCF",
-  metadataBase: new URL(SITE_URL),
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    locale: "zh_CN",
-    url: SITE_URL,
-    siteName: "HiTCF",
-    title: "HiTCF — 打开就练，刷到 CLB 7",
-    description:
-      "每月一杯咖啡钱，8,500+ 道 TCF Canada 真题随时练。错题自动收集，薄弱环节一目了然，从练习到模考一站搞定。",
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "HiTCF — TCF Canada 在线练习平台",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "HiTCF — 打开就练，刷到 CLB 7",
-    description:
-      "每月一杯咖啡钱，8,500+ 道 TCF Canada 真题随时练。错题自动收集，薄弱环节一目了然，从练习到模考一站搞定。",
-    images: ["/opengraph-image"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("meta");
+  return {
+    title: {
+      default: t("siteTitle"),
+      template: t("titleTemplate"),
+    },
+    description: t("siteDescription"),
+    keywords: t("keywords").split(","),
+    authors: [{ name: "HiTCF" }],
+    creator: "HiTCF",
+    metadataBase: new URL(SITE_URL),
+    alternates: {
+      canonical: "/",
+    },
+    openGraph: {
+      type: "website",
+      locale: "zh_CN",
+      url: SITE_URL,
+      siteName: "HiTCF",
+      title: t("ogTitle"),
+      description: t("ogDescription"),
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: t("ogImageAlt"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("ogTitle"),
+      description: t("ogDescription"),
+      images: ["/opengraph-image"],
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-  },
-  icons: {
-    icon: "/favicon.png",
-    apple: "/apple-touch-icon.png",
-  },
-};
+    icons: {
+      icon: "/favicon.png",
+      apple: "/apple-touch-icon.png",
+    },
+  };
+}
 
 export default function RootLayout({
   children,
@@ -136,34 +128,34 @@ export default function RootLayout({
                 operatingSystem: "Web",
                 url: SITE_URL,
                 description:
-                  "TCF Canada online practice platform with 8,500+ questions covering listening, reading, speaking and writing. Practice mode, exam simulation, wrong answer notebook, and AI-powered explanations to help you reach CLB 7.",
+                  "TCF Canada online practice platform with 8,500+ questions covering listening, reading, speaking and writing. Practice mode, exam simulation, wrong answer notebook, vocabulary flashcards, Anki export, and AI-powered explanations to help you reach CLB 7.",
                 inLanguage: ["zh-CN", "fr-FR", "en"],
                 offers: [
                   {
                     "@type": "Offer",
                     name: "Free",
                     price: "0",
-                    priceCurrency: "CAD",
+                    priceCurrency: "USD",
                     description:
                       "Free test sets for listening, reading, speaking, and writing. Practice and exam mode included.",
                   },
                   {
                     "@type": "Offer",
                     name: "Pro Monthly",
-                    price: "19",
-                    priceCurrency: "CAD",
+                    price: "19.90",
+                    priceCurrency: "USD",
                     billingIncrement: "P1M",
                     description:
-                      "Full access to 8,500+ questions, exam mode, wrong answer notebook, speed drill. 7-day free trial.",
+                      "Full access to 8,500+ questions, exam mode, wrong answer notebook, vocabulary tools, Anki export. 7-day free trial.",
                   },
                   {
                     "@type": "Offer",
                     name: "Pro Yearly",
-                    price: "99",
-                    priceCurrency: "CAD",
+                    price: "99.90",
+                    priceCurrency: "USD",
                     billingIncrement: "P1Y",
                     description:
-                      "Full access to all features. 2 months free trial.",
+                      "Full access to all features including vocabulary flashcards, dictation, and Anki export. 2 months free trial.",
                   },
                 ],
                 screenshot: `${SITE_URL}/opengraph-image`,
@@ -175,7 +167,9 @@ export default function RootLayout({
                   "515 writing task sets with AI grading",
                   "Practice mode with instant feedback",
                   "Exam simulation with timer",
-                  "Wrong answer notebook with spaced repetition",
+                  "Wrong answer notebook",
+                  "Vocabulary flashcard review and dictation",
+                  "Anki export with textbook vocabulary pools",
                   "Speed drill mode",
                   "AI-powered deep explanations",
                 ],
@@ -211,7 +205,7 @@ export default function RootLayout({
                     name: "Pro 会员有什么好处？",
                     acceptedAnswer: {
                       "@type": "Answer",
-                      text: "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式和 CLB 等级估算。年付享 2 个月免费试用，不满意随时取消。",
+                      text: "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式、生词本、翻卡复习、听写练习和 Anki 导出。年付享 2 个月免费试用，不满意随时取消。",
                     },
                   },
                   {
@@ -262,7 +256,10 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <AuthProvider>
-            <LocaleProvider>{children}</LocaleProvider>
+            <LocaleProvider>
+              {children}
+              <CommunityFab />
+            </LocaleProvider>
           </AuthProvider>
           <Toaster richColors position="top-center" />
         </ThemeProvider>

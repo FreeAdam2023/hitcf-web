@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "HiTCF — TCF Canada 在线练习平台";
+export const alt = "HiTCF — TCF Canada Online Practice";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -72,22 +72,21 @@ export default async function OgImage() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 24,
-            marginBottom: 28,
+            gap: 28,
           }}
         >
           {iconData ? (
             <img
               // @ts-expect-error Satori accepts ArrayBuffer as img src
               src={iconData}
-              width={110}
-              height={110}
-              style={{ borderRadius: 24 }}
+              width={140}
+              height={140}
+              style={{ borderRadius: 28 }}
             />
           ) : null}
           <div
             style={{
-              fontSize: 80,
+              fontSize: 96,
               fontWeight: 800,
               color: "#ffffff",
               letterSpacing: "-2px",
@@ -97,52 +96,30 @@ export default async function OgImage() {
           </div>
         </div>
 
-        {/* Slogan */}
+        {/* Tagline — language-neutral */}
         <div
           style={{
-            fontSize: 44,
-            fontWeight: 700,
-            color: "#ffffff",
-            marginBottom: 16,
+            fontSize: 36,
+            fontWeight: 600,
+            color: "rgba(255,255,255,0.75)",
+            marginTop: 32,
           }}
         >
-          打开就练，刷到 CLB 7
-        </div>
-
-        {/* Divider */}
-        <div
-          style={{
-            width: 80,
-            height: 4,
-            background: "rgba(255,255,255,0.4)",
-            borderRadius: 2,
-            marginBottom: 20,
-          }}
-        />
-
-        {/* Description */}
-        <div
-          style={{
-            fontSize: 24,
-            color: "rgba(255,255,255,0.85)",
-            fontWeight: 400,
-          }}
-        >
-          每月一杯咖啡钱，8,500+ 道真题随时练
+          TCF Canada Practice Platform
         </div>
 
         {/* Stats bar */}
         <div
           style={{
             display: "flex",
-            gap: 48,
-            marginTop: 36,
+            gap: 56,
+            marginTop: 40,
           }}
         >
           {[
-            { num: "8,500+", label: "真题" },
-            { num: "1,200+", label: "题套" },
-            { num: "4", label: "科目" },
+            { num: "8,500+", label: "Questions" },
+            { num: "1,200+", label: "Test Sets" },
+            { num: "4", label: "Sections" },
           ].map((item) => (
             <div
               key={item.label}
@@ -154,7 +131,7 @@ export default async function OgImage() {
             >
               <div
                 style={{
-                  fontSize: 34,
+                  fontSize: 36,
                   fontWeight: 700,
                   color: "#ffffff",
                 }}
@@ -164,8 +141,10 @@ export default async function OgImage() {
               <div
                 style={{
                   fontSize: 15,
-                  color: "rgba(255,255,255,0.65)",
+                  color: "rgba(255,255,255,0.55)",
                   marginTop: 4,
+                  textTransform: "uppercase",
+                  letterSpacing: "1px",
                 }}
               >
                 {item.label}

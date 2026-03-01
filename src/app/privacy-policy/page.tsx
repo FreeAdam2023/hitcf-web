@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "隐私政策 · 数据收集与 PIPEDA 合规",
-  description:
-    "HiTCF 隐私政策：了解我们如何通过 Cloudflare Access 验证身份、通过 Stripe 处理支付，以及数据存储、Cookie 使用和您的 PIPEDA 权利。",
-  alternates: { canonical: "/privacy-policy" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("meta.privacy");
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: { canonical: "/privacy-policy" },
+  };
+}
 
 export default function PrivacyPolicyPage() {
   return (

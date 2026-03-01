@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { LandingPage } from "./landing-page";
 
-export const metadata: Metadata = {
-  title: "HiTCF — CLB 7，练出来的 | TCF Canada 在线练习",
-  description:
-    "8,500+ 道 TCF Canada 真题，覆盖听力、阅读、口语、写作。练习模式 + 考试模式 + 错题本，助你系统备考冲刺 CLB 7。",
-  alternates: { canonical: "/" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("meta.home");
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: { canonical: "/" },
+  };
+}
 
 export default function Home() {
   return <LandingPage />;
