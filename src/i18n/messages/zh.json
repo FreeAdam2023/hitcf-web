@@ -70,6 +70,7 @@
     "tests": "题库",
     "dashboard": "仪表盘",
     "wrongAnswers": "错题本",
+    "vocabulary": "生词本",
     "history": "记录",
     "speedDrill": "速练",
     "pricing": "定价",
@@ -438,7 +439,11 @@
     "verbConj": "动词变位",
     "verbGroup": "第{group}组",
     "pastParticiple": "过去分词: {form}",
-    "auxiliary": "助动词: {aux}"
+    "auxiliary": "助动词: {aux}",
+    "save": "收藏",
+    "saved": "已收藏",
+    "unsave": "取消收藏",
+    "familyTitle": "同组词"
   },
   "exam": {
     "session": {
@@ -515,6 +520,14 @@
       "count": "题数",
       "correct": "正确",
       "accuracy": "正确率"
+    },
+    "share": {
+      "button": "分享成绩",
+      "title": "分享到小红书",
+      "subtitle": "长按保存图片，发到小红书打卡吧！",
+      "save": "保存图片",
+      "saving": "生成中...",
+      "saved": "已保存！去小红书发帖吧 🎉"
     }
   },
   "encouragement": {
@@ -972,5 +985,111 @@
     "translationLabel": "题目翻译",
     "passageLabel": "参考文档翻译",
     "fetchError": "翻译加载失败，请重试"
+  },
+  "vocabulary": {
+    "title": "生词本",
+    "subtitle": "做题时点词查义，收藏生词，翻卡复习",
+    "loginHint": "请先登录以使用生词本功能",
+    "loginToSave": "登录后收藏生词",
+    "viewAll": "查看全部 →",
+    "recentSaved": "最近收藏",
+    "stats": {
+      "total": "总收藏"
+    },
+    "pools": {
+      "mySaved": "我的收藏",
+      "savedCount": "{count} 个词",
+      "tcfCorpus": "TCF 题库词汇",
+      "comingSoon": "即将上线"
+    },
+    "mySaved": {
+      "title": "我的收藏",
+      "filterAll": "全部",
+      "emptyTitle": "还没有收藏",
+      "emptyDesc": "做题时点击法语单词，在弹窗中点击 ⭐ 即可收藏生词",
+      "goToTests": "去题库开始练习",
+      "flashcardReview": "翻卡复习",
+      "remove": "删除"
+    },
+    "flashcard": {
+      "empty": "暂无收藏词汇，请先去做题收藏一些生词",
+      "emptyNihao": "暂无词汇数据，请选择一个级别或课号",
+      "tapToFlip": "点击翻转"
+    },
+    "export": {
+      "button": "导出",
+      "title": "导出词汇",
+      "description": "导出 {count} 个词汇到文件",
+      "ankiTitle": "Anki 卡片 (.apkg)",
+      "ankiDesc": "导入 Anki 桌面版，内含正反面卡片模板",
+      "previewFront": "正面",
+      "previewBack": "背面",
+      "downloadButton": "下载",
+      "exporting": "导出中…",
+      "errorRateLimit": "今日导出次数已达上限，请明天再试",
+      "errorWordLimit": "免费用户单次最多导出 50 个词，升级 Pro 解锁无限导出",
+      "errorLogin": "请先登录后再导出",
+      "errorGeneric": "导出失败，请稍后再试"
+    },
+    "nihaoFrench": {
+      "title": "《你好！法语》",
+      "subtitle": "《你好！法语》(Le nouveau Taxi) 教材配套词汇，按级别/课号浏览",
+      "heroDesc": "教材配套词汇，翻卡复习、导出Anki、听写练习",
+      "startFlashcard": "开始翻卡复习",
+      "totalWords": "共 {count} 词",
+      "wordCount": "共 {total} 个词汇",
+      "wordCountFiltered": "（筛选自 {total} 个词汇）",
+      "poolTitle": "《你好！法语》词汇",
+      "poolDesc": "{count} 个词",
+      "filterLevel": "级别",
+      "filterLesson": "课号",
+      "filterTheme": "主题",
+      "filterAll": "全部",
+      "lesson": "第 {num} 课",
+      "emptyTitle": "暂无词汇数据",
+      "emptyDesc": "你好法语词汇库正在建设中"
+    },
+    "dictation": {
+      "button": "听写",
+      "title": "听写模式",
+      "subtitle": "听发音，写出单词",
+      "emptyTitle": "暂无词汇可用于听写",
+      "emptyDesc": "请先收藏一些生词",
+      "inputPlaceholder": "输入你听到的单词…",
+      "strict": "严格模式",
+      "lenient": "宽松模式",
+      "strictDesc": "区分重音符号",
+      "lenientDesc": "忽略重音符号",
+      "correct": "正确！",
+      "incorrect": "错误",
+      "correctAnswer": "正确答案：{word}",
+      "pressEnter": "按 Enter 继续",
+      "replayHint": "按 R 重播",
+      "resultsTitle": "听写完成",
+      "accuracy": "准确率",
+      "correctCount": "{correct} / {total} 正确",
+      "errorList": "错误列表",
+      "restart": "重新开始",
+      "yourAnswer": "你的回答",
+      "back": "返回"
+    }
+  },
+  "speakingPractice": {
+    "title": "口语发音练习",
+    "startPractice": "发音练习",
+    "clickToRecord": "点击麦克风开始录音",
+    "stopRecording": "停止录音",
+    "transcript": "转写文本",
+    "tryAgain": "重新录音",
+    "noTopicSelected": "请从口语题目列表选择一个话题开始练习",
+    "accuracy": "准确度",
+    "fluency": "流利度",
+    "completeness": "完整度",
+    "prosody": "韵律",
+    "grade": "等级",
+    "wordByWord": "逐词评分",
+    "legendGood": "80+ 正确",
+    "legendFair": "60-79 可改进",
+    "legendPoor": "<60 需注意"
   }
 }

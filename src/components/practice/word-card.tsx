@@ -1,42 +1,86 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Loader2, Volume2 } from "lucide-react";
+import { Loader2, Star, Volume2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
+import { useSession } from "next-auth/react";
 import { Popover, PopoverContent, PopoverAnchor } from "@/components/ui/popover";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { getVocabularyCard } from "@/lib/api/vocabulary";
 import { getCached, setCache } from "@/lib/vocab-cache";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
+import { useVocabStore } from "@/stores/vocab-store";
 import type { VocabularyCardData, ConjugationTable } from "@/lib/api/types";
+import type { WordSaveContext } from "./french-text";
 
 interface WordCardProps {
   word: string;
   anchorEl: HTMLElement;
   onClose: () => void;
+  saveContext?: WordSaveContext;
+  sentence?: string;
 }
 
-export function WordCard({ word, anchorEl, onClose }: WordCardProps) {
+export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, sentence }: WordCardProps) {
   const t = useTranslations();
   const locale = useLocale();
+  const { data: session } = useSession();
+  const [currentWord, setCurrentWord] = useState(initialWord);
   const [data, setData] = useState<VocabularyCardData | null>(
-    () => getCached(word, locale) ?? null,
+    () => getCached(initialWord, locale) ?? null,
   );
   const [loading, setLoading] = useState(!data);
   const [error, setError] = useState(false);
   const { speak, playing } = useFrenchSpeech();
 
+  const { isSaved, addWord, removeWord, isLoaded: vocabLoaded, fetchSavedWords } = useVocabStore();
+  const wordSaved = vocabLoaded && isSaved(currentWord);
+
+  // Load saved words on first mount if not loaded
   useEffect(() => {
-    if (data) return;
+    if (!vocabLoaded && session?.user) {
+      fetchSavedWords();
+    }
+  }, [vocabLoaded, session?.user, fetchSavedWords]);
+
+  const handleToggleSave = useCallback(() => {
+    if (!session?.user) return;
+    const normalized = currentWord.trim().toLowerCase();
+    if (isSaved(currentWord)) {
+      removeWord(normalized);
+    } else {
+      addWord(normalized, {
+        word: normalized,
+        source_type: saveContext?.sourceType,
+        test_set_id: saveContext?.testSetId,
+        test_set_name: saveContext?.testSetName,
+        question_id: saveContext?.questionId,
+        question_number: saveContext?.questionNumber,
+        sentence,
+      });
+    }
+  }, [session?.user, currentWord, isSaved, addWord, removeWord, saveContext, sentence]);
+
+  useEffect(() => {
+    // Check cache first
+    const cached = getCached(currentWord, locale);
+    if (cached) {
+      setData(cached);
+      setLoading(false);
+      setError(false);
+      return;
+    }
+
     let cancelled = false;
     setLoading(true);
     setError(false);
+    setData(null);
 
-    getVocabularyCard(word, locale)
+    getVocabularyCard(currentWord, locale)
       .then((res) => {
         if (cancelled) return;
-        setCache(word, res, locale);
+        setCache(currentWord, res, locale);
         setData(res);
       })
       .catch(() => {
@@ -49,11 +93,17 @@ export function WordCard({ word, anchorEl, onClose }: WordCardProps) {
     return () => {
       cancelled = true;
     };
-  }, [word, data, locale]);
+  }, [currentWord, locale]);
 
   const handleSpeak = useCallback(() => {
-    speak(word, data?.audio_url);
-  }, [speak, word, data?.audio_url]);
+    speak(currentWord, data?.audio_url);
+  }, [speak, currentWord, data?.audio_url]);
+
+  const handleFamilyWordClick = useCallback((word: string) => {
+    if (word !== currentWord) {
+      setCurrentWord(word);
+    }
+  }, [currentWord]);
 
   // Gender color: blue for masculin, rose for féminin
   const genderColor =
@@ -75,6 +125,11 @@ export function WordCard({ word, anchorEl, onClose }: WordCardProps) {
   const nativeMeaning = data?.meaning_native
     || (locale === "zh" ? data?.meaning_zh : null)
     || (locale === "en" ? data?.meaning_en : null);
+
+  // Word family label based on locale
+  const familyLabel = data?.word_family
+    ? (locale === "zh" ? data.word_family.label_zh : data.word_family.label_en)
+    : null;
 
   return (
     <Popover open onOpenChange={(open) => !open && onClose()}>
@@ -119,6 +174,17 @@ export function WordCard({ word, anchorEl, onClose }: WordCardProps) {
                       className={`h-4 w-4 ${playing ? "text-blue-500 animate-pulse" : "text-muted-foreground"}`}
                     />
                   </button>
+                  {session?.user && (
+                    <button
+                      onClick={handleToggleSave}
+                      className="rounded-full p-1 hover:bg-muted transition-colors"
+                      title={wordSaved ? t("wordCard.unsave") : t("wordCard.save")}
+                    >
+                      <Star
+                        className={`h-4 w-4 ${wordSaved ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"}`}
+                      />
+                    </button>
+                  )}
                   {data.cefr_level && (
                     <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
                       {data.cefr_level}
@@ -155,6 +221,16 @@ export function WordCard({ word, anchorEl, onClose }: WordCardProps) {
                 <p className="text-xs text-muted-foreground">
                   {t("wordCard.plural", { form: pluralForm })}
                 </p>
+              )}
+
+              {/* Word Family chips */}
+              {data.word_family && (
+                <WordFamilyChips
+                  family={data.word_family}
+                  currentWord={currentWord}
+                  label={familyLabel!}
+                  onWordClick={handleFamilyWordClick}
+                />
               )}
 
               {/* Verb conjugation */}
@@ -216,6 +292,48 @@ export function WordCard({ word, anchorEl, onClose }: WordCardProps) {
         </div>
       </PopoverContent>
     </Popover>
+  );
+}
+
+/** Word family chip row */
+function WordFamilyChips({
+  family,
+  currentWord,
+  label,
+  onWordClick,
+}: {
+  family: NonNullable<VocabularyCardData["word_family"]>;
+  currentWord: string;
+  label: string;
+  onWordClick: (word: string) => void;
+}) {
+  const t = useTranslations();
+
+  return (
+    <div className="rounded-md border border-border/50 bg-muted/20 px-2 py-1.5">
+      <p className="text-[10px] font-medium text-muted-foreground mb-1">
+        {family.emoji} {label}
+      </p>
+      <div className="flex flex-wrap gap-1">
+        {family.members.map((m) => {
+          const isCurrent = m.word === currentWord;
+          return (
+            <button
+              key={m.word}
+              onClick={() => onWordClick(m.word)}
+              title={`${m.display_full} — ${m.meaning_zh}`}
+              className={`inline-flex items-center rounded px-1.5 py-0.5 text-[11px] transition-colors ${
+                isCurrent
+                  ? "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-semibold"
+                  : "bg-muted/50 hover:bg-muted text-foreground/80 cursor-pointer"
+              }`}
+            >
+              {m.display}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 

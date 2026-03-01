@@ -1,14 +1,21 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play } from "lucide-react";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, ChevronDown } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { useAuthStore } from "@/stores/auth-store";
@@ -48,7 +55,7 @@ function buildWritingChatGPTUrl(topic: QuestionBrief, taskNum: number): string {
 }
 
 
-function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTache2: boolean }) {
+function SpeakingTopicList({ topics, isTache2, testSetId }: { topics: QuestionBrief[]; isTache2: boolean; testSetId: string }) {
   const t = useTranslations();
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
@@ -73,8 +80,14 @@ function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTa
                   {topic.question_text}
                 </p>
                 <div className="flex flex-wrap items-center gap-2">
+                  <Button asChild size="sm" className="bg-amber-600 hover:bg-amber-700 text-white">
+                    <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}`}>
+                      <Mic className="mr-1.5 h-3.5 w-3.5" />
+                      {t("speakingPractice.startPractice")}
+                    </Link>
+                  </Button>
                   <Button
-                    variant="default"
+                    variant="outline"
                     size="sm"
                     onClick={() => handleCopy(topic)}
                   >
@@ -90,50 +103,43 @@ function SpeakingTopicList({ topics, isTache2 }: { topics: QuestionBrief[]; isTa
                       </>
                     )}
                   </Button>
-                  <Button variant="outline" size="sm" asChild>
-                    <a
-                      href={buildChatGPTUrl(topic, isTache2)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                      ChatGPT
-                    </a>
-                  </Button>
-                  <Button variant="outline" size="sm" asChild>
-                    <a
-                      href={buildGrokUrl(topic, isTache2)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                      Grok
-                    </a>
-                  </Button>
-                  <Button variant="outline" size="sm" asChild>
-                    <a
-                      href={buildMistralUrl()}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                      Mistral
-                    </a>
-                  </Button>
-                  <Button variant="ghost" size="sm" asChild>
-                    <a
-                      href={buildGeminiUrl()}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                      Gemini
-                    </a>
-                  </Button>
+                  <div className="inline-flex items-center rounded-md border">
+                    <Button variant="outline" size="sm" asChild className="rounded-r-none border-0">
+                      <a
+                        href={buildChatGPTUrl(topic, isTache2)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        ChatGPT
+                      </a>
+                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm" className="rounded-l-none border-0 border-l px-1.5">
+                          <ChevronDown className="h-3.5 w-3.5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem asChild>
+                          <a href={buildGrokUrl(topic, isTache2)} target="_blank" rel="noopener noreferrer" className="gap-2">
+                            <ExternalLink className="h-3.5 w-3.5" /> Grok
+                          </a>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <a href={buildMistralUrl()} target="_blank" rel="noopener noreferrer" className="gap-2">
+                            <ExternalLink className="h-3.5 w-3.5" /> Mistral
+                          </a>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <a href={buildGeminiUrl()} target="_blank" rel="noopener noreferrer" className="gap-2">
+                            <ExternalLink className="h-3.5 w-3.5" /> Gemini
+                          </a>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 </div>
               </div>
             </div>
@@ -511,7 +517,7 @@ export default function TestDetailPage() {
         ) : topicsLoading ? (
           <LoadingSpinner />
         ) : (
-          <SpeakingTopicList topics={topics} isTache2={isTache2} />
+          <SpeakingTopicList topics={topics} isTache2={isTache2} testSetId={test.id} />
         )}
       </div>
     );

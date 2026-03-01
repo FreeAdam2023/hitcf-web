@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import type { Option, AnswerResponse } from "@/lib/api/types";
-import { FrenchText } from "./french-text";
+import { FrenchText, type WordSaveContext } from "./french-text";
 
 interface OptionListProps {
   options: Option[];
@@ -30,6 +30,8 @@ interface OptionListProps {
   horizontal?: boolean;
   /** Disable vocabulary cards (e.g., exam mode) */
   vocabDisabled?: boolean;
+  /** Context for saving vocabulary words */
+  saveContext?: WordSaveContext;
 }
 
 export function OptionList({
@@ -47,6 +49,7 @@ export function OptionList({
   audioOnly = false,
   horizontal = false,
   vocabDisabled,
+  saveContext,
 }: OptionListProps) {
   const t = useTranslations();
   const isExam = mode === "exam";
@@ -119,7 +122,7 @@ export function OptionList({
             </span>
             {!audioOnly && opt.text && (
               <span className="pt-0.5">
-                <FrenchText text={opt.text} disabled={vocabDisabled} />
+                <FrenchText text={opt.text} disabled={vocabDisabled} saveContext={saveContext} />
               </span>
             )}
           </button>

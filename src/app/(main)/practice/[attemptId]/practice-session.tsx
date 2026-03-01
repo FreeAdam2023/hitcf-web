@@ -18,7 +18,7 @@ import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ReportDialog } from "@/components/practice/report-dialog";
-import { FrenchText } from "@/components/practice/french-text";
+import { FrenchText, type WordSaveContext } from "@/components/practice/french-text";
 import type { Explanation, QuestionBrief } from "@/lib/api/types";
 
 /** Strip leading key prefix from option translation text (e.g. "a happy birthday" → "happy birthday") */
@@ -215,6 +215,8 @@ export function PracticeSession() {
   const router = useRouter();
   const {
     attemptId,
+    testSetName,
+    testSetType,
     questions,
     currentIndex,
     answers,
@@ -290,6 +292,16 @@ export function PracticeSession() {
 
   const question = questions[currentIndex];
   const currentAnswer = question ? (answers.get(question.id) ?? null) : null;
+
+  const saveContext: WordSaveContext | undefined = question
+    ? {
+        sourceType: testSetType ?? question.type,
+        testSetId: undefined, // not available in practice store
+        testSetName: testSetName ?? undefined,
+        questionId: question.id,
+        questionNumber: question.question_number,
+      }
+    : undefined;
 
   // Prefetch explanation as soon as question loads (transcript translations + explanation ready before user answers)
   useEffect(() => {
@@ -452,6 +464,7 @@ export function PracticeSession() {
               index={currentIndex}
               total={questions.length}
               onImageLoaded={setHasImage}
+              saveContext={saveContext}
             />
           </div>
           <Button
@@ -474,6 +487,7 @@ export function PracticeSession() {
           submittingKey={submittingKey}
           audioOnly={question.type === "listening" && question.question_number <= 10}
           horizontal={hasImage}
+          saveContext={saveContext}
         />
 
         {/* Confirm button: visible when option selected but not yet submitted */}
@@ -566,6 +580,7 @@ export function PracticeSession() {
               onRetry={() => fetchExplanation(question.id)}
               onForceRefresh={() => fetchExplanation(question.id, true)}
               onOpen={() => !explanation && !explanationLoading && fetchExplanation(question.id)}
+              saveContext={saveContext}
             />
           )}
         </div>
@@ -584,6 +599,7 @@ export function PracticeSession() {
               onRetry={() => fetchExplanation(question.id)}
               onForceRefresh={() => fetchExplanation(question.id, true)}
               onOpen={() => !explanation && !explanationLoading && fetchExplanation(question.id)}
+              saveContext={saveContext}
             />
           ) : (
             <div className="rounded-md border p-4 text-sm text-muted-foreground">

@@ -6,19 +6,38 @@ import { WordCard } from "./word-card";
 /** Regex to tokenize French text preserving words with accents, apostrophes, hyphens */
 const WORD_RE = /([a-zA-ZÀ-ÿœŒæÆçÇ](?:[a-zA-ZÀ-ÿœŒæÆçÇ'-]*[a-zA-ZÀ-ÿœŒæÆçÇ])?)/g;
 
+export interface WordSaveContext {
+  sourceType?: string;
+  testSetId?: string;
+  testSetName?: string;
+  questionId?: string;
+  questionNumber?: number;
+}
+
 interface FrenchTextProps {
   text: string;
   /** Disable vocabulary cards (e.g., exam mode) — renders plain text */
   disabled?: boolean;
   className?: string;
+  /** Context for saving words (source test, question, etc.) */
+  saveContext?: WordSaveContext;
+}
+
+/** Extract the sentence containing a word from text */
+function extractSentence(text: string, word: string): string | undefined {
+  const sentences = text.split(/(?<=[.!?…])\s+/);
+  const lower = word.toLowerCase();
+  const found = sentences.find((s) => s.toLowerCase().includes(lower));
+  return found?.trim();
 }
 
 /**
  * Wraps French text, making each word clickable for vocabulary lookup.
  * Skips single-letter tokens (l', d', n', etc.).
  */
-export function FrenchText({ text, disabled, className }: FrenchTextProps) {
+export function FrenchText({ text, disabled, className, saveContext }: FrenchTextProps) {
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
+  const [selectedSentence, setSelectedSentence] = useState<string | undefined>(undefined);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleWordClick = useCallback(
@@ -29,13 +48,15 @@ export function FrenchText({ text, disabled, className }: FrenchTextProps) {
       const cleaned = word.replace(/^['-]+|['-]+$/g, "");
       if (cleaned.length <= 1) return;
       setSelectedWord(cleaned);
+      setSelectedSentence(extractSentence(text, cleaned));
       setAnchorEl(e.currentTarget);
     },
-    [disabled],
+    [disabled, text],
   );
 
   const handleClose = useCallback(() => {
     setSelectedWord(null);
+    setSelectedSentence(undefined);
     setAnchorEl(null);
   }, []);
 
@@ -81,6 +102,8 @@ export function FrenchText({ text, disabled, className }: FrenchTextProps) {
           word={selectedWord}
           anchorEl={anchorEl}
           onClose={handleClose}
+          saveContext={saveContext}
+          sentence={selectedSentence}
         />
       )}
     </span>

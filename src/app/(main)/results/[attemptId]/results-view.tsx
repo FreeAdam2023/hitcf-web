@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, RotateCcw } from "lucide-react";
+import { ArrowRight, RotateCcw, Share2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
@@ -18,6 +18,7 @@ import { createAttempt } from "@/lib/api/attempts";
 import { listTestSets } from "@/lib/api/test-sets";
 import { practiceWrongAnswers } from "@/lib/api/wrong-answers";
 import { useAuthStore } from "@/stores/auth-store";
+import { ShareDialog } from "@/components/results/share-dialog";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { TYPE_COLORS } from "@/lib/constants";
 import { useTranslations } from "next-intl";
@@ -39,6 +40,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
   const [practicingWrong, setPracticingWrong] = useState(false);
   const [startingNext, setStartingNext] = useState(false);
   const [nextTestSet, setNextTestSet] = useState<TestSetItem | null>(null);
+  const [shareOpen, setShareOpen] = useState(false);
 
   const score = attempt.score ?? 0;
   const isPointBased = attempt.test_set_type === "listening" || attempt.test_set_type === "reading";
@@ -241,6 +243,10 @@ export function ResultsView({ attempt }: ResultsViewProps) {
             {practicingWrong ? t("common.actions.creating") : t("results.practiceWrong", { count: wrongCount })}
           </Button>
         )}
+        <Button variant="outline" onClick={() => setShareOpen(true)}>
+          <Share2 className="mr-1.5 h-4 w-4" />
+          {t("results.share.button")}
+        </Button>
         {nextTestSet && (
           <Button onClick={handleNextTest} disabled={startingNext}>
             <ArrowRight className="mr-1.5 h-4 w-4" />
@@ -251,6 +257,31 @@ export function ResultsView({ attempt }: ResultsViewProps) {
           <Link href={attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests"}>{t("results.backToTests")}</Link>
         </Button>
       </div>
+
+      {/* Share poster dialog */}
+      <ShareDialog
+        open={shareOpen}
+        onOpenChange={setShareOpen}
+        testSetName={attempt.test_set_name || t("results.defaultTitle")}
+        testSetType={attempt.test_set_type || "listening"}
+        score={score}
+        total={attempt.total}
+        tcfPoints={tcfPoints}
+        timeTakenSeconds={timeTakenSeconds}
+        completedDate={
+          attempt.completed_at
+            ? new Date(attempt.completed_at).toLocaleDateString("zh-CN", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            : new Date().toLocaleDateString("zh-CN", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+        }
+      />
     </div>
   );
 }

@@ -33,6 +33,7 @@ const NAV_KEYS = [
   { href: "/tests", key: "nav.tests" },
   { href: "/dashboard", key: "nav.dashboard" },
   { href: "/wrong-answers", key: "nav.wrongAnswers" },
+  { href: "/vocabulary", key: "nav.vocabulary" },
   { href: "/history", key: "nav.history" },
   { href: "/speed-drill", key: "nav.speedDrill" },
   { href: "/pricing", key: "nav.pricing" },
