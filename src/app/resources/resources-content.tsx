@@ -282,6 +282,37 @@ export function ResourcesContent() {
               <p className="mt-4 max-w-xl text-lg text-muted-foreground">
                 考试内容、分数对照、免费学习资源、中加两国考场信息——分类查看，快速找到你需要的。
               </p>
+              <div className="mt-8 flex flex-wrap gap-3 justify-center lg:justify-start">
+                <Link
+                  href="/tests"
+                  className="inline-flex h-11 items-center gap-2 rounded-md bg-gradient-to-r from-primary to-blue-600 px-6 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-colors hover:from-primary/90 hover:to-blue-600/90"
+                >
+                  开始练习
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button className="inline-flex h-11 items-center gap-2 rounded-md border px-6 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer">
+                      <Users className="h-4 w-4" />
+                      加入备考社区
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent side="bottom" className="w-64 p-4">
+                    <p className="text-xs font-semibold mb-1">加入备考社区</p>
+                    <p className="text-[11px] text-muted-foreground mb-3">和考友一起备考，互助答疑</p>
+                    <div className="grid grid-cols-2 gap-3">
+                      <a href="https://www.xiaohongshu.com/user/profile/605439725" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-1.5">
+                        <Image src="/qr-xiaohongshu-cropped.jpg" alt="Xiaohongshu QR" width={100} height={100} className="rounded-lg border transition-transform group-hover:scale-105" />
+                        <span className="text-[11px] text-muted-foreground group-hover:text-foreground transition-colors">关注小红书</span>
+                      </a>
+                      <div className="flex flex-col items-center gap-1.5">
+                        <Image src="/qr-wechat-cropped.jpg" alt="WeChat QR" width={100} height={100} className="rounded-lg border" />
+                        <span className="text-[11px] text-muted-foreground">加微信入群</span>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
             </div>
             <div className="hidden lg:block">
               <div className="relative">
@@ -770,7 +801,7 @@ export function ResourcesContent() {
           <p className="mt-3 text-muted-foreground">
             8,500+ 道 TCF Canada 真题等你来刷
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <div className="mt-8">
             <Link
               href="/tests"
               className="inline-flex h-11 items-center gap-2 rounded-md bg-gradient-to-r from-primary to-blue-600 px-6 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-colors hover:from-primary/90 hover:to-blue-600/90"
@@ -778,34 +809,6 @@ export function ResourcesContent() {
               开始练习
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link
-              href="/resources?tab=resources"
-              className="inline-flex h-11 items-center gap-2 rounded-md border px-6 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
-            >
-              查看学习资源
-            </Link>
-            <Popover>
-              <PopoverTrigger asChild>
-                <button className="inline-flex h-11 items-center gap-2 rounded-md border px-6 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer">
-                  <Users className="h-4 w-4" />
-                  加入备考社区
-                </button>
-              </PopoverTrigger>
-              <PopoverContent side="top" className="w-64 p-4">
-                <p className="text-xs font-semibold mb-1">加入备考社区</p>
-                <p className="text-[11px] text-muted-foreground mb-3">和考友一起备考，互助答疑</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <a href="https://www.xiaohongshu.com/user/profile/605439725" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-1.5">
-                    <Image src="/qr-xiaohongshu-cropped.jpg" alt="Xiaohongshu QR" width={100} height={100} className="rounded-lg border transition-transform group-hover:scale-105" />
-                    <span className="text-[11px] text-muted-foreground group-hover:text-foreground transition-colors">关注小红书</span>
-                  </a>
-                  <div className="flex flex-col items-center gap-1.5">
-                    <Image src="/qr-wechat-cropped.jpg" alt="WeChat QR" width={100} height={100} className="rounded-lg border" />
-                    <span className="text-[11px] text-muted-foreground">加微信入群</span>
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
           </div>
         </div>
       </section>

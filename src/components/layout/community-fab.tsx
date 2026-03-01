@@ -71,16 +71,20 @@ export function CommunityFab() {
         </>
       )}
 
-      {/* Pill button — frosted glass style */}
+      {/* Pill button */}
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 rounded-full border border-border/50 bg-background/80 px-3.5 py-2 text-xs font-medium text-muted-foreground shadow-md backdrop-blur-xl transition-all hover:text-foreground hover:shadow-lg hover:border-border active:scale-95"
+        className={`flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-medium shadow-lg transition-all active:scale-95 ${
+          open
+            ? "border border-border/50 bg-background/80 text-muted-foreground backdrop-blur-xl hover:text-foreground"
+            : "bg-primary text-primary-foreground hover:bg-primary/90 shadow-primary/25"
+        }`}
       >
         {open ? (
-          <X className="h-3.5 w-3.5" />
+          <X className="h-4 w-4" />
         ) : (
           <>
-            <MessageCircle className="h-3.5 w-3.5" />
+            <MessageCircle className="h-4 w-4" />
             {t("community.fab")}
           </>
         )}
