@@ -27,6 +27,7 @@ import {
 import { usePracticeStore } from "@/stores/practice-store";
 import { UserMenu } from "./user-menu";
 import { ThemeToggle } from "./theme-toggle";
+import { LocaleToggle } from "./locale-toggle";
 import { cn } from "@/lib/utils";
 
 const NAV_KEYS = [
@@ -120,6 +121,7 @@ export function Navbar() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
+          <LocaleToggle />
           <ThemeToggle />
           <UserMenu />
         </div>
@@ -177,6 +179,7 @@ function ImmersiveHeader() {
           {formatElapsed(elapsed)}
         </div>
         <div className="ml-auto flex items-center gap-1">
+          <LocaleToggle />
           <ThemeToggle />
           <AlertDialog>
             <AlertDialogTrigger asChild>

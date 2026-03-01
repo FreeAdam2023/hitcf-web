@@ -3,11 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import { MessageCircle, X } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { usePathname } from "next/navigation";
+
+const WHATSAPP_LINK = "https://chat.whatsapp.com/Fvbx6XR8EQPDSvx4VW2yn7";
 
 export function CommunityFab() {
   const t = useTranslations();
+  const locale = useLocale();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -36,37 +39,60 @@ export function CommunityFab() {
               </button>
             </div>
             <p className="text-xs text-muted-foreground mb-3">{t("community.description")}</p>
-            <div className="grid grid-cols-2 gap-3">
+
+            {locale === "zh" ? (
+              /* Chinese: Xiaohongshu + WeChat */
+              <div className="grid grid-cols-2 gap-3">
+                <a
+                  href="https://www.xiaohongshu.com/user/profile/605439725"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col items-center gap-1.5"
+                >
+                  <Image
+                    src="/qr-xiaohongshu-cropped.jpg"
+                    alt="Xiaohongshu QR"
+                    width={108}
+                    height={108}
+                    className="rounded-lg border border-border/50 transition-transform group-hover:scale-105"
+                  />
+                  <span className="text-[11px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                    {t("community.followXhs")}
+                  </span>
+                </a>
+                <div className="flex flex-col items-center gap-1.5">
+                  <Image
+                    src="/qr-wechat-cropped.jpg"
+                    alt="WeChat QR"
+                    width={108}
+                    height={108}
+                    className="rounded-lg border border-border/50"
+                  />
+                  <span className="text-[11px] font-medium text-muted-foreground">
+                    {t("community.addWechat")}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              /* English: WhatsApp */
               <a
-                href="https://www.xiaohongshu.com/user/profile/605439725"
+                href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col items-center gap-1.5"
+                className="group flex flex-col items-center gap-2"
               >
                 <Image
-                  src="/qr-xiaohongshu-cropped.jpg"
-                  alt="Xiaohongshu QR"
-                  width={108}
-                  height={108}
+                  src="/qr-whatsapp.png"
+                  alt="WhatsApp Group QR"
+                  width={180}
+                  height={180}
                   className="rounded-lg border border-border/50 transition-transform group-hover:scale-105"
                 />
-                <span className="text-[11px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-                  {t("community.followXhs")}
+                <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                  {t("community.joinWhatsApp")}
                 </span>
               </a>
-              <div className="flex flex-col items-center gap-1.5">
-                <Image
-                  src="/qr-wechat-cropped.jpg"
-                  alt="WeChat QR"
-                  width={108}
-                  height={108}
-                  className="rounded-lg border border-border/50"
-                />
-                <span className="text-[11px] font-medium text-muted-foreground">
-                  {t("community.addWechat")}
-                </span>
-              </div>
-            </div>
+            )}
           </div>
         </>
       )}

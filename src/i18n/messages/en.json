@@ -105,6 +105,7 @@
     "disclaimer": "Disclaimer",
     "socialXhs": "Xiaohongshu @HiTCF",
     "socialWechat": "WeChat Hi_TCF",
+    "socialWhatsApp": "WhatsApp Group",
     "scanXhs": "Scan to follow on Xiaohongshu",
     "scanWechat": "Scan to add on WeChat",
     "studyGroup": "Study Group",
@@ -1134,7 +1135,8 @@
     "title": "Join Our Community",
     "description": "Connect with TCF test-takers, share tips, and prep together",
     "followXhs": "Follow on Xiaohongshu",
-    "addWechat": "Add WeChat"
+    "addWechat": "Add WeChat",
+    "joinWhatsApp": "Join WhatsApp Group"
   },
   "pricing": {
     "title": "8,500+ TCF Practice Questions + Vocab Tools, All 4 Sections",
