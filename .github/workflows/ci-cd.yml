@@ -34,6 +34,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify main comes from dev
+        if: github.ref_name == 'main'
+        run: |
+          git fetch origin dev
+          if ! git merge-base --is-ancestor origin/dev HEAD; then
+            echo "::error::Rejected: main contains commits not on origin/dev. Push dev first."
+            exit 1
+          fi
 
       - name: Set environment variables
         run: |
