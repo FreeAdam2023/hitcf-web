@@ -60,17 +60,25 @@ export function getSavedWordStats(): Promise<SavedWordStats> {
   return get("/api/vocab/saved/stats");
 }
 
-// Export saved words — triggers browser download
-export async function exportSavedWords(sourceType?: string): Promise<void> {
-  const params = new URLSearchParams();
-  if (sourceType) params.set("source_type", sourceType);
-  const qs = params.toString();
-  const res = await fetch(`/api/vocab/saved/export${qs ? `?${qs}` : ""}`);
-  if (!res.ok) throw new Error("Export failed");
+// Export error handling
+export class ExportLimitError extends Error {
+  constructor(public status: number, message: string) {
+    super(message);
+    this.name = "ExportLimitError";
+  }
+}
+
+async function handleExportResponse(res: Response, fallbackFilename: string) {
+  if (!res.ok) {
+    if (res.status === 401) throw new ExportLimitError(401, "Login required");
+    if (res.status === 429) throw new ExportLimitError(429, "Rate limit exceeded");
+    if (res.status === 403) throw new ExportLimitError(403, "Word count limit exceeded");
+    throw new Error("Export failed");
+  }
   const blob = await res.blob();
   const cd = res.headers.get("content-disposition") || "";
   const match = cd.match(/filename="(.+?)"/);
-  const filename = match?.[1] || "vocabulary.apkg";
+  const filename = match?.[1] || fallbackFilename;
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -79,6 +87,15 @@ export async function exportSavedWords(sourceType?: string): Promise<void> {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+// Export saved words — triggers browser download
+export async function exportSavedWords(sourceType?: string): Promise<void> {
+  const params = new URLSearchParams();
+  if (sourceType) params.set("source_type", sourceType);
+  const qs = params.toString();
+  const res = await fetch(`/api/vocab/saved/export${qs ? `?${qs}` : ""}`);
+  await handleExportResponse(res, "vocabulary.apkg");
 }
 
 // Nihao French API
@@ -118,17 +135,5 @@ export async function exportNihaoWords(
   if (theme) params.set("theme", theme);
   const qs = params.toString();
   const res = await fetch(`/api/vocab/nihao/export${qs ? `?${qs}` : ""}`);
-  if (!res.ok) throw new Error("Export failed");
-  const blob = await res.blob();
-  const cd = res.headers.get("content-disposition") || "";
-  const match = cd.match(/filename="(.+?)"/);
-  const filename = match?.[1] || "nihao_vocab.apkg";
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  await handleExportResponse(res, "nihao_vocab.apkg");
 }

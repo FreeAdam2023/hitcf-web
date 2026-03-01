@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Download, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ExportLimitError } from "@/lib/api/vocabulary";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,21 +23,35 @@ export function ExportDialog({ wordCount, onExport }: ExportDialogProps) {
   const t = useTranslations();
   const [exporting, setExporting] = useState(false);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleExport = async () => {
     setExporting(true);
+    setError(null);
     try {
       await onExport();
       setOpen(false);
-    } catch {
-      // ignore
+    } catch (e) {
+      if (e instanceof ExportLimitError) {
+        if (e.status === 429) {
+          setError(t("vocabulary.export.errorRateLimit"));
+        } else if (e.status === 403) {
+          setError(t("vocabulary.export.errorWordLimit"));
+        } else if (e.status === 401) {
+          setError(t("vocabulary.export.errorLogin"));
+        } else {
+          setError(t("vocabulary.export.errorGeneric"));
+        }
+      } else {
+        setError(t("vocabulary.export.errorGeneric"));
+      }
     } finally {
       setExporting(false);
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) setError(null); }}>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
           <Download className="mr-1.5 h-4 w-4" />
@@ -54,6 +69,9 @@ export function ExportDialog({ wordCount, onExport }: ExportDialogProps) {
           <p className="font-medium">{t("vocabulary.export.ankiTitle")}</p>
           <p className="text-sm text-muted-foreground">{t("vocabulary.export.ankiDesc")}</p>
         </div>
+        {error && (
+          <p className="text-sm text-destructive">{error}</p>
+        )}
         <Button onClick={handleExport} disabled={exporting} className="w-full">
           {exporting ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

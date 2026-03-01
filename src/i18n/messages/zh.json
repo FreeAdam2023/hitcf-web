@@ -1021,7 +1021,11 @@
       "ankiTitle": "Anki 卡片 (.apkg)",
       "ankiDesc": "导入 Anki 桌面版，内含正反面卡片模板",
       "downloadButton": "下载",
-      "exporting": "导出中…"
+      "exporting": "导出中…",
+      "errorRateLimit": "今日导出次数已达上限，请明天再试",
+      "errorWordLimit": "免费用户单次最多导出 50 个词，升级 Pro 解锁无限导出",
+      "errorLogin": "请先登录后再导出",
+      "errorGeneric": "导出失败，请稍后再试"
     },
     "nihaoFrench": {
       "title": "你好法语",

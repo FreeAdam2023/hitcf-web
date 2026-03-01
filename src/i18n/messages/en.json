@@ -1021,7 +1021,11 @@
       "ankiTitle": "Anki Deck (.apkg)",
       "ankiDesc": "Import into Anki Desktop with front/back card templates",
       "downloadButton": "Download",
-      "exporting": "Exporting…"
+      "exporting": "Exporting…",
+      "errorRateLimit": "Daily export limit reached. Please try again tomorrow",
+      "errorWordLimit": "Free users can export up to 50 words at a time. Upgrade to Pro for unlimited exports",
+      "errorLogin": "Please log in to export",
+      "errorGeneric": "Export failed. Please try again later"
     },
     "nihaoFrench": {
       "title": "Nihao French",
