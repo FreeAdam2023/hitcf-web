@@ -6,6 +6,7 @@ import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { listAttempts } from "@/lib/api/attempts";
 import { listTestSets } from "@/lib/api/test-sets";
+import { fetchAllPages } from "@/lib/api/fetch-all-pages";
 import { useTranslations } from "next-intl";
 import type { TestSetItem } from "@/lib/api/types";
 
@@ -25,14 +26,14 @@ export function RecommendedBanner({ type }: RecommendedBannerProps) {
     }
 
     Promise.all([
-      listTestSets({ type, page_size: 100 }),
-      listAttempts({ page_size: 100 }),
+      fetchAllPages((p) => listTestSets({ type, ...p }), 100),
+      fetchAllPages((p) => listAttempts({ ...p }), 100),
     ])
-      .then(([testsRes, attemptsRes]) => {
-        const sorted = [...testsRes.items].sort((a, b) => a.order - b.order);
+      .then(([tests, attempts]) => {
+        const sorted = [...tests].sort((a, b) => a.order - b.order);
         // Find test sets that have a completed attempt
         const completedTestIds = new Set(
-          attemptsRes.items
+          attempts
             .filter((a) => a.status === "completed")
             .map((a) => a.test_set_id),
         );

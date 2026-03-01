@@ -21,7 +21,7 @@ function FlashcardInner() {
 
   const loadCards = useCallback(async (): Promise<FlashCardWord[]> => {
     if (!session?.user) return [];
-    const res = await listSavedWords({ source_type: sourceType, page: 1, page_size: 200 });
+    const res = await listSavedWords({ source_type: sourceType, page: 1, page_size: 100 });
     return res.items.map((item) => {
       const sourceParts: string[] = [];
       if (item.source_type && isSourceType(item.source_type)) {
