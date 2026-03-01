@@ -588,70 +588,72 @@ export function ResourcesContent() {
                 {t("resources.centers.subtitle")}
               </p>
 
-              <div className="grid gap-8 lg:grid-cols-2">
-                {/* China */}
-                <div className="rounded-xl border overflow-hidden">
-                  <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
-                    <span className="text-base">🇨🇳</span>
-                    <h3 className="font-bold">{t("resources.centers.chinaTitle")}</h3>
-                  </div>
-                  <div className="divide-y">
-                    {CHINA_CENTER_URLS.map((url, i) => {
-                      const city = t(`resources.centers.china.${i}.city`);
-                      const org = t(`resources.centers.china.${i}.org`);
-                      const note = t(`resources.centers.china.${i}.note`);
-                      return (
-                        <div key={`${city}-${i}`} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="font-semibold">{city}</span>
-                              <a
-                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(org)}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
-                              >
-                                <MapPin className="h-3 w-3" />
-                                {org}
-                              </a>
-                              {note && (
-                                <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-                                  {note}
-                                </span>
-                              )}
+              <div className={`grid gap-8 ${locale === "zh" ? "lg:grid-cols-2" : ""}`}>
+                {/* China — only for zh */}
+                {locale === "zh" && (
+                  <div className="rounded-xl border overflow-hidden">
+                    <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
+                      <span className="text-base">🇨🇳</span>
+                      <h3 className="font-bold">{t("resources.centers.chinaTitle")}</h3>
+                    </div>
+                    <div className="divide-y">
+                      {CHINA_CENTER_URLS.map((url, i) => {
+                        const city = t(`resources.centers.china.${i}.city`);
+                        const org = t(`resources.centers.china.${i}.org`);
+                        const note = t(`resources.centers.china.${i}.note`);
+                        return (
+                          <div key={`${city}-${i}`} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="font-semibold">{city}</span>
+                                <a
+                                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(org)}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                  <MapPin className="h-3 w-3" />
+                                  {org}
+                                </a>
+                                {note && (
+                                  <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+                                    {note}
+                                  </span>
+                                )}
+                              </div>
                             </div>
+                            <a
+                              href={url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5"
+                            >
+                              {t("resources.centers.website")}
+                              <ExternalLink className="ml-1 inline h-3 w-3" />
+                            </a>
                           </div>
-                          <a
-                            href={url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5"
-                          >
-                            {t("resources.centers.website")}
-                            <ExternalLink className="ml-1 inline h-3 w-3" />
-                          </a>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground space-y-1">
-                    <div>
-                      {t.rich("resources.centers.chinaFee", richB)}
+                        );
+                      })}
                     </div>
-                    <div>
-                      {t("resources.centers.globalSearch")}
-                      <a
-                        href="https://www.france-education-international.fr/en/tcf-all-audiences/register-session"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-medium text-primary hover:underline"
-                      >
-                        france-education-international.fr
-                        <ExternalLink className="ml-1 inline h-3 w-3" />
-                      </a>
+                    <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground space-y-1">
+                      <div>
+                        {t.rich("resources.centers.chinaFee", richB)}
+                      </div>
+                      <div>
+                        {t("resources.centers.globalSearch")}
+                        <a
+                          href="https://www.france-education-international.fr/en/tcf-all-audiences/register-session"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-medium text-primary hover:underline"
+                        >
+                          france-education-international.fr
+                          <ExternalLink className="ml-1 inline h-3 w-3" />
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
 
                 {/* Canada */}
                 <div className="rounded-xl border overflow-hidden">
