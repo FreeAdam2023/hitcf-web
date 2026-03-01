@@ -38,21 +38,21 @@ import {
   Globe,
 } from "lucide-react";
 
-const QUOTES = [
-  { fr: "Petit à petit, l'oiseau fait son nid.", zh: "一点一点，鸟儿筑成了巢。——积少成多，功到自成。" },
-  { fr: "C'est en forgeant qu'on devient forgeron.", zh: "打铁才能成铁匠。——熟能生巧。" },
-  { fr: "Vouloir, c'est pouvoir.", zh: "有志者，事竟成。" },
-  { fr: "Rome ne s'est pas faite en un jour.", zh: "罗马不是一天建成的。" },
-  { fr: "Qui ne tente rien n'a rien.", zh: "不尝试就什么也得不到。" },
-  { fr: "À cœur vaillant rien d'impossible.", zh: "勇者无难事。" },
-  { fr: "Les petits ruisseaux font les grandes rivières.", zh: "涓涓细流汇成大河。——积少成多。" },
-  { fr: "Après la pluie, le beau temps.", zh: "雨过天晴。——困难之后必有好日子。" },
-  { fr: "Qui vivra verra.", zh: "活着就能看到。——走着瞧，未来可期。" },
-  { fr: "La nuit porte conseil.", zh: "夜晚会带来好主意。——一觉醒来就有办法了。" },
-  { fr: "Mieux vaut tard que jamais.", zh: "迟做总比不做好。" },
-  { fr: "La persévérance est la noblesse de l'obstination.", zh: "坚持是执着最高贵的形式。——Adrien Decourcelle" },
-  { fr: "L'avenir appartient à ceux qui se lèvent tôt.", zh: "未来属于早起的人。" },
-  { fr: "Chaque langue nouvelle est une nouvelle fenêtre sur le monde.", zh: "每学一门新语言，就多了一扇看世界的窗。" },
+const QUOTE_FR = [
+  "Petit à petit, l'oiseau fait son nid.",
+  "C'est en forgeant qu'on devient forgeron.",
+  "Vouloir, c'est pouvoir.",
+  "Rome ne s'est pas faite en un jour.",
+  "Qui ne tente rien n'a rien.",
+  "À cœur vaillant rien d'impossible.",
+  "Les petits ruisseaux font les grandes rivières.",
+  "Après la pluie, le beau temps.",
+  "Qui vivra verra.",
+  "La nuit porte conseil.",
+  "Mieux vaut tard que jamais.",
+  "La persévérance est la noblesse de l'obstination.",
+  "L'avenir appartient à ceux qui se lèvent tôt.",
+  "Chaque langue nouvelle est une nouvelle fenêtre sur le monde.",
 ];
 
 function formatDate(dateStr: string | null | undefined, locale = "zh"): string {
@@ -177,8 +177,8 @@ export function AccountView() {
   // Subscription management
   const [portalLoading, setPortalLoading] = useState(false);
 
-  const quote = useMemo(
-    () => QUOTES[Math.floor(Math.random() * QUOTES.length)],
+  const quoteIndex = useMemo(
+    () => Math.floor(Math.random() * QUOTE_FR.length),
     []
   );
 
@@ -310,7 +310,7 @@ export function AccountView() {
                 </span>
               </div>
               <h1 className="mt-2 text-2xl font-bold text-white">
-                Bonjour, {firstName}
+                {t("account.heroGreetingPro", { name: firstName })}
               </h1>
               {subStatus === "trialing" && user.subscription?.trial_end && (
                 <p className="mt-1 text-xs text-white/50">
@@ -395,9 +395,9 @@ export function AccountView() {
           {/* Quote */}
           <div className="relative mt-6 border-t border-white/10 pt-4">
             <p className="text-sm italic text-white/40">
-              &ldquo;{quote.fr}&rdquo;
+              &ldquo;{QUOTE_FR[quoteIndex]}&rdquo;
             </p>
-            <p className="mt-1 text-xs text-white/30">{quote.zh}</p>
+            <p className="mt-1 text-xs text-white/30">{t(`account.quotes.${quoteIndex}`)}</p>
           </div>
 
           {/* Quick link */}
@@ -430,12 +430,12 @@ export function AccountView() {
         /* ─── Free User Hero ─── */
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 p-6 dark:from-slate-900 dark:to-slate-800">
           <div>
-            <h1 className="text-2xl font-bold">Salut {firstName},</h1>
+            <h1 className="text-2xl font-bold">{t("account.heroGreetingFree", { name: firstName })}</h1>
             <blockquote className="mt-3 border-l-4 border-primary/40 pl-4">
               <p className="text-sm italic text-muted-foreground">
-                {quote.fr}
+                {QUOTE_FR[quoteIndex]}
               </p>
-              <p className="mt-1 text-sm text-muted-foreground">{quote.zh}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{t(`account.quotes.${quoteIndex}`)}</p>
             </blockquote>
           </div>
 

@@ -66,7 +66,7 @@ export function AnkiCardPreview() {
           </>
         ) : (
           <>
-            <div style={{ fontSize: "22px", margin: "8px 0 4px" }}>欢迎</div>
+            <div style={{ fontSize: "22px", margin: "8px 0 4px" }}>{t("vocabulary.export.previewMeaning")}</div>
             <div style={{ fontSize: "15px", color: "#666" }}>welcome</div>
             <div style={{ margin: "8px 0" }}>
               <span
@@ -130,7 +130,7 @@ export function AnkiCardPreview() {
                   <div style={{ fontSize: "14px", color: "#555" }}>
                     <span style={{ fontStyle: "italic" }}>Bienvenue en France !</span>
                   </div>
-                  <div style={{ fontSize: "13px", color: "#777" }}>欢迎来到法国！</div>
+                  <div style={{ fontSize: "13px", color: "#777" }}>{t("vocabulary.export.previewExample")}</div>
                 </div>
               )}
             </div>
@@ -144,7 +144,7 @@ export function AnkiCardPreview() {
                 color: "#bbb",
               }}
             >
-              HiTCF.com — TCF Canada 在线练习平台
+              {t("vocabulary.export.previewFooter")}
             </div>
           </>
         )}

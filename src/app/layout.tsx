@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { getTranslations } from "next-intl/server";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { LocaleProvider } from "@/components/providers/locale-provider";
@@ -26,73 +27,60 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export const metadata: Metadata = {
-  title: {
-    default: "HiTCF — TCF Canada 在线练习平台",
-    template: "%s | HiTCF",
-  },
-  description:
-    "8,500+ 道 TCF Canada 真题 + 词汇工具，覆盖听力、阅读、口语、写作四大科目。刷题、翻卡复习、听写练习、Anki 导出，助你冲刺 CLB 7。",
-  keywords: [
-    "TCF Canada",
-    "CLB 7",
-    "TCF 练习",
-    "TCF 听力",
-    "TCF 阅读",
-    "TCF Canada 备考",
-    "加拿大移民法语",
-    "TCF 在线模拟",
-    "TCF 真题",
-    "TCF 词汇",
-    "法语 Anki",
-    "法语翻卡",
-  ],
-  authors: [{ name: "HiTCF" }],
-  creator: "HiTCF",
-  metadataBase: new URL(SITE_URL),
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    locale: "zh_CN",
-    url: SITE_URL,
-    siteName: "HiTCF",
-    title: "HiTCF — 打开就练，刷到 CLB 7",
-    description:
-      "8,500+ 道 TCF Canada 真题 + 生词本 + Anki 导出。刷题、翻卡、听写一站搞定，薄弱环节一目了然。",
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "HiTCF — TCF Canada 在线练习平台",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "HiTCF — 打开就练，刷到 CLB 7",
-    description:
-      "8,500+ 道 TCF Canada 真题 + 生词本 + Anki 导出。刷题、翻卡、听写一站搞定，薄弱环节一目了然。",
-    images: ["/opengraph-image"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("meta");
+  return {
+    title: {
+      default: t("siteTitle"),
+      template: t("titleTemplate"),
+    },
+    description: t("siteDescription"),
+    keywords: t("keywords").split(","),
+    authors: [{ name: "HiTCF" }],
+    creator: "HiTCF",
+    metadataBase: new URL(SITE_URL),
+    alternates: {
+      canonical: "/",
+    },
+    openGraph: {
+      type: "website",
+      locale: "zh_CN",
+      url: SITE_URL,
+      siteName: "HiTCF",
+      title: t("ogTitle"),
+      description: t("ogDescription"),
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: t("ogImageAlt"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("ogTitle"),
+      description: t("ogDescription"),
+      images: ["/opengraph-image"],
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-  },
-  icons: {
-    icon: "/favicon.png",
-    apple: "/apple-touch-icon.png",
-  },
-};
+    icons: {
+      icon: "/favicon.png",
+      apple: "/apple-touch-icon.png",
+    },
+  };
+}
 
 export default function RootLayout({
   children,

@@ -27,6 +27,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { useTranslations } from "next-intl";
 
 /* ── constants ── */
 
@@ -34,43 +35,11 @@ const VALID_TABS = ["exam", "scores", "resources", "centers"];
 
 /* ── data ── */
 
-const SUBJECTS = [
-  {
-    icon: Headphones,
-    name: "听力理解 (CO)",
-    questions: "39 题选择题",
-    duration: "35 分钟",
-    score: "0–699",
-    color: "text-blue-600 dark:text-blue-400",
-    bg: "bg-blue-100 dark:bg-blue-900/40",
-  },
-  {
-    icon: BookOpenText,
-    name: "阅读理解 (CE)",
-    questions: "39 题选择题",
-    duration: "60 分钟",
-    score: "0–699",
-    color: "text-emerald-600 dark:text-emerald-400",
-    bg: "bg-emerald-100 dark:bg-emerald-900/40",
-  },
-  {
-    icon: PenLine,
-    name: "写作表达 (EE)",
-    questions: "3 个写作任务",
-    duration: "60 分钟",
-    score: "0–20",
-    color: "text-purple-600 dark:text-purple-400",
-    bg: "bg-purple-100 dark:bg-purple-900/40",
-  },
-  {
-    icon: MessageCircle,
-    name: "口语表达 (EO)",
-    questions: "3 个口语任务",
-    duration: "12 分钟",
-    score: "0–20",
-    color: "text-amber-600 dark:text-amber-400",
-    bg: "bg-amber-100 dark:bg-amber-900/40",
-  },
+const SUBJECT_META = [
+  { icon: Headphones, score: "0–699", color: "text-blue-600 dark:text-blue-400", bg: "bg-blue-100 dark:bg-blue-900/40" },
+  { icon: BookOpenText, score: "0–699", color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-100 dark:bg-emerald-900/40" },
+  { icon: PenLine, score: "0–20", color: "text-purple-600 dark:text-purple-400", bg: "bg-purple-100 dark:bg-purple-900/40" },
+  { icon: MessageCircle, score: "0–20", color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-100 dark:bg-amber-900/40" },
 ];
 
 const NCLC_ROWS = [
@@ -83,131 +52,46 @@ const NCLC_ROWS = [
   { level: "10+", co: "549–699", ce: "549–699", ee: "16–20", eo: "16–20" },
 ];
 
-const IMMIGRATION_PROGRAMS = [
-  { program: "Express Entry (CEC)", req: "NCLC 7", desc: "加拿大经验类移民" },
-  { program: "Express Entry (FSW)", req: "NCLC 7", desc: "联邦技术移民" },
-  { program: "魁北克 PEQ", req: "NCLC 7", desc: "魁北克经验类移民" },
-  { program: "公民入籍", req: "NCLC 4", desc: "加拿大公民申请" },
+const IMMIGRATION_REQS = ["NCLC 7", "NCLC 7", "NCLC 7", "NCLC 4"];
+
+const OFFICIAL_RESOURCE_URLS = [
+  { name: "TV5MONDE", url: "https://apprendre.tv5monde.com" },
+  { name: "RFI Savoirs", url: "https://savoirs.rfi.fr" },
+  { name: "Journal en français facile", url: "https://francaisfacile.rfi.fr/fr/podcasts/journal-en-fran%C3%A7ais-facile/" },
+  { name: "France Éducation international", url: "https://www.france-education-international.fr/hub/tcf" },
+  { name: "Français Facile", url: "https://www.francaisfacile.com" },
+  { name: "innerFrench", url: "https://innerfrench.com" },
 ];
 
-const OFFICIAL_RESOURCES = [
-  {
-    name: "TV5MONDE",
-    url: "https://apprendre.tv5monde.com",
-    desc: "法国国际电视台旗下免费法语学习平台，A1–C1 全等级视频课程 + 互动练习。按文化、社会、科学等主题分类，同时提升听力和阅读。",
-    tag: "A1–C1",
-  },
-  {
-    name: "RFI Savoirs",
-    url: "https://savoirs.rfi.fr",
-    desc: "法国国际广播电台学习频道，用真实法语新闻音频配练习题。语速从慢到正常都有，练 TCF 听力的绝佳素材。",
-    tag: "听力",
-  },
-  {
-    name: "Journal en français facile",
-    url: "https://francaisfacile.rfi.fr/fr/podcasts/journal-en-fran%C3%A7ais-facile/",
-    desc: "RFI「简明法语新闻」，每天 10 分钟清晰慢速播报国际新闻。坚持每天听一期，有助于稳步提升听力水平。",
-    tag: "每日听力",
-  },
-  {
-    name: "France Éducation international",
-    url: "https://www.france-education-international.fr/hub/tcf",
-    desc: "TCF 官方出题机构网站，查看考试介绍、评分标准和官方样题。备考前务必先了解真实考试格式。",
-    tag: "官方",
-  },
-  {
-    name: "Français Facile",
-    url: "https://www.francaisfacile.com",
-    desc: "老牌法语学习网站，大量免费语法、词汇、听力和阅读练习按难度分级。适合系统性补语法基础。",
-    tag: "语法",
-  },
-  {
-    name: "innerFrench",
-    url: "https://innerfrench.com",
-    desc: "Hugo 的法语学习平台，提供播客、YouTube 视频和系统课程，用自然法语讲文化社会话题。语速适中、内容有深度，适合中级学习者突破瓶颈。",
-    tag: "B1–B2",
-  },
+const YOUTUBE_RESOURCE_URLS = [
+  { name: "Français Authentique", url: "https://www.youtube.com/@francaisauthentique" },
+  { name: "The perfect French with Dylane", url: "https://www.youtube.com/@theperfectfrenchwithdylane" },
+  { name: "Français avec Pierre", url: "https://www.youtube.com/@FrancaisavecPierre" },
+  { name: "InnerFrench", url: "https://www.youtube.com/@innerFrench" },
+  { name: "Easy French", url: "https://www.youtube.com/@EasyFrench" },
+  { name: "Learn French with Alexa", url: "https://www.youtube.com/@leaboreal" },
 ];
 
-const YOUTUBE_RESOURCES = [
-  {
-    name: "Français Authentique",
-    url: "https://www.youtube.com/@francaisauthentique",
-    desc: "百万粉丝沉浸式法语频道，Johan 纯法语讲日常话题。不教语法规则，通过大量自然输入培养语感。",
-    tag: "B1+ 语感",
-  },
-  {
-    name: "The perfect French with Dylane",
-    url: "https://www.youtube.com/@theperfectfrenchwithdylane",
-    desc: "法国人 Dylane 的教学频道，专注语法讲解和词汇扩展，每期短小精悍、清晰有条理。",
-    tag: "语法词汇",
-  },
-  {
-    name: "Français avec Pierre",
-    url: "https://www.youtube.com/@FrancaisavecPierre",
-    desc: "法语教师 Pierre 的综合教学频道，语法、词汇、发音、文化全覆盖。法语 + 字幕形式适合精听。",
-    tag: "B1–C1",
-  },
-  {
-    name: "InnerFrench",
-    url: "https://www.youtube.com/@innerFrench",
-    desc: "Hugo 的纯法语播客频道，每期 20–30 分钟讨论文化社会话题。语速适中，适合泛听 + 积累口语写作素材。",
-    tag: "播客泛听",
-  },
-  {
-    name: "Easy French",
-    url: "https://www.youtube.com/@EasyFrench",
-    desc: "法国街头随机采访系列，真实法国人日常口语 + 法英双字幕。听课本学不到的地道表达和口语节奏。",
-    tag: "真实口语",
-  },
-  {
-    name: "Learn French with Alexa",
-    url: "https://www.youtube.com/@leaboreal",
-    desc: "英法双语教学频道，Alexa 用英语解释法语语法和发音。讲解慢、例子多，零基础到 A2 打基础首选。",
-    tag: "零基础",
-  },
+const TOOL_RESOURCE_URLS = [
+  { url: "https://www.bilibili.com" },
+  { url: "https://apps.ankiweb.net" },
+  { url: "https://www.duolingo.com" },
+  { url: "https://www.logicieleducatif.fr" },
+  { url: "https://www.lawlessfrench.com" },
 ];
 
-const TOOL_RESOURCES = [
-  {
-    name: "B 站 (Bilibili)",
-    url: "https://www.bilibili.com",
-    desc: "搜索「你好法语 A1 教材音频」「TCF 备考」等关键词，大量中文讲解的法语教学视频。中文学习者最容易上手的资源。",
-  },
-  {
-    name: "Anki",
-    url: "https://apps.ankiweb.net",
-    desc: "开源免费的间隔重复记忆卡片软件，可下载社区共享的 TCF/DELF 词汇牌组。科学算法安排复习节奏，长期记忆效果远超死记硬背。",
-  },
-  {
-    name: "Duolingo",
-    url: "https://www.duolingo.com",
-    desc: "游戏化语言学习 App，每天 10–15 分钟一课。虽达不到 TCF 深度，但适合保持每日法语接触。",
-  },
-  {
-    name: "LogicielÉducatif",
-    url: "https://www.logicieleducatif.fr",
-    desc: "法国本土教育游戏网站，小游戏练习拼写、语法和词汇。面向法国学生但对学习者同样有效。",
-  },
-  {
-    name: "Lawless French",
-    url: "https://www.lawlessfrench.com",
-    desc: "全面的法语语法参考网站，从初级到高级所有语法点 + 例句练习。遇到语法疑问当字典查。",
-  },
-];
-
-const CHINA_CENTERS = [
-  { city: "北京", org: "北京语言大学", url: "https://www.blcu.edu.cn", note: "" },
-  { city: "北京", org: "北京法语联盟", url: "https://www.afchine.org/zh", note: "" },
-  { city: "上海", org: "上海法语培训中心", url: "https://www.afshanghai.org", note: "" },
-  { city: "广州", org: "广州法语联盟", url: "https://www.afchine.org/zh", note: "" },
-  { city: "成都", org: "成都法语联盟", url: "https://www.afchine.org/zh", note: "" },
-  { city: "武汉", org: "武汉法语联盟", url: "https://www.afchine.org/zh", note: "微信报名" },
-  { city: "大连", org: "大连法语联盟", url: "https://www.afchine.org/zh", note: "" },
-  { city: "昆明", org: "昆明法语联盟", url: "https://www.afchine.org/zh", note: "微信报名" },
-  { city: "山东", org: "山东法语联盟", url: "https://www.afchine.org/zh", note: "新增" },
-  { city: "南京", org: "南京法语联盟", url: "https://www.afchine.org/zh", note: "新增" },
-  { city: "香港", org: "香港法语联盟", url: "https://www.afhongkong.org", note: "" },
+const CHINA_CENTER_URLS = [
+  "https://www.blcu.edu.cn",
+  "https://www.afchine.org/zh",
+  "https://www.afshanghai.org",
+  "https://www.afchine.org/zh",
+  "https://www.afchine.org/zh",
+  "https://www.afchine.org/zh",
+  "https://www.afchine.org/zh",
+  "https://www.afchine.org/zh",
+  "https://www.afchine.org/zh",
+  "https://www.afchine.org/zh",
+  "https://www.afhongkong.org",
 ];
 
 const CANADA_CENTERS = [
@@ -223,9 +107,12 @@ const CANADA_CENTERS = [
 /* ── component ── */
 
 export function ResourcesContent() {
+  const t = useTranslations();
   const [activeTab, setActiveTab] = useState("exam");
   const [autoRotate, setAutoRotate] = useState(true);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const richB = { b: (chunks: React.ReactNode) => <strong className="text-foreground">{chunks}</strong> };
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -274,40 +161,40 @@ export function ResourcesContent() {
             <div className="text-center lg:text-left">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
                 <GraduationCap className="h-4 w-4" />
-                考试指南
+                {t("resources.hero.badge")}
               </span>
               <h1 className="mt-6 text-4xl font-extrabold tracking-tight sm:text-5xl">
-                TCF Canada 备考全攻略
+                {t("resources.hero.title")}
               </h1>
               <p className="mt-4 max-w-xl text-lg text-muted-foreground">
-                考试内容、分数对照、免费学习资源、中加两国考场信息——分类查看，快速找到你需要的。
+                {t("resources.hero.subtitle")}
               </p>
               <div className="mt-8 flex flex-wrap gap-3 justify-center lg:justify-start">
                 <Link
                   href="/tests"
                   className="inline-flex h-11 items-center gap-2 rounded-md bg-gradient-to-r from-primary to-blue-600 px-6 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-colors hover:from-primary/90 hover:to-blue-600/90"
                 >
-                  开始练习
+                  {t("resources.hero.startPractice")}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button className="inline-flex h-11 items-center gap-2 rounded-md border px-6 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer">
                       <Users className="h-4 w-4" />
-                      加入备考社区
+                      {t("resources.hero.joinCommunity")}
                     </button>
                   </PopoverTrigger>
                   <PopoverContent side="bottom" className="w-64 p-4">
-                    <p className="text-xs font-semibold mb-1">加入备考社区</p>
-                    <p className="text-[11px] text-muted-foreground mb-3">和考友一起备考，互助答疑</p>
+                    <p className="text-xs font-semibold mb-1">{t("resources.hero.communityTitle")}</p>
+                    <p className="text-[11px] text-muted-foreground mb-3">{t("resources.hero.communityDesc")}</p>
                     <div className="grid grid-cols-2 gap-3">
                       <a href="https://www.xiaohongshu.com/user/profile/605439725" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-1.5">
                         <Image src="/qr-xiaohongshu-cropped.jpg" alt="Xiaohongshu QR" width={100} height={100} className="rounded-lg border transition-transform group-hover:scale-105" />
-                        <span className="text-[11px] text-muted-foreground group-hover:text-foreground transition-colors">关注小红书</span>
+                        <span className="text-[11px] text-muted-foreground group-hover:text-foreground transition-colors">{t("resources.hero.followXhs")}</span>
                       </a>
                       <div className="flex flex-col items-center gap-1.5">
                         <Image src="/qr-wechat-cropped.jpg" alt="WeChat QR" width={100} height={100} className="rounded-lg border" />
-                        <span className="text-[11px] text-muted-foreground">加微信入群</span>
+                        <span className="text-[11px] text-muted-foreground">{t("resources.hero.addWechat")}</span>
                       </div>
                     </div>
                   </PopoverContent>
@@ -320,7 +207,7 @@ export function ResourcesContent() {
                 <div className="relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5">
                   <Image
                     src="/hero-quebec.jpg"
-                    alt="魁北克老城法式街景"
+                    alt={t("resources.hero.imageAlt")}
                     width={640}
                     height={427}
                     className="h-auto w-full object-cover"
@@ -339,11 +226,11 @@ export function ResourcesContent() {
           <div className="mb-6 text-center">
             <p className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-1.5">
               {autoRotate ? (
-                <>自动浏览中 · 点击任意板块停止</>
+                <>{t("resources.tabs.autoRotateHint")}</>
               ) : (
                 <>
                   <ArrowRight className="h-3.5 w-3.5 animate-bounce-x" />
-                  点击切换查看不同板块
+                  {t("resources.tabs.manualHint")}
                 </>
               )}
             </p>
@@ -352,112 +239,110 @@ export function ResourcesContent() {
             <TabsList className="mx-auto mb-10 grid w-full max-w-2xl grid-cols-4 h-auto p-1.5 bg-muted/80 rounded-xl shadow-sm ring-1 ring-border/50">
               <TabsTrigger value="exam" className="gap-1.5 py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=active]:shadow-md data-[state=active]:bg-background transition-all">
                 <BookOpen className="h-4 w-4 hidden sm:block" />
-                考试内容
+                {t("resources.tabs.exam")}
               </TabsTrigger>
               <TabsTrigger value="scores" className="gap-1.5 py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=active]:shadow-md data-[state=active]:bg-background transition-all">
                 <TableProperties className="h-4 w-4 hidden sm:block" />
-                分数对照
+                {t("resources.tabs.scores")}
               </TabsTrigger>
               <TabsTrigger value="resources" className="gap-1.5 py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=active]:shadow-md data-[state=active]:bg-background transition-all">
                 <GraduationCap className="h-4 w-4 hidden sm:block" />
-                学习资源
+                {t("resources.tabs.resources")}
               </TabsTrigger>
               <TabsTrigger value="centers" className="gap-1.5 py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=active]:shadow-md data-[state=active]:bg-background transition-all">
                 <MapPin className="h-4 w-4 hidden sm:block" />
-                考场信息
+                {t("resources.tabs.centers")}
               </TabsTrigger>
             </TabsList>
 
-            {/* ── Tab 1: 考试内容 ── */}
+            {/* ── Tab 1: Exam Format ── */}
             <TabsContent value="exam" forceMount className="data-[state=inactive]:hidden">
-              {/* 简介 */}
+              {/* Intro */}
               <div className="mx-auto max-w-3xl mb-12">
                 <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-                  什么是 TCF Canada
+                  {t("resources.exam.title")}
                 </h2>
                 <p className="mt-4 text-muted-foreground leading-relaxed">
-                  TCF Canada（Test de connaissance du français pour le Canada）是由
-                  <strong className="text-foreground"> France Éducation international</strong>（原 CIEP）开发的法语能力测试，专为加拿大移民和公民申请设计。
+                  {t.rich("resources.exam.desc", richB)}
                 </p>
                 <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                  {[
-                    "联邦快速通道（Express Entry）移民",
-                    "省提名计划（PNP）",
-                    "加拿大公民入籍",
-                    "魁北克移民（CSQ / PEQ）",
-                  ].map((s) => (
-                    <div
-                      key={s}
-                      className="flex items-center gap-3 rounded-lg border bg-card px-4 py-3"
-                    >
-                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/10">
-                        <Target className="h-3.5 w-3.5 text-primary" />
+                  {[0, 1, 2, 3].map((i) => {
+                    const purpose = t(`resources.exam.purposes.${i}`);
+                    return (
+                      <div
+                        key={i}
+                        className="flex items-center gap-3 rounded-lg border bg-card px-4 py-3"
+                      >
+                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/10">
+                          <Target className="h-3.5 w-3.5 text-primary" />
+                        </div>
+                        <span className="text-sm font-medium">{purpose}</span>
                       </div>
-                      <span className="text-sm font-medium">{s}</span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 <div className="mt-6 flex flex-wrap gap-6">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CalendarCheck className="h-4 w-4 text-primary" />
-                    成绩有效期 <strong className="text-foreground">2 年</strong>
+                    {t("resources.exam.validityLabel")} <strong className="text-foreground">{t("resources.exam.validityValue")}</strong>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Clock className="h-4 w-4 text-primary" />
-                    两次考试间隔至少 <strong className="text-foreground">30 天</strong>
+                    {t("resources.exam.intervalLabel")} <strong className="text-foreground">{t("resources.exam.intervalValue")}</strong>
                   </div>
                 </div>
               </div>
 
-              {/* 四大科目 */}
+              {/* Four subjects */}
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {SUBJECTS.map((s) => (
-                  <div
-                    key={s.name}
-                    className="rounded-xl border bg-card p-5 transition-all hover:shadow-md hover:-translate-y-0.5"
-                  >
-                    <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${s.bg}`}>
-                      <s.icon className={`h-5 w-5 ${s.color}`} />
+                {SUBJECT_META.map((s, i) => {
+                  const name = t(`resources.exam.subjects.${i}.name`);
+                  const questions = t(`resources.exam.subjects.${i}.questions`);
+                  const duration = t(`resources.exam.subjects.${i}.duration`);
+                  return (
+                    <div
+                      key={i}
+                      className="rounded-xl border bg-card p-5 transition-all hover:shadow-md hover:-translate-y-0.5"
+                    >
+                      <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${s.bg}`}>
+                        <s.icon className={`h-5 w-5 ${s.color}`} />
+                      </div>
+                      <h3 className="mt-3 font-bold">{name}</h3>
+                      <div className="mt-3 space-y-1.5 text-sm text-muted-foreground">
+                        <div className="flex justify-between">
+                          <span>{t("resources.exam.questionCount")}</span>
+                          <span className="font-medium text-foreground">{questions}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>{t("resources.exam.durationLabel")}</span>
+                          <span className="font-medium text-foreground">{duration}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>{t("resources.exam.scoreLabel")}</span>
+                          <span className="font-mono font-medium text-foreground">{s.score}</span>
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="mt-3 font-bold">{s.name}</h3>
-                    <div className="mt-3 space-y-1.5 text-sm text-muted-foreground">
-                      <div className="flex justify-between">
-                        <span>题量</span>
-                        <span className="font-medium text-foreground">{s.questions}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>时长</span>
-                        <span className="font-medium text-foreground">{s.duration}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>分数</span>
-                        <span className="font-mono font-medium text-foreground">{s.score}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
-              {/* 写作 & 口语 tâche */}
+              {/* Writing & Speaking tâches */}
               <div className="mt-8 grid gap-6 sm:grid-cols-2">
                 <div className="rounded-xl border bg-card p-6">
                   <div className="flex items-center gap-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/40">
                       <PenLine className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                     </div>
-                    <h3 className="font-bold">写作 3 个 Tâche</h3>
+                    <h3 className="font-bold">{t("resources.exam.writingTitle")}</h3>
                   </div>
                   <ul className="mt-4 space-y-2 text-sm">
-                    {[
-                      "短消息（60–120 词）",
-                      "正式信 / 文章（120–150 词）",
-                      "议论文（120–180 词）",
-                    ].map((t, i) => (
+                    {[0, 1, 2].map((i) => (
                       <li key={i} className="flex items-start gap-2">
                         <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-purple-100 text-xs font-bold text-purple-700 dark:bg-purple-900/40 dark:text-purple-400">
                           {i + 1}
                         </span>
-                        <span>{t}</span>
+                        <span>{t(`resources.exam.writingTasks.${i}`)}</span>
                       </li>
                     ))}
                   </ul>
@@ -467,19 +352,15 @@ export function ResourcesContent() {
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40">
                       <MessageCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
                     </div>
-                    <h3 className="font-bold">口语 3 个 Tâche</h3>
+                    <h3 className="font-bold">{t("resources.exam.speakingTitle")}</h3>
                   </div>
                   <ul className="mt-4 space-y-2 text-sm">
-                    {[
-                      "引导面试（2 分钟）",
-                      "角色扮演（5.5 分钟，含 2 分钟准备）",
-                      "观点论述（4.5 分钟）",
-                    ].map((t, i) => (
+                    {[0, 1, 2].map((i) => (
                       <li key={i} className="flex items-start gap-2">
                         <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-amber-100 text-xs font-bold text-amber-700 dark:bg-amber-900/40 dark:text-amber-400">
                           {i + 1}
                         </span>
-                        <span>{t}</span>
+                        <span>{t(`resources.exam.speakingTasks.${i}`)}</span>
                       </li>
                     ))}
                   </ul>
@@ -487,24 +368,24 @@ export function ResourcesContent() {
               </div>
             </TabsContent>
 
-            {/* ── Tab 2: 分数对照 ── */}
+            {/* ── Tab 2: Score Table ── */}
             <TabsContent value="scores" forceMount className="data-[state=inactive]:hidden">
               <div className="mx-auto max-w-4xl">
                 <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-                  NCLC / CLB 分数对照表
+                  {t("resources.scores.title")}
                 </h2>
                 <p className="mt-3 text-muted-foreground">
-                  加拿大移民局（IRCC）使用 NCLC / CLB 等级评估语言能力，以下为 TCF Canada 分数对照
+                  {t("resources.scores.subtitle")}
                 </p>
                 <div className="mt-8 overflow-hidden rounded-xl border">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b bg-muted/50">
-                        <th className="px-4 py-3 text-left font-semibold">NCLC</th>
-                        <th className="px-4 py-3 text-center font-semibold">听力 (CO)</th>
-                        <th className="px-4 py-3 text-center font-semibold">阅读 (CE)</th>
-                        <th className="px-4 py-3 text-center font-semibold">写作 (EE)</th>
-                        <th className="px-4 py-3 text-center font-semibold">口语 (EO)</th>
+                        <th className="px-4 py-3 text-left font-semibold">{t("resources.scores.headers.nclc")}</th>
+                        <th className="px-4 py-3 text-center font-semibold">{t("resources.scores.headers.co")}</th>
+                        <th className="px-4 py-3 text-center font-semibold">{t("resources.scores.headers.ce")}</th>
+                        <th className="px-4 py-3 text-center font-semibold">{t("resources.scores.headers.ee")}</th>
+                        <th className="px-4 py-3 text-center font-semibold">{t("resources.scores.headers.eo")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -539,7 +420,7 @@ export function ResourcesContent() {
                   </table>
                 </div>
                 <p className="mt-4 text-sm text-muted-foreground">
-                  * NCLC 7 是大部分 Express Entry 和 PNP 项目的<strong className="text-foreground">最低语言要求</strong>，也是多数考生的目标等级
+                  {t.rich("resources.scores.footnote", richB)}
                 </p>
 
                 {/* NCLC 7 explanation callout */}
@@ -547,11 +428,9 @@ export function ResourcesContent() {
                   <div className="flex items-start gap-3">
                     <Info className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-bold text-primary">为什么 NCLC 7 这么重要？</h3>
+                      <h3 className="font-bold text-primary">{t("resources.scores.nclc7Title")}</h3>
                       <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">
-                        NCLC 7（即 CLB 7）是加拿大大部分经济类移民项目的<strong className="text-foreground">最低法语要求</strong>。达到
-                        NCLC 7 意味着你可以在 Express Entry（CEC、FSW）和大部分省提名项目（PNP）中满足语言门槛。更高的
-                        NCLC 等级（8、9、10）可以为你的 CRS 综合评分系统获得<strong className="text-foreground">额外加分</strong>，NCLC 9 可获得语言满分加分。
+                        {t.rich("resources.scores.nclc7Desc", richB)}
                       </p>
                     </div>
                   </div>
@@ -559,62 +438,70 @@ export function ResourcesContent() {
 
                 {/* Immigration programs reference */}
                 <div className="mt-8">
-                  <h3 className="text-lg font-bold mb-4">常见移民项目语言要求</h3>
+                  <h3 className="text-lg font-bold mb-4">{t("resources.scores.immigrationTitle")}</h3>
                   <div className="grid gap-3 sm:grid-cols-2">
-                    {IMMIGRATION_PROGRAMS.map((p) => (
-                      <div key={p.program} className="rounded-lg border bg-card px-4 py-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">{p.program}</span>
-                          <span className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-bold text-primary">
-                            {p.req}
-                          </span>
+                    {[0, 1, 2, 3].map((i) => {
+                      const name = t(`resources.scores.programs.${i}.name`);
+                      const desc = t(`resources.scores.programs.${i}.desc`);
+                      return (
+                        <div key={i} className="rounded-lg border bg-card px-4 py-3">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium">{name}</span>
+                            <span className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-bold text-primary">
+                              {IMMIGRATION_REQS[i]}
+                            </span>
+                          </div>
+                          <p className="mt-0.5 text-xs text-muted-foreground">{desc}</p>
                         </div>
-                        <p className="mt-0.5 text-xs text-muted-foreground">{p.desc}</p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               </div>
             </TabsContent>
 
-            {/* ── Tab 3: 学习资源 ── */}
+            {/* ── Tab 3: Study Resources ── */}
             <TabsContent value="resources" forceMount className="data-[state=inactive]:hidden">
               <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-                免费法语学习资源推荐
+                {t("resources.learn.title")}
               </h2>
               <p className="mt-3 mb-10 text-muted-foreground">
-                全部免费或官方渠道，帮你从不同维度提升法语能力
+                {t("resources.learn.subtitle")}
               </p>
 
-              {/* 官方资源 */}
+              {/* Official resources */}
               <div className="mb-12">
                 <div className="flex items-center gap-2 mb-5">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/40">
                     <Globe className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <h3 className="text-lg font-bold">官方 &amp; 机构资源</h3>
+                  <h3 className="text-lg font-bold">{t("resources.learn.officialTitle")}</h3>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {OFFICIAL_RESOURCES.map((r) => (
-                    <a
-                      key={r.name}
-                      href={r.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group rounded-xl border bg-card p-5 transition-all hover:shadow-md hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-700"
-                    >
-                      <div className="flex items-center justify-between">
-                        <h4 className="font-bold group-hover:text-primary transition-colors">{r.name}</h4>
-                        <ExternalLink className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                      {r.tag && (
-                        <span className="mt-1.5 inline-block rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/40 dark:text-blue-400">
-                          {r.tag}
-                        </span>
-                      )}
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{r.desc}</p>
-                    </a>
-                  ))}
+                  {OFFICIAL_RESOURCE_URLS.map((r, i) => {
+                    const desc = t(`resources.learn.official.${i}.desc`);
+                    const tag = t(`resources.learn.official.${i}.tag`);
+                    return (
+                      <a
+                        key={r.name}
+                        href={r.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group rounded-xl border bg-card p-5 transition-all hover:shadow-md hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-700"
+                      >
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-bold group-hover:text-primary transition-colors">{r.name}</h4>
+                          <ExternalLink className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                        {tag && (
+                          <span className="mt-1.5 inline-block rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/40 dark:text-blue-400">
+                            {tag}
+                          </span>
+                        )}
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -624,114 +511,127 @@ export function ResourcesContent() {
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/40">
                     <Youtube className="h-4 w-4 text-red-600 dark:text-red-400" />
                   </div>
-                  <h3 className="text-lg font-bold">YouTube 频道</h3>
+                  <h3 className="text-lg font-bold">{t("resources.learn.youtubeTitle")}</h3>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {YOUTUBE_RESOURCES.map((r) => (
-                    <a
-                      key={r.name}
-                      href={r.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group rounded-xl border bg-card p-5 transition-all hover:shadow-md hover:-translate-y-0.5 hover:border-red-300 dark:hover:border-red-700"
-                    >
-                      <div className="flex items-center justify-between">
-                        <h4 className="font-bold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">{r.name}</h4>
-                        <ExternalLink className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                      <span className="mt-1.5 inline-block rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700 dark:bg-red-900/40 dark:text-red-400">
-                        {r.tag}
-                      </span>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{r.desc}</p>
-                    </a>
-                  ))}
+                  {YOUTUBE_RESOURCE_URLS.map((r, i) => {
+                    const desc = t(`resources.learn.youtube.${i}.desc`);
+                    const tag = t(`resources.learn.youtube.${i}.tag`);
+                    return (
+                      <a
+                        key={r.name}
+                        href={r.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group rounded-xl border bg-card p-5 transition-all hover:shadow-md hover:-translate-y-0.5 hover:border-red-300 dark:hover:border-red-700"
+                      >
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-bold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">{r.name}</h4>
+                          <ExternalLink className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                        <span className="mt-1.5 inline-block rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700 dark:bg-red-900/40 dark:text-red-400">
+                          {tag}
+                        </span>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* 工具类 (includes B站) */}
+              {/* Tools */}
               <div>
                 <div className="flex items-center gap-2 mb-5">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40">
                     <Wrench className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h3 className="text-lg font-bold">工具 &amp; 中文资源</h3>
+                  <h3 className="text-lg font-bold">{t("resources.learn.toolsTitle")}</h3>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {TOOL_RESOURCES.map((r) => (
-                    <a
-                      key={r.name}
-                      href={r.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group rounded-xl border bg-card p-5 transition-all hover:shadow-md hover:-translate-y-0.5 hover:border-emerald-300 dark:hover:border-emerald-700"
-                    >
-                      <div className="flex items-center justify-between">
-                        <h4 className="font-bold group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{r.name}</h4>
-                        <ExternalLink className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{r.desc}</p>
-                    </a>
-                  ))}
+                  {TOOL_RESOURCE_URLS.map((r, i) => {
+                    const name = t(`resources.learn.tools.${i}.name`);
+                    const desc = t(`resources.learn.tools.${i}.desc`);
+                    return (
+                      <a
+                        key={i}
+                        href={r.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group rounded-xl border bg-card p-5 transition-all hover:shadow-md hover:-translate-y-0.5 hover:border-emerald-300 dark:hover:border-emerald-700"
+                      >
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-bold group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{name}</h4>
+                          <ExternalLink className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
             </TabsContent>
 
-            {/* ── Tab 4: 考场信息 ── */}
+            {/* ── Tab 4: Test Centers ── */}
             <TabsContent value="centers" forceMount className="data-[state=inactive]:hidden">
               <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-                中国 &amp; 加拿大考场
+                {t("resources.centers.title")}
               </h2>
               <p className="mt-3 mb-8 text-muted-foreground">
-                考场信息可能变动，请以各考点官方网站通知为准
+                {t("resources.centers.subtitle")}
               </p>
 
               <div className="grid gap-8 lg:grid-cols-2">
-                {/* 中国 */}
+                {/* China */}
                 <div className="rounded-xl border overflow-hidden">
                   <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
                     <span className="text-base">🇨🇳</span>
-                    <h3 className="font-bold">中国考场</h3>
+                    <h3 className="font-bold">{t("resources.centers.chinaTitle")}</h3>
                   </div>
                   <div className="divide-y">
-                    {CHINA_CENTERS.map((c, i) => (
-                      <div key={`${c.city}-${i}`} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-semibold">{c.city}</span>
-                            <a
-                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.org)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                              <MapPin className="h-3 w-3" />
-                              {c.org}
-                            </a>
-                            {c.note && (
-                              <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-                                {c.note}
-                              </span>
-                            )}
+                    {CHINA_CENTER_URLS.map((url, i) => {
+                      const city = t(`resources.centers.china.${i}.city`);
+                      const org = t(`resources.centers.china.${i}.org`);
+                      const note = t(`resources.centers.china.${i}.note`);
+                      return (
+                        <div key={`${city}-${i}`} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="font-semibold">{city}</span>
+                              <a
+                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(org)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                              >
+                                <MapPin className="h-3 w-3" />
+                                {org}
+                              </a>
+                              {note && (
+                                <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+                                  {note}
+                                </span>
+                              )}
+                            </div>
                           </div>
+                          <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5"
+                          >
+                            {t("resources.centers.website")}
+                            <ExternalLink className="ml-1 inline h-3 w-3" />
+                          </a>
                         </div>
-                        <a
-                          href={c.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5"
-                        >
-                          官网
-                          <ExternalLink className="ml-1 inline h-3 w-3" />
-                        </a>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                   <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground space-y-1">
                     <div>
-                      费用约 <strong className="text-foreground">¥2,500–2,800</strong>（因城市和机构略有差异）
+                      {t.rich("resources.centers.chinaFee", richB)}
                     </div>
                     <div>
-                      全球考场查询：
+                      {t("resources.centers.globalSearch")}
                       <a
                         href="https://www.france-education-international.fr/en/tcf-all-audiences/register-session"
                         target="_blank"
@@ -745,11 +645,11 @@ export function ResourcesContent() {
                   </div>
                 </div>
 
-                {/* 加拿大 */}
+                {/* Canada */}
                 <div className="rounded-xl border overflow-hidden">
                   <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
                     <span className="text-base">🇨🇦</span>
-                    <h3 className="font-bold">加拿大考场</h3>
+                    <h3 className="font-bold">{t("resources.centers.canadaTitle")}</h3>
                   </div>
                   <div className="divide-y">
                     {CANADA_CENTERS.map((c) => (
@@ -775,14 +675,14 @@ export function ResourcesContent() {
                           rel="noopener noreferrer"
                           className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5"
                         >
-                          官网
+                          {t("resources.centers.website")}
                           <ExternalLink className="ml-1 inline h-3 w-3" />
                         </a>
                       </div>
                     ))}
                   </div>
                   <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground">
-                    费用约 <strong className="text-foreground">CAD $390</strong>，每季度开放报名
+                    {t.rich("resources.centers.canadaFee", richB)}
                   </div>
                 </div>
               </div>
@@ -796,17 +696,17 @@ export function ResourcesContent() {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-purple-500/5" />
         <div className="relative mx-auto max-w-2xl px-4 py-16 text-center">
           <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-            了解完考试，开始练题吧
+            {t("resources.cta.title")}
           </h2>
           <p className="mt-3 text-muted-foreground">
-            8,500+ 道 TCF Canada 真题等你来刷
+            {t("resources.cta.subtitle")}
           </p>
           <div className="mt-8">
             <Link
               href="/tests"
               className="inline-flex h-11 items-center gap-2 rounded-md bg-gradient-to-r from-primary to-blue-600 px-6 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-colors hover:from-primary/90 hover:to-blue-600/90"
             >
-              开始练习
+              {t("resources.cta.button")}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -816,9 +716,9 @@ export function ResourcesContent() {
       {/* ── Disclaimer ── */}
       <div className="border-t">
         <div className="mx-auto max-w-5xl px-4 py-6 text-center text-xs text-muted-foreground">
-          以上信息仅供参考，不构成移民建议。考试政策和考场安排可能随时调整，请以官方渠道为准。
+          {t("resources.disclaimer.text")}
           <span className="mx-2">·</span>
-          <Link href="/disclaimer" className="hover:text-foreground transition-colors">免责声明</Link>
+          <Link href="/disclaimer" className="hover:text-foreground transition-colors">{t("resources.disclaimer.link")}</Link>
         </div>
       </div>
 

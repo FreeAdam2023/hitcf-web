@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { SavedWordsView } from "./saved-words-view";
 
-export const metadata: Metadata = {
-  title: "我的收藏 | HiTCF",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("meta.vocabularyMySaved");
+  return { title: t("title") };
+}
 
 export default function MySavedPage() {
   return <SavedWordsView />;

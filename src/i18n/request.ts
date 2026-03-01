@@ -1,9 +1,18 @@
 import { getRequestConfig } from "next-intl/server";
+import { cookies } from "next/headers";
 import { DEFAULT_LOCALE, type Locale, SUPPORTED_LOCALES } from "./locales";
 
 export default getRequestConfig(async () => {
-  // In SSR context we default to zh; client-side locale is handled by the provider
-  const locale: Locale = DEFAULT_LOCALE;
+  let locale: Locale = DEFAULT_LOCALE;
+  try {
+    const cookieStore = await cookies();
+    const raw = cookieStore.get("NEXT_LOCALE")?.value;
+    if (raw && SUPPORTED_LOCALES.includes(raw as Locale)) {
+      locale = raw as Locale;
+    }
+  } catch {
+    // cookies() not available during build — fall back to default
+  }
   return {
     locale,
     timeZone: "America/Toronto",

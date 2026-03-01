@@ -510,6 +510,30 @@ export function TestList() {
   // ─── Main render ──────────────────────────────────────────
   return (
     <div>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight">
+          <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
+            {t("tests.pageTitle")}
+          </span>
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          {t("tests.pageSubtitle")}
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <span className="rounded-full bg-sky-500/10 px-3 py-1 text-xs font-medium text-sky-600 dark:text-sky-400">
+            {t("tests.statsListening")}
+          </span>
+          <span className="rounded-full bg-teal-500/10 px-3 py-1 text-xs font-medium text-teal-600 dark:text-teal-400">
+            {t("tests.statsReading")}
+          </span>
+          <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+            {t("tests.statsSpeaking")}
+          </span>
+          <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-600 dark:text-violet-400">
+            {t("tests.statsWriting")}
+          </span>
+        </div>
+      </div>
       <ContinueBanner />
       <CLB7ProgressBar />
       <Tabs value={tab} onValueChange={(v) => {

@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "免责声明 · 内容来源与考试结果声明",
-  description:
-    "HiTCF 免责声明：本平台为独立第三方练习平台，与 TCF 官方无关。CLB 等级估算仅供参考，不保证实际考试成绩。内容来源于公开资料。",
-  alternates: { canonical: "/disclaimer" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("meta.disclaimer");
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: { canonical: "/disclaimer" },
+  };
+}
 
 export default function DisclaimerPage() {
   return (

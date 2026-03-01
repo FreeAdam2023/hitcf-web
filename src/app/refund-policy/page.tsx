@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "退款政策 · 免费试用与退款申请流程",
-  description:
-    "HiTCF 退款政策：免费试用（年付 2 个月，月付/季付 7 天）随时取消不扣费，首次付款 48 小时内全额退款，季付年付 14 天内按比例退款。通过 Stripe 原路返回。",
-  alternates: { canonical: "/refund-policy" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("meta.refund");
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: { canonical: "/refund-policy" },
+  };
+}
 
 export default function RefundPolicyPage() {
   return (

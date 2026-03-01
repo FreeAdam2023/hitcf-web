@@ -23,10 +23,11 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   const messages = messagesMap[locale];
 
-  // Update <html lang> attribute when locale changes
+  // Update <html lang> attribute and locale cookie when locale changes
   useEffect(() => {
     const langMap: Record<Locale, string> = { zh: "zh-CN", en: "en" };
     document.documentElement.lang = langMap[locale] || locale;
+    document.cookie = `NEXT_LOCALE=${locale};path=/;max-age=31536000;SameSite=Lax`;
   }, [locale]);
 
   return (
