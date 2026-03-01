@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
 import { listAttempts } from "@/lib/api/attempts";
+import { fetchAllPages } from "@/lib/api/fetch-all-pages";
 import type { TestSetItem, WritingTopicItem, AttemptResponse } from "@/lib/api/types";
 import type { TestAttemptInfo } from "./test-card";
 import { SkeletonGrid } from "@/components/shared/skeleton-card";
@@ -184,8 +185,8 @@ export function TestList() {
   // Fetch all user attempts once to build progress map
   useEffect(() => {
     if (!isAuthenticated) return;
-    listAttempts({ page_size: 100 })
-      .then((res) => setAttemptMap(buildAttemptMap(res.items)))
+    fetchAllPages((p) => listAttempts({ ...p }), 100)
+      .then((items) => setAttemptMap(buildAttemptMap(items)))
       .catch(() => {});
   }, [isAuthenticated]);
 
@@ -222,19 +223,22 @@ export function TestList() {
       if (tab === "speaking" && browseMode === "level" && speakingTache === 1) {
         setTests([]);
       } else if (tab === "speaking" && browseMode === "level") {
-        const res = await listTestSets({ type: "speaking", task_number: speakingTache, page_size: 500 });
-        setTests(res.items);
+        const items = await fetchAllPages(
+          (p) => listTestSets({ type: "speaking", task_number: speakingTache, ...p }), 500,
+        );
+        setTests(items);
       } else if (tab === "writing" && browseMode === "level") {
-        const res = await listWritingTopics({
-          task_number: writingTache,
-          page_size: 500,
-        });
-        setWritingTopics(res.items);
+        const items = await fetchAllPages(
+          (p) => listWritingTopics({ task_number: writingTache, ...p }), 500,
+        );
+        setWritingTopics(items);
         setTests([]);
       } else {
         const size = (tab === "speaking" || tab === "writing") ? 500 : 100;
-        const res = await listTestSets({ type: tab, page_size: size });
-        setTests(res.items);
+        const items = await fetchAllPages(
+          (p) => listTestSets({ type: tab, ...p }), size,
+        );
+        setTests(items);
       }
     } catch (err) {
       console.error("Failed to load", err);

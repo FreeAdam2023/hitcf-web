@@ -16,7 +16,7 @@ function DictationInner() {
 
   const loadWords = useCallback(async (): Promise<DictationWord[]> => {
     if (!session?.user) return [];
-    const res = await listSavedWords({ source_type: sourceType, page: 1, page_size: 200 });
+    const res = await listSavedWords({ source_type: sourceType, page: 1, page_size: 100 });
     return res.items.map((item) => ({
       word: item.word,
       display_form: item.display_form,
