@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { PenLine, Lock, RotateCcw } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -44,6 +44,7 @@ export function WritingLevelCard({
   tache: number;
 }) {
   const t = useTranslations();
+  const locale = useLocale();
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const canAccessPaid = useAuthStore((s) => {
@@ -150,9 +151,9 @@ export function WritingLevelCard({
                   </span>
                 )}
               </CardTitle>
-              {topic.topic && (
+              {(topic.topic || topic.topic_zh) && (
                 <p className="mt-1 text-sm font-semibold leading-snug line-clamp-2">
-                  {topic.topic}
+                  {locale === "zh" && topic.topic_zh ? topic.topic_zh : topic.topic}
                 </p>
               )}
             </div>

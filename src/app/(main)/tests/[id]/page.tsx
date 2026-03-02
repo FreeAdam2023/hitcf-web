@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, ChevronDown, Timer } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -57,6 +57,7 @@ function buildWritingChatGPTUrl(topic: QuestionBrief, taskNum: number): string {
 
 function SpeakingTopicList({ topics, isTache2, testSetId }: { topics: QuestionBrief[]; isTache2: boolean; testSetId: string }) {
   const t = useTranslations();
+  const locale = useLocale();
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const handleCopy = useCallback(async (topic: QuestionBrief) => {
@@ -76,6 +77,11 @@ function SpeakingTopicList({ topics, isTache2, testSetId }: { topics: QuestionBr
                 {idx + 1}
               </span>
               <div className="flex-1 space-y-3">
+                {topic.topic && (
+                  <p className="text-xs font-semibold text-amber-600 dark:text-amber-400">
+                    {locale === "zh" && topic.topic_zh ? topic.topic_zh : topic.topic}
+                  </p>
+                )}
                 <p className="text-sm leading-relaxed">
                   {topic.question_text}
                 </p>

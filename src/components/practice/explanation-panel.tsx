@@ -166,9 +166,9 @@ export function ExplanationPanel({
                     open={distractorsOpen}
                     onOpenChange={setDistractorsOpen}
                   >
-                    <CollapsibleTrigger className="flex w-full items-center gap-1.5 rounded-lg border border-dashed border-muted-foreground/30 px-2.5 py-1.5 text-left transition-colors hover:bg-muted/60 hover:border-muted-foreground/50">
+                    <CollapsibleTrigger className="flex w-full items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-left transition-colors hover:bg-muted/60">
                       <ChevronDown
-                        className={`h-3.5 w-3.5 text-muted-foreground transition-transform ${
+                        className={`h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 ${
                           distractorsOpen ? "rotate-180" : ""
                         }`}
                       />
@@ -176,9 +176,6 @@ export function ExplanationPanel({
                       <span className="text-xs text-muted-foreground">
                         {t("explanation.distractorCount", { count: Object.keys(explanation!.distractors).length })}
                       </span>
-                      {!distractorsOpen && (
-                        <span className="ml-auto text-[10px] text-muted-foreground/60">{t("explanation.expandHint")}</span>
-                      )}
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <div className="mt-1.5 space-y-2 pl-1">

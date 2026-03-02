@@ -49,6 +49,7 @@ export interface WritingTopicItem {
   is_free: boolean;
   word_limit: string | null;
   topic: string | null;
+  topic_zh: string | null;
 }
 
 export interface TestSetDetail extends TestSetItem {
@@ -73,6 +74,8 @@ export interface QuestionBrief {
   passage: string | null;
   question_text: string | null;
   options: Option[];
+  topic?: string | null;
+  topic_zh?: string | null;
 }
 
 export interface SentenceTranslation {
