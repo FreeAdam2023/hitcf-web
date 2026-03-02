@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, ChevronDown } from "lucide-react";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, ChevronDown, Timer } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -84,6 +84,12 @@ function SpeakingTopicList({ topics, isTache2, testSetId }: { topics: QuestionBr
                     <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}`}>
                       <Mic className="mr-1.5 h-3.5 w-3.5" />
                       {t("speakingPractice.startPractice")}
+                    </Link>
+                  </Button>
+                  <Button asChild size="sm" variant="outline">
+                    <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}&mode=exam`}>
+                      <Timer className="mr-1.5 h-3.5 w-3.5" />
+                      {t("speakingPractice.startExam")}
                     </Link>
                   </Button>
                   <Button
@@ -517,7 +523,19 @@ export default function TestDetailPage() {
         ) : topicsLoading ? (
           <LoadingSpinner />
         ) : (
-          <SpeakingTopicList topics={topics} isTache2={isTache2} testSetId={test.id} />
+          <>
+            <div className="rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-3">
+              <div className="space-y-1">
+                <p className="font-medium text-foreground text-sm">{t("speakingPractice.examMode")}</p>
+                <p>{t("speakingPractice.examModeDesc")}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="font-medium text-foreground text-sm">{t("speakingPractice.practiceMode")}</p>
+                <p>{t("speakingPractice.practiceModeDesc")}</p>
+              </div>
+            </div>
+            <SpeakingTopicList topics={topics} isTache2={isTache2} testSetId={test.id} />
+          </>
         )}
       </div>
     );

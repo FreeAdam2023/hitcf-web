@@ -10,8 +10,8 @@ interface SpeakingRecorderProps {
   duration: number;
   transcript: string;
   interimTranscript: string;
-  onStart: () => void;
-  onStop: () => void;
+  onStart?: () => void;
+  onStop?: () => void;
   error: string | null;
 }
 
@@ -38,11 +38,13 @@ export function SpeakingRecorder({
       <div className="flex flex-col items-center gap-3">
         <button
           onClick={isRecording ? onStop : onStart}
+          disabled={isRecording ? !onStop : !onStart}
           className={cn(
             "relative flex h-20 w-20 items-center justify-center rounded-full transition-all",
             isRecording
               ? "bg-red-500 text-white shadow-lg shadow-red-500/30"
               : "bg-amber-100 text-amber-600 hover:bg-amber-200 dark:bg-amber-950 dark:text-amber-400 dark:hover:bg-amber-900",
+            (isRecording ? !onStop : !onStart) && "opacity-50 cursor-not-allowed",
           )}
         >
           {isRecording && (
@@ -68,7 +70,7 @@ export function SpeakingRecorder({
           </p>
         )}
 
-        {isRecording && (
+        {isRecording && onStop && (
           <Button size="sm" variant="destructive" onClick={onStop}>
             <Square className="mr-1.5 h-3.5 w-3.5" />
             {t("stopRecording")}

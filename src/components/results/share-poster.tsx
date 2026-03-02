@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
+import { useTranslations } from "next-intl";
 import { getEstimatedTcfLevel, TCF_MAX_SCORE } from "@/lib/tcf-levels";
 import { formatTime } from "@/lib/utils";
 
@@ -16,7 +17,7 @@ export interface SharePosterProps {
 
 interface PosterTier {
   emoji: string;
-  message: string;
+  messageKey: string;
   bgGradient: string;
   ringColor: string;
   ringTrackColor: string;
@@ -30,7 +31,7 @@ function getPosterTier(tcfPoints: number | undefined, score: number, total: numb
     if (tcfPoints >= 549) {
       return {
         emoji: "\u{1F3C6}",
-        message: "卓越表现！NCLC 10+ 水平！",
+        messageKey: "tierExcellent",
         bgGradient: "linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 30%, #ddd6fe 60%, #c4b5fd 100%)",
         ringColor: "#7c3aed",
         ringTrackColor: "#e9d5ff",
@@ -42,7 +43,7 @@ function getPosterTier(tcfPoints: number | undefined, score: number, total: numb
     if (tcfPoints >= 458) {
       return {
         emoji: "\u{1F389}",
-        message: "非常棒！已达 NCLC 7！",
+        messageKey: "tierGreat",
         bgGradient: "linear-gradient(135deg, #eff6ff 0%, #dbeafe 30%, #bfdbfe 60%, #93c5fd 100%)",
         ringColor: "#2563eb",
         ringTrackColor: "#dbeafe",
@@ -54,7 +55,7 @@ function getPosterTier(tcfPoints: number | undefined, score: number, total: numb
     if (tcfPoints >= 398) {
       return {
         emoji: "\u{1F4AA}",
-        message: "不错！再加把劲突破 NCLC 7！",
+        messageKey: "tierGood",
         bgGradient: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 30%, #bbf7d0 60%, #86efac 100%)",
         ringColor: "#16a34a",
         ringTrackColor: "#dcfce7",
@@ -66,7 +67,7 @@ function getPosterTier(tcfPoints: number | undefined, score: number, total: numb
     if (tcfPoints >= 331) {
       return {
         emoji: "\u{1F4C8}",
-        message: "有进步！坚持练习！",
+        messageKey: "tierProgress",
         bgGradient: "linear-gradient(135deg, #fefce8 0%, #fef9c3 30%, #fef08a 60%, #fde047 100%)",
         ringColor: "#ca8a04",
         ringTrackColor: "#fef9c3",
@@ -77,7 +78,7 @@ function getPosterTier(tcfPoints: number | undefined, score: number, total: numb
     }
     return {
       emoji: "\u{1F44A}",
-      message: "加油！每一次练习都是进步！",
+      messageKey: "tierKeepGoing",
       bgGradient: "linear-gradient(135deg, #fafaf9 0%, #f5f5f4 30%, #e7e5e4 60%, #d6d3d1 100%)",
       ringColor: "#78716c",
       ringTrackColor: "#e7e5e4",
@@ -90,34 +91,34 @@ function getPosterTier(tcfPoints: number | undefined, score: number, total: numb
   const pct = total > 0 ? score / total : 0;
   if (pct >= 0.9) {
     return {
-      emoji: "\u{1F3C6}", message: "卓越表现！",
+      emoji: "\u{1F3C6}", messageKey: "tierExcellentShort",
       bgGradient: "linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 30%, #ddd6fe 60%, #c4b5fd 100%)",
       ringColor: "#7c3aed", ringTrackColor: "#e9d5ff", badgeBg: "#f3e8ff", badgeText: "#6d28d9", accentColor: "#7c3aed",
     };
   }
   if (pct >= 0.78) {
     return {
-      emoji: "\u{1F389}", message: "非常棒！",
+      emoji: "\u{1F389}", messageKey: "tierGreatShort",
       bgGradient: "linear-gradient(135deg, #eff6ff 0%, #dbeafe 30%, #bfdbfe 60%, #93c5fd 100%)",
       ringColor: "#2563eb", ringTrackColor: "#dbeafe", badgeBg: "#eff6ff", badgeText: "#1d4ed8", accentColor: "#2563eb",
     };
   }
   if (pct >= 0.65) {
     return {
-      emoji: "\u{1F4AA}", message: "不错！再接再厉！",
+      emoji: "\u{1F4AA}", messageKey: "tierGoodShort",
       bgGradient: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 30%, #bbf7d0 60%, #86efac 100%)",
       ringColor: "#16a34a", ringTrackColor: "#dcfce7", badgeBg: "#f0fdf4", badgeText: "#15803d", accentColor: "#16a34a",
     };
   }
   if (pct >= 0.5) {
     return {
-      emoji: "\u{1F4C8}", message: "有进步！坚持练习！",
+      emoji: "\u{1F4C8}", messageKey: "tierProgressShort",
       bgGradient: "linear-gradient(135deg, #fefce8 0%, #fef9c3 30%, #fef08a 60%, #fde047 100%)",
       ringColor: "#ca8a04", ringTrackColor: "#fef9c3", badgeBg: "#fefce8", badgeText: "#a16207", accentColor: "#ca8a04",
     };
   }
   return {
-    emoji: "\u{1F44A}", message: "加油！每一次练习都是进步！",
+    emoji: "\u{1F44A}", messageKey: "tierKeepGoingShort",
     bgGradient: "linear-gradient(135deg, #fafaf9 0%, #f5f5f4 30%, #e7e5e4 60%, #d6d3d1 100%)",
     ringColor: "#78716c", ringTrackColor: "#e7e5e4", badgeBg: "#f5f5f4", badgeText: "#57534e", accentColor: "#78716c",
   };
@@ -134,11 +135,11 @@ function getNclcLevel(tcfPoints: number): string {
   return "<4";
 }
 
-const TYPE_LABELS: Record<string, string> = {
-  listening: "听力理解",
-  reading: "阅读理解",
-  speaking: "口语表达",
-  writing: "写作表达",
+const TYPE_LABEL_KEYS: Record<string, string> = {
+  listening: "typeListening",
+  reading: "typeReading",
+  speaking: "typeSpeaking",
+  writing: "typeWriting",
 };
 
 export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
@@ -146,6 +147,7 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
     { testSetName, testSetType, score, total, tcfPoints, timeTakenSeconds, completedDate },
     ref,
   ) {
+    const t = useTranslations("sharePoster");
     const isPointBased = tcfPoints != null;
     const tier = getPosterTier(tcfPoints, score, total);
     const tcfLevel = isPointBased ? getEstimatedTcfLevel(tcfPoints) : null;
@@ -169,6 +171,10 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
     const timeStr = timeTakenSeconds != null && timeTakenSeconds > 0
       ? formatTime(timeTakenSeconds)
       : null;
+
+    const typeLabel = TYPE_LABEL_KEYS[testSetType]
+      ? t(TYPE_LABEL_KEYS[testSetType])
+      : testSetType;
 
     return (
       <div
@@ -207,7 +213,7 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
               HiTCF
             </div>
             <div style={{ fontSize: 18, color: "#6b7280", marginTop: 2 }}>
-              TCF Canada 在线练习
+              {t("subtitle")}
             </div>
           </div>
         </div>
@@ -309,7 +315,7 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
             }}
           >
             <span style={{ fontSize: 40 }}>{tier.emoji}</span>
-            <span>{tier.message}</span>
+            <span>{t(tier.messageKey)}</span>
           </div>
         </div>
 
@@ -322,11 +328,11 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
           }}
         >
           <div style={{ fontSize: 26, fontWeight: 600, color: "#1a1a1a", marginBottom: 10 }}>
-            {TYPE_LABELS[testSetType] || testSetType} · {testSetName}
+            {typeLabel} · {testSetName}
           </div>
           <div style={{ display: "flex", gap: 24, fontSize: 20, color: "#6b7280" }}>
-            <span>答对 {score}/{total}</span>
-            {timeStr && <span>· 用时 {timeStr}</span>}
+            <span>{t("correct", { score, total })}</span>
+            {timeStr && <span>{t("timeTaken", { time: timeStr })}</span>}
           </div>
           <div style={{ fontSize: 18, color: "#9ca3af", marginTop: 8 }}>
             {completedDate}
@@ -350,7 +356,7 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
           </span>
           <span style={{ fontSize: 20, color: "#d1d5db" }}>·</span>
           <span style={{ fontSize: 20, color: "#9ca3af" }}>
-            TCF Canada 备考神器
+            {t("tagline")}
           </span>
         </div>
       </div>

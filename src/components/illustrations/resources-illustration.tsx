@@ -4,7 +4,7 @@
  * map pin, and a score table snippet.
  * Uses CSS custom properties for light / dark adaptation.
  */
-export function ResourcesIllustration({ className }: { className?: string }) {
+export function ResourcesIllustration({ className, validityLabel = "2 yr valid" }: { className?: string; validityLabel?: string }) {
   const p = "hsl(var(--primary))";
   const p10 = "hsl(var(--primary) / 0.10)";
   const p20 = "hsl(var(--primary) / 0.20)";
@@ -78,7 +78,7 @@ export function ResourcesIllustration({ className }: { className?: string }) {
       {/* validity badge */}
       <rect x="84" y="248" width="60" height="18" rx="9" fill={green10} />
       <text x="114" y="260" textAnchor="middle" fontSize="8" fontWeight="600" fill={green}>
-        2 年有效
+        {validityLabel}
       </text>
 
       {/* ── right page: NCLC score table ── */}

@@ -384,6 +384,35 @@ export interface WritingAttemptTaskResult {
   feedback: WritingFeedback | null;
 }
 
+// Speaking Attempts
+export interface SpeakingAttemptResponse {
+  id: string;
+  user_id: string;
+  test_set_id: string;
+  question_id: string;
+  mode: "practice" | "exam";
+  status: "in_progress" | "completed" | "abandoned";
+  transcript: string;
+  duration_seconds: number;
+  scores: {
+    accuracy: number;
+    fluency: number;
+    completeness: number;
+    prosody: number;
+    overall: number;
+  } | null;
+  word_scores: Array<{
+    word: string;
+    accuracy: number;
+    errorType: string;
+  }>;
+  started_at: string;
+  completed_at: string | null;
+  prep_time_seconds: number;
+  speaking_time_seconds: number;
+  test_set_name: string | null;
+}
+
 // Saved Words
 export interface SavedWordItem {
   id: string;

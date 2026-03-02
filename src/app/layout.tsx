@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { LocaleProvider } from "@/components/providers/locale-provider";
@@ -82,13 +82,23 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const s = await getTranslations("schema");
+  const htmlLang = locale === "en" ? "en" : "zh-CN";
+
+  const faqEntries = [1, 2, 3, 4, 5, 6].map((i) => ({
+    "@type": "Question" as const,
+    name: s(`faq${i}q`),
+    acceptedAnswer: { "@type": "Answer" as const, text: s(`faq${i}a`) },
+  }));
+
   return (
-    <html lang="zh-CN" suppressHydrationWarning>
+    <html lang={htmlLang} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -99,9 +109,8 @@ export default function RootLayout({
                 "@type": "WebSite",
                 name: "HiTCF",
                 url: SITE_URL,
-                description:
-                  "TCF Canada 在线练习平台，8,500+ 道真题助你冲刺 CLB 7",
-                inLanguage: "zh-CN",
+                description: s("siteDescription"),
+                inLanguage: htmlLang,
                 potentialAction: {
                   "@type": "SearchAction",
                   target: {
@@ -183,56 +192,7 @@ export default function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "FAQPage",
-                mainEntity: [
-                  {
-                    "@type": "Question",
-                    name: "HiTCF 是官方平台吗？",
-                    acceptedAnswer: {
-                      "@type": "Answer",
-                      text: "不是。HiTCF 是独立运营的第三方练习平台，与 France Éducation international 或 IRCC 无关。练习题目来源于公开资料的整理和编辑，格式对标 TCF Canada，但不等同于考场原题。",
-                    },
-                  },
-                  {
-                    "@type": "Question",
-                    name: "免费版能做什么？",
-                    acceptedAnswer: {
-                      "@type": "Answer",
-                      text: "免费版可使用听力前 1 套、阅读前 2 套的全部题目，包含练习模式和考试模式。不限次数，永久有效。",
-                    },
-                  },
-                  {
-                    "@type": "Question",
-                    name: "Pro 会员有什么好处？",
-                    acceptedAnswer: {
-                      "@type": "Answer",
-                      text: "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式、生词本、翻卡复习、听写练习和 Anki 导出。年付享 2 个月免费试用，不满意随时取消。",
-                    },
-                  },
-                  {
-                    "@type": "Question",
-                    name: "能保证考到 CLB 7 吗？",
-                    acceptedAnswer: {
-                      "@type": "Answer",
-                      text: "不能。HiTCF 提供与 TCF Canada 对标的练习环境，帮助你针对性地找到薄弱环节并提升。但实际成绩取决于多种因素，我们不承诺任何考试结果。",
-                    },
-                  },
-                  {
-                    "@type": "Question",
-                    name: "口语和写作怎么练？",
-                    acceptedAnswer: {
-                      "@type": "Answer",
-                      text: "口语和写作提供真题话题和写作任务，支持跳转到 ChatGPT 进行 AI 模拟对话和作文批改。相当于免费的 AI 外教。",
-                    },
-                  },
-                  {
-                    "@type": "Question",
-                    name: "如何申请退款？",
-                    acceptedAnswer: {
-                      "@type": "Answer",
-                      text: "首次付款后 48 小时内可全额退款，季付/年付用户 14 天内可按比例退款。发邮件至 support@hitcf.com 即可，3 个工作日内处理。",
-                    },
-                  },
-                ],
+                mainEntity: faqEntries,
               },
               {
                 "@context": "https://schema.org",

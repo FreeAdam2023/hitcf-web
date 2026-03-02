@@ -1145,6 +1145,7 @@
   "speakingPractice": {
     "title": "Speaking Practice",
     "startPractice": "Practice",
+    "startExam": "Mock Exam",
     "clickToRecord": "Click the microphone to start recording",
     "stopRecording": "Stop Recording",
     "transcript": "Transcript",
@@ -1158,7 +1159,31 @@
     "wordByWord": "Word-by-Word Scores",
     "legendGood": "80+ Good",
     "legendFair": "60-79 Fair",
-    "legendPoor": "<60 Needs Work"
+    "legendPoor": "<60 Needs Work",
+    "saved": "Saved",
+    "saving": "Saving...",
+    "viewResults": "View Results",
+    "allRecords": "All Records",
+    "retryTopic": "Retry This Topic",
+    "backToTests": "Back to Tests",
+    "examMode": "Exam Mode",
+    "practiceMode": "Practice Mode",
+    "prepPhase": "Prep Time",
+    "recordingPhase": "Recording",
+    "startRecordingEarly": "Start Recording Early",
+    "autoStopNotice": "Recording will auto-stop when time is up",
+    "examModeDesc": "Mock exam: timed prep + timed recording, no retakes",
+    "practiceModeDesc": "Free practice: no time limit, record as many times as you want",
+    "overall": "Overall",
+    "duration": "Duration",
+    "mode": "Mode",
+    "date": "Date",
+    "results": {
+      "title": "Speaking Practice Results",
+      "topicLabel": "Topic",
+      "loading": "Loading results...",
+      "notFound": "Practice record not found"
+    }
   },
   "community": {
     "fab": "Community",
