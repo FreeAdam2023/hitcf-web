@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExportDialog } from "@/components/vocabulary/export-dialog";
-import { listSavedWords, unsaveWord, exportSavedWords } from "@/lib/api/vocabulary";
+import { listSavedWords, unsaveWord } from "@/lib/api/vocabulary";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
 import type { PaginatedResponse, SavedWordItem } from "@/lib/api/types";
 
@@ -100,7 +100,8 @@ export function SavedWordsView() {
           <div className="flex items-center gap-2">
             <ExportDialog
               wordCount={data.total}
-              onExport={() => exportSavedWords(sourceType)}
+              exportType="saved"
+              exportParams={{ source_type: sourceType }}
             />
             <Link href="/vocabulary/my-saved/dictation">
               <Button variant="outline" size="sm">
