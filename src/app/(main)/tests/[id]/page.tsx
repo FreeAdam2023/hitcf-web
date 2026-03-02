@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, ChevronDown, Timer } from "lucide-react";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, ChevronDown, Timer, Bot } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -90,6 +90,12 @@ function SpeakingTopicList({ topics, isTache2, testSetId }: { topics: QuestionBr
                     <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}&mode=exam`}>
                       <Timer className="mr-1.5 h-3.5 w-3.5" />
                       {t("speakingPractice.startExam")}
+                    </Link>
+                  </Button>
+                  <Button asChild size="sm" variant="outline" className="border-primary/30 text-primary hover:bg-primary/5">
+                    <Link href={`/speaking-conversation?testSetId=${testSetId}&questionId=${topic.id}`}>
+                      <Bot className="mr-1.5 h-3.5 w-3.5" />
+                      {t("speakingConversation.aiConversation")}
                     </Link>
                   </Button>
                   <Button
