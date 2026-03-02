@@ -83,19 +83,6 @@ export function AnkiCardPreview() {
               <span
                 style={{
                   display: "inline-block",
-                  background: "#fce4ec",
-                  borderRadius: "4px",
-                  padding: "2px 8px",
-                  fontSize: "12px",
-                  margin: "2px",
-                  color: "#e11d48",
-                }}
-              >
-                fém.
-              </span>
-              <span
-                style={{
-                  display: "inline-block",
                   background: "#d4e8ff",
                   borderRadius: "4px",
                   padding: "2px 8px",

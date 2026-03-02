@@ -332,13 +332,13 @@ function CardBack({ card, speak, playing }: {
           <p className="text-lg font-medium">{card.pool_meaning_zh}</p>
         )}
 
-        {/* POS + Gender badges */}
+        {/* POS + Gender badges (hide gender if POS already encodes it, e.g. n.f., n.m.) */}
         {(card.part_of_speech || card.gender) && (
           <div className="flex flex-wrap items-center gap-1.5">
             {card.part_of_speech && card.part_of_speech !== "OTHER" && (
               <Badge variant="outline" className="text-[10px] px-1.5 py-0">{card.part_of_speech}</Badge>
             )}
-            {card.gender && card.gender !== "null" && (
+            {card.gender && card.gender !== "null" && !(card.part_of_speech && /\.f[\.\b]|\.m[\.\b]|\.f$|\.m$/.test(card.part_of_speech)) && (
               <span className={`text-xs ${genderColor}`}>{card.gender}</span>
             )}
           </div>

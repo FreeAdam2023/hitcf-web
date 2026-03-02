@@ -198,7 +198,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
                     {pos}
                   </Badge>
                 )}
-                {data.gender && data.gender !== "null" && (
+                {data.gender && data.gender !== "null" && !(pos && /\.f[\.\b]|\.m[\.\b]|\.f$|\.m$/.test(pos)) && (
                   <span className={genderColor}>{data.gender}</span>
                 )}
               </div>
