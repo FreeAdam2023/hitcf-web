@@ -67,6 +67,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
     setCurrentTime(0);
     setDuration(0);
     setError(null);
+    setSpeed(1);
     setPlayCount(0);
     fetchedAtRef.current = 0;
     pendingPlayRef.current = false;

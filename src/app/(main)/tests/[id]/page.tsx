@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
-import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, ChevronDown, Timer } from "lucide-react";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, ChevronDown, Timer, Bot } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -85,73 +85,66 @@ function SpeakingTopicList({ topics, isTache2, testSetId }: { topics: QuestionBr
                 <p className="text-sm leading-relaxed">
                   {topic.question_text}
                 </p>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Button asChild size="sm" className="bg-amber-600 hover:bg-amber-700 text-white">
+                {/* Primary action: AI Conversation */}
+                <Button asChild size="sm" className="w-full sm:w-auto">
+                  <Link href={`/speaking-conversation?testSetId=${testSetId}&questionId=${topic.id}`}>
+                    <Bot className="mr-1.5 h-3.5 w-3.5" />
+                    {t("speakingConversation.aiConversation")}
+                  </Link>
+                </Button>
+                {/* Secondary actions */}
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <Button asChild size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground">
                     <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}`}>
-                      <Mic className="mr-1.5 h-3.5 w-3.5" />
+                      <Mic className="mr-1 h-3 w-3" />
                       {t("speakingPractice.startPractice")}
                     </Link>
                   </Button>
-                  <Button asChild size="sm" variant="outline">
+                  <Button asChild size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground">
                     <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}&mode=exam`}>
-                      <Timer className="mr-1.5 h-3.5 w-3.5" />
+                      <Timer className="mr-1 h-3 w-3" />
                       {t("speakingPractice.startExam")}
                     </Link>
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleCopy(topic)}
-                  >
-                    {copiedId === topic.id ? (
-                      <>
-                        <Check className="mr-1.5 h-3.5 w-3.5" />
-                        {t("common.actions.copied")}
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="mr-1.5 h-3.5 w-3.5" />
-                        {t("common.actions.copyPrompt")}
-                      </>
-                    )}
-                  </Button>
-                  <div className="inline-flex items-center rounded-md border">
-                    <Button variant="outline" size="sm" asChild className="rounded-r-none border-0">
-                      <a
-                        href={buildChatGPTUrl(topic, isTache2)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5"
-                      >
-                        <ExternalLink className="h-3.5 w-3.5" />
-                        ChatGPT
-                      </a>
-                    </Button>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm" className="rounded-l-none border-0 border-l px-1.5">
-                          <ChevronDown className="h-3.5 w-3.5" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem asChild>
-                          <a href={buildGrokUrl(topic, isTache2)} target="_blank" rel="noopener noreferrer" className="gap-2">
-                            <ExternalLink className="h-3.5 w-3.5" /> Grok
-                          </a>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                          <a href={buildMistralUrl()} target="_blank" rel="noopener noreferrer" className="gap-2">
-                            <ExternalLink className="h-3.5 w-3.5" /> Mistral
-                          </a>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                          <a href={buildGeminiUrl()} target="_blank" rel="noopener noreferrer" className="gap-2">
-                            <ExternalLink className="h-3.5 w-3.5" /> Gemini
-                          </a>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
+                  <span className="text-border">|</span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm" className="h-7 text-xs text-muted-foreground">
+                        <ExternalLink className="mr-1 h-3 w-3" />
+                        {t("testDetail.externalAI")}
+                        <ChevronDown className="ml-0.5 h-3 w-3" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      <DropdownMenuItem asChild>
+                        <a href={buildChatGPTUrl(topic, isTache2)} target="_blank" rel="noopener noreferrer" className="gap-2">
+                          <ExternalLink className="h-3.5 w-3.5" /> ChatGPT
+                        </a>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <a href={buildGrokUrl(topic, isTache2)} target="_blank" rel="noopener noreferrer" className="gap-2">
+                          <ExternalLink className="h-3.5 w-3.5" /> Grok
+                        </a>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <a href={buildMistralUrl()} target="_blank" rel="noopener noreferrer" className="gap-2">
+                          <ExternalLink className="h-3.5 w-3.5" /> Mistral
+                        </a>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <a href={buildGeminiUrl()} target="_blank" rel="noopener noreferrer" className="gap-2">
+                          <ExternalLink className="h-3.5 w-3.5" /> Gemini
+                        </a>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleCopy(topic)} className="gap-2">
+                        {copiedId === topic.id ? (
+                          <><Check className="h-3.5 w-3.5" /> {t("common.actions.copied")}</>
+                        ) : (
+                          <><Copy className="h-3.5 w-3.5" /> {t("common.actions.copyPrompt")}</>
+                        )}
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </div>
             </div>
@@ -511,9 +504,7 @@ export default function TestDetailPage() {
                   {test.is_free && <Badge variant="secondary">{t("common.status.free")}</Badge>}
                 </div>
                 <p className="mt-3 text-sm text-muted-foreground">
-                  {isTache2
-                    ? t("testDetail.speakingDescTache2")
-                    : t("testDetail.speakingDescTache3")}
+                  {t("testDetail.speakingDescNew")}
                 </p>
               </div>
             </div>
@@ -532,12 +523,18 @@ export default function TestDetailPage() {
           <>
             <div className="rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-3">
               <div className="space-y-1">
-                <p className="font-medium text-foreground text-sm">{t("speakingPractice.examMode")}</p>
-                <p>{t("speakingPractice.examModeDesc")}</p>
+                <p className="font-medium text-foreground text-sm">
+                  <Bot className="mr-1.5 inline h-3.5 w-3.5" />
+                  {t("testDetail.speakingModeAI")}
+                </p>
+                <p>{t("testDetail.speakingModeAIDesc")}</p>
               </div>
               <div className="space-y-1">
-                <p className="font-medium text-foreground text-sm">{t("speakingPractice.practiceMode")}</p>
-                <p>{t("speakingPractice.practiceModeDesc")}</p>
+                <p className="font-medium text-foreground text-sm">
+                  <Mic className="mr-1.5 inline h-3.5 w-3.5" />
+                  {t("testDetail.speakingModePron")}
+                </p>
+                <p>{t("testDetail.speakingModePronDesc")}</p>
               </div>
             </div>
             <SpeakingTopicList topics={topics} isTache2={isTache2} testSetId={test.id} />

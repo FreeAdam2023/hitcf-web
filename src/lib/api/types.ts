@@ -436,6 +436,74 @@ export interface SpeakingAttemptResponse {
   test_set_name: string | null;
 }
 
+// Speaking Conversations (AI Examiner)
+export interface ConversationTurnResponse {
+  role: "user" | "examiner";
+  text: string;
+  timestamp: string;
+  pronunciation_scores: Record<string, number> | null;
+  word_scores: Array<{ word: string; accuracy: number; errorType: string }>;
+}
+
+export interface SpeakingCriterionFeedbackResponse {
+  score: number;
+  feedback: string;
+  highlights: string[];
+}
+
+export interface SpeakingEvaluationResponse {
+  prononciation: SpeakingCriterionFeedbackResponse;
+  fluidite: SpeakingCriterionFeedbackResponse;
+  grammaire: SpeakingCriterionFeedbackResponse;
+  vocabulaire: SpeakingCriterionFeedbackResponse;
+  accomplissement: SpeakingCriterionFeedbackResponse;
+  adequation_sociolinguistique: SpeakingCriterionFeedbackResponse;
+  total_score: number;
+  estimated_nclc: string;
+  estimated_level: string;
+  overall_comment: string;
+  corrections: Array<{ original: string; corrected: string; explanation: string }>;
+  vocab_suggestions: Array<{ original: string; suggestion: string; reason: string }>;
+}
+
+export interface SceneBriefing {
+  scenario: string;
+  your_role: string;
+  examiner_role: string;
+  target_duration: string;
+  tache_type: number;
+}
+
+export interface SpeakingConversationResponse {
+  id: string;
+  user_id: string;
+  test_set_id: string;
+  question_id: string;
+  tache_type: number;
+  status: "pending" | "active" | "completed" | "abandoned";
+  turns: ConversationTurnResponse[];
+  turn_count: number;
+  scene_briefing: SceneBriefing | null;
+  prep_time_seconds: number;
+  speaking_time_seconds: number;
+  duration_seconds: number;
+  evaluation: SpeakingEvaluationResponse | null;
+  azure_scores: Record<string, number> | null;
+  started_at: string;
+  conversation_started_at: string | null;
+  completed_at: string | null;
+}
+
+export interface BeginConversationResponse {
+  examiner_text: string;
+  turn_count: number;
+}
+
+export interface TurnResponse {
+  examiner_text: string;
+  turn_count: number;
+}
+
 // Saved Words
 export interface SavedWordItem {
   id: string;

@@ -17,6 +17,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Redirect www → non-www (fixes Google OAuth callback domain mismatch)
+  const host = request.headers.get("host") || "";
+  if (host.startsWith("www.")) {
+    const url = request.nextUrl.clone();
+    url.host = host.replace("www.", "");
+    url.port = "";
+    return NextResponse.redirect(url, 301);
+  }
+
   const { pathname } = request.nextUrl;
   const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
   if (!isProtected) {
@@ -40,12 +49,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/dashboard/:path*",
-    "/wrong-answers/:path*",
-    "/history/:path*",
-    "/speed-drill/:path*",
-    "/practice/:path*",
-    "/exam/:path*",
-    "/results/:path*",
+    // Match all routes except static files and Next.js internals
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };
