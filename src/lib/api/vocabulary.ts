@@ -89,13 +89,24 @@ async function handleExportResponse(res: Response, fallbackFilename: string) {
   URL.revokeObjectURL(url);
 }
 
+// Export timeout — first export may trigger card generation (3 min)
+const EXPORT_TIMEOUT_MS = 180_000;
+
 // Export saved words — triggers browser download
 export async function exportSavedWords(sourceType?: string): Promise<void> {
   const params = new URLSearchParams();
   if (sourceType) params.set("source_type", sourceType);
   const qs = params.toString();
-  const res = await fetch(`/api/vocab/saved/export${qs ? `?${qs}` : ""}`);
-  await handleExportResponse(res, "vocabulary.apkg");
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), EXPORT_TIMEOUT_MS);
+  try {
+    const res = await fetch(`/api/vocab/saved/export${qs ? `?${qs}` : ""}`, {
+      signal: controller.signal,
+    });
+    await handleExportResponse(res, "vocabulary.apkg");
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 // Nihao French API
@@ -134,6 +145,14 @@ export async function exportNihaoWords(
   if (lesson != null) params.set("lesson", String(lesson));
   if (theme) params.set("theme", theme);
   const qs = params.toString();
-  const res = await fetch(`/api/vocab/nihao/export${qs ? `?${qs}` : ""}`);
-  await handleExportResponse(res, "nihao_vocab.apkg");
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), EXPORT_TIMEOUT_MS);
+  try {
+    const res = await fetch(`/api/vocab/nihao/export${qs ? `?${qs}` : ""}`, {
+      signal: controller.signal,
+    });
+    await handleExportResponse(res, "nihao_vocab.apkg");
+  } finally {
+    clearTimeout(timer);
+  }
 }
