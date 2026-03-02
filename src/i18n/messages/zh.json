@@ -1141,7 +1141,7 @@
       "humor6": "正在生成 IPA 音标… /\u0292\u0259 s\u0265i p\u0281\u025bsk fini/",
       "humor7": "法语有14种时态，我们只取6种，已经手下留情了",
       "errorRateLimit": "今日导出次数已达上限，请明天再试",
-      "errorWordLimit": "免费用户单次最多导出 50 个词，升级 Pro 解锁无限导出",
+      "errorWordLimit": "免费用户单次最多导出 1000 个词，升级 Pro 可导出更多",
       "errorLogin": "请先登录后再导出",
       "errorGeneric": "导出失败，请稍后再试"
     },
