@@ -150,6 +150,11 @@ export function WritingLevelCard({
                   </span>
                 )}
               </CardTitle>
+              {topic.topic && (
+                <p className="mt-1 text-sm font-semibold leading-snug line-clamp-2">
+                  {topic.topic}
+                </p>
+              )}
             </div>
             {topic.is_free ? (
               <Badge variant="secondary" className="shrink-0">

@@ -48,6 +48,7 @@ export interface WritingTopicItem {
   test_set_name: string;
   is_free: boolean;
   word_limit: string | null;
+  topic: string | null;
 }
 
 export interface TestSetDetail extends TestSetItem {
