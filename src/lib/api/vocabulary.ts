@@ -84,8 +84,12 @@ async function handleExportResponse(res: Response, fallbackFilename: string) {
   if (!res.ok) handleExportError(res);
   const blob = await res.blob();
   const cd = res.headers.get("content-disposition") || "";
-  const match = cd.match(/filename="(.+?)"/);
-  const filename = match?.[1] || fallbackFilename;
+  // Prefer filename* (RFC 5987, UTF-8) over plain filename
+  const utf8Match = cd.match(/filename\*=UTF-8''(.+?)(?:;|$)/i);
+  const plainMatch = cd.match(/filename="(.+?)"/);
+  const filename = utf8Match?.[1]
+    ? decodeURIComponent(utf8Match[1])
+    : plainMatch?.[1] || fallbackFilename;
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
