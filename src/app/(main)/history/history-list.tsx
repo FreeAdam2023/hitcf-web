@@ -19,11 +19,65 @@ import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { EmptyState } from "@/components/shared/empty-state";
 import { listAttempts } from "@/lib/api/attempts";
+import { listSpeakingAttempts } from "@/lib/api/speaking-attempts";
 import { estimateTcfLevelFromRatio } from "@/lib/tcf-levels";
 import { useTranslations, useLocale } from "next-intl";
-import type { AttemptResponse } from "@/lib/api/types";
+import type { AttemptResponse, SpeakingAttemptResponse } from "@/lib/api/types";
 import { TYPE_COLORS, TYPE_KEYS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+
+// Unified history item type
+interface HistoryItem {
+  id: string;
+  test_set_name: string | null;
+  test_set_type: string;
+  mode: string;
+  status: string;
+  started_at: string;
+  completed_at: string | null;
+  // For listening/reading/writing
+  score: number | null;
+  total: number;
+  answered_count: number;
+  // For speaking
+  speakingOverall: number | null;
+  // Source discriminator
+  _source: "attempt" | "speaking";
+}
+
+function fromAttempt(a: AttemptResponse): HistoryItem {
+  return {
+    id: a.id,
+    test_set_name: a.test_set_name ?? null,
+    test_set_type: a.test_set_type ?? "",
+    mode: a.mode,
+    status: a.status,
+    started_at: a.started_at,
+    completed_at: a.completed_at,
+    score: a.score,
+    total: a.total,
+    answered_count: a.answered_count,
+    speakingOverall: null,
+    _source: "attempt",
+  };
+}
+
+function fromSpeaking(s: SpeakingAttemptResponse): HistoryItem {
+  return {
+    id: s.id,
+    test_set_name: s.test_set_name,
+    test_set_type: "speaking",
+    mode: s.mode,
+    status: s.status,
+    started_at: s.started_at,
+    completed_at: s.completed_at,
+    score: null,
+    total: 100,
+    answered_count: 0,
+    speakingOverall: s.scores?.overall ?? null,
+    _source: "speaking",
+  };
+}
 
 const TYPE_ICONS: Record<string, React.ElementType> = {
   listening: Headphones,
@@ -65,10 +119,10 @@ function isThisWeek(dateStr: string): boolean {
   return diff < 7 * 24 * 60 * 60 * 1000;
 }
 
-function groupByDate(items: AttemptResponse[]) {
-  const today: AttemptResponse[] = [];
-  const thisWeek: AttemptResponse[] = [];
-  const earlier: AttemptResponse[] = [];
+function groupByDate(items: HistoryItem[]) {
+  const today: HistoryItem[] = [];
+  const thisWeek: HistoryItem[] = [];
+  const earlier: HistoryItem[] = [];
   for (const item of items) {
     const d = item.completed_at || item.started_at;
     if (isToday(d)) today.push(item);
@@ -78,10 +132,10 @@ function groupByDate(items: AttemptResponse[]) {
   return { today, thisWeek, earlier };
 }
 
-function SummaryCard({ items, total }: { items: AttemptResponse[]; total: number }) {
+function SummaryCard({ items, total }: { items: HistoryItem[]; total: number }) {
   const t = useTranslations();
   const completed = items.filter(
-    (a) => a.status === "completed" && a.score != null && a.total > 0,
+    (a) => a.status === "completed" && a._source === "attempt" && a.score != null && a.total > 0,
   );
   const avgPct =
     completed.length > 0
@@ -180,7 +234,7 @@ function TypeFilterChips({
   );
 }
 
-function DateGroup({ label, items }: { label: string; items: AttemptResponse[] }) {
+function DateGroup({ label, items }: { label: string; items: HistoryItem[] }) {
   if (items.length === 0) return null;
   return (
     <div className="space-y-2">
@@ -188,43 +242,53 @@ function DateGroup({ label, items }: { label: string; items: AttemptResponse[] }
         {label}
       </h3>
       {items.map((a) => (
-        <HistoryCard key={a.id} attempt={a} />
+        <HistoryCard key={`${a._source}-${a.id}`} item={a} />
       ))}
     </div>
   );
 }
 
-function HistoryCard({ attempt }: { attempt: AttemptResponse }) {
+function HistoryCard({ item }: { item: HistoryItem }) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
-  const isCompleted = attempt.status === "completed";
+  const isCompleted = item.status === "completed";
+  const isSpeaking = item._source === "speaking";
+
+  // URL depends on source
+  let url: string;
+  if (isSpeaking) {
+    url = `/speaking-practice/results/${item.id}`;
+  } else if (isCompleted) {
+    url = `/results/${item.id}`;
+  } else if (item.mode === "exam") {
+    url = `/exam/${item.id}`;
+  } else {
+    url = `/practice/${item.id}`;
+  }
+
+  // Score display
+  const pct = isSpeaking
+    ? (item.speakingOverall != null ? Math.round(item.speakingOverall) : null)
+    : (isCompleted && item.score != null && item.total > 0
+        ? Math.round((item.score / item.total) * 100)
+        : null);
+
   const tcf =
-    isCompleted && attempt.score != null
-      ? estimateTcfLevelFromRatio(attempt.score, attempt.total)
+    !isSpeaking && isCompleted && item.score != null
+      ? estimateTcfLevelFromRatio(item.score, item.total)
       : null;
 
-  const resumeUrl = isCompleted
-    ? `/results/${attempt.id}`
-    : attempt.mode === "exam"
-      ? `/exam/${attempt.id}`
-      : `/practice/${attempt.id}`;
-
-  const pct =
-    isCompleted && attempt.score != null && attempt.total > 0
-      ? Math.round((attempt.score / attempt.total) * 100)
-      : null;
-
-  const colors = TYPE_COLORS[attempt.test_set_type || ""];
-  const Icon = TYPE_ICONS[attempt.test_set_type || ""] || Trophy;
+  const colors = TYPE_COLORS[item.test_set_type || ""];
+  const Icon = TYPE_ICONS[item.test_set_type || ""] || Trophy;
 
   return (
     <div
       role="link"
       tabIndex={0}
-      onClick={() => router.push(resumeUrl)}
+      onClick={() => router.push(url)}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") router.push(resumeUrl);
+        if (e.key === "Enter" || e.key === " ") router.push(url);
       }}
       className="group flex items-center gap-4 rounded-xl border bg-card p-4 transition-all duration-200 cursor-pointer hover:bg-accent/50 hover:shadow-sm"
     >
@@ -242,9 +306,9 @@ function HistoryCard({ attempt }: { attempt: AttemptResponse }) {
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span className="truncate text-sm font-medium">
-            {attempt.test_set_name || "-"}
+            {item.test_set_name || "-"}
           </span>
-          {!isCompleted && (
+          {!isCompleted && !isSpeaking && (
             <Badge
               variant="outline"
               className="shrink-0 border-amber-300 bg-amber-50 text-amber-700 text-[10px] dark:border-amber-800 dark:bg-amber-950 dark:text-amber-400"
@@ -255,20 +319,20 @@ function HistoryCard({ attempt }: { attempt: AttemptResponse }) {
         </div>
 
         <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
-          {attempt.test_set_type && (
-            <span>{t(`common.types.${attempt.test_set_type}`)}</span>
+          {item.test_set_type && (
+            <span>{t(`common.types.${item.test_set_type}`)}</span>
           )}
-          <span>{t(`common.modes.${attempt.mode}`)}</span>
+          <span>{t(`common.modes.${item.mode}`)}</span>
           <span className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
-            {attempt.completed_at
-              ? formatDate(attempt.completed_at, locale)
-              : formatDate(attempt.started_at, locale)}
+            {item.completed_at
+              ? formatDate(item.completed_at, locale)
+              : formatDate(item.started_at, locale)}
           </span>
         </div>
 
         {/* Score bar */}
-        {isCompleted && pct !== null && (
+        {pct !== null && (
           <div className="mt-2 flex items-center gap-2">
             <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
               <div
@@ -280,22 +344,24 @@ function HistoryCard({ attempt }: { attempt: AttemptResponse }) {
               />
             </div>
             <span className="text-xs font-medium tabular-nums">
-              {attempt.score}/{attempt.total}
+              {isSpeaking
+                ? `${pct}/100`
+                : `${item.score}/${item.total}`}
             </span>
           </div>
         )}
-        {!isCompleted && (
+        {!isCompleted && !isSpeaking && (
           <div className="mt-2 flex items-center gap-2">
             <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
               <div
                 className="h-full rounded-full bg-primary/40"
                 style={{
-                  width: `${attempt.total > 0 ? (attempt.answered_count / attempt.total) * 100 : 0}%`,
+                  width: `${item.total > 0 ? (item.answered_count / item.total) * 100 : 0}%`,
                 }}
               />
             </div>
             <span className="text-xs text-muted-foreground tabular-nums">
-              {attempt.answered_count}/{attempt.total}
+              {item.answered_count}/{item.total}
             </span>
           </div>
         )}
@@ -322,7 +388,7 @@ function HistoryCard({ attempt }: { attempt: AttemptResponse }) {
 
 export function HistoryList() {
   const t = useTranslations();
-  const [allItems, setAllItems] = useState<AttemptResponse[]>([]);
+  const [allItems, setAllItems] = useState<HistoryItem[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -336,14 +402,59 @@ export function HistoryList() {
       if (reset) setLoading(true);
       else setLoadingMore(true);
       try {
-        const result = await listAttempts({
-          page: pageNum,
-          page_size: PAGE_SIZE,
-          type: type === "all" ? undefined : type,
+        const includeRegular = type === "all" || (type !== "speaking");
+        const includeSpeaking = type === "all" || type === "speaking";
+
+        const promises: Promise<unknown>[] = [];
+
+        if (includeRegular) {
+          promises.push(
+            listAttempts({
+              page: pageNum,
+              page_size: PAGE_SIZE,
+              type: type === "all" ? undefined : type,
+            }),
+          );
+        } else {
+          promises.push(Promise.resolve(null));
+        }
+
+        if (includeSpeaking) {
+          promises.push(
+            listSpeakingAttempts({
+              page: pageNum,
+              page_size: PAGE_SIZE,
+            }),
+          );
+        } else {
+          promises.push(Promise.resolve(null));
+        }
+
+        const [regularResult, speakingResult] = await Promise.all(promises) as [
+          { items: AttemptResponse[]; total: number } | null,
+          { items: SpeakingAttemptResponse[]; total: number } | null,
+        ];
+
+        const regularItems = regularResult
+          ? regularResult.items.map(fromAttempt)
+          : [];
+        const speakingItems = speakingResult
+          ? speakingResult.items.map(fromSpeaking)
+          : [];
+
+        // Merge and sort by date (newest first)
+        const merged = [...regularItems, ...speakingItems].sort((a, b) => {
+          const dateA = new Date(a.completed_at || a.started_at).getTime();
+          const dateB = new Date(b.completed_at || b.started_at).getTime();
+          return dateB - dateA;
         });
-        setTotal(result.total);
+
+        const totalCount =
+          (regularResult?.total ?? 0) + (speakingResult?.total ?? 0);
+
+        setTotal(totalCount);
         setAllItems((prev) =>
-          reset ? result.items : [...prev, ...result.items],
+          reset ? merged : [...prev, ...merged],
         );
       } catch {
         if (reset) setAllItems([]);

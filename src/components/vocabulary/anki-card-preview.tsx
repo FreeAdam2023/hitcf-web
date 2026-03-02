@@ -9,7 +9,6 @@ export function AnkiCardPreview() {
   const t = useTranslations();
   const [tab, setTab] = useState<Tab>("front");
   const [conjOpen, setConjOpen] = useState(false);
-  const [exOpen, setExOpen] = useState(false);
 
   return (
     <div className="rounded-lg border overflow-hidden my-2">
