@@ -92,7 +92,24 @@
     "defaultName": "User",
     "upgradePro": "Upgrade to Pro",
     "accountSettings": "Account Settings",
+    "feedback": "Feedback",
     "logout": "Log Out"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "description": "Help us improve HiTCF",
+    "categoryLabel": "Category",
+    "categoryPlaceholder": "Select category",
+    "bug": "Bug Report",
+    "feature": "Feature Request",
+    "content": "Content Issue",
+    "other": "Other",
+    "contentLabel": "Description",
+    "contentPlaceholder": "Describe the issue or suggestion...",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "success": "Thanks for your feedback!",
+    "submitFailed": "Submit failed, please retry"
   },
   "footer": {
     "tests": "Tests",

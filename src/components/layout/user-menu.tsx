@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useAuthStore } from "@/stores/auth-store";
-import { LogOut, User, Sparkles, Settings } from "lucide-react";
+import { LogOut, User, Sparkles, Settings, MessageSquarePlus } from "lucide-react";
+import { FeedbackDialog } from "@/components/feedback/feedback-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -45,6 +47,7 @@ export function UserMenu() {
   const logout = useAuthStore((s) => s.logout);
   const hasActiveSubscription = useAuthStore((s) => s.hasActiveSubscription);
   const router = useRouter();
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   if (isLoading) {
     return <Skeleton className="h-8 w-8 rounded-full" />;
@@ -61,6 +64,7 @@ export function UserMenu() {
   const isSubscribed = hasActiveSubscription();
 
   return (
+    <>
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full" aria-label={t('userMenu.userMenuLabel')}>
@@ -92,11 +96,17 @@ export function UserMenu() {
           <Settings className="mr-2 h-4 w-4" />
           {t('userMenu.accountSettings')}
         </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setFeedbackOpen(true)}>
+          <MessageSquarePlus className="mr-2 h-4 w-4" />
+          {t('userMenu.feedback')}
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => logout()}>
           <LogOut className="mr-2 h-4 w-4" />
           {t('userMenu.logout')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+    <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />
+    </>
   );
 }
