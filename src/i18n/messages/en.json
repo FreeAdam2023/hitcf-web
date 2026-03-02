@@ -1223,6 +1223,11 @@
     "retry": "Try Again",
     "notFound": "Conversation not found",
     "evaluatingDescription": "The AI examiner is evaluating your conversation, please wait...",
+    "evaluationUnavailable": "Evaluation Unavailable",
+    "evaluationUnavailableDesc": "AI evaluation could not be generated. You can try re-evaluating or refresh the page later.",
+    "reEvaluate": "Re-evaluate",
+    "reEvaluating": "Re-evaluating...",
+    "resuming": "Resuming conversation...",
     "dim": {
       "prononciation": "Pronunciation",
       "fluidite": "Fluency",

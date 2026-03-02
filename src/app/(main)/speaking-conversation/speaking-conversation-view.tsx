@@ -18,6 +18,7 @@ import {
   beginConversation,
   sendTurn,
   endConversation,
+  getConversation,
 } from "@/lib/api/speaking-conversation";
 import type {
   SpeakingConversationResponse,
@@ -38,6 +39,7 @@ export function SpeakingConversationView() {
   const searchParams = useSearchParams();
   const testSetId = searchParams.get("testSetId") || "";
   const questionId = searchParams.get("questionId") || "";
+  const urlSessionId = searchParams.get("sessionId") || "";
 
   // State
   const [phase, setPhase] = useState<Phase>("loading");
@@ -66,8 +68,63 @@ export function SpeakingConversationView() {
     };
   }, []);
 
+  // Resume an existing session fetched from the backend
+  const resumeSession = useCallback(
+    (conv: SpeakingConversationResponse) => {
+      setSession(conv);
+      sessionIdRef.current = conv.id;
+
+      if (conv.status === "completed") {
+        router.replace(`/speaking-conversation/results/${conv.id}`);
+        return;
+      }
+
+      if (conv.status === "active") {
+        // Restore turns and remaining timer
+        setTurns(conv.turns);
+        const elapsed = conv.conversation_started_at
+          ? Math.floor(
+              (Date.now() - new Date(conv.conversation_started_at).getTime()) /
+                1000,
+            )
+          : 0;
+        const remaining = Math.max(0, conv.speaking_time_seconds - elapsed);
+        setTimer(remaining);
+        setPhase("active");
+
+        // TTS: speak the last examiner message
+        const lastExaminer = [...conv.turns]
+          .reverse()
+          .find((turn) => turn.role === "examiner");
+        if (lastExaminer) {
+          tts.speak(lastExaminer.text);
+        }
+        return;
+      }
+
+      // status === "pending"
+      setPrepTimer(conv.prep_time_seconds);
+      setTimer(conv.speaking_time_seconds);
+      setPhase("prep");
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
   // Initialize session
   useEffect(() => {
+    // Case 1: Resume existing session from URL
+    if (urlSessionId) {
+      getConversation(urlSessionId)
+        .then((conv) => resumeSession(conv))
+        .catch((err) => {
+          toast.error(err.message || t("notFound"));
+          router.push("/tests");
+        });
+      return;
+    }
+
+    // Case 2: Create new session
     if (!testSetId || !questionId) {
       toast.error(t("noTopic"));
       router.push("/tests");
@@ -81,6 +138,10 @@ export function SpeakingConversationView() {
         setPrepTimer(conv.prep_time_seconds);
         setTimer(conv.speaking_time_seconds);
         setPhase("prep");
+        // Add sessionId to URL so refresh can resume
+        router.replace(
+          `/speaking-conversation?testSetId=${testSetId}&questionId=${questionId}&sessionId=${conv.id}`,
+        );
       })
       .catch((err) => {
         toast.error(err.message || t("startFailed"));
@@ -239,10 +300,15 @@ export function SpeakingConversationView() {
       const conv = await endConversation(sessionIdRef.current);
       setSession(conv);
       router.push(`/speaking-conversation/results/${conv.id}`);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : t("endFailed");
-      toast.error(message);
-      setPhase("active");
+    } catch {
+      toast.error(t("endFailed"));
+      // Session is likely already marked completed on backend —
+      // redirect to results (evaluation may be null but user can re-evaluate)
+      if (sessionIdRef.current) {
+        router.push(
+          `/speaking-conversation/results/${sessionIdRef.current}`,
+        );
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speech.isRecording]);

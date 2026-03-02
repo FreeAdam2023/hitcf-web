@@ -3,7 +3,14 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ArrowLeft, RotateCcw, MessageCircle } from "lucide-react";
+import { toast } from "sonner";
+import {
+  ArrowLeft,
+  RotateCcw,
+  MessageCircle,
+  AlertTriangle,
+  RefreshCw,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +18,10 @@ import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { ConversationChat } from "@/components/speaking/conversation-chat";
 import { SpeakingEvaluationCard } from "@/components/speaking/speaking-evaluation-card";
-import { getConversation } from "@/lib/api/speaking-conversation";
+import {
+  getConversation,
+  reEvaluateConversation,
+} from "@/lib/api/speaking-conversation";
 import type { SpeakingConversationResponse } from "@/lib/api/types";
 
 export default function SpeakingConversationResultsPage() {
@@ -22,6 +32,7 @@ export default function SpeakingConversationResultsPage() {
     null,
   );
   const [loading, setLoading] = useState(true);
+  const [reEvaluating, setReEvaluating] = useState(false);
 
   useEffect(() => {
     getConversation(params.sessionId)
@@ -29,6 +40,19 @@ export default function SpeakingConversationResultsPage() {
       .catch(() => setSession(null))
       .finally(() => setLoading(false));
   }, [params.sessionId]);
+
+  const handleReEvaluate = async () => {
+    setReEvaluating(true);
+    try {
+      const updated = await reEvaluateConversation(params.sessionId);
+      setSession(updated);
+      toast.success(t("evaluation"));
+    } catch {
+      toast.error(t("endFailed"));
+    } finally {
+      setReEvaluating(false);
+    }
+  };
 
   if (loading) return <LoadingSpinner />;
 
@@ -81,8 +105,27 @@ export default function SpeakingConversationResultsPage() {
       </Card>
 
       {/* Evaluation */}
-      {session.evaluation && (
+      {session.evaluation ? (
         <SpeakingEvaluationCard evaluation={session.evaluation} />
+      ) : (
+        <Card>
+          <CardContent className="flex flex-col items-center gap-3 pt-6 text-center">
+            <AlertTriangle className="h-8 w-8 text-amber-500" />
+            <p className="font-medium">{t("evaluationUnavailable")}</p>
+            <p className="text-sm text-muted-foreground">
+              {t("evaluationUnavailableDesc")}
+            </p>
+            <Button
+              onClick={handleReEvaluate}
+              disabled={reEvaluating}
+            >
+              <RefreshCw
+                className={`mr-2 h-4 w-4 ${reEvaluating ? "animate-spin" : ""}`}
+              />
+              {reEvaluating ? t("reEvaluating") : t("reEvaluate")}
+            </Button>
+          </CardContent>
+        </Card>
       )}
 
       {/* Conversation replay */}

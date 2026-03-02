@@ -1223,6 +1223,11 @@
     "retry": "重新对话",
     "notFound": "未找到对话记录",
     "evaluatingDescription": "AI 考官正在评估你的对话表现，请稍候...",
+    "evaluationUnavailable": "评估暂不可用",
+    "evaluationUnavailableDesc": "AI 评估未能生成，你可以尝试重新评估，或稍后刷新页面查看。",
+    "reEvaluate": "重新评估",
+    "reEvaluating": "正在重新评估...",
+    "resuming": "正在恢复对话...",
     "dim": {
       "prononciation": "发音",
       "fluidite": "流利度",

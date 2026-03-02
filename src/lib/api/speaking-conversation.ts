@@ -56,6 +56,18 @@ export function endConversation(
   );
 }
 
+export function reEvaluateConversation(
+  sessionId: string,
+  locale: string = "zh",
+  options?: RequestOptions,
+): Promise<SpeakingConversationResponse> {
+  return post<SpeakingConversationResponse>(
+    `/api/speaking-conversation/${sessionId}/re-evaluate`,
+    { locale },
+    { ...options, timeout: 120_000 },
+  );
+}
+
 export function getConversation(
   sessionId: string,
   options?: RequestOptions,
