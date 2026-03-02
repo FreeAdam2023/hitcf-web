@@ -255,9 +255,37 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
 
       {/* Progress bar + time */}
       <div className="flex flex-1 items-center gap-2">
-        <div className="h-1.5 flex-1 rounded-full bg-muted">
+        <div
+          className="relative h-1.5 flex-1 cursor-pointer rounded-full bg-muted"
+          role="slider"
+          aria-label="Seek"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(progress)}
+          onPointerDown={(e) => {
+            const audio = audioRef.current;
+            if (!audio || !duration) return;
+            const el = e.currentTarget;
+            el.setPointerCapture(e.pointerId);
+            const seek = (clientX: number) => {
+              const rect = el.getBoundingClientRect();
+              const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+              audio.currentTime = ratio * duration;
+              setProgress(ratio * 100);
+              setCurrentTime(ratio * duration);
+            };
+            seek(e.clientX);
+            const onMove = (ev: PointerEvent) => seek(ev.clientX);
+            const onUp = () => {
+              el.removeEventListener("pointermove", onMove);
+              el.removeEventListener("pointerup", onUp);
+            };
+            el.addEventListener("pointermove", onMove);
+            el.addEventListener("pointerup", onUp);
+          }}
+        >
           <div
-            className="h-1.5 rounded-full bg-primary transition-all"
+            className="h-1.5 rounded-full bg-primary transition-[width] duration-75"
             style={{ width: `${progress}%` }}
           />
         </div>
