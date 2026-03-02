@@ -188,7 +188,7 @@ export function WritingExamSession() {
   });
 
   return (
-    <div className="mx-auto max-w-5xl space-y-4">
+    <div className="mx-auto max-w-5xl space-y-4 p-4">
       {/* Header with timer */}
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">

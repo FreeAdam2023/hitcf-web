@@ -1039,6 +1039,19 @@
       "closing.allConsidered": "总的来说"
     }
   },
+  "writingHints": {
+    "trigger": "参考论点",
+    "title": "参考论点",
+    "subtitle": "点击短语可直接插入编辑器",
+    "loading": "正在生成论点建议...",
+    "error": "生成失败",
+    "retry": "重试"
+  },
+  "writingSidebar": {
+    "title": "题目列表",
+    "loading": "加载中...",
+    "navigating": "跳转中..."
+  },
   "consigneTranslation": {
     "showTranslation": "显示翻译",
     "hideTranslation": "隐藏翻译",

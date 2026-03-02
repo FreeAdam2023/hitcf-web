@@ -23,6 +23,8 @@ import { AccentToolbar } from "@/components/writing/accent-toolbar";
 import { FrenchText } from "@/components/practice/french-text";
 import { WritingGuidePanel } from "@/components/writing/writing-guide-panel";
 import { ExpressionsDrawer } from "@/components/writing/expressions-drawer";
+import { WritingHintsPanel } from "@/components/writing/writing-hints-panel";
+import { WritingSidebar } from "@/components/writing/writing-sidebar";
 import { ConsigneTranslationToggle } from "@/components/writing/consigne-translation";
 import { getWritingAttempt } from "@/lib/api/writing-attempts";
 import { saveWritingEssays } from "@/lib/api/writing-attempts";
@@ -59,6 +61,7 @@ export default function WritingPracticePage() {
 
   const {
     attemptId,
+    testSetId,
     tasks,
     currentTaskIndex,
     essays,
@@ -205,7 +208,10 @@ export default function WritingPracticePage() {
   });
 
   return (
-    <div className="mx-auto max-w-5xl space-y-4">
+    <div className="flex min-h-[calc(100vh-4rem)]">
+      {testSetId && <WritingSidebar currentTestSetId={testSetId} mode="practice" />}
+      <div className="flex-1 overflow-auto">
+      <div className="mx-auto max-w-5xl space-y-4 p-4">
       <Breadcrumb
         items={[
           { label: t("testDetail.breadcrumbTests"), href: "/tests?tab=writing" },
@@ -283,6 +289,7 @@ export default function WritingPracticePage() {
           <div className="flex items-center gap-2">
             <AccentToolbar textareaRef={textareaRef} className="flex-1" />
             <ExpressionsDrawer taskNumber={taskNum} textareaRef={textareaRef} />
+            {task && <WritingHintsPanel questionId={task.id} textareaRef={textareaRef} />}
           </div>
 
           {/* Word count + Grade button */}
@@ -449,6 +456,8 @@ export default function WritingPracticePage() {
           <ChevronRight className="ml-1 h-4 w-4" />
         </Button>
       </div>
+    </div>
+    </div>
     </div>
   );
 }

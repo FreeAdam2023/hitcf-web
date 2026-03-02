@@ -1039,6 +1039,19 @@
       "closing.allConsidered": "All things considered"
     }
   },
+  "writingHints": {
+    "trigger": "Hints",
+    "title": "Argument Ideas",
+    "subtitle": "Click a phrase to insert into your essay",
+    "loading": "Generating ideas...",
+    "error": "Generation failed",
+    "retry": "Retry"
+  },
+  "writingSidebar": {
+    "title": "Questions",
+    "loading": "Loading...",
+    "navigating": "Navigating..."
+  },
   "consigneTranslation": {
     "showTranslation": "Show Translation",
     "hideTranslation": "Hide Translation",

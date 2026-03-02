@@ -302,6 +302,25 @@ export interface AttemptReview {
   answers: ReviewAnswer[];
 }
 
+// Writing Hints
+export interface WritingHintCard {
+  angle: string;
+  title_fr: string;
+  title_native: string;
+  key_phrases: string[];
+  brief: string;
+}
+
+// Writing Sidebar
+export interface WritingSidebarItem {
+  test_set_id: string;
+  name: string;
+  combinaison_number: number | null;
+  status: "not_started" | "in_progress" | "completed";
+  best_score: number | null;
+  question_count: number;
+}
+
 // Writing Grading
 export interface CriterionFeedback {
   score: number;

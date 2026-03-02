@@ -1,6 +1,6 @@
 import { post, get } from "./client";
 import type { RequestOptions } from "./client";
-import type { WritingGradeResponse, WritingSubmissionItem } from "./types";
+import type { WritingGradeResponse, WritingHintCard, WritingSidebarItem, WritingSubmissionItem } from "./types";
 
 export function gradeWriting(
   question_id: string,
@@ -39,4 +39,21 @@ export function getConsigneTranslation(
     `/api/writing/consigne-translation/${questionId}?locale=${locale}`,
     options,
   );
+}
+
+export function getWritingHints(
+  questionId: string,
+  locale: string = "zh",
+  options?: RequestOptions,
+): Promise<{ cards: WritingHintCard[] }> {
+  return get<{ cards: WritingHintCard[] }>(
+    `/api/writing/hints/${questionId}?locale=${locale}`,
+    { ...options, timeout: 90_000 },
+  );
+}
+
+export function getWritingSidebar(
+  options?: RequestOptions,
+): Promise<WritingSidebarItem[]> {
+  return get<WritingSidebarItem[]>("/api/writing/sidebar", options);
 }

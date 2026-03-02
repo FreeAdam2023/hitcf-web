@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
+import { WritingSidebar } from "@/components/writing/writing-sidebar";
 import { getWritingAttempt } from "@/lib/api/writing-attempts";
 import { getTestSetQuestions } from "@/lib/api/test-sets";
 import { useWritingExamStore } from "@/stores/writing-exam-store";
@@ -16,6 +17,7 @@ export default function WritingExamPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [testSetId, setTestSetId] = useState<string | null>(null);
   const init = useWritingExamStore((s) => s.init);
 
   useEffect(() => {
@@ -42,6 +44,7 @@ export default function WritingExamPage() {
 
         if (cancelled) return;
 
+        setTestSetId(attempt.test_set_id);
         init(
           attempt.id,
           attempt.test_set_id,
@@ -72,5 +75,12 @@ export default function WritingExamPage() {
     );
   }
 
-  return <WritingExamSession />;
+  return (
+    <div className="flex min-h-[calc(100vh-4rem)]">
+      {testSetId && <WritingSidebar currentTestSetId={testSetId} mode="exam" />}
+      <div className="flex-1 overflow-auto">
+        <WritingExamSession />
+      </div>
+    </div>
+  );
 }
