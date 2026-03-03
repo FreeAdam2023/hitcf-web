@@ -499,12 +499,12 @@
     "saved": "已收藏",
     "unsave": "取消收藏",
     "familyTitle": "同组词",
-    "loadMsg1": "正在探索这片未知词域...",
-    "loadMsg2": "首次发现！正在开采词汇矿脉...",
-    "loadMsg3": "AI 正在为你手工打造词汇卡片...",
-    "loadMsg4": "发音、释义、例句...一个都不能少",
-    "loadMsg5": "你是第一个探索这个词的人！",
-    "loadMsg6": "快好了，再等一小会儿..."
+    "loadMsg1": "你发现了一座未开采的词矿！",
+    "loadMsg2": "我正在奋力挖掘中... ⛏️",
+    "loadMsg3": "发音、释义、例句，我一个都不落下",
+    "loadMsg4": "变位表也在赶工了，比你复习还认真",
+    "loadMsg5": "你是第一个探索这个词的人！我倍感荣幸",
+    "loadMsg6": "快好了，我正在做最后的精修..."
   },
   "exam": {
     "session": {
@@ -1134,18 +1134,21 @@
       "exporting": "导出中…",
       "cardsReady": "张卡片已就绪",
       "buildingDeck": "正在打包 Anki 卡组…",
-      "humor0": "正在教 AI 法语变位… 它比你学得还慢",
-      "humor1": "正在给每个动词做6种时态变位表… 比期末复习还认真",
+      "humor0": "我正在给每个动词做6种时态变位表… 比你期末复习还认真",
+      "humor1": "我在标注名词的阴阳性… le? la? 连法国人自己都搞不清",
       "humor2": "正在从云端下载发音音频… 法语 R 的发音真的很难",
-      "humor3": "正在让 AI 造例句… 它造的比你写的通顺",
-      "humor4": "正在为名词标注阴阳性… le? la? 法国人自己也搞不清",
+      "humor3": "我在造例句呢… 保证每句都地道通顺",
+      "humor4": "我在整理词性、音标、释义… 比你的笔记工整多了",
       "humor5": "快好了，词卡正在组队排好…",
       "humor6": "正在生成 IPA 音标… /\u0292\u0259 s\u0265i p\u0281\u025bsk fini/",
-      "humor7": "法语有14种时态，我们只取6种，已经手下留情了",
+      "humor7": "法语有14种时态，我只取了6种，已经手下留情了",
       "errorRateLimit": "今日导出次数已达上限，请明天再试",
       "errorWordLimit": "免费用户单次最多导出 1000 个词，升级 Pro 可导出更多",
       "errorLogin": "请先登录后再导出",
-      "errorGeneric": "导出失败，请稍后再试"
+      "errorGeneric": "导出失败，请稍后再试",
+      "platformTip": "导出的 .apkg 文件需用第三方开源记忆卡软件 Anki 打开。桌面版 (Windows / Mac / Linux) 与 AnkiDroid (Android) 均免费，iOS 版 AnkiMobile 为一次性付费 ($24.99)。推荐在电脑端复习，屏幕大、效率高。",
+      "platformTipLink": "Anki 官网下载",
+      "platformTipUrl": "https://apps.ankiweb.net"
     },
     "nihaoFrench": {
       "title": "《你好！法语》",
