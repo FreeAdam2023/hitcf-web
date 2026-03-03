@@ -1142,6 +1142,7 @@
       "humor5": "Almost there, cards are lining up nicely…",
       "humor6": "Generating IPA phonetics… /ʒə sɥi pʁɛsk fini/",
       "humor7": "French has 14 tenses, I only picked 6 — you're welcome",
+      "doNotClose": "Please don't close or refresh — you'll need to restart the export",
       "errorRateLimit": "Daily export limit reached. Please try again tomorrow",
       "errorWordLimit": "Free users can export up to 1,000 words at a time. Upgrade to Pro for more",
       "errorLogin": "Please log in to export",

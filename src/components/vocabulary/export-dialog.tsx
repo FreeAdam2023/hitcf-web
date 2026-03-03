@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Download, Loader2 } from "lucide-react";
+import { Download, Info, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   ExportLimitError,
@@ -55,6 +55,16 @@ export function ExportDialog({ wordCount, exportType, exportParams }: ExportDial
       setHumorIndex((prev) => (prev + 1) % HUMOR_COUNT);
     }, HUMOR_ROTATE_MS);
     return () => clearInterval(id);
+  }, [phase]);
+
+  // Warn user before closing/refreshing during export
+  useEffect(() => {
+    if (phase === "idle") return;
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
   }, [phase]);
 
   const handleExport = useCallback(async () => {
@@ -153,6 +163,21 @@ export function ExportDialog({ wordCount, exportType, exportParams }: ExportDial
             <p className="font-medium">{t("vocabulary.export.ankiTitle")}</p>
             <p className="text-sm text-muted-foreground mb-2">{t("vocabulary.export.ankiDesc")}</p>
             <AnkiCardPreview />
+            {/* Platform pricing tip */}
+            <div className="mt-3 flex gap-2 rounded-lg border border-border/60 bg-muted/30 px-3 py-2.5 text-xs text-muted-foreground">
+              <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+              <p>
+                {t("vocabulary.export.platformTip")}{" "}
+                <a
+                  href={t("vocabulary.export.platformTipUrl")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 hover:text-foreground transition-colors"
+                >
+                  {t("vocabulary.export.platformTipLink")} &rsaquo;
+                </a>
+              </p>
+            </div>
           </div>
         )}
 
@@ -168,15 +193,23 @@ export function ExportDialog({ wordCount, exportType, exportParams }: ExportDial
                 {progress.completed}/{progress.total} {t("vocabulary.export.cardsReady")}
               </p>
             )}
+            <p className="text-xs text-amber-600 dark:text-amber-400 text-center">
+              {t("vocabulary.export.doNotClose")}
+            </p>
           </div>
         )}
 
         {/* Building deck phase */}
         {phase === "building" && (
-          <div className="flex items-center justify-center gap-2 py-4">
-            <Loader2 className="h-5 w-5 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">
-              {t("vocabulary.export.buildingDeck")}
+          <div className="space-y-3 py-4">
+            <div className="flex items-center justify-center gap-2">
+              <Loader2 className="h-5 w-5 animate-spin text-primary" />
+              <p className="text-sm text-muted-foreground">
+                {t("vocabulary.export.buildingDeck")}
+              </p>
+            </div>
+            <p className="text-xs text-amber-600 dark:text-amber-400 text-center">
+              {t("vocabulary.export.doNotClose")}
             </p>
           </div>
         )}
