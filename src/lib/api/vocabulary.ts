@@ -9,9 +9,14 @@ import type {
   NihaoStats,
 } from "./types";
 
+// First-time card generation calls Azure Dict + Grok + TTS and can take 30-50s
+const VOCAB_CARD_TIMEOUT_MS = 60_000;
+
 export function getVocabularyCard(word: string, locale?: string): Promise<VocabularyCardData> {
   const params = locale ? `?locale=${encodeURIComponent(locale)}` : "";
-  return get<VocabularyCardData>(`/api/vocabulary/${encodeURIComponent(word)}${params}`);
+  return get<VocabularyCardData>(`/api/vocabulary/${encodeURIComponent(word)}${params}`, {
+    timeout: VOCAB_CARD_TIMEOUT_MS,
+  });
 }
 
 // Saved words API
@@ -68,17 +73,23 @@ export class ExportLimitError extends Error {
   }
 }
 
+function handleExportError(res: Response): never {
+  if (res.status === 401) throw new ExportLimitError(401, "Login required");
+  if (res.status === 429) throw new ExportLimitError(429, "Rate limit exceeded");
+  if (res.status === 403) throw new ExportLimitError(403, "Word count limit exceeded");
+  throw new Error("Export failed");
+}
+
 async function handleExportResponse(res: Response, fallbackFilename: string) {
-  if (!res.ok) {
-    if (res.status === 401) throw new ExportLimitError(401, "Login required");
-    if (res.status === 429) throw new ExportLimitError(429, "Rate limit exceeded");
-    if (res.status === 403) throw new ExportLimitError(403, "Word count limit exceeded");
-    throw new Error("Export failed");
-  }
+  if (!res.ok) handleExportError(res);
   const blob = await res.blob();
   const cd = res.headers.get("content-disposition") || "";
-  const match = cd.match(/filename="(.+?)"/);
-  const filename = match?.[1] || fallbackFilename;
+  // Prefer filename* (RFC 5987, UTF-8) over plain filename
+  const utf8Match = cd.match(/filename\*=UTF-8''(.+?)(?:;|$)/i);
+  const plainMatch = cd.match(/filename="(.+?)"/);
+  const filename = utf8Match?.[1]
+    ? decodeURIComponent(utf8Match[1])
+    : plainMatch?.[1] || fallbackFilename;
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -92,7 +103,7 @@ async function handleExportResponse(res: Response, fallbackFilename: string) {
 // Export timeout — first export may trigger card generation (3 min)
 const EXPORT_TIMEOUT_MS = 180_000;
 
-// Export saved words — triggers browser download
+// Export saved words — triggers browser download (legacy sync)
 export async function exportSavedWords(sourceType?: string): Promise<void> {
   const params = new URLSearchParams();
   if (sourceType) params.set("source_type", sourceType);
@@ -135,6 +146,7 @@ export function getNihaoStats(): Promise<NihaoStats> {
   return get("/api/vocab/nihao/stats");
 }
 
+// Legacy sync export
 export async function exportNihaoWords(
   level?: string,
   lesson?: number,
@@ -155,4 +167,62 @@ export async function exportNihaoWords(
   } finally {
     clearTimeout(timer);
   }
+}
+
+// ---------------------------------------------------------------------------
+// Async export API (start → poll → download)
+// ---------------------------------------------------------------------------
+
+export interface ExportStatus {
+  status: "pending" | "generating_cards" | "building_deck" | "ready" | "failed";
+  total: number;
+  completed: number;
+  error: string | null;
+}
+
+export async function startNihaoExport(
+  level?: string,
+  lesson?: number,
+  theme?: string,
+): Promise<{ job_id: string }> {
+  const params = new URLSearchParams();
+  if (level) params.set("level", level);
+  if (lesson != null) params.set("lesson", String(lesson));
+  if (theme) params.set("theme", theme);
+  const qs = params.toString();
+  const res = await fetch(`/api/vocab/nihao/export/start${qs ? `?${qs}` : ""}`, {
+    method: "POST",
+  });
+  if (!res.ok) handleExportError(res);
+  return res.json();
+}
+
+export async function startSavedExport(
+  sourceType?: string,
+): Promise<{ job_id: string }> {
+  const params = new URLSearchParams();
+  if (sourceType) params.set("source_type", sourceType);
+  const qs = params.toString();
+  const res = await fetch(`/api/vocab/saved/export/start${qs ? `?${qs}` : ""}`, {
+    method: "POST",
+  });
+  if (!res.ok) handleExportError(res);
+  return res.json();
+}
+
+export async function getExportStatus(
+  type: "nihao" | "saved",
+  jobId: string,
+): Promise<ExportStatus> {
+  const res = await fetch(`/api/vocab/${type}/export/status/${jobId}`);
+  if (!res.ok) throw new Error("Status check failed");
+  return res.json();
+}
+
+export async function downloadExportFile(
+  type: "nihao" | "saved",
+  jobId: string,
+): Promise<void> {
+  const res = await fetch(`/api/vocab/${type}/export/download/${jobId}`);
+  await handleExportResponse(res, "vocabulary.apkg");
 }

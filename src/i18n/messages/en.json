@@ -417,6 +417,7 @@
       "completePractice": "Complete Practice",
       "next": "Next",
       "viewAfterAnswer": "Answer to view explanation",
+      "clickToPlay": "Click a sentence to replay that part",
       "reportTitle": "Report Issue",
       "loadError": "Failed to load practice data"
     },
@@ -498,12 +499,12 @@
     "saved": "Saved",
     "unsave": "Unsave",
     "familyTitle": "Word Family",
-    "loadMsg1": "Exploring uncharted word territory...",
-    "loadMsg2": "First discovery! Mining the word vein...",
-    "loadMsg3": "AI is hand-crafting your word card...",
-    "loadMsg4": "Pronunciation, meanings, examples... building them all",
-    "loadMsg5": "You're the first to explore this word!",
-    "loadMsg6": "Almost there, just a moment more..."
+    "loadMsg1": "You've struck an unmined word vein!",
+    "loadMsg2": "I'm digging it out for you... ⛏️",
+    "loadMsg3": "Pronunciation, meanings, examples — I'm not skipping a thing",
+    "loadMsg4": "Conjugation tables in progress — I'm more thorough than your textbook",
+    "loadMsg5": "You're the first to explore this word! I'm honored",
+    "loadMsg6": "Almost done, just adding the finishing touches..."
   },
   "exam": {
     "session": {
@@ -1127,13 +1128,28 @@
       "previewBack": "Back",
       "previewMeaning": "welcome",
       "previewExample": "Welcome to France!",
+      "previewPlay": "Play pronunciation",
       "previewFooter": "HiTCF.com — TCF Canada Online Practice",
       "downloadButton": "Download",
       "exporting": "Exporting…",
+      "cardsReady": "cards ready",
+      "buildingDeck": "Building Anki deck…",
+      "humor0": "I'm building 6-tense conjugation tables… more thorough than your exam prep",
+      "humor1": "I'm marking noun genders… le? la? Even the French can't agree",
+      "humor2": "Downloading pronunciation audio… the French R is really hard",
+      "humor3": "I'm crafting example sentences… guaranteed to be idiomatic",
+      "humor4": "I'm organizing POS, IPA, meanings… neater than your handwritten notes",
+      "humor5": "Almost there, cards are lining up nicely…",
+      "humor6": "Generating IPA phonetics… /ʒə sɥi pʁɛsk fini/",
+      "humor7": "French has 14 tenses, I only picked 6 — you're welcome",
+      "doNotClose": "Please don't close or refresh — you'll need to restart the export",
       "errorRateLimit": "Daily export limit reached. Please try again tomorrow",
-      "errorWordLimit": "Free users can export up to 50 words at a time. Upgrade to Pro for unlimited exports",
+      "errorWordLimit": "Free users can export up to 1,000 words at a time. Upgrade to Pro for more",
       "errorLogin": "Please log in to export",
-      "errorGeneric": "Export failed. Please try again later"
+      "errorGeneric": "Export failed. Please try again later",
+      "platformTip": "The exported .apkg file opens with Anki, a free open-source flashcard app. Desktop (Windows / Mac / Linux) and AnkiDroid (Android) are free; AnkiMobile (iOS) is a one-time $24.99 purchase. We recommend reviewing on desktop for the best experience.",
+      "platformTipLink": "Download from ankiweb.net",
+      "platformTipUrl": "https://apps.ankiweb.net"
     },
     "nihaoFrench": {
       "title": "Le nouveau Taxi",

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { WordCard } from "@/components/practice/word-card";
 import { ExportDialog } from "@/components/vocabulary/export-dialog";
-import { listNihaoWords, getNihaoFilters, getNihaoStats, exportNihaoWords } from "@/lib/api/vocabulary";
+import { listNihaoWords, getNihaoFilters, getNihaoStats } from "@/lib/api/vocabulary";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
 import type { PaginatedResponse, NihaoWordItem, NihaoFilters, NihaoStats } from "@/lib/api/types";
 
@@ -138,7 +138,8 @@ export function NihaoWordsView() {
             </Link>
             <ExportDialog
               wordCount={data.total}
-              onExport={() => exportNihaoWords(level, lesson, theme)}
+              exportType="nihao"
+              exportParams={{ level, lesson, theme }}
             />
             <Link href={dictationHref}>
               <Button variant="outline" size="sm">
