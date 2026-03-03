@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import AuthShell from "./auth-shell";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AuthLayout({
+export default function FlashcardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <AuthShell>{children}</AuthShell>;
+  return children;
 }

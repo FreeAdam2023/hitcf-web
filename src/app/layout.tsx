@@ -182,12 +182,6 @@ export default async function RootLayout({
                   "Speed drill mode",
                   "AI-powered deep explanations",
                 ],
-                aggregateRating: {
-                  "@type": "AggregateRating",
-                  ratingValue: "4.8",
-                  ratingCount: "120",
-                  bestRating: "5",
-                },
               },
               {
                 "@context": "https://schema.org",

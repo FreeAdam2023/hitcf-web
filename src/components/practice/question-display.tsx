@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ChevronDown, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { QuestionBrief } from "@/lib/api/types";
-import { AudioPlayer } from "./audio-player";
+import { AudioPlayer, type AudioPlayerHandle } from "./audio-player";
 import { getImageUrl } from "@/lib/api/media";
 import { LevelBadge } from "@/components/shared/level-badge";
 import { getTcfPoints } from "@/lib/tcf-levels";
@@ -33,9 +33,13 @@ interface QuestionDisplayProps {
   onImageLoaded?: (loaded: boolean) => void;
   /** Context for saving vocabulary words */
   saveContext?: WordSaveContext;
+  /** Ref for controlling audio playback (seekTo / playSegment) */
+  audioRef?: React.Ref<AudioPlayerHandle>;
+  /** Called with current playback time (seconds) on each audio timeupdate */
+  onAudioTimeUpdate?: (time: number) => void;
 }
 
-export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate }: QuestionDisplayProps) {
   const t = useTranslations();
   const isListening = question.type === "listening";
   // Listening A1/A2 questions (Q1-10) may have an associated image in Azure
@@ -94,9 +98,11 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
 
       {isListening && question.audio_url && (
         <AudioPlayer
+          ref={audioRef}
           questionId={question.id}
           maxPlays={audioMaxPlays}
           onPlaybackComplete={onAudioPlaybackComplete}
+          onTimeUpdate={onAudioTimeUpdate}
         />
       )}
 

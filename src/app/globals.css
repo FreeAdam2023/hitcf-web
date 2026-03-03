@@ -291,3 +291,83 @@ button, a, [role="button"] {
   background-image: radial-gradient(circle, hsl(var(--border) / 0.5) 1px, transparent 1px);
   background-size: 24px 24px;
 }
+
+/* ===== Flashcard Anki Premium v3 theme ===== */
+.flashcard-anki {
+  --fc-card-bg: #ffffff;
+  --fc-card-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 6px rgba(0,0,0,.04), 0 12px 28px rgba(0,0,0,.06);
+  /* Gender colors */
+  --fc-masc: #3b82f6;
+  --fc-masc-bar: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
+  --fc-masc-badge-bg: #eff6ff;
+  --fc-fem: #ec4899;
+  --fc-fem-bar: linear-gradient(90deg, #ec4899, #f472b6, #f9a8d4);
+  --fc-fem-badge-bg: #fdf2f8;
+  --fc-neutral-bar: #e2e8f0;
+  /* Typography colors */
+  --fc-article: #94a3b8;
+  --fc-word: #2d3748;
+  --fc-ipa: #94a3b8;
+  --fc-source: #cbd5e1;
+  --fc-meaning: #1a202c;
+  --fc-meaning-en: #64748b;
+  /* Badge */
+  --fc-badge-pos-bg: #f1f5f9;
+  --fc-badge-pos-color: #475569;
+  --fc-badge-cefr-bg: linear-gradient(135deg, #eff6ff, #dbeafe);
+  --fc-badge-cefr-color: #1d4ed8;
+  --fc-badge-generic-bg: #f5f3ff;
+  --fc-badge-generic-color: #7c3aed;
+  /* Divider */
+  --fc-divider: #e2e8f0;
+  /* Blockquote examples */
+  --fc-example-border: #818cf8;
+  --fc-example-fr: #334155;
+  --fc-example-en: #64748b;
+  --fc-example-zh: #059669;
+  /* Conjugation / details */
+  --fc-details-bg: #f8fafc;
+  --fc-details-color: #94a3b8;
+  --fc-details-hover-bg: #f1f5f9;
+  --fc-details-hover-color: #64748b;
+  --fc-details-open-bg: #eff6ff;
+  --fc-details-open-color: #3b82f6;
+  --fc-table-border: #e2e8f0;
+  --fc-table-th-bg: #f8fafc;
+  --fc-table-th-color: #475569;
+}
+.dark .flashcard-anki {
+  --fc-card-bg: #1e293b;
+  --fc-card-shadow: 0 4px 6px rgba(0,0,0,.3), 0 12px 28px rgba(0,0,0,.25);
+  --fc-masc: #60a5fa;
+  --fc-masc-badge-bg: #1e3a5f;
+  --fc-fem: #f472b6;
+  --fc-fem-badge-bg: #3d1f33;
+  --fc-neutral-bar: #334155;
+  --fc-article: #64748b;
+  --fc-word: #f1f5f9;
+  --fc-ipa: #64748b;
+  --fc-source: #475569;
+  --fc-meaning: #f1f5f9;
+  --fc-meaning-en: #94a3b8;
+  --fc-badge-pos-bg: #334155;
+  --fc-badge-pos-color: #94a3b8;
+  --fc-badge-cefr-bg: #1e3a5f;
+  --fc-badge-cefr-color: #60a5fa;
+  --fc-badge-generic-bg: #2d1f4e;
+  --fc-badge-generic-color: #a78bfa;
+  --fc-divider: #334155;
+  --fc-example-border: #6366f1;
+  --fc-example-fr: #e2e8f0;
+  --fc-example-en: #94a3b8;
+  --fc-example-zh: #34d399;
+  --fc-details-bg: #334155;
+  --fc-details-color: #94a3b8;
+  --fc-details-hover-bg: #3f4f63;
+  --fc-details-hover-color: #cbd5e1;
+  --fc-details-open-bg: #1e3a5f;
+  --fc-details-open-color: #60a5fa;
+  --fc-table-border: #334155;
+  --fc-table-th-bg: #2d3d50;
+  --fc-table-th-color: #94a3b8;
+}

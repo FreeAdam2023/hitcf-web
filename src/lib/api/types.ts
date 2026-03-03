@@ -58,6 +58,14 @@ export interface TestSetDetail extends TestSetItem {
   updated_at: string;
 }
 
+// Audio Timestamps (Whisper-generated)
+export interface AudioSegment {
+  text: string;
+  start: number;
+  end: number;
+  sentence_index: number | null;
+}
+
 // Questions
 export interface Option {
   key: string;
@@ -76,6 +84,7 @@ export interface QuestionBrief {
   options: Option[];
   topic?: string | null;
   topic_zh?: string | null;
+  audio_timestamps?: AudioSegment[] | null;
 }
 
 export interface SentenceTranslation {

@@ -38,6 +38,7 @@ function FlashcardInner() {
         gender: item.gender,
         article: item.article,
         part_of_speech: item.part_of_speech,
+        ipa: item.ipa,
       };
     });
   }, [session?.user, sourceType, t]);
