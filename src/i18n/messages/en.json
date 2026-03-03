@@ -417,6 +417,7 @@
       "completePractice": "Complete Practice",
       "next": "Next",
       "viewAfterAnswer": "Answer to view explanation",
+      "clickToPlay": "Click a sentence to replay that part",
       "reportTitle": "Report Issue",
       "loadError": "Failed to load practice data"
     },
@@ -1127,6 +1128,7 @@
       "previewBack": "Back",
       "previewMeaning": "welcome",
       "previewExample": "Welcome to France!",
+      "previewPlay": "Play pronunciation",
       "previewFooter": "HiTCF.com — TCF Canada Online Practice",
       "downloadButton": "Download",
       "exporting": "Exporting…",
