@@ -60,6 +60,7 @@
       "next": "Next"
     },
     "breadcrumb": "Breadcrumb",
+    "switchLanguage": "Switch language",
     "points": "{points} pts",
     "questions": "{count} questions",
     "questionsWithMinutes": "{count} questions · {minutes} min",
@@ -258,7 +259,11 @@
     "filterAll": "All",
     "filterInProgress": "In Progress",
     "filterCompleted": "Completed",
-    "filterNotStarted": "Not Started"
+    "filterNotStarted": "Not Started",
+    "tacheLabel": "Tâche {n}",
+    "wordLimit": "{range} mots",
+    "combinaison": "Combinaison {num}",
+    "tacheCombo": "Tâche 1 + 2 + 3"
   },
   "testCard": {
     "best": "Best {score}/{total} ({pct}%)",
@@ -960,6 +965,10 @@
   },
   "writingPractice": {
     "title": "Writing Practice"
+  },
+  "accentToolbar": {
+    "ariaLabel": "French accent characters",
+    "insertChar": "Insert {char} (Shift+click for {upper})"
   },
   "writingGuide": {
     "title": "Writing Guide",

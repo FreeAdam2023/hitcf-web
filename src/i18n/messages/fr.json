@@ -1,0 +1,2253 @@
+{
+  "common": {
+    "types": {
+      "listening": "Compréhension orale",
+      "reading": "Compréhension écrite",
+      "speaking": "Expression orale",
+      "writing": "Expression écrite"
+    },
+    "modes": {
+      "practice": "Entraînement",
+      "exam": "Examen",
+      "speed_drill": "Exercice rapide"
+    },
+    "actions": {
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "retry": "Réessayer",
+      "close": "Fermer",
+      "confirm": "Confirmer",
+      "back": "Retour",
+      "start": "Commencer",
+      "continue": "Continuer",
+      "submit": "Soumettre",
+      "loading": "Chargement...",
+      "submitting": "Envoi en cours...",
+      "creating": "Création en cours...",
+      "starting": "Démarrage...",
+      "copied": "Copié",
+      "copyPrompt": "Copier la consigne"
+    },
+    "status": {
+      "free": "Gratuit",
+      "subscription": "Pro",
+      "inProgress": "En cours",
+      "incomplete": "Incomplet",
+      "unanswered": "Sans réponse",
+      "correct": "Correct",
+      "wrong": "Incorrect",
+      "answered": "Répondu",
+      "unknown": "Inconnu"
+    },
+    "errors": {
+      "generic": "Une erreur est survenue. Veuillez réessayer plus tard.",
+      "loadFailed": "Échec du chargement",
+      "submitFailed": "Échec de l'envoi. Veuillez réessayer.",
+      "createPracticeFailed": "Échec de la création de la session d'entraînement. Veuillez réessayer.",
+      "createExamFailed": "Échec de la création de la session d'examen. Veuillez réessayer.",
+      "operationFailed": "Échec de l'opération. Veuillez réessayer."
+    },
+    "time": {
+      "minutes": "{minutes} min",
+      "minutesShort": "{minutes}m {seconds}s"
+    },
+    "empty": {
+      "title": "Aucune donnée",
+      "description": "Rien ici pour le moment"
+    },
+    "pagination": {
+      "prev": "Précédent",
+      "next": "Suivant"
+    },
+    "breadcrumb": "Fil d'Ariane",
+    "switchLanguage": "Changer de langue",
+    "points": "{points} pts",
+    "questions": "{count} questions",
+    "questionsWithMinutes": "{count} questions · {minutes} min",
+    "answeredProgress": "{answered} / {total} répondu(es)",
+    "questionCounter": "Q {current} / {total}"
+  },
+  "nav": {
+    "tests": "Tests",
+    "dashboard": "Tableau de bord",
+    "wrongAnswers": "Carnet d'erreurs",
+    "vocabulary": "Vocabulaire",
+    "history": "Historique",
+    "speedDrill": "Exercice rapide",
+    "pricing": "Tarifs",
+    "resources": "Ressources",
+    "openMenu": "Ouvrir le menu",
+    "exitLabel": "Quitter {label}",
+    "exitConfirmTitle": "Quitter {label} ?",
+    "exitConfirmAnswered": "{answered} / {total} questions répondues.",
+    "exitConfirmProgress": "Votre progression sera sauvegardée.",
+    "exitConfirmContinue": "Continuer {label}",
+    "exitConfirmExit": "Confirmer la sortie"
+  },
+  "userMenu": {
+    "pro": "Membre Pro",
+    "trial": "Essai",
+    "free": "Utilisateur gratuit",
+    "login": "Se connecter",
+    "userMenuLabel": "Menu utilisateur",
+    "defaultName": "Utilisateur",
+    "upgradePro": "Passer à Pro",
+    "accountSettings": "Paramètres du compte",
+    "feedback": "Commentaires",
+    "logout": "Se déconnecter"
+  },
+  "feedback": {
+    "title": "Commentaires",
+    "description": "Aidez-nous à améliorer HiTCF",
+    "categoryLabel": "Catégorie",
+    "categoryPlaceholder": "Sélectionner une catégorie",
+    "bug": "Signaler un bug",
+    "feature": "Suggestion de fonctionnalité",
+    "content": "Problème de contenu",
+    "other": "Autre",
+    "contentLabel": "Description",
+    "contentPlaceholder": "Décrivez le problème ou la suggestion...",
+    "submit": "Envoyer",
+    "cancel": "Annuler",
+    "success": "Merci pour vos commentaires !",
+    "submitFailed": "Échec de l'envoi, veuillez réessayer"
+  },
+  "footer": {
+    "tests": "Tests",
+    "pricing": "Tarifs",
+    "resources": "Ressources",
+    "contact": "Nous contacter",
+    "terms": "Conditions d'utilisation",
+    "privacy": "Politique de confidentialité",
+    "refund": "Politique de remboursement",
+    "disclaimer": "Avertissement",
+    "socialXhs": "Xiaohongshu @HiTCF",
+    "socialWechat": "WeChat Hi_TCF",
+    "socialWhatsApp": "Groupe WhatsApp",
+    "scanXhs": "Scannez pour nous suivre sur Xiaohongshu",
+    "scanWechat": "Scannez pour nous ajouter sur WeChat",
+    "studyGroup": "Groupe d'étude",
+    "scanGroup": "Scannez pour rejoindre le groupe WeChat"
+  },
+  "theme": {
+    "lightMode": "Passer en mode clair",
+    "darkMode": "Passer en mode sombre"
+  },
+  "auth": {
+    "login": {
+      "title": "Bon retour",
+      "subtitle": "Connectez-vous à votre compte HiTCF pour continuer à étudier",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "forgotPassword": "Mot de passe oublié ?",
+      "passwordPlaceholder": "Entrez le mot de passe",
+      "submitting": "Connexion en cours...",
+      "submit": "Se connecter",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "register": "S'inscrire gratuitement",
+      "invalidCredentials": "E-mail ou mot de passe incorrect",
+      "invalidEmail": "Veuillez entrer une adresse e-mail valide",
+      "genericError": "Échec de la connexion. Veuillez réessayer plus tard.",
+      "googleLogin": "Continuer avec Google",
+      "orDivider": "ou"
+    },
+    "register": {
+      "title": "Créer un compte",
+      "subtitle": "Commencez à pratiquer le TCF Canada",
+      "googleRegister": "Continuer avec Google",
+      "orDivider": "ou",
+      "emailLabel": "E-mail",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "Au moins 8 caractères",
+      "createAccount": "Créer un compte",
+      "creating": "Création en cours...",
+      "verifyTitle": "Vérifier l'e-mail",
+      "verifySentTo": "Entrez le code envoyé à {email}",
+      "verifyButton": "Vérifier et terminer",
+      "verifying": "Vérification en cours...",
+      "resend": "Pas reçu ? Renvoyer",
+      "resendFailed": "Échec de l'envoi. Veuillez réessayer plus tard.",
+      "invalidEmail": "Veuillez entrer une adresse e-mail valide",
+      "passwordMinLength": "Le mot de passe doit comporter au moins 8 caractères",
+      "registerFailed": "Échec de l'inscription. Veuillez réessayer plus tard.",
+      "verifyFailed": "Échec de la vérification. Veuillez réessayer plus tard.",
+      "strengthWeak": "Faible",
+      "strengthMedium": "Moyen",
+      "strengthStrong": "Fort",
+      "hasAccount": "Vous avez déjà un compte ?",
+      "login": "Se connecter"
+    },
+    "forgotPassword": {
+      "emailStep": {
+        "title": "Réinitialiser le mot de passe",
+        "desc": "Entrez votre e-mail et nous vous enverrons un code de vérification"
+      },
+      "codeStep": {
+        "title": "Vérifier l'e-mail",
+        "desc": ""
+      },
+      "passwordStep": {
+        "title": "Définir un nouveau mot de passe",
+        "desc": "Entrez votre nouveau mot de passe"
+      },
+      "invalidEmail": "Veuillez entrer une adresse e-mail valide",
+      "sendFailed": "Échec de l'envoi. Veuillez réessayer plus tard.",
+      "verifyFailed": "Échec de la vérification. Veuillez réessayer plus tard.",
+      "passwordMinLength": "Le mot de passe doit comporter au moins 8 caractères",
+      "passwordMismatch": "Les mots de passe ne correspondent pas",
+      "resetFailed": "Échec de la réinitialisation. Veuillez réessayer plus tard.",
+      "resendFailed": "Échec de l'envoi. Veuillez réessayer plus tard.",
+      "resetSuccess": "Mot de passe réinitialisé avec succès",
+      "resetSuccessDesc": "Veuillez vous connecter avec votre nouveau mot de passe",
+      "goLogin": "Aller à la connexion",
+      "codeSent": "Code de vérification envoyé à {email}",
+      "emailLabel": "E-mail",
+      "sending": "Envoi en cours...",
+      "sendCode": "Envoyer le code",
+      "codeLabel": "Code à 6 chiffres",
+      "verifying": "Vérification en cours...",
+      "verify": "Vérifier",
+      "resend": "Pas reçu ? Renvoyer",
+      "newPasswordLabel": "Nouveau mot de passe",
+      "newPasswordPlaceholder": "Au moins 8 caractères",
+      "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+      "confirmPasswordPlaceholder": "Entrez à nouveau le nouveau mot de passe",
+      "resetting": "Réinitialisation en cours...",
+      "resetPassword": "Réinitialiser le mot de passe",
+      "rememberPassword": "Vous vous souvenez de votre mot de passe ?",
+      "backToLogin": "Retour à la connexion"
+    },
+    "layout": {
+      "tagline": "Atteignez le NCLC 7 par la pratique",
+      "description1": "Plus de 8 500 questions TCF Canada couvrant la compréhension orale, la compréhension écrite, l'expression orale et l'expression écrite.",
+      "description2": "Préparation systématique — réussissez avec confiance, pas par chance.",
+      "stat1": "8 500+ questions",
+      "stat2": "1 297 séries de tests",
+      "stat3": "Les 4 épreuves",
+      "trustLine": "Essai gratuit"
+    }
+  },
+  "tests": {
+    "pageTitle": "Tests",
+    "pageSubtitle": "Entraînement TCF Canada : compréhension orale, compréhension écrite, expression orale et expression écrite",
+    "statsListening": "44 séries de compréhension orale",
+    "statsReading": "44 séries de compréhension écrite",
+    "statsSpeaking": "696 sujets d'expression orale",
+    "statsWriting": "515 séries d'expression écrite",
+    "searchPlaceholder": "Rechercher par nom ou code...",
+    "byLevel": "Par niveau",
+    "bySet": "Par série",
+    "all": "Tout",
+    "originalSets": "Séries originales",
+    "setsCount": "{count} séries",
+    "emptyTitle": "Aucune série de tests",
+    "emptyDescription": "Aucune série de tests dans cette catégorie",
+    "emptyTopicTitle": "Aucun sujet",
+    "emptyTopicDesc": "Aucun sujet à ce niveau",
+    "emptyQuestionTitle": "Aucune question",
+    "emptyQuestionDesc": "Aucune question à ce niveau",
+    "unlockAll": "Débloquer tous les tests",
+    "unlockDescription": "{count} séries de tests supplémentaires vous attendent. Passez à Pro pour l'expérience complète.",
+    "months": [
+      "jan.",
+      "fév.",
+      "mars",
+      "avr.",
+      "mai",
+      "juin",
+      "juil.",
+      "août",
+      "sept.",
+      "oct.",
+      "nov.",
+      "déc."
+    ],
+    "yearMonth": "{month} {year}",
+    "writingTache1": "Tâche 1 · Message court",
+    "writingTache2": "Tâche 2 · Article de blog",
+    "writingTache3": "Tâche 3 · Essai argumentatif",
+    "speakingTache1": "Tâche 1 · Basique",
+    "speakingTache2": "Tâche 2 · Intermédiaire",
+    "speakingTache3": "Tâche 3 · Avancé",
+    "speakingSetNum": "Série {num}",
+    "speakingTopicsTache2": "Tâche 2 · Jeu de rôle",
+    "speakingTopicsTache3": "Tâche 3 · Présentation d'un point de vue",
+    "topicsCount": "{count} sujets",
+    "viewTopics": "Voir les sujets",
+    "tasksCount": "{count} tâches",
+    "viewQuestions": "Voir les questions",
+    "showMore": "Afficher {count} de plus",
+    "showLess": "Réduire",
+    "filterAll": "Tout",
+    "filterInProgress": "En cours",
+    "filterCompleted": "Terminé",
+    "filterNotStarted": "Non commencé",
+    "tacheLabel": "Tâche {n}",
+    "wordLimit": "{range} mots",
+    "combinaison": "Combinaison {num}",
+    "tacheCombo": "Tâche 1 + 2 + 3"
+  },
+  "testCard": {
+    "best": "Meilleur {score}/{total} ({pct}%)",
+    "practiceMode": "Mode entraînement",
+    "practiceDesc": "Pas de limite de temps. Réponses et explications affichées après chaque question.",
+    "examMode": "Mode examen",
+    "examDesc": "Chronométré. Réponses masquées jusqu'à la soumission. Score et niveau estimé affichés après.",
+    "incompletePractice": "Entraînement incomplet · {answered} répondu(es)",
+    "incompleteExam": "Examen incomplet · {answered} répondu(es)",
+    "continuePractice": "Continuer l'entraînement",
+    "continueExam": "Continuer l'examen",
+    "startPractice": "Commencer l'entraînement",
+    "startExam": "Commencer l'examen",
+    "restartPractice": "Recommencer l'entraînement",
+    "restartExam": "Recommencer l'examen",
+    "subscribeUnlock": "S'abonner pour débloquer",
+    "attempts": "{count}x"
+  },
+  "sharePoster": {
+    "subtitle": "Entraînement en ligne TCF Canada",
+    "tagline": "Votre outil de préparation au TCF Canada",
+    "correct": "Correct {score}/{total}",
+    "timeTaken": "· Temps {time}",
+    "tierExcellent": "Excellent ! Niveau NCLC 10+ !",
+    "tierGreat": "Formidable ! NCLC 7 atteint !",
+    "tierGood": "Très bien ! Continuez pour atteindre le NCLC 7 !",
+    "tierProgress": "Bonne progression ! Continuez à pratiquer !",
+    "tierKeepGoing": "Continuez ! Chaque entraînement compte !",
+    "tierExcellentShort": "Excellent !",
+    "tierGreatShort": "Formidable !",
+    "tierGoodShort": "Très bien ! Continuez !",
+    "tierProgressShort": "Bonne progression !",
+    "tierKeepGoingShort": "Continuez ! Chaque entraînement compte !",
+    "typeListening": "Compréhension orale",
+    "typeReading": "Compréhension écrite",
+    "typeSpeaking": "Expression orale",
+    "typeWriting": "Expression écrite"
+  },
+  "testDetail": {
+    "breadcrumbTests": "Tests",
+    "questionCount": "Questions",
+    "timeLimit": "Durée limite",
+    "listeningExam": "Mode examen Compréhension orale",
+    "readingExam": "Mode examen Compréhension écrite",
+    "examBullets": {
+      "timer": "Chronométrage strict (Compréhension orale 35 min / Compréhension écrite 60 min)",
+      "noGoBack": "Impossible de revenir en arrière ou de modifier les réponses",
+      "autoSubmit": "Soumission automatique à la fin du temps",
+      "showScore": "Score + niveau NCLC estimé affichés après la soumission"
+    },
+    "listeningExamBullets": {
+      "audioOnce": "L'audio n'est diffusé qu'une seule fois, pas de réécoute",
+      "autoNext": "Passage automatique après chaque réponse, impossible de revenir en arrière",
+      "timedCompletion": "Chronométré : {count} questions en {minutes} minutes",
+      "showScore": "Rapport de score et niveau TCF estimé affichés après la soumission"
+    },
+    "readingExamBullets": {
+      "freeNav": "Navigation libre entre les questions, les réponses peuvent être modifiées",
+      "timedCompletion": "Chronométré : {count} questions en {minutes} minutes",
+      "showScore": "Rapport de score et niveau TCF estimé affichés après la soumission"
+    },
+    "practiceBullets": {
+      "noTimer": "Pas de limite de temps, révisez librement",
+      "replayAudio": "Pas de limite de temps, réécouter l'audio autant que nécessaire",
+      "showAnswer": "Réponse correcte et explication détaillée après chaque question",
+      "wrongNote": "Les erreurs sont automatiquement ajoutées au carnet d'erreurs"
+    },
+    "suggestion": "Conseil : Commencez par le mode entraînement pour apprendre le format, puis utilisez le mode examen pour simuler le vrai test.",
+    "practiceProgress": "Dernier entraînement : {answered} / {total} questions",
+    "examProgress": "Dernier examen : {answered} / {total} questions",
+    "restart": "Recommencer",
+    "speakingDescTache2": "Pratiquez des scénarios de jeu de rôle. Copiez la consigne et collez-la dans votre outil IA préféré pour un entraînement conversationnel.",
+    "speakingDescTache3": "Exprimez et défendez votre opinion sur un sujet. Copiez la consigne et collez-la dans votre outil IA préféré pour un entraînement oral.",
+    "speakingDescNew": "Choisissez un sujet et pratiquez la conversation en temps réel avec un examinateur IA. Obtenez une évaluation détaillée en 6 dimensions après la session.",
+    "speakingModeAI": "Conversation avec examinateur IA",
+    "speakingModeAIDesc": "Conversation en temps réel avec un examinateur IA simulant un vrai test oral TCF. Rapport d'évaluation en 6 dimensions après la session.",
+    "speakingModePron": "Entraînement à la prononciation / Examen blanc",
+    "speakingModePronDesc": "Lisez à voix haute devant le micro pour obtenir des scores de prononciation Azure (précision, fluidité, prosodie). Le mode examen est chronométré.",
+    "externalAI": "IA externe",
+    "notFound": "Série de tests introuvable ou supprimée",
+    "writingBadge": "Expression écrite",
+    "speakingBadge": "Expression orale",
+    "speakingTache2": "Tâche 2 · Jeu de rôle",
+    "speakingTache3": "Tâche 3 · Présentation d'un point de vue",
+    "writingTaskNames": [
+      "Tâche 1 · Message court (60-120 mots)",
+      "Tâche 2 · Article de blog (120-160 mots)",
+      "Tâche 3 · Essai argumentatif (200-300 mots)"
+    ],
+    "criteria": {
+      "adequation": "Réalisation de la tâche",
+      "coherence": "Cohérence",
+      "vocabulaire": "Vocabulaire",
+      "grammaire": "Grammaire"
+    },
+    "overallComment": "Commentaire général",
+    "corrections": "Corrections grammaticales",
+    "vocabSuggestions": "Suggestions de vocabulaire",
+    "writingHistoryFailed": "Échec du chargement d'une partie de l'historique d'écriture",
+    "gradingComplete": "Notation terminée !",
+    "gradingFailed": "Échec de la notation. Veuillez réessayer plus tard.",
+    "writingDescription": "Chaque série contient 3 tâches d'écriture (message court, article de blog, essai argumentatif). Saisissez votre texte ci-dessous pour une notation IA, ou entraînez-vous avec ChatGPT.",
+    "loadingHistory": "Chargement de l'historique d'écriture...",
+    "essayPlaceholder": "Saisissez votre texte en français ici...",
+    "wordCount": "Mots : ",
+    "wordRange": "/ {min}-{max} mots",
+    "grading": "Notation en cours...",
+    "submitGrading": "Soumettre pour notation",
+    "chatgptPractice": "Entraînement ChatGPT",
+    "lastSubmitted": "Dernière soumission : {date}",
+    "speakingModeDesc": {
+      "tache2": "Dialogue de jeu de rôle avec l'examinateur. Lisez la description du scénario, puis interagissez pour accomplir la tâche.",
+      "tache3": "Présentez votre opinion personnelle sur un sujet de société en un monologue d'environ 4 minutes. L'examinateur peut poser des questions de suivi."
+    }
+  },
+  "speakingGuide": {
+    "topics": [
+      "Identité",
+      "Éducation",
+      "Travail",
+      "Loisirs",
+      "Famille",
+      "Vie quotidienne",
+      "Immigration"
+    ],
+    "title": "Tâche 1 · Entretien dirigé",
+    "subtitle": "Entretien dirigé — L'examinateur pose des questions spontanées sur des sujets du quotidien, environ 2 minutes",
+    "commonTopics": "Sujets courants",
+    "chatgptSimulation": "Simulation ChatGPT",
+    "grokSimulation": "Simulation Grok",
+    "examFlow": "Déroulement de l'épreuve",
+    "noFixedTopics": "Pas de questions fixes",
+    "noFixedTopicsDesc": "L'examinateur pose des questions spontanées qui ne peuvent pas être prédites",
+    "prepStrategy": "Préparation : Préparez 2-3 phrases naturelles par sujet. Ne mémorisez pas — restez naturel et conversationnel.",
+    "flowSteps": [
+      "L'examinateur dit « Bonjour, installez-vous » et le chronomètre démarre",
+      "Brève présentation personnelle (nom, nationalité, profession)",
+      "L'examinateur pose 1-2 questions sur 3-4 sujets",
+      "Répondez naturellement, 2-3 phrases chacune, environ 2 minutes au total"
+    ]
+  },
+  "practice": {
+    "questionDisplay": {
+      "imageListening": "Écoutez les quatre options et choisissez celle qui correspond à l'image.",
+      "imageListeningShort": "Écoutez l'enregistrement et les quatre options, choisissez la bonne réponse.",
+      "tabChinese": "Chinois"
+    },
+    "navigator": {
+      "title": "Navigateur de questions",
+      "unanswered": "Sans réponse",
+      "correct": "Correct",
+      "wrong": "Incorrect",
+      "answered": "Répondu",
+      "questionLabel": "Question {n}, {status}"
+    },
+    "session": {
+      "tabTranscript": "Transcription",
+      "passageTranslation": "Traduction de la phrase",
+      "exitWarning": "Entraînement en cours. Veuillez utiliser le bouton « Terminer l'entraînement » pour quitter.",
+      "confirmAnswer": "Confirmer la réponse",
+      "answerCorrect": "✓ Correct !",
+      "addedToWrongNote": "Ajouté au carnet d'erreurs",
+      "prev": "Précédent",
+      "completePractice": "Terminer l'entraînement",
+      "next": "Suivant",
+      "viewAfterAnswer": "Répondez pour voir l'explication",
+      "clickToPlay": "Cliquez sur une phrase pour réécouter cette partie",
+      "reportTitle": "Signaler un problème",
+      "loadError": "Échec du chargement des données d'entraînement"
+    },
+    "optionList": {
+      "ariaLabel": "Options de réponse"
+    },
+    "report": {
+      "title": "Signaler un problème",
+      "description": "Vous avez trouvé un problème ? Sélectionnez le type de problème et décrivez les détails.",
+      "types": {
+        "wrong_answer": "Réponse incorrecte",
+        "audio_issue": "Problème audio",
+        "option_error": "Erreur dans les options",
+        "other": "Autre problème"
+      },
+      "typeLabel": "Type de problème",
+      "typePlaceholder": "Sélectionner le type de problème",
+      "detailLabel": "Détails (facultatif)",
+      "detailPlaceholder": "Décrivez le problème...",
+      "selectType": "Veuillez sélectionner un type de problème",
+      "success": "Signalement envoyé. Merci !",
+      "duplicate": "Vous avez déjà signalé ce type de problème",
+      "cancel": "Annuler",
+      "submit": "Envoyer le signalement"
+    }
+  },
+  "audio": {
+    "loadError": "Échec du chargement audio",
+    "playError": "Échec de la lecture",
+    "loadRetryError": "L'audio n'a pas pu être chargé. Veuillez réessayer.",
+    "mute": "Couper le son",
+    "unmute": "Rétablir le son",
+    "volume": "Volume",
+    "replay": "Réécouter",
+    "speed": "Vitesse de lecture",
+    "played": "Lu"
+  },
+  "explanation": {
+    "viewExplanation": "Voir l'explication",
+    "loading": "Chargement de l'explication...",
+    "loadFailed": "Échec du chargement. ",
+    "clickRetry": "Cliquez pour réessayer",
+    "comingSoon": "Explications bientôt disponibles.",
+    "forceRefresh": "Forcer l'actualisation",
+    "title": "Explication",
+    "distractors": "Analyse des distracteurs",
+    "distractorCount": "({count} éléments)",
+    "expandHint": "Cliquez pour développer",
+    "vocabulary": "Vocabulaire clé",
+    "studyPoints": "Points d'étude"
+  },
+  "wordCard": {
+    "loading": "Chargement...",
+    "error": "Échec du chargement. Veuillez réessayer.",
+    "plural": "Pluriel : {form}",
+    "adjForms": "Formes de l'adjectif",
+    "masc": "M",
+    "fem": "F",
+    "sg": "Sg",
+    "pl": "Pl",
+    "mascSg": "M.Sg",
+    "femSg": "F.Sg",
+    "mascPl": "M.Pl",
+    "femPl": "F.Pl",
+    "examples": "Exemples",
+    "tenses": {
+      "present": "Présent",
+      "passeCompose": "Passé composé",
+      "imparfait": "Imparfait",
+      "futurSimple": "Futur simple",
+      "conditionnel": "Conditionnel",
+      "subjonctif": "Subjonctif"
+    },
+    "verbConj": "Conjugaison du verbe",
+    "verbGroup": "Groupe {group}",
+    "pastParticiple": "Participe passé : {form}",
+    "auxiliary": "Auxiliaire : {aux}",
+    "save": "Enregistrer",
+    "saved": "Enregistré",
+    "unsave": "Retirer",
+    "familyTitle": "Famille de mots",
+    "loadMsg1": "Vous avez trouvé un mot inexploré !",
+    "loadMsg2": "Je le déterre pour vous... ⛏️",
+    "loadMsg3": "Prononciation, sens, exemples — je ne saute rien",
+    "loadMsg4": "Tableaux de conjugaison en cours — je suis plus complet que votre manuel",
+    "loadMsg5": "Vous êtes le premier à explorer ce mot ! C'est un honneur",
+    "loadMsg6": "Presque terminé, je peaufine les derniers détails..."
+  },
+  "exam": {
+    "session": {
+      "exitWarning": "Examen en cours. Veuillez utiliser le bouton « Soumettre l'examen » pour quitter.",
+      "submitExam": "Soumettre l'examen",
+      "confirmTitle": "Soumettre l'examen ?",
+      "answeredCount": "{answered} / {total} questions répondues.",
+      "unansweredCount": "{count} questions sans réponse.",
+      "submitWarning": "Vous ne pourrez plus modifier vos réponses après la soumission.",
+      "continueExam": "Continuer l'examen",
+      "confirmSubmit": "Confirmer la soumission",
+      "questionNumber": "Q {current} / {total}",
+      "next": "Suivant",
+      "prev": "Précédent",
+      "loadError": "Échec du chargement des données d'examen"
+    },
+    "timer": {
+      "fiveMinutes": "Attention : il reste 5 minutes",
+      "oneMinute": "Attention : il reste 1 minute",
+      "remaining": "{minutes}m {seconds}s restantes"
+    }
+  },
+  "results": {
+    "breadcrumbTests": "Tests",
+    "breadcrumbReport": "Rapport de score",
+    "defaultTitle": "Rapport de score",
+    "upgradeBanner": {
+      "title": "Vous voulez progresser plus vite ?",
+      "description": "Les membres Pro débloquent tous les tests, le mode examen, le carnet d'erreurs et l'entraînement rapide",
+      "features": [
+        "Plus de 8 500 questions débloquées",
+        "Le mode examen simule le vrai test",
+        "Suivi automatique des erreurs",
+        "Entraînement rapide pour une pratique efficace"
+      ]
+    },
+    "reviewTitle": "Révision des questions",
+    "filterAll": "Tout",
+    "filterWrongOnly": "Erreurs uniquement",
+    "noWrongAnswers": "Aucune mauvaise réponse",
+    "noAnswerRecords": "Aucun enregistrement de réponse",
+    "practiceWrong": "Pratiquer les erreurs ({count})",
+    "nextSet": "Suivant : {name}",
+    "backToTests": "Retour aux tests",
+    "loadError": "Échec du chargement des données de score",
+    "scoreCard": {
+      "answered": "{score}/{total} correct(s)",
+      "timeUsed": "Temps : {time}"
+    },
+    "reviewItem": {
+      "points": "{points} pts",
+      "notAnswered": "Sans réponse",
+      "correctAnswer": "Bonne réponse : {answer}",
+      "transcript": "Transcription audio"
+    },
+    "nclc": {
+      "listening": "Compréhension orale (CO)",
+      "reading": "Compréhension écrite (CE)",
+      "title": "Tableau des niveaux NCLC",
+      "yourPosition": "← Vous",
+      "footnote": "* NCLC 7 = CLB 7, niveau linguistique minimum requis pour Entrée Express / PEQ"
+    },
+    "scoreGrid": {
+      "title": "Répartition des points par question",
+      "correct": "Correct",
+      "wrong": "Incorrect",
+      "unanswered": "Sans réponse",
+      "total": "{earned} / {max} pts ({pct}%)"
+    },
+    "levelBreakdown": {
+      "ungraded": "Non noté",
+      "title": "Répartition par niveau",
+      "level": "Niveau",
+      "count": "Nombre",
+      "correct": "Correct",
+      "accuracy": "Précision"
+    },
+    "share": {
+      "button": "Partager le score",
+      "title": "Partagez votre score",
+      "subtitle": "Enregistrez l'image et partagez-la sur les réseaux sociaux !",
+      "save": "Enregistrer l'image",
+      "saving": "Génération en cours...",
+      "saved": "Enregistré ! Allez le partager ! 🎉"
+    }
+  },
+  "encouragement": {
+    "nclc7Requirement": "TCF {level} · NCLC 7 nécessite ≥ 458",
+    "scoreDisplay": "{score}/{total} correct(s)"
+  },
+  "account": {
+    "defaultName": "Étudiant",
+    "saveFailed": "Échec de l'enregistrement",
+    "passwordMinLength": "Le nouveau mot de passe doit contenir au moins 8 caractères",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "passwordChangeFailed": "Échec du changement de mot de passe",
+    "subscription": {
+      "monthly": "Mensuel",
+      "quarterly": "Trimestriel",
+      "yearly": "Annuel",
+      "trialing": "Essai",
+      "member": "Membre",
+      "trialUntil": "Essai jusqu'au {date}",
+      "renewalDate": "Renouvellement le {date}",
+      "manageSubscription": "Gérer l'abonnement"
+    },
+    "stats": {
+      "title": "Statistiques d'étude",
+      "practiceCount": "Sessions",
+      "totalAccuracy": "Précision",
+      "streakDays": "Série",
+      "totalQuestions": "Questions",
+      "listeningAccuracy": "Précision en écoute",
+      "readingAccuracy": "Précision en lecture",
+      "practices": "sessions",
+      "questionsCount": "questions",
+      "accuracy": "précision"
+    },
+    "continuePractice": "Continuer la pratique",
+    "unlockAll": "Débloquez les 8 500+ questions + outils de vocabulaire",
+    "yearlyDeal": "Forfait annuel à partir de 8,33 $/mois avec 2 mois d'essai gratuit",
+    "upgradePro": "Passer à Pro",
+    "profile": {
+      "title": "Profil",
+      "email": "Courriel",
+      "name": "Nom",
+      "namePlaceholder": "Entrez votre nom",
+      "password": "Mot de passe",
+      "changePassword": "Changer le mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "newPasswordPlaceholder": "Au moins 8 caractères",
+      "confirmPassword": "Confirmer le nouveau mot de passe",
+      "passwordChanged": "Mot de passe changé avec succès",
+      "confirmChange": "Confirmer le changement"
+    },
+    "accountCard": {
+      "title": "Compte",
+      "registeredAt": "Inscrit le : {date}",
+      "logout": "Se déconnecter"
+    },
+    "language": {
+      "title": "Langue de l'interface",
+      "description": "Choisir la langue d'affichage"
+    },
+    "heroGreetingPro": "Bonjour, {name}",
+    "heroGreetingFree": "Salut {name},",
+    "quotes": {
+      "0": "Petit à petit, l'oiseau fait son nid. — Les petits pas mènent aux grands résultats.",
+      "1": "C'est en forgeant qu'on devient forgeron. — La pratique rend parfait.",
+      "2": "Vouloir, c'est pouvoir.",
+      "3": "Rome ne s'est pas faite en un jour.",
+      "4": "Qui ne risque rien n'a rien.",
+      "5": "À cœur vaillant rien d'impossible.",
+      "6": "Les petits ruisseaux font les grandes rivières. — Chaque petit effort compte.",
+      "7": "Après la pluie, le beau temps. — Les jours meilleurs suivent les moments difficiles.",
+      "8": "Qui vivra verra. — Le temps dira ; l'avenir est prometteur.",
+      "9": "La nuit porte conseil. — Dormez dessus et vous trouverez une solution.",
+      "10": "Mieux vaut tard que jamais.",
+      "11": "La persévérance est la noblesse de l'obstination. — Adrien Decourcelle",
+      "12": "L'avenir appartient à ceux qui se lèvent tôt.",
+      "13": "Chaque nouvelle langue est une nouvelle fenêtre sur le monde."
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "loadError": "Échec du chargement des statistiques",
+    "upgradeBanner": {
+      "title": "Débloquez tous les outils d'étude",
+      "description": "Passez à Pro pour le mode examen, le carnet d'erreurs, l'entraînement rapide et plus encore"
+    },
+    "continuePractice": "Continuer la pratique",
+    "startPractice": "Commencer la pratique",
+    "joinStudyGroup": "Rejoindre le groupe d'étude",
+    "community": {
+      "title": "Rejoignez notre communauté",
+      "description": "Échangez avec d'autres candidats au TCF, partagez des conseils et préparez-vous ensemble",
+      "followXhs": "Suivre sur Xiaohongshu",
+      "joinGroup": "Scannez pour rejoindre le groupe WeChat"
+    },
+    "hideDetails": "Masquer les détails",
+    "showDetails": "Afficher les détails",
+    "levelDistribution": "Répartition par niveau",
+    "levelScore": "{correct}/{answered}",
+    "recentRecords": "Résultats récents",
+    "readiness": {
+      "title": "Préparation CLB 7",
+      "reached": "Atteint ✓",
+      "gap": "Encore {gap}%",
+      "keepGoing": "Continuez",
+      "nearTarget": "Presque atteint",
+      "needEffort": "Continuez à pratiquer",
+      "practiceCount": "Sessions",
+      "startStreak": "Commencez votre série",
+      "listening": "Compréhension orale",
+      "reading": "Compréhension écrite",
+      "summaryBothReached": "La compréhension orale et écrite ont atteint l'objectif. Continuez ainsi !",
+      "summaryListeningReached": "La compréhension orale a atteint l'objectif. La compréhension écrite a encore besoin de {gap}% pour atteindre CLB 7 !",
+      "summaryReadingReached": "La compréhension écrite a atteint l'objectif. La compréhension orale a encore besoin de {gap}% pour atteindre CLB 7 !",
+      "summaryKeepGoing": "Continuez à pratiquer et visez CLB 7 !",
+      "streakLegend": "{days} jours ! Vous êtes une légende",
+      "streakWeek": "Série de {days} jours, ne la perdez pas !",
+      "streakDays": "Série de {days} jours, continuez !",
+      "streakToday": "Pratiqué aujourd'hui, continuez demain",
+      "streakNone": "Pas encore pratiqué aujourd'hui",
+      "milestone30": "Exploit de 30 jours",
+      "milestone14": "Exploit de 14 jours",
+      "milestone7": "Exploit de 7 jours",
+      "milestone3": "Exploit de 3 jours"
+    },
+    "charts": {
+      "levelRadar": "Radar des niveaux",
+      "levelRadarEmpty": "Complétez plusieurs niveaux pour voir le graphique radar",
+      "radarTooltip": "{value}% ({answered} questions)",
+      "radarLabel": "Précision",
+      "dailyPractice": "Pratique quotidienne",
+      "dailyPracticeEmpty": "Complétez une session pour voir la pratique quotidienne",
+      "dailyTooltip": "{value} sessions",
+      "dailyLabel": "Sessions",
+      "accuracyTrend": "Tendance de précision",
+      "accuracyTrendEmpty": "Complétez 2 sessions pour voir la tendance",
+      "accuracyLabel": "Précision"
+    }
+  },
+  "wrongAnswers": {
+    "title": "Carnet d'erreurs",
+    "subtitle": "Identifiez vos points faibles et progressez méthodiquement",
+    "generating": "Génération en cours...",
+    "practiceFromWrong": "Pratiquer {count} questions",
+    "filters": {
+      "allTypes": "Tous les types",
+      "allStatus": "Tous les statuts",
+      "unmastered": "Non maîtrisé",
+      "mastered": "Maîtrisé",
+      "recentWrong": "Plus récent",
+      "mostWrong": "Plus d'erreurs",
+      "byLevel": "Par niveau",
+      "hideUnmastered": "Masquer les maîtrisés"
+    },
+    "stats": {
+      "total": "Total",
+      "mastered": "Maîtrisé",
+      "unmastered": "Non maîtrisé"
+    },
+    "progress": {
+      "title": "Progression de la maîtrise",
+      "masteredOf": "{mastered} / {total} maîtrisé(s)"
+    },
+    "empty": {
+      "title": "Aucune mauvaise réponse pour l'instant",
+      "description": "Complétez un ensemble de tests et vos erreurs seront collectées ici pour une révision ciblée"
+    },
+    "goToTests": "Aller aux tests",
+    "loadFailed": "Échec du chargement des erreurs",
+    "markMastered": "Marqué comme maîtrisé",
+    "markUnmastered": "Maîtrise retirée",
+    "card": {
+      "wrongCount": "Erreur {count}x",
+      "mastered": "Maîtrisé",
+      "markMastered": "Marquer comme maîtrisé",
+      "understoodIt": "J'ai compris cette question",
+      "loading": "Chargement...",
+      "transcript": "Transcription audio",
+      "loadFailed": "Échec du chargement des détails",
+      "retry": "Réessayer",
+      "loadError": "Impossible de charger les détails de la question"
+    },
+    "upgradeBanner": {
+      "title": "Le carnet d'erreurs est réservé aux Pro",
+      "description": "Collecte automatique des erreurs, suivi de la maîtrise et génération de pratique ciblée",
+      "features": [
+        "Collecte automatique de toutes les erreurs",
+        "Filtrage par type et niveau",
+        "Pratique en un clic à partir des erreurs",
+        "Suivi de la maîtrise et de la progression"
+      ]
+    }
+  },
+  "speedDrill": {
+    "title": "Entraînement rapide",
+    "subtitle": "Sélectionnez le type et le niveau pour une pratique ciblée",
+    "selectType": "Sélectionner le type",
+    "selectLevel": "Sélectionner le niveau",
+    "selectAll": "Tout sélectionner",
+    "questionCount": "Nombre de questions",
+    "questionsLabel": "{count} questions",
+    "startDrill": "Commencer l'entraînement",
+    "generating": "Génération en cours...",
+    "noMoreQuestions": "Plus de nouvelles questions disponibles",
+    "startFailed": "Échec du démarrage de l'entraînement rapide. Veuillez réessayer.",
+    "upgradeBanner": {
+      "title": "L'entraînement rapide est réservé aux Pro",
+      "description": "Pratique ciblée par niveau et type, idéale pour les courtes sessions d'étude",
+      "features": [
+        "Bibliothèque complète d'écoute + lecture",
+        "Filtrage par niveau A1-C2",
+        "Nombre de questions personnalisable",
+        "Dédoublonnage intelligent, sans répétitions"
+      ]
+    }
+  },
+  "history": {
+    "title": "Historique de pratique",
+    "subtitle": "Consultez tous les résultats de pratique et d'examen",
+    "empty": {
+      "title": "Aucun résultat pour l'instant",
+      "description": "Complétez une session de pratique et vos résultats apparaîtront ici"
+    },
+    "goToTests": "Aller aux tests",
+    "incomplete": "Incomplet",
+    "loadMore": "Charger plus",
+    "summary": {
+      "title": "Ma progression",
+      "totalAttempts": "Total",
+      "avgScore": "Score moyen",
+      "bestLevel": "Meilleur niveau"
+    },
+    "filter": {
+      "all": "Tout"
+    },
+    "groups": {
+      "today": "Aujourd'hui",
+      "thisWeek": "Cette semaine",
+      "earlier": "Précédemment"
+    }
+  },
+  "payment": {
+    "success": {
+      "title": "Bienvenue sur HiTCF Pro",
+      "description": "Les 8 500+ questions sont maintenant débloquées. Le mode examen, le carnet d'erreurs, l'entraînement rapide et l'estimation du niveau CLB sont tous disponibles.",
+      "syncing": "Synchronisation de l'état de l'abonnement...",
+      "startPractice": "Commencer la pratique",
+      "viewSubscription": "Voir l'abonnement"
+    },
+    "cancel": {
+      "title": "Comme la bernache du Canada, prenez votre temps",
+      "description": "Le paiement n'a pas été finalisé — aucun frais n'a été prélevé. La bernache du Canada migre vers le sud en hiver mais revient toujours — nous serons là quand vous serez prêt.",
+      "choosePlan": "Choisir un forfait",
+      "backToTests": "Retour aux tests"
+    },
+    "unsubscribed": {
+      "title": "À bientôt",
+      "description": "Votre accès Pro continue jusqu'à la fin de votre période de facturation en cours. Comme la bernache du Canada, nous vous accueillons toujours à bras ouverts.",
+      "continuePractice": "Continuer la pratique",
+      "resubscribe": "Se réabonner"
+    },
+    "error": {
+      "title": "Un problème est survenu",
+      "description": "Une erreur s'est produite lors du paiement. Si vous avez été débité sans que votre abonnement soit activé, veuillez nous contacter.",
+      "retry": "Réessayer",
+      "backToTests": "Retour aux tests"
+    }
+  },
+  "errorPage": {
+    "title": "Un problème est survenu",
+    "description": "Une erreur s'est produite lors du chargement de la page. Veuillez réessayer plus tard."
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "description": "Cette page n'existe pas ou a été supprimée. Pas d'inquiétude — retournez en arrière et continuez à pratiquer.",
+    "backToTests": "Retour aux tests",
+    "backToHome": "Retour à l'accueil"
+  },
+  "upgradeBanner": {
+    "defaultTitle": "Débloquez l'expérience complète",
+    "defaultDescription": "Passez à Pro pour accéder aux 8 500+ questions et aux fonctionnalités avancées",
+    "viewPlans": "Voir les forfaits",
+    "yearlyTrial": "2 mois gratuits avec le forfait annuel",
+    "upgradePro": "Passer à Pro"
+  },
+  "continueBanner": {
+    "title": "Vous avez une session de pratique incomplète",
+    "name": "Pratique",
+    "progress": "Progression : {answered} / {total}",
+    "continue": "Continuer"
+  },
+  "recommendedBanner": {
+    "title": "Recommandé ensuite",
+    "start": "Commencer"
+  },
+  "placementBanner": {
+    "title": "Testez votre niveau CLB",
+    "description": "Passez un test d'écoute gratuit et découvrez à quel point vous êtes proche du CLB 7",
+    "preparing": "Préparation...",
+    "startTest": "Passer le test"
+  },
+  "clb7Progress": {
+    "reached": "Atteint",
+    "gap": "Encore {gap}%",
+    "keepGoing": "Continuez",
+    "target": "Objectif CLB 7 (78%)",
+    "listening": "Écoute {pct}%",
+    "reading": "Lecture {pct}%"
+  },
+  "tcfLevels": {
+    "C2": {
+      "label": "C2 Supérieur",
+      "description": "Maîtrise quasi native"
+    },
+    "C1": {
+      "label": "C1 Avancé",
+      "description": "Courant et confiant"
+    },
+    "B2": {
+      "label": "B2 Intermédiaire avancé",
+      "description": "Usage autonome de la langue"
+    },
+    "B1": {
+      "label": "B1 Intermédiaire",
+      "description": "Communication quotidienne"
+    },
+    "A2": {
+      "label": "A2 Élémentaire",
+      "description": "Expressions simples du quotidien"
+    },
+    "A1": {
+      "label": "A1 Débutant",
+      "description": "Vocabulaire et phrases de base"
+    }
+  },
+  "writingExam": {
+    "title": "Examen d'écriture",
+    "loadError": "Échec du chargement des données de l'examen d'écriture",
+    "exitWarning": "Examen en cours. Veuillez utiliser le bouton Soumettre pour quitter.",
+    "placeholder": "Rédigez votre essai en français ici...",
+    "wordCount": "Mots : ",
+    "unsaved": "Non enregistré",
+    "prevTask": "Tâche précédente",
+    "nextTask": "Tâche suivante",
+    "submitAll": "Soumettre l'examen",
+    "confirmTitle": "Soumettre l'examen d'écriture ?",
+    "words": "mots",
+    "empty": "Vide",
+    "emptyWarning": "{count} tâche(s) sont vides et ne seront pas notées.",
+    "wordRangeWarning": "Certaines tâches dépassent la plage de mots recommandée.",
+    "submitWarning": "Vous ne pourrez plus apporter de modifications après la soumission. L'IA notera tous les essais.",
+    "continueWriting": "Continuer à écrire",
+    "confirmSubmit": "Confirmer la soumission",
+    "gradingInProgress": "Notation de vos essais...",
+    "gradingWait": "L'IA examine chaque essai. Veuillez patienter (environ 30 à 60 secondes).",
+    "completeFailed": "Échec de la soumission, veuillez réessayer",
+    "referenceDocuments": "Documents de référence",
+    "modeDialog": {
+      "subtitle": "Tâche 1 + 2 + 3 · Pratique et examen d'écriture",
+      "practiceLabel": "Mode pratique : ",
+      "practiceDesc": "Pas de limite de temps, notez chaque tâche individuellement, retour instantané, révisez et resoumettez",
+      "examLabel": "Mode examen : ",
+      "examDesc": "Minuterie de 60 minutes, soumettez les 3 essais ensemble, notation et score combinés",
+      "incompletePractice": "Vous avez une session de pratique d'écriture incomplète",
+      "incompleteExam": "Vous avez une session d'examen d'écriture incomplète"
+    },
+    "overview": {
+      "examBullet1": "Rédigez 3 essais en 60 minutes (Tâche 1 + 2 + 3)",
+      "examBullet2": "Session chronométrée, soumission automatique à la fin du temps",
+      "examBullet3": "L'IA note tous les essais après la soumission, affiche le score total et le niveau NCLC estimé",
+      "practiceBullet1": "Pas de limite de temps, pratiquez à votre rythme",
+      "practiceBullet2": "Notez chaque essai individuellement et obtenez un retour IA instantané",
+      "practiceBullet3": "Révisez et resoumettez pour progresser pas à pas"
+    },
+    "results": {
+      "title": "Résultats d'écriture",
+      "examMode": "Mode examen",
+      "practiceMode": "Mode pratique",
+      "notFound": "Résultats introuvables",
+      "notGraded": "Non noté (aucune soumission)",
+      "backToTests": "Retour aux tests",
+      "tryAgain": "Réessayer",
+      "showDetails": "Afficher les corrections et suggestions",
+      "hideDetails": "Masquer les corrections et suggestions"
+    }
+  },
+  "writingPractice": {
+    "title": "Pratique d'écriture"
+  },
+  "accentToolbar": {
+    "ariaLabel": "Caractères accentués français",
+    "insertChar": "Insérer {char} (Maj+clic pour {upper})"
+  },
+  "writingGuide": {
+    "title": "Guide de rédaction",
+    "format": "Format",
+    "register": "Registre",
+    "structure": "Structure",
+    "connectors": "Connecteurs utiles",
+    "wordTarget": "Objectif de nombre de mots",
+    "task1": {
+      "format": "Courriel/lettre/note adressé(e) à un destinataire précis. Incluez une formule d'appel et de conclusion.",
+      "register": "Utilisez tu (ami/collègue) ou vous (formel/inconnu) selon la consigne.",
+      "steps": [
+        "Formule d'appel (Cher/Chère…, Bonjour…)",
+        "Exposez votre objectif (Je vous écris pour…)",
+        "Fournissez les informations/détails demandés",
+        "Formule de conclusion (Cordialement, Amicalement…)"
+      ],
+      "words": "60-120 mots (niveau A2-B1)"
+    },
+    "task2": {
+      "format": "Article, lettre ou court essai destiné à plusieurs lecteurs. Relatez une expérience avec commentaires/opinions.",
+      "register": "Utilisez généralement vous ou des structures impersonnelles. Formel mais pas trop académique.",
+      "steps": [
+        "Introduction — présentez le sujet",
+        "Développement — récit + commentaires/opinions (2-3 paragraphes)",
+        "Conclusion — résumez votre position"
+      ],
+      "words": "120-150 mots (niveau B1-B2)"
+    },
+    "task3": {
+      "format": "Article analytique pour un journal/site web. Basé sur deux documents aux points de vue opposés.",
+      "register": "Registre académique soutenu. Utiliser on, il est + adj. que, et d'autres structures impersonnelles.",
+      "steps": [
+        "Partie 1 (40-60 mots) : Résumer les points de vue opposés des deux documents",
+        "Partie 2 (80-120 mots) : Présenter votre position avec des arguments à l'appui"
+      ],
+      "words": "120-180 mots (niveau B2-C1)"
+    }
+  },
+  "expressionsDrawer": {
+    "trigger": "Expressions",
+    "title": "Expressions françaises courantes",
+    "subtitle": "Cliquez pour insérer à la position du curseur",
+    "categories": {
+      "greeting": "Salutation",
+      "opening": "Ouverture",
+      "connector": "Connecteurs",
+      "opinion": "Opinion",
+      "closing": "Conclusion"
+    },
+    "notes": {
+      "greeting.dear": "Cher/Chère…",
+      "greeting.hello": "Bonjour…",
+      "greeting.formal": "Formule de politesse",
+      "opening.writeTo": "Je vous écris pour…",
+      "opening.contactFor": "Je me permets de vous contacter pour…",
+      "opening.followingAd": "Suite à votre annonce…",
+      "opening.wouldLike": "Je souhaiterais…",
+      "opening.talkAbout": "J'aimerais vous parler de…",
+      "opening.fewDaysAgo": "Il y a quelques jours…",
+      "opening.recently": "Récemment, j'ai eu l'occasion de…",
+      "opening.heartfelt": "Un sujet qui me tient à cœur",
+      "opening.opposingViews": "Deux documents aux points de vue opposés sur…",
+      "opening.firstDoc": "Selon le premier document…",
+      "opening.secondDoc": "Le second document affirme que…",
+      "opening.accordingTo": "Selon l'auteur…",
+      "connector.moreover": "De plus",
+      "connector.indeed": "En effet",
+      "connector.furthermore": "Par ailleurs",
+      "connector.thatIsWhy": "C'est pourquoi",
+      "connector.however": "Cependant",
+      "connector.onTheOtherHand": "En revanche",
+      "connector.onOneHand": "D'une part… d'autre part",
+      "connector.forExample": "Par exemple",
+      "connector.despite": "Malgré cela",
+      "connector.nevertheless": "Néanmoins",
+      "connector.nonetheless": "Toutefois",
+      "connector.consequently": "Par conséquent",
+      "connector.regarding": "En ce qui concerne…",
+      "connector.mustNote": "Il faut noter que",
+      "connector.undeniable": "Il est indéniable que",
+      "opinion.inMyOpinion": "À mon avis",
+      "opinion.iConsider": "Je considère que",
+      "opinion.itSeemsToMe": "Il me semble que",
+      "opinion.convinced": "Je suis convaincu(e) que",
+      "opinion.personally": "Personnellement, je pense que",
+      "opinion.iMaintain": "Quant à moi, je soutiens que",
+      "opinion.obvious": "Il est évident que",
+      "opinion.cannotDeny": "On ne peut nier que",
+      "opinion.worthNoting": "Il convient de noter que",
+      "closing.thankYou": "Je vous remercie par avance",
+      "closing.awaitReply": "Dans l'attente de votre réponse",
+      "closing.regards": "Cordialement",
+      "closing.friendly": "Amicalement",
+      "closing.seeYou": "À bientôt",
+      "closing.inConclusion": "En conclusion",
+      "closing.forAllReasons": "Pour toutes ces raisons",
+      "closing.ultimately": "En définitive",
+      "closing.inSummary": "En résumé",
+      "closing.toSum": "Pour conclure",
+      "closing.allConsidered": "Tout bien considéré"
+    }
+  },
+  "writingHints": {
+    "trigger": "Pistes",
+    "title": "Idées d'arguments",
+    "subtitle": "Cliquez sur une phrase pour l'insérer dans votre rédaction",
+    "loading": "Génération des idées en cours...",
+    "error": "La génération a échoué",
+    "retry": "Réessayer"
+  },
+  "writingSidebar": {
+    "title": "Questions",
+    "loading": "Chargement...",
+    "navigating": "Navigation..."
+  },
+  "consigneTranslation": {
+    "showTranslation": "Afficher la traduction",
+    "hideTranslation": "Masquer la traduction",
+    "loading": "Traduction en cours…",
+    "translationLabel": "Consignes traduites",
+    "passageLabel": "Document de référence traduit",
+    "fetchError": "Impossible de charger la traduction. Veuillez réessayer."
+  },
+  "vocabulary": {
+    "title": "Vocabulaire",
+    "subtitle": "Cliquez sur les mots pendant vos exercices, enregistrez-les et révisez avec des flashcards",
+    "loginHint": "Veuillez vous connecter pour utiliser la fonction vocabulaire",
+    "loginToSave": "Connectez-vous pour enregistrer des mots",
+    "viewAll": "Voir tout →",
+    "recentSaved": "Enregistrés récemment",
+    "stats": {
+      "total": "Total enregistré"
+    },
+    "pools": {
+      "mySaved": "Mes mots enregistrés",
+      "savedCount": "{count} mots",
+      "tcfCorpus": "Corpus TCF",
+      "comingSoon": "Bientôt disponible"
+    },
+    "mySaved": {
+      "title": "Mes mots enregistrés",
+      "filterAll": "Tous",
+      "emptyTitle": "Aucun mot enregistré pour l'instant",
+      "emptyDesc": "Cliquez sur n'importe quel mot français pendant vos exercices, puis appuyez sur ⭐ pour l'enregistrer",
+      "goToTests": "Aller aux tests",
+      "flashcardReview": "Révision par flashcards",
+      "remove": "Supprimer"
+    },
+    "flashcard": {
+      "empty": "Aucun mot enregistré pour l'instant. Allez vous entraîner et enregistrez des mots d'abord.",
+      "emptyNihao": "Aucune donnée de vocabulaire. Essayez de sélectionner un niveau ou une leçon.",
+      "tapToFlip": "Appuyez pour retourner",
+      "showDict": "Dictionnaire",
+      "hideDict": "Masquer le dictionnaire",
+      "proDesc": "API phonétique, conjugaisons, exemples et audio sont inclus avec Pro",
+      "proUpgrade": "En savoir plus sur Pro"
+    },
+    "export": {
+      "button": "Exporter",
+      "title": "Exporter le vocabulaire",
+      "description": "Exporter {count} mots dans un fichier",
+      "ankiTitle": "Paquet Anki (.apkg)",
+      "ankiDesc": "Importer dans Anki Desktop avec des modèles de cartes recto/verso",
+      "previewFront": "Recto",
+      "previewBack": "Verso",
+      "previewMeaning": "bienvenue",
+      "previewExample": "Bienvenue en France !",
+      "previewPlay": "Écouter la prononciation",
+      "previewFooter": "HiTCF.com — Entraînement en ligne TCF Canada",
+      "downloadButton": "Télécharger",
+      "exporting": "Exportation en cours…",
+      "cardsReady": "cartes prêtes",
+      "buildingDeck": "Construction du paquet Anki…",
+      "humor0": "Je construis les tableaux de conjugaison à 6 temps… plus complet que votre préparation à l'examen",
+      "humor1": "Je note le genre des noms… le ? la ? Même les Français ne sont pas d'accord",
+      "humor2": "Téléchargement de l'audio de prononciation… le R français est vraiment difficile",
+      "humor3": "Je rédige des phrases d'exemple… garanties idiomatiques",
+      "humor4": "J'organise les catégories grammaticales, l'API, les sens… plus soigné que vos notes manuscrites",
+      "humor5": "Presque terminé, les cartes se mettent bien en place…",
+      "humor6": "Génération de la phonétique API… /ʒə sɥi pʁɛsk fini/",
+      "humor7": "Le français a 14 temps, je n'en ai choisi que 6 — de rien",
+      "doNotClose": "Veuillez ne pas fermer ni actualiser — vous devrez recommencer l'exportation",
+      "errorRateLimit": "Limite quotidienne d'exportation atteinte. Veuillez réessayer demain",
+      "errorWordLimit": "Les utilisateurs gratuits peuvent exporter jusqu'à 1 000 mots à la fois. Passez à Pro pour plus",
+      "errorLogin": "Veuillez vous connecter pour exporter",
+      "errorGeneric": "L'exportation a échoué. Veuillez réessayer plus tard",
+      "platformTip": "Le fichier .apkg exporté s'ouvre avec Anki, une application gratuite et open source de flashcards. La version bureau (Windows / Mac / Linux) et AnkiDroid (Android) sont gratuites ; AnkiMobile (iOS) coûte $24.99 en achat unique. Nous recommandons de réviser sur ordinateur pour la meilleure expérience.",
+      "platformTipLink": "Télécharger depuis ankiweb.net",
+      "platformTipUrl": "https://apps.ankiweb.net"
+    },
+    "nihaoFrench": {
+      "title": "Le nouveau Taxi",
+      "subtitle": "Vocabulaire tiré des manuels Le nouveau Taxi (《你好！法语》), parcourir par niveau/leçon",
+      "heroDesc": "Vocabulaire du manuel — révision par flashcards, exportation Anki, exercices de dictée",
+      "startFlashcard": "Commencer la révision par flashcards",
+      "totalWords": "{count} mots au total",
+      "wordCount": "{total} mots",
+      "wordCountFiltered": "(filtré parmi {total})",
+      "poolTitle": "Vocabulaire Le nouveau Taxi",
+      "poolDesc": "{count} mots",
+      "filterLevel": "Niveau",
+      "filterLesson": "Leçon",
+      "filterTheme": "Thème",
+      "filterAll": "Tous",
+      "lesson": "Leçon {num}",
+      "emptyTitle": "Aucune donnée de vocabulaire pour l'instant",
+      "emptyDesc": "Le pool de vocabulaire Le nouveau Taxi est en cours de construction"
+    },
+    "dictation": {
+      "button": "Dictée",
+      "title": "Mode dictée",
+      "subtitle": "Écoutez et tapez le mot",
+      "emptyTitle": "Aucun mot disponible pour la dictée",
+      "emptyDesc": "Enregistrez d'abord quelques mots",
+      "inputPlaceholder": "Tapez le mot que vous entendez…",
+      "strict": "Mode strict",
+      "lenient": "Mode souple",
+      "strictDesc": "Les accents doivent correspondre",
+      "lenientDesc": "Ignorer les accents",
+      "correct": "Correct !",
+      "incorrect": "Incorrect",
+      "correctAnswer": "Bonne réponse : {word}",
+      "pressEnter": "Appuyez sur Entrée pour continuer",
+      "replayHint": "Appuyez sur R pour réécouter",
+      "resultsTitle": "Dictée terminée",
+      "accuracy": "Précision",
+      "correctCount": "{correct} / {total} correct(s)",
+      "errorList": "Erreurs",
+      "restart": "Recommencer",
+      "yourAnswer": "Votre réponse",
+      "back": "Retour"
+    }
+  },
+  "speakingPractice": {
+    "title": "Entraînement oral",
+    "startPractice": "S'entraîner",
+    "startExam": "Examen blanc",
+    "clickToRecord": "Cliquez sur le microphone pour commencer l'enregistrement",
+    "stopRecording": "Arrêter l'enregistrement",
+    "transcript": "Transcription",
+    "tryAgain": "Réessayer",
+    "noTopicSelected": "Veuillez sélectionner un sujet dans la liste des sujets oraux pour commencer",
+    "accuracy": "Précision",
+    "fluency": "Fluidité",
+    "completeness": "Complétude",
+    "prosody": "Prosodie",
+    "grade": "Note",
+    "wordByWord": "Scores mot par mot",
+    "legendGood": "80+ Bien",
+    "legendFair": "60-79 Passable",
+    "legendPoor": "<60 À améliorer",
+    "saved": "Enregistré",
+    "saving": "Enregistrement...",
+    "viewResults": "Voir les résultats",
+    "allRecords": "Tous les enregistrements",
+    "retryTopic": "Réessayer ce sujet",
+    "backToTests": "Retour aux tests",
+    "examMode": "Mode examen",
+    "practiceMode": "Mode entraînement",
+    "prepPhase": "Temps de préparation",
+    "recordingPhase": "Enregistrement",
+    "startRecordingEarly": "Commencer l'enregistrement en avance",
+    "autoStopNotice": "L'enregistrement s'arrêtera automatiquement à la fin du temps imparti",
+    "examModeDesc": "Examen blanc : préparation chronométrée + enregistrement chronométré, sans reprise",
+    "practiceModeDesc": "Entraînement libre : pas de limite de temps, enregistrez autant de fois que vous le souhaitez",
+    "overall": "Global",
+    "duration": "Durée",
+    "mode": "Mode",
+    "date": "Date",
+    "results": {
+      "title": "Résultats de l'entraînement oral",
+      "topicLabel": "Sujet",
+      "loading": "Chargement des résultats...",
+      "notFound": "Enregistrement d'entraînement introuvable"
+    }
+  },
+  "speakingConversation": {
+    "title": "Conversation avec l'examinateur IA",
+    "aiConversation": "Discussion IA",
+    "noTopic": "Veuillez d'abord sélectionner un sujet",
+    "startFailed": "Impossible de créer la conversation",
+    "beginFailed": "Impossible de démarrer la conversation",
+    "turnFailed": "Échec de l'envoi, veuillez réessayer",
+    "endFailed": "Impossible de terminer la conversation",
+    "prepPhase": "Temps de préparation",
+    "activePhase": "En conversation",
+    "evaluating": "Évaluation IA",
+    "prepDescription": "Lisez les informations du scénario et cliquez sur « Commencer la conversation » quand vous êtes prêt(e). La conversation démarrera automatiquement à la fin du temps de préparation.",
+    "startEarly": "Commencer la conversation en avance",
+    "endConversation": "Terminer la conversation",
+    "youAreSaying": "Vous parlez",
+    "examinerThinking": "L'examinateur répond",
+    "sceneBriefing": "Informations du scénario",
+    "scenario": "Scénario",
+    "yourRole": "Votre rôle",
+    "examinerRole": "Rôle de l'examinateur",
+    "targetDuration": "Durée cible",
+    "evaluation": "Rapport d'évaluation",
+    "overallComment": "Commentaire général",
+    "corrections": "Corrections grammaticales",
+    "vocabSuggestions": "Suggestions de vocabulaire",
+    "conversationReplay": "Réécoute de la conversation",
+    "results": "Résultats de la conversation",
+    "turns": "tours",
+    "backToTests": "Retour aux tests",
+    "retry": "Réessayer",
+    "notFound": "Conversation introuvable",
+    "evaluatingDescription": "L'examinateur IA évalue votre conversation, veuillez patienter...",
+    "evaluationUnavailable": "Évaluation indisponible",
+    "evaluationUnavailableDesc": "L'évaluation IA n'a pas pu être générée. Vous pouvez tenter une réévaluation ou actualiser la page plus tard.",
+    "reEvaluate": "Réévaluer",
+    "reEvaluating": "Réévaluation en cours...",
+    "resuming": "Reprise de la conversation...",
+    "dim": {
+      "prononciation": "Prononciation",
+      "fluidite": "Fluidité",
+      "grammaire": "Grammaire",
+      "vocabulaire": "Vocabulaire",
+      "accomplissement": "Accomplissement de la tâche",
+      "adequation_sociolinguistique": "Adéquation sociolinguistique"
+    }
+  },
+  "community": {
+    "fab": "Communauté",
+    "title": "Rejoignez notre communauté",
+    "description": "Échangez avec d'autres candidats au TCF, partagez des conseils et préparez-vous ensemble",
+    "followXhs": "Suivez-nous sur Xiaohongshu",
+    "addWechat": "Ajouter sur WeChat",
+    "joinWhatsApp": "Rejoindre le groupe WhatsApp"
+  },
+  "pricing": {
+    "title": "8 500+ questions d'entraînement TCF + outils de vocabulaire, les 4 sections",
+    "subtitle": "Entraînement + flashcards + dictée + exportation Anki — préparation systématique pour le CLB 7",
+    "plans": {
+      "monthly": {
+        "name": "Mensuel",
+        "unit": "/ mois",
+        "trialLabel": "Essai gratuit de 7 jours",
+        "valueDesc": "Moins de $0.70/jour pour 8 500+ questions couvrant les 4 sections",
+        "savingsVsTutor": "97 % moins cher qu'un tuteur"
+      },
+      "quarterly": {
+        "name": "Trimestriel",
+        "unit": "/ 3 mois",
+        "equiv": "≈ 13,30 $ US / mois",
+        "badge": "Économisez 33 %",
+        "trialLabel": "Essai gratuit de 14 jours",
+        "valueDesc": "Moins qu'un café par mois pour 8 500+ questions couvrant les 4 sections",
+        "savingsVsTutor": "98 % moins cher qu'un tuteur"
+      },
+      "yearly": {
+        "name": "Annuel",
+        "unit": "/ an",
+        "equiv": "Inclut 2 mois gratuits, ≈ 8,33 $ US / mois",
+        "badge": "Le plus populaire",
+        "trialLabel": "Essai gratuit de 2 mois",
+        "valueDesc": "Un café par mois pour l'entraînement + flashcards + dictée + exportation Anki",
+        "savingsVsTutor": "99 % moins cher qu'un tuteur"
+      }
+    },
+    "mostPopular": "Le plus populaire",
+    "cta": {
+      "redirecting": "Redirection...",
+      "trialSuffix": " — annulez à tout moment, sans risque",
+      "manageSubscription": "Gérer l'abonnement"
+    },
+    "usdNote": "Tous les prix sont en USD · Annulez pendant l'essai sans frais",
+    "trust": {
+      "trial": "Essai gratuit jusqu'à 2 mois",
+      "stripe": "Paiements sécurisés via Stripe",
+      "refund": "Garantie de remboursement sous 48 h",
+      "cancel": "Annulez à tout moment en un clic"
+    },
+    "comparison": {
+      "title": "Gratuit vs",
+      "titlePro": "Pro",
+      "feature": "Fonctionnalité",
+      "free": "Gratuit",
+      "pro": "Pro",
+      "rows": [
+        "Compréhension orale (44 séries · 1 700+ questions · avec audio)",
+        "Compréhension écrite (44 séries · 1 700+ questions)",
+        "Expression orale (696 séries · 3 500+ sujets)",
+        "Expression écrite (515 groupes · 1 500+ tâches)",
+        "Mode examen (chronométré + ordre aléatoire)",
+        "Cahier d'erreurs + révision ciblée",
+        "Entraînement rapide (par niveau / type de question)",
+        "Estimation du niveau CLB + analyse de préparation",
+        "Cahier de vocabulaire + flashcards + dictée",
+        "Exportation Anki + pools de mots des manuels",
+        "Historique d'entraînement + tableau de bord statistique"
+      ],
+      "freeValues": [
+        "Première série",
+        "2 premières séries",
+        "Basique"
+      ]
+    },
+    "faq": {
+      "title": "FAQ",
+      "items": [
+        {
+          "q": "Ai-je besoin d'une carte de crédit pour l'essai gratuit ?",
+          "a": "Oui. Après avoir lié votre carte en toute sécurité via Stripe, votre essai gratuit commence (2 mois pour l'annuel, 14 jours pour le trimestriel, 7 jours pour le mensuel). Annulez à tout moment pendant l'essai — vous ne serez pas débité(e)."
+        },
+        {
+          "q": "Puis-je annuler à tout moment ?",
+          "a": "Oui. Cliquez sur « Gérer l'abonnement » sur la page de tarification pour accéder au portail client Stripe et annuler en un clic — pas besoin de contacter le support. Votre accès Pro reste actif jusqu'à la fin du cycle de facturation en cours."
+        },
+        {
+          "q": "Quels modes de paiement sont acceptés ?",
+          "a": "Nous acceptons Visa, Mastercard, American Express et les autres principales cartes de crédit et de débit, traitées en toute sécurité par Stripe (certifié PCI DSS Niveau 1)."
+        },
+        {
+          "q": "Pouvez-vous garantir que j'atteindrai le CLB 7 ?",
+          "a": "Nous ne garantissons aucun résultat d'examen. HiTCF fournit un entraînement de haute qualité aligné sur le TCF Canada pour vous aider à identifier et améliorer vos points faibles. Les scores finaux dépendent de nombreux facteurs. Consultez notre clause de non-responsabilité pour plus de détails."
+        },
+        {
+          "q": "Ces questions sont-elles identiques à celles du vrai examen ?",
+          "a": "Les questions d'entraînement sont compilées et éditées à partir de matériaux publiquement disponibles, couvrant les niveaux A1 à C2 et formatées pour correspondre au TCF Canada. Cependant, cette plateforme n'est pas officiellement affiliée, et les questions ne sont pas identiques aux items réels de l'examen."
+        },
+        {
+          "q": "Comment demander un remboursement ?",
+          "a": "Vous pouvez demander un remboursement intégral dans les 48 heures suivant votre premier paiement. Les abonnés trimestriels/annuels peuvent obtenir un remboursement au prorata dans les 14 jours. Envoyez simplement un e-mail à support@hitcf.com. Consultez notre politique de remboursement pour plus de détails."
+        }
+      ]
+    },
+    "legal": "En vous abonnant, vous acceptez les",
+    "legalTerms": "Conditions d'utilisation",
+    "legalComma": ", ",
+    "legalPrivacy": "Politique de confidentialité",
+    "legalAnd": " et la ",
+    "legalRefund": "Politique de remboursement",
+    "legalPeriod": "."
+  },
+  "resources": {
+    "hero": {
+      "badge": "Guide de l'examen",
+      "title": "Guide complet du TCF Canada",
+      "subtitle": "Format de l'examen, conversion des scores, ressources d'étude gratuites et centres d'examen en Chine et au Canada — tout en un seul endroit.",
+      "startPractice": "Commencer l'entraînement",
+      "joinCommunity": "Rejoindre la communauté",
+      "communityTitle": "Rejoignez la communauté d'étude",
+      "communityDesc": "Échangez avec d'autres candidats, partagez des conseils et soutenez-vous mutuellement",
+      "followXhs": "Xiaohongshu",
+      "addWechat": "Ajouter sur WeChat",
+      "imageAlt": "Paysage urbain de style français du Vieux-Québec"
+    },
+    "tabs": {
+      "autoRotateHint": "Navigation automatique · Cliquez sur un onglet pour arrêter",
+      "manualHint": "Cliquez sur les onglets pour explorer les différentes sections",
+      "exam": "Format de l'examen",
+      "scores": "Tableau des scores",
+      "resources": "Ressources d'étude",
+      "centers": "Centres d'examen"
+    },
+    "exam": {
+      "title": "Qu'est-ce que le TCF Canada",
+      "desc": "Le TCF Canada (Test de connaissance du français pour le Canada) est un test de compétence en français développé par <b>France Éducation international</b> (anciennement CIEP), conçu spécifiquement pour les demandes d'immigration et de citoyenneté canadiennes.",
+      "purposes": [
+        "Immigration Entrée express",
+        "Programmes des candidats des provinces (PCP)",
+        "Citoyenneté canadienne",
+        "Immigration au Québec (CSQ / PEQ)"
+      ],
+      "validityLabel": "Validité du score",
+      "validityValue": "2 ans",
+      "intervalLabel": "Intervalle minimum entre les tests",
+      "intervalValue": "30 jours",
+      "subjects": [
+        {
+          "name": "Compréhension orale (CO)",
+          "questions": "39 questions à choix multiples",
+          "duration": "35 minutes"
+        },
+        {
+          "name": "Compréhension écrite (CE)",
+          "questions": "39 questions à choix multiples",
+          "duration": "60 minutes"
+        },
+        {
+          "name": "Expression écrite (EE)",
+          "questions": "3 tâches d'écriture",
+          "duration": "60 minutes"
+        },
+        {
+          "name": "Expression orale (EO)",
+          "questions": "3 tâches orales",
+          "duration": "12 minutes"
+        }
+      ],
+      "questionCount": "Questions",
+      "durationLabel": "Durée",
+      "scoreLabel": "Score",
+      "writingTitle": "Expression écrite — 3 Tâches",
+      "speakingTitle": "Expression orale — 3 Tâches",
+      "writingTasks": [
+        "Message court (60-120 mots)",
+        "Lettre formelle / article (120-150 mots)",
+        "Essai argumentatif (120-180 mots)"
+      ],
+      "speakingTasks": [
+        "Entretien dirigé (2 minutes)",
+        "Jeu de rôle (5,5 minutes, dont 2 min de préparation)",
+        "Expression d'un point de vue (4,5 minutes)"
+      ]
+    },
+    "scores": {
+      "title": "Tableau de conversion des scores NCLC / CLB",
+      "subtitle": "Immigration, Réfugiés et Citoyenneté Canada (IRCC) utilise les niveaux NCLC / CLB pour évaluer les compétences linguistiques. Voici la conversion des scores du TCF Canada.",
+      "headers": {
+        "nclc": "NCLC",
+        "co": "Compréhension orale (CO)",
+        "ce": "Compréhension écrite (CE)",
+        "ee": "Expression écrite (EE)",
+        "eo": "Expression orale (EO)"
+      },
+      "footnote": "* Le NCLC 7 est l'<b>exigence linguistique minimale</b> pour la plupart des programmes Entrée express et PCP, et le niveau cible de la majorité des candidats",
+      "nclc7Title": "Pourquoi le NCLC 7 est-il si important ?",
+      "nclc7Desc": "Le NCLC 7 (c'est-à-dire CLB 7) est l'<b>exigence minimale en français</b> pour la plupart des programmes d'immigration économique du Canada. Atteindre le NCLC 7 signifie que vous remplissez le seuil linguistique pour l'Entrée express (CEC, FSW) et la plupart des Programmes des candidats des provinces (PCP). Des niveaux NCLC plus élevés (8, 9, 10) rapportent des <b>points CRS supplémentaires</b> — le NCLC 9 donne le bonus linguistique maximal.",
+      "immigrationTitle": "Exigences des programmes d'immigration courants",
+      "programs": [
+        {
+          "name": "Entrée express (CEC)",
+          "desc": "Catégorie de l'expérience canadienne"
+        },
+        {
+          "name": "Entrée express (FSW)",
+          "desc": "Travailleurs qualifiés (fédéral)"
+        },
+        {
+          "name": "Quebec PEQ",
+          "desc": "Programme de l'expérience québécoise"
+        },
+        {
+          "name": "Citoyenneté",
+          "desc": "Demande de citoyenneté canadienne"
+        }
+      ]
+    },
+    "learn": {
+      "title": "Ressources gratuites pour apprendre le français",
+      "subtitle": "Toutes les ressources gratuites ou officielles pour vous aider à améliorer votre français sous tous les angles",
+      "officialTitle": "Ressources officielles et institutionnelles",
+      "youtubeTitle": "Chaînes YouTube",
+      "toolsTitle": "Outils et autres ressources",
+      "official": [
+        {
+          "desc": "Plateforme gratuite d'apprentissage du français du réseau international de télévision française. Cours vidéo + exercices interactifs pour tous les niveaux de A1 à C1, organisés par thèmes comme la culture, la société et les sciences.",
+          "tag": "A1–C1"
+        },
+        {
+          "desc": "Chaîne d'apprentissage de la radio internationale française. Audio d'actualités françaises réelles avec exercices pratiques. Différentes vitesses d'élocution du lent au normal — excellent matériel de préparation à l'écoute du TCF.",
+          "tag": "Écoute"
+        },
+        {
+          "desc": "« Français Facile » de RFI — journal quotidien d'informations internationales de 10 minutes, clair et au rythme lent. Écoutez chaque jour pour améliorer progressivement votre compréhension orale.",
+          "tag": "Écoute quotidienne"
+        },
+        {
+          "desc": "Site officiel de l'organisme qui gère le test TCF. Consultez les descriptions de l'examen, les critères de notation et les exemples officiels de questions. Indispensable pour comprendre le format réel de l'examen avant de se préparer.",
+          "tag": "Officiel"
+        },
+        {
+          "desc": "Site d'apprentissage du français de longue date avec de nombreux exercices gratuits de grammaire, vocabulaire, compréhension orale et écrite classés par difficulté. Idéal pour construire des bases grammaticales solides.",
+          "tag": "Grammaire"
+        },
+        {
+          "desc": "Plateforme d'apprentissage du français de Hugo avec podcasts, vidéos YouTube et cours. Français naturel abordant des sujets culturels et sociaux. Rythme modéré avec de la profondeur — idéal pour les apprenants intermédiaires souhaitant franchir un palier.",
+          "tag": "B1–B2"
+        }
+      ],
+      "youtube": [
+        {
+          "desc": "Chaîne immersive en français avec un million d'abonnés. Johan ne parle qu'en français sur des sujets du quotidien — pas de règles de grammaire, juste de l'input naturel pour développer l'intuition.",
+          "tag": "B1+ Immersion"
+        },
+        {
+          "desc": "Chaîne de Dylane, native française, axée sur les explications de grammaire et l'enrichissement du vocabulaire. Épisodes courts, clairs et bien organisés.",
+          "tag": "Grammaire et vocabulaire"
+        },
+        {
+          "desc": "Chaîne complète du professeur de français Pierre couvrant grammaire, vocabulaire, prononciation et culture. Audio en français avec sous-titres — parfait pour l'écoute intensive.",
+          "tag": "B1–C1"
+        },
+        {
+          "desc": "Chaîne podcast en français pur de Hugo. Épisodes de 20 à 30 minutes sur des sujets culturels et sociaux. Rythme modéré, idéal pour l'écoute extensive et pour enrichir l'expression orale et écrite.",
+          "tag": "Podcast"
+        },
+        {
+          "desc": "Série d'interviews de rue en France. Du vrai français du quotidien par des locuteurs natifs avec sous-titres français-anglais. Des expressions authentiques et un rythme parlé que vous ne trouverez pas dans les manuels.",
+          "tag": "Français authentique"
+        },
+        {
+          "desc": "Chaîne d'enseignement bilingue anglais-français. Alexa explique la grammaire et la prononciation françaises en anglais. Rythme lent avec de nombreux exemples — parfait pour les débutants complets jusqu'au niveau A2.",
+          "tag": "Débutant"
+        }
+      ],
+      "tools": [
+        {
+          "name": "Bilibili",
+          "desc": "Recherchez « audio manuel français A1 » ou « préparation TCF » — de nombreuses vidéos d'apprentissage du français avec des explications en chinois. La ressource la plus accessible pour les sinophones."
+        },
+        {
+          "name": "Anki",
+          "desc": "Application gratuite et open source de révision par répétition espacée. Téléchargez des paquets de vocabulaire TCF/DELF partagés par la communauté. Des algorithmes scientifiques planifient les révisions pour une bien meilleure rétention à long terme que le bachotage."
+        },
+        {
+          "name": "Duolingo",
+          "desc": "Application ludique d'apprentissage des langues avec des leçons quotidiennes de 10 à 15 minutes. Bien qu'elle n'égale pas la profondeur du TCF, elle est idéale pour maintenir un contact quotidien avec le français."
+        },
+        {
+          "name": "LogicielÉducatif",
+          "desc": "Site de jeux éducatifs français avec des mini-jeux pour pratiquer l'orthographe, la grammaire et le vocabulaire. Conçu pour les élèves français mais tout aussi efficace pour les apprenants."
+        },
+        {
+          "name": "Lawless French",
+          "desc": "Site de référence complet pour la grammaire française couvrant tous les points de grammaire du débutant au avancé avec des phrases d'exemple et des exercices. À utiliser comme un dictionnaire de grammaire."
+        }
+      ]
+    },
+    "centers": {
+      "title": "Centres d'examen en Chine et au Canada",
+      "subtitle": "Les informations sur les centres d'examen peuvent changer. Veuillez vérifier auprès du site officiel de chaque centre.",
+      "website": "Site web",
+      "chinaTitle": "Centres d'examen en Chine",
+      "canadaTitle": "Centres d'examen au Canada",
+      "china": [
+        {
+          "city": "Beijing",
+          "org": "Beijing Language and Culture University",
+          "note": ""
+        },
+        {
+          "city": "Beijing",
+          "org": "Alliance Française Beijing",
+          "note": ""
+        },
+        {
+          "city": "Shanghai",
+          "org": "Alliance Française Shanghai",
+          "note": ""
+        },
+        {
+          "city": "Guangzhou",
+          "org": "Alliance Française Guangzhou",
+          "note": ""
+        },
+        {
+          "city": "Chengdu",
+          "org": "Alliance Française Chengdu",
+          "note": ""
+        },
+        {
+          "city": "Wuhan",
+          "org": "Alliance Française Wuhan",
+          "note": "Inscription via WeChat"
+        },
+        {
+          "city": "Dalian",
+          "org": "Alliance Française Dalian",
+          "note": ""
+        },
+        {
+          "city": "Kunming",
+          "org": "Alliance Française Kunming",
+          "note": "Inscription via WeChat"
+        },
+        {
+          "city": "Shandong",
+          "org": "Alliance Française Shandong",
+          "note": "Nouveau"
+        },
+        {
+          "city": "Nanjing",
+          "org": "Alliance Française Nanjing",
+          "note": "Nouveau"
+        },
+        {
+          "city": "Hong Kong",
+          "org": "Alliance Française Hong Kong",
+          "note": ""
+        }
+      ],
+      "chinaFee": "Frais d'environ <b>¥2 500–2 800</b> (varie selon la ville et l'établissement)",
+      "globalSearch": "Recherche mondiale de centres d'examen : ",
+      "canadaFee": "Frais d'environ <b>390 $ CAD</b>, inscription ouverte chaque trimestre"
+    },
+    "cta": {
+      "title": "Prêt(e) à commencer l'entraînement ?",
+      "subtitle": "8 500+ questions d'entraînement TCF Canada vous attendent",
+      "button": "Commencer l'entraînement"
+    },
+    "disclaimer": {
+      "text": "Les informations ci-dessus sont fournies à titre indicatif uniquement et ne constituent pas des conseils en immigration. Les politiques d'examen et les dispositions des centres d'examen peuvent changer à tout moment. Veuillez vous référer aux sources officielles.",
+      "link": "Clause de non-responsabilité"
+    }
+  },
+  "landing": {
+    "hero": {
+      "badge": "Plateforme d'entraînement TCF Canada",
+      "titleHighlight": "NCLC 7",
+      "titleSuffix": " — C'est en forgeant qu'on devient forgeron",
+      "subtitle1": "Plus de 8 500 questions d'entraînement TCF Canada + outils de vocabulaire, les quatre épreuves couvertes.",
+      "subtitle2": "Exercices, cartes mémoire, dictée, export Anki — une préparation systématique pour atteindre NCLC 7.",
+      "startPractice": "Commencer l'entraînement",
+      "registerCta": "Inscription gratuite, commencez maintenant",
+      "viewPricing": "Voir les tarifs",
+      "imageAlt": "Drapeau canadien flottant sous un ciel bleu",
+      "questionsLabel": "questions",
+      "clb7Target": "Objectif NCLC 7"
+    },
+    "features": [
+      {
+        "title": "Compréhension orale",
+        "desc": "44 séries d'écoute avec plus de 1 700 questions, toutes avec l'audio original"
+      },
+      {
+        "title": "Compréhension écrite",
+        "desc": "44 séries de lecture avec plus de 1 700 questions, couvrant tous les niveaux de A1 à C2"
+      },
+      {
+        "title": "Expression orale",
+        "desc": "696 séries de sujets d'expression orale avec plus de 3 500 sujets Tâche 2 + Tâche 3, partenaire d'entraînement IA"
+      },
+      {
+        "title": "Expression écrite",
+        "desc": "515 séries d'écriture avec plus de 1 500 tâches — messages courts, articles et dissertations, notation IA"
+      }
+    ],
+    "stats": [
+      "questions",
+      "séries de tests",
+      "séries d'écoute avec audio",
+      "précision seuil NCLC 7"
+    ],
+    "featuresBadge": "Quatre épreuves",
+    "featuresTitle": "Couverture complète du TCF",
+    "featuresSubtitle": "Les quatre épreuves en un seul endroit, de A1 à C2",
+    "contentBadge": "Bibliothèque complète",
+    "contentTitle": "Plus de 8 500 questions, de A1 à C2",
+    "contentSubtitle": "Les quatre épreuves couvertes, chaque série d'écoute inclut l'audio original",
+    "banks": [
+      {
+        "label": "Compréhension orale + écrite",
+        "sub": "44 séries de tests · tous les niveaux A1–C2"
+      },
+      {
+        "label": "Sujets d'expression orale",
+        "sub": "696 séries · sujets Tâche 2 + 3"
+      },
+      {
+        "label": "Tâches d'expression écrite",
+        "sub": "515 séries · messages + articles + dissertations"
+      }
+    ],
+    "allLevels": "· Les 6 niveaux couverts",
+    "stepsBadge": "Trois étapes",
+    "stepsTitle": "Comment ça marche",
+    "steps": [
+      {
+        "title": "Inscrivez-vous",
+        "desc": "Inscription rapide par e-mail, sans complications"
+      },
+      {
+        "title": "Choisissez un test",
+        "desc": "Parcourez par épreuve, des séries gratuites disponibles immédiatement"
+      },
+      {
+        "title": "Commencez l'entraînement",
+        "desc": "Mode entraînement pour apprendre, mode examen pour la simulation"
+      }
+    ],
+    "highlights": [
+      {
+        "title": "Objectif NCLC 7",
+        "desc": "Chaque fonctionnalité est conçue autour du NCLC 7 (≈78 % de précision). Le tableau de bord de préparation suit la proximité de vos scores en compréhension orale et écrite par rapport à l'objectif."
+      },
+      {
+        "title": "Cahier d'erreurs + exercice rapide",
+        "desc": "Le système collecte automatiquement les erreurs, organisées par type et niveau. Le mode exercice rapide vous permet de cibler vos points faibles dans vos moments libres."
+      },
+      {
+        "title": "Le mode examen simule le vrai test",
+        "desc": "Chronomètre strict, pas de retour en arrière, scores à la soumission. Habituez-vous à la pression de l'examen avant le jour J."
+      }
+    ],
+    "svgReached": "Atteint",
+    "svgRemaining": "restant",
+    "pricingBadge": "Tarifs",
+    "pricingTitle": "Des tarifs simples et transparents",
+    "pricingSubtitle": "Séries gratuites à tout moment, abonnez-vous pour tout débloquer",
+    "freeName": "Gratuit",
+    "freeUnit": "/ pour toujours",
+    "freeFeature1": "Entraînement sur les séries gratuites",
+    "freeFeature2": "Modes entraînement + examen",
+    "freeStart": "Commencer",
+    "freeRegister": "Inscription gratuite",
+    "proBadge": "Recommandé",
+    "proTrial": "2 mois gratuits",
+    "proTrialUnit": "d'essai (annuel)",
+    "proFeatures": [
+      "Bibliothèque complète écoute + lecture",
+      "Mode examen (chronométré + noté)",
+      "Cahier d'erreurs + exercice rapide",
+      "Entraînement IA expression orale + écrite",
+      "Vocabulaire + cartes mémoire + dictée + export Anki"
+    ],
+    "proGoToTests": "Voir les tests",
+    "proStartTrial": "Commencer l'essai gratuit",
+    "whyBadge": "Pourquoi HiTCF",
+    "whyTitle": "Plus qu'une banque de questions — un système de préparation complet",
+    "whySubtitle": "Entraînement → erreurs → vocabulaire → cartes mémoire → entraînement, répétez jusqu'à être prêt",
+    "guideBadge": "Infos examen",
+    "guideTitle": "Scores TCF Canada vs niveaux NCLC",
+    "guideSubtitle": "Tableau de conversion des scores linguistiques IRCC",
+    "guideRows": [
+      "Exigence minimale pour l'immigration (EE / PNP)",
+      "Points bonus EE, priorité pour certains PNP",
+      "Bonus linguistique maximum EE",
+      "Niveau le plus élevé"
+    ],
+    "guideFootnote": "NCLC 7 ≈ 78 % de précision · C'est l'exigence linguistique minimale pour la plupart des programmes EE et PNP",
+    "guideLink": "Voir le guide complet de l'examen",
+    "trust": [
+      {
+        "label": "Essai gratuit prolongé",
+        "desc": "2 mois (annuel) · 7 jours (mensuel/trimestriel)"
+      },
+      {
+        "label": "Paiement sécurisé",
+        "desc": "Informations bancaires gérées par Stripe"
+      },
+      {
+        "label": "Premier paiement remboursable",
+        "desc": "Remboursement intégral sous 48 heures"
+      },
+      {
+        "label": "Aucun frais surprise",
+        "desc": "Annulation pendant l'essai = aucun coût"
+      }
+    ],
+    "faqTitle": "FAQ",
+    "faq": [
+      {
+        "q": "HiTCF est-elle une plateforme officielle ?",
+        "a": "Non. HiTCF est une plateforme d'entraînement tierce exploitée de manière indépendante, sans affiliation avec France Éducation international ni IRCC. Les questions sont compilées à partir de documents publics et formatées selon le TCF Canada, mais ne sont pas identiques aux éléments de l'examen réel."
+      },
+      {
+        "q": "Que puis-je faire avec la version gratuite ?",
+        "a": "La version gratuite inclut l'accès complet à la première série d'écoute et aux 2 premières séries de lecture, en modes entraînement et examen. Tentatives illimitées, pour toujours."
+      },
+      {
+        "q": "Quels sont les avantages de Pro ?",
+        "a": "Débloquez les plus de 8 500 questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, le carnet de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Le plan annuel comprend 2 mois d'essai gratuit — annulation possible à tout moment."
+      },
+      {
+        "q": "Pouvez-vous garantir que j'atteindrai le NCLC 7 ?",
+        "a": "Non. HiTCF fournit un entraînement de haute qualité aligné sur le TCF Canada pour vous aider à identifier et améliorer vos points faibles. Les scores finaux dépendent de nombreux facteurs — nous ne garantissons aucun résultat d'examen."
+      },
+      {
+        "q": "Comment puis-je m'entraîner à l'expression orale et écrite ?",
+        "a": "Les sections d'expression orale et écrite proposent des sujets et tâches d'examen réels, avec la possibilité d'accéder à ChatGPT pour la pratique de conversation IA et la correction de rédactions. C'est comme avoir un tuteur IA gratuit."
+      },
+      {
+        "q": "Comment demander un remboursement ?",
+        "a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés trimestriels/annuels peuvent obtenir un remboursement proportionnel dans les 14 jours. Envoyez un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
+      }
+    ],
+    "ctaImageAlt": "Panorama de la Colline du Parlement et de la rivière des Outaouais",
+    "ctaTitle": "À quel point êtes-vous proche du NCLC 7 ?",
+    "ctaSubtitle": "Essayez les séries gratuites et voyez où vous en êtes",
+    "ctaContinue": "Continuer l'entraînement",
+    "ctaRegister": "Inscription gratuite, testez votre niveau"
+  },
+  "meta": {
+    "siteTitle": "HiTCF — Plateforme d'entraînement en ligne TCF Canada",
+    "titleTemplate": "%s | HiTCF",
+    "siteDescription": "Plus de 8 500 questions d'entraînement TCF Canada + outils de vocabulaire couvrant compréhension orale, compréhension écrite, expression orale et écrite. Cartes mémoire, dictée, export Anki — atteignez le NCLC 7.",
+    "ogTitle": "HiTCF — Entraînez-vous pour atteindre le NCLC 7",
+    "ogDescription": "Plus de 8 500 questions TCF Canada + carnet de vocabulaire + export Anki. Entraînement, cartes mémoire et dictée en un seul endroit.",
+    "ogImageAlt": "HiTCF — Plateforme d'entraînement en ligne TCF Canada",
+    "keywords": "TCF Canada,NCLC 7,entraînement TCF,compréhension orale TCF,compréhension écrite TCF,préparation TCF Canada,français immigration Canada,simulation TCF en ligne,questions TCF,vocabulaire TCF,Anki français,cartes mémoire français",
+    "home": {
+      "title": "HiTCF — Entraînez-vous pour atteindre le NCLC 7 | Entraînement en ligne TCF Canada",
+      "description": "Plus de 8 500 questions d'entraînement TCF Canada couvrant compréhension orale, compréhension écrite, expression orale et écrite. Mode entraînement + mode examen + cahier d'erreurs — préparez-vous systématiquement au NCLC 7."
+    },
+    "tests": {
+      "title": "Banque de questions TCF Canada · Plus de 8 500 questions de compréhension orale, écrite, expression orale et écrite",
+      "description": "Banque complète de questions simulées TCF Canada pour la compréhension orale, écrite, l'expression orale et écrite. 42 séries d'écoute avec audio, 44 séries de lecture, couvrant les niveaux A1–C2."
+    },
+    "dashboard": {
+      "title": "Mon tableau de bord · Préparation NCLC 7 et statistiques d'entraînement",
+      "description": "Consultez votre préparation au NCLC 7, la précision en compréhension orale et écrite, les statistiques d'entraînement et les jours consécutifs. Suivez votre progression par rapport à l'objectif de 78 % de précision."
+    },
+    "pricing": {
+      "title": "Tarifs · 2 mois d'essai gratuit sur le plan annuel pour toutes les questions TCF + outils de vocabulaire",
+      "description": "Tarifs HiTCF : séries gratuites pour commencer, Pro débloque les plus de 8 500 questions, le mode examen, le cahier d'erreurs, les cartes mémoire de vocabulaire, la dictée et l'export Anki. 2 mois d'essai gratuit sur le plan annuel, annulation à tout moment."
+    },
+    "speedDrill": {
+      "title": "Exercice rapide · Entraînement ciblé par niveau et type de question",
+      "description": "Exercice rapide TCF Canada : choisissez compréhension orale ou écrite, filtrez par niveau A1–C2, et entraînez-vous efficacement en sessions courtes. Passe automatiquement les questions terminées pour se concentrer sur les points faibles."
+    },
+    "wrongAnswers": {
+      "title": "Cahier d'erreurs · Suivez et surmontez vos points faibles",
+      "description": "Collecte automatique des erreurs en compréhension orale et écrite TCF Canada. Filtrez par type, niveau et maîtrise. Générez des sessions de révision ciblées pour surmonter vos points faibles."
+    },
+    "history": {
+      "title": "Historique d'entraînement · Tous les résultats d'entraînement et d'examen TCF",
+      "description": "Consultez tous vos résultats d'entraînement et d'examen TCF Canada, y compris les scores, les estimations de niveau NCLC et le temps passé. Suivez la progression et les tendances de scores."
+    },
+    "account": {
+      "title": "Paramètres du compte",
+      "description": "Gérez votre profil, votre mot de passe et votre abonnement."
+    },
+    "vocabulary": {
+      "title": "Carnet de vocabulaire · Outils de vocabulaire français TCF Canada",
+      "description": "Outils de vocabulaire français TCF Canada : enregistrez les mots de vos entraînements, révisez avec des cartes mémoire, des exercices de dictée et l'export Anki. Organisé par compétence et niveau."
+    },
+    "vocabularyMySaved": {
+      "title": "Mes mots enregistrés · Mots français issus de l'entraînement",
+      "description": "Consultez les mots français enregistrés lors de vos entraînements TCF Canada en compréhension orale, écrite, expression orale et écrite. Filtrez par compétence, révisez avec des cartes mémoire, la dictée et l'export Anki."
+    },
+    "vocabularyNihao": {
+      "title": "Vocabulaire Nihao français · Mots de base français A1-B2",
+      "description": "Vocabulaire du manuel Nihao français couvrant les niveaux A1-B2, organisé par leçon et thème. Révision par cartes mémoire, exercices de dictée et export Anki pour débutants."
+    },
+    "speakingPractice": {
+      "title": "Entraînement à la prononciation TCF · Évaluation vocale IA",
+      "description": "Entraînement à la prononciation pour l'expression orale TCF Canada : lisez des textes français à voix haute, obtenez une évaluation IA en temps réel de la précision et de la fluidité. Correction au niveau des phonèmes pour une amélioration rapide."
+    },
+    "speakingConversation": {
+      "title": "Conversation IA expression orale TCF · Simulation de dialogue d'examinateur Tâche 2/3",
+      "description": "Entraînement à la conversation IA pour l'expression orale TCF Canada : simulez les Tâche 2 et Tâche 3 de l'examen réel avec un examinateur IA. Notation sur 6 dimensions couvrant prononciation, grammaire, vocabulaire et réalisation de la tâche."
+    },
+    "resources": {
+      "title": "Guide de l'examen TCF Canada · Tableaux de scores, ressources d'étude et centres d'examen",
+      "description": "Guide complet du TCF Canada : format et contenu de l'examen, tableaux de conversion des scores NCLC/CLB, ressources gratuites pour étudier le français, et informations sur les centres d'examen en Chine et au Canada.",
+      "keywords": "examen TCF Canada,tableau scores CLB,conversion NCLC,centres examen TCF,ressources étude français,inscription TCF Canada,test français immigration Canada"
+    },
+    "terms": {
+      "title": "Conditions d'utilisation · Accord utilisateur et règles d'abonnement",
+      "description": "Conditions d'utilisation de HiTCF : inscription au compte, règles de renouvellement automatique de l'abonnement Pro, directives d'utilisation du contenu, propriété intellectuelle et limitations de responsabilité."
+    },
+    "privacy": {
+      "title": "Politique de confidentialité · Collecte de données et conformité PIPEDA",
+      "description": "Politique de confidentialité de HiTCF : comment nous vérifions l'identité via Cloudflare Access, traitons les paiements via Stripe, et gérons le stockage des données, les cookies et vos droits PIPEDA."
+    },
+    "refund": {
+      "title": "Politique de remboursement · Essai gratuit et procédure de remboursement",
+      "description": "Politique de remboursement de HiTCF : essai gratuit (2 mois pour le plan annuel, 7 jours pour le mensuel/trimestriel) annulation à tout moment. Remboursement intégral dans les 48 heures suivant le premier paiement, remboursement proportionnel dans les 14 jours pour le trimestriel/annuel. Remboursement via Stripe."
+    },
+    "disclaimer": {
+      "title": "Avertissement · Sources du contenu et avis sur les résultats d'examen",
+      "description": "Avertissement de HiTCF : plateforme d'entraînement tierce indépendante, sans affiliation avec les organismes officiels du TCF. Les estimations de niveau NCLC sont fournies à titre indicatif uniquement. Contenu issu de documents publics."
+    }
+  },
+  "disclaimerPage": {
+    "heading": "Avertissement",
+    "lastUpdated": "Dernière mise à jour : 23 février 2026",
+    "notOfficial": {
+      "title": "1. Plateforme non officielle",
+      "p1": "HiTCF est une <b>plateforme d'entraînement tierce exploitée de manière indépendante</b>. La Plateforme n'a <b>aucune affiliation, partenariat ou autorisation</b> avec France Éducation international (anciennement CIEP), l'organisme officiel d'examen du TCF, Immigration, Réfugiés et Citoyenneté Canada (IRCC), ou tout autre organisme gouvernemental.",
+      "p2": "« TCF » (Test de connaissance du français) et « TCF Canada » sont des marques déposées de France Éducation international. Leur utilisation sur cette Plateforme vise uniquement à indiquer le format cible de notre contenu d'entraînement."
+    },
+    "noGuarantee": {
+      "title": "2. Aucune garantie de résultats d'examen",
+      "p1": "<b>L'utilisation de cette Plateforme ne garantit pas que vous réussirez l'examen TCF Canada ou que vous atteindrez un niveau NCLC spécifique.</b>",
+      "li1": "Les « estimations de niveau NCLC », « évaluations de préparation » et « niveaux prédits » affichés sont basés sur l'analyse statistique de vos données d'entraînement et sont fournis <b>à titre indicatif uniquement</b> — ils ne correspondent pas et ne prédisent pas les scores réels du TCF.",
+      "li2": "Les résultats réels au TCF dépendent de nombreux facteurs, incluant mais sans s'y limiter votre état le jour de l'examen, la sélection des questions et les critères de notation, tous hors du contrôle de cette Plateforme.",
+      "li3": "Les formules promotionnelles telles que « Entraînez-vous pour atteindre le NCLC 7 » visent à encourager un entraînement régulier et <b>ne constituent aucune forme de promesse de score ou de garantie de résultat</b>."
+    },
+    "contentSources": {
+      "title": "3. Sources du contenu et exactitude",
+      "li1": "Les questions d'entraînement, fichiers audio et documents associés sur cette Plateforme sont <b>compilés et édités à partir de sources Internet publiquement accessibles</b>. La propriété intellectuelle du contenu original appartient à ses détenteurs de droits respectifs.",
+      "li2": "Le contenu a été organisé et révisé, mais nous <b>ne garantissons pas une exactitude, une exhaustivité ou une correction à 100 %</b>, et nous ne garantissons pas la concordance avec le format, la difficulté ou le contenu de l'examen TCF réel.",
+      "li3": "Si un détenteur de droits estime que du contenu sur cette Plateforme porte atteinte à ses droits, veuillez contacter <email>support@hitcf.com</email> et nous y remédierons rapidement après vérification (y compris la suppression du contenu concerné).",
+      "li4": "Si vous constatez des erreurs de contenu, nous apprécions également vos retours via l'adresse ci-dessus et les corrigerons dès que possible."
+    },
+    "notImmigrationAdvice": {
+      "title": "4. Ne constitue pas un conseil en immigration",
+      "p1": "Toute information fournie sur cette Plateforme (y compris les explications des niveaux NCLC, la terminologie liée à l'immigration, etc.) <b>ne constitue pas un conseil en immigration, un avis juridique ou une consultation professionnelle</b>. Les demandes d'immigration impliquent des réglementations et politiques complexes ; nous recommandons de consulter un consultant en immigration agréé (CRIC) ou un avocat en immigration."
+    },
+    "thirdPartyLinks": {
+      "title": "5. Liens vers des tiers",
+      "p1": "Cette Plateforme peut contenir des liens vers des sites web ou services tiers (tels que ChatGPT, WhatsApp, etc.). Nous ne sommes pas responsables du contenu de tiers, et l'accès à ces liens se fait aux propres risques de l'utilisateur."
+    },
+    "userReviews": {
+      "title": "6. Avis et témoignages d'utilisateurs",
+      "p1": "Les avis d'utilisateurs et partages de scores affichés sur la Plateforme représentent des expériences individuelles et <b>n'impliquent pas que tous les utilisateurs obtiendront les mêmes résultats</b>. Le parcours, l'investissement en temps et les méthodes d'étude de chaque utilisateur diffèrent, et les résultats varient en conséquence."
+    },
+    "serviceAvailability": {
+      "title": "7. Disponibilité du service",
+      "p1": "Nous nous efforçons de maintenir la disponibilité de la Plateforme 24h/24 et 7j/7, mais ne garantissons pas un service ininterrompu ou exempt d'erreurs. Nous ne sommes pas responsables des interruptions de service dues à la maintenance, aux mises à niveau, aux problèmes de réseau ou aux cas de force majeure."
+    },
+    "liability": {
+      "title": "8. Limitation de responsabilité",
+      "p1": "Dans toute la mesure permise par la loi, HiTCF et ses exploitants ne sauraient être tenus responsables de toute perte résultant de l'utilisation ou de la confiance accordée au contenu de la Plateforme, y compris mais sans s'y limiter :",
+      "li1": "L'échec à un examen ou le non-atteinte du niveau attendu ;",
+      "li2": "Le refus ou le retard d'une demande d'immigration ;",
+      "li3": "Les conséquences de toute décision prise sur la base des estimations de la Plateforme."
+    },
+    "contact": {
+      "title": "9. Contact",
+      "p1": "Si vous avez des questions concernant cet Avertissement, veuillez contacter : <email>support@hitcf.com</email>"
+    },
+    "footerLinks": "Autres documents juridiques : <terms>Conditions d'utilisation</terms> · <privacy>Politique de confidentialité</privacy> · <refund>Politique de remboursement</refund>"
+  },
+  "termsPage": {
+    "heading": "Conditions d'utilisation",
+    "lastUpdated": "Dernière mise à jour : 23 février 2026",
+    "intro": "Bienvenue sur HiTCF (ci-après dénommée « la Plateforme » ou « nous »). La Plateforme est exploitée par HiTCF, enregistrée au Canada. En utilisant la Plateforme, vous acceptez les conditions suivantes. Si vous n'êtes pas d'accord, veuillez cesser d'utiliser la Plateforme.",
+    "service": {
+      "title": "1. Description du service",
+      "p1": "HiTCF est une plateforme d'entraînement en ligne au TCF Canada qui propose des questions d'entraînement simulées pour la compréhension orale, la compréhension écrite, l'expression orale et l'expression écrite. Le contenu fourni est uniquement à des fins d'entraînement et de référence et <b>ne représente ni ne garantit les scores ou résultats réels de l'examen TCF Canada</b>."
+    },
+    "account": {
+      "title": "2. Compte et inscription",
+      "li1": "Les utilisateurs s'authentifient via une inscription par e-mail. Vous êtes responsable de la sécurité de vos identifiants de connexion.",
+      "li2": "Chaque compte est à usage personnel uniquement et ne peut être transféré, prêté ou partagé avec des tiers.",
+      "li3": "En cas d'utilisation anormale, d'abus ou de violation de ces conditions, nous nous réservons le droit de suspendre ou de résilier le compte."
+    },
+    "subscription": {
+      "title": "3. Abonnement et paiement",
+      "li1": "La Plateforme propose du contenu gratuit et des services d'abonnement payant (Pro). Les paiements sont traités par Stripe.",
+      "li2": "Les abonnements sont <b>à renouvellement automatique</b>. Sauf annulation avant la fin du cycle de facturation en cours, vous serez automatiquement facturé pour le cycle suivant.",
+      "li3": "Vous pouvez annuler votre abonnement à tout moment via le portail client Stripe. Après l'annulation, votre période en cours reste active.",
+      "li4": "Les prix peuvent changer. Nous vous informerons par e-mail avant tout changement de prix, qui prendra effet au prochain renouvellement.",
+      "li5": "Pour les détails de remboursement, veuillez consulter notre <refund>Politique de remboursement</refund>."
+    },
+    "trial": {
+      "title": "4. Essai gratuit",
+      "p1": "Nous pouvons offrir une période d'essai gratuit. À la fin de l'essai, si vous n'avez pas annulé, vous serez automatiquement facturé selon le plan choisi. Chaque utilisateur n'a droit qu'à un seul essai gratuit."
+    },
+    "acceptableUse": {
+      "title": "5. Utilisation acceptable",
+      "p1": "Vous vous engagez à ne pas :",
+      "li1": "Utiliser des moyens automatisés (robots, scripts, etc.) pour extraire, copier ou télécharger le contenu de la Plateforme ;",
+      "li2": "Redistribuer, vendre ou utiliser commercialement le contenu de la Plateforme (questions, audio, explications, etc.) ;",
+      "li3": "Tenter de contourner les restrictions de paiement, falsifier des données, ou procéder à de l'ingénierie inverse ou des tests de pénétration sur la Plateforme ;",
+      "li4": "Interférer avec le fonctionnement normal de la Plateforme ou l'expérience des autres utilisateurs."
+    },
+    "ip": {
+      "title": "6. Propriété intellectuelle",
+      "li1": "La conception du site web, l'image de marque, l'interface utilisateur et le code original de la Plateforme sont la propriété de HiTCF et protégés par le droit d'auteur. Ils ne peuvent être copiés, modifiés ou distribués sans autorisation écrite.",
+      "li2": "Les questions d'entraînement, fichiers audio et documents associés sont compilés et édités à partir de sources publiquement accessibles. La propriété intellectuelle du contenu original appartient à ses détenteurs de droits respectifs. Si un détenteur de droits estime que du contenu sur cette Plateforme porte atteinte à ses droits, veuillez contacter <email>support@hitcf.com</email> et nous y remédierons rapidement après vérification.",
+      "li3": "Les utilisateurs ne sont pas autorisés à extraire, copier ou redistribuer tout contenu de cette Plateforme à des fins commerciales, quelle que soit sa source originale."
+    },
+    "disclaimer": {
+      "title": "7. Avertissement",
+      "li1": "Le contenu de la Plateforme est fourni uniquement à des fins d'apprentissage et de référence et <b>ne constitue aucune forme de garantie de score d'examen, de conseil en immigration ou d'avis juridique</b>.",
+      "li2": "Les « estimations de niveau NCLC » et « évaluations de préparation » fournies sont basées sur l'analyse statistique des données d'entraînement et sont <b>fournies à titre indicatif uniquement — elles ne représentent pas les scores réels de l'examen</b>.",
+      "li3": "Nous nous efforçons d'assurer l'exactitude du contenu mais ne sommes pas responsables des erreurs ou omissions dans le contenu des questions.",
+      "li4": "Pour l'avertissement complet, veuillez consulter notre page <disclaimerLink>Avertissement</disclaimerLink>."
+    },
+    "serviceChanges": {
+      "title": "8. Modifications et interruptions du service",
+      "p1": "Nous nous réservons le droit de modifier, suspendre ou interrompre tout ou partie du service sans préavis. Nous ne sommes pas responsables des pertes causées par des interruptions de service. Nous ferons des efforts raisonnables pour informer à l'avance des changements importants."
+    },
+    "liability": {
+      "title": "9. Limitation de responsabilité",
+      "p1": "Dans toute la mesure permise par la loi, HiTCF et ses exploitants ne sauraient être tenus responsables de tout dommage direct, indirect, accessoire, spécial ou consécutif résultant de l'utilisation ou de l'impossibilité d'utiliser la Plateforme, y compris mais sans s'y limiter les résultats d'examen insatisfaisants, les issues de demandes d'immigration ou la perte de données."
+    },
+    "governing": {
+      "title": "10. Droit applicable et résolution des litiges",
+      "p1": "Les présentes conditions sont régies par les lois du Canada. Tout litige découlant de ces conditions ou de l'utilisation de la Plateforme sera d'abord résolu par une négociation de bonne foi ; en cas d'échec de la négociation, il sera soumis à un tribunal compétent au Canada."
+    },
+    "modifications": {
+      "title": "11. Modifications des conditions",
+      "p1": "Nous nous réservons le droit de modifier ces conditions à tout moment. Les conditions mises à jour seront publiées sur cette page avec une date « Dernière mise à jour » actualisée. La poursuite de l'utilisation de la Plateforme vaut acceptation des conditions modifiées. Nous vous informerons par e-mail des changements importants."
+    },
+    "contact": {
+      "title": "12. Contact",
+      "p1": "Si vous avez des questions concernant ces conditions, veuillez contacter : <email>support@hitcf.com</email>"
+    }
+  },
+  "privacyPage": {
+    "heading": "Politique de confidentialité",
+    "lastUpdated": "Dernière mise à jour : 23 février 2026",
+    "intro": "HiTCF (ci-après dénommée « la Plateforme » ou « nous ») accorde une grande importance à votre vie privée. Cette Politique de confidentialité explique comment nous collectons, utilisons, stockons et protégeons vos informations personnelles, conformément à la Loi sur la protection des renseignements personnels et les documents électroniques du Canada (PIPEDA).",
+    "infoCollect": {
+      "title": "1. Informations que nous collectons",
+      "authTitle": "1.1 Informations d'authentification",
+      "authP1": "Les utilisateurs s'inscrivent et se connectent par e-mail. Par ce processus, nous collectons :",
+      "authLi1": "Adresse e-mail",
+      "authLi2": "Nom (fourni lors de l'inscription)",
+      "payTitle": "1.2 Informations de paiement",
+      "payP1": "Les abonnements payants sont traités par Stripe. Nous ne stockons <b>pas</b> directement vos numéros de carte de crédit ou informations bancaires. Stripe, en tant que processeur de paiement certifié PCI DSS Niveau 1, gère indépendamment vos données de paiement. Nous stockons uniquement :",
+      "payLi1": "Identifiant client Stripe",
+      "payLi2": "Statut de l'abonnement et date d'expiration",
+      "payLi3": "Enregistrements d'événements de paiement (succès/échec, pas de numéros de carte)",
+      "usageTitle": "1.3 Données d'utilisation",
+      "usageP1": "Lors de votre utilisation de la Plateforme, nous collectons automatiquement :",
+      "usageLi1": "Enregistrements d'entraînement et d'examen (réponses, scores, temps passé)",
+      "usageLi2": "Enregistrements d'erreurs",
+      "usageLi3": "Statistiques d'entraînement (taux de précision, jours consécutifs, etc.)",
+      "cookieTitle": "1.4 Cookies et technologies similaires",
+      "cookieP1": "La Plateforme utilise les cookies ou technologies similaires suivants :",
+      "cookieLi1": "<b>Jeton d'authentification</b> : Utilisé pour la vérification d'identité et le maintien de l'état de connexion (cookie essentiel)",
+      "cookieLi2": "<b>Préférence de langue</b> : Utilisé pour mémoriser votre préférence linguistique (cookie essentiel)",
+      "cookieP2": "La Plateforme <b>n'utilise pas actuellement</b> d'outils d'analyse tiers (tels que Google Analytics) ni de cookies de suivi publicitaire. Si de tels outils sont introduits à l'avenir, cette politique sera mise à jour et les utilisateurs en seront informés."
+    },
+    "purpose": {
+      "title": "2. Finalité de l'utilisation des informations",
+      "p1": "Les informations personnelles que nous collectons sont utilisées uniquement pour :",
+      "li1": "Fournir et maintenir les services de la Plateforme (authentification, enregistrements d'entraînement, statistiques de performance)",
+      "li2": "Traiter les paiements d'abonnement et gérer le statut du compte",
+      "li3": "Vous envoyer des notifications importantes liées au compte (modifications d'abonnement, mises à jour des conditions)",
+      "li4": "Améliorer les fonctionnalités de la Plateforme et l'expérience utilisateur",
+      "li5": "Prévenir la fraude et les abus",
+      "p2": "Nous <b>n'utiliserons pas</b> vos informations personnelles à des fins publicitaires et ne les vendrons pas à des tiers."
+    },
+    "storage": {
+      "title": "3. Stockage et sécurité des données",
+      "li1": "Les données des utilisateurs sont stockées dans une base de données MongoDB déployée dans un environnement de serveur cloud sécurisé.",
+      "li2": "Les fichiers audio sont hébergés sur Microsoft Azure Blob Storage.",
+      "li3": "Toutes les transmissions de données sont chiffrées via HTTPS/TLS.",
+      "li4": "Nous prenons des mesures techniques et organisationnelles raisonnables pour protéger vos données, mais aucune transmission Internet ni stockage électronique n'est sécurisé à 100 %."
+    },
+    "thirdParty": {
+      "title": "4. Services tiers",
+      "p1": "La Plateforme utilise les services tiers suivants, chacun ayant sa propre politique de confidentialité :",
+      "thService": "Service",
+      "thPurpose": "Finalité",
+      "thData": "Type de données",
+      "stripe": "Traitement des paiements",
+      "stripeData": "Informations de paiement, statut d'abonnement",
+      "azure": "Stockage de fichiers audio",
+      "azureData": "Fichiers audio (pas d'informations personnelles)",
+      "vercel": "Hébergement du site web",
+      "vercelData": "Journaux d'accès"
+    },
+    "retention": {
+      "title": "5. Conservation des données",
+      "li1": "Informations de compte : Conservées pendant la durée de votre compte.",
+      "li2": "Enregistrements d'entraînement : Conservés pendant la durée de votre compte. Si vous supprimez votre compte, les données associées seront supprimées dans un délai de 30 jours.",
+      "li3": "Enregistrements de paiement : Peuvent être conservés jusqu'à 7 ans conformément aux obligations fiscales et légales."
+    },
+    "rights": {
+      "title": "6. Vos droits",
+      "p1": "En vertu de PIPEDA et des lois applicables, vous avez le droit de :",
+      "li1": "<b>Accès</b> : Consulter les informations personnelles que nous détenons à votre sujet.",
+      "li2": "<b>Rectification</b> : Demander la correction d'informations personnelles inexactes.",
+      "li3": "<b>Suppression</b> : Demander la suppression de vos informations personnelles (sous réserve des obligations légales de conservation).",
+      "li4": "<b>Export des données</b> : Obtenir une copie de vos données d'entraînement.",
+      "li5": "<b>Retrait du consentement</b> : Retirer votre consentement au traitement des données (ce qui peut entraîner l'impossibilité d'utiliser certains services).",
+      "p2": "Pour exercer ces droits, veuillez contacter : <email>support@hitcf.com</email>. Nous répondrons à votre demande dans un délai de 30 jours."
+    },
+    "minors": {
+      "title": "7. Mineurs",
+      "p1": "La Plateforme n'est pas destinée aux personnes de moins de 16 ans. Nous ne collectons pas sciemment d'informations personnelles auprès de mineurs. Si nous découvrons que nous avons collecté des informations d'un mineur, elles seront immédiatement supprimées."
+    },
+    "crossBorder": {
+      "title": "8. Transferts transfrontaliers de données",
+      "p1": "Vos données peuvent être stockées et traitées sur des serveurs situés en dehors du Canada (y compris mais sans s'y limiter aux États-Unis, en raison de l'utilisation de Stripe, Azure et services similaires). Nous nous assurons que ces prestataires de services maintiennent des mesures de protection des données adéquates."
+    },
+    "policyChanges": {
+      "title": "9. Modifications de la politique",
+      "p1": "Nous pouvons mettre à jour cette Politique de confidentialité de temps à autre. Les politiques mises à jour seront publiées sur cette page avec une date « Dernière mise à jour » actualisée. Pour les changements importants, nous vous informerons par e-mail."
+    },
+    "contact": {
+      "title": "10. Contact",
+      "p1": "Si vous avez des questions concernant cette Politique de confidentialité ou si vous souhaitez exercer vos droits en matière de données, veuillez contacter :",
+      "li1": "E-mail : <email>support@hitcf.com</email>"
+    }
+  },
+  "refundPage": {
+    "heading": "Politique de remboursement",
+    "lastUpdated": "Dernière mise à jour : 23 février 2026",
+    "intro": "Merci d'avoir choisi HiTCF. Cette politique de remboursement s'applique à tous les services d'abonnement payant achetés via la Plateforme.",
+    "freeTrial": {
+      "title": "1. Essai gratuit",
+      "li1": "Tous les nouveaux utilisateurs ont droit à un essai gratuit (<b>2 mois pour le plan annuel</b>, 7 jours pour les plans mensuel/trimestriel). Aucun frais pendant la période d'essai.",
+      "li2": "Vous pouvez annuler à tout moment pendant l'essai sans frais.",
+      "li3": "À la fin de l'essai, si vous n'avez pas annulé, vous serez automatiquement facturé selon le plan choisi.",
+      "li4": "Chaque utilisateur (par adresse e-mail) n'a droit qu'à un seul essai gratuit."
+    },
+    "cancellation": {
+      "title": "2. Annulation d'abonnement",
+      "li1": "Vous pouvez annuler votre abonnement à tout moment via le bouton « Gérer l'abonnement » sur la <pricing>page Tarifs</pricing>, qui ouvre le portail client Stripe.",
+      "li2": "Après l'annulation, votre accès Pro reste actif jusqu'à la fin de la période de facturation en cours, après quoi vous serez rétrogradé en utilisateur gratuit.",
+      "li3": "L'annulation d'un abonnement <b>ne génère pas</b> automatiquement un remboursement."
+    },
+    "conditions": {
+      "title": "3. Conditions de remboursement",
+      "p1": "Les situations suivantes donnent droit à un remboursement :",
+      "fullTitle": "3.1 Remboursement intégral",
+      "fullLi1": "Dans les <b>48 heures</b> suivant votre premier paiement, si vous n'êtes pas satisfait du service.",
+      "fullLi2": "Si un problème technique de la Plateforme (tel que des échecs de connexion prolongés ou des pannes généralisées de fonctionnalités) vous empêche d'utiliser le service, et que nous ne parvenons pas à le résoudre dans les 72 heures.",
+      "fullLi3": "Charges en double ou erronées.",
+      "proTitle": "3.2 Remboursement proportionnel",
+      "proLi1": "Les abonnés trimestriels ou annuels qui demandent un remboursement dans les <b>14 jours</b> suivant le paiement peuvent recevoir un remboursement proportionnel pour les jours non utilisés.",
+      "noTitle": "3.3 Non remboursable",
+      "noLi1": "Abonnés mensuels demandant un remboursement après les 48 premières heures.",
+      "noLi2": "Abonnés trimestriels/annuels demandant un remboursement après 14 jours.",
+      "noLi3": "Non-utilisation pour des raisons personnelles (par ex., oubli d'annuler le renouvellement automatique, emploi du temps personnel).",
+      "noLi4": "Demandes de remboursement basées sur des résultats d'examen insatisfaisants (la Plateforme ne garantit pas les résultats d'examen — voir notre <disclaimerLink>Avertissement</disclaimerLink>).",
+      "noLi5": "Suspension ou résiliation de compte pour violation des <termsLink>Conditions d'utilisation</termsLink>."
+    },
+    "process": {
+      "title": "4. Procédure de remboursement",
+      "step1": "Envoyez un e-mail à <email>support@hitcf.com</email> en indiquant :",
+      "step1Li1": "Votre adresse e-mail d'inscription",
+      "step1Li2": "Plan d'abonnement et date de paiement",
+      "step1Li3": "Motif du remboursement",
+      "step2": "Nous examinerons et répondrons dans un délai de <b>3 jours ouvrables</b>.",
+      "step3": "Une fois approuvé, le remboursement sera traité via Stripe sur votre moyen de paiement d'origine, généralement crédité sous <b>5 à 10 jours ouvrables</b>."
+    },
+    "disputes": {
+      "title": "5. Litiges Stripe",
+      "p1": "Si vous initiez un litige (rétrofacturation) auprès de votre banque ou société de carte de crédit, nous fournirons les relevés de transaction et les preuves d'utilisation du service en réponse. <b>Nous vous recommandons de nous contacter avant d'initier un litige</b> — nous préférons résoudre les problèmes par une communication amiable."
+    },
+    "contact": {
+      "title": "6. Contact",
+      "p1": "Pour toute question relative au remboursement, veuillez contacter : <email>support@hitcf.com</email>"
+    }
+  },
+  "schema": {
+    "siteDescription": "Plateforme d'entraînement en ligne TCF Canada — plus de 8 500 questions pour atteindre le NCLC 7",
+    "faq1q": "HiTCF est-elle une plateforme officielle ?",
+    "faq1a": "Non. HiTCF est une plateforme d'entraînement tierce exploitée de manière indépendante, sans affiliation avec France Éducation international ni IRCC. Les questions d'entraînement sont compilées à partir de documents publiquement accessibles et formatées selon le TCF Canada, mais ne sont pas des questions d'examen réelles.",
+    "faq2q": "Que puis-je faire avec la version gratuite ?",
+    "faq2a": "La version gratuite comprend la première série d'écoute et les 2 premières séries de lecture avec toutes les questions, en modes entraînement et examen. Tentatives illimitées, gratuit pour toujours.",
+    "faq3q": "Quels sont les avantages de Pro ?",
+    "faq3a": "Débloquez les plus de 8 500 questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, les outils de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Les plans annuels comprennent un essai gratuit de 2 mois, annulation à tout moment.",
+    "faq4q": "Pouvez-vous garantir que j'atteindrai le NCLC 7 ?",
+    "faq4a": "Non. HiTCF fournit un environnement d'entraînement aligné sur le TCF Canada pour vous aider à identifier et améliorer vos points faibles. Cependant, les scores réels dépendent de nombreux facteurs — nous ne promettons aucun résultat d'examen.",
+    "faq5q": "Comment puis-je m'entraîner à l'expression orale et écrite ?",
+    "faq5a": "Les sections d'expression orale et écrite proposent des sujets et tâches d'examen réels, avec la possibilité d'accéder à ChatGPT pour la pratique de conversation IA et la correction de rédactions — essentiellement un tuteur IA gratuit.",
+    "faq6q": "Comment demander un remboursement ?",
+    "faq6a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés trimestriels/annuels peuvent obtenir un remboursement proportionnel dans les 14 jours. Envoyez simplement un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
+  }
+}

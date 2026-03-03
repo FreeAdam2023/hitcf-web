@@ -60,6 +60,7 @@
       "next": "下一页"
     },
     "breadcrumb": "面包屑",
+    "switchLanguage": "切换语言",
     "points": "{points} 分",
     "questions": "{count} 题",
     "questionsWithMinutes": "{count} 题 · {minutes} 分钟",
@@ -258,7 +259,11 @@
     "filterAll": "全部",
     "filterInProgress": "进行中",
     "filterCompleted": "已完成",
-    "filterNotStarted": "未开始"
+    "filterNotStarted": "未开始",
+    "tacheLabel": "Tâche {n}",
+    "wordLimit": "{range} mots",
+    "combinaison": "Combinaison {num}",
+    "tacheCombo": "Tâche 1 + 2 + 3"
   },
   "testCard": {
     "best": "最高 {score}/{total} ({pct}%)",
@@ -960,6 +965,10 @@
   },
   "writingPractice": {
     "title": "写作练习"
+  },
+  "accentToolbar": {
+    "ariaLabel": "法语重音字符",
+    "insertChar": "插入 {char}（Shift+点击输入 {upper}）"
   },
   "writingGuide": {
     "title": "写作指南",

@@ -23,18 +23,6 @@ import {
 import { cn } from "@/lib/utils";
 import type { WritingTopicItem, WritingAttemptResponse } from "@/lib/api/types";
 
-const TACHE_LABELS: Record<number, string> = {
-  1: "Tache 1",
-  2: "Tache 2",
-  3: "Tache 3",
-};
-
-const WORD_LIMIT_LABELS: Record<string, string> = {
-  "60-120": "60-120 mots",
-  "120-160": "120-160 mots",
-  "120-150": "120-150 mots",
-  "200-300": "200-300 mots",
-};
 
 export function WritingLevelCard({
   topic,
@@ -126,7 +114,7 @@ export function WritingLevelCard({
         onClick={locked ? () => router.push("/pricing") : () => setOpen(true)}
         role="button"
         tabIndex={0}
-        aria-label={TACHE_LABELS[tache] || `Tache ${tache}`}
+        aria-label={t("tests.tacheLabel", { n: tache })}
         onKeyDown={(e: React.KeyboardEvent) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
@@ -144,10 +132,10 @@ export function WritingLevelCard({
             </div>
             <div className="min-w-0 flex-1">
               <CardTitle className="text-sm font-medium leading-tight text-muted-foreground">
-                {TACHE_LABELS[tache] || `Tache ${tache}`}
+                {t("tests.tacheLabel", { n: tache })}
                 {topic.word_limit && (
                   <span className="ml-2 text-xs text-muted-foreground/70">
-                    {WORD_LIMIT_LABELS[topic.word_limit] || topic.word_limit}
+                    {t("tests.wordLimit", { range: topic.word_limit })}
                   </span>
                 )}
               </CardTitle>

@@ -89,7 +89,7 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const s = await getTranslations("schema");
-  const htmlLang = locale === "en" ? "en" : "zh-CN";
+  const htmlLang = locale === "en" ? "en" : locale === "fr" ? "fr" : "zh-CN";
 
   const faqEntries = [1, 2, 3, 4, 5, 6].map((i) => ({
     "@type": "Question" as const,
@@ -100,6 +100,10 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <head>
+        <link rel="alternate" hrefLang="zh" href="https://www.hitcf.com" />
+        <link rel="alternate" hrefLang="en" href="https://www.hitcf.com" />
+        <link rel="alternate" hrefLang="fr" href="https://www.hitcf.com" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.hitcf.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
