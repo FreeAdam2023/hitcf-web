@@ -57,7 +57,7 @@ function _webSpeech(word: string) {
   if (typeof window === "undefined" || !window.speechSynthesis) return;
   const utterance = new SpeechSynthesisUtterance(word);
   utterance.lang = "fr-CA";
-  utterance.rate = 0.9;
+  utterance.rate = 0.75;
 
   // Explicitly set a French voice to avoid English pronunciation
   const frVoice = _findFrenchVoice();

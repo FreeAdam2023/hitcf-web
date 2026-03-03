@@ -1681,13 +1681,24 @@
       "description": "Manage your profile, password, and subscription."
     },
     "vocabulary": {
-      "title": "Vocabulary Notebook"
+      "title": "Vocabulary Notebook · TCF Canada French Vocabulary Tools",
+      "description": "TCF Canada French vocabulary tools: save words from practice, review with flashcards, dictation exercises & Anki export. Organized by skill and level."
     },
     "vocabularyMySaved": {
-      "title": "My Saved Words"
+      "title": "My Saved Words · French Words from Practice",
+      "description": "View French words saved from your TCF Canada listening, reading, speaking & writing practice. Filter by skill, review with flashcards, dictation & Anki export."
     },
     "vocabularyNihao": {
-      "title": "Nihao French"
+      "title": "Nihao French Vocabulary · A1-B2 Basic French Words",
+      "description": "Nihao French textbook vocabulary covering A1-B2 levels, organized by lesson and theme. Flashcard review, dictation practice & Anki export for beginners."
+    },
+    "speakingPractice": {
+      "title": "TCF Speaking Pronunciation Practice · AI Speech Assessment",
+      "description": "TCF Canada speaking pronunciation practice: read French texts aloud, get real-time AI assessment of accuracy and fluency. Phoneme-level correction for rapid improvement."
+    },
+    "speakingConversation": {
+      "title": "TCF Speaking AI Conversation · Simulate Examiner Dialogue Tâche 2/3",
+      "description": "TCF Canada speaking AI conversation practice: simulate real exam Tâche 2 & Tâche 3 with an AI examiner. 6-dimension scoring covering pronunciation, grammar, vocabulary & task completion."
     },
     "resources": {
       "title": "TCF Canada Exam Guide · Score Charts, Study Resources & Test Centers",

@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -19,7 +19,8 @@ import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ReportDialog } from "@/components/practice/report-dialog";
 import { FrenchText, type WordSaveContext } from "@/components/practice/french-text";
-import type { Explanation, QuestionBrief } from "@/lib/api/types";
+import type { AudioPlayerHandle } from "@/components/practice/audio-player";
+import type { AudioSegment, Explanation, QuestionBrief } from "@/lib/api/types";
 
 /** Strip leading key prefix from option translation text (e.g. "a happy birthday" → "happy birthday") */
 function stripKeyPrefix(text: string, key: string): string {
@@ -41,6 +42,9 @@ function TranscriptBlock({
   onToggleNative,
   transcriptLabel,
   locale,
+  audioTimestamps,
+  currentAudioTime,
+  onSentenceClick,
 }: {
   question: QuestionBrief;
   explanation: Explanation | null;
@@ -50,7 +54,11 @@ function TranscriptBlock({
   onToggleNative: () => void;
   transcriptLabel: string;
   locale: string;
+  audioTimestamps?: AudioSegment[] | null;
+  currentAudioTime?: number;
+  onSentenceClick?: (start: number, end: number) => void;
 }) {
+  const t = useTranslations();
   const isListening = question.type === "listening";
   const isReading = question.type === "reading";
   const hasTranscript = !!question.transcript;
@@ -67,6 +75,24 @@ function TranscriptBlock({
   const sentences = explanation?.sentence_translation;
   const optTrans = explanation?.option_translations;
 
+  // Build sentence index → time range map from audio timestamps
+  const sentenceTimeMap = useMemo(() => {
+    if (!audioTimestamps) return null;
+    const map = new Map<number, { start: number; end: number }>();
+    for (const seg of audioTimestamps) {
+      if (seg.sentence_index != null) {
+        const existing = map.get(seg.sentence_index);
+        if (existing) {
+          existing.start = Math.min(existing.start, seg.start);
+          existing.end = Math.max(existing.end, seg.end);
+        } else {
+          map.set(seg.sentence_index, { start: seg.start, end: seg.end });
+        }
+      }
+    }
+    return map.size > 0 ? map : null;
+  }, [audioTimestamps]);
+
   // Reading: only show when sentence translations are available
   if (isReading && (!sentences || sentences.length === 0)) return null;
   // Listening: show when transcript or options exist
@@ -75,10 +101,17 @@ function TranscriptBlock({
   return (
     <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300 min-h-0 flex-1 overflow-y-auto scrollbar-on-hover">
       <div className="mb-2 flex items-center justify-between">
-        <h4 className="flex items-center gap-1.5 font-medium">
-          <FileText className="h-4 w-4" />
-          {transcriptLabel}
-        </h4>
+        <div className="flex items-center gap-2">
+          <h4 className="flex items-center gap-1.5 font-medium">
+            <FileText className="h-4 w-4" />
+            {transcriptLabel}
+          </h4>
+          {sentenceTimeMap && (
+            <span className="text-[10px] text-muted-foreground">
+              {t("practice.session.clickToPlay")}
+            </span>
+          )}
+        </div>
         <div className="flex gap-1">
           {/* EN bridge toggle — hidden for English-native users (bridge = native) */}
           {locale !== "en" && (
@@ -145,22 +178,42 @@ function TranscriptBlock({
               {sentences.map((s, i) => {
                 const nativeText = s.native || s.zh;
                 const isKey = isReading && s.is_key;
+                const timeRange = sentenceTimeMap?.get(i);
+                const isPlaying = timeRange && currentAudioTime != null
+                  && currentAudioTime >= timeRange.start
+                  && currentAudioTime < timeRange.end;
+                const clickable = !!timeRange && !!onSentenceClick;
                 return (
                   <div
                     key={i}
-                    className={`space-y-0.5${isKey ? " rounded-md bg-amber-50/60 px-2 py-1 dark:bg-amber-950/20" : ""}`}
+                    className={[
+                      "space-y-0.5 rounded-md px-2 py-1 transition-colors",
+                      isKey ? "bg-amber-50/60 dark:bg-amber-950/20" : "",
+                      isPlaying ? "bg-primary/10" : "",
+                      clickable ? "cursor-pointer hover:bg-primary/5" : "",
+                    ].filter(Boolean).join(" ")}
+                    onClick={clickable ? () => onSentenceClick!(timeRange!.start, timeRange!.end) : undefined}
+                    role={clickable ? "button" : undefined}
+                    tabIndex={clickable ? 0 : undefined}
+                    onKeyDown={clickable ? (e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        onSentenceClick!(timeRange!.start, timeRange!.end);
+                      }
+                    } : undefined}
                   >
                     <p className="font-medium leading-relaxed text-foreground">
+                      {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                       <FrenchText text={s.fr} />
                       {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400">★</span>}
                     </p>
                     {locale !== "en" && showEn && s.en && (
-                      <p className="leading-relaxed text-blue-600 dark:text-blue-400">
+                      <p className={`leading-relaxed text-blue-600 dark:text-blue-400${clickable ? " pl-4" : ""}`}>
                         {s.en}
                       </p>
                     )}
                     {showNative && nativeText && (
-                      <p className="leading-relaxed text-emerald-600 dark:text-emerald-400">
+                      <p className={`leading-relaxed text-emerald-600 dark:text-emerald-400${clickable ? " pl-4" : ""}`}>
                         {nativeText}
                       </p>
                     )}
@@ -240,6 +293,8 @@ export function PracticeSession() {
   const [explanationLoading, setExplanationLoading] = useState(false);
   const [explanationError, setExplanationError] = useState(false);
   const [hasImage, setHasImage] = useState(false);
+  const audioPlayerRef = useRef<AudioPlayerHandle>(null);
+  const [audioTime, setAudioTime] = useState(0);
 
   // Fetch explanation — called once by parent, shared with both panels
   const fetchingRef = useRef(false);
@@ -266,6 +321,7 @@ export function PracticeSession() {
     setExplanationLoading(false);
     setExplanationError(false);
     setHasImage(false);
+    setAudioTime(0);
     fetchingRef.current = false;
   }, [currentIndex]);
 
@@ -465,6 +521,8 @@ export function PracticeSession() {
               total={questions.length}
               onImageLoaded={setHasImage}
               saveContext={saveContext}
+              audioRef={audioPlayerRef}
+              onAudioTimeUpdate={setAudioTime}
             />
           </div>
           <Button
@@ -565,6 +623,9 @@ export function PracticeSession() {
                 : t("practice.session.passageTranslation")
             }
             locale={locale}
+            audioTimestamps={question.audio_timestamps}
+            currentAudioTime={audioTime}
+            onSentenceClick={(start, end) => audioPlayerRef.current?.playSegment(start, end)}
           />
         )}
 

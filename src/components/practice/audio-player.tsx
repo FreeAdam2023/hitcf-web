@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import {
   Play,
   Pause,
@@ -16,15 +16,22 @@ import { formatTime } from "@/lib/utils";
 
 const SAS_REFRESH_MS = 12 * 60 * 1000; // refresh after 12 minutes
 
+export interface AudioPlayerHandle {
+  seekTo: (seconds: number) => void;
+  playSegment: (start: number, end: number) => void;
+}
+
 interface AudioPlayerProps {
   questionId: string;
   maxPlays?: number;
   onPlaybackComplete?: () => void;
+  onTimeUpdate?: (currentTime: number) => void;
 }
 
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
-export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioPlayerProps) {
+export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
+  function AudioPlayer({ questionId, maxPlays, onPlaybackComplete, onTimeUpdate: onTimeUpdateProp }, ref) {
   const t = useTranslations();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [url, setUrl] = useState<string | null>(null);
@@ -42,6 +49,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
   const volumeRef = useRef<HTMLDivElement>(null);
   const fetchedAtRef = useRef(0);
   const pendingPlayRef = useRef(false);
+  const segmentEndRef = useRef<number | null>(null);
 
   const exhausted = maxPlays !== undefined && playCount >= maxPlays;
 
@@ -59,6 +67,39 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
     }
   }, [questionId, t]);
 
+  useImperativeHandle(ref, () => ({
+    seekTo(seconds: number) {
+      const audio = audioRef.current;
+      if (!audio || !url) {
+        // Queue a load + seek
+        pendingSeekRef.current = { type: "seek", seconds };
+        loadUrl();
+        return;
+      }
+      segmentEndRef.current = null;
+      audio.currentTime = seconds;
+      audio.play().then(() => setPlaying(true)).catch(() => {});
+    },
+    playSegment(start: number, end: number) {
+      const audio = audioRef.current;
+      if (!audio || !url) {
+        pendingSeekRef.current = { type: "segment", start, end };
+        loadUrl();
+        return;
+      }
+      segmentEndRef.current = end;
+      audio.currentTime = start;
+      audio.play().then(() => setPlaying(true)).catch(() => {});
+    },
+  }), [url, loadUrl]);
+
+  // Pending seek/segment after URL loads
+  const pendingSeekRef = useRef<
+    | { type: "seek"; seconds: number }
+    | { type: "segment"; start: number; end: number }
+    | null
+  >(null);
+
   // Reset when question changes
   useEffect(() => {
     setUrl(null);
@@ -71,12 +112,37 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
     setPlayCount(0);
     fetchedAtRef.current = 0;
     pendingPlayRef.current = false;
+    pendingSeekRef.current = null;
+    segmentEndRef.current = null;
   }, [questionId]);
 
-  // Auto-play after URL loads when user clicked play
+  // Auto-play after URL loads when user clicked play or pending seek
   useEffect(() => {
     const audio = audioRef.current;
-    if (!url || !pendingPlayRef.current || !audio) return;
+    if (!url || !audio) return;
+
+    const pending = pendingSeekRef.current;
+    if (pending) {
+      pendingSeekRef.current = null;
+      const doSeek = () => {
+        if (pending.type === "seek") {
+          segmentEndRef.current = null;
+          audio.currentTime = pending.seconds;
+        } else {
+          segmentEndRef.current = pending.end;
+          audio.currentTime = pending.start;
+        }
+        audio.play().then(() => setPlaying(true)).catch(() => {});
+      };
+      if (audio.readyState >= 2) {
+        doSeek();
+      } else {
+        audio.addEventListener("canplay", doSeek, { once: true });
+      }
+      return;
+    }
+
+    if (!pendingPlayRef.current) return;
     pendingPlayRef.current = false;
 
     const tryPlay = () => {
@@ -118,6 +184,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
     if (playing) {
       audio.pause();
       setPlaying(false);
+      segmentEndRef.current = null;
     } else {
       try {
         await audio.play();
@@ -133,6 +200,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
     if (!audio) return;
     audio.currentTime = 0;
     setProgress(0);
+    segmentEndRef.current = null;
   };
 
   const toggleMute = () => {
@@ -148,6 +216,13 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
     if (!audio || !audio.duration) return;
     setProgress((audio.currentTime / audio.duration) * 100);
     setCurrentTime(audio.currentTime);
+    onTimeUpdateProp?.(audio.currentTime);
+    // Segment end detection
+    if (segmentEndRef.current != null && audio.currentTime >= segmentEndRef.current) {
+      audio.pause();
+      setPlaying(false);
+      segmentEndRef.current = null;
+    }
   };
 
   const onLoadedMetadata = () => {
@@ -162,6 +237,7 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
   const onEnded = () => {
     setPlaying(false);
     setProgress(100);
+    segmentEndRef.current = null;
     const newCount = playCount + 1;
     setPlayCount(newCount);
     if (maxPlays !== undefined && newCount >= maxPlays) {
@@ -344,4 +420,4 @@ export function AudioPlayer({ questionId, maxPlays, onPlaybackComplete }: AudioP
       {error && <span className="text-xs text-destructive">{error}</span>}
     </div>
   );
-}
+});

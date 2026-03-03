@@ -1681,13 +1681,24 @@
       "description": "管理个人信息、密码和订阅状态。"
     },
     "vocabulary": {
-      "title": "生词本"
+      "title": "生词本 · TCF Canada 法语词汇学习工具",
+      "description": "TCF Canada 法语生词本：收藏练习中的生单词，翻卡复习、听写练习、Anki 导出。按技能和等级分类，系统提升词汇量。"
     },
     "vocabularyMySaved": {
-      "title": "我的收藏"
+      "title": "我的收藏 · 练习中收藏的法语生词",
+      "description": "查看你在 TCF Canada 听力、阅读、口语、写作练习中收藏的法语生词。支持按技能筛选、翻卡复习、听写练习和 Anki 导出。"
     },
     "vocabularyNihao": {
-      "title": "你好法语"
+      "title": "你好法语词汇 · A1-B2 级别法语基础词汇",
+      "description": "你好法语教材配套词汇，涵盖 A1-B2 级别，按课时和主题分类。支持翻卡复习、听写练习和 Anki 导出，适合法语初学者。"
+    },
+    "speakingPractice": {
+      "title": "TCF 口语发音练习 · AI 语音评估纠正法语发音",
+      "description": "TCF Canada 口语发音练习：朗读法语原文，AI 实时评估发音准确度和流利度。按音素级别纠正，快速提升口语表达能力。"
+    },
+    "speakingConversation": {
+      "title": "TCF 口语 AI 对话 · 模拟考官对话练习 Tâche 2/3",
+      "description": "TCF Canada 口语 AI 对话练习：模拟真实考场 Tâche 2 和 Tâche 3，AI 考官实时对话。6 维评分覆盖发音、语法、词汇和任务完成度。"
     },
     "resources": {
       "title": "TCF Canada 考试指南 · 分数对照、学习资源、考场信息",

@@ -4,7 +4,11 @@ import { SavedWordsView } from "./saved-words-view";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta.vocabularyMySaved");
-  return { title: t("title") };
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: { canonical: "/vocabulary/my-saved" },
+  };
 }
 
 export default function MySavedPage() {

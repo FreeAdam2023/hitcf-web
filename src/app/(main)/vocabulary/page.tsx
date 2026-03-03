@@ -4,7 +4,11 @@ import { VocabularyView } from "./vocabulary-view";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta.vocabulary");
-  return { title: t("title") };
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: { canonical: "/vocabulary" },
+  };
 }
 
 export default function VocabularyPage() {

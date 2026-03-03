@@ -4,7 +4,11 @@ import { NihaoWordsView } from "./nihao-words-view";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta.vocabularyNihao");
-  return { title: t("title") };
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: { canonical: "/vocabulary/nihao-french" },
+  };
 }
 
 export default function NihaoFrenchPage() {
