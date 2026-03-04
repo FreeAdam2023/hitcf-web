@@ -135,13 +135,13 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
     <Popover open onOpenChange={(open) => !open && onClose()}>
       <PopoverAnchor virtualRef={{ current: anchorEl }} />
       <PopoverContent
-        className="w-80 max-h-[70vh] overflow-y-auto p-0"
+        className={`max-h-[70vh] overflow-y-auto p-0 ${isVerb ? "w-[420px]" : "w-96"}`}
         side="bottom"
         align="start"
         onOpenAutoFocus={(e) => e.preventDefault()}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-3 space-y-2.5">
+        <div className="p-4 space-y-3">
           {loading ? (
             <WordCardLoading />
           ) : error ? (
@@ -359,12 +359,12 @@ function VerbConjugation({ data }: { data: VocabularyCardData }) {
       </div>
 
       <Tabs defaultValue={tenses[0].key} className="w-full">
-        <TabsList className="h-auto w-full flex-wrap gap-0.5 py-0.5">
+        <TabsList className="h-8 w-full justify-start gap-0.5 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {tenses.map((t) => (
             <TabsTrigger
               key={t.key}
               value={t.key}
-              className="h-6 px-1.5 text-[10px]"
+              className="h-6 shrink-0 px-2 text-[11px]"
             >
               {t.label}
             </TabsTrigger>
@@ -441,7 +441,7 @@ function ConjugationGrid({ table }: { table: ConjugationTable }) {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-xs">
+    <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[13px]">
       {rows.map(([left, right]) => (
         <div key={left} className="contents">
           <div>
