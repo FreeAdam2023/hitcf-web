@@ -203,6 +203,10 @@ export function TestList() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
+  // Exam type filter
+  type ExamTypeFilter = "all" | "tcf_canada" | "tcf_tp" | "tcf_irn" | "tcf_quebec";
+  const [examTypeFilter, setExamTypeFilter] = useState<ExamTypeFilter>("tcf_canada");
+
   // Speaking/Writing specific state
   const [browseMode, setBrowseMode] = useState<BrowseMode>("level");
   const [speakingTache, setSpeakingTache] = useState<1 | 2 | 3>(1);
@@ -224,12 +228,13 @@ export function TestList() {
   // ─── Data fetching ────────────────────────────────────────
   const fetchTestSets = useCallback(async () => {
     setLoading(true);
+    const etParam = examTypeFilter === "all" ? undefined : examTypeFilter;
     try {
       if (tab === "speaking" && browseMode === "level" && speakingTache === 1) {
         setTests([]);
       } else if (tab === "speaking" && browseMode === "level") {
         const items = await fetchAllPages(
-          (p) => listTestSets({ type: "speaking", task_number: speakingTache, ...p }), 500,
+          (p) => listTestSets({ type: "speaking", exam_type: etParam, task_number: speakingTache, ...p }), 500,
         );
         setTests(items);
       } else if (tab === "writing" && browseMode === "level") {
@@ -241,7 +246,7 @@ export function TestList() {
       } else {
         const size = (tab === "speaking" || tab === "writing") ? 500 : 100;
         const items = await fetchAllPages(
-          (p) => listTestSets({ type: tab, ...p }), size,
+          (p) => listTestSets({ type: tab, exam_type: etParam, ...p }), size,
         );
         setTests(items);
       }
@@ -252,7 +257,7 @@ export function TestList() {
     } finally {
       setLoading(false);
     }
-  }, [tab, browseMode, speakingTache, writingTache]);
+  }, [tab, browseMode, speakingTache, writingTache, examTypeFilter]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -595,15 +600,16 @@ export function TestList() {
         url.searchParams.set("tab", t);
         window.history.replaceState({}, "", url.pathname + url.search);
       }}>
-        {/* Search with icon */}
-        <div className="mb-4">
-          <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        {/* Exam type selector hidden — only TCF Canada data for now */}
+        {/* Search */}
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="relative max-w-sm flex-1">
+            <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder={t("tests.searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-9"
+              className="ps-9"
             />
           </div>
         </div>

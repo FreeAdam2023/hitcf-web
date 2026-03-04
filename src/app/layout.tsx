@@ -89,7 +89,8 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const s = await getTranslations("schema");
-  const htmlLang = locale === "en" ? "en" : locale === "fr" ? "fr" : "zh-CN";
+  const htmlLang = locale === "en" ? "en" : locale === "fr" ? "fr" : locale === "ar" ? "ar" : "zh-CN";
+  const dir = locale === "ar" ? "rtl" : "ltr";
 
   const faqEntries = [1, 2, 3, 4, 5, 6].map((i) => ({
     "@type": "Question" as const,
@@ -98,11 +99,12 @@ export default async function RootLayout({
   }));
 
   return (
-    <html lang={htmlLang} suppressHydrationWarning>
+    <html lang={htmlLang} dir={dir} suppressHydrationWarning>
       <head>
         <link rel="alternate" hrefLang="zh" href="https://www.hitcf.com" />
         <link rel="alternate" hrefLang="en" href="https://www.hitcf.com" />
         <link rel="alternate" hrefLang="fr" href="https://www.hitcf.com" />
+        <link rel="alternate" hrefLang="ar" href="https://www.hitcf.com" />
         <link rel="alternate" hrefLang="x-default" href="https://www.hitcf.com" />
         <script
           type="application/ld+json"
@@ -142,7 +144,7 @@ export default async function RootLayout({
                 url: SITE_URL,
                 description:
                   "TCF Canada online practice platform with 8,500+ questions covering listening, reading, speaking and writing. Practice mode, exam simulation, wrong answer notebook, vocabulary flashcards, Anki export, and AI-powered explanations to help you reach CLB 7.",
-                inLanguage: ["zh-CN", "fr-FR", "en"],
+                inLanguage: ["zh-CN", "fr-FR", "en", "ar"],
                 offers: [
                   {
                     "@type": "Offer",

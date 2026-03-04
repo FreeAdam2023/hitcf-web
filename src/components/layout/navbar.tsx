@@ -62,7 +62,7 @@ export function Navbar() {
         {mounted ? (
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="mr-2 md:hidden">
+              <Button variant="ghost" size="icon" className="me-2 md:hidden">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">{t('nav.openMenu')}</span>
               </Button>
@@ -88,13 +88,13 @@ export function Navbar() {
             </SheetContent>
           </Sheet>
         ) : (
-          <Button variant="ghost" size="icon" className="mr-2 md:hidden" disabled>
+          <Button variant="ghost" size="icon" className="me-2 md:hidden" disabled>
             <Menu className="h-5 w-5" />
             <span className="sr-only">{t('nav.openMenu')}</span>
           </Button>
         )}
 
-        <Link href="/" className="mr-6 shrink-0">
+        <Link href="/" className="me-6 shrink-0">
           <Image src="/logo.png" alt="HiTCF" width={36} height={36} className="md:h-10 md:w-10" />
         </Link>
 
@@ -120,7 +120,7 @@ export function Navbar() {
           })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ms-auto flex items-center gap-2">
           <LocaleToggle />
           <ThemeToggle />
           <UserMenu />
@@ -170,15 +170,15 @@ function ImmersiveHeader() {
       <div className="mx-auto flex h-10 max-w-7xl items-center px-4">
         <Image src="/logo.png" alt="HiTCF" width={40} height={40} />
         {testSetName && (
-          <span className="ml-3 truncate text-sm font-medium text-foreground max-w-[40vw]">
+          <span className="ms-3 truncate text-sm font-medium text-foreground max-w-[40vw]">
             {testSetName}
           </span>
         )}
-        <div className="ml-3 flex items-center gap-1.5 text-xs tabular-nums text-muted-foreground">
+        <div className="ms-3 flex items-center gap-1.5 text-xs tabular-nums text-muted-foreground">
           <Clock className="h-3.5 w-3.5" />
           {formatElapsed(elapsed)}
         </div>
-        <div className="ml-auto flex items-center gap-1">
+        <div className="ms-auto flex items-center gap-1">
           <LocaleToggle />
           <ThemeToggle />
           <AlertDialog>

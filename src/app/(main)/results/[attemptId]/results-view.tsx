@@ -22,6 +22,7 @@ import { ShareDialog } from "@/components/results/share-dialog";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { TYPE_COLORS } from "@/lib/constants";
 import { useTranslations } from "next-intl";
+import { localizeTestName } from "@/lib/test-name";
 import type { AttemptReview, TestSetItem } from "@/lib/api/types";
 
 interface ResultsViewProps {
@@ -31,6 +32,9 @@ interface ResultsViewProps {
 export function ResultsView({ attempt }: ResultsViewProps) {
   const t = useTranslations();
   const router = useRouter();
+  const displayName = attempt.test_set_type && attempt.test_set_name
+    ? localizeTestName(t, attempt.test_set_type, attempt.test_set_name)
+    : (attempt.test_set_name || t("results.defaultTitle"));
   const canAccessPaid = useAuthStore((s) => {
     if (s.isLoading) return true;
     const status = s.user?.subscription?.status;
@@ -127,7 +131,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
         items={[
           { label: t("results.breadcrumbTests"), href: attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests" },
           ...(attempt.test_set_id
-            ? [{ label: attempt.test_set_name || t("results.breadcrumbReport"), href: `/tests/${attempt.test_set_id}` }]
+            ? [{ label: displayName, href: `/tests/${attempt.test_set_id}` }]
             : []),
           { label: t("results.breadcrumbReport") },
         ]}
@@ -136,7 +140,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
       <div>
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold">
-            {attempt.test_set_name || t("results.defaultTitle")}
+            {displayName}
           </h1>
           <Badge variant="secondary">
             {t(`common.modes.${attempt.mode}`)}
@@ -250,7 +254,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
         {nextTestSet && (
           <Button onClick={handleNextTest} disabled={startingNext}>
             <ArrowRight className="mr-1.5 h-4 w-4" />
-            {startingNext ? t("common.actions.creating") : t("results.nextSet", { name: nextTestSet.name })}
+            {startingNext ? t("common.actions.creating") : t("results.nextSet", { name: localizeTestName(t, nextTestSet.type, nextTestSet.name) })}
           </Button>
         )}
         <Button asChild variant="outline">
@@ -262,7 +266,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
       <ShareDialog
         open={shareOpen}
         onOpenChange={setShareOpen}
-        testSetName={attempt.test_set_name || t("results.defaultTitle")}
+        testSetName={displayName}
         testSetType={attempt.test_set_type || "listening"}
         score={score}
         total={attempt.total}

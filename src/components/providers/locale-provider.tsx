@@ -1,7 +1,7 @@
 "use client";
 
 import { NextIntlClientProvider } from "next-intl";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useAuthStore } from "@/stores/auth-store";
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES, type Locale } from "@/i18n/locales";
 
@@ -9,10 +9,20 @@ import zhMessages from "@/i18n/messages/zh.json";
 import enMessages from "@/i18n/messages/en.json";
 import frMessages from "@/i18n/messages/fr.json";
 
-const messagesMap: Record<Locale, typeof zhMessages> = {
+// ar.json loaded lazily to avoid bundling ~60KB for non-Arabic users
+let arMessagesCache: typeof zhMessages | null = null;
+async function loadArMessages() {
+  if (!arMessagesCache) {
+    arMessagesCache = (await import("@/i18n/messages/ar.json")).default as typeof zhMessages;
+  }
+  return arMessagesCache;
+}
+
+const messagesMap: Record<Locale, typeof zhMessages | null> = {
   zh: zhMessages,
   en: enMessages,
   fr: frMessages,
+  ar: null, // loaded lazily
 };
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
@@ -23,12 +33,21 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       ? (rawLocale as Locale)
       : DEFAULT_LOCALE;
 
-  const messages = messagesMap[locale];
+  const [arMessages, setArMessages] = useState<typeof zhMessages | null>(arMessagesCache);
+  const messages = locale === "ar" ? (arMessages || enMessages) : (messagesMap[locale] || enMessages);
 
-  // Update <html lang> attribute and locale cookie when locale changes
+  // Lazy-load Arabic messages
   useEffect(() => {
-    const langMap: Record<Locale, string> = { zh: "zh-CN", en: "en", fr: "fr" };
+    if (locale === "ar" && !arMessagesCache) {
+      loadArMessages().then(setArMessages);
+    }
+  }, [locale]);
+
+  // Update <html lang>, dir attribute, and locale cookie when locale changes
+  useEffect(() => {
+    const langMap: Record<Locale, string> = { zh: "zh-CN", en: "en", fr: "fr", ar: "ar" };
     document.documentElement.lang = langMap[locale] || locale;
+    document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
     document.cookie = `NEXT_LOCALE=${locale};path=/;max-age=31536000;SameSite=Lax`;
   }, [locale]);
 

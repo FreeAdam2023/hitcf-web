@@ -127,7 +127,8 @@
     "scanXhs": "扫码关注小红书",
     "scanWechat": "扫码加微信好友",
     "studyGroup": "备考群",
-    "scanGroup": "微信扫码入群"
+    "scanGroup": "微信扫码入群",
+    "allRightsReserved": "保留所有权利。"
   },
   "theme": {
     "lightMode": "切换到浅色模式",
@@ -219,6 +220,10 @@
     }
   },
   "tests": {
+    "listeningTestName": "听力测试 {num}",
+    "readingTestName": "阅读测试 {num}",
+    "speakingTestName": "口语测试 {num}",
+    "writingTestName": "写作测试 {num}",
     "pageTitle": "题库",
     "pageSubtitle": "TCF Canada 听力、阅读、口语、写作全真模拟",
     "statsListening": "44 套听力",
@@ -226,6 +231,12 @@
     "statsSpeaking": "696 口语话题",
     "statsWriting": "515 写作套题",
     "searchPlaceholder": "搜索题套名称或代号...",
+    "examType": "考试类型",
+    "examTypeAll": "全部",
+    "examTypeTcfCanada": "TCF Canada",
+    "examTypeTcfTp": "TCF TP",
+    "examTypeTcfIrn": "TCF IRN",
+    "examTypeTcfQuebec": "TCF Québec",
     "byLevel": "按等级",
     "bySet": "按套题",
     "all": "全部",
