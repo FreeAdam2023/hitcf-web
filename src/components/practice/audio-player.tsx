@@ -28,7 +28,7 @@ interface AudioPlayerProps {
   onTimeUpdate?: (currentTime: number) => void;
 }
 
-const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5, 2];
+const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25];
 
 export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
   function AudioPlayer({ questionId, maxPlays, onPlaybackComplete, onTimeUpdate: onTimeUpdateProp }, ref) {
