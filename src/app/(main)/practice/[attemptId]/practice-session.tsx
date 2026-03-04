@@ -95,8 +95,8 @@ function TranscriptBlock({
 
   // Reading: only show when sentence translations are available
   if (isReading && (!sentences || sentences.length === 0)) return null;
-  // Listening: show when transcript or options exist
-  if (!isReading && !hasTranscript && !showTranscriptOptions) return null;
+  // Listening: show when transcript, audio timestamps, or options exist
+  if (!isReading && !hasTranscript && !audioTimestamps?.length && !showTranscriptOptions) return null;
 
   return (
     <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300 min-h-0 flex-1 overflow-y-auto scrollbar-on-hover">
@@ -223,6 +223,41 @@ function TranscriptBlock({
             </div>
           );
         })()
+      ) : audioTimestamps && audioTimestamps.length > 0 ? (
+        /* Whisper segments as clickable French sentences (no translations yet) */
+        <div className="space-y-2">
+          {audioTimestamps.map((seg, i) => {
+            const timeRange = sentenceTimeMap?.get(seg.sentence_index ?? i);
+            const isPlaying = timeRange && currentAudioTime != null
+              && currentAudioTime >= timeRange.start
+              && currentAudioTime < timeRange.end;
+            const clickable = !!timeRange && !!onSentenceClick;
+            return (
+              <div
+                key={i}
+                className={[
+                  "rounded-md px-2 py-1 transition-colors",
+                  isPlaying ? "bg-primary/10" : "",
+                  clickable ? "cursor-pointer hover:bg-primary/5" : "",
+                ].filter(Boolean).join(" ")}
+                onClick={clickable ? () => onSentenceClick!(timeRange!.start, timeRange!.end) : undefined}
+                role={clickable ? "button" : undefined}
+                tabIndex={clickable ? 0 : undefined}
+                onKeyDown={clickable ? (e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onSentenceClick!(timeRange!.start, timeRange!.end);
+                  }
+                } : undefined}
+              >
+                <p className="font-medium leading-relaxed text-foreground">
+                  {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
+                  <FrenchText text={seg.text} />
+                </p>
+              </div>
+            );
+          })}
+        </div>
       ) : hasTranscript ? (
         /* Fallback: raw transcript before explanation loads */
         <p className="whitespace-pre-wrap leading-relaxed text-foreground">
@@ -232,7 +267,7 @@ function TranscriptBlock({
 
       {/* Options: vertical with indented EN/ZH */}
       {showTranscriptOptions && (
-        <div className={sentences || hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
+        <div className={sentences || audioTimestamps || hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
           <div className="space-y-3">
             {question.options.map((opt) => {
               const tr = optTrans?.[opt.key];
