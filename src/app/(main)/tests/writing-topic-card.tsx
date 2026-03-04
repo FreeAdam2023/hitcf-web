@@ -104,7 +104,7 @@ export function WritingTopicCard({ test }: { test: TestSetItem }) {
         onClick={locked ? () => router.push("/pricing") : () => setOpen(true)}
         role="button"
         tabIndex={0}
-        aria-label={`Combinaison ${num}`}
+        aria-label={t("tests.combinaison", { num })}
         onKeyDown={(e: React.KeyboardEvent) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
@@ -127,10 +127,10 @@ export function WritingTopicCard({ test }: { test: TestSetItem }) {
             </div>
             <div className="min-w-0 flex-1">
               <CardTitle className="text-base leading-tight">
-                Combinaison {num}
+                {t("tests.combinaison", { num })}
               </CardTitle>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                Tache 1 + 2 + 3
+                {t("tests.tacheCombo")}
               </p>
             </div>
             {test.is_free ? (
@@ -166,7 +166,7 @@ export function WritingTopicCard({ test }: { test: TestSetItem }) {
                 <PenLine className="h-5 w-5" />
               </div>
               <div>
-                <DialogTitle>Combinaison {num}</DialogTitle>
+                <DialogTitle>{t("tests.combinaison", { num })}</DialogTitle>
                 <DialogDescription>
                   {t("writingExam.modeDialog.subtitle")}
                 </DialogDescription>

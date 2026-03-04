@@ -7,10 +7,12 @@ import { DEFAULT_LOCALE, SUPPORTED_LOCALES, type Locale } from "@/i18n/locales";
 
 import zhMessages from "@/i18n/messages/zh.json";
 import enMessages from "@/i18n/messages/en.json";
+import frMessages from "@/i18n/messages/fr.json";
 
 const messagesMap: Record<Locale, typeof zhMessages> = {
   zh: zhMessages,
   en: enMessages,
+  fr: frMessages,
 };
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
@@ -25,7 +27,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   // Update <html lang> attribute and locale cookie when locale changes
   useEffect(() => {
-    const langMap: Record<Locale, string> = { zh: "zh-CN", en: "en" };
+    const langMap: Record<Locale, string> = { zh: "zh-CN", en: "en", fr: "fr" };
     document.documentElement.lang = langMap[locale] || locale;
     document.cookie = `NEXT_LOCALE=${locale};path=/;max-age=31536000;SameSite=Lax`;
   }, [locale]);

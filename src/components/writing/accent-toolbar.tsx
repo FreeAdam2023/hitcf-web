@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { insertTextAtCursor } from "@/lib/textarea-utils";
 
@@ -15,6 +16,8 @@ interface AccentToolbarProps {
 }
 
 export function AccentToolbar({ textareaRef, onInsert, className }: AccentToolbarProps) {
+  const t = useTranslations("accentToolbar");
+
   const insertChar = useCallback(
     (char: string, e: React.MouseEvent) => {
       e.preventDefault(); // prevent textarea blur
@@ -35,7 +38,7 @@ export function AccentToolbar({ textareaRef, onInsert, className }: AccentToolba
         className,
       )}
       role="toolbar"
-      aria-label="French accent characters"
+      aria-label={t("ariaLabel")}
     >
       {ACCENT_CHARS.map((char) => (
         <button
@@ -43,7 +46,7 @@ export function AccentToolbar({ textareaRef, onInsert, className }: AccentToolba
           type="button"
           className="flex h-7 w-7 items-center justify-center rounded text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary active:bg-primary/20"
           onMouseDown={(e) => insertChar(char, e)}
-          title={`Insert ${char} (Shift+click for ${char.toUpperCase()})`}
+          title={t("insertChar", { char, upper: char.toUpperCase() })}
           tabIndex={-1}
         >
           {char}
