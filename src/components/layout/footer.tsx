@@ -18,7 +18,7 @@ export function Footer() {
           <div className="space-y-1">
             <div className="text-sm font-medium">HiTCF</div>
             <div className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} HiTCF. All rights reserved.
+              &copy; {new Date().getFullYear()} HiTCF. {t('footer.allRightsReserved')}
             </div>
           </div>
 

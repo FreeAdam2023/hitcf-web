@@ -20,13 +20,13 @@ export function CommunityFab() {
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div className="fixed bottom-5 end-5 z-50">
       {/* Popup */}
       {open && (
         <>
           {/* Backdrop — click to close */}
           <div className="fixed inset-0" onClick={() => setOpen(false)} />
-          <div className="absolute bottom-11 right-0 w-64 rounded-2xl border border-border/50 bg-background/80 p-4 shadow-xl backdrop-blur-xl animate-in fade-in slide-in-from-bottom-2 duration-200">
+          <div className="absolute bottom-11 end-0 w-64 rounded-2xl border border-border/50 bg-background/80 p-4 shadow-xl backdrop-blur-xl animate-in fade-in slide-in-from-bottom-2 duration-200">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-semibold tracking-wide uppercase text-muted-foreground">
                 {t("community.title")}

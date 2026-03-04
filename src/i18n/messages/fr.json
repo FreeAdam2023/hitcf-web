@@ -127,7 +127,8 @@
     "scanXhs": "Scannez pour nous suivre sur Xiaohongshu",
     "scanWechat": "Scannez pour nous ajouter sur WeChat",
     "studyGroup": "Groupe d'étude",
-    "scanGroup": "Scannez pour rejoindre le groupe WeChat"
+    "scanGroup": "Scannez pour rejoindre le groupe WeChat",
+    "allRightsReserved": "Tous droits réservés."
   },
   "theme": {
     "lightMode": "Passer en mode clair",
@@ -228,6 +229,10 @@
     }
   },
   "tests": {
+    "listeningTestName": "Compréhension orale {num}",
+    "readingTestName": "Compréhension écrite {num}",
+    "speakingTestName": "Expression orale {num}",
+    "writingTestName": "Expression écrite {num}",
     "pageTitle": "Tests",
     "pageSubtitle": "Entraînement TCF Canada : compréhension orale, compréhension écrite, expression orale et expression écrite",
     "statsListening": "44 séries de compréhension orale",
@@ -235,6 +240,12 @@
     "statsSpeaking": "696 sujets d'expression orale",
     "statsWriting": "515 séries d'expression écrite",
     "searchPlaceholder": "Rechercher par nom ou code...",
+    "examType": "Type d'examen",
+    "examTypeAll": "Tous",
+    "examTypeTcfCanada": "TCF Canada",
+    "examTypeTcfTp": "TCF TP",
+    "examTypeTcfIrn": "TCF IRN",
+    "examTypeTcfQuebec": "TCF Québec",
     "byLevel": "Par niveau",
     "bySet": "Par série",
     "all": "Tout",

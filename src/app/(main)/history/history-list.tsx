@@ -24,6 +24,7 @@ import { estimateTcfLevelFromRatio } from "@/lib/tcf-levels";
 import { useTranslations, useLocale } from "next-intl";
 import type { AttemptResponse, SpeakingAttemptResponse } from "@/lib/api/types";
 import { TYPE_COLORS, TYPE_KEYS } from "@/lib/constants";
+import { localizeTestName } from "@/lib/test-name";
 import { cn } from "@/lib/utils";
 
 // Unified history item type
@@ -306,7 +307,7 @@ function HistoryCard({ item }: { item: HistoryItem }) {
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span className="truncate text-sm font-medium">
-            {item.test_set_name || "-"}
+            {item.test_set_name ? localizeTestName(t, item.test_set_type, item.test_set_name) : "-"}
           </span>
           {!isCompleted && !isSpeaking && (
             <Badge

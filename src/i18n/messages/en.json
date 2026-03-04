@@ -127,7 +127,8 @@
     "scanXhs": "Scan to follow on Xiaohongshu",
     "scanWechat": "Scan to add on WeChat",
     "studyGroup": "Study Group",
-    "scanGroup": "Scan to join WeChat group"
+    "scanGroup": "Scan to join WeChat group",
+    "allRightsReserved": "All rights reserved."
   },
   "theme": {
     "lightMode": "Switch to light mode",
@@ -219,6 +220,10 @@
     }
   },
   "tests": {
+    "listeningTestName": "Listening Test {num}",
+    "readingTestName": "Reading Test {num}",
+    "speakingTestName": "Speaking Test {num}",
+    "writingTestName": "Writing Test {num}",
     "pageTitle": "Tests",
     "pageSubtitle": "TCF Canada listening, reading, speaking & writing practice",
     "statsListening": "44 listening sets",
@@ -226,6 +231,12 @@
     "statsSpeaking": "696 speaking topics",
     "statsWriting": "515 writing sets",
     "searchPlaceholder": "Search by name or code...",
+    "examType": "Exam Type",
+    "examTypeAll": "All",
+    "examTypeTcfCanada": "TCF Canada",
+    "examTypeTcfTp": "TCF TP",
+    "examTypeTcfIrn": "TCF IRN",
+    "examTypeTcfQuebec": "TCF Québec",
     "byLevel": "By Level",
     "bySet": "By Set",
     "all": "All",

@@ -32,6 +32,7 @@ export interface TestSetItem {
   code: string;
   name: string;
   type: "listening" | "reading" | "speaking" | "writing";
+  exam_type?: string;
   question_count: number;
   time_limit_minutes: number;
   is_free: boolean;

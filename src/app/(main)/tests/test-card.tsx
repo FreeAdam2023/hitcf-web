@@ -26,6 +26,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { createAttempt, getActiveAttempt } from "@/lib/api/attempts";
 import { cn } from "@/lib/utils";
 import { TYPE_COLORS } from "@/lib/constants";
+import { localizeTestName } from "@/lib/test-name";
 import type { TestSetItem, ActiveAttemptResponse } from "@/lib/api/types";
 
 export interface TestAttemptInfo {
@@ -136,7 +137,7 @@ export function TestCard({
     ? Math.round((attemptInfo!.bestScore! / attemptInfo!.bestTotal) * 100)
     : null;
 
-  // Extract number from test name for watermark (e.g. "听力测试 3" → "3")
+  const displayName = localizeTestName(t, test.type, test.name);
   const testNum = test.name.match(/\d+/)?.[0];
 
   return (
@@ -157,7 +158,7 @@ export function TestCard({
           : {
               role: "button",
               tabIndex: 0,
-              "aria-label": test.name,
+              "aria-label": displayName,
               onKeyDown: (e: React.KeyboardEvent) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
@@ -195,7 +196,7 @@ export function TestCard({
               )}
             </div>
             <div className="min-w-0 flex-1">
-              <CardTitle className="text-base leading-tight">{test.name}</CardTitle>
+              <CardTitle className="text-base leading-tight">{displayName}</CardTitle>
               <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
                 <span>{t("common.questions", { count: test.question_count })}</span>
                 <span>{t("common.time.minutes", { minutes: test.time_limit_minutes })}</span>
@@ -263,7 +264,7 @@ export function TestCard({
                 <Icon className="h-5 w-5" />
               </div>
               <div>
-                <DialogTitle>{test.name}</DialogTitle>
+                <DialogTitle>{displayName}</DialogTitle>
                 <DialogDescription>
                   {t("common.questionsWithMinutes", { count: test.question_count, minutes: test.time_limit_minutes })}
                 </DialogDescription>

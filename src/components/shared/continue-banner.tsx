@@ -6,6 +6,7 @@ import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { listAttempts } from "@/lib/api/attempts";
 import { useTranslations } from "next-intl";
+import { localizeTestName } from "@/lib/test-name";
 import type { AttemptResponse } from "@/lib/api/types";
 
 export function ContinueBanner() {
@@ -42,7 +43,7 @@ export function ContinueBanner() {
         <div className="min-w-0 flex-1">
           <p className="text-sm font-medium opacity-90">{t('continueBanner.title')}</p>
           <p className="mt-0.5 truncate text-base font-semibold">
-            {attempt.test_set_name || t('continueBanner.name')}
+            {attempt.test_set_type ? localizeTestName(t, attempt.test_set_type, attempt.test_set_name || '') : (attempt.test_set_name || t('continueBanner.name'))}
             <span className="ml-2 inline-block rounded-full bg-white/20 px-2 py-0.5 text-xs font-medium">
               {modeLabel}
             </span>
@@ -58,7 +59,7 @@ export function ContinueBanner() {
           className="shrink-0 font-semibold"
         >
           <Link href={`/${path}/${attempt.id}`}>
-            <Play className="mr-1.5 h-4 w-4" />
+            <Play className="me-1.5 h-4 w-4" />
             {t('continueBanner.continue')}
           </Link>
         </Button>

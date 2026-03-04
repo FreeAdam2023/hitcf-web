@@ -1,0 +1,2264 @@
+{
+  "common": {
+    "types": {
+      "listening": "الاستماع",
+      "reading": "القراءة",
+      "speaking": "التعبير الشفهي",
+      "writing": "التعبير الكتابي"
+    },
+    "modes": {
+      "practice": "تدريب",
+      "exam": "اختبار",
+      "speed_drill": "تمرين سريع"
+    },
+    "actions": {
+      "save": "حفظ",
+      "cancel": "إلغاء",
+      "retry": "إعادة المحاولة",
+      "close": "إغلاق",
+      "confirm": "تأكيد",
+      "back": "رجوع",
+      "start": "ابدأ",
+      "continue": "متابعة",
+      "submit": "إرسال",
+      "loading": "جارٍ التحميل...",
+      "submitting": "جارٍ الإرسال...",
+      "creating": "جارٍ الإنشاء...",
+      "starting": "جارٍ البدء...",
+      "copied": "تم النسخ!",
+      "copyPrompt": "نسخ النص"
+    },
+    "status": {
+      "free": "مجاني",
+      "subscription": "اشتراك",
+      "inProgress": "قيد التنفيذ",
+      "incomplete": "غير مكتمل",
+      "unanswered": "لم يُجَب",
+      "correct": "صحيح",
+      "wrong": "خطأ",
+      "answered": "تمت الإجابة",
+      "unknown": "غير معروف"
+    },
+    "errors": {
+      "generic": "حدث خطأ ما",
+      "loadFailed": "فشل التحميل",
+      "submitFailed": "فشل الإرسال",
+      "createPracticeFailed": "فشل إنشاء جلسة التدريب",
+      "createExamFailed": "فشل إنشاء جلسة الاختبار",
+      "operationFailed": "فشلت العملية"
+    },
+    "time": {
+      "minutes": "دقيقة",
+      "minutesShort": "د"
+    },
+    "empty": {
+      "title": "لا توجد بيانات",
+      "description": "لا توجد بيانات للعرض"
+    },
+    "pagination": {
+      "prev": "السابق",
+      "next": "التالي"
+    },
+    "breadcrumb": "مسار التنقل",
+    "switchLanguage": "تبديل اللغة",
+    "points": "نقطة",
+    "questions": "سؤال",
+    "questionsWithMinutes": "{count} سؤال · {minutes} دقيقة",
+    "answeredProgress": "{answered}/{total} تمت الإجابة",
+    "questionCounter": "السؤال {current} من {total}"
+  },
+  "nav": {
+    "tests": "الاختبارات",
+    "dashboard": "لوحة التحكم",
+    "wrongAnswers": "الأخطاء",
+    "vocabulary": "المفردات",
+    "history": "السجل",
+    "speedDrill": "تمرين سريع",
+    "pricing": "الأسعار",
+    "resources": "الموارد",
+    "openMenu": "فتح القائمة",
+    "exitLabel": "خروج من {label}",
+    "exitConfirmTitle": "الخروج من {label}؟",
+    "exitConfirmAnswered": "لقد أجبت على {answered} من {total} سؤال.",
+    "exitConfirmProgress": "سيتم حفظ تقدمك في {label}.",
+    "exitConfirmContinue": "متابعة {label}",
+    "exitConfirmExit": "خروج"
+  },
+  "userMenu": {
+    "pro": "Pro",
+    "trial": "تجريبي",
+    "free": "مجاني",
+    "login": "تسجيل الدخول",
+    "userMenuLabel": "قائمة المستخدم",
+    "defaultName": "مستخدم",
+    "upgradePro": "الترقية إلى Pro",
+    "accountSettings": "إعدادات الحساب",
+    "feedback": "إرسال ملاحظات",
+    "logout": "تسجيل الخروج"
+  },
+  "feedback": {
+    "title": "ملاحظات",
+    "description": "الوصف",
+    "categoryLabel": "الفئة",
+    "categoryPlaceholder": "اختر الفئة",
+    "bug": "خطأ",
+    "feature": "طلب ميزة",
+    "content": "مشكلة في المحتوى",
+    "other": "أخرى",
+    "contentLabel": "الوصف",
+    "contentPlaceholder": "صف المشكلة أو الاقتراح...",
+    "submit": "إرسال",
+    "cancel": "إلغاء",
+    "success": "شكراً لملاحظاتك!",
+    "submitFailed": "فشل الإرسال، يرجى إعادة المحاولة"
+  },
+  "footer": {
+    "tests": "الاختبارات",
+    "pricing": "الأسعار",
+    "resources": "الموارد",
+    "contact": "اتصل بنا",
+    "terms": "شروط الاستخدام",
+    "privacy": "سياسة الخصوصية",
+    "refund": "سياسة الاسترداد",
+    "disclaimer": "إخلاء المسؤولية",
+    "socialXhs": "شياوهونغشو @HiTCF",
+    "socialWechat": "ويتشات Hi_TCF",
+    "socialWhatsApp": "مجموعة واتساب",
+    "scanXhs": "امسح للمتابعة على شياوهونغشو",
+    "scanWechat": "امسح للإضافة على ويتشات",
+    "studyGroup": "مجموعة الدراسة",
+    "scanGroup": "امسح للانضمام إلى مجموعة ويتشات",
+    "allRightsReserved": "جميع الحقوق محفوظة."
+  },
+  "theme": {
+    "lightMode": "وضع فاتح",
+    "darkMode": "وضع داكن"
+  },
+  "auth": {
+    "login": {
+      "title": "تسجيل الدخول",
+      "subtitle": "سجّل دخولك إلى حسابك",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "passwordPlaceholder": "أدخل كلمة المرور",
+      "submitting": "جارٍ تسجيل الدخول...",
+      "submit": "تسجيل الدخول",
+      "noAccount": "ليس لديك حساب؟",
+      "register": "إنشاء حساب",
+      "invalidCredentials": "بريد إلكتروني أو كلمة مرور غير صحيحة",
+      "invalidEmail": "يرجى إدخال بريد إلكتروني صالح",
+      "genericError": "حدث خطأ أثناء تسجيل الدخول",
+      "googleLogin": "تسجيل الدخول بواسطة Google",
+      "orDivider": "أو"
+    },
+    "register": {
+      "title": "إنشاء حساب",
+      "subtitle": "ابدأ التدريب على TCF Canada",
+      "googleRegister": "المتابعة عبر Google",
+      "orDivider": "or",
+      "emailLabel": "البريد الإلكتروني",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "8 أحرف على الأقل",
+      "createAccount": "إنشاء حساب",
+      "creating": "جارٍ الإنشاء...",
+      "verifyTitle": "التحقق من البريد الإلكتروني",
+      "verifySentTo": "أدخل الرمز المرسل إلى {email}",
+      "verifyButton": "تحقق وأكمل",
+      "verifying": "جارٍ التحقق...",
+      "resend": "لم تستلمه؟ أعد الإرسال",
+      "resendFailed": "فشل الإرسال. يرجى المحاولة لاحقًا.",
+      "invalidEmail": "يرجى إدخال بريد إلكتروني صالح",
+      "passwordMinLength": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+      "registerFailed": "فشل التسجيل. يرجى المحاولة لاحقًا.",
+      "verifyFailed": "فشل التحقق. يرجى المحاولة لاحقًا.",
+      "strengthWeak": "ضعيفة",
+      "strengthMedium": "متوسطة",
+      "strengthStrong": "قوية",
+      "hasAccount": "لديك حساب بالفعل؟",
+      "login": "تسجيل الدخول"
+    },
+    "forgotPassword": {
+      "emailStep": {
+        "title": "إعادة تعيين كلمة المرور",
+        "desc": "أدخل بريدك الإلكتروني وسنرسل لك رمز التحقق"
+      },
+      "codeStep": {
+        "title": "التحقق من البريد الإلكتروني",
+        "desc": ""
+      },
+      "passwordStep": {
+        "title": "تعيين كلمة مرور جديدة",
+        "desc": "أدخل كلمة المرور الجديدة"
+      },
+      "invalidEmail": "يرجى إدخال بريد إلكتروني صالح",
+      "sendFailed": "فشل الإرسال. يرجى المحاولة لاحقًا.",
+      "verifyFailed": "فشل التحقق. يرجى المحاولة لاحقًا.",
+      "passwordMinLength": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+      "passwordMismatch": "كلمتا المرور غير متطابقتين",
+      "resetFailed": "فشلت إعادة التعيين. يرجى المحاولة لاحقًا.",
+      "resendFailed": "فشل الإرسال. يرجى المحاولة لاحقًا.",
+      "resetSuccess": "تمت إعادة تعيين كلمة المرور بنجاح",
+      "resetSuccessDesc": "يرجى تسجيل الدخول بكلمة المرور الجديدة",
+      "goLogin": "انتقل إلى تسجيل الدخول",
+      "codeSent": "تم إرسال رمز التحقق إلى {email}",
+      "emailLabel": "البريد الإلكتروني",
+      "sending": "جارٍ الإرسال...",
+      "sendCode": "إرسال الرمز",
+      "codeLabel": "رمز من 6 أرقام",
+      "verifying": "جارٍ التحقق...",
+      "verify": "تحقق",
+      "resend": "لم تستلمه؟ أعد الإرسال",
+      "newPasswordLabel": "كلمة المرور الجديدة",
+      "newPasswordPlaceholder": "8 أحرف على الأقل",
+      "confirmPasswordLabel": "تأكيد كلمة المرور الجديدة",
+      "confirmPasswordPlaceholder": "أعد إدخال كلمة المرور الجديدة",
+      "resetting": "جارٍ إعادة التعيين...",
+      "resetPassword": "إعادة تعيين كلمة المرور",
+      "rememberPassword": "تتذكر كلمة المرور؟",
+      "backToLogin": "العودة إلى تسجيل الدخول"
+    },
+    "layout": {
+      "tagline": "منصة التدريب على TCF عبر الإنترنت",
+      "description1": "أكثر من 8,000 سؤال TCF تدريبي",
+      "description2": "شروحات بالذكاء الاصطناعي · تتبع التقدم",
+      "stat1": "+8,500 سؤال تدريبي",
+      "stat2": "استماع وقراءة وتعبير شفهي وكتابي",
+      "stat3": "شروحات مدعومة بالذكاء الاصطناعي",
+      "trustLine": "موثوق من قبل آلاف المتعلمين"
+    }
+  },
+  "tests": {
+    "listeningTestName": "اختبار استماع {num}",
+    "readingTestName": "اختبار قراءة {num}",
+    "speakingTestName": "اختبار تعبير شفهي {num}",
+    "writingTestName": "اختبار تعبير كتابي {num}",
+    "pageTitle": "مكتبة الاختبارات",
+    "pageSubtitle": "اختر نوع الاختبار وابدأ التدريب",
+    "statsListening": "42 مجموعة استماع",
+    "statsReading": "44 مجموعة قراءة",
+    "statsSpeaking": "696 موضوع تعبير شفهي",
+    "statsWriting": "515 مجموعة تعبير كتابي",
+    "searchPlaceholder": "البحث بالاسم أو الرمز...",
+    "examType": "نوع الامتحان",
+    "examTypeAll": "الكل",
+    "examTypeTcfCanada": "TCF Canada",
+    "examTypeTcfTp": "TCF TP",
+    "examTypeTcfIrn": "TCF IRN",
+    "examTypeTcfQuebec": "TCF Québec",
+    "byLevel": "حسب المستوى",
+    "bySet": "حسب المجموعة",
+    "all": "الكل",
+    "originalSets": "المجموعات الأصلية",
+    "setsCount": "{count} مجموعة",
+    "emptyTitle": "لا توجد مجموعات",
+    "emptyDescription": "لا توجد مجموعات اختبار في هذه الفئة",
+    "emptyTopicTitle": "لا توجد مواضيع",
+    "emptyTopicDesc": "لا توجد مواضيع في هذه الفئة",
+    "emptyQuestionTitle": "لا توجد أسئلة",
+    "emptyQuestionDesc": "لا توجد أسئلة في هذه الفئة",
+    "unlockAll": "افتح جميع الاختبارات",
+    "unlockDescription": "احصل على وصول كامل لـ {count} اختبار إضافي",
+    "months": [
+      "يناير",
+      "فبراير",
+      "مارس",
+      "أبريل",
+      "مايو",
+      "يونيو",
+      "يوليو",
+      "أغسطس",
+      "سبتمبر",
+      "أكتوبر",
+      "نوفمبر",
+      "ديسمبر"
+    ],
+    "yearMonth": "{year} {month}",
+    "writingTache1": "Tâche 1",
+    "writingTache2": "Tâche 2",
+    "writingTache3": "Tâche 3",
+    "speakingTache1": "Tâche 1",
+    "speakingTache2": "Tâche 2",
+    "speakingTache3": "Tâche 3",
+    "speakingSetNum": "مجموعة {num}",
+    "speakingTopicsTache2": "مواضيع Tâche 2",
+    "speakingTopicsTache3": "مواضيع Tâche 3",
+    "topicsCount": "{count} موضوع",
+    "viewTopics": "عرض المواضيع",
+    "tasksCount": "{count} مهمة",
+    "viewQuestions": "عرض الأسئلة",
+    "showMore": "عرض {count} المزيد",
+    "showLess": "عرض أقل",
+    "filterAll": "الكل",
+    "filterInProgress": "قيد التنفيذ",
+    "filterCompleted": "مكتمل",
+    "filterNotStarted": "لم يبدأ",
+    "tacheLabel": "Tâche {num}",
+    "wordLimit": "{min}-{max} كلمة",
+    "combinaison": "Combinaison",
+    "tacheCombo": "Tâche {tasks}"
+  },
+  "testCard": {
+    "best": "الأفضل {score}/{total} ({pct}%)",
+    "practiceMode": "وضع التدريب",
+    "practiceDesc": "بدون حد زمني. تُعرض الإجابات والشروحات بعد كل سؤال.",
+    "examMode": "وضع الاختبار",
+    "examDesc": "محدد بوقت. تُخفى الإجابات حتى التسليم. تُعرض النتيجة والمستوى المقدّر بعد الانتهاء.",
+    "incompletePractice": "تدريب غير مكتمل · {answered} إجابة",
+    "incompleteExam": "اختبار غير مكتمل · {answered} إجابة",
+    "continuePractice": "متابعة التدريب",
+    "continueExam": "متابعة الاختبار",
+    "startPractice": "بدء التدريب",
+    "startExam": "بدء الاختبار",
+    "restartPractice": "إعادة التدريب",
+    "restartExam": "إعادة الاختبار",
+    "subscribeUnlock": "اشترك للفتح",
+    "attempts": "{count} محاولة"
+  },
+  "sharePoster": {
+    "subtitle": "تدريب TCF Canada أونلاين",
+    "tagline": "أداتك للتحضير لـ TCF Canada",
+    "correct": "صحيح {score}/{total}",
+    "timeTaken": "· الوقت {time}",
+    "tierExcellent": "ممتاز! مستوى NCLC 10+!",
+    "tierGreat": "رائع! وصلت إلى NCLC 7!",
+    "tierGood": "جيد! واصل للوصول إلى NCLC 7!",
+    "tierProgress": "تقدم ملحوظ! استمر في التدريب!",
+    "tierKeepGoing": "واصل! كل تمرين له قيمته!",
+    "tierExcellentShort": "ممتاز!",
+    "tierGreatShort": "رائع!",
+    "tierGoodShort": "أحسنت! واصل!",
+    "tierProgressShort": "تقدّم ملحوظ!",
+    "tierKeepGoingShort": "واصل! كل تمرين له قيمته!",
+    "typeListening": "الاستماع",
+    "typeReading": "القراءة",
+    "typeSpeaking": "التحدث",
+    "typeWriting": "الكتابة"
+  },
+  "testDetail": {
+    "breadcrumbTests": "الاختبارات",
+    "questionCount": "الأسئلة",
+    "timeLimit": "المدة المحددة",
+    "listeningExam": "وضع امتحان الاستماع",
+    "readingExam": "وضع امتحان القراءة",
+    "examBullets": {
+      "timer": "توقيت صارم (الاستماع 35 دقيقة / القراءة 60 دقيقة)",
+      "noGoBack": "لا يمكن الرجوع أو تعديل الإجابات",
+      "autoSubmit": "تسليم تلقائي عند انتهاء الوقت",
+      "showScore": "النتيجة + مستوى NCLC التقديري يظهران بعد التسليم"
+    },
+    "listeningExamBullets": {
+      "audioOnce": "يُشغَّل الصوت مرة واحدة فقط، بدون إعادة",
+      "autoNext": "ينتقل تلقائيًا بعد الإجابة، لا يمكن الرجوع",
+      "timedCompletion": "بتوقيت: أكمل {count} سؤالًا في {minutes} دقيقة",
+      "showScore": "تقرير النتيجة ومستوى TCF التقديري يظهران بعد التسليم"
+    },
+    "readingExamBullets": {
+      "freeNav": "تنقّل حر بين الأسئلة، يمكن تغيير الإجابات",
+      "timedCompletion": "بتوقيت: أكمل {count} سؤالًا في {minutes} دقيقة",
+      "showScore": "تقرير النتيجة ومستوى TCF التقديري يظهران بعد التسليم"
+    },
+    "practiceBullets": {
+      "noTimer": "بدون حد زمني، راجع بحرية",
+      "replayAudio": "بدون حد زمني، أعد تشغيل الصوت حسب الحاجة",
+      "showAnswer": "الإجابة الصحيحة والشرح المفصّل بعد كل سؤال",
+      "wrongNote": "الإجابات الخاطئة تُضاف تلقائيًا إلى دفتر الأخطاء"
+    },
+    "suggestion": "نصيحة: ابدأ بوضع التدريب لفهم الصيغة، ثم استخدم وضع الامتحان لمحاكاة الاختبار الحقيقي.",
+    "practiceProgress": "آخر تدريب: {answered} / {total} سؤال",
+    "examProgress": "آخر امتحان: {answered} / {total} سؤال",
+    "restart": "إعادة البدء",
+    "speakingDescTache2": "تدرّب على سيناريوهات تمثيل الأدوار. انسخ الموضوع والصقه في أداة الذكاء الاصطناعي المفضلة لديك للتدريب على المحادثة.",
+    "speakingDescTache3": "عبّر عن رأيك ودافع عنه حول موضوع معين. انسخ الموضوع والصقه في أداة الذكاء الاصطناعي المفضلة لديك للتدريب على التعبير الشفهي.",
+    "speakingDescNew": "اختر موضوعًا وتدرّب على محادثة فورية مع ممتحن بالذكاء الاصطناعي. احصل على تقييم مفصّل من 6 أبعاد بعد الجلسة.",
+    "speakingModeAI": "محادثة مع ممتحن AI",
+    "speakingModeAIDesc": "محادثة فورية مع ممتحن بالذكاء الاصطناعي يحاكي اختبار TCF الشفهي الحقيقي. احصل على تقرير تقييم من 6 أبعاد بعد الجلسة.",
+    "speakingModePron": "تدريب النطق / امتحان تجريبي",
+    "speakingModePronDesc": "اقرأ بصوت عالٍ أمام الميكروفون للحصول على تقييم النطق من Azure (الدقة، الطلاقة، التنغيم). وضع الامتحان بحد زمني.",
+    "externalAI": "ذكاء اصطناعي خارجي",
+    "notFound": "مجموعة الاختبار غير موجودة أو تم حذفها",
+    "writingBadge": "التعبير الكتابي",
+    "speakingBadge": "التعبير الشفهي",
+    "speakingTache2": "Tâche 2 · تمثيل الأدوار",
+    "speakingTache3": "Tâche 3 · عرض الرأي",
+    "writingTaskNames": [
+      "Tâche 1 · رسالة قصيرة (60-120 كلمة)",
+      "Tâche 2 · مقال مدوّنة (120-160 كلمة)",
+      "Tâche 3 · نص حجاجي (200-300 كلمة)"
+    ],
+    "criteria": {
+      "adequation": "إنجاز المهمة",
+      "coherence": "التماسك",
+      "vocabulaire": "المفردات",
+      "grammaire": "القواعد"
+    },
+    "overallComment": "التقييم العام",
+    "corrections": "التصحيحات النحوية",
+    "vocabSuggestions": "اقتراحات المفردات",
+    "writingHistoryFailed": "فشل تحميل بعض سجل الكتابة",
+    "gradingComplete": "اكتمل التصحيح!",
+    "gradingFailed": "فشل التصحيح. يرجى المحاولة لاحقًا.",
+    "writingDescription": "تحتوي كل مجموعة على 3 مهام كتابية (رسالة قصيرة، مقال مدوّنة، نص حجاجي). أدخل نصك أدناه للتصحيح بالذكاء الاصطناعي، أو تدرّب مع ChatGPT.",
+    "loadingHistory": "جارٍ تحميل سجل الكتابة...",
+    "essayPlaceholder": "اكتب نصك بالفرنسية هنا...",
+    "wordCount": "الكلمات: ",
+    "wordRange": "/ {min}-{max} كلمة",
+    "grading": "جارٍ التصحيح...",
+    "submitGrading": "إرسال للتصحيح",
+    "chatgptPractice": "تدريب ChatGPT",
+    "lastSubmitted": "آخر إرسال: {date}",
+    "speakingModeDesc": {
+      "tache2": "حوار تمثيل أدوار مع الممتحن. اقرأ وصف السيناريو، ثم تفاعل لإتمام المهمة.",
+      "tache3": "قدّم رأيك الشخصي حول موضوع اجتماعي في مونولوج مدته ~4 دقائق. قد يطرح الممتحن أسئلة متابعة."
+    }
+  },
+  "speakingGuide": {
+    "topics": [
+      "الهوية",
+      "التعليم",
+      "العمل",
+      "الهوايات",
+      "العائلة",
+      "الحياة اليومية",
+      "الهجرة"
+    ],
+    "title": "Tâche 1 · المقابلة الموجّهة",
+    "subtitle": "Entretien dirigé — يطرح الممتحن أسئلة تلقائية حول مواضيع يومية، حوالي دقيقتين",
+    "commonTopics": "المواضيع الشائعة",
+    "chatgptSimulation": "محاكاة ChatGPT",
+    "grokSimulation": "محاكاة Grok",
+    "examFlow": "سير الامتحان",
+    "noFixedTopics": "لا توجد أسئلة محددة",
+    "noFixedTopicsDesc": "يطرح الممتحن أسئلة تلقائية لا يمكن التنبؤ بها",
+    "prepStrategy": "التحضير: حضّر 2-3 جمل طبيعية لكل موضوع. لا تحفظها عن ظهر قلب — اجعلها محادثة طبيعية.",
+    "flowSteps": [
+      "يقول الممتحن 'Bonjour, installez-vous' ويبدأ المؤقت",
+      "تقديم ذاتي مختصر (الاسم، الجنسية، المهنة)",
+      "يطرح الممتحن سؤالاً أو سؤالين حول 3-4 مواضيع",
+      "أجب بشكل طبيعي، 2-3 جمل لكل سؤال، حوالي دقيقتين إجمالاً"
+    ]
+  },
+  "practice": {
+    "questionDisplay": {
+      "imageListening": "استمع إلى الخيارات الأربعة واختر الخيار المطابق للصورة.",
+      "imageListeningShort": "استمع إلى التسجيل والخيارات الأربعة، واختر الإجابة الصحيحة.",
+      "tabChinese": "صيني"
+    },
+    "navigator": {
+      "title": "دليل الأسئلة",
+      "unanswered": "بدون إجابة",
+      "correct": "صحيح",
+      "wrong": "خطأ",
+      "answered": "تمت الإجابة",
+      "questionLabel": "سؤال {n}، {status}"
+    },
+    "session": {
+      "tabTranscript": "النص",
+      "passageTranslation": "ترجمة الجملة",
+      "exitWarning": "التدريب قيد التقدم. يرجى استخدام زر \"إنهاء التدريب\" للخروج.",
+      "confirmAnswer": "تأكيد الإجابة",
+      "answerCorrect": "✓ صحيح!",
+      "addedToWrongNote": "أُضيف إلى دفتر الإجابات الخاطئة",
+      "prev": "السابق",
+      "completePractice": "إنهاء التدريب",
+      "next": "التالي",
+      "viewAfterAnswer": "أجب لعرض الشرح",
+      "clickToPlay": "انقر على جملة لإعادة تشغيل ذلك الجزء",
+      "reportTitle": "الإبلاغ عن مشكلة",
+      "loadError": "فشل تحميل بيانات التدريب"
+    },
+    "optionList": {
+      "ariaLabel": "خيارات الإجابة"
+    },
+    "report": {
+      "title": "الإبلاغ عن مشكلة",
+      "description": "وجدت مشكلة؟ حدّد نوع المشكلة واشرح التفاصيل.",
+      "types": {
+        "wrong_answer": "إجابة خاطئة",
+        "audio_issue": "مشكلة في الصوت",
+        "option_error": "خطأ في محتوى الخيار",
+        "other": "مشكلة أخرى"
+      },
+      "typeLabel": "نوع المشكلة",
+      "typePlaceholder": "اختر نوع المشكلة",
+      "detailLabel": "التفاصيل (اختياري)",
+      "detailPlaceholder": "اشرح المشكلة...",
+      "selectType": "يرجى اختيار نوع المشكلة",
+      "success": "تم إرسال الملاحظة. شكراً لك!",
+      "duplicate": "لقد أبلغت عن هذا النوع من المشاكل سابقاً",
+      "cancel": "إلغاء",
+      "submit": "إرسال الملاحظة"
+    }
+  },
+  "audio": {
+    "loadError": "فشل تحميل الصوت",
+    "playError": "فشل التشغيل",
+    "loadRetryError": "فشل تحميل الصوت. يرجى إعادة المحاولة.",
+    "mute": "كتم الصوت",
+    "unmute": "إلغاء كتم الصوت",
+    "volume": "مستوى الصوت",
+    "replay": "إعادة التشغيل",
+    "speed": "السرعة",
+    "played": "تمّ التشغيل"
+  },
+  "explanation": {
+    "viewExplanation": "عرض الشرح",
+    "loading": "جارٍ تحميل الشرح...",
+    "loadFailed": "فشل التحميل. ",
+    "clickRetry": "اضغط لإعادة المحاولة",
+    "comingSoon": "الشروحات قادمة قريباً.",
+    "forceRefresh": "تحديث إجباري",
+    "title": "الشرح",
+    "distractors": "تحليل الخيارات الخاطئة",
+    "distractorCount": "({count} عناصر)",
+    "expandHint": "اضغط للتوسيع",
+    "vocabulary": "المفردات",
+    "studyPoints": "نقاط الدراسة"
+  },
+  "wordCard": {
+    "loading": "جارٍ التحميل...",
+    "error": "فشل التحميل. يرجى إعادة المحاولة.",
+    "plural": "الجمع: {form}",
+    "adjForms": "أشكال الصفة",
+    "masc": "M",
+    "fem": "F",
+    "sg": "Sg",
+    "pl": "Pl",
+    "mascSg": "م.مف",
+    "femSg": "م.مؤ",
+    "mascPl": "ج.مذ",
+    "femPl": "ج.مؤ",
+    "examples": "أمثلة",
+    "tenses": {
+      "present": "المضارع",
+      "passeCompose": "الماضي المركّب",
+      "imparfait": "الماضي الناقص",
+      "futurSimple": "المستقبل البسيط",
+      "conditionnel": "الشرطي",
+      "subjonctif": "الشكّي"
+    },
+    "verbConj": "تصريف الفعل",
+    "verbGroup": "المجموعة {group}",
+    "pastParticiple": "اسم المفعول: {form}",
+    "auxiliary": "الفعل المساعد: {aux}",
+    "save": "حفظ",
+    "saved": "تمّ الحفظ",
+    "unsave": "إلغاء الحفظ",
+    "familyTitle": "عائلة الكلمة",
+    "loadMsg1": "لقد اكتشفتَ كلمة جديدة لم تُستخرج بعد!",
+    "loadMsg2": "أستخرجها لك الآن... ⛏️",
+    "loadMsg3": "النطق والمعاني والأمثلة — لن أترك شيئاً",
+    "loadMsg4": "جداول التصريف قيد الإعداد — أنا أدقّ من كتابك المدرسي",
+    "loadMsg5": "أنتَ أول من يستكشف هذه الكلمة! يسعدني ذلك",
+    "loadMsg6": "أوشكتُ على الانتهاء، اللمسات الأخيرة فقط..."
+  },
+  "exam": {
+    "session": {
+      "exitWarning": "الاختبار قيد التقدم. يرجى استخدام زر \"تسليم الاختبار\" للخروج.",
+      "submitExam": "تسليم الاختبار",
+      "confirmTitle": "تسليم الاختبار؟",
+      "answeredCount": "تمت الإجابة على {answered} / {total} سؤال.",
+      "unansweredCount": "{count} سؤال بدون إجابة.",
+      "submitWarning": "لا يمكنك تعديل الإجابات بعد التسليم.",
+      "continueExam": "متابعة الاختبار",
+      "confirmSubmit": "تأكيد التسليم",
+      "questionNumber": "س {current} / {total}",
+      "next": "التالي",
+      "prev": "السابق",
+      "loadError": "فشل تحميل بيانات الاختبار"
+    },
+    "timer": {
+      "fiveMinutes": "تنبيه: بقيت 5 دقائق",
+      "oneMinute": "تنبيه: بقيت دقيقة واحدة",
+      "remaining": "متبقي {minutes} د {seconds} ث"
+    }
+  },
+  "results": {
+    "breadcrumbTests": "الاختبارات",
+    "breadcrumbReport": "تقرير النتيجة",
+    "defaultTitle": "تقرير النتيجة",
+    "upgradeBanner": {
+      "title": "هل تريد التحسّن بشكل أسرع؟",
+      "description": "يتيح اشتراك Pro جميع الاختبارات ووضع الاختبار ودفتر الإجابات الخاطئة والتدريب السريع",
+      "features": [
+        "أكثر من 8,500 سؤال متاح",
+        "وضع الاختبار يحاكي الامتحان الحقيقي",
+        "تتبّع تلقائي للإجابات الخاطئة",
+        "تدريب سريع لممارسة فعّالة"
+      ]
+    },
+    "reviewTitle": "مراجعة السؤال {num}",
+    "filterAll": "الكل",
+    "filterWrongOnly": "الخاطئة فقط",
+    "noWrongAnswers": "لا توجد إجابات خاطئة",
+    "noAnswerRecords": "لا توجد سجلات إجابات",
+    "practiceWrong": "تدريب على الخاطئة ({count})",
+    "nextSet": "التالي: {name}",
+    "backToTests": "العودة إلى الاختبارات",
+    "loadError": "فشل تحميل النتائج",
+    "scoreCard": {
+      "answered": "{score}/{total} صحيح",
+      "timeUsed": "الوقت: {time}"
+    },
+    "reviewItem": {
+      "points": "{points} نقطة",
+      "notAnswered": "لم تتم الإجابة",
+      "correctAnswer": "الإجابة الصحيحة: {answer}",
+      "transcript": "نص الاستماع"
+    },
+    "nclc": {
+      "listening": "الاستماع (CO)",
+      "reading": "القراءة (CE)",
+      "title": "جدول مستويات NCLC",
+      "yourPosition": "← أنت",
+      "footnote": "* NCLC 7 = CLB 7، الحد الأدنى اللغوي المطلوب لـ Express Entry / PEQ"
+    },
+    "scoreGrid": {
+      "title": "توزيع نقاط الأسئلة",
+      "correct": "صحيح",
+      "wrong": "خطأ",
+      "unanswered": "بدون إجابة",
+      "total": "{earned} / {max} نقطة ({pct}%)"
+    },
+    "levelBreakdown": {
+      "ungraded": "غير مصنّف",
+      "title": "توزيع المستويات",
+      "level": "المستوى",
+      "count": "العدد",
+      "correct": "صحيح",
+      "accuracy": "الدقة"
+    },
+    "share": {
+      "button": "مشاركة النتيجة",
+      "title": "شارك نتيجتك",
+      "subtitle": "احفظ الصورة وشاركها على وسائل التواصل الاجتماعي!",
+      "save": "حفظ الصورة",
+      "saving": "جارٍ الإنشاء...",
+      "saved": "تم الحفظ! شاركها الآن! 🎉"
+    }
+  },
+  "encouragement": {
+    "nclc7Requirement": "TCF {level} · يتطلب NCLC 7 درجة ≥ 458",
+    "scoreDisplay": "{score}/{total} صحيحة"
+  },
+  "account": {
+    "defaultName": "طالب",
+    "saveFailed": "فشل الحفظ",
+    "passwordMinLength": "يجب أن تتكون كلمة المرور الجديدة من 8 أحرف على الأقل",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين",
+    "passwordChangeFailed": "فشل تغيير كلمة المرور",
+    "subscription": {
+      "monthly": "شهري",
+      "quarterly": "ربع سنوي",
+      "yearly": "سنوي",
+      "trialing": "تجريبي",
+      "member": "عضو",
+      "trialUntil": "تجريبي حتى {date}",
+      "renewalDate": "يُجدَّد في {date}",
+      "manageSubscription": "إدارة الاشتراك"
+    },
+    "stats": {
+      "title": "إحصائيات الدراسة",
+      "practiceCount": "الجلسات",
+      "totalAccuracy": "الدقة",
+      "streakDays": "التتابع",
+      "totalQuestions": "الأسئلة",
+      "listeningAccuracy": "دقة الاستماع",
+      "readingAccuracy": "دقة القراءة",
+      "practices": "جلسة",
+      "questionsCount": "سؤال",
+      "accuracy": "دقة"
+    },
+    "continuePractice": "تابع التدريب",
+    "unlockAll": "افتح جميع الأسئلة الـ 8,500+ وأدوات المفردات",
+    "yearlyDeal": "الاشتراك السنوي ابتداءً من $8.33/شهر مع شهرين تجريبيين مجانًا",
+    "upgradePro": "الترقية إلى Pro",
+    "profile": {
+      "title": "الملف الشخصي",
+      "email": "البريد الإلكتروني",
+      "name": "الاسم",
+      "namePlaceholder": "أدخل الاسم",
+      "password": "كلمة المرور",
+      "changePassword": "تغيير كلمة المرور",
+      "currentPassword": "كلمة المرور الحالية",
+      "newPassword": "كلمة المرور الجديدة",
+      "newPasswordPlaceholder": "8 أحرف على الأقل",
+      "confirmPassword": "تأكيد كلمة المرور الجديدة",
+      "passwordChanged": "تم تغيير كلمة المرور بنجاح",
+      "confirmChange": "تأكيد التغيير"
+    },
+    "accountCard": {
+      "title": "الحساب",
+      "registeredAt": "تاريخ التسجيل: {date}",
+      "logout": "تسجيل الخروج"
+    },
+    "language": {
+      "title": "لغة الواجهة",
+      "description": "اختر لغة العرض"
+    },
+    "heroGreetingPro": "Bonjour, {name}",
+    "heroGreetingFree": "Salut {name},",
+    "quotes": {
+      "0": "شيئًا فشيئًا، يبني العصفور عشّه. — الخطوات الصغيرة تقود إلى نتائج كبيرة.",
+      "1": "بالممارسة يصبح المرء حدّادًا. — التكرار أساس الإتقان.",
+      "2": "من جدّ وجد.",
+      "3": "روما لم تُبنَ في يوم.",
+      "4": "من لا يجازف لا يغنم شيئًا.",
+      "5": "للقلب الشجاع لا مستحيل.",
+      "6": "الجداول الصغيرة تصنع الأنهار الكبيرة. — كل جهد صغير يُحسب.",
+      "7": "بعد المطر تأتي الشمس. — الأيام الصعبة يعقبها فرج.",
+      "8": "من يعش يرَ. — الزمن كفيل بالإجابة والمستقبل واعد.",
+      "9": "الليل يجلب المشورة. — نم على الأمر وستجد الحل.",
+      "10": "أن تأتي متأخرًا خير من ألّا تأتي أبدًا.",
+      "11": "المثابرة هي أنبل أشكال العناد. — أدريان دوكورسيل",
+      "12": "المستقبل لمن يستيقظ باكرًا.",
+      "13": "كل لغة جديدة هي نافذة جديدة على العالم."
+    }
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "loadError": "فشل تحميل الإحصائيات",
+    "upgradeBanner": {
+      "title": "افتح أدوات الدراسة الكاملة",
+      "description": "اشترك في Pro لوضع الاختبار ودفتر الأخطاء والتمرين السريع والمزيد"
+    },
+    "continuePractice": "متابعة التدريب",
+    "startPractice": "بدء التدريب",
+    "joinStudyGroup": "انضم إلى مجموعة الدراسة",
+    "community": {
+      "title": "انضم إلى مجتمعنا",
+      "description": "تواصل مع متقدمي TCF وشارك النصائح وحضّروا معاً",
+      "followXhs": "تابعنا على Xiaohongshu",
+      "joinGroup": "امسح للانضمام إلى مجموعة WeChat"
+    },
+    "hideDetails": "إخفاء التفاصيل",
+    "showDetails": "عرض التفاصيل",
+    "levelDistribution": "توزيع المستويات",
+    "levelScore": "{correct}/{answered}",
+    "recentRecords": "السجلات الأخيرة",
+    "readiness": {
+      "title": "جاهزية CLB 7",
+      "reached": "تم الوصول ✓",
+      "gap": "{gap}% متبقية",
+      "keepGoing": "استمر",
+      "nearTarget": "اقتربت من الهدف",
+      "needEffort": "استمر في التدريب",
+      "practiceCount": "الجلسات",
+      "startStreak": "ابدأ سلسلتك",
+      "listening": "الاستماع",
+      "reading": "القراءة",
+      "summaryBothReached": "الاستماع والقراءة كلاهما وصلا للهدف. استمر!",
+      "summaryListeningReached": "الاستماع وصل للهدف. القراءة تحتاج {gap}% إضافية للوصول إلى CLB 7!",
+      "summaryReadingReached": "القراءة وصلت للهدف. الاستماع يحتاج {gap}% إضافية للوصول إلى CLB 7!",
+      "summaryKeepGoing": "استمر في التدريب واسعَ نحو CLB 7!",
+      "streakLegend": "{days} يوم! أنت أسطورة",
+      "streakWeek": "سلسلة {days} أيام، لا تتوقف!",
+      "streakDays": "سلسلة {days} أيام، استمر!",
+      "streakToday": "تدرّبت اليوم، واصل غداً",
+      "streakNone": "لم تتدرب اليوم",
+      "milestone30": "إنجاز 30 يوماً",
+      "milestone14": "إنجاز 14 يوماً",
+      "milestone7": "إنجاز 7 أيام",
+      "milestone3": "إنجاز 3 أيام"
+    },
+    "charts": {
+      "levelRadar": "مخطط المستويات",
+      "levelRadarEmpty": "أكمل عدة مستويات لرؤية المخطط الراداري",
+      "radarTooltip": "{value}% ({answered} سؤال)",
+      "radarLabel": "الدقة",
+      "dailyPractice": "التدريب اليومي",
+      "dailyPracticeEmpty": "أكمل جلسة لرؤية التدريب اليومي",
+      "dailyTooltip": "{value} جلسات",
+      "dailyLabel": "الجلسات",
+      "accuracyTrend": "اتجاه الدقة",
+      "accuracyTrendEmpty": "أكمل جلستين لرؤية الاتجاه",
+      "accuracyLabel": "الدقة"
+    }
+  },
+  "wrongAnswers": {
+    "title": "الأخطاء",
+    "subtitle": "تتبع نقاط الضعف وتحسّن بشكل منهجي",
+    "generating": "جارٍ إنشاء الشرح...",
+    "practiceFromWrong": "تدريب على {count} سؤال",
+    "filters": {
+      "allTypes": "جميع الأنواع",
+      "allStatus": "جميع الحالات",
+      "unmastered": "غير مُتقَن",
+      "mastered": "مُتقَن",
+      "recentWrong": "الأحدث",
+      "mostWrong": "الأكثر خطأً",
+      "byLevel": "حسب المستوى",
+      "hideUnmastered": "إخفاء المُتقَن"
+    },
+    "stats": {
+      "total": "الإجمالي",
+      "mastered": "مُتقَن",
+      "unmastered": "غير مُتقَن"
+    },
+    "progress": {
+      "title": "تقدّم الإتقان",
+      "masteredOf": "{mastered} / {total} مُتقَن"
+    },
+    "empty": {
+      "title": "لا توجد إجابات خاطئة بعد",
+      "description": "أكمل مجموعة اختبارية وستُجمع الإجابات الخاطئة هنا للمراجعة المركّزة"
+    },
+    "goToTests": "الذهاب إلى الاختبارات",
+    "loadFailed": "فشل تحميل الإجابات الخاطئة",
+    "markMastered": "تحديد كمُتقَن",
+    "markUnmastered": "إلغاء علامة الإتقان",
+    "card": {
+      "wrongCount": "خطأ {count} مرة",
+      "mastered": "مُتقَن",
+      "markMastered": "تحديد كمُتقَن",
+      "understoodIt": "فهمت هذا السؤال",
+      "loading": "جارٍ التحميل...",
+      "transcript": "نص الاستماع",
+      "loadFailed": "فشل تحميل التفاصيل",
+      "retry": "إعادة المحاولة",
+      "loadError": "تعذّر تحميل تفاصيل السؤال"
+    },
+    "upgradeBanner": {
+      "title": "دفتر الإجابات الخاطئة متاح لمشتركي Pro فقط",
+      "description": "جمع تلقائي للإجابات الخاطئة وتتبّع حالة الإتقان وإنشاء تدريب مُوجَّه",
+      "features": [
+        "جمع تلقائي لجميع الإجابات الخاطئة",
+        "تصفية حسب النوع والمستوى",
+        "تدريب بنقرة واحدة من الإجابات الخاطئة",
+        "تحديد المُتقَن وتتبّع التقدم"
+      ]
+    }
+  },
+  "speedDrill": {
+    "title": "تمرين سريع",
+    "subtitle": "اختر النوع والمستوى للتدريب المركّز",
+    "selectType": "اختر النوع",
+    "selectLevel": "اختر المستوى",
+    "selectAll": "اختيار الكل",
+    "questionCount": "عدد الأسئلة",
+    "questionsLabel": "{count} سؤال",
+    "startDrill": "بدء التمرين",
+    "generating": "جارٍ التوليد...",
+    "noMoreQuestions": "لا توجد أسئلة جديدة متاحة",
+    "startFailed": "فشل بدء التمرين السريع. يرجى إعادة المحاولة.",
+    "upgradeBanner": {
+      "title": "التمرين السريع متاح فقط لمشتركي Pro",
+      "description": "تدريب مستهدف حسب المستوى والنوع، مثالي لجلسات الدراسة القصيرة",
+      "features": [
+        "مكتبة الاستماع والقراءة الكاملة",
+        "تصفية حسب المستوى A1–C2",
+        "عدد أسئلة مخصّص",
+        "إزالة التكرار ذكياً، بدون إعادة"
+      ]
+    }
+  },
+  "history": {
+    "title": "سجل المحاولات",
+    "subtitle": "عرض جميع نتائج التدريب والاختبار",
+    "empty": {
+      "title": "لا توجد سجلات بعد",
+      "description": "أكمل جلسة تدريب وستظهر نتائجك هنا"
+    },
+    "goToTests": "الذهاب إلى الاختبارات",
+    "incomplete": "غير مكتمل",
+    "loadMore": "تحميل المزيد",
+    "summary": {
+      "title": "تقدّمي",
+      "totalAttempts": "الإجمالي",
+      "avgScore": "متوسط النتيجة",
+      "bestLevel": "أفضل مستوى"
+    },
+    "filter": {
+      "all": "الكل"
+    },
+    "groups": {
+      "today": "اليوم",
+      "thisWeek": "هذا الأسبوع",
+      "earlier": "سابقاً"
+    }
+  },
+  "payment": {
+    "success": {
+      "title": "مرحباً بك في HiTCF Pro",
+      "description": "تم فتح أكثر من 8,500 سؤال. وضع الاختبار ودفتر الإجابات الخاطئة والتدريب السريع وتقدير مستوى CLB كلها متاحة الآن.",
+      "syncing": "جارٍ مزامنة حالة الاشتراك...",
+      "startPractice": "ابدأ التدريب",
+      "viewSubscription": "عرض الاشتراك"
+    },
+    "cancel": {
+      "title": "مثل إوزة كندا، خذ وقتك",
+      "description": "لم تكتمل عملية الدفع — لم يتم خصم أي مبلغ. إوزة كندا تهاجر جنوباً في الشتاء لكنها تعود دائماً — سنكون هنا عندما تكون جاهزاً.",
+      "choosePlan": "اختر خطة",
+      "backToTests": "العودة إلى الاختبارات"
+    },
+    "unsubscribed": {
+      "title": "إلى اللقاء",
+      "description": "يستمر وصولك إلى Pro حتى نهاية فترة الفوترة الحالية. مثل إوزة كندا، نرحب بعودتك دائماً.",
+      "continuePractice": "متابعة التدريب",
+      "resubscribe": "إعادة الاشتراك"
+    },
+    "error": {
+      "title": "حدث خطأ ما",
+      "description": "حدث خطأ أثناء عملية الدفع. إذا تم الخصم من حسابك ولم يتم تفعيل اشتراكك، يرجى التواصل معنا.",
+      "retry": "إعادة المحاولة",
+      "backToTests": "العودة إلى الاختبارات"
+    }
+  },
+  "errorPage": {
+    "title": "حدث خطأ",
+    "description": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى."
+  },
+  "notFound": {
+    "title": "الصفحة غير موجودة",
+    "description": "الصفحة التي تبحث عنها غير موجودة.",
+    "backToTests": "العودة إلى الاختبارات",
+    "backToHome": "العودة إلى الرئيسية"
+  },
+  "upgradeBanner": {
+    "defaultTitle": "افتح التجربة الكاملة",
+    "defaultDescription": "اشترك في Pro للوصول إلى أكثر من 8,500 سؤال وميزات متقدمة",
+    "viewPlans": "عرض الخطط",
+    "yearlyTrial": "شهران مجاناً مع الخطة السنوية",
+    "upgradePro": "الترقية إلى Pro"
+  },
+  "continueBanner": {
+    "title": "لديك جلسة تدريب غير مكتملة",
+    "name": "تدريب",
+    "progress": "التقدم: {answered} / {total}",
+    "continue": "متابعة"
+  },
+  "recommendedBanner": {
+    "title": "التالي المُوصى به",
+    "start": "ابدأ"
+  },
+  "placementBanner": {
+    "title": "اختبر مستواك CLB",
+    "description": "خُذ اختبار استماع مجاني واكتشف مدى قربك من CLB 7",
+    "preparing": "جارٍ التحضير...",
+    "startTest": "ابدأ الاختبار"
+  },
+  "clb7Progress": {
+    "reached": "وصلت إلى CLB 7!",
+    "gap": "أنت على بُعد {gap} نقطة من CLB 7",
+    "keepGoing": "استمر",
+    "target": "هدف CLB 7 (%78)",
+    "listening": "الاستماع {pct}%",
+    "reading": "القراءة {pct}%"
+  },
+  "tcfLevels": {
+    "C2": {
+      "label": "C2 متفوق",
+      "description": "إتقان شبه أصلي"
+    },
+    "C1": {
+      "label": "C1 متقدم",
+      "description": "طلاقة وثقة"
+    },
+    "B2": {
+      "label": "B2 فوق المتوسط",
+      "description": "استخدام مستقل للغة"
+    },
+    "B1": {
+      "label": "B1 متوسط",
+      "description": "التواصل اليومي"
+    },
+    "A2": {
+      "label": "A2 مبتدئ متقدم",
+      "description": "تعبيرات يومية بسيطة"
+    },
+    "A1": {
+      "label": "A1 مبتدئ",
+      "description": "مفردات وعبارات أساسية"
+    }
+  },
+  "writingExam": {
+    "title": "اختبار التعبير الكتابي",
+    "loadError": "فشل تحميل بيانات اختبار التعبير الكتابي",
+    "exitWarning": "الامتحان قيد التقدم. يرجى استخدام زر الإرسال للخروج.",
+    "placeholder": "اكتب مقالتك بالفرنسية هنا...",
+    "wordCount": "عدد الكلمات: ",
+    "unsaved": "غير محفوظ",
+    "prevTask": "المهمة السابقة",
+    "nextTask": "المهمة التالية",
+    "submitAll": "إرسال الامتحان",
+    "confirmTitle": "إرسال اختبار التعبير الكتابي؟",
+    "words": "كلمة",
+    "empty": "فارغ",
+    "emptyWarning": "{count} مهمة/مهام فارغة ولن يتم تصحيحها.",
+    "wordRangeWarning": "بعض المهام خارج نطاق عدد الكلمات الموصى به.",
+    "submitWarning": "لا يمكنك إجراء تعديلات بعد الإرسال. سيقوم الذكاء الاصطناعي بتصحيح جميع المقالات.",
+    "continueWriting": "متابعة الكتابة",
+    "confirmSubmit": "تأكيد الإرسال",
+    "gradingInProgress": "جارٍ تصحيح مقالاتك...",
+    "gradingWait": "يراجع الذكاء الاصطناعي كل مقالة. يرجى الانتظار (حوالي 30-60 ثانية).",
+    "completeFailed": "فشل الإرسال، يرجى المحاولة مرة أخرى",
+    "referenceDocuments": "وثائق مرجعية",
+    "modeDialog": {
+      "subtitle": "Tâche 1 + 2 + 3 · تدريب واختبار التعبير الكتابي",
+      "practiceLabel": "وضع التدريب: ",
+      "practiceDesc": "بدون حد زمني، تصحيح كل مهمة على حدة، ملاحظات فورية، تعديل وإعادة إرسال",
+      "examLabel": "وضع الامتحان: ",
+      "examDesc": "مؤقت 60 دقيقة، إرسال المقالات الثلاث معًا، تصحيح ودرجة إجمالية",
+      "incompletePractice": "لديك جلسة تدريب كتابي غير مكتملة",
+      "incompleteExam": "لديك جلسة اختبار كتابي غير مكتملة"
+    },
+    "overview": {
+      "examBullet1": "أكمل 3 مقالات في 60 دقيقة (Tâche 1 + 2 + 3)",
+      "examBullet2": "جلسة محددة الوقت، إرسال تلقائي عند انتهاء الوقت",
+      "examBullet3": "يصحح الذكاء الاصطناعي جميع المقالات بعد الإرسال، مع عرض الدرجة الإجمالية ومستوى NCLC التقديري",
+      "practiceBullet1": "بدون حد زمني، تدرّب بالسرعة التي تناسبك",
+      "practiceBullet2": "تصحيح كل مقالة على حدة مع ملاحظات فورية من الذكاء الاصطناعي",
+      "practiceBullet3": "عدّل وأعد الإرسال لتحسين أدائك تدريجيًا"
+    },
+    "results": {
+      "title": "نتائج التعبير الكتابي",
+      "examMode": "وضع الامتحان",
+      "practiceMode": "وضع التدريب",
+      "notFound": "لم يتم العثور على النتائج",
+      "notGraded": "لم يتم التصحيح (لا يوجد إرسال)",
+      "backToTests": "العودة إلى الاختبارات",
+      "tryAgain": "حاول مرة أخرى",
+      "showDetails": "عرض التصحيحات والاقتراحات",
+      "hideDetails": "إخفاء التصحيحات والاقتراحات"
+    }
+  },
+  "writingPractice": {
+    "title": "تدريب على التعبير الكتابي"
+  },
+  "accentToolbar": {
+    "ariaLabel": "أحرف فرنسية مميّزة",
+    "insertChar": "إدراج {char} (Shift+اضغط لـ {upper})"
+  },
+  "writingGuide": {
+    "title": "دليل التعبير الكتابي",
+    "format": "الشكل",
+    "register": "مستوى اللغة",
+    "structure": "البنية",
+    "connectors": "روابط مفيدة",
+    "wordTarget": "عدد الكلمات المستهدف",
+    "task1": {
+      "format": "رسالة إلكترونية/خطاب/مذكرة لمستلم محدد. تضمين التحية والختام.",
+      "register": "استخدم tu (صديق/زميل) أو vous (رسمي/غريب) حسب التعليمات.",
+      "steps": [
+        "التحية (Cher/Chère…, Bonjour…)",
+        "اذكر هدفك (Je vous écris pour…)",
+        "قدّم المعلومات والتفاصيل المطلوبة",
+        "الختام (Cordialement, Amicalement…)"
+      ],
+      "words": "60-120 كلمة (مستوى A2-B1)"
+    },
+    "task2": {
+      "format": "مقال أو خطاب أو نص قصير لعدة قراء. اسرد تجربة مع تعليقات وآراء.",
+      "register": "استخدم عمومًا vous أو الصيغ غير الشخصية. رسمي لكن غير أكاديمي.",
+      "steps": [
+        "المقدمة — اعرض الموضوع",
+        "المتن — السرد + التعليقات والآراء (2-3 فقرات)",
+        "الخاتمة — لخّص موقفك"
+      ],
+      "words": "120-150 كلمة (مستوى B1-B2)"
+    },
+    "task3": {
+      "format": "مقال تحليلي لمجلة أو موقع إلكتروني. مبني على وثيقتين بوجهتي نظر متعارضتين.",
+      "register": "مستوى لغة أكاديمي رسمي. استخدم on، il est + adj. que، وصيغ غير شخصية أخرى.",
+      "steps": [
+        "الجزء الأول (40-60 كلمة): لخّص وجهتي النظر المتعارضتين في الوثيقتين",
+        "الجزء الثاني (80-120 كلمة): اعرض موقفك مع حجج داعمة"
+      ],
+      "words": "120-180 كلمة (مستوى B2-C1)"
+    }
+  },
+  "expressionsDrawer": {
+    "trigger": "تعبيرات",
+    "title": "تعبيرات فرنسية شائعة",
+    "subtitle": "اضغط للإدراج عند موضع المؤشر",
+    "categories": {
+      "greeting": "التحية",
+      "opening": "الافتتاح",
+      "connector": "الروابط",
+      "opinion": "الرأي",
+      "closing": "الخاتمة"
+    },
+    "notes": {
+      "greeting.dear": "عزيزي/عزيزتي…",
+      "greeting.hello": "مرحباً…",
+      "greeting.formal": "مخاطبة رسمية",
+      "opening.writeTo": "أكتب إليكم من أجل…",
+      "opening.contactFor": "أتواصل معكم بخصوص…",
+      "opening.followingAd": "إثر إعلانكم…",
+      "opening.wouldLike": "أودّ أن…",
+      "opening.talkAbout": "أودّ أن أحدثكم عن…",
+      "opening.fewDaysAgo": "قبل بضعة أيام…",
+      "opening.recently": "مؤخراً أتيحت لي الفرصة…",
+      "opening.heartfelt": "موضوع قريب من قلبي",
+      "opening.opposingViews": "وثيقتان بوجهتي نظر متعارضتين حول…",
+      "opening.firstDoc": "وفقاً للوثيقة الأولى…",
+      "opening.secondDoc": "تشير الوثيقة الثانية إلى أنّ…",
+      "opening.accordingTo": "وفقاً للكاتب…",
+      "connector.moreover": "علاوة على ذلك",
+      "connector.indeed": "في الواقع",
+      "connector.furthermore": "فضلاً عن ذلك",
+      "connector.thatIsWhy": "لهذا السبب",
+      "connector.however": "غير أنّ",
+      "connector.onTheOtherHand": "من ناحية أخرى",
+      "connector.onOneHand": "من ناحية… ومن ناحية أخرى",
+      "connector.forExample": "على سبيل المثال",
+      "connector.despite": "رغم ذلك",
+      "connector.nevertheless": "مع ذلك",
+      "connector.nonetheless": "بالرغم من ذلك",
+      "connector.consequently": "بالتالي",
+      "connector.regarding": "فيما يخصّ…",
+      "connector.mustNote": "تجدر الإشارة إلى أنّ",
+      "connector.undeniable": "لا يمكن إنكار أنّ",
+      "opinion.inMyOpinion": "في رأيي",
+      "opinion.iConsider": "أعتبر أنّ",
+      "opinion.itSeemsToMe": "يبدو لي أنّ",
+      "opinion.convinced": "أنا مقتنع بأنّ",
+      "opinion.personally": "شخصياً، أرى أنّ",
+      "opinion.iMaintain": "من جهتي، أؤكد أنّ",
+      "opinion.obvious": "من الواضح أنّ",
+      "opinion.cannotDeny": "لا يمكن إنكار أنّ",
+      "opinion.worthNoting": "من الجدير بالملاحظة أنّ",
+      "closing.thankYou": "شكراً مسبقاً",
+      "closing.awaitReply": "في انتظار ردّكم",
+      "closing.regards": "مع أطيب التحيات",
+      "closing.friendly": "بودّ",
+      "closing.seeYou": "إلى اللقاء قريباً",
+      "closing.inConclusion": "في الختام",
+      "closing.forAllReasons": "لكل هذه الأسباب",
+      "closing.ultimately": "في نهاية المطاف",
+      "closing.inSummary": "باختصار",
+      "closing.toSum": "خلاصة القول",
+      "closing.allConsidered": "بعد كل اعتبار"
+    }
+  },
+  "writingHints": {
+    "trigger": "تلميحات",
+    "title": "أفكار للحجج",
+    "subtitle": "انقر على عبارة لإدراجها في مقالتك",
+    "loading": "جارٍ توليد الأفكار...",
+    "error": "فشل التوليد",
+    "retry": "إعادة المحاولة"
+  },
+  "writingSidebar": {
+    "title": "الأسئلة",
+    "loading": "جارٍ التحميل...",
+    "navigating": "جارٍ التنقل..."
+  },
+  "consigneTranslation": {
+    "showTranslation": "عرض الترجمة",
+    "hideTranslation": "إخفاء الترجمة",
+    "loading": "جارٍ الترجمة…",
+    "translationLabel": "ترجمة التعليمات",
+    "passageLabel": "ترجمة الوثيقة المرجعية",
+    "fetchError": "فشل تحميل الترجمة. يرجى إعادة المحاولة."
+  },
+  "vocabulary": {
+    "title": "المفردات",
+    "subtitle": "انقر على الكلمات أثناء التدريب واحفظها وراجعها بالبطاقات التعليمية",
+    "loginHint": "يرجى تسجيل الدخول لاستخدام ميزة المفردات",
+    "loginToSave": "سجّل الدخول لحفظ الكلمات",
+    "viewAll": "عرض الكل →",
+    "recentSaved": "المحفوظات الأخيرة",
+    "stats": {
+      "total": "إجمالي المحفوظات"
+    },
+    "pools": {
+      "mySaved": "كلماتي المحفوظة",
+      "savedCount": "{count} كلمة",
+      "tcfCorpus": "مفردات TCF",
+      "comingSoon": "قريباً"
+    },
+    "mySaved": {
+      "title": "كلماتي المحفوظة",
+      "filterAll": "الكل",
+      "emptyTitle": "لا توجد كلمات محفوظة بعد",
+      "emptyDesc": "انقر على الكلمات أثناء التدريب لحفظها هنا",
+      "goToTests": "الذهاب إلى الاختبارات",
+      "flashcardReview": "مراجعة البطاقات",
+      "remove": "إزالة"
+    },
+    "flashcard": {
+      "empty": "لا توجد كلمات محفوظة بعد. تدرّب واحفظ بعض الكلمات أولاً.",
+      "emptyNihao": "لا توجد بيانات مفردات. جرّب اختيار مستوى أو درس.",
+      "tapToFlip": "انقر للقلب",
+      "showDict": "القاموس",
+      "hideDict": "إخفاء القاموس",
+      "proDesc": "النطق الصوتي والتصريفات والأمثلة والصوت متاحة مع Pro",
+      "proUpgrade": "تعرّف على Pro"
+    },
+    "export": {
+      "button": "تصدير",
+      "title": "تصدير",
+      "description": "تصدير {count} كلمة إلى ملف",
+      "ankiTitle": "مجموعة Anki (.apkg)",
+      "ankiDesc": "استيراد إلى Anki Desktop مع قوالب بطاقات وجه/ظهر",
+      "previewFront": "الوجه",
+      "previewBack": "الظهر",
+      "previewMeaning": "مرحباً",
+      "previewExample": "!Bienvenue en France",
+      "previewPlay": "تشغيل النطق",
+      "previewFooter": "HiTCF.com — تدريب TCF Canada عبر الإنترنت",
+      "downloadButton": "تحميل",
+      "exporting": "جارٍ التصدير…",
+      "cardsReady": "بطاقة جاهزة",
+      "buildingDeck": "جارٍ بناء مجموعة Anki…",
+      "humor0": "أبني جداول التصريف لـ 6 أزمنة… أدق من تحضيرك للامتحان",
+      "humor1": "أحدّد جنس الأسماء… le؟ la؟ حتى الفرنسيون لا يتفقون",
+      "humor2": "أحمّل ملفات النطق… حرف R الفرنسي صعب فعلاً",
+      "humor3": "أصيغ جملاً نموذجية… مضمونة أنها اصطلاحية",
+      "humor4": "أرتّب الصنف والنطق والمعاني… أنظف من ملاحظاتك المكتوبة يدوياً",
+      "humor5": "اقتربنا، البطاقات تصطف بشكل جميل…",
+      "humor6": "أولّد النطق الصوتي IPA… /ʒə sɥi pʁɛsk fini/",
+      "humor7": "الفرنسية فيها 14 زمناً، اخترت 6 فقط — لا شكر على واجب",
+      "doNotClose": "يرجى عدم إغلاق الصفحة أو تحديثها — ستحتاج لإعادة التصدير",
+      "errorRateLimit": "تم بلوغ حد التصدير اليومي. يرجى المحاولة غداً",
+      "errorWordLimit": "يمكن للمستخدمين المجانيين تصدير حتى 1,000 كلمة في المرة. اشترك في Pro للمزيد",
+      "errorLogin": "يرجى تسجيل الدخول للتصدير",
+      "errorGeneric": "فشل التصدير. يرجى المحاولة لاحقاً",
+      "platformTip": "ملف .apkg المُصدَّر يُفتح بتطبيق Anki، وهو تطبيق بطاقات تعليمية مجاني ومفتوح المصدر. النسخة المكتبية (Windows / Mac / Linux) و AnkiDroid (Android) مجانية؛ AnkiMobile (iOS) بسعر $24.99 لمرة واحدة. ننصح بالمراجعة على الحاسوب للحصول على أفضل تجربة.",
+      "platformTipLink": "تحميل من ankiweb.net",
+      "platformTipUrl": "https://apps.ankiweb.net"
+    },
+    "nihaoFrench": {
+      "title": "Le nouveau Taxi",
+      "subtitle": "مفردات من Le nouveau Taxi (《你好！法语》)، تصفّح حسب المستوى/الدرس",
+      "heroDesc": "مفردات الكتاب — مراجعة بالبطاقات، تصدير Anki، تمارين إملاء",
+      "startFlashcard": "بدء مراجعة البطاقات",
+      "totalWords": "{count} كلمة إجمالاً",
+      "wordCount": "{total} كلمة",
+      "wordCountFiltered": "(مُصفّاة من {total})",
+      "poolTitle": "مفردات Le nouveau Taxi",
+      "poolDesc": "{count} كلمة",
+      "filterLevel": "المستوى",
+      "filterLesson": "الدرس",
+      "filterTheme": "الموضوع",
+      "filterAll": "الكل",
+      "lesson": "الدرس {num}",
+      "emptyTitle": "لا توجد بيانات مفردات بعد",
+      "emptyDesc": "مجموعة مفردات Le nouveau Taxi قيد الإعداد"
+    },
+    "dictation": {
+      "button": "إملاء",
+      "title": "الإملاء",
+      "subtitle": "استمع واكتب الكلمة",
+      "emptyTitle": "لا توجد كلمات متاحة للإملاء",
+      "emptyDesc": "احفظ بعض الكلمات أولاً",
+      "inputPlaceholder": "اكتب الكلمة التي سمعتها…",
+      "strict": "الوضع الصارم",
+      "lenient": "الوضع المتساهل",
+      "strictDesc": "يجب مطابقة علامات التشكيل",
+      "lenientDesc": "تجاهل علامات التشكيل",
+      "correct": "صحيح!",
+      "incorrect": "غير صحيح",
+      "correctAnswer": "الإجابة الصحيحة: {word}",
+      "pressEnter": "اضغط Enter للمتابعة",
+      "replayHint": "اضغط R لإعادة التشغيل",
+      "resultsTitle": "اكتمل الإملاء",
+      "accuracy": "الدقة",
+      "correctCount": "{correct} / {total} صحيح",
+      "errorList": "الأخطاء",
+      "restart": "البدء من جديد",
+      "yourAnswer": "إجابتك",
+      "back": "رجوع"
+    }
+  },
+  "speakingPractice": {
+    "title": "تدريب على التعبير الشفهي",
+    "startPractice": "تدريب",
+    "startExam": "اختبار تجريبي",
+    "clickToRecord": "انقر على الميكروفون لبدء التسجيل",
+    "stopRecording": "إيقاف التسجيل",
+    "transcript": "النص المكتوب",
+    "tryAgain": "حاول مرة أخرى",
+    "noTopicSelected": "يرجى اختيار موضوع من قائمة المواضيع لبدء التدريب",
+    "accuracy": "الدقة",
+    "fluency": "الطلاقة",
+    "completeness": "الاكتمال",
+    "prosody": "التنغيم",
+    "grade": "الدرجة",
+    "wordByWord": "تقييم كل كلمة على حدة",
+    "legendGood": "80+ جيد",
+    "legendFair": "60-79 مقبول",
+    "legendPoor": "<60 يحتاج تحسين",
+    "saved": "تم الحفظ",
+    "saving": "جارٍ الحفظ...",
+    "viewResults": "عرض النتائج",
+    "allRecords": "جميع السجلات",
+    "retryTopic": "إعادة هذا الموضوع",
+    "backToTests": "العودة إلى الاختبارات",
+    "examMode": "وضع الامتحان",
+    "practiceMode": "وضع التدريب",
+    "prepPhase": "وقت التحضير",
+    "recordingPhase": "تسجيل",
+    "startRecordingEarly": "بدء التسجيل مبكرًا",
+    "autoStopNotice": "سيتوقف التسجيل تلقائيًا عند انتهاء الوقت",
+    "examModeDesc": "اختبار تجريبي: تحضير محدد الوقت + تسجيل محدد الوقت، بدون إعادة",
+    "practiceModeDesc": "تدريب حر: بدون حد زمني، سجّل عدد المرات التي تريدها",
+    "overall": "الإجمالي",
+    "duration": "المدة",
+    "mode": "الوضع",
+    "date": "التاريخ",
+    "results": {
+      "title": "نتائج تدريب التعبير الشفهي",
+      "topicLabel": "الموضوع",
+      "loading": "جارٍ تحميل النتائج...",
+      "notFound": "لم يتم العثور على سجل التدريب"
+    }
+  },
+  "speakingConversation": {
+    "title": "محادثة مع ممتحن ذكاء اصطناعي",
+    "aiConversation": "محادثة ذكية",
+    "noTopic": "يرجى اختيار موضوع أولاً",
+    "startFailed": "فشل إنشاء المحادثة",
+    "beginFailed": "فشل بدء المحادثة",
+    "turnFailed": "فشل الإرسال، يرجى المحاولة مرة أخرى",
+    "endFailed": "فشل إنهاء المحادثة",
+    "prepPhase": "وقت التحضير",
+    "activePhase": "جارٍ المحادثة",
+    "evaluating": "تقييم الذكاء الاصطناعي",
+    "prepDescription": "اقرأ معلومات السيناريو وانقر على \"بدء المحادثة\" عندما تكون جاهزًا. ستبدأ المحادثة تلقائيًا عند انتهاء وقت التحضير.",
+    "startEarly": "بدء المحادثة مبكرًا",
+    "endConversation": "إنهاء المحادثة",
+    "youAreSaying": "أنت تقول",
+    "examinerThinking": "الممتحن يردّ",
+    "sceneBriefing": "معلومات السيناريو",
+    "scenario": "السيناريو",
+    "yourRole": "دورك",
+    "examinerRole": "دور الممتحن",
+    "targetDuration": "المدة المستهدفة",
+    "evaluation": "تقرير التقييم",
+    "overallComment": "التعليق العام",
+    "corrections": "التصحيحات النحوية",
+    "vocabSuggestions": "اقتراحات المفردات",
+    "conversationReplay": "إعادة المحادثة",
+    "results": "نتائج المحادثة",
+    "turns": "جولات",
+    "backToTests": "العودة إلى الاختبارات",
+    "retry": "حاول مرة أخرى",
+    "notFound": "لم يتم العثور على المحادثة",
+    "evaluatingDescription": "يقوم الممتحن الذكي بتقييم محادثتك، يرجى الانتظار...",
+    "evaluationUnavailable": "التقييم غير متاح",
+    "evaluationUnavailableDesc": "تعذّر إنشاء تقييم الذكاء الاصطناعي. يمكنك المحاولة مرة أخرى أو تحديث الصفحة لاحقًا.",
+    "reEvaluate": "إعادة التقييم",
+    "reEvaluating": "جارٍ إعادة التقييم...",
+    "resuming": "جارٍ استئناف المحادثة...",
+    "dim": {
+      "prononciation": "النطق",
+      "fluidite": "الطلاقة",
+      "grammaire": "القواعد",
+      "vocabulaire": "المفردات",
+      "accomplissement": "إنجاز المهمة",
+      "adequation_sociolinguistique": "الملاءمة اللغوية الاجتماعية"
+    }
+  },
+  "community": {
+    "fab": "المجتمع",
+    "title": "المجتمع",
+    "description": "انضم إلى مجتمع HiTCF",
+    "followXhs": "تابعنا على Xiaohongshu",
+    "addWechat": "أضفنا على WeChat",
+    "joinWhatsApp": "انضم إلى مجموعة WhatsApp"
+  },
+  "pricing": {
+    "title": "أكثر من 8,500 سؤال تدريبي TCF + أدوات المفردات، كل 4 مهارات",
+    "subtitle": "تدريب + بطاقات + إملاء + تصدير Anki — من تكلفة قهوة واحدة شهرياً",
+    "plans": {
+      "monthly": {
+        "name": "شهري",
+        "unit": "/ شهر",
+        "trialLabel": "تجربة مجانية 7 أيام",
+        "valueDesc": "أقل من $0.70/يوم لأكثر من 8,500 سؤال عبر جميع المهارات الأربع",
+        "savingsVsTutor": "أرخص 97% من المعلم"
+      },
+      "quarterly": {
+        "name": "ربع سنوي",
+        "unit": "/ 3 أشهر",
+        "equiv": "≈ US$13.30 / شهر",
+        "badge": "وفّر 33%",
+        "trialLabel": "تجربة مجانية 14 يوماً",
+        "valueDesc": "أقل من تكلفة قهوة شهرياً لأكثر من 8,500 سؤال عبر جميع المهارات الأربع",
+        "savingsVsTutor": "أرخص 98% من المعلم"
+      },
+      "yearly": {
+        "name": "سنوي",
+        "unit": "/ سنة",
+        "equiv": "يشمل شهرين مجاناً، ≈ US$8.33 / شهر",
+        "badge": "الأكثر شعبية",
+        "trialLabel": "تجربة مجانية شهرين",
+        "valueDesc": "قهوة واحدة شهرياً للتدريب + بطاقات + إملاء + تصدير Anki · أرخص 99% من المعلم",
+        "savingsVsTutor": "أرخص 99% من المعلم"
+      }
+    },
+    "mostPopular": "الأكثر شعبية",
+    "cta": {
+      "redirecting": "جارٍ التحويل...",
+      "trialSuffix": " — إلغاء في أي وقت، بدون مخاطر",
+      "manageSubscription": "إدارة الاشتراك"
+    },
+    "usdNote": "جميع الأسعار بالدولار الأمريكي · الإلغاء أثناء التجربة بدون رسوم",
+    "trust": {
+      "trial": "تجربة مجانية حتى شهرين",
+      "stripe": "دفع آمن عبر Stripe",
+      "refund": "ضمان استرداد خلال 48 ساعة",
+      "cancel": "إلغاء بنقرة واحدة في أي وقت"
+    },
+    "comparison": {
+      "title": "مجاني مقابل",
+      "titlePro": "Pro",
+      "feature": "الميزة",
+      "free": "مجاني",
+      "pro": "Pro",
+      "rows": [
+        "الاستماع (44 مجموعة · 1,700+ سؤال · مع صوت)",
+        "القراءة (44 مجموعة · 1,700+ سؤال)",
+        "التعبير الشفهي (696 مجموعة · 3,500+ موضوع)",
+        "التعبير الكتابي (515 مجموعة · تقييم بالذكاء الاصطناعي)",
+        "شروحات بالذكاء الاصطناعي (لكل سؤال)",
+        "أدوات المفردات (بطاقات + إملاء + Anki)",
+        "تمرين سريع (حسب المستوى والنوع)",
+        "دفتر الأخطاء (مراجعة مركّزة)",
+        "محادثة AI (محاكاة Tâche 2/3)",
+        "لوحة التحكم والإحصائيات",
+        "سجل التدريب + لوحة الإحصائيات"
+      ],
+      "freeValues": [
+        "المجموعة الأولى",
+        "أول مجموعتين",
+        "أساسي"
+      ]
+    },
+    "faq": {
+      "title": "الأسئلة الشائعة",
+      "items": [
+        {
+          "q": "هل أحتاج بطاقة ائتمان للتجربة المجانية؟",
+          "a": "نعم، Stripe يتطلب بطاقة للتسجيل، لكن لن يتم الخصم حتى انتهاء فترة التجربة. يمكنك الإلغاء في أي وقت."
+        },
+        {
+          "q": "ما الفرق بين المجاني و Pro؟",
+          "a": "النسخة المجانية تتيح المجموعة الأولى من الاستماع وأول مجموعتين من القراءة مع الشروحات. Pro يفتح جميع 8,500+ سؤال ووضع الاختبار ودفتر الأخطاء والتمرين السريع وأدوات المفردات."
+        },
+        {
+          "q": "هل يمكنني الإلغاء في أي وقت؟",
+          "a": "نعم. يمكنك الإلغاء بنقرة واحدة من إعدادات الحساب. ستستمر في الوصول حتى نهاية فترة الفوترة الحالية."
+        },
+        {
+          "q": "هل هناك ضمان استرداد؟",
+          "a": "نعم. استرداد كامل خلال 48 ساعة من أول دفعة. استرداد جزئي خلال 14 يوماً للخطط الربع سنوية والسنوية."
+        },
+        {
+          "q": "هل هذه نفس أسئلة الامتحان الحقيقي؟",
+          "a": "أسئلة التدريب مُجمّعة ومُحررة من مصادر متاحة للعموم وأسئلة تدريبية رسمية. وهي تحاكي مستوى صعوبة وشكل الامتحان الحقيقي لكنها ليست أسئلة امتحان فعلية مُسربة."
+        },
+        {
+          "q": "كيف أطلب استردادًا؟",
+          "a": "يمكنك طلب استرداد كامل خلال 48 ساعة من أول دفعة. راسلنا على support@hitcf.com مع معرّف حسابك."
+        }
+      ]
+    },
+    "legal": "بالاشتراك، أنت توافق على",
+    "legalTerms": "شروط الاستخدام",
+    "legalComma": "، ",
+    "legalPrivacy": "سياسة الخصوصية",
+    "legalAnd": "، و",
+    "legalRefund": "سياسة الاسترداد",
+    "legalPeriod": "."
+  },
+  "resources": {
+    "hero": {
+      "badge": "دليل الاختبار",
+      "title": "دليل TCF Canada الشامل",
+      "subtitle": "صيغة الاختبار، تحويل الدرجات، موارد دراسية مجانية، ومراكز الاختبار — كل ما تحتاجه في مكان واحد.",
+      "startPractice": "ابدأ التدريب",
+      "joinCommunity": "انضم إلى المجتمع",
+      "communityTitle": "انضم إلى مجتمع الدراسة",
+      "communityDesc": "تواصل مع متقدمي الاختبار، شارك النصائح وادعم بعضكم",
+      "followXhs": "شياوهونغشو",
+      "addWechat": "أضف WeChat",
+      "imageAlt": "منظر شارع بطراز فرنسي في مدينة كيبك القديمة"
+    },
+    "tabs": {
+      "autoRotateHint": "تصفح تلقائي · انقر على أي تبويب للإيقاف",
+      "manualHint": "انقر على التبويبات لاستكشاف الأقسام",
+      "exam": "صيغة الاختبار",
+      "scores": "جدول الدرجات",
+      "resources": "موارد دراسية",
+      "centers": "مراكز الاختبار"
+    },
+    "exam": {
+      "title": "ما هو TCF Canada",
+      "desc": "TCF Canada (Test de connaissance du français pour le Canada) هو اختبار كفاءة اللغة الفرنسية طوّرته <b>France Éducation international</b> (CIEP سابقاً)، مصمم خصيصاً لطلبات الهجرة والمواطنة الكندية.",
+      "purposes": [
+        "هجرة Express Entry",
+        "برامج الترشيح الإقليمية (PNP)",
+        "المواطنة الكندية",
+        "هجرة كيبك (CSQ / PEQ)"
+      ],
+      "validityLabel": "صلاحية النتيجة",
+      "validityValue": "سنتان",
+      "intervalLabel": "الحد الأدنى بين الاختبارات",
+      "intervalValue": "30 يوماً",
+      "subjects": [
+        {
+          "name": "الاستماع (CO)",
+          "questions": "39 اختيار من متعدد",
+          "duration": "35 دقيقة"
+        },
+        {
+          "name": "القراءة (CE)",
+          "questions": "39 اختيار من متعدد",
+          "duration": "60 دقيقة"
+        },
+        {
+          "name": "التعبير الكتابي (EE)",
+          "questions": "3 مهام كتابية",
+          "duration": "60 دقيقة"
+        },
+        {
+          "name": "التعبير الشفهي (EO)",
+          "questions": "3 مهام شفهية",
+          "duration": "12 دقيقة"
+        }
+      ],
+      "questionCount": "الأسئلة",
+      "durationLabel": "المدة",
+      "scoreLabel": "الدرجة",
+      "writingTitle": "التعبير الكتابي — 3 Tâches",
+      "speakingTitle": "التعبير الشفهي — 3 Tâches",
+      "writingTasks": [
+        "رسالة قصيرة (60–120 كلمة)",
+        "رسالة رسمية / مقال (120–150 كلمة)",
+        "مقال حجاجي (120–180 كلمة)"
+      ],
+      "speakingTasks": [
+        "مقابلة موجّهة (2 دقيقة)",
+        "لعب أدوار (5.5 دقيقة، تشمل 2 دقيقة تحضير)",
+        "التعبير عن وجهة نظر (4.5 دقيقة)"
+      ]
+    },
+    "scores": {
+      "title": "جدول تحويل درجات NCLC / CLB",
+      "subtitle": "تستخدم هجرة كندا (IRCC) مستويات NCLC / CLB لتقييم الكفاءة اللغوية. فيما يلي تحويل درجات TCF Canada.",
+      "headers": {
+        "nclc": "NCLC",
+        "co": "الاستماع (CO)",
+        "ce": "القراءة (CE)",
+        "ee": "الكتابة (EE)",
+        "eo": "المحادثة (EO)"
+      },
+      "footnote": "* NCLC 7 هو <b>الحد الأدنى للغة المطلوب</b> لمعظم برامج Express Entry و PNP، والمستوى المستهدف لمعظم المتقدمين",
+      "nclc7Title": "لماذا NCLC 7 مهم جداً؟",
+      "nclc7Desc": "NCLC 7 (أي CLB 7) هو <b>الحد الأدنى للفرنسية</b> لمعظم برامج الهجرة الاقتصادية الكندية. الوصول إلى NCLC 7 يعني تجاوزك لعتبة اللغة المطلوبة لـ Express Entry (CEC, FSW) ومعظم برامج PNP. المستويات الأعلى (8, 9, 10) تمنح <b>نقاط CRS إضافية</b> — NCLC 9 يمنح أقصى مكافأة لغوية.",
+      "immigrationTitle": "متطلبات برامج الهجرة الشائعة",
+      "programs": [
+        {
+          "name": "Express Entry (CEC)",
+          "desc": "فئة الخبرة الكندية"
+        },
+        {
+          "name": "Express Entry (FSW)",
+          "desc": "العمال المهرة الفيدراليين"
+        },
+        {
+          "name": "Quebec PEQ",
+          "desc": "برنامج خبرة كيبك"
+        },
+        {
+          "name": "الجنسية",
+          "desc": "طلب المواطنة الكندية"
+        }
+      ]
+    },
+    "learn": {
+      "title": "موارد مجانية لتعلم الفرنسية",
+      "subtitle": "جميع الموارد المجانية أو الرسمية لتحسين فرنسيتك من كل زاوية",
+      "officialTitle": "موارد رسمية ومؤسسية",
+      "youtubeTitle": "قنوات يوتيوب",
+      "toolsTitle": "أدوات وموارد أخرى",
+      "official": [
+        {
+          "desc": "منصة تعلم الفرنسية المجانية من شبكة التلفزيون الفرنسي الدولي. دروس فيديو + تمارين تفاعلية لجميع المستويات من A1 إلى C1.",
+          "tag": "A1–C1"
+        },
+        {
+          "desc": "قناة تعلم الراديو الفرنسي الدولي. صوت أخبار فرنسية حقيقية مع تمارين. سرعات كلام متنوعة — مادة ممتازة للتحضير للاستماع TCF.",
+          "tag": "الاستماع"
+        },
+        {
+          "desc": "أخبار RFI بالفرنسية السهلة — 10 دقائق نشرات إخبارية دولية يومية واضحة وبطيئة. استمع يومياً لتحسين فهم الاستماع.",
+          "tag": "استماع يومي"
+        },
+        {
+          "desc": "الموقع الرسمي لمنظمة اختبار TCF. عرض أوصاف الاختبار ومعايير التقييم وأسئلة نموذجية رسمية.",
+          "tag": "رسمي"
+        },
+        {
+          "desc": "موقع تعلم فرنسية راسخ مع تمارين قواعد ومفردات واستماع وقراءة مجانية مصنفة حسب الصعوبة.",
+          "tag": "القواعد"
+        },
+        {
+          "desc": "منصة Hugo لتعلم الفرنسية مع بودكاست وفيديوهات يوتيوب. فرنسية طبيعية تناقش مواضيع ثقافية واجتماعية — مثالية للمتوسطين.",
+          "tag": "B1–B2"
+        }
+      ],
+      "youtube": [
+        {
+          "desc": "قناة فرنسية غامرة بملايين المشتركين. Johan يتحدث بالفرنسية فقط عن مواضيع يومية — بدون قواعد، فقط إدخال طبيعي.",
+          "tag": "B1+ غمر"
+        },
+        {
+          "desc": "قناة Dylane المتحدثة الأصلية تركز على شرح القواعد وتوسيع المفردات. حلقات قصيرة وواضحة ومنظمة.",
+          "tag": "قواعد ومفردات"
+        },
+        {
+          "desc": "قناة Pierre الشاملة تغطي القواعد والمفردات والنطق والثقافة. صوت فرنسي مع ترجمات.",
+          "tag": "B1–C1"
+        },
+        {
+          "desc": "قناة بودكاست Hugo بالفرنسية الصرفة. حلقات 20-30 دقيقة تناقش مواضيع ثقافية واجتماعية.",
+          "tag": "بودكاست"
+        },
+        {
+          "desc": "سلسلة مقابلات شارع في فرنسا. فرنسية يومية حقيقية من متحدثين أصليين مع ترجمات فرنسية-إنجليزية.",
+          "tag": "فرنسية حقيقية"
+        },
+        {
+          "desc": "قناة تعليم ثنائية اللغة إنجليزية-فرنسية. Alexa تشرح القواعد والنطق بالإنجليزية — مثالية للمبتدئين.",
+          "tag": "مبتدئ"
+        }
+      ],
+      "tools": [
+        {
+          "name": "Bilibili",
+          "desc": "ابحث عن 'صوت كتاب الفرنسية A1' أو 'تحضير TCF' — الكثير من فيديوهات تعلم الفرنسية بشرح صيني."
+        },
+        {
+          "name": "Anki",
+          "desc": "تطبيق بطاقات تعليمية مجاني مفتوح المصدر بخوارزمية التكرار المتباعد. حمّل مجموعات مفردات TCF/DELF المشتركة."
+        },
+        {
+          "name": "Duolingo",
+          "desc": "تطبيق تعلم لغات بأسلوب الألعاب مع دروس يومية 10-15 دقيقة. ممتاز للحفاظ على التعرض اليومي للفرنسية."
+        },
+        {
+          "name": "LogicielÉducatif",
+          "desc": "موقع ألعاب تعليمية فرنسية مع ألعاب مصغرة للإملاء والقواعد والمفردات."
+        },
+        {
+          "name": "Lawless French",
+          "desc": "مرجع شامل لقواعد الفرنسية يغطي جميع النقاط من المبتدئ إلى المتقدم مع جمل وتمارين نموذجية."
+        }
+      ]
+    },
+    "centers": {
+      "title": "مراكز الاختبار",
+      "subtitle": "قد تتغير معلومات مراكز الاختبار. يرجى التحقق من الموقع الرسمي لكل مركز.",
+      "website": "الموقع",
+      "chinaTitle": "مراكز الاختبار في الصين",
+      "canadaTitle": "مراكز الاختبار في كندا",
+      "china": [
+        {
+          "city": "بكين",
+          "org": "جامعة بكين للغات والثقافة",
+          "note": ""
+        },
+        {
+          "city": "بكين",
+          "org": "Alliance Française بكين",
+          "note": ""
+        },
+        {
+          "city": "شنغهاي",
+          "org": "Alliance Française شنغهاي",
+          "note": ""
+        },
+        {
+          "city": "قوانغتشو",
+          "org": "Alliance Française قوانغتشو",
+          "note": ""
+        },
+        {
+          "city": "تشنغدو",
+          "org": "Alliance Française تشنغدو",
+          "note": ""
+        },
+        {
+          "city": "ووهان",
+          "org": "Alliance Française ووهان",
+          "note": "تسجيل عبر WeChat"
+        },
+        {
+          "city": "داليان",
+          "org": "Alliance Française داليان",
+          "note": ""
+        },
+        {
+          "city": "كونمينغ",
+          "org": "Alliance Française كونمينغ",
+          "note": "تسجيل عبر WeChat"
+        },
+        {
+          "city": "شاندونغ",
+          "org": "Alliance Française شاندونغ",
+          "note": "جديد"
+        },
+        {
+          "city": "نانجينغ",
+          "org": "Alliance Française نانجينغ",
+          "note": "جديد"
+        },
+        {
+          "city": "هونغ كونغ",
+          "org": "Alliance Française هونغ كونغ",
+          "note": ""
+        }
+      ],
+      "chinaFee": "الرسوم تقريباً <b>¥2,500–2,800</b> (تختلف حسب المدينة والمؤسسة)",
+      "globalSearch": "البحث عن مراكز الاختبار حول العالم: ",
+      "canadaFee": "الرسوم تقريباً <b>CAD $390</b>، التسجيل يُفتح كل ربع سنة"
+    },
+    "cta": {
+      "title": "مستعد لبدء التدريب؟",
+      "subtitle": "أكثر من 8,500 سؤال تدريبي TCF Canada بانتظارك",
+      "button": "ابدأ التدريب"
+    },
+    "disclaimer": {
+      "text": "المعلومات أعلاه للمرجعية فقط ولا تشكل نصيحة هجرة. قد تتغير سياسات الاختبار وترتيبات المراكز في أي وقت. يرجى الرجوع إلى المصادر الرسمية.",
+      "link": "إخلاء المسؤولية"
+    }
+  },
+  "landing": {
+    "hero": {
+      "badge": "منصة التدريب على TCF Canada",
+      "titleHighlight": "CLB 7",
+      "titleSuffix": " — التدريب يصنع الإتقان",
+      "subtitle1": "أكثر من 8,500 سؤال تدريبي لـ TCF Canada + أدوات مفردات، تغطي الأقسام الأربعة.",
+      "subtitle2": "تمارين، بطاقات تعليمية، إملاء، تصدير Anki — تحضير منهجي للوصول إلى CLB 7.",
+      "startPractice": "ابدأ التدريب",
+      "registerCta": "سجّل مجانًا وابدأ الآن",
+      "viewPricing": "عرض الأسعار",
+      "imageAlt": "العلم الكندي يرفرف تحت سماء زرقاء",
+      "questionsLabel": "سؤال",
+      "clb7Target": "هدف CLB 7"
+    },
+    "features": [
+      {
+        "title": "الاستماع",
+        "desc": "44 مجموعة اختبار استماع تضم أكثر من 1,700 سؤال، جميعها بالصوت الأصلي"
+      },
+      {
+        "title": "القراءة",
+        "desc": "44 مجموعة اختبار قراءة تضم أكثر من 1,700 سؤال، تغطي جميع المستويات من A1 إلى C2"
+      },
+      {
+        "title": "التعبير الشفهي",
+        "desc": "696 مجموعة مواضيع شفهية تضم أكثر من 3,500 موضوع Tâche 2 + Tâche 3، مع شريك تدريب بالذكاء الاصطناعي"
+      },
+      {
+        "title": "التعبير الكتابي",
+        "desc": "515 مجموعة كتابية تضم أكثر من 1,500 مهمة — رسائل قصيرة، مقالات ونصوص حجاجية، تصحيح بالذكاء الاصطناعي"
+      }
+    ],
+    "stats": [
+      "سؤال",
+      "مجموعة اختبار",
+      "مجموعة استماع بالصوت",
+      "نسبة دقة عتبة CLB 7"
+    ],
+    "featuresBadge": "أربعة أقسام",
+    "featuresTitle": "تغطية شاملة لـ TCF",
+    "featuresSubtitle": "جميع الأقسام الأربعة في مكان واحد، من A1 إلى C2",
+    "contentBadge": "المكتبة الكاملة",
+    "contentTitle": "أكثر من 8,500 سؤال، من A1 إلى C2",
+    "contentSubtitle": "تغطية للأقسام الأربعة، كل مجموعة استماع تتضمن الصوت الأصلي",
+    "banks": [
+      {
+        "label": "الاستماع + القراءة",
+        "sub": "44 مجموعة اختبار · جميع المستويات A1–C2"
+      },
+      {
+        "label": "مواضيع التعبير الشفهي",
+        "sub": "696 مجموعة · مواضيع Tâche 2 + 3"
+      },
+      {
+        "label": "مهام التعبير الكتابي",
+        "sub": "515 مجموعة · رسائل + مقالات + نصوص حجاجية"
+      }
+    ],
+    "allLevels": "· تغطية المستويات الستة",
+    "stepsBadge": "ثلاث خطوات",
+    "stepsTitle": "كيف يعمل",
+    "steps": [
+      {
+        "title": "إنشاء حساب",
+        "desc": "تسجيل سريع بالبريد الإلكتروني، بدون تعقيدات"
+      },
+      {
+        "title": "اختر اختبارًا",
+        "desc": "تصفّح حسب القسم، مجموعات مجانية متاحة فورًا"
+      },
+      {
+        "title": "ابدأ التدريب",
+        "desc": "وضع التدريب للتعلم، ووضع الامتحان للمحاكاة"
+      }
+    ],
+    "highlights": [
+      {
+        "title": "موجّه نحو هدف CLB 7",
+        "desc": "كل ميزة مبنية حول CLB 7 (≈78% دقة). لوحة الجاهزية تتابع مدى قرب درجاتك في الاستماع والقراءة من الهدف."
+      },
+      {
+        "title": "دفتر الأخطاء + التدريب السريع",
+        "desc": "يجمع النظام الإجابات الخاطئة تلقائيًا، مصنّفة حسب النوع والمستوى. وضع التدريب السريع يتيح لك معالجة نقاط الضعف في أوقات الفراغ."
+      },
+      {
+        "title": "وضع الامتحان يحاكي الاختبار الحقيقي",
+        "desc": "توقيت صارم، لا رجوع للخلف، والنتائج عند التسليم. تعوّد على ضغط الامتحان قبل الاختبار الفعلي."
+      }
+    ],
+    "svgReached": "تم الوصول",
+    "svgRemaining": "متبقٍّ",
+    "pricingBadge": "الأسعار",
+    "pricingTitle": "أسعار بسيطة وشفافة",
+    "pricingSubtitle": "مجموعات مجانية في أي وقت، اشترك لفتح كل شيء",
+    "freeName": "مجاني",
+    "freeUnit": "/ للأبد",
+    "freeFeature1": "تدريب على المجموعات المجانية",
+    "freeFeature2": "وضع التدريب + وضع الامتحان",
+    "freeStart": "ابدأ الآن",
+    "freeRegister": "سجّل مجانًا",
+    "proBadge": "موصى به",
+    "proTrial": "شهران مجانًا",
+    "proTrialUnit": "فترة تجريبية (سنوي)",
+    "proFeatures": [
+      "مكتبة الاستماع + القراءة الكاملة",
+      "وضع الامتحان (بتوقيت + تقييم)",
+      "دفتر الأخطاء + التدريب السريع",
+      "تدريب على التعبير الشفهي + الكتابي بالذكاء الاصطناعي",
+      "مفردات + بطاقات تعليمية + إملاء + تصدير Anki"
+    ],
+    "proGoToTests": "انتقل إلى الاختبارات",
+    "proStartTrial": "ابدأ الفترة التجريبية المجانية",
+    "whyBadge": "لماذا HiTCF",
+    "whyTitle": "أكثر من بنك أسئلة — نظام تحضير متكامل",
+    "whySubtitle": "تدريب ← أخطاء ← مفردات ← بطاقات تعليمية ← تدريب مجددًا، كرّر حتى تكون جاهزًا",
+    "guideBadge": "معلومات الامتحان",
+    "guideTitle": "درجات TCF Canada مقابل مستويات CLB",
+    "guideSubtitle": "جدول تحويل الدرجات اللغوية لـ IRCC",
+    "guideRows": [
+      "الحد الأدنى للهجرة (Express Entry / PNP)",
+      "نقاط إضافية في Express Entry، أولوية في بعض برامج PNP",
+      "الحد الأقصى لنقاط اللغة في Express Entry",
+      "أعلى مستوى"
+    ],
+    "guideFootnote": "CLB 7 ≈ 78% دقة · هذا هو الحد الأدنى اللغوي المطلوب لمعظم برامج Express Entry و PNP",
+    "guideLink": "عرض دليل الامتحان الكامل",
+    "trust": [
+      {
+        "label": "فترة تجريبية ممتدة",
+        "desc": "شهران (سنوي) · 7 أيام (شهري/ربع سنوي)"
+      },
+      {
+        "label": "دفع آمن",
+        "desc": "معلومات البطاقة تُعالَج عبر Stripe"
+      },
+      {
+        "label": "استرداد الدفعة الأولى",
+        "desc": "استرداد كامل خلال 48 ساعة"
+      },
+      {
+        "label": "بدون رسوم مفاجئة",
+        "desc": "إلغاء خلال الفترة التجريبية = تكلفة صفر"
+      }
+    ],
+    "faqTitle": "الأسئلة الشائعة",
+    "faq": [
+      {
+        "q": "هل HiTCF منصة رسمية؟",
+        "a": "لا. HiTCF منصة تدريب مستقلة تابعة لطرف ثالث، وليست مرتبطة بـ France Éducation international أو IRCC. الأسئلة مجمّعة من مواد عامة ومنسّقة لتتوافق مع TCF Canada، لكنها ليست مطابقة لأسئلة الامتحان الفعلي."
+      },
+      {
+        "q": "ماذا يمكنني فعله بالنسخة المجانية؟",
+        "a": "تتضمن النسخة المجانية الوصول الكامل إلى أول مجموعة استماع وأول مجموعتي قراءة، مع وضعي التدريب والامتحان. محاولات غير محدودة، للأبد."
+      },
+      {
+        "q": "ما مزايا الاشتراك Pro؟",
+        "a": "افتح جميع الأسئلة الـ 8,500+ (أكثر من 1,200 مجموعة)، بما في ذلك وضع الامتحان، دفتر الأخطاء، التدريب السريع، دفتر المفردات، مراجعة البطاقات التعليمية، تدريب الإملاء، وتصدير Anki. الاشتراك السنوي يتضمن شهرين تجريبيين مجانًا — يمكنك الإلغاء في أي وقت."
+      },
+      {
+        "q": "هل يمكنكم ضمان وصولي إلى CLB 7؟",
+        "a": "لا. يوفّر HiTCF تدريبًا عالي الجودة متوافقًا مع TCF Canada لمساعدتك في تحديد نقاط الضعف وتحسينها. النتائج النهائية تعتمد على عوامل عديدة — لا نضمن أي نتيجة في الامتحان."
+      },
+      {
+        "q": "كيف أتدرب على التعبير الشفهي والكتابي؟",
+        "a": "قسما التعبير الشفهي والكتابي يوفران مواضيع ومهام امتحانية حقيقية، مع إمكانية الانتقال إلى ChatGPT للتدريب على المحادثة بالذكاء الاصطناعي وتصحيح المقالات. كأنك تملك معلّمًا مجانيًا بالذكاء الاصطناعي."
+      },
+      {
+        "q": "كيف أطلب استردادًا؟",
+        "a": "استرداد كامل خلال 48 ساعة من أول دفعة. المشتركون ربع السنوي/السنوي يمكنهم الحصول على استرداد نسبي خلال 14 يومًا. أرسل بريدًا إلى support@hitcf.com — تتم المعالجة خلال 3 أيام عمل."
+      }
+    ],
+    "ctaImageAlt": "بانوراما تلة البرلمان ونهر أوتاوا",
+    "ctaTitle": "ما مدى قربك من CLB 7؟",
+    "ctaSubtitle": "جرّب المجموعات المجانية واعرف مستواك",
+    "ctaContinue": "تابع التدريب",
+    "ctaRegister": "سجّل مجانًا واختبر مستواك"
+  },
+  "meta": {
+    "siteTitle": "HiTCF — منصة التدريب على اختبار TCF Canada عبر الإنترنت",
+    "titleTemplate": "%s | HiTCF",
+    "siteDescription": "أكثر من 8,500 سؤال تدريبي على TCF Canada + أدوات مفردات تشمل الاستماع والقراءة والتحدث والكتابة. بطاقات تعليمية وإملاء وتصدير Anki — حقّق CLB 7.",
+    "ogTitle": "HiTCF — تدرّب لتصل إلى CLB 7",
+    "ogDescription": "أكثر من 8,500 سؤال TCF Canada + دفتر مفردات + تصدير Anki. تدريب وبطاقات تعليمية وإملاء في مكان واحد.",
+    "ogImageAlt": "HiTCF — منصة التدريب على اختبار TCF Canada عبر الإنترنت",
+    "keywords": "TCF Canada,CLB 7,تدريب TCF,استماع TCF,قراءة TCF,تحضير TCF Canada,فرنسية الهجرة الكندية,اختبار TCF تجريبي,أسئلة TCF,مفردات TCF,Anki فرنسي,بطاقات فرنسية",
+    "home": {
+      "title": "HiTCF — تدرّب لتصل إلى CLB 7 | تدريب TCF Canada عبر الإنترنت",
+      "description": "أكثر من 8,500 سؤال تدريبي على TCF Canada تشمل الاستماع والقراءة والتحدث والكتابة. وضع التدريب + وضع الامتحان + دفتر الأخطاء — حضّر لـ CLB 7 بشكل منهجي."
+    },
+    "tests": {
+      "title": "بنك أسئلة TCF Canada · أكثر من 8,500 سؤال في الاستماع والقراءة والتحدث والكتابة",
+      "description": "بنك أسئلة تجريبية كاملة لـ TCF Canada في الاستماع والقراءة والتحدث والكتابة. 42 مجموعة استماع مع صوت، 44 مجموعة قراءة، تغطي المستويات A1–C2."
+    },
+    "dashboard": {
+      "title": "لوحة التحكم · جاهزية CLB 7 وإحصائيات التدريب",
+      "description": "اطّلع على جاهزيتك لـ CLB 7 ودقة الاستماع والقراءة وإحصائيات التدريب وأيام المواظبة. تابع تقدمك مقارنة بالدقة المستهدفة 78%."
+    },
+    "pricing": {
+      "title": "الأسعار · شهران مجاناً في الاشتراك السنوي لجميع أسئلة TCF + أدوات المفردات",
+      "description": "أسعار HiTCF: مجموعات مجانية للبدء، Pro يفتح جميع الأسئلة الأكثر من 8,500 ووضع الامتحان ودفتر الأخطاء وبطاقات المفردات والإملاء وتصدير Anki. شهران مجاناً في الاشتراك السنوي، إلغاء في أي وقت."
+    },
+    "speedDrill": {
+      "title": "التمرين السريع · تدريب مستهدف حسب المستوى ونوع السؤال",
+      "description": "تمرين سريع TCF Canada: اختر الاستماع أو القراءة، صفّ حسب المستوى A1–C2، وتدرّب بكفاءة في جلسات قصيرة. تخطّي تلقائي للأسئلة المكتملة للتركيز على نقاط الضعف."
+    },
+    "wrongAnswers": {
+      "title": "دفتر الأخطاء · تتبّع نقاط الضعف وتجاوزها",
+      "description": "جمع تلقائي للإجابات الخاطئة من استماع وقراءة TCF Canada. تصفية حسب النوع والمستوى والإتقان. إنشاء جلسات مراجعة مستهدفة لتجاوز نقاط الضعف."
+    },
+    "history": {
+      "title": "سجل التدريب · جميع نتائج التدريب والامتحانات في TCF",
+      "description": "اطّلع على جميع سجلات التدريب والامتحانات في TCF Canada بما فيها الدرجات وتقديرات مستوى CLB والوقت المستغرق. تابع تقدم الإنجاز واتجاهات الدرجات."
+    },
+    "account": {
+      "title": "إعدادات الحساب",
+      "description": "إدارة ملفك الشخصي وكلمة المرور واشتراكك."
+    },
+    "vocabulary": {
+      "title": "دفتر المفردات · أدوات مفردات اللغة الفرنسية لـ TCF Canada",
+      "description": "أدوات مفردات اللغة الفرنسية لـ TCF Canada: احفظ الكلمات من التدريب، راجعها بالبطاقات التعليمية وتمارين الإملاء وتصدير Anki. مرتبة حسب المهارة والمستوى."
+    },
+    "vocabularyMySaved": {
+      "title": "كلماتي المحفوظة · كلمات فرنسية من التدريب",
+      "description": "اطّلع على الكلمات الفرنسية المحفوظة من تدريبات الاستماع والقراءة والتحدث والكتابة في TCF Canada. تصفية حسب المهارة ومراجعة بالبطاقات التعليمية والإملاء وتصدير Anki."
+    },
+    "vocabularyNihao": {
+      "title": "مفردات Nihao الفرنسية · كلمات فرنسية أساسية A1–B2",
+      "description": "مفردات كتاب Nihao الفرنسي تغطي المستويات A1–B2، مرتبة حسب الدرس والموضوع. مراجعة بالبطاقات التعليمية وتمارين الإملاء وتصدير Anki للمبتدئين."
+    },
+    "speakingPractice": {
+      "title": "تدريب نطق TCF · تقييم النطق بالذكاء الاصطناعي",
+      "description": "تدريب نطق التحدث في TCF Canada: اقرأ نصوصاً فرنسية بصوت عالٍ واحصل على تقييم فوري بالذكاء الاصطناعي للدقة والطلاقة. تصحيح على مستوى الصوتيات لتحسين سريع."
+    },
+    "speakingConversation": {
+      "title": "محادثة TCF بالذكاء الاصطناعي · محاكاة حوار الممتحن Tâche 2/3",
+      "description": "تدريب محادثة التحدث في TCF Canada بالذكاء الاصطناعي: محاكاة Tâche 2 و Tâche 3 الحقيقيتين مع ممتحن ذكي. تقييم بـ 6 أبعاد يشمل النطق والقواعد والمفردات وإنجاز المهمة."
+    },
+    "resources": {
+      "title": "دليل اختبار TCF Canada · جداول الدرجات وموارد الدراسة ومراكز الاختبار",
+      "description": "دليل TCF Canada الشامل: صيغة الاختبار ومحتواه، جداول تحويل NCLC/CLB، موارد مجانية لدراسة الفرنسية، ومعلومات عن مراكز الاختبار في الصين وكندا.",
+      "keywords": "اختبار TCF Canada,جدول درجات CLB,تحويل NCLC,مراكز اختبار TCF,موارد دراسة الفرنسية,تسجيل TCF Canada,اختبار الفرنسية للهجرة الكندية"
+    },
+    "terms": {
+      "title": "شروط الخدمة · اتفاقية المستخدم وقواعد الاشتراك",
+      "description": "شروط خدمة HiTCF: تسجيل الحساب، قواعد التجديد التلقائي لاشتراك Pro، إرشادات استخدام المحتوى، الملكية الفكرية، وحدود المسؤولية."
+    },
+    "privacy": {
+      "title": "سياسة الخصوصية · جمع البيانات والامتثال لـ PIPEDA",
+      "description": "سياسة خصوصية HiTCF: كيف نتحقق من الهوية عبر Cloudflare Access، ونعالج المدفوعات عبر Stripe، ونتعامل مع تخزين البيانات وملفات تعريف الارتباط وحقوقك بموجب PIPEDA."
+    },
+    "refund": {
+      "title": "سياسة الاسترداد · الفترة التجريبية المجانية وإجراءات الاسترداد",
+      "description": "سياسة استرداد HiTCF: فترة تجريبية مجانية (شهران في السنوي، 7 أيام في الشهري/الفصلي) مع إمكانية الإلغاء في أي وقت. استرداد كامل خلال 48 ساعة من أول دفعة، استرداد نسبي خلال 14 يوماً للفصلي/السنوي. الاسترداد عبر Stripe."
+    },
+    "disclaimer": {
+      "title": "إخلاء المسؤولية · مصادر المحتوى وملاحظة نتائج الامتحان",
+      "description": "إخلاء مسؤولية HiTCF: منصة تدريب مستقلة تابعة لجهة خارجية، غير مرتبطة بالجهات الرسمية لـ TCF. تقديرات مستوى CLB للاستئناس فقط. المحتوى مستمدّ من مواد متاحة للعموم."
+    }
+  },
+  "disclaimerPage": {
+    "heading": "إخلاء المسؤولية",
+    "lastUpdated": "آخر تحديث: 23 فبراير 2026",
+    "notOfficial": {
+      "title": "1. ليست منصة رسمية",
+      "p1": "HiTCF هي <b>منصة تدريب مستقلة تابعة لطرف ثالث</b>. لا تملك المنصة <b>أي انتماء أو شراكة أو تفويض</b> من France Éducation international (المعروفة سابقاً بـ CIEP)، الجهة الرسمية المسؤولة عن اختبار TCF، أو من دائرة الهجرة واللاجئين والمواطنة الكندية (IRCC)، أو أي جهة حكومية أخرى.",
+      "p2": "\"TCF\" (Test de connaissance du français) و\"TCF Canada\" هما علامتان تجاريتان مسجلتان لصالح France Éducation international. يقتصر استخدامهما على هذه المنصة للإشارة إلى الصيغة المستهدفة لمحتوى التدريب الخاص بنا."
+    },
+    "noGuarantee": {
+      "title": "2. عدم ضمان نتائج الاختبار",
+      "p1": "<b>لا يضمن استخدام هذه المنصة اجتياز اختبار TCF Canada أو تحقيق أي مستوى CLB محدد.</b>",
+      "li1": "إن \"تقديرات مستوى CLB\" و\"تقييمات الجاهزية\" و\"المستويات المتوقعة\" المعروضة تستند إلى تحليل إحصائي لبيانات تدريبك وهي <b>للاسترشاد فقط</b> — ولا تعادل أو تتنبأ بدرجات اختبار TCF الفعلية.",
+      "li2": "تعتمد نتائج اختبار TCF الفعلية على عوامل عديدة، تشمل على سبيل المثال لا الحصر حالتك يوم الاختبار، واختيار الأسئلة، ومعايير التصحيح، وجميعها خارج نطاق سيطرة هذه المنصة.",
+      "li3": "العبارات الترويجية مثل \"تدرّب للوصول إلى CLB 7\" تهدف إلى تشجيع التدريب المنتظم و<b>لا تشكل أي شكل من أشكال الوعد بالدرجات أو ضمان النتائج</b>."
+    },
+    "contentSources": {
+      "title": "3. مصادر المحتوى ودقته",
+      "li1": "أسئلة التدريب والملفات الصوتية والمواد ذات الصلة على هذه المنصة <b>مجمّعة ومحرّرة من مصادر متاحة للعموم على الإنترنت</b>. تعود الملكية الفكرية للمحتوى الأصلي لأصحاب الحقوق المعنيين.",
+      "li2": "تم تنظيم المحتوى ومراجعته، لكننا <b>لا نضمن دقته أو اكتماله أو صحته بنسبة 100%</b>، كما لا نضمن توافقه مع صيغة اختبار TCF الفعلي أو مستوى صعوبته أو محتواه.",
+      "li3": "إذا اعتقد أي صاحب حقوق أن محتوى على هذه المنصة ينتهك حقوقه، يُرجى التواصل عبر <email>support@hitcf.com</email> وسنعالج الأمر فوراً بعد التحقق (بما في ذلك إزالة المحتوى المعني).",
+      "li4": "إذا وجدت أخطاء في المحتوى، نرحب أيضاً بملاحظاتك عبر البريد الإلكتروني المذكور أعلاه وسنقوم بتصحيحها في أقرب وقت ممكن."
+    },
+    "notImmigrationAdvice": {
+      "title": "4. ليست استشارة في شؤون الهجرة",
+      "p1": "أي معلومات مقدمة على هذه المنصة (بما في ذلك شرح مستويات CLB والمصطلحات المتعلقة بالهجرة وغيرها) <b>لا تشكل استشارة في شؤون الهجرة أو استشارة قانونية أو استشارة مهنية</b>. تتضمن طلبات الهجرة لوائح وسياسات معقدة؛ ننصح باستشارة مستشار هجرة مرخّص (RCIC) أو محامٍ متخصص في شؤون الهجرة."
+    },
+    "thirdPartyLinks": {
+      "title": "5. روابط الأطراف الثالثة",
+      "p1": "قد تحتوي هذه المنصة على روابط لمواقع أو خدمات تابعة لأطراف ثالثة (مثل ChatGPT وWhatsApp وغيرها). نحن غير مسؤولين عن محتوى الأطراف الثالثة، ويكون الوصول إلى هذه الروابط على مسؤولية المستخدم الخاصة."
+    },
+    "userReviews": {
+      "title": "6. تقييمات المستخدمين وشهاداتهم",
+      "p1": "تمثل تقييمات المستخدمين ومشاركات الدرجات المعروضة على المنصة تجارب فردية و<b>لا تعني أن جميع المستخدمين سيحققون النتائج ذاتها</b>. تختلف خلفية كل مستخدم والوقت المستثمر وأساليب الدراسة، وتتباين النتائج تبعاً لذلك."
+    },
+    "serviceAvailability": {
+      "title": "7. توفر الخدمة",
+      "p1": "نسعى للحفاظ على توفر المنصة على مدار الساعة طوال أيام الأسبوع، لكننا لا نضمن خدمة متواصلة أو خالية من الأخطاء. لا نتحمل المسؤولية عن انقطاعات الخدمة الناتجة عن الصيانة أو التحديثات أو مشاكل الشبكة أو القوة القاهرة."
+    },
+    "liability": {
+      "title": "8. تحديد المسؤولية",
+      "p1": "إلى أقصى حد يسمح به القانون، لا تتحمل HiTCF ومشغلوها أي مسؤولية عن أي خسائر ناتجة عن استخدام محتوى المنصة أو الاعتماد عليه، بما في ذلك على سبيل المثال لا الحصر:",
+      "li1": "الرسوب في اختبار أو عدم تحقيق المستوى المتوقع؛",
+      "li2": "رفض طلب الهجرة أو تأخيره؛",
+      "li3": "العواقب المترتبة على أي قرارات اتُخذت بناءً على تقديرات المنصة."
+    },
+    "contact": {
+      "title": "9. التواصل",
+      "p1": "إذا كانت لديك أي أسئلة حول إخلاء المسؤولية هذا، يُرجى التواصل عبر: <email>support@hitcf.com</email>"
+    },
+    "footerLinks": "وثائق قانونية أخرى: <terms>شروط الاستخدام</terms> · <privacy>سياسة الخصوصية</privacy> · <refund>سياسة الاسترداد</refund>"
+  },
+  "termsPage": {
+    "heading": "شروط الاستخدام",
+    "lastUpdated": "آخر تحديث: 23 فبراير 2026",
+    "intro": "مرحباً بكم في HiTCF (المشار إليها فيما يلي بـ \"المنصة\" أو \"نحن\"). يتم تشغيل المنصة بواسطة HiTCF، المسجلة في كندا. باستخدامك للمنصة، فإنك توافق على الشروط التالية. إذا كنت لا توافق، يُرجى التوقف عن استخدام المنصة.",
+    "service": {
+      "title": "1. وصف الخدمة",
+      "p1": "HiTCF هي منصة تدريب إلكترونية لاختبار TCF Canada توفر أسئلة تدريبية تجريبية للاستماع والقراءة والتحدث والكتابة. المحتوى المقدم هو لأغراض التدريب والاسترشاد فقط و<b>لا يمثل أو يضمن درجات أو نتائج اختبار TCF Canada الفعلية</b>."
+    },
+    "account": {
+      "title": "2. الحساب والتسجيل",
+      "li1": "يتم تسجيل المستخدمين وتسجيل دخولهم عبر البريد الإلكتروني. أنت مسؤول عن الحفاظ على أمان بيانات تسجيل الدخول الخاصة بك.",
+      "li2": "كل حساب مخصص للاستخدام الشخصي فقط ولا يجوز نقله أو إعارته أو مشاركته مع الآخرين.",
+      "li3": "في حال اكتشاف استخدام غير طبيعي أو إساءة استخدام أو انتهاك لهذه الشروط، نحتفظ بالحق في تعليق الحساب أو إنهائه."
+    },
+    "subscription": {
+      "title": "3. الاشتراك والدفع",
+      "li1": "توفر المنصة محتوى مجانياً وخدمات اشتراك مدفوعة (Pro). تتم معالجة المدفوعات عبر Stripe.",
+      "li2": "الاشتراكات <b>تُجدد تلقائياً</b>. ما لم تقم بالإلغاء قبل نهاية دورة الفوترة الحالية، سيتم تحصيل الرسوم تلقائياً للدورة التالية.",
+      "li3": "يمكنك إلغاء اشتراكك في أي وقت عبر بوابة عملاء Stripe. بعد الإلغاء، يظل اشتراكك الحالي نشطاً حتى نهاية الفترة الجارية.",
+      "li4": "قد تتغير الأسعار. سنُخطرك عبر البريد الإلكتروني قبل أي تغيير في الأسعار، ويسري التغيير عند التجديد التالي.",
+      "li5": "للاطلاع على تفاصيل الاسترداد، يُرجى مراجعة <refund>سياسة الاسترداد</refund>."
+    },
+    "trial": {
+      "title": "4. الفترة التجريبية المجانية",
+      "p1": "قد نوفر فترة تجريبية مجانية. بعد انتهاء الفترة التجريبية، إذا لم تقم بالإلغاء، سيتم تحصيل الرسوم تلقائياً وفقاً للخطة التي اخترتها. يحق لكل مستخدم الاستفادة من فترة تجريبية مجانية واحدة فقط."
+    },
+    "acceptableUse": {
+      "title": "5. الاستخدام المقبول",
+      "p1": "أنت توافق على عدم القيام بما يلي:",
+      "li1": "استخدام أي وسائل آلية (برامج الزحف، البرامج النصية، إلخ) لاستخراج محتوى المنصة أو نسخه أو تنزيله؛",
+      "li2": "إعادة توزيع محتوى المنصة (الأسئلة، الملفات الصوتية، الشروحات، إلخ) أو بيعه أو استخدامه تجارياً؛",
+      "li3": "محاولة تجاوز قيود الدفع أو التلاعب بالبيانات أو الهندسة العكسية أو اختبار اختراق المنصة؛",
+      "li4": "التدخل في التشغيل الطبيعي للمنصة أو تجربة المستخدمين الآخرين."
+    },
+    "ip": {
+      "title": "6. الملكية الفكرية",
+      "li1": "تصميم موقع المنصة وعلامتها التجارية وواجهة المستخدم والشفرة البرمجية الأصلية مملوكة لـ HiTCF ومحمية بموجب قانون حقوق المؤلف. لا يجوز نسخها أو تعديلها أو توزيعها دون إذن كتابي.",
+      "li2": "أسئلة التدريب والملفات الصوتية والمواد ذات الصلة مجمّعة ومحرّرة من مصادر متاحة للعموم. تعود الملكية الفكرية للمحتوى الأصلي لأصحاب الحقوق المعنيين. إذا اعتقد أي صاحب حقوق أن محتوى على هذه المنصة ينتهك حقوقه، يُرجى التواصل عبر <email>support@hitcf.com</email> وسنعالج الأمر فوراً بعد التحقق.",
+      "li3": "لا يجوز للمستخدمين استخراج أو نسخ أو إعادة توزيع أي محتوى على هذه المنصة لأغراض تجارية، بصرف النظر عن مصدره الأصلي."
+    },
+    "disclaimer": {
+      "title": "7. إخلاء المسؤولية",
+      "li1": "محتوى المنصة مخصص للتعلم والتدريب الاسترشادي فقط و<b>لا يشكل أي شكل من أشكال ضمان درجات الاختبار أو استشارة الهجرة أو الاستشارة القانونية</b>.",
+      "li2": "\"تقديرات مستوى CLB\" و\"تقييمات الجاهزية\" المقدمة تستند إلى تحليل إحصائي لبيانات التدريب وهي <b>للاسترشاد فقط — ولا تمثل درجات الاختبار الفعلية</b>.",
+      "li3": "نسعى لضمان دقة المحتوى لكننا لا نتحمل المسؤولية عن أي أخطاء أو سهو في محتوى الأسئلة.",
+      "li4": "للاطلاع على إخلاء المسؤولية الكامل، يُرجى مراجعة صفحة <disclaimerLink>إخلاء المسؤولية</disclaimerLink>."
+    },
+    "serviceChanges": {
+      "title": "8. تغييرات الخدمة وانقطاعاتها",
+      "p1": "نحتفظ بالحق في تعديل الخدمة كلياً أو جزئياً أو تعليقها أو إنهائها دون إشعار مسبق. لا نتحمل المسؤولية عن أي خسائر ناتجة عن انقطاعات الخدمة. سنبذل جهوداً معقولة لتقديم إشعار مسبق بالتغييرات الجوهرية."
+    },
+    "liability": {
+      "title": "9. تحديد المسؤولية",
+      "p1": "إلى أقصى حد يسمح به القانون، لا تتحمل HiTCF ومشغلوها أي مسؤولية عن أي أضرار مباشرة أو غير مباشرة أو عرضية أو خاصة أو تبعية ناتجة عن استخدام المنصة أو عدم القدرة على استخدامها، بما في ذلك على سبيل المثال لا الحصر نتائج الاختبار غير المُرضية أو نتائج طلبات الهجرة أو فقدان البيانات."
+    },
+    "governing": {
+      "title": "10. القانون الحاكم وحل النزاعات",
+      "p1": "تخضع هذه الشروط لقوانين كندا. يتم حل أي نزاعات ناشئة عن هذه الشروط أو استخدام المنصة أولاً من خلال التفاوض بحسن نية؛ وفي حال فشل التفاوض، تُحال إلى محكمة مختصة في كندا."
+    },
+    "modifications": {
+      "title": "11. تعديل الشروط",
+      "p1": "نحتفظ بالحق في تعديل هذه الشروط في أي وقت. سيتم نشر الشروط المحدّثة على هذه الصفحة مع تاريخ \"آخر تحديث\" محدّث. يُعتبر الاستمرار في استخدام المنصة قبولاً للشروط المعدّلة. سنُخطرك عبر البريد الإلكتروني بالتغييرات الجوهرية."
+    },
+    "contact": {
+      "title": "12. التواصل",
+      "p1": "إذا كانت لديك أي أسئلة حول هذه الشروط، يُرجى التواصل عبر: <email>support@hitcf.com</email>"
+    }
+  },
+  "privacyPage": {
+    "heading": "سياسة الخصوصية",
+    "lastUpdated": "آخر تحديث: 23 فبراير 2026",
+    "intro": "تُولي HiTCF (المشار إليها فيما يلي بـ \"المنصة\" أو \"نحن\") أهمية بالغة لخصوصيتك. توضح سياسة الخصوصية هذه كيفية جمع معلوماتك الشخصية واستخدامها وتخزينها وحمايتها، وذلك امتثالاً لقانون حماية المعلومات الشخصية والوثائق الإلكترونية الكندي (PIPEDA).",
+    "infoCollect": {
+      "title": "1. المعلومات التي نجمعها",
+      "authTitle": "1.1 معلومات المصادقة",
+      "authP1": "يتم تسجيل المستخدمين وتسجيل دخولهم عبر البريد الإلكتروني. من خلال هذه العملية، نجمع:",
+      "authLi1": "عنوان البريد الإلكتروني",
+      "authLi2": "الاسم (المقدم أثناء التسجيل)",
+      "payTitle": "1.2 معلومات الدفع",
+      "payP1": "تتم معالجة الاشتراكات المدفوعة عبر Stripe. نحن <b>لا نخزّن</b> أرقام بطاقاتك الائتمانية أو معلومات بطاقاتك المصرفية بشكل مباشر. تقوم Stripe، بصفتها معالج مدفوعات معتمد وفق معيار PCI DSS المستوى 1، بإدارة بيانات الدفع الخاصة بك بشكل مستقل. نحن نخزّن فقط:",
+      "payLi1": "معرّف عميل Stripe",
+      "payLi2": "حالة الاشتراك وتاريخ انتهاء الصلاحية",
+      "payLi3": "سجلات أحداث الدفع (نجاح/فشل، بدون أرقام بطاقات)",
+      "usageTitle": "1.3 بيانات الاستخدام",
+      "usageP1": "أثناء استخدامك للمنصة، نجمع تلقائياً:",
+      "usageLi1": "سجلات التدريب والاختبارات (الإجابات، الدرجات، الوقت المستغرق)",
+      "usageLi2": "سجلات الإجابات الخاطئة",
+      "usageLi3": "إحصائيات التدريب (معدلات الدقة، أيام المتابعة المتتالية، إلخ)",
+      "cookieTitle": "1.4 ملفات تعريف الارتباط والتقنيات المماثلة",
+      "cookieP1": "تستخدم المنصة ملفات تعريف الارتباط أو التقنيات المماثلة التالية:",
+      "cookieLi1": "<b>رمز المصادقة</b>: يُستخدم للتحقق من الهوية والحفاظ على حالة تسجيل الدخول (ملف تعريف ارتباط أساسي)",
+      "cookieLi2": "<b>تفضيل اللغة</b>: يُستخدم لتذكر تفضيل اللغة الخاص بك (ملف تعريف ارتباط أساسي)",
+      "cookieP2": "المنصة حالياً <b>لا تستخدم</b> أدوات تحليلات تابعة لأطراف ثالثة (مثل Google Analytics) أو ملفات تعريف ارتباط لتتبع الإعلانات. في حال إدخالها مستقبلاً، سيتم تحديث هذه السياسة وإخطار المستخدمين."
+    },
+    "purpose": {
+      "title": "2. أغراض استخدام المعلومات",
+      "p1": "تُستخدم المعلومات الشخصية التي نجمعها حصرياً في:",
+      "li1": "تقديم خدمات المنصة والحفاظ عليها (المصادقة، سجلات التدريب، إحصائيات الأداء)",
+      "li2": "معالجة مدفوعات الاشتراك وإدارة حالة الحساب",
+      "li3": "إرسال إشعارات مهمة متعلقة بالحساب (تغييرات الاشتراك، تحديثات الشروط)",
+      "li4": "تحسين ميزات المنصة وتجربة المستخدم",
+      "li5": "منع الاحتيال وإساءة الاستخدام",
+      "p2": "نحن <b>لن نستخدم</b> معلوماتك الشخصية لأغراض إعلانية أو نبيعها لأطراف ثالثة."
+    },
+    "storage": {
+      "title": "3. تخزين البيانات وأمنها",
+      "li1": "يتم تخزين بيانات المستخدمين في قاعدة بيانات MongoDB منشورة في بيئة خوادم سحابية آمنة.",
+      "li2": "تُستضاف الملفات الصوتية على خدمة Microsoft Azure Blob Storage.",
+      "li3": "يتم تشفير جميع عمليات نقل البيانات عبر HTTPS/TLS.",
+      "li4": "نتخذ تدابير تقنية وتنظيمية معقولة لحماية بياناتك، لكن لا يمكن ضمان أمان أي نقل عبر الإنترنت أو تخزين إلكتروني بنسبة 100%."
+    },
+    "thirdParty": {
+      "title": "4. خدمات الأطراف الثالثة",
+      "p1": "تستخدم المنصة خدمات الأطراف الثالثة التالية، ولكل منها سياسة خصوصية خاصة بها:",
+      "thService": "الخدمة",
+      "thPurpose": "الغرض",
+      "thData": "نوع البيانات",
+      "stripe": "معالجة المدفوعات",
+      "stripeData": "معلومات الدفع، حالة الاشتراك",
+      "azure": "تخزين الملفات الصوتية",
+      "azureData": "ملفات صوتية (بدون معلومات شخصية)",
+      "vercel": "استضافة الموقع الإلكتروني",
+      "vercelData": "سجلات الوصول"
+    },
+    "retention": {
+      "title": "5. الاحتفاظ بالبيانات",
+      "li1": "معلومات الحساب: يُحتفظ بها طوال مدة وجود حسابك.",
+      "li2": "سجلات التدريب: يُحتفظ بها طوال مدة وجود حسابك. في حال حذف حسابك، سيتم حذف البيانات ذات الصلة خلال 30 يوماً.",
+      "li3": "سجلات الدفع: قد يُحتفظ بها لمدة تصل إلى 7 سنوات وفقاً للمتطلبات الضريبية والالتزامات القانونية."
+    },
+    "rights": {
+      "title": "6. حقوقك",
+      "p1": "بموجب قانون PIPEDA والقوانين المعمول بها، لديك الحق في:",
+      "li1": "<b>الوصول</b>: الاطلاع على المعلومات الشخصية التي نحتفظ بها عنك.",
+      "li2": "<b>التصحيح</b>: طلب تصحيح المعلومات الشخصية غير الدقيقة.",
+      "li3": "<b>الحذف</b>: طلب حذف معلوماتك الشخصية (مع مراعاة التزامات الاحتفاظ القانونية).",
+      "li4": "<b>تصدير البيانات</b>: الحصول على نسخة من بيانات تدريبك.",
+      "li5": "<b>سحب الموافقة</b>: سحب الموافقة على معالجة البيانات (مما قد يؤدي إلى عدم القدرة على استخدام بعض الخدمات).",
+      "p2": "لممارسة هذه الحقوق، يُرجى التواصل عبر: <email>support@hitcf.com</email>. سنرد على طلبك خلال 30 يوماً."
+    },
+    "minors": {
+      "title": "7. القاصرون",
+      "p1": "المنصة غير موجهة للأفراد الذين تقل أعمارهم عن 16 عاماً. نحن لا نجمع عن قصد معلومات شخصية من القاصرين. في حال اكتشافنا أننا جمعنا معلومات من قاصر، سيتم حذفها فوراً."
+    },
+    "crossBorder": {
+      "title": "8. نقل البيانات عبر الحدود",
+      "p1": "قد يتم تخزين بياناتك ومعالجتها على خوادم خارج كندا (بما في ذلك على سبيل المثال لا الحصر الولايات المتحدة، نظراً لاستخدام Stripe وAzure وخدمات مماثلة). نحرص على أن يحافظ مزودو هذه الخدمات على تدابير حماية بيانات كافية."
+    },
+    "policyChanges": {
+      "title": "9. تعديل السياسة",
+      "p1": "قد نقوم بتحديث سياسة الخصوصية هذه من وقت لآخر. سيتم نشر السياسات المحدّثة على هذه الصفحة مع تاريخ \"آخر تحديث\" محدّث. بالنسبة للتغييرات الجوهرية، سنُخطرك عبر البريد الإلكتروني."
+    },
+    "contact": {
+      "title": "10. التواصل",
+      "p1": "إذا كانت لديك أي أسئلة حول سياسة الخصوصية هذه أو كنت بحاجة إلى ممارسة حقوقك المتعلقة بالبيانات، يُرجى التواصل عبر:",
+      "li1": "البريد الإلكتروني: <email>support@hitcf.com</email>"
+    }
+  },
+  "refundPage": {
+    "heading": "سياسة الاسترداد",
+    "lastUpdated": "آخر تحديث: 23 فبراير 2026",
+    "intro": "شكراً لاختياركم HiTCF. تسري سياسة الاسترداد هذه على جميع خدمات الاشتراك المدفوعة المشتراة عبر المنصة.",
+    "freeTrial": {
+      "title": "1. الفترة التجريبية المجانية",
+      "li1": "يحق لجميع المستخدمين الجدد الاستفادة من فترة تجريبية مجانية (<b>شهران للخطة السنوية</b>، 7 أيام للخطط الشهرية/الفصلية). لا تُفرض أي رسوم خلال الفترة التجريبية.",
+      "li2": "يمكنك الإلغاء في أي وقت خلال الفترة التجريبية دون أي تكلفة.",
+      "li3": "بعد انتهاء الفترة التجريبية، في حال عدم الإلغاء، سيتم تحصيل الرسوم تلقائياً وفقاً للخطة التي اخترتها.",
+      "li4": "يحق لكل مستخدم (لكل عنوان بريد إلكتروني) الاستفادة من فترة تجريبية مجانية واحدة فقط."
+    },
+    "cancellation": {
+      "title": "2. إلغاء الاشتراك",
+      "li1": "يمكنك إلغاء اشتراكك في أي وقت عبر زر \"إدارة الاشتراك\" في <pricing>صفحة الأسعار</pricing>، الذي يفتح بوابة عملاء Stripe.",
+      "li2": "بعد الإلغاء، يظل وصولك إلى ميزات Pro نشطاً حتى نهاية فترة الفوترة الحالية، وبعدها تُخفَّض صلاحياتك إلى مستخدم مجاني.",
+      "li3": "إلغاء الاشتراك <b>لا يُنشئ</b> استرداداً تلقائياً."
+    },
+    "conditions": {
+      "title": "3. شروط الاسترداد",
+      "p1": "الحالات التالية مؤهلة للاسترداد:",
+      "fullTitle": "3.1 الاسترداد الكامل",
+      "fullLi1": "خلال <b>48 ساعة</b> من أول عملية دفع، إذا لم تكن راضياً عن الخدمة.",
+      "fullLi2": "إذا كانت مشكلة تقنية في المنصة (مثل تعذر تسجيل الدخول لفترة طويلة أو انقطاع واسع النطاق في الميزات) تمنعك من استخدام الخدمة، ولم نتمكن من حلها خلال 72 ساعة.",
+      "fullLi3": "الرسوم المكررة أو الخاطئة.",
+      "proTitle": "3.2 الاسترداد النسبي",
+      "proLi1": "يمكن للمشتركين في الخطط الفصلية أو السنوية الذين يطلبون الاسترداد خلال <b>14 يوماً</b> من الدفع الحصول على استرداد نسبي عن الأيام غير المستخدمة.",
+      "noTitle": "3.3 حالات غير قابلة للاسترداد",
+      "noLi1": "المشتركون في الخطة الشهرية الذين يطلبون الاسترداد بعد مرور 48 ساعة الأولى.",
+      "noLi2": "المشتركون في الخطط الفصلية/السنوية الذين يطلبون الاسترداد بعد مرور 14 يوماً.",
+      "noLi3": "عدم الاستخدام لأسباب شخصية (مثل نسيان إلغاء التجديد التلقائي، أو الجدولة الشخصية).",
+      "noLi4": "طلبات الاسترداد المبنية على عدم الرضا عن نتائج الاختبار (المنصة لا تضمن نتائج الاختبار — انظر <disclaimerLink>إخلاء المسؤولية</disclaimerLink>).",
+      "noLi5": "تعليق الحساب أو إنهاؤه بسبب انتهاك <termsLink>شروط الاستخدام</termsLink>."
+    },
+    "process": {
+      "title": "4. إجراءات الاسترداد",
+      "step1": "أرسل بريداً إلكترونياً إلى <email>support@hitcf.com</email> متضمناً:",
+      "step1Li1": "عنوان بريدك الإلكتروني المسجل",
+      "step1Li2": "خطة الاشتراك وتاريخ الدفع",
+      "step1Li3": "سبب طلب الاسترداد",
+      "step2": "سنراجع طلبك ونرد عليه خلال <b>3 أيام عمل</b>.",
+      "step3": "بعد الموافقة، تتم معالجة الاسترداد عبر Stripe إلى وسيلة الدفع الأصلية، ويصل عادةً خلال <b>5–10 أيام عمل</b>."
+    },
+    "disputes": {
+      "title": "5. نزاعات Stripe",
+      "p1": "إذا بدأت نزاعاً (رد مبالغ مدفوعة) عبر البنك أو شركة بطاقة الائتمان الخاصة بك، فسنقدم سجلات المعاملات وأدلة استخدام الخدمة رداً على ذلك. <b>ننصح بالتواصل معنا قبل بدء أي نزاع</b> — نفضل حل المشكلات من خلال التواصل الودي."
+    },
+    "contact": {
+      "title": "6. التواصل",
+      "p1": "للأسئلة المتعلقة بالاسترداد، يُرجى التواصل عبر: <email>support@hitcf.com</email>"
+    }
+  },
+  "schema": {
+    "siteDescription": "منصة تدريب TCF Canada عبر الإنترنت — أكثر من 8,500 سؤال لمساعدتك في الوصول إلى CLB 7",
+    "faq1q": "هل HiTCF منصة رسمية؟",
+    "faq1a": "لا. HiTCF هي منصة تدريب مستقلة تابعة لجهة خارجية ولا علاقة لها بمنظمة France Éducation international أو IRCC. الأسئلة التدريبية مجمّعة من مواد متاحة للعموم ومصمّمة لتتوافق مع صيغة TCF Canada، لكنها ليست أسئلة امتحان فعلية.",
+    "faq2q": "ماذا يمكنني فعله بالنسخة المجانية؟",
+    "faq2a": "تتضمن النسخة المجانية أول مجموعة استماع وأول مجموعتي قراءة مع جميع الأسئلة، في وضعي التدريب والامتحان. محاولات غير محدودة، مجاناً للأبد.",
+    "faq3q": "ما هي مزايا Pro؟",
+    "faq3a": "فتح جميع الأسئلة الأكثر من 8,500 (أكثر من 1,200 مجموعة)، بما فيها وضع الامتحان ودفتر الأخطاء والتمرين السريع وأدوات المفردات ومراجعة البطاقات والإملاء وتصدير Anki. الاشتراكات السنوية تتضمن شهرين تجريبيين مجاناً، مع إمكانية الإلغاء في أي وقت.",
+    "faq4q": "هل يمكنكم ضمان وصولي إلى CLB 7؟",
+    "faq4a": "لا. توفر HiTCF بيئة تدريب متوافقة مع TCF Canada لمساعدتك في تحديد نقاط الضعف وتحسينها. ومع ذلك، تعتمد الدرجات الفعلية على عوامل عديدة — نحن لا نضمن أي نتائج امتحان.",
+    "faq5q": "كيف أتدرّب على التحدث والكتابة؟",
+    "faq5a": "قسما التحدث والكتابة يوفران مواضيع ومهام امتحان حقيقية، مع إمكانية الانتقال إلى ChatGPT لتدريب المحادثة بالذكاء الاصطناعي وتصحيح المقالات — بمثابة معلم ذكاء اصطناعي مجاني.",
+    "faq6q": "كيف أطلب استرداد الأموال؟",
+    "faq6a": "استرداد كامل خلال 48 ساعة من أول دفعة. يمكن لمشتركي الاشتراك الفصلي/السنوي الحصول على استرداد نسبي خلال 14 يوماً. أرسل بريداً إلكترونياً إلى support@hitcf.com — تتم المعالجة خلال 3 أيام عمل."
+  }
+}

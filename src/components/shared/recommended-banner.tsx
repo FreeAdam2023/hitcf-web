@@ -8,6 +8,7 @@ import { listAttempts } from "@/lib/api/attempts";
 import { listTestSets } from "@/lib/api/test-sets";
 import { fetchAllPages } from "@/lib/api/fetch-all-pages";
 import { useTranslations } from "next-intl";
+import { localizeTestName } from "@/lib/test-name";
 import type { TestSetItem } from "@/lib/api/types";
 
 interface RecommendedBannerProps {
@@ -59,7 +60,7 @@ export function RecommendedBanner({ type }: RecommendedBannerProps) {
             {t('recommendedBanner.title')}
           </p>
           <p className="truncate text-sm text-muted-foreground">
-            {recommended.name}
+            {localizeTestName(t, recommended.type, recommended.name)}
           </p>
         </div>
       </div>

@@ -88,20 +88,20 @@ export function UserMenu() {
         <DropdownMenuSeparator />
         {!isSubscribed && (
           <DropdownMenuItem onClick={() => router.push("/pricing")}>
-            <Sparkles className="mr-2 h-4 w-4" />
+            <Sparkles className="me-2 h-4 w-4" />
             {t('userMenu.upgradePro')}
           </DropdownMenuItem>
         )}
         <DropdownMenuItem onClick={() => router.push("/account")}>
-          <Settings className="mr-2 h-4 w-4" />
+          <Settings className="me-2 h-4 w-4" />
           {t('userMenu.accountSettings')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setFeedbackOpen(true)}>
-          <MessageSquarePlus className="mr-2 h-4 w-4" />
+          <MessageSquarePlus className="me-2 h-4 w-4" />
           {t('userMenu.feedback')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => logout()}>
-          <LogOut className="mr-2 h-4 w-4" />
+          <LogOut className="me-2 h-4 w-4" />
           {t('userMenu.logout')}
         </DropdownMenuItem>
       </DropdownMenuContent>
