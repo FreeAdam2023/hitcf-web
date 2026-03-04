@@ -179,9 +179,18 @@
       "login": "Log In"
     },
     "forgotPassword": {
-      "emailStep": { "title": "Reset Password", "desc": "Enter your email and we'll send a verification code" },
-      "codeStep": { "title": "Verify Email", "desc": "" },
-      "passwordStep": { "title": "Set New Password", "desc": "Enter your new password" },
+      "emailStep": {
+        "title": "Reset Password",
+        "desc": "Enter your email and we'll send a verification code"
+      },
+      "codeStep": {
+        "title": "Verify Email",
+        "desc": ""
+      },
+      "passwordStep": {
+        "title": "Set New Password",
+        "desc": "Enter your new password"
+      },
       "invalidEmail": "Please enter a valid email address",
       "sendFailed": "Failed to send. Please try again later.",
       "verifyFailed": "Verification failed. Please try again later.",
@@ -250,7 +259,20 @@
     "emptyQuestionDesc": "No questions at this level",
     "unlockAll": "Unlock All Tests",
     "unlockDescription": "{count} more test sets await you. Upgrade to Pro for the full experience.",
-    "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "months": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
     "yearMonth": "{month} {year}",
     "writingTache1": "Tâche 1 · Short Message",
     "writingTache2": "Tâche 2 · Blog Article",
@@ -297,7 +319,7 @@
     "subtitle": "TCF Canada Online Practice",
     "tagline": "Your TCF Canada Prep Tool",
     "correct": "Correct {score}/{total}",
-    "timeTaken": "\u00b7 Time {time}",
+    "timeTaken": "· Time {time}",
     "tierExcellent": "Excellent! NCLC 10+ level!",
     "tierGreat": "Amazing! Reached NCLC 7!",
     "tierGood": "Great! Push harder to reach NCLC 7!",
@@ -391,7 +413,15 @@
     }
   },
   "speakingGuide": {
-    "topics": ["Identity", "Education", "Work", "Hobbies", "Family", "Daily Life", "Immigration"],
+    "topics": [
+      "Identity",
+      "Education",
+      "Work",
+      "Hobbies",
+      "Family",
+      "Daily Life",
+      "Immigration"
+    ],
     "title": "Tâche 1 · Guided Interview",
     "subtitle": "Entretien dirigé — The examiner asks spontaneous questions on everyday topics, ~2 minutes",
     "commonTopics": "Common Topics",
@@ -916,12 +946,30 @@
     "reading": "Reading {pct}%"
   },
   "tcfLevels": {
-    "C2": { "label": "C2 Superior", "description": "Near-native proficiency" },
-    "C1": { "label": "C1 Advanced", "description": "Fluent and confident" },
-    "B2": { "label": "B2 Upper Intermediate", "description": "Independent language use" },
-    "B1": { "label": "B1 Intermediate", "description": "Everyday communication" },
-    "A2": { "label": "A2 Elementary", "description": "Simple daily expressions" },
-    "A1": { "label": "A1 Beginner", "description": "Basic vocabulary and phrases" }
+    "C2": {
+      "label": "C2 Superior",
+      "description": "Near-native proficiency"
+    },
+    "C1": {
+      "label": "C1 Advanced",
+      "description": "Fluent and confident"
+    },
+    "B2": {
+      "label": "B2 Upper Intermediate",
+      "description": "Independent language use"
+    },
+    "B1": {
+      "label": "B1 Intermediate",
+      "description": "Everyday communication"
+    },
+    "A2": {
+      "label": "A2 Elementary",
+      "description": "Simple daily expressions"
+    },
+    "A1": {
+      "label": "A1 Beginner",
+      "description": "Basic vocabulary and phrases"
+    }
   },
   "writingExam": {
     "title": "Writing Exam",
@@ -1361,7 +1409,7 @@
       "free": "Free",
       "pro": "Pro",
       "rows": [
-        "Listening (44 sets · 1,700+ questions · with audio)",
+        "Listening (44 sets · 1,700+ questions · audio + sentence replay)",
         "Reading (44 sets · 1,700+ questions)",
         "Speaking (696 sets · 3,500+ topics)",
         "Writing (515 groups · 1,500+ tasks)",
@@ -1373,7 +1421,11 @@
         "Anki export + textbook word pools",
         "Practice history + stats dashboard"
       ],
-      "freeValues": ["First set", "First 2 sets", "Basic"]
+      "freeValues": [
+        "First set",
+        "First 2 sets",
+        "Basic"
+      ]
     },
     "faq": {
       "title": "FAQ",
@@ -1447,10 +1499,26 @@
       "intervalLabel": "Minimum interval between tests",
       "intervalValue": "30 days",
       "subjects": [
-        { "name": "Listening (CO)", "questions": "39 multiple-choice", "duration": "35 minutes" },
-        { "name": "Reading (CE)", "questions": "39 multiple-choice", "duration": "60 minutes" },
-        { "name": "Writing (EE)", "questions": "3 writing tasks", "duration": "60 minutes" },
-        { "name": "Speaking (EO)", "questions": "3 speaking tasks", "duration": "12 minutes" }
+        {
+          "name": "Listening (CO)",
+          "questions": "39 multiple-choice",
+          "duration": "35 minutes"
+        },
+        {
+          "name": "Reading (CE)",
+          "questions": "39 multiple-choice",
+          "duration": "60 minutes"
+        },
+        {
+          "name": "Writing (EE)",
+          "questions": "3 writing tasks",
+          "duration": "60 minutes"
+        },
+        {
+          "name": "Speaking (EO)",
+          "questions": "3 speaking tasks",
+          "duration": "12 minutes"
+        }
       ],
       "questionCount": "Questions",
       "durationLabel": "Duration",
@@ -1483,10 +1551,22 @@
       "nclc7Desc": "NCLC 7 (i.e. CLB 7) is the <b>minimum French requirement</b> for most Canadian economic immigration programs. Reaching NCLC 7 means you meet the language threshold for Express Entry (CEC, FSW) and most Provincial Nominee Programs (PNP). Higher NCLC levels (8, 9, 10) earn <b>additional CRS points</b> — NCLC 9 gives the maximum language bonus.",
       "immigrationTitle": "Common Immigration Program Requirements",
       "programs": [
-        { "name": "Express Entry (CEC)", "desc": "Canadian Experience Class" },
-        { "name": "Express Entry (FSW)", "desc": "Federal Skilled Worker" },
-        { "name": "Quebec PEQ", "desc": "Quebec Experience Program" },
-        { "name": "Citizenship", "desc": "Canadian citizenship application" }
+        {
+          "name": "Express Entry (CEC)",
+          "desc": "Canadian Experience Class"
+        },
+        {
+          "name": "Express Entry (FSW)",
+          "desc": "Federal Skilled Worker"
+        },
+        {
+          "name": "Quebec PEQ",
+          "desc": "Quebec Experience Program"
+        },
+        {
+          "name": "Citizenship",
+          "desc": "Canadian citizenship application"
+        }
       ]
     },
     "learn": {
@@ -1496,27 +1576,78 @@
       "youtubeTitle": "YouTube Channels",
       "toolsTitle": "Tools & Other Resources",
       "official": [
-        { "desc": "Free French learning platform by the French international TV network. Video courses + interactive exercises for all levels from A1 to C1, organized by themes like culture, society, and science.", "tag": "A1–C1" },
-        { "desc": "French international radio learning channel. Real French news audio with practice exercises. Various speech speeds from slow to normal — excellent TCF listening prep material.", "tag": "Listening" },
-        { "desc": "RFI's 'Easy French News' — 10-minute clear, slow-paced daily international news broadcasts. Listen daily to steadily improve your listening comprehension.", "tag": "Daily Listening" },
-        { "desc": "Official TCF test organization website. View exam descriptions, scoring criteria, and official sample questions. Essential to understand the real exam format before preparing.", "tag": "Official" },
-        { "desc": "Long-established French learning site with extensive free grammar, vocabulary, listening and reading exercises graded by difficulty. Great for building solid grammar foundations.", "tag": "Grammar" },
-        { "desc": "Hugo's French learning platform with podcasts, YouTube videos, and courses. Natural French discussing cultural and social topics. Moderate pace with depth — ideal for intermediate learners to break through plateaus.", "tag": "B1–B2" }
+        {
+          "desc": "Free French learning platform by the French international TV network. Video courses + interactive exercises for all levels from A1 to C1, organized by themes like culture, society, and science.",
+          "tag": "A1–C1"
+        },
+        {
+          "desc": "French international radio learning channel. Real French news audio with practice exercises. Various speech speeds from slow to normal — excellent TCF listening prep material.",
+          "tag": "Listening"
+        },
+        {
+          "desc": "RFI's 'Easy French News' — 10-minute clear, slow-paced daily international news broadcasts. Listen daily to steadily improve your listening comprehension.",
+          "tag": "Daily Listening"
+        },
+        {
+          "desc": "Official TCF test organization website. View exam descriptions, scoring criteria, and official sample questions. Essential to understand the real exam format before preparing.",
+          "tag": "Official"
+        },
+        {
+          "desc": "Long-established French learning site with extensive free grammar, vocabulary, listening and reading exercises graded by difficulty. Great for building solid grammar foundations.",
+          "tag": "Grammar"
+        },
+        {
+          "desc": "Hugo's French learning platform with podcasts, YouTube videos, and courses. Natural French discussing cultural and social topics. Moderate pace with depth — ideal for intermediate learners to break through plateaus.",
+          "tag": "B1–B2"
+        }
       ],
       "youtube": [
-        { "desc": "Million-subscriber immersive French channel. Johan speaks only French about everyday topics — no grammar rules, just natural input to develop intuition.", "tag": "B1+ Immersion" },
-        { "desc": "French native Dylane's teaching channel focused on grammar explanations and vocabulary expansion. Short, clear, and well-organized episodes.", "tag": "Grammar & Vocab" },
-        { "desc": "French teacher Pierre's comprehensive channel covering grammar, vocabulary, pronunciation, and culture. French audio with subtitles — perfect for intensive listening.", "tag": "B1–C1" },
-        { "desc": "Hugo's pure French podcast channel. 20–30 minute episodes discussing cultural and social topics. Moderate pace, great for extensive listening and building speaking/writing material.", "tag": "Podcast" },
-        { "desc": "Street interview series in France. Real everyday French from native speakers with French-English subtitles. Authentic expressions and spoken rhythm you won't find in textbooks.", "tag": "Real French" },
-        { "desc": "Bilingual English-French teaching channel. Alexa explains French grammar and pronunciation in English. Slow pace with lots of examples — perfect for absolute beginners up to A2.", "tag": "Beginner" }
+        {
+          "desc": "Million-subscriber immersive French channel. Johan speaks only French about everyday topics — no grammar rules, just natural input to develop intuition.",
+          "tag": "B1+ Immersion"
+        },
+        {
+          "desc": "French native Dylane's teaching channel focused on grammar explanations and vocabulary expansion. Short, clear, and well-organized episodes.",
+          "tag": "Grammar & Vocab"
+        },
+        {
+          "desc": "French teacher Pierre's comprehensive channel covering grammar, vocabulary, pronunciation, and culture. French audio with subtitles — perfect for intensive listening.",
+          "tag": "B1–C1"
+        },
+        {
+          "desc": "Hugo's pure French podcast channel. 20–30 minute episodes discussing cultural and social topics. Moderate pace, great for extensive listening and building speaking/writing material.",
+          "tag": "Podcast"
+        },
+        {
+          "desc": "Street interview series in France. Real everyday French from native speakers with French-English subtitles. Authentic expressions and spoken rhythm you won't find in textbooks.",
+          "tag": "Real French"
+        },
+        {
+          "desc": "Bilingual English-French teaching channel. Alexa explains French grammar and pronunciation in English. Slow pace with lots of examples — perfect for absolute beginners up to A2.",
+          "tag": "Beginner"
+        }
       ],
       "tools": [
-        { "name": "Bilibili", "desc": "Search for 'French A1 textbook audio' or 'TCF prep' — tons of French learning videos with Chinese explanations. The most accessible resource for Chinese-speaking learners." },
-        { "name": "Anki", "desc": "Free, open-source spaced repetition flashcard app. Download community-shared TCF/DELF vocabulary decks. Scientific algorithms schedule reviews for far better long-term retention than cramming." },
-        { "name": "Duolingo", "desc": "Gamified language learning app with 10–15 minute daily lessons. While it won't match TCF depth, it's great for maintaining daily French exposure." },
-        { "name": "LogicielÉducatif", "desc": "French educational games website with mini-games for spelling, grammar, and vocabulary practice. Made for French students but equally effective for learners." },
-        { "name": "Lawless French", "desc": "Comprehensive French grammar reference site covering all grammar points from beginner to advanced with example sentences and exercises. Use it like a grammar dictionary." }
+        {
+          "name": "Bilibili",
+          "desc": "Search for 'French A1 textbook audio' or 'TCF prep' — tons of French learning videos with Chinese explanations. The most accessible resource for Chinese-speaking learners."
+        },
+        {
+          "name": "Anki",
+          "desc": "Free, open-source spaced repetition flashcard app. Download community-shared TCF/DELF vocabulary decks. Scientific algorithms schedule reviews for far better long-term retention than cramming."
+        },
+        {
+          "name": "Duolingo",
+          "desc": "Gamified language learning app with 10–15 minute daily lessons. While it won't match TCF depth, it's great for maintaining daily French exposure."
+        },
+        {
+          "name": "LogicielÉducatif",
+          "desc": "French educational games website with mini-games for spelling, grammar, and vocabulary practice. Made for French students but equally effective for learners."
+        },
+        {
+          "name": "Lawless French",
+          "desc": "Comprehensive French grammar reference site covering all grammar points from beginner to advanced with example sentences and exercises. Use it like a grammar dictionary."
+        }
       ]
     },
     "centers": {
@@ -1526,17 +1657,61 @@
       "chinaTitle": "China Test Centers",
       "canadaTitle": "Canada Test Centers",
       "china": [
-        { "city": "Beijing", "org": "Beijing Language and Culture University", "note": "" },
-        { "city": "Beijing", "org": "Alliance Française Beijing", "note": "" },
-        { "city": "Shanghai", "org": "Alliance Française Shanghai", "note": "" },
-        { "city": "Guangzhou", "org": "Alliance Française Guangzhou", "note": "" },
-        { "city": "Chengdu", "org": "Alliance Française Chengdu", "note": "" },
-        { "city": "Wuhan", "org": "Alliance Française Wuhan", "note": "WeChat registration" },
-        { "city": "Dalian", "org": "Alliance Française Dalian", "note": "" },
-        { "city": "Kunming", "org": "Alliance Française Kunming", "note": "WeChat registration" },
-        { "city": "Shandong", "org": "Alliance Française Shandong", "note": "New" },
-        { "city": "Nanjing", "org": "Alliance Française Nanjing", "note": "New" },
-        { "city": "Hong Kong", "org": "Alliance Française Hong Kong", "note": "" }
+        {
+          "city": "Beijing",
+          "org": "Beijing Language and Culture University",
+          "note": ""
+        },
+        {
+          "city": "Beijing",
+          "org": "Alliance Française Beijing",
+          "note": ""
+        },
+        {
+          "city": "Shanghai",
+          "org": "Alliance Française Shanghai",
+          "note": ""
+        },
+        {
+          "city": "Guangzhou",
+          "org": "Alliance Française Guangzhou",
+          "note": ""
+        },
+        {
+          "city": "Chengdu",
+          "org": "Alliance Française Chengdu",
+          "note": ""
+        },
+        {
+          "city": "Wuhan",
+          "org": "Alliance Française Wuhan",
+          "note": "WeChat registration"
+        },
+        {
+          "city": "Dalian",
+          "org": "Alliance Française Dalian",
+          "note": ""
+        },
+        {
+          "city": "Kunming",
+          "org": "Alliance Française Kunming",
+          "note": "WeChat registration"
+        },
+        {
+          "city": "Shandong",
+          "org": "Alliance Française Shandong",
+          "note": "New"
+        },
+        {
+          "city": "Nanjing",
+          "org": "Alliance Française Nanjing",
+          "note": "New"
+        },
+        {
+          "city": "Hong Kong",
+          "org": "Alliance Française Hong Kong",
+          "note": ""
+        }
       ],
       "chinaFee": "Fee approximately <b>¥2,500–2,800</b> (varies by city and institution)",
       "globalSearch": "Global test center search: ",
@@ -1567,10 +1742,22 @@
       "clb7Target": "CLB 7 Target"
     },
     "features": [
-      { "title": "Listening", "desc": "44 listening test sets with 1,700+ questions, all with original audio" },
-      { "title": "Reading", "desc": "44 reading test sets with 1,700+ questions, covering all levels from A1 to C2" },
-      { "title": "Speaking", "desc": "696 speaking topic sets with 3,500+ Tâche 2 + Tâche 3 prompts, AI practice partner" },
-      { "title": "Writing", "desc": "515 writing sets with 1,500+ tasks — short messages, articles & essays, AI grading" }
+      {
+        "title": "Listening",
+        "desc": "44 listening test sets with 1,700+ questions, original audio + sentence-by-sentence replay"
+      },
+      {
+        "title": "Reading",
+        "desc": "44 reading test sets with 1,700+ questions, covering all levels from A1 to C2"
+      },
+      {
+        "title": "Speaking",
+        "desc": "696 speaking topic sets with 3,500+ Tâche 2 + Tâche 3 prompts, AI practice partner"
+      },
+      {
+        "title": "Writing",
+        "desc": "515 writing sets with 1,500+ tasks — short messages, articles & essays, AI grading"
+      }
     ],
     "stats": [
       "questions",
@@ -1585,22 +1772,49 @@
     "contentTitle": "8,500+ Questions, A1 to C2",
     "contentSubtitle": "All four sections covered, every listening set includes original audio",
     "banks": [
-      { "label": "Listening + Reading", "sub": "44 test sets · A1–C2 all levels" },
-      { "label": "Speaking Topics", "sub": "696 sets · Tâche 2 + 3 prompts" },
-      { "label": "Writing Tasks", "sub": "515 sets · messages + articles + essays" }
+      {
+        "label": "Listening + Reading",
+        "sub": "44 test sets · A1–C2 all levels"
+      },
+      {
+        "label": "Speaking Topics",
+        "sub": "696 sets · Tâche 2 + 3 prompts"
+      },
+      {
+        "label": "Writing Tasks",
+        "sub": "515 sets · messages + articles + essays"
+      }
     ],
     "allLevels": "· All 6 levels covered",
     "stepsBadge": "Three Steps",
     "stepsTitle": "How It Works",
     "steps": [
-      { "title": "Sign Up", "desc": "Quick email registration, no hassle" },
-      { "title": "Choose a Test", "desc": "Browse by section, free sets available instantly" },
-      { "title": "Start Practicing", "desc": "Practice mode for learning, exam mode for simulation" }
+      {
+        "title": "Sign Up",
+        "desc": "Quick email registration, no hassle"
+      },
+      {
+        "title": "Choose a Test",
+        "desc": "Browse by section, free sets available instantly"
+      },
+      {
+        "title": "Start Practicing",
+        "desc": "Practice mode for learning, exam mode for simulation"
+      }
     ],
     "highlights": [
-      { "title": "CLB 7 Goal-Oriented", "desc": "Every feature is built around CLB 7 (≈78% accuracy). The readiness dashboard tracks how close your listening and reading scores are to the target." },
-      { "title": "Wrong Answer Book + Speed Drill", "desc": "The system automatically collects wrong answers, organized by type and level. Speed drill mode lets you target weak spots in spare moments." },
-      { "title": "Exam Mode Simulates the Real Test", "desc": "Strict timing, no going back, scores on submission. Get used to exam pressure before the real thing." }
+      {
+        "title": "CLB 7 Goal-Oriented",
+        "desc": "Every feature is built around CLB 7 (≈78% accuracy). The readiness dashboard tracks how close your listening and reading scores are to the target."
+      },
+      {
+        "title": "Wrong Answer Book + Speed Drill",
+        "desc": "The system automatically collects wrong answers, organized by type and level. Speed drill mode lets you target weak spots in spare moments."
+      },
+      {
+        "title": "Exam Mode Simulates the Real Test",
+        "desc": "Strict timing, no going back, scores on submission. Get used to exam pressure before the real thing."
+      }
     ],
     "svgReached": "Reached",
     "svgRemaining": "left",
@@ -1617,7 +1831,7 @@
     "proTrial": "2 Months Free",
     "proTrialUnit": "trial (yearly)",
     "proFeatures": [
-      "Full listening + reading library",
+      "Full listening + reading library (sentence replay)",
       "Exam mode (timed + scored)",
       "Wrong answer book + speed drill",
       "Speaking + writing AI practice",
@@ -1640,19 +1854,49 @@
     "guideFootnote": "CLB 7 ≈ 78% accuracy · This is the minimum language requirement for most EE and PNP programs",
     "guideLink": "View Full Exam Guide",
     "trust": [
-      { "label": "Extended Free Trial", "desc": "2 months (yearly) · 7 days (monthly/quarterly)" },
-      { "label": "Secure Payment", "desc": "Card info handled by Stripe" },
-      { "label": "First Charge Refundable", "desc": "Full refund within 48 hours" },
-      { "label": "No Surprise Charges", "desc": "Cancel during trial = zero cost" }
+      {
+        "label": "Extended Free Trial",
+        "desc": "2 months (yearly) · 7 days (monthly/quarterly)"
+      },
+      {
+        "label": "Secure Payment",
+        "desc": "Card info handled by Stripe"
+      },
+      {
+        "label": "First Charge Refundable",
+        "desc": "Full refund within 48 hours"
+      },
+      {
+        "label": "No Surprise Charges",
+        "desc": "Cancel during trial = zero cost"
+      }
     ],
     "faqTitle": "FAQ",
     "faq": [
-      { "q": "Is HiTCF an official platform?", "a": "No. HiTCF is an independently operated third-party practice platform, not affiliated with France Éducation international or IRCC. Questions are compiled from public materials and formatted to match TCF Canada, but are not identical to actual exam items." },
-      { "q": "What can I do with the free version?", "a": "The free version includes full access to the first listening set and first 2 reading sets, with both practice and exam modes. Unlimited attempts, forever." },
-      { "q": "What are the benefits of Pro?", "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, and Anki export. Yearly plan includes 2 months free trial — cancel anytime." },
-      { "q": "Can you guarantee I'll reach CLB 7?", "a": "No. HiTCF provides high-quality practice aligned with TCF Canada to help you identify and improve weak areas. Final scores depend on many factors — we do not guarantee any exam results." },
-      { "q": "How do I practice speaking and writing?", "a": "Speaking and writing sections provide real exam topics and tasks, with the option to jump to ChatGPT for AI conversation practice and essay grading. It's like having a free AI tutor." },
-      { "q": "How do I request a refund?", "a": "Full refund within 48 hours of first payment. Quarterly/yearly subscribers can get a prorated refund within 14 days. Email support@hitcf.com — processed within 3 business days." }
+      {
+        "q": "Is HiTCF an official platform?",
+        "a": "No. HiTCF is an independently operated third-party practice platform, not affiliated with France Éducation international or IRCC. Questions are compiled from public materials and formatted to match TCF Canada, but are not identical to actual exam items."
+      },
+      {
+        "q": "What can I do with the free version?",
+        "a": "The free version includes full access to the first listening set and first 2 reading sets, with both practice and exam modes. Unlimited attempts, forever."
+      },
+      {
+        "q": "What are the benefits of Pro?",
+        "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, and Anki export. Yearly plan includes 2 months free trial — cancel anytime."
+      },
+      {
+        "q": "Can you guarantee I'll reach CLB 7?",
+        "a": "No. HiTCF provides high-quality practice aligned with TCF Canada to help you identify and improve weak areas. Final scores depend on many factors — we do not guarantee any exam results."
+      },
+      {
+        "q": "How do I practice speaking and writing?",
+        "a": "Speaking and writing sections provide real exam topics and tasks, with the option to jump to ChatGPT for AI conversation practice and essay grading. It's like having a free AI tutor."
+      },
+      {
+        "q": "How do I request a refund?",
+        "a": "Full refund within 48 hours of first payment. Quarterly/yearly subscribers can get a prorated refund within 14 days. Email support@hitcf.com — processed within 3 business days."
+      }
     ],
     "ctaImageAlt": "Parliament Hill and Ottawa River panorama",
     "ctaTitle": "How Close Are You to CLB 7?",
@@ -1663,7 +1907,7 @@
   "meta": {
     "siteTitle": "HiTCF — TCF Canada Online Practice Platform",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "8,500+ TCF Canada practice questions + vocabulary tools covering listening, reading, speaking & writing. Flashcards, dictation, Anki export — reach CLB 7.",
+    "siteDescription": "8,500+ TCF Canada practice questions + vocabulary tools covering listening, reading, speaking & writing. Sentence-by-sentence listening, flashcards, dictation, Anki export — reach CLB 7.",
     "ogTitle": "HiTCF — Practice Your Way to CLB 7",
     "ogDescription": "8,500+ TCF Canada questions + vocabulary notebook + Anki export. Practice, flashcards & dictation all in one place.",
     "ogImageAlt": "HiTCF — TCF Canada Online Practice Platform",
@@ -1674,7 +1918,7 @@
     },
     "tests": {
       "title": "TCF Canada Question Bank · 8,500+ Listening, Reading, Speaking & Writing Questions",
-      "description": "TCF Canada full mock question bank for listening, reading, speaking & writing. 42 listening sets with audio, 44 reading sets, covering A1–C2 levels."
+      "description": "TCF Canada full mock question bank for listening, reading, speaking & writing. 42 listening sets with audio + sentence replay, 44 reading sets, A1-C2 coverage."
     },
     "dashboard": {
       "title": "My Dashboard · CLB 7 Readiness & Practice Stats",
@@ -1747,20 +1991,20 @@
     "lastUpdated": "Last updated: February 23, 2026",
     "notOfficial": {
       "title": "1. Not an Official Platform",
-      "p1": "HiTCF is an <b>independently operated third-party practice platform</b>. The Platform has <b>no affiliation, partnership, or authorization</b> with France \u00c9ducation international (formerly CIEP), the official TCF examination body, Immigration, Refugees and Citizenship Canada (IRCC), or any government agency.",
-      "p2": "\u201cTCF\u201d (Test de connaissance du fran\u00e7ais) and \u201cTCF Canada\u201d are registered trademarks of France \u00c9ducation international. Their use on this Platform is solely to indicate the target format of our practice content."
+      "p1": "HiTCF is an <b>independently operated third-party practice platform</b>. The Platform has <b>no affiliation, partnership, or authorization</b> with France Éducation international (formerly CIEP), the official TCF examination body, Immigration, Refugees and Citizenship Canada (IRCC), or any government agency.",
+      "p2": "“TCF” (Test de connaissance du français) and “TCF Canada” are registered trademarks of France Éducation international. Their use on this Platform is solely to indicate the target format of our practice content."
     },
     "noGuarantee": {
       "title": "2. No Guarantee of Exam Results",
       "p1": "<b>Using this Platform does not guarantee that you will pass the TCF Canada exam or achieve any specific CLB level.</b>",
-      "li1": "The \u201cCLB level estimates\u201d, \u201creadiness assessments\u201d, and \u201cpredicted levels\u201d displayed are based on statistical analysis of your practice data and are <b>for reference only</b> \u2014 they do not equal or predict actual TCF exam scores.",
-      "li2": "Actual TCF exam results depend on numerous factors, including but not limited to your condition on exam day, question selection, and scoring criteria, all of which are beyond this Platform\u2019s control.",
-      "li3": "Promotional phrases such as \u201cPractice Your Way to CLB 7\u201d are intended to encourage consistent practice and <b>do not constitute any form of score promise or result guarantee</b>."
+      "li1": "The “CLB level estimates”, “readiness assessments”, and “predicted levels” displayed are based on statistical analysis of your practice data and are <b>for reference only</b> — they do not equal or predict actual TCF exam scores.",
+      "li2": "Actual TCF exam results depend on numerous factors, including but not limited to your condition on exam day, question selection, and scoring criteria, all of which are beyond this Platform’s control.",
+      "li3": "Promotional phrases such as “Practice Your Way to CLB 7” are intended to encourage consistent practice and <b>do not constitute any form of score promise or result guarantee</b>."
     },
     "contentSources": {
       "title": "3. Content Sources & Accuracy",
       "li1": "Practice questions, audio, and related materials on this Platform are <b>compiled and edited from publicly available internet sources</b>. The intellectual property of original content belongs to its respective rights holders.",
-      "li2": "Content has been organized and reviewed, but we <b>do not guarantee 100% accuracy, completeness, or correctness</b>, nor do we guarantee consistency with the actual TCF exam\u2019s format, difficulty, or content.",
+      "li2": "Content has been organized and reviewed, but we <b>do not guarantee 100% accuracy, completeness, or correctness</b>, nor do we guarantee consistency with the actual TCF exam’s format, difficulty, or content.",
       "li3": "If any rights holder believes content on this Platform infringes their rights, please contact <email>support@hitcf.com</email> and we will address it promptly after verification (including removing relevant content).",
       "li4": "If you find content errors, we also welcome feedback via the above email and will correct them as soon as possible."
     },
@@ -1770,11 +2014,11 @@
     },
     "thirdPartyLinks": {
       "title": "5. Third-Party Links",
-      "p1": "This Platform may contain links to third-party websites or services (such as ChatGPT, WhatsApp, etc.). We are not responsible for third-party content, and accessing these links is at the user\u2019s own risk."
+      "p1": "This Platform may contain links to third-party websites or services (such as ChatGPT, WhatsApp, etc.). We are not responsible for third-party content, and accessing these links is at the user’s own risk."
     },
     "userReviews": {
       "title": "6. User Reviews & Testimonials",
-      "p1": "User reviews and score shares displayed on the Platform represent individual experiences and <b>do not imply that all users will achieve the same results</b>. Each user\u2019s background, time investment, and study methods differ, and results vary accordingly."
+      "p1": "User reviews and score shares displayed on the Platform represent individual experiences and <b>do not imply that all users will achieve the same results</b>. Each user’s background, time investment, and study methods differ, and results vary accordingly."
     },
     "serviceAvailability": {
       "title": "7. Service Availability",
@@ -1791,12 +2035,12 @@
       "title": "9. Contact",
       "p1": "If you have any questions about this Disclaimer, please contact: <email>support@hitcf.com</email>"
     },
-    "footerLinks": "Other legal documents: <terms>Terms of Service</terms> \u00b7 <privacy>Privacy Policy</privacy> \u00b7 <refund>Refund Policy</refund>"
+    "footerLinks": "Other legal documents: <terms>Terms of Service</terms> · <privacy>Privacy Policy</privacy> · <refund>Refund Policy</refund>"
   },
   "termsPage": {
     "heading": "Terms of Service",
     "lastUpdated": "Last updated: February 23, 2026",
-    "intro": "Welcome to HiTCF (hereinafter referred to as \u201cthe Platform\u201d or \u201cwe\u201d). The Platform is operated by HiTCF, registered in Canada. By using the Platform, you agree to the following terms. If you do not agree, please stop using the Platform.",
+    "intro": "Welcome to HiTCF (hereinafter referred to as “the Platform” or “we”). The Platform is operated by HiTCF, registered in Canada. By using the Platform, you agree to the following terms. If you do not agree, please stop using the Platform.",
     "service": {
       "title": "1. Service Description",
       "p1": "HiTCF is a TCF Canada online practice platform that provides mock practice questions for listening, reading, speaking, and writing. The content provided is for practice and reference purposes only and <b>does not represent or guarantee actual TCF Canada exam scores or results</b>."
@@ -1825,18 +2069,18 @@
       "li1": "Use any automated means (crawlers, scripts, etc.) to scrape, copy, or download Platform content;",
       "li2": "Redistribute, sell, or commercially use Platform content (questions, audio, explanations, etc.);",
       "li3": "Attempt to bypass payment restrictions, tamper with data, or reverse-engineer or penetration-test the Platform;",
-      "li4": "Interfere with the normal operation of the Platform or other users\u2019 experience."
+      "li4": "Interfere with the normal operation of the Platform or other users’ experience."
     },
     "ip": {
       "title": "6. Intellectual Property",
-      "li1": "The Platform\u2019s website design, branding, user interface, and original code are owned by HiTCF and protected by copyright law. They may not be copied, modified, or distributed without written authorization.",
+      "li1": "The Platform’s website design, branding, user interface, and original code are owned by HiTCF and protected by copyright law. They may not be copied, modified, or distributed without written authorization.",
       "li2": "Practice questions, audio, and related materials are compiled and edited from publicly available sources. The intellectual property of the original content belongs to its respective rights holders. If any rights holder believes content on this Platform infringes their rights, please contact <email>support@hitcf.com</email> and we will address it promptly after verification.",
       "li3": "Users may not scrape, copy, or redistribute any content on this Platform for commercial purposes, regardless of its original source."
     },
     "disclaimer": {
       "title": "7. Disclaimer",
       "li1": "Platform content is for learning and practice reference only and <b>does not constitute any form of exam score guarantee, immigration advice, or legal advice</b>.",
-      "li2": "The \u201cCLB level estimates\u201d and \u201creadiness assessments\u201d provided are based on statistical analysis of practice data and are <b>for reference only \u2014 they do not represent actual exam scores</b>.",
+      "li2": "The “CLB level estimates” and “readiness assessments” provided are based on statistical analysis of practice data and are <b>for reference only — they do not represent actual exam scores</b>.",
       "li3": "We strive to ensure content accuracy but are not liable for any errors or omissions in question content.",
       "li4": "For the full disclaimer, please see our <disclaimerLink>Disclaimer</disclaimerLink> page."
     },
@@ -1854,7 +2098,7 @@
     },
     "modifications": {
       "title": "11. Modifications to Terms",
-      "p1": "We reserve the right to modify these terms at any time. Updated terms will be posted on this page with an updated \u201cLast updated\u201d date. Continued use of the Platform constitutes acceptance of the modified terms. We will notify you by email of significant changes."
+      "p1": "We reserve the right to modify these terms at any time. Updated terms will be posted on this page with an updated “Last updated” date. Continued use of the Platform constitutes acceptance of the modified terms. We will notify you by email of significant changes."
     },
     "contact": {
       "title": "12. Contact",
@@ -1864,7 +2108,7 @@
   "privacyPage": {
     "heading": "Privacy Policy",
     "lastUpdated": "Last updated: February 23, 2026",
-    "intro": "HiTCF (hereinafter referred to as \u201cthe Platform\u201d or \u201cwe\u201d) values your privacy. This Privacy Policy explains how we collect, use, store, and protect your personal information, in compliance with Canada\u2019s Personal Information Protection and Electronic Documents Act (PIPEDA).",
+    "intro": "HiTCF (hereinafter referred to as “the Platform” or “we”) values your privacy. This Privacy Policy explains how we collect, use, store, and protect your personal information, in compliance with Canada’s Personal Information Protection and Electronic Documents Act (PIPEDA).",
     "infoCollect": {
       "title": "1. Information We Collect",
       "authTitle": "1.1 Authentication Information",
@@ -1943,7 +2187,7 @@
     },
     "policyChanges": {
       "title": "9. Policy Changes",
-      "p1": "We may update this Privacy Policy from time to time. Updated policies will be posted on this page with an updated \u201cLast updated\u201d date. For significant changes, we will notify you by email."
+      "p1": "We may update this Privacy Policy from time to time. Updated policies will be posted on this page with an updated “Last updated” date. For significant changes, we will notify you by email."
     },
     "contact": {
       "title": "10. Contact",
@@ -1964,7 +2208,7 @@
     },
     "cancellation": {
       "title": "2. Subscription Cancellation",
-      "li1": "You may cancel your subscription at any time via the \u201cManage Subscription\u201d button on the <pricing>Pricing page</pricing>, which opens the Stripe customer portal.",
+      "li1": "You may cancel your subscription at any time via the “Manage Subscription” button on the <pricing>Pricing page</pricing>, which opens the Stripe customer portal.",
       "li2": "After cancellation, your Pro access remains active until the end of the current billing period, after which you will be downgraded to a free user.",
       "li3": "Cancelling a subscription <b>does not</b> automatically generate a refund."
     },
@@ -1981,7 +2225,7 @@
       "noLi1": "Monthly subscribers requesting a refund after the initial 48 hours.",
       "noLi2": "Quarterly/yearly subscribers requesting a refund after 14 days.",
       "noLi3": "Non-use due to personal reasons (e.g., forgetting to cancel auto-renewal, personal scheduling).",
-      "noLi4": "Refund requests based on unsatisfactory exam results (the Platform does not guarantee exam outcomes \u2014 see our <disclaimerLink>Disclaimer</disclaimerLink>).",
+      "noLi4": "Refund requests based on unsatisfactory exam results (the Platform does not guarantee exam outcomes — see our <disclaimerLink>Disclaimer</disclaimerLink>).",
       "noLi5": "Account suspension or termination due to violation of <termsLink>Terms of Service</termsLink>."
     },
     "process": {
@@ -1991,11 +2235,11 @@
       "step1Li2": "Subscription plan and payment date",
       "step1Li3": "Reason for refund",
       "step2": "We will review and respond within <b>3 business days</b>.",
-      "step3": "Once approved, the refund will be processed via Stripe to your original payment method, typically arriving within <b>5\u201310 business days</b>."
+      "step3": "Once approved, the refund will be processed via Stripe to your original payment method, typically arriving within <b>5–10 business days</b>."
     },
     "disputes": {
       "title": "5. Stripe Disputes",
-      "p1": "If you initiate a dispute (chargeback) through your bank or credit card company, we will provide transaction records and service usage evidence in response. <b>We recommend contacting us before initiating a dispute</b> \u2014 we prefer to resolve issues through friendly communication."
+      "p1": "If you initiate a dispute (chargeback) through your bank or credit card company, we will provide transaction records and service usage evidence in response. <b>We recommend contacting us before initiating a dispute</b> — we prefer to resolve issues through friendly communication."
     },
     "contact": {
       "title": "6. Contact",
@@ -2003,18 +2247,18 @@
     }
   },
   "schema": {
-    "siteDescription": "TCF Canada online practice platform \u2014 8,500+ questions to help you reach CLB 7",
+    "siteDescription": "TCF Canada online practice platform — 8,500+ questions to help you reach CLB 7",
     "faq1q": "Is HiTCF an official platform?",
-    "faq1a": "No. HiTCF is an independently operated third-party practice platform with no affiliation to France \u00c9ducation international or IRCC. Practice questions are compiled from publicly available materials and formatted to match TCF Canada, but are not actual exam questions.",
+    "faq1a": "No. HiTCF is an independently operated third-party practice platform with no affiliation to France Éducation international or IRCC. Practice questions are compiled from publicly available materials and formatted to match TCF Canada, but are not actual exam questions.",
     "faq2q": "What can I do with the free version?",
     "faq2a": "The free version includes the first listening set and first 2 reading sets with all questions, in both practice and exam mode. Unlimited attempts, forever free.",
     "faq3q": "What are the benefits of Pro?",
     "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, and Anki export. Yearly plans include a 2-month free trial, cancel anytime.",
-    "faq4q": "Can you guarantee I\u2019ll reach CLB 7?",
-    "faq4a": "No. HiTCF provides a practice environment aligned with TCF Canada to help you identify and improve weak areas. However, actual scores depend on many factors \u2014 we do not promise any exam results.",
+    "faq4q": "Can you guarantee I’ll reach CLB 7?",
+    "faq4a": "No. HiTCF provides a practice environment aligned with TCF Canada to help you identify and improve weak areas. However, actual scores depend on many factors — we do not promise any exam results.",
     "faq5q": "How do I practice speaking and writing?",
-    "faq5a": "Speaking and writing sections provide real exam topics and tasks, with the option to jump to ChatGPT for AI conversation practice and essay correction \u2014 essentially a free AI tutor.",
+    "faq5a": "Speaking and writing sections provide real exam topics and tasks, with the option to jump to ChatGPT for AI conversation practice and essay correction — essentially a free AI tutor.",
     "faq6q": "How do I request a refund?",
-    "faq6a": "Full refund within 48 hours of first payment. Quarterly/yearly subscribers can get a prorated refund within 14 days. Simply email support@hitcf.com \u2014 processed within 3 business days."
+    "faq6a": "Full refund within 48 hours of first payment. Quarterly/yearly subscribers can get a prorated refund within 14 days. Simply email support@hitcf.com — processed within 3 business days."
   }
 }
