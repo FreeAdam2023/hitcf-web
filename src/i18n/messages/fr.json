@@ -1409,7 +1409,7 @@
       "free": "Gratuit",
       "pro": "Pro",
       "rows": [
-        "Compréhension orale (44 séries · 1 700+ questions · avec audio)",
+        "Compréhension orale (44 séries · 1 700+ questions · audio + réécoute par phrase)",
         "Compréhension écrite (44 séries · 1 700+ questions)",
         "Expression orale (696 séries · 3 500+ sujets)",
         "Expression écrite (515 groupes · 1 500+ tâches)",
@@ -1744,7 +1744,7 @@
     "features": [
       {
         "title": "Compréhension orale",
-        "desc": "44 séries d'écoute avec plus de 1 700 questions, toutes avec l'audio original"
+        "desc": "44 séries d'écoute avec plus de 1 700 questions, audio original + réécoute phrase par phrase"
       },
       {
         "title": "Compréhension écrite",
@@ -1831,7 +1831,7 @@
     "proTrial": "2 mois gratuits",
     "proTrialUnit": "d'essai (annuel)",
     "proFeatures": [
-      "Bibliothèque complète écoute + lecture",
+      "Bibliothèque complète écoute + lecture (réécoute par phrase)",
       "Mode examen (chronométré + noté)",
       "Cahier d'erreurs + exercice rapide",
       "Entraînement IA expression orale + écrite",
@@ -1907,7 +1907,7 @@
   "meta": {
     "siteTitle": "HiTCF — Plateforme d'entraînement en ligne TCF Canada",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "Plus de 8 500 questions d'entraînement TCF Canada + outils de vocabulaire couvrant compréhension orale, compréhension écrite, expression orale et écrite. Cartes mémoire, dictée, export Anki — atteignez le NCLC 7.",
+    "siteDescription": "Plus de 8 500 questions d'entraînement TCF Canada + outils de vocabulaire couvrant écoute, lecture, expression orale et écrite. Écoute phrase par phrase, flashcards, dictée, export Anki — atteignez le NCLC 7.",
     "ogTitle": "HiTCF — Entraînez-vous pour atteindre le NCLC 7",
     "ogDescription": "Plus de 8 500 questions TCF Canada + carnet de vocabulaire + export Anki. Entraînement, cartes mémoire et dictée en un seul endroit.",
     "ogImageAlt": "HiTCF — Plateforme d'entraînement en ligne TCF Canada",
@@ -1918,7 +1918,7 @@
     },
     "tests": {
       "title": "Banque de questions TCF Canada · Plus de 8 500 questions de compréhension orale, écrite, expression orale et écrite",
-      "description": "Banque complète de questions simulées TCF Canada pour la compréhension orale, écrite, l'expression orale et écrite. 42 séries d'écoute avec audio, 44 séries de lecture, couvrant les niveaux A1–C2."
+      "description": "Banque complète de questions simulées TCF Canada pour la compréhension orale, écrite, l'expression orale et écrite. 42 séries d'écoute avec audio + réécoute par phrase, 44 séries de lecture, niveaux A1-C2."
     },
     "dashboard": {
       "title": "Mon tableau de bord · Préparation NCLC 7 et statistiques d'entraînement",

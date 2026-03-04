@@ -205,7 +205,7 @@ export function TestList() {
 
   // Exam type filter
   type ExamTypeFilter = "all" | "tcf_canada" | "tcf_tp" | "tcf_irn" | "tcf_quebec";
-  const [examTypeFilter, setExamTypeFilter] = useState<ExamTypeFilter>("tcf_canada");
+  const [examTypeFilter] = useState<ExamTypeFilter>("tcf_canada");
 
   // Speaking/Writing specific state
   const [browseMode, setBrowseMode] = useState<BrowseMode>("level");
