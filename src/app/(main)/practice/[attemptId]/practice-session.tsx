@@ -45,6 +45,7 @@ function TranscriptBlock({
   audioTimestamps,
   currentAudioTime,
   onSentenceClick,
+  saveContext,
 }: {
   question: QuestionBrief;
   explanation: Explanation | null;
@@ -57,6 +58,7 @@ function TranscriptBlock({
   audioTimestamps?: AudioSegment[] | null;
   currentAudioTime?: number;
   onSentenceClick?: (start: number, end: number) => void;
+  saveContext?: WordSaveContext;
 }) {
   const t = useTranslations();
   const isListening = question.type === "listening";
@@ -157,7 +159,7 @@ function TranscriptBlock({
                 return (
                   <div key={i} className="space-y-0.5">
                     <p className="font-medium leading-relaxed text-foreground">
-                      {key}. <FrenchText text={frText} />
+                      {key}. <FrenchText text={frText} saveContext={saveContext} />
                     </p>
                     {locale !== "en" && showEn && s.en && (
                       <p className="pl-6 leading-relaxed text-blue-600 dark:text-blue-400">
@@ -204,7 +206,7 @@ function TranscriptBlock({
                   >
                     <p className="font-medium leading-relaxed text-foreground">
                       {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
-                      <FrenchText text={s.fr} />
+                      <FrenchText text={s.fr} saveContext={saveContext} />
                       {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400">★</span>}
                     </p>
                     {locale !== "en" && showEn && s.en && (
@@ -252,7 +254,7 @@ function TranscriptBlock({
               >
                 <p className="font-medium leading-relaxed text-foreground">
                   {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
-                  <FrenchText text={seg.text} />
+                  <FrenchText text={seg.text} saveContext={saveContext} />
                 </p>
               </div>
             );
@@ -261,7 +263,7 @@ function TranscriptBlock({
       ) : hasTranscript ? (
         /* Fallback: raw transcript before explanation loads */
         <p className="whitespace-pre-wrap leading-relaxed text-foreground">
-          <FrenchText text={question.transcript!} />
+          <FrenchText text={question.transcript!} saveContext={saveContext} />
         </p>
       ) : null}
 
@@ -276,7 +278,7 @@ function TranscriptBlock({
               return (
                 <div key={opt.key} className="space-y-0.5">
                   <p className="font-medium text-foreground">
-                    {opt.key.toUpperCase()}. {hasRealText && <FrenchText text={opt.text} />}
+                    {opt.key.toUpperCase()}. {hasRealText && <FrenchText text={opt.text} saveContext={saveContext} />}
                   </p>
                   {locale !== "en" && showEn && tr?.en && (
                     <p className="pl-6 text-blue-600 dark:text-blue-400">
@@ -661,6 +663,7 @@ export function PracticeSession() {
             audioTimestamps={question.audio_timestamps}
             currentAudioTime={audioTime}
             onSentenceClick={(start, end) => audioPlayerRef.current?.playSegment(start, end)}
+            saveContext={saveContext}
           />
         )}
 
