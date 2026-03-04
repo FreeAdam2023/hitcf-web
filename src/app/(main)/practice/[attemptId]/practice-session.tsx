@@ -99,7 +99,7 @@ function TranscriptBlock({
   if (!isReading && !hasTranscript && !audioTimestamps?.length && !showTranscriptOptions) return null;
 
   return (
-    <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300 min-h-0 flex-1 overflow-y-auto scrollbar-on-hover">
+    <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h4 className="flex items-center gap-1.5 font-medium">
@@ -547,7 +547,7 @@ export function PracticeSession() {
       </div>
 
       {/* 中间：主内容 */}
-      <div className="flex flex-col gap-4 overflow-hidden">
+      <div className="flex flex-col gap-4 overflow-y-auto scrollbar-on-hover">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
             <QuestionDisplay
