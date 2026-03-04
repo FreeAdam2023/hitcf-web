@@ -139,6 +139,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
         side="bottom"
         align="start"
         onOpenAutoFocus={(e) => e.preventDefault()}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="p-3 space-y-2.5">
           {loading ? (
