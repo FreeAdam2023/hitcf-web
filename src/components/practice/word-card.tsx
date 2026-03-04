@@ -359,7 +359,7 @@ function VerbConjugation({ data }: { data: VocabularyCardData }) {
       </div>
 
       <Tabs defaultValue={tenses[0].key} className="w-full">
-        <TabsList className="h-7 w-full flex-wrap gap-0.5">
+        <TabsList className="h-auto w-full flex-wrap gap-0.5 py-0.5">
           {tenses.map((t) => (
             <TabsTrigger
               key={t.key}
