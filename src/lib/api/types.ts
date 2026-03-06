@@ -573,6 +573,42 @@ export interface NihaoStats {
   by_level: Record<string, number>;
 }
 
+// Theme Words (thematic vocabulary pool)
+export interface ThemeWordItem {
+  id: string;
+  word: string;
+  display_form: string;
+  tag: string;
+  tag_zh: string;
+  tag_category: string;
+  meaning_zh: string | null;
+  meaning_en: string | null;
+  example_fr: string | null;
+  example_zh: string | null;
+  part_of_speech: string | null;
+  gender: string | null;
+  ipa: string | null;
+  cefr_level: string | null;
+  audio_url: string | null;
+}
+
+export interface ThemeTagInfo {
+  tag: string;
+  tag_zh: string;
+  tag_category: string;
+  count: number;
+}
+
+export interface ThemeFilters {
+  tags: ThemeTagInfo[];
+  categories: string[];
+}
+
+export interface ThemeStats {
+  total: number;
+  by_category: Record<string, { word_count: number; tag_count: number }>;
+}
+
 // Vocabulary Card
 export interface ConjugationTable {
   je: string;

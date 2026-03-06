@@ -1237,6 +1237,18 @@
       "emptyTitle": "Aucune donnée de vocabulaire pour l'instant",
       "emptyDesc": "Le pool de vocabulaire Le nouveau Taxi est en cours de construction"
     },
+    "themeWords": {
+      "title": "Vocabulaire thématique",
+      "heroDesc": "Vocabulaire français essentiel classé par thème, couvrant les sujets fréquents du TCF",
+      "totalWords": "{count} mots au total",
+      "wordCount": "{total} mots",
+      "wordCountFiltered": "(filtré parmi {total})",
+      "filterCategory": "Catégorie",
+      "filterTag": "Thème",
+      "filterAll": "Tous",
+      "emptyTitle": "Aucune donnée de vocabulaire pour l'instant",
+      "emptyDesc": "Le vocabulaire thématique est en cours de génération"
+    },
     "dictation": {
       "button": "Dictée",
       "title": "Mode dictée",

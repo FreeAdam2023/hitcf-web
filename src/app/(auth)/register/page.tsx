@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useMemo } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -27,7 +27,15 @@ function GoogleIcon() {
 
 export default function RegisterPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const t = useTranslations();
+
+  const trackingMeta = useMemo(() => ({
+    referrer: typeof document !== "undefined" ? document.referrer : "",
+    utm_source: searchParams.get("utm_source") || "",
+    utm_medium: searchParams.get("utm_medium") || "",
+    utm_campaign: searchParams.get("utm_campaign") || "",
+  }), [searchParams]);
 
   const [step, setStep] = useState<Step>("create");
   const [email, setEmail] = useState("");
@@ -61,7 +69,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      await register(email.trim().toLowerCase(), password);
+      await register(email.trim().toLowerCase(), password, trackingMeta);
       setStep("verify");
     } catch (err) {
       if (err instanceof ApiError) {
@@ -111,7 +119,7 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       // Re-register to resend code (with same password)
-      await register(email.trim().toLowerCase(), password);
+      await register(email.trim().toLowerCase(), password, trackingMeta);
       setCode("");
     } catch (err) {
       if (err instanceof ApiError) {

@@ -1237,6 +1237,18 @@
       "emptyTitle": "لا توجد بيانات مفردات بعد",
       "emptyDesc": "مجموعة مفردات Le nouveau Taxi قيد الإعداد"
     },
+    "themeWords": {
+      "title": "مفردات حسب الموضوع",
+      "heroDesc": "مفردات فرنسية أساسية مصنفة حسب الموضوع، تغطي مواضيع TCF الأكثر تكراراً",
+      "totalWords": "{count} كلمة إجمالاً",
+      "wordCount": "{total} كلمة",
+      "wordCountFiltered": "(مُصفّاة من {total})",
+      "filterCategory": "التصنيف",
+      "filterTag": "الموضوع",
+      "filterAll": "الكل",
+      "emptyTitle": "لا توجد بيانات مفردات بعد",
+      "emptyDesc": "مفردات الموضوع قيد التوليد، ترقبوا"
+    },
     "dictation": {
       "button": "إملاء",
       "title": "الإملاء",

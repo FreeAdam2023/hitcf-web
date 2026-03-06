@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Loader2, Star, Volume2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
@@ -98,6 +98,15 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
   const handleSpeak = useCallback(() => {
     speak(currentWord, data?.audio_url);
   }, [speak, currentWord, data?.audio_url]);
+
+  // Auto-play pronunciation when data is ready (especially from cache)
+  const autoPlayedRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!loading && data && autoPlayedRef.current !== currentWord) {
+      autoPlayedRef.current = currentWord;
+      speak(currentWord, data.audio_url);
+    }
+  }, [loading, data, currentWord, speak]);
 
   const handleFamilyWordClick = useCallback((word: string) => {
     if (word !== currentWord) {

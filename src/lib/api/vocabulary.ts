@@ -7,6 +7,9 @@ import type {
   NihaoWordItem,
   NihaoFilters,
   NihaoStats,
+  ThemeWordItem,
+  ThemeFilters,
+  ThemeStats,
 } from "./types";
 
 // First-time card generation calls Azure Dict + Grok + TTS and can take 30-50s
@@ -167,6 +170,30 @@ export async function exportNihaoWords(
   } finally {
     clearTimeout(timer);
   }
+}
+
+// Theme Words API (thematic vocabulary pool)
+export function listThemeWords(params?: {
+  tag?: string;
+  tag_category?: string;
+  page?: number;
+  page_size?: number;
+}): Promise<PaginatedResponse<ThemeWordItem>> {
+  const searchParams = new URLSearchParams();
+  if (params?.tag) searchParams.set("tag", params.tag);
+  if (params?.tag_category) searchParams.set("tag_category", params.tag_category);
+  if (params?.page) searchParams.set("page", String(params.page));
+  if (params?.page_size) searchParams.set("page_size", String(params.page_size));
+  const qs = searchParams.toString();
+  return get(`/api/vocab/theme${qs ? `?${qs}` : ""}`);
+}
+
+export function getThemeFilters(): Promise<ThemeFilters> {
+  return get("/api/vocab/theme/filters");
+}
+
+export function getThemeStats(): Promise<ThemeStats> {
+  return get("/api/vocab/theme/stats");
 }
 
 // ---------------------------------------------------------------------------

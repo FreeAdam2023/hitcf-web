@@ -1237,6 +1237,18 @@
       "emptyTitle": "暂无词汇数据",
       "emptyDesc": "你好法语词汇库正在建设中"
     },
+    "themeWords": {
+      "title": "主题词汇",
+      "heroDesc": "按主题分类的法语核心词汇，覆盖 TCF 高频场景",
+      "totalWords": "共 {count} 词",
+      "wordCount": "共 {total} 个词汇",
+      "wordCountFiltered": "（筛选自 {total} 个词汇）",
+      "filterCategory": "分类",
+      "filterTag": "主题",
+      "filterAll": "全部",
+      "emptyTitle": "暂无词汇数据",
+      "emptyDesc": "主题词汇池正在生成中，敬请期待"
+    },
     "dictation": {
       "button": "听写",
       "title": "听写模式",

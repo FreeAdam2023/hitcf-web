@@ -1237,6 +1237,18 @@
       "emptyTitle": "No vocabulary data yet",
       "emptyDesc": "The Nihao French vocabulary pool is being built"
     },
+    "themeWords": {
+      "title": "Theme Vocabulary",
+      "heroDesc": "Core French vocabulary organized by theme, covering TCF high-frequency topics",
+      "totalWords": "{count} words total",
+      "wordCount": "{total} words",
+      "wordCountFiltered": "(filtered from {total})",
+      "filterCategory": "Category",
+      "filterTag": "Theme",
+      "filterAll": "All",
+      "emptyTitle": "No vocabulary data yet",
+      "emptyDesc": "Theme vocabulary is being generated, stay tuned"
+    },
     "dictation": {
       "button": "Dictation",
       "title": "Dictation Mode",

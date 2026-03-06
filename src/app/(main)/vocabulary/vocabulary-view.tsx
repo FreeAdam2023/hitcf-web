@@ -2,17 +2,18 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BookOpen, GraduationCap, Star, Lock, Loader2 } from "lucide-react";
+import { BookOpen, GraduationCap, Star, Lock, Loader2, Tags } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
-import { getSavedWordStats, listSavedWords, getNihaoStats } from "@/lib/api/vocabulary";
-import type { SavedWordStats, SavedWordItem, NihaoStats } from "@/lib/api/types";
+import { getSavedWordStats, listSavedWords, getNihaoStats, getThemeStats } from "@/lib/api/vocabulary";
+import type { SavedWordStats, SavedWordItem, NihaoStats, ThemeStats } from "@/lib/api/types";
 
 export function VocabularyView() {
   const t = useTranslations();
   const { data: session } = useSession();
   const [stats, setStats] = useState<SavedWordStats | null>(null);
   const [nihaoStats, setNihaoStats] = useState<NihaoStats | null>(null);
+  const [themeStats, setThemeStats] = useState<ThemeStats | null>(null);
   const [recent, setRecent] = useState<SavedWordItem[]>([]);
   const [loading, setLoading] = useState(true);
   const isLoggedIn = !!session?.user;
@@ -20,6 +21,7 @@ export function VocabularyView() {
   useEffect(() => {
     const promises: Promise<void>[] = [
       getNihaoStats().then((s) => setNihaoStats(s)).catch(() => {}),
+      getThemeStats().then((s) => setThemeStats(s)).catch(() => {}),
     ];
     if (isLoggedIn) {
       promises.push(
@@ -121,6 +123,22 @@ export function VocabularyView() {
                 <h3 className="font-semibold group-hover:text-primary">{t("vocabulary.nihaoFrench.poolTitle")}</h3>
                 <p className="text-sm text-muted-foreground">
                   {nihaoStats ? t("vocabulary.nihaoFrench.poolDesc", { count: nihaoStats.total }) : ""}
+                </p>
+              </div>
+            </Link>
+
+            {/* Theme Words */}
+            <Link
+              href="/vocabulary/theme-words"
+              className="group flex items-center gap-4 rounded-lg border p-5 transition-colors hover:bg-accent"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-violet-600 dark:bg-violet-900/30 dark:text-violet-400">
+                <Tags className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-semibold group-hover:text-primary">{t("vocabulary.themeWords.title")}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {themeStats ? t("vocabulary.themeWords.totalWords", { count: themeStats.total }) : t("vocabulary.themeWords.heroDesc")}
                 </p>
               </div>
             </Link>

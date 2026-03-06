@@ -1,27 +1,25 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { Layers, Loader2, PenLine, Volume2 } from "lucide-react";
+import { Loader2, Volume2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { WordCard } from "@/components/practice/word-card";
-import { ExportDialog } from "@/components/vocabulary/export-dialog";
-import { listNihaoWords, getNihaoFilters, getNihaoStats } from "@/lib/api/vocabulary";
+import { listThemeWords, getThemeFilters, getThemeStats } from "@/lib/api/vocabulary";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
-import type { PaginatedResponse, NihaoWordItem, NihaoFilters, NihaoStats } from "@/lib/api/types";
+import type { PaginatedResponse, ThemeWordItem, ThemeFilters, ThemeStats, ThemeTagInfo } from "@/lib/api/types";
 
-export function NihaoWordsView() {
+export function ThemeWordsView() {
   const t = useTranslations();
-  const [data, setData] = useState<PaginatedResponse<NihaoWordItem> | null>(null);
-  const [filters, setFilters] = useState<NihaoFilters | null>(null);
-  const [nihaoStats, setNihaoStats] = useState<NihaoStats | null>(null);
+  const [data, setData] = useState<PaginatedResponse<ThemeWordItem> | null>(null);
+  const [filters, setFilters] = useState<ThemeFilters | null>(null);
+  const [stats, setStats] = useState<ThemeStats | null>(null);
   const [loading, setLoading] = useState(true);
-  const [level, setLevel] = useState<string | undefined>(undefined);
-  const [lesson, setLesson] = useState<number | undefined>(undefined);
-  const [theme, setTheme] = useState<string | undefined>(undefined);
+  const [category, setCategory] = useState<string | undefined>(undefined);
+  const [tag, setTag] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
   const { speak, playing } = useFrenchSpeech();
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
@@ -38,61 +36,43 @@ export function NihaoWordsView() {
   }, []);
 
   useEffect(() => {
-    getNihaoFilters().then(setFilters).catch(() => {});
-    getNihaoStats().then(setNihaoStats).catch(() => {});
+    getThemeFilters().then(setFilters).catch(() => {});
+    getThemeStats().then(setStats).catch(() => {});
   }, []);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await listNihaoWords({ level, lesson, theme, page, page_size: 50 });
+      const res = await listThemeWords({ tag, tag_category: category, page, page_size: 50 });
       setData(res);
     } catch {
       // ignore
     } finally {
       setLoading(false);
     }
-  }, [level, lesson, theme, page]);
+  }, [tag, category, page]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  const handleLevelChange = (v: string) => {
-    setLevel(v === "all" ? undefined : v);
-    setLesson(undefined);
+  const handleCategoryChange = (v: string) => {
+    setCategory(v === "all" ? undefined : v);
+    setTag(undefined);
     setPage(1);
   };
 
-  const handleLessonChange = (v: string) => {
-    setLesson(v === "all" ? undefined : Number(v));
+  const handleTagChange = (v: string) => {
+    setTag(v === "all" ? undefined : v);
     setPage(1);
   };
 
-  const handleThemeChange = (v: string) => {
-    setTheme(v === "all" ? undefined : v);
-    setPage(1);
-  };
+  // Filter tags by selected category
+  const filteredTags: ThemeTagInfo[] = filters?.tags.filter(
+    (t) => !category || t.tag_category === category
+  ) || [];
 
-  const filteredLessons = filters?.lessons.filter((l) => !level || l.level === level) || [];
-
-  const hasFilter = !!(level || lesson != null || theme);
-
-  const flashcardHref = useMemo(() => {
-    const params = new URLSearchParams();
-    if (level) params.set("level", level);
-    if (lesson != null) params.set("lesson", String(lesson));
-    const qs = params.toString();
-    return `/vocabulary/nihao-french/flashcard${qs ? `?${qs}` : ""}`;
-  }, [level, lesson]);
-
-  const dictationHref = useMemo(() => {
-    const params = new URLSearchParams();
-    if (level) params.set("level", level);
-    if (lesson != null) params.set("lesson", String(lesson));
-    const qs = params.toString();
-    return `/vocabulary/nihao-french/dictation${qs ? `?${qs}` : ""}`;
-  }, [level, lesson]);
+  const hasFilter = !!(category || tag);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 space-y-6">
@@ -101,52 +81,29 @@ export function NihaoWordsView() {
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
           <Link href="/vocabulary" className="hover:text-foreground">{t("vocabulary.title")}</Link>
           <span>/</span>
-          <span>{t("vocabulary.nihaoFrench.title")}</span>
+          <span>{t("vocabulary.themeWords.title")}</span>
         </div>
         <h1 className="text-3xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
-            {t("vocabulary.nihaoFrench.title")}
+            {t("vocabulary.themeWords.title")}
           </span>
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">{t("vocabulary.nihaoFrench.heroDesc")}</p>
+        <p className="mt-2 text-sm text-muted-foreground">{t("vocabulary.themeWords.heroDesc")}</p>
 
         {/* Stats badges */}
-        {nihaoStats && (
+        {stats && (
           <div className="mt-3 flex flex-wrap gap-2">
-            {Object.entries(nihaoStats.by_level).map(([lvl, count]) => (
+            {Object.entries(stats.by_category).map(([cat, info]) => (
               <span
-                key={lvl}
+                key={cat}
                 className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
               >
-                {lvl} · {count}
+                {cat} · {info.tag_count} 主题 · {info.word_count} 词
               </span>
             ))}
             <span className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
-              {t("vocabulary.nihaoFrench.totalWords", { count: nihaoStats.total })}
+              {t("vocabulary.themeWords.totalWords", { count: stats.total })}
             </span>
-          </div>
-        )}
-
-        {/* CTA row */}
-        {data && data.total > 0 && (
-          <div className="mt-4 flex items-center gap-2 flex-wrap">
-            <Link href={flashcardHref}>
-              <Button>
-                <Layers className="mr-1.5 h-4 w-4" />
-                {t("vocabulary.nihaoFrench.startFlashcard")}
-              </Button>
-            </Link>
-            <ExportDialog
-              wordCount={data.total}
-              exportType="nihao"
-              exportParams={{ level, lesson, theme }}
-            />
-            <Link href={dictationHref}>
-              <Button variant="outline" size="sm">
-                <PenLine className="mr-1.5 h-4 w-4" />
-                {t("vocabulary.dictation.button")}
-              </Button>
-            </Link>
           </div>
         )}
       </div>
@@ -154,55 +111,40 @@ export function NihaoWordsView() {
       {/* Filters */}
       {filters && (
         <div className="flex flex-wrap gap-3">
-          <Select value={level || "all"} onValueChange={handleLevelChange}>
-            <SelectTrigger className="w-[120px]">
-              <SelectValue placeholder={t("vocabulary.nihaoFrench.filterLevel")} />
+          <Select value={category || "all"} onValueChange={handleCategoryChange}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue placeholder={t("vocabulary.themeWords.filterCategory")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">{t("vocabulary.nihaoFrench.filterAll")}</SelectItem>
-              {filters.levels.map((l) => (
-                <SelectItem key={l} value={l}>{l}</SelectItem>
+              <SelectItem value="all">{t("vocabulary.themeWords.filterAll")}</SelectItem>
+              {filters.categories.map((c) => (
+                <SelectItem key={c} value={c}>{c}</SelectItem>
               ))}
             </SelectContent>
           </Select>
 
-          <Select value={lesson != null ? String(lesson) : "all"} onValueChange={handleLessonChange}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder={t("vocabulary.nihaoFrench.filterLesson")} />
+          <Select value={tag || "all"} onValueChange={handleTagChange}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder={t("vocabulary.themeWords.filterTag")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">{t("vocabulary.nihaoFrench.filterAll")}</SelectItem>
-              {filteredLessons.map((l) => (
-                <SelectItem key={`${l.level}-${l.lesson}`} value={String(l.lesson)}>
-                  {t("vocabulary.nihaoFrench.lesson", { num: l.lesson })}
-                  {l.lesson_title ? ` — ${l.lesson_title}` : ""}
+              <SelectItem value="all">{t("vocabulary.themeWords.filterAll")}</SelectItem>
+              {filteredTags.map((t) => (
+                <SelectItem key={t.tag} value={t.tag}>
+                  {t.tag_zh} ({t.tag}) · {t.count}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-
-          {filters.themes.length > 0 && (
-            <Select value={theme || "all"} onValueChange={handleThemeChange}>
-              <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder={t("vocabulary.nihaoFrench.filterTheme")} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t("vocabulary.nihaoFrench.filterAll")}</SelectItem>
-                {filters.themes.map((th) => (
-                  <SelectItem key={th} value={th}>{th}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
         </div>
       )}
 
-      {/* Word count stats */}
+      {/* Word count */}
       {data && data.total > 0 && (
         <p className="text-sm text-muted-foreground">
-          {t("vocabulary.nihaoFrench.wordCount", { total: data.total })}
-          {hasFilter && nihaoStats && (
-            <span>{t("vocabulary.nihaoFrench.wordCountFiltered", { total: nihaoStats.total })}</span>
+          {t("vocabulary.themeWords.wordCount", { total: data.total })}
+          {hasFilter && stats && (
+            <span>{t("vocabulary.themeWords.wordCountFiltered", { total: stats.total })}</span>
           )}
         </p>
       )}
@@ -214,19 +156,20 @@ export function NihaoWordsView() {
         </div>
       ) : !data || data.items.length === 0 ? (
         <div className="rounded-lg border border-dashed p-8 text-center">
-          <p className="text-lg font-medium text-muted-foreground">{t("vocabulary.nihaoFrench.emptyTitle")}</p>
-          <p className="mt-1 text-sm text-muted-foreground">{t("vocabulary.nihaoFrench.emptyDesc")}</p>
+          <p className="text-lg font-medium text-muted-foreground">{t("vocabulary.themeWords.emptyTitle")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("vocabulary.themeWords.emptyDesc")}</p>
         </div>
       ) : (
         <>
           <div className="space-y-2">
             {data.items.map((item) => (
-              <NihaoWordRow
+              <ThemeWordRow
                 key={item.id}
                 item={item}
                 onSpeak={(word, url) => speak(word, url)}
                 onWordClick={handleWordClick}
                 playing={playing}
+                showTag={!tag}
               />
             ))}
 
@@ -269,16 +212,18 @@ export function NihaoWordsView() {
   );
 }
 
-function NihaoWordRow({
+function ThemeWordRow({
   item,
   onSpeak,
   onWordClick,
   playing,
+  showTag,
 }: {
-  item: NihaoWordItem;
+  item: ThemeWordItem;
   onSpeak: (word: string, url: string | null) => void;
   onWordClick: (word: string, el: HTMLElement) => void;
   playing: boolean;
+  showTag: boolean;
 }) {
   return (
     <div className="flex items-center gap-3 rounded-lg border px-4 py-2.5 transition-colors hover:bg-accent/30">
@@ -310,10 +255,12 @@ function NihaoWordRow({
           )}
         </div>
       </div>
-      {/* Right side: textbook level badge */}
-      <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
-        📖 {item.level}
-      </span>
+      {/* Right side: tag badge */}
+      {showTag && (
+        <span className="shrink-0 rounded-full bg-violet-100 dark:bg-violet-900/30 px-2 py-0.5 text-[10px] text-violet-700 dark:text-violet-300">
+          {item.tag_zh}
+        </span>
+      )}
     </div>
   );
 }
