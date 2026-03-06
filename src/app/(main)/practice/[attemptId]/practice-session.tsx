@@ -143,7 +143,7 @@ function TranscriptBlock({
       </div>
 
       {/* Sentence-by-sentence trilingual cards */}
-      {sentences && sentences.length > 0 ? (
+      {sentences && sentences.length > 0 && !(isListening && audioTimestamps?.length) ? (
         (() => {
           // Detect if ALL sentences are option-format (e.g. "a joyeux anniversaire")
           const optPattern = /^([a-dA-D])[\.\s]+(.+)$/;
