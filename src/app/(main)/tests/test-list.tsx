@@ -2,8 +2,9 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Search, ChevronDown, ChevronUp, Shuffle, Loader2 } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
 import { listAttempts, createMockListeningExam } from "@/lib/api/attempts";
@@ -23,6 +24,9 @@ import { RecommendedBanner } from "@/components/shared/recommended-banner";
 import { CLB7ProgressBar } from "@/components/shared/clb7-progress-bar";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { useAuthStore } from "@/stores/auth-store";
+import { usePracticeStore } from "@/stores/practice-store";
+import { getInProgressDrills, resumeSpeedDrill, abandonSpeedDrill, type InProgressAttempt } from "@/lib/api/speed-drill";
+import { LevelPracticeDialog } from "./level-practice-dialog";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
 type BrowseMode = "level" | "set";
@@ -160,7 +164,11 @@ export function TestList() {
   const t = useTranslations();
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const initPractice = usePracticeStore((s) => s.init);
   const [mockLoading, setMockLoading] = useState(false);
+  const [levelDialogOpen, setLevelDialogOpen] = useState(false);
+  const [drillInProgress, setDrillInProgress] = useState<InProgressAttempt[]>([]);
+  const [resumingId, setResumingId] = useState<string | null>(null);
   const canAccessPaid = useAuthStore((s) => {
     if (s.isLoading) return true;
     const status = s.user?.subscription?.status;
@@ -205,6 +213,33 @@ export function TestList() {
       setTab(param as TabType);
     }
   }, []);
+
+  // Load in-progress level practice attempts
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    getInProgressDrills().then(setDrillInProgress).catch(() => {});
+  }, [isAuthenticated]);
+
+  const handleResumeDrill = async (attemptId: string) => {
+    setResumingId(attemptId);
+    try {
+      const result = await resumeSpeedDrill(attemptId);
+      initPractice(result.attempt_id, result.questions);
+      router.push(`/practice/${result.attempt_id}`);
+    } catch {
+      setResumingId(null);
+    }
+  };
+
+  const handleAbandonDrill = async (attemptId: string) => {
+    try {
+      await abandonSpeedDrill(attemptId);
+      setDrillInProgress((prev) => prev.filter((a) => a.attempt_id !== attemptId));
+    } catch {
+      // ignore
+    }
+  };
+
   const [tests, setTests] = useState<TestSetItem[]>([]);
   const [writingTopics, setWritingTopics] = useState<WritingTopicItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -647,32 +682,90 @@ export function TestList() {
             </div>
           )}
 
-          {/* Mock exam button (listening only) */}
-          {tab === "listening" && isAuthenticated && (
-            <div className="mb-4">
-              <button
-                onClick={async () => {
-                  setMockLoading(true);
-                  try {
-                    const result = await createMockListeningExam();
-                    router.push(`/exam/${result.id}`);
-                  } catch {
-                    setMockLoading(false);
-                  }
-                }}
-                disabled={mockLoading}
-                className="inline-flex items-center gap-2 rounded-lg border-2 border-primary/20 bg-primary/5 px-5 py-2.5 text-sm font-semibold text-primary transition-all hover:border-primary/40 hover:bg-primary/10 disabled:opacity-50"
-              >
-                {mockLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Shuffle className="h-4 w-4" />
-                )}
-                {t("tests.mockExam")}
-              </button>
-              <p className="mt-1.5 text-xs text-muted-foreground">{t("tests.mockExamDesc")}</p>
+          {/* In-progress level practice */}
+          {(tab === "listening" || tab === "reading") && drillInProgress.length > 0 && (
+            <div className="mb-4 space-y-2">
+              {drillInProgress.map((a) => {
+                const pct = a.total > 0 ? Math.round((a.answered_count / a.total) * 100) : 0;
+                return (
+                  <div
+                    key={a.attempt_id}
+                    className="flex items-center gap-4 rounded-xl border border-primary/20 bg-primary/5 px-5 py-3"
+                  >
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold">{t("speedDrill.inProgress")}</p>
+                      <div className="mt-1.5 flex items-center gap-3">
+                        <div className="h-1.5 flex-1 rounded-full bg-primary/20">
+                          <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${pct}%` }} />
+                        </div>
+                        <span className="text-xs font-medium text-muted-foreground">
+                          {a.answered_count}/{a.total}
+                        </span>
+                      </div>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="text-muted-foreground"
+                      onClick={() => handleAbandonDrill(a.attempt_id)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => handleResumeDrill(a.attempt_id)}
+                      disabled={resumingId === a.attempt_id}
+                    >
+                      <ArrowRight className="mr-1 h-3.5 w-3.5" />
+                      {t("speedDrill.resume")}
+                    </Button>
+                  </div>
+                );
+              })}
             </div>
           )}
+
+          {/* Action buttons: level practice + mock exam */}
+          {(tab === "listening" || tab === "reading") && isAuthenticated && (
+            <div className="mb-4 flex flex-wrap gap-3">
+              <button
+                onClick={() => setLevelDialogOpen(true)}
+                className="inline-flex items-center gap-2 rounded-lg border-2 border-violet-500/20 bg-violet-500/5 px-5 py-2.5 text-sm font-semibold text-violet-600 transition-all hover:border-violet-500/40 hover:bg-violet-500/10 dark:text-violet-400"
+              >
+                <Layers className="h-4 w-4" />
+                {t("speedDrill.title")}
+              </button>
+              {tab === "listening" && (
+                <button
+                  onClick={async () => {
+                    setMockLoading(true);
+                    try {
+                      const result = await createMockListeningExam();
+                      router.push(`/exam/${result.id}`);
+                    } catch {
+                      setMockLoading(false);
+                    }
+                  }}
+                  disabled={mockLoading}
+                  className="inline-flex items-center gap-2 rounded-lg border-2 border-primary/20 bg-primary/5 px-5 py-2.5 text-sm font-semibold text-primary transition-all hover:border-primary/40 hover:bg-primary/10 disabled:opacity-50"
+                >
+                  {mockLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Shuffle className="h-4 w-4" />
+                  )}
+                  {t("tests.mockExam")}
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Level practice dialog */}
+          <LevelPracticeDialog
+            open={levelDialogOpen}
+            onOpenChange={setLevelDialogOpen}
+            type={tab as "listening" | "reading"}
+          />
 
           <RecommendedBanner type={tab} />
 

@@ -36,7 +36,6 @@ const NAV_KEYS = [
   { href: "/wrong-answers", key: "nav.wrongAnswers" },
   { href: "/vocabulary", key: "nav.vocabulary" },
   { href: "/history", key: "nav.history" },
-  { href: "/speed-drill", key: "nav.speedDrill" },
   { href: "/pricing", key: "nav.pricing" },
   { href: "/resources", key: "nav.resources" },
 ] as const;
