@@ -841,6 +841,7 @@
     "questionCount": "Number of Questions",
     "questionsLabel": "{count} questions",
     "allQuestions": "All",
+    "dedup": "Remove duplicates",
     "startDrill": "Start Practice",
     "generating": "Generating...",
     "noMoreQuestions": "No more new questions available",

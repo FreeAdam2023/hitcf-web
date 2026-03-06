@@ -841,6 +841,7 @@
     "questionCount": "题目数量",
     "questionsLabel": "{count} 题",
     "allQuestions": "全部",
+    "dedup": "去除重复题目",
     "startDrill": "开始练习",
     "generating": "正在生成...",
     "noMoreQuestions": "没有更多未做过的题目",

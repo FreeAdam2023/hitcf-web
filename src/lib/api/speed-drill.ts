@@ -12,6 +12,7 @@ export function startSpeedDrill(params: {
   type?: string;
   levels?: string[];
   count?: number;
+  dedup?: boolean;
 }): Promise<SpeedDrillResponse> {
   const searchParams = new URLSearchParams();
   if (params.type) searchParams.set("type", params.type);
@@ -19,6 +20,7 @@ export function startSpeedDrill(params: {
   if (params.levels) {
     params.levels.forEach((l) => searchParams.append("levels", l));
   }
+  if (params.dedup === false) searchParams.set("dedup", "false");
   const qs = searchParams.toString();
   return post<SpeedDrillResponse>(
     `/api/speed-drill/next${qs ? `?${qs}` : ""}`,

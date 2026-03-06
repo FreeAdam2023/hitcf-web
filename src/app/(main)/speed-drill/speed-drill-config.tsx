@@ -37,6 +37,7 @@ export function SpeedDrillConfig() {
   const [type, setType] = useState("listening");
   const [selectedLevels, setSelectedLevels] = useState<Set<string>>(new Set(LEVELS));
   const [count, setCount] = useState(10);
+  const [dedup, setDedup] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -58,7 +59,7 @@ export function SpeedDrillConfig() {
     setError(null);
     try {
       const levels = selectedLevels.size === LEVELS.length ? undefined : Array.from(selectedLevels);
-      const result = await startSpeedDrill({ type, levels, count });
+      const result = await startSpeedDrill({ type, levels, count, dedup });
 
       if (!result.questions.length) {
         setError(t("speedDrill.noMoreQuestions"));
@@ -200,6 +201,28 @@ export function SpeedDrillConfig() {
               ))}
             </div>
           </div>
+
+          {/* Dedup toggle */}
+          <label className="flex cursor-pointer items-center justify-between">
+            <span className="text-sm font-medium">{t("speedDrill.dedup")}</span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={dedup}
+              onClick={() => setDedup(!dedup)}
+              className={cn(
+                "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors",
+                dedup ? "bg-primary" : "bg-muted-foreground/30",
+              )}
+            >
+              <span
+                className={cn(
+                  "inline-block h-4 w-4 rounded-full bg-white transition-transform",
+                  dedup ? "translate-x-[18px]" : "translate-x-0.5",
+                )}
+              />
+            </button>
+          </label>
         </CardContent>
       </Card>
 

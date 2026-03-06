@@ -841,6 +841,7 @@
     "questionCount": "عدد الأسئلة",
     "questionsLabel": "{count} سؤال",
     "allQuestions": "الكل",
+    "dedup": "إزالة التكرارات",
     "startDrill": "بدء التدريب",
     "generating": "جارٍ التوليد...",
     "noMoreQuestions": "لا توجد أسئلة جديدة متاحة",

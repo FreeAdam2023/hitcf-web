@@ -841,6 +841,7 @@
     "questionCount": "Nombre de questions",
     "questionsLabel": "{count} questions",
     "allQuestions": "Toutes",
+    "dedup": "Supprimer les doublons",
     "startDrill": "Commencer la pratique",
     "generating": "Génération en cours...",
     "noMoreQuestions": "Plus de nouvelles questions disponibles",
