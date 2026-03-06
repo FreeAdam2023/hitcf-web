@@ -15,7 +15,7 @@ export function startSpeedDrill(params: {
 }): Promise<SpeedDrillResponse> {
   const searchParams = new URLSearchParams();
   if (params.type) searchParams.set("type", params.type);
-  if (params.count) searchParams.set("count", String(params.count));
+  if (params.count != null) searchParams.set("count", String(params.count));
   if (params.levels) {
     params.levels.forEach((l) => searchParams.append("levels", l));
   }

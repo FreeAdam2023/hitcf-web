@@ -73,7 +73,7 @@
     "wrongAnswers": "错题本",
     "vocabulary": "生词本",
     "history": "记录",
-    "speedDrill": "速练",
+    "speedDrill": "等级练习",
     "pricing": "定价",
     "resources": "资源",
     "openMenu": "打开菜单",
@@ -832,20 +832,22 @@
     }
   },
   "speedDrill": {
-    "title": "速练模式",
-    "subtitle": "选择类型和等级，利用碎片时间高效刷题",
+    "title": "等级练习",
+    "subtitle": "选择类型和等级，针对性刷题提升",
     "selectType": "选择类型",
     "selectLevel": "选择等级",
     "selectAll": "全选",
+    "deselectAll": "取消全选",
     "questionCount": "题目数量",
     "questionsLabel": "{count} 题",
-    "startDrill": "开始速练",
+    "allQuestions": "全部",
+    "startDrill": "开始练习",
     "generating": "正在生成...",
     "noMoreQuestions": "没有更多未做过的题目",
-    "startFailed": "启动速练失败，请重试",
+    "startFailed": "启动练习失败，请重试",
     "upgradeBanner": {
-      "title": "速练是 Pro 专属功能",
-      "description": "按等级、按题型精准刷题，利用碎片时间高效突破薄弱环节",
+      "title": "等级练习是 Pro 专属功能",
+      "description": "按等级、按题型精准刷题，全题库针对性训练薄弱环节",
       "features": [
         "听力 + 阅读全题库",
         "按 A1–C2 等级筛选",
@@ -1945,8 +1947,8 @@
       "description": "HiTCF 订阅方案：免费题套直接练习，Pro 版解锁全部 8,500+ 道真题、考试模式、错题本、生词本、翻卡复习、听写练习和 Anki 导出。年付 2 个月免费试用，随时取消。"
     },
     "speedDrill": {
-      "title": "速练模式 · 按等级和题型定向刷题",
-      "description": "TCF Canada 速练模式：选择听力或阅读，按 A1-C2 等级筛选，利用碎片时间高效刷题。自动跳过已做题目，专注薄弱环节。"
+      "title": "等级练习 · 按等级和题型定向刷题",
+      "description": "TCF Canada 等级练习：选择听力或阅读，按 A1-C2 等级筛选，全题库针对性训练。自动跳过已做题目，专注薄弱环节。"
     },
     "wrongAnswers": {
       "title": "错题本 · 追踪薄弱环节定向突破",

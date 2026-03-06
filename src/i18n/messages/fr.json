@@ -73,7 +73,7 @@
     "wrongAnswers": "Carnet d'erreurs",
     "vocabulary": "Vocabulaire",
     "history": "Historique",
-    "speedDrill": "Exercice rapide",
+    "speedDrill": "Pratique par niveau",
     "pricing": "Tarifs",
     "resources": "Ressources",
     "openMenu": "Ouvrir le menu",
@@ -832,20 +832,22 @@
     }
   },
   "speedDrill": {
-    "title": "Entraînement rapide",
+    "title": "Pratique par niveau",
     "subtitle": "Sélectionnez le type et le niveau pour une pratique ciblée",
     "selectType": "Sélectionner le type",
     "selectLevel": "Sélectionner le niveau",
     "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner",
     "questionCount": "Nombre de questions",
     "questionsLabel": "{count} questions",
-    "startDrill": "Commencer l'entraînement",
+    "allQuestions": "Toutes",
+    "startDrill": "Commencer la pratique",
     "generating": "Génération en cours...",
     "noMoreQuestions": "Plus de nouvelles questions disponibles",
-    "startFailed": "Échec du démarrage de l'entraînement rapide. Veuillez réessayer.",
+    "startFailed": "Échec du démarrage de la pratique. Veuillez réessayer.",
     "upgradeBanner": {
-      "title": "L'entraînement rapide est réservé aux Pro",
-      "description": "Pratique ciblée par niveau et type, idéale pour les courtes sessions d'étude",
+      "title": "La pratique par niveau est réservée aux Pro",
+      "description": "Pratique ciblée par niveau et type sur toute la banque de questions",
       "features": [
         "Bibliothèque complète d'écoute + lecture",
         "Filtrage par niveau A1-C2",
@@ -1945,8 +1947,8 @@
       "description": "Tarifs HiTCF : séries gratuites pour commencer, Pro débloque les plus de 8 500 questions, le mode examen, le cahier d'erreurs, les cartes mémoire de vocabulaire, la dictée et l'export Anki. 2 mois d'essai gratuit sur le plan annuel, annulation à tout moment."
     },
     "speedDrill": {
-      "title": "Exercice rapide · Entraînement ciblé par niveau et type de question",
-      "description": "Exercice rapide TCF Canada : choisissez compréhension orale ou écrite, filtrez par niveau A1–C2, et entraînez-vous efficacement en sessions courtes. Passe automatiquement les questions terminées pour se concentrer sur les points faibles."
+      "title": "Pratique par niveau · Entraînement ciblé par niveau et type de question",
+      "description": "Pratique par niveau TCF Canada : choisissez compréhension orale ou écrite, filtrez par niveau A1–C2, et pratiquez sur toute la banque de questions. Passe automatiquement les questions terminées pour se concentrer sur les points faibles."
     },
     "wrongAnswers": {
       "title": "Cahier d'erreurs · Suivez et surmontez vos points faibles",

@@ -73,7 +73,7 @@
     "wrongAnswers": "Wrong Notes",
     "vocabulary": "Vocabulary",
     "history": "History",
-    "speedDrill": "Speed Drill",
+    "speedDrill": "Level Practice",
     "pricing": "Pricing",
     "resources": "Resources",
     "openMenu": "Open menu",
@@ -832,20 +832,22 @@
     }
   },
   "speedDrill": {
-    "title": "Speed Drill",
-    "subtitle": "Select type and level for focused practice",
+    "title": "Level Practice",
+    "subtitle": "Select type and level for targeted practice",
     "selectType": "Select Type",
     "selectLevel": "Select Level",
     "selectAll": "Select All",
+    "deselectAll": "Deselect All",
     "questionCount": "Number of Questions",
     "questionsLabel": "{count} questions",
-    "startDrill": "Start Drill",
+    "allQuestions": "All",
+    "startDrill": "Start Practice",
     "generating": "Generating...",
     "noMoreQuestions": "No more new questions available",
-    "startFailed": "Failed to start speed drill. Please retry.",
+    "startFailed": "Failed to start practice. Please retry.",
     "upgradeBanner": {
-      "title": "Speed Drill is Pro-only",
-      "description": "Targeted practice by level and type, perfect for short study sessions",
+      "title": "Level Practice is Pro-only",
+      "description": "Targeted practice by level and type across the full question bank",
       "features": [
         "Full listening + reading library",
         "Filter by A1-C2 level",
@@ -1945,8 +1947,8 @@
       "description": "HiTCF pricing: free sets to start, Pro unlocks all 8,500+ questions, exam mode, wrong answer notebook, vocabulary flashcards, dictation & Anki export. 2 months free trial on yearly plan, cancel anytime."
     },
     "speedDrill": {
-      "title": "Speed Drill · Targeted Practice by Level & Question Type",
-      "description": "TCF Canada speed drill: choose listening or reading, filter by A1–C2 level, and practice efficiently in short sessions. Auto-skips completed questions to focus on weak areas."
+      "title": "Level Practice · Targeted Practice by Level & Question Type",
+      "description": "TCF Canada level practice: choose listening or reading, filter by A1–C2 level, and practice the full question bank. Auto-skips completed questions to focus on weak areas."
     },
     "wrongAnswers": {
       "title": "Wrong Answer Notebook · Track & Overcome Weak Areas",

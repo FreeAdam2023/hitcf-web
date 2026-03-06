@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Zap, Headphones, BookOpen } from "lucide-react";
+import { Play, Headphones, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { usePracticeStore } from "@/stores/practice-store";
@@ -13,7 +13,7 @@ import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
-const COUNT_OPTIONS = [5, 10, 15, 20];
+const COUNT_OPTIONS = [5, 10, 20, 50, 100, 0]; // 0 = all
 
 const LEVEL_COLORS: Record<string, string> = {
   A1: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400",
@@ -49,7 +49,9 @@ export function SpeedDrillConfig() {
     });
   };
 
-  const selectAll = () => setSelectedLevels(new Set(LEVELS));
+  const allSelected = selectedLevels.size === LEVELS.length;
+  const toggleSelectAll = () =>
+    setSelectedLevels(allSelected ? new Set() : new Set(LEVELS));
 
   const handleStart = async () => {
     setLoading(true);
@@ -151,10 +153,10 @@ export function SpeedDrillConfig() {
             <div className="mb-3 flex items-center justify-between">
               <p className="text-sm font-medium">{t("speedDrill.selectLevel")}</p>
               <button
-                onClick={selectAll}
+                onClick={toggleSelectAll}
                 className="text-xs text-primary hover:underline"
               >
-                {t("speedDrill.selectAll")}
+                {allSelected ? t("speedDrill.deselectAll") : t("speedDrill.selectAll")}
               </button>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -181,19 +183,19 @@ export function SpeedDrillConfig() {
           {/* Count selection */}
           <div>
             <p className="mb-3 text-sm font-medium">{t("speedDrill.questionCount")}</p>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {COUNT_OPTIONS.map((n) => (
                 <button
                   key={n}
                   onClick={() => setCount(n)}
                   className={cn(
-                    "flex-1 rounded-lg py-2.5 text-sm font-medium transition-all",
+                    "rounded-lg px-4 py-2.5 text-sm font-medium transition-all",
                     count === n
                       ? "bg-foreground text-background shadow-sm"
                       : "bg-secondary text-muted-foreground hover:text-foreground",
                   )}
                 >
-                  {t("speedDrill.questionsLabel", { count: n })}
+                  {n === 0 ? t("speedDrill.allQuestions") : t("speedDrill.questionsLabel", { count: n })}
                 </button>
               ))}
             </div>
@@ -211,7 +213,7 @@ export function SpeedDrillConfig() {
         onClick={handleStart}
         disabled={loading || selectedLevels.size === 0 || !canAccessPaid}
       >
-        <Zap className="mr-1.5 h-4 w-4" />
+        <Play className="mr-1.5 h-4 w-4" />
         {loading ? t("speedDrill.generating") : t("speedDrill.startDrill")}
       </Button>
     </div>
