@@ -134,6 +134,8 @@ function buildAttemptMap(attempts: AttemptResponse[]): Map<string, TestAttemptIn
         bestScore: a.status === "completed" ? a.score : null,
         bestTotal: a.total,
         hasInProgress: a.status === "in_progress",
+        inProgressAnswered: a.status === "in_progress" ? a.answered_count : undefined,
+        inProgressTotal: a.status === "in_progress" ? a.total : undefined,
         attemptCount: 1,
       });
     } else {
@@ -146,6 +148,8 @@ function buildAttemptMap(attempts: AttemptResponse[]): Map<string, TestAttemptIn
       }
       if (a.status === "in_progress") {
         existing.hasInProgress = true;
+        existing.inProgressAnswered = a.answered_count;
+        existing.inProgressTotal = a.total;
       }
     }
   }

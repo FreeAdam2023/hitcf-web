@@ -33,6 +33,8 @@ export interface TestAttemptInfo {
   bestScore: number | null;
   bestTotal: number;
   hasInProgress: boolean;
+  inProgressAnswered?: number;
+  inProgressTotal?: number;
   attemptCount: number;
 }
 
@@ -240,12 +242,26 @@ export function TestCard({
           {/* Progress: in-progress */}
           {hasInProgress && (
             <div className="space-y-1.5">
-              <div className="flex items-center gap-1.5 text-xs">
-                <div className="h-2 w-2 rounded-full bg-amber-400" />
-                <span className="text-amber-600 dark:text-amber-400">{t("common.status.inProgress")}</span>
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2 w-2 rounded-full bg-amber-400" />
+                  <span className="text-amber-600 dark:text-amber-400">{t("common.status.inProgress")}</span>
+                </div>
+                {attemptInfo?.inProgressTotal != null && (
+                  <span className="text-muted-foreground">
+                    {attemptInfo.inProgressAnswered ?? 0}/{attemptInfo.inProgressTotal}
+                  </span>
+                )}
               </div>
               <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
-                <div className="h-full w-1/3 rounded-full bg-amber-400" />
+                <div
+                  className="h-full rounded-full bg-amber-400 transition-all"
+                  style={{
+                    width: attemptInfo?.inProgressTotal
+                      ? `${Math.round(((attemptInfo.inProgressAnswered ?? 0) / attemptInfo.inProgressTotal) * 100)}%`
+                      : "33%",
+                  }}
+                />
               </div>
             </div>
           )}
