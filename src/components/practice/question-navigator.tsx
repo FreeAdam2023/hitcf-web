@@ -1,9 +1,13 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import type { AnswerResponse } from "@/lib/api/types";
 import { LevelBadge } from "@/components/shared/level-badge";
+
+const PAGE_SIZE = 50;
 
 interface QuestionMeta {
   type: string;
@@ -101,6 +105,19 @@ export function QuestionNavigator({
       return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
     });
 
+    // For large sets (e.g. 1600+ questions), fall through to paginated flat grid
+    if (total > PAGE_SIZE) {
+      return (
+        <PaginatedGrid
+          total={total}
+          currentIndex={currentIndex}
+          answers={answers}
+          renderButton={renderButton}
+          t={t}
+        />
+      );
+    }
+
     return (
       <div className="space-y-2">
         <h3 className="text-sm font-medium text-muted-foreground">{t("practice.navigator.title")}</h3>
@@ -123,12 +140,75 @@ export function QuestionNavigator({
     );
   }
 
-  // Flat grid (reading, exam, or no questions metadata)
+  // Flat grid (reading, exam, or no questions metadata) — paginated if large
+  return (
+    <PaginatedGrid
+      total={total}
+      currentIndex={currentIndex}
+      answers={answers}
+      renderButton={renderButton}
+      t={t}
+    />
+  );
+}
+
+/* ── Paginated flat grid ── */
+
+function PaginatedGrid({
+  total,
+  currentIndex,
+  answers,
+  renderButton,
+  t,
+}: {
+  total: number;
+  currentIndex: number;
+  answers: Map<string, unknown>;
+  renderButton: (i: number) => React.ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: any;
+}) {
+  const needsPaging = total > PAGE_SIZE;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  const currentPage = Math.floor(currentIndex / PAGE_SIZE);
+
+  const [page, setPage] = useState(currentPage);
+
+  // Auto-follow when user navigates to a question on a different page
+  useEffect(() => {
+    const targetPage = Math.floor(currentIndex / PAGE_SIZE);
+    if (targetPage !== page) setPage(targetPage);
+  }, [currentIndex]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const start = needsPaging ? page * PAGE_SIZE : 0;
+  const end = needsPaging ? Math.min(start + PAGE_SIZE, total) : total;
+
   return (
     <div className="space-y-2">
       <h3 className="text-sm font-medium text-muted-foreground">{t("practice.navigator.title")}</h3>
+      {needsPaging && (
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <button
+            onClick={() => setPage((p) => Math.max(0, p - 1))}
+            disabled={page === 0}
+            className="inline-flex items-center gap-0.5 hover:text-foreground disabled:opacity-30"
+          >
+            <ChevronLeft className="h-3.5 w-3.5" />
+          </button>
+          <span>
+            {start + 1}–{end} / {total}
+          </span>
+          <button
+            onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+            disabled={page === totalPages - 1}
+            className="inline-flex items-center gap-0.5 hover:text-foreground disabled:opacity-30"
+          >
+            <ChevronRight className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      )}
       <div className="flex flex-wrap gap-1.5 p-0.5">
-        {Array.from({ length: total }, (_, i) => renderButton(i))}
+        {Array.from({ length: end - start }, (_, j) => renderButton(start + j))}
       </div>
       <p className="text-xs text-muted-foreground">
         {t("common.answeredProgress", { answered: answers.size, total })}
