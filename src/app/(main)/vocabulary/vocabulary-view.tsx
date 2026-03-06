@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BookOpen, GraduationCap, Star, Lock, Loader2, Tags } from "lucide-react";
+import { ChevronRight, GraduationCap, Star, Lock, Loader2, Tags } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { getSavedWordStats, listSavedWords, getNihaoStats, getThemeStats } from "@/lib/api/vocabulary";
@@ -32,26 +32,23 @@ export function VocabularyView() {
     Promise.all(promises).finally(() => setLoading(false));
   }, [isLoggedIn]);
 
+  // Only show non-zero type stats
+  const nonZeroTypes = stats
+    ? (["listening", "reading", "speaking", "writing"] as const).filter(
+        (type) => (stats.by_source_type[type] || 0) > 0,
+      )
+    : [];
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 space-y-6">
-      {/* Hero */}
-      <div className="mb-2">
+      {/* Hero — clean, no pool-specific badges */}
+      <div>
         <h1 className="text-3xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
             {t("vocabulary.title")}
           </span>
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">{t("vocabulary.subtitle")}</p>
-        {nihaoStats && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            <span className="rounded-full bg-green-500/10 px-3 py-1 text-xs font-medium text-green-600 dark:text-green-400">
-              {t("vocabulary.nihaoFrench.poolDesc", { count: nihaoStats.total })}
-            </span>
-            <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
-              {t("vocabulary.nihaoFrench.title")} A1
-            </span>
-          </div>
-        )}
       </div>
 
       {loading ? (
@@ -60,105 +57,15 @@ export function VocabularyView() {
         </div>
       ) : (
         <>
-          {/* Stats cards — logged in only */}
-          {isLoggedIn && stats && (
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-              <div className="rounded-lg border p-4 text-center">
-                <p className="text-2xl font-bold">{stats.total}</p>
-                <p className="text-xs text-muted-foreground">{t("vocabulary.stats.total")}</p>
-              </div>
-              {(["listening", "reading", "speaking", "writing"] as const).map((type) => {
-                const count = stats.by_source_type[type] || 0;
-                if (count === 0 && stats.total === 0) return null;
-                return (
-                  <div key={type} className="rounded-lg border p-4 text-center">
-                    <p className="text-2xl font-bold">{count}</p>
-                    <p className="text-xs text-muted-foreground">{t(`common.types.${type}`)}</p>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Pool entry cards */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {/* My Saved — clickable when logged in, greyed out otherwise */}
-            {isLoggedIn ? (
-              <Link
-                href="/vocabulary/my-saved"
-                className="group flex items-center gap-4 rounded-lg border p-5 transition-colors hover:bg-accent"
-              >
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400">
-                  <Star className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-semibold group-hover:text-primary">{t("vocabulary.pools.mySaved")}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {stats ? t("vocabulary.pools.savedCount", { count: stats.total }) : ""}
-                  </p>
-                </div>
-              </Link>
-            ) : (
-              <div className="flex items-center gap-4 rounded-lg border p-5 opacity-50">
-                <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground">
-                  <Star className="h-5 w-5" />
-                  <Lock className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 text-muted-foreground" />
-                </div>
-                <div>
-                  <h3 className="font-semibold">{t("vocabulary.pools.mySaved")}</h3>
-                  <p className="text-sm text-muted-foreground">{t("vocabulary.loginToSave")}</p>
-                </div>
-              </div>
-            )}
-
-            {/* Nihao French — always clickable */}
-            <Link
-              href="/vocabulary/nihao-french"
-              className="group flex items-center gap-4 rounded-lg border p-5 transition-colors hover:bg-accent"
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
-                <GraduationCap className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="font-semibold group-hover:text-primary">{t("vocabulary.nihaoFrench.poolTitle")}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {nihaoStats ? t("vocabulary.nihaoFrench.poolDesc", { count: nihaoStats.total }) : ""}
-                </p>
-              </div>
-            </Link>
-
-            {/* Theme Words */}
-            <Link
-              href="/vocabulary/theme-words"
-              className="group flex items-center gap-4 rounded-lg border p-5 transition-colors hover:bg-accent"
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-violet-600 dark:bg-violet-900/30 dark:text-violet-400">
-                <Tags className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="font-semibold group-hover:text-primary">{t("vocabulary.themeWords.title")}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {themeStats ? t("vocabulary.themeWords.totalWords", { count: themeStats.total }) : t("vocabulary.themeWords.heroDesc")}
-                </p>
-              </div>
-            </Link>
-
-            {/* TCF Corpus — coming soon */}
-            <div className="flex items-center gap-4 rounded-lg border border-dashed p-5 opacity-60">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground">
-                <BookOpen className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="font-semibold">{t("vocabulary.pools.tcfCorpus")}</h3>
-                <p className="text-sm text-muted-foreground">{t("vocabulary.pools.comingSoon")}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Recent saved words — logged in only */}
+          {/* Recent saved words — top priority for logged-in users */}
           {isLoggedIn && recent.length > 0 && (
             <div>
-              <h2 className="mb-3 text-lg font-semibold">{t("vocabulary.recentSaved")}</h2>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-lg font-semibold">{t("vocabulary.recentSaved")}</h2>
+                <Link href="/vocabulary/my-saved" className="text-sm text-primary hover:underline flex items-center gap-0.5">
+                  {t("vocabulary.viewAll")} <ChevronRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
               <div className="space-y-2">
                 {recent.map((item) => (
                   <div key={item.id} className="flex items-center justify-between rounded-lg border px-4 py-3">
@@ -179,11 +86,90 @@ export function VocabularyView() {
                   </div>
                 ))}
               </div>
-              <Link href="/vocabulary/my-saved" className="mt-2 inline-block text-sm text-primary hover:underline">
-                {t("vocabulary.viewAll")}
-              </Link>
+              {/* Compact inline stats — only non-zero */}
+              {stats && stats.total > 0 && nonZeroTypes.length > 0 && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                    {t("vocabulary.stats.total")} {stats.total}
+                  </span>
+                  {nonZeroTypes.map((type) => (
+                    <span key={type} className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
+                      {t(`common.types.${type}`)} {stats.by_source_type[type]}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           )}
+
+          {/* Pool entry cards */}
+          <div>
+            <h2 className="mb-3 text-lg font-semibold">{t("vocabulary.pools.heading")}</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {/* My Saved */}
+              {isLoggedIn ? (
+                <Link
+                  href="/vocabulary/my-saved"
+                  className="group flex items-center gap-4 rounded-lg border p-5 transition-colors hover:bg-accent"
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400">
+                    <Star className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-semibold group-hover:text-primary">{t("vocabulary.pools.mySaved")}</h3>
+                    <p className="text-sm text-muted-foreground truncate">
+                      {stats && stats.total > 0
+                        ? t("vocabulary.pools.savedCount", { count: stats.total })
+                        : t("vocabulary.pools.savedEmpty")}
+                    </p>
+                  </div>
+                </Link>
+              ) : (
+                <div className="flex items-center gap-4 rounded-lg border p-5 opacity-50">
+                  <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">
+                    <Star className="h-5 w-5" />
+                    <Lock className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{t("vocabulary.pools.mySaved")}</h3>
+                    <p className="text-sm text-muted-foreground">{t("vocabulary.loginToSave")}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Nihao French */}
+              <Link
+                href="/vocabulary/nihao-french"
+                className="group flex items-center gap-4 rounded-lg border p-5 transition-colors hover:bg-accent"
+              >
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+                  <GraduationCap className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-semibold group-hover:text-primary">{t("vocabulary.nihaoFrench.poolTitle")}</h3>
+                  <p className="text-sm text-muted-foreground truncate">
+                    {nihaoStats ? t("vocabulary.nihaoFrench.poolDesc", { count: nihaoStats.total }) : ""}
+                  </p>
+                </div>
+              </Link>
+
+              {/* Theme Words */}
+              <Link
+                href="/vocabulary/theme-words"
+                className="group flex items-center gap-4 rounded-lg border p-5 transition-colors hover:bg-accent"
+              >
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-100 text-violet-600 dark:bg-violet-900/30 dark:text-violet-400">
+                  <Tags className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-semibold group-hover:text-primary">{t("vocabulary.themeWords.title")}</h3>
+                  <p className="text-sm text-muted-foreground truncate">
+                    {themeStats ? t("vocabulary.themeWords.totalWords", { count: themeStats.total }) : t("vocabulary.themeWords.heroDesc")}
+                  </p>
+                </div>
+              </Link>
+            </div>
+          </div>
         </>
       )}
     </div>

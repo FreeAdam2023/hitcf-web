@@ -1163,8 +1163,10 @@
       "total": "إجمالي المحفوظات"
     },
     "pools": {
+      "heading": "بنوك المفردات",
       "mySaved": "كلماتي المحفوظة",
       "savedCount": "{count} كلمة",
+      "savedEmpty": "احفظ الكلمات أثناء التدريب",
       "tcfCorpus": "مفردات TCF",
       "comingSoon": "قريباً"
     },

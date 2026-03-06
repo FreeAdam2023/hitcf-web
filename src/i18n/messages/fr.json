@@ -1163,8 +1163,10 @@
       "total": "Total enregistré"
     },
     "pools": {
+      "heading": "Banques de vocabulaire",
       "mySaved": "Mes mots enregistrés",
       "savedCount": "{count} mots",
+      "savedEmpty": "Enregistrez des mots pendant vos exercices",
       "tcfCorpus": "Corpus TCF",
       "comingSoon": "Bientôt disponible"
     },

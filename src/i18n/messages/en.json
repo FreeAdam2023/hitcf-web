@@ -1163,8 +1163,10 @@
       "total": "Total Saved"
     },
     "pools": {
+      "heading": "Word Pools",
       "mySaved": "My Saved Words",
       "savedCount": "{count} words",
+      "savedEmpty": "Save words while practicing",
       "tcfCorpus": "TCF Corpus",
       "comingSoon": "Coming soon"
     },

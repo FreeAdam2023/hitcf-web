@@ -1163,8 +1163,10 @@
       "total": "总收藏"
     },
     "pools": {
+      "heading": "词汇池",
       "mySaved": "我的收藏",
       "savedCount": "{count} 个词",
+      "savedEmpty": "做题时点词收藏",
       "tcfCorpus": "TCF 题库词汇",
       "comingSoon": "即将上线"
     },
