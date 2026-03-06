@@ -192,6 +192,7 @@ export interface AttemptResponse {
   test_set_id: string;
   test_set_name?: string | null;
   test_set_type?: string | null;
+  is_mock_exam?: boolean;
   mode: string;
   score: number | null;
   total: number;
@@ -305,6 +306,7 @@ export interface AttemptReview {
   test_set_id: string;
   test_set_name: string | null;
   test_set_type: string | null;
+  is_mock_exam?: boolean;
   mode: "practice" | "exam" | "speed_drill";
   score: number | null;
   total: number;

@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState, useCallback } from "react";
-import { Search, ChevronDown, ChevronUp } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Search, ChevronDown, ChevronUp, Shuffle, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
-import { listAttempts } from "@/lib/api/attempts";
+import { listAttempts, createMockListeningExam } from "@/lib/api/attempts";
 import { fetchAllPages } from "@/lib/api/fetch-all-pages";
 import type { TestSetItem, WritingTopicItem, AttemptResponse } from "@/lib/api/types";
 import type { TestAttemptInfo } from "./test-card";
@@ -153,7 +154,9 @@ function buildAttemptMap(attempts: AttemptResponse[]): Map<string, TestAttemptIn
 
 export function TestList() {
   const t = useTranslations();
+  const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const [mockLoading, setMockLoading] = useState(false);
   const canAccessPaid = useAuthStore((s) => {
     if (s.isLoading) return true;
     const status = s.user?.subscription?.status;
@@ -637,6 +640,33 @@ export function TestList() {
               <Pill active={statusFilter === "notStarted"} onClick={() => setStatusFilter("notStarted")}>
                 {t("tests.filterNotStarted")}({statusCounts.notStarted})
               </Pill>
+            </div>
+          )}
+
+          {/* Mock exam button (listening only) */}
+          {tab === "listening" && isAuthenticated && (
+            <div className="mb-4">
+              <button
+                onClick={async () => {
+                  setMockLoading(true);
+                  try {
+                    const result = await createMockListeningExam();
+                    router.push(`/exam/${result.id}`);
+                  } catch {
+                    setMockLoading(false);
+                  }
+                }}
+                disabled={mockLoading}
+                className="inline-flex items-center gap-2 rounded-lg border-2 border-primary/20 bg-primary/5 px-5 py-2.5 text-sm font-semibold text-primary transition-all hover:border-primary/40 hover:bg-primary/10 disabled:opacity-50"
+              >
+                {mockLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Shuffle className="h-4 w-4" />
+                )}
+                {t("tests.mockExam")}
+              </button>
+              <p className="mt-1.5 text-xs text-muted-foreground">{t("tests.mockExamDesc")}</p>
             </div>
           )}
 

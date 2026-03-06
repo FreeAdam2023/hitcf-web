@@ -289,6 +289,8 @@
     "viewQuestions": "View Questions",
     "showMore": "Show {count} more",
     "showLess": "Show less",
+    "mockExam": "Random Mock Exam",
+    "mockExamDesc": "39 questions in 25 min, randomly sampled by TCF level distribution",
     "filterAll": "All",
     "filterInProgress": "In Progress",
     "filterCompleted": "Completed",

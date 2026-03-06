@@ -289,6 +289,8 @@
     "viewQuestions": "Voir les questions",
     "showMore": "Afficher {count} de plus",
     "showLess": "Réduire",
+    "mockExam": "Examen blanc aléatoire",
+    "mockExamDesc": "39 questions en 25 min, tirées au sort selon la répartition TCF",
     "filterAll": "Tout",
     "filterInProgress": "En cours",
     "filterCompleted": "Terminé",

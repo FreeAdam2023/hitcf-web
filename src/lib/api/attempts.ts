@@ -11,6 +11,7 @@ import type {
   AttemptReview,
   AttemptResponse,
   PaginatedResponse,
+  QuestionBrief,
 } from "./types";
 
 export function getActiveAttempt(
@@ -67,6 +68,20 @@ export function getAttempt(attemptId: string, options?: RequestOptions): Promise
 
 export function getAttemptReview(attemptId: string, options?: RequestOptions): Promise<AttemptReview> {
   return get<AttemptReview>(`/api/attempts/${attemptId}/review`, options);
+}
+
+// Mock exam
+export function createMockListeningExam(
+  options?: RequestOptions,
+): Promise<{ id: string; mode: string; total: number; is_mock_exam: boolean; time_limit_minutes: number; started_at: string }> {
+  return post(`/api/mock-exam/listening`, undefined, options);
+}
+
+export function getMockExamQuestions(
+  attemptId: string,
+  options?: RequestOptions,
+): Promise<QuestionBrief[]> {
+  return get<QuestionBrief[]>(`/api/mock-exam/${attemptId}/questions`, options);
 }
 
 export function listAttempts(params?: {

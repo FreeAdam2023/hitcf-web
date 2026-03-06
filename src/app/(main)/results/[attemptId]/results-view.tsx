@@ -78,9 +78,9 @@ export function ResultsView({ attempt }: ResultsViewProps) {
 
   const wrongCount = sortedAnswers.filter((a) => a.is_correct === false).length;
 
-  // Find next test set
+  // Find next test set (skip for mock exams)
   useEffect(() => {
-    if (!attempt.test_set_type) return;
+    if (!attempt.test_set_type || attempt.is_mock_exam) return;
     const type = attempt.test_set_type as "listening" | "reading" | "speaking" | "writing";
     listTestSets({ type, page_size: 100 })
       .then((res) => {
@@ -93,7 +93,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
       .catch((err) => {
         console.error("ResultsView: failed to load next test set", err);
       });
-  }, [attempt.test_set_id, attempt.test_set_type]);
+  }, [attempt.test_set_id, attempt.test_set_type, attempt.is_mock_exam]);
 
   async function handlePracticeWrong() {
     if (!attempt.test_set_type || wrongCount === 0) return;
@@ -130,9 +130,11 @@ export function ResultsView({ attempt }: ResultsViewProps) {
       <Breadcrumb
         items={[
           { label: t("results.breadcrumbTests"), href: attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests" },
-          ...(attempt.test_set_id
+          ...(attempt.test_set_id && !attempt.is_mock_exam
             ? [{ label: displayName, href: `/tests/${attempt.test_set_id}` }]
-            : []),
+            : attempt.is_mock_exam
+              ? [{ label: displayName }]
+              : []),
           { label: t("results.breadcrumbReport") },
         ]}
       />

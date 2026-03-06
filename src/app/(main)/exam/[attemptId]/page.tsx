@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useExamStore } from "@/stores/exam-store";
-import { getAttempt } from "@/lib/api/attempts";
+import { getAttempt, getMockExamQuestions } from "@/lib/api/attempts";
 import { getTestSet, getTestSetQuestions } from "@/lib/api/test-sets";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
@@ -30,9 +30,17 @@ export default function ExamPage() {
         return;
       }
 
-      const testSet = await getTestSet(attempt.test_set_id, { signal });
-      const questions = await getTestSetQuestions(attempt.test_set_id, "exam", { signal });
-      const timeLimitSeconds = testSet.time_limit_minutes * 60;
+      let questions;
+      let timeLimitSeconds: number;
+
+      if (attempt.is_mock_exam) {
+        questions = await getMockExamQuestions(params.attemptId, { signal });
+        timeLimitSeconds = 25 * 60; // 25 minutes for mock listening
+      } else {
+        const testSet = await getTestSet(attempt.test_set_id, { signal });
+        questions = await getTestSetQuestions(attempt.test_set_id, "exam", { signal });
+        timeLimitSeconds = testSet.time_limit_minutes * 60;
+      }
 
       // Extract existing answers for progress recovery
       const existingAnswers = attempt.answers

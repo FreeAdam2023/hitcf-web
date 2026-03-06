@@ -289,6 +289,8 @@
     "viewQuestions": "查看题目",
     "showMore": "展开剩余 {count} 套",
     "showLess": "收起",
+    "mockExam": "随机模考",
+    "mockExamDesc": "从 1600+ 题中按 TCF 等级配比随机组卷，39 题 25 分钟",
     "filterAll": "全部",
     "filterInProgress": "进行中",
     "filterCompleted": "已完成",
