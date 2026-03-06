@@ -1,13 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Play, Headphones, BookOpen } from "lucide-react";
+import { Play, Headphones, BookOpen, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
-import { startSpeedDrill } from "@/lib/api/speed-drill";
+import {
+  startSpeedDrill,
+  getInProgressDrills,
+  resumeSpeedDrill,
+  abandonSpeedDrill,
+  type InProgressAttempt,
+} from "@/lib/api/speed-drill";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
@@ -40,6 +46,13 @@ export function SpeedDrillConfig() {
   const [dedup, setDedup] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [inProgress, setInProgress] = useState<InProgressAttempt[]>([]);
+  const [resumingId, setResumingId] = useState<string | null>(null);
+
+  // Load in-progress attempts on mount
+  useEffect(() => {
+    getInProgressDrills().then(setInProgress).catch(() => {});
+  }, []);
 
   const toggleLevel = (level: string) => {
     setSelectedLevels((prev) => {
@@ -75,6 +88,27 @@ export function SpeedDrillConfig() {
     }
   };
 
+  const handleResume = async (attemptId: string) => {
+    setResumingId(attemptId);
+    try {
+      const result = await resumeSpeedDrill(attemptId);
+      initPractice(result.attempt_id, result.questions);
+      router.push(`/practice/${result.attempt_id}`);
+    } catch {
+      setError(t("speedDrill.startFailed"));
+      setResumingId(null);
+    }
+  };
+
+  const handleAbandon = async (attemptId: string) => {
+    try {
+      await abandonSpeedDrill(attemptId);
+      setInProgress((prev) => prev.filter((a) => a.attempt_id !== attemptId));
+    } catch {
+      // ignore
+    }
+  };
+
   return (
     <div className="mx-auto max-w-lg space-y-6">
       <div>
@@ -100,6 +134,48 @@ export function SpeedDrillConfig() {
             t("speedDrill.upgradeBanner.features.3"),
           ]}
         />
+      )}
+
+      {/* In-progress attempts */}
+      {inProgress.length > 0 && (
+        <Card>
+          <CardContent className="space-y-3 pt-5">
+            <p className="text-sm font-medium">{t("speedDrill.inProgress")}</p>
+            {inProgress.map((a) => (
+              <div
+                key={a.attempt_id}
+                className="flex items-center justify-between rounded-lg bg-secondary/50 px-4 py-3"
+              >
+                <div className="text-sm">
+                  <span className="font-medium">
+                    {a.answered_count}/{a.total}
+                  </span>
+                  <span className="ml-2 text-muted-foreground">
+                    {new Date(a.started_at).toLocaleDateString()}
+                  </span>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleAbandon(a.attempt_id)}
+                  >
+                    <X className="mr-1 h-3 w-3" />
+                    {t("speedDrill.abandon")}
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => handleResume(a.attempt_id)}
+                    disabled={resumingId === a.attempt_id}
+                  >
+                    <ArrowRight className="mr-1 h-3 w-3" />
+                    {resumingId === a.attempt_id ? "..." : t("speedDrill.resume")}
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
       )}
 
       <Card className={cn("overflow-hidden", !canAccessPaid && "pointer-events-none opacity-50")}>

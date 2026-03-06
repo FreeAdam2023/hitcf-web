@@ -1,4 +1,4 @@
-import { post } from "./client";
+import { get, post } from "./client";
 import type { QuestionBrief } from "./types";
 
 export interface SpeedDrillResponse {
@@ -6,6 +6,13 @@ export interface SpeedDrillResponse {
   questions: QuestionBrief[];
   remaining: number;
   message?: string;
+}
+
+export interface InProgressAttempt {
+  attempt_id: string;
+  total: number;
+  answered_count: number;
+  started_at: string;
 }
 
 export function startSpeedDrill(params: {
@@ -25,4 +32,16 @@ export function startSpeedDrill(params: {
   return post<SpeedDrillResponse>(
     `/api/speed-drill/next${qs ? `?${qs}` : ""}`,
   );
+}
+
+export function getInProgressDrills(): Promise<InProgressAttempt[]> {
+  return get<InProgressAttempt[]>("/api/speed-drill/in-progress");
+}
+
+export function resumeSpeedDrill(attemptId: string): Promise<SpeedDrillResponse> {
+  return get<SpeedDrillResponse>(`/api/speed-drill/resume/${attemptId}`);
+}
+
+export function abandonSpeedDrill(attemptId: string): Promise<void> {
+  return post(`/api/speed-drill/abandon/${attemptId}`);
 }
