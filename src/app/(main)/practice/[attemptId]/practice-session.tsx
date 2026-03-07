@@ -342,17 +342,25 @@ export function PracticeSession() {
 
   // Fetch explanation — called once by parent, shared with both panels
   const fetchingRef = useRef(false);
+  const expectedQuestionRef = useRef<string>("");
   const fetchExplanation = useCallback((questionId: string, force?: boolean) => {
     if (fetchingRef.current && !force) return;
     fetchingRef.current = true;
+    expectedQuestionRef.current = questionId;
     setExplanationLoading(true);
     setExplanationError(false);
     generateExplanation(questionId, force, locale)
-      .then(setExplanation)
-      .catch(() => setExplanationError(true))
+      .then((data) => {
+        if (expectedQuestionRef.current === questionId) setExplanation(data);
+      })
+      .catch(() => {
+        if (expectedQuestionRef.current === questionId) setExplanationError(true);
+      })
       .finally(() => {
-        fetchingRef.current = false;
-        setExplanationLoading(false);
+        if (expectedQuestionRef.current === questionId) {
+          fetchingRef.current = false;
+          setExplanationLoading(false);
+        }
       });
   }, [locale]);
 
