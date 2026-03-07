@@ -32,7 +32,6 @@ import { cn } from "@/lib/utils";
 
 const NAV_KEYS = [
   { href: "/tests", key: "nav.tests" },
-  { href: "/dashboard", key: "nav.dashboard" },
   { href: "/wrong-answers", key: "nav.wrongAnswers" },
   { href: "/vocabulary", key: "nav.vocabulary" },
   { href: "/history", key: "nav.history" },

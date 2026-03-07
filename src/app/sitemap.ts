@@ -36,13 +36,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
-    // ── User dashboard pages ──
-    {
-      url: `${SITE_URL}/dashboard`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.7,
-    },
     {
       url: `${SITE_URL}/wrong-answers`,
       lastModified: new Date(),

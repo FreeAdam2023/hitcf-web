@@ -34,6 +34,8 @@ import { RecommendedBanner } from "@/components/shared/recommended-banner";
 import { useAuthStore } from "@/stores/auth-store";
 import { usePracticeStore } from "@/stores/practice-store";
 import { getInProgressDrills, resumeSpeedDrill, abandonSpeedDrill, type InProgressAttempt } from "@/lib/api/speed-drill";
+import { getStatsOverview, type StatsOverview } from "@/lib/api/stats";
+import { CLB7Readiness } from "@/components/dashboard/clb7-readiness";
 import { LevelPracticeDialog } from "./level-practice-dialog";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
@@ -219,6 +221,13 @@ export function TestList() {
       setTab(param as TabType);
     }
   }, []);
+
+  // Load stats for CLB7 readiness card
+  const [stats, setStats] = useState<StatsOverview | null>(null);
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    getStatsOverview().then(setStats).catch(() => {});
+  }, [isAuthenticated]);
 
   // Load in-progress level practice attempts
   useEffect(() => {
@@ -605,6 +614,19 @@ export function TestList() {
         </div>
       </div>
       <ContinueBanner />
+
+      {/* CLB 7 Readiness — compact stats card */}
+      {stats && stats.total_attempts > 0 && (
+        <div className="mb-6">
+          <CLB7Readiness
+            listeningAccuracy={stats.listening_accuracy}
+            readingAccuracy={stats.reading_accuracy}
+            totalAttempts={stats.total_attempts}
+            streakDays={stats.streak_days}
+          />
+        </div>
+      )}
+
       <Tabs value={tab} onValueChange={(v) => {
         const t = v as TabType;
         setTab(t);
