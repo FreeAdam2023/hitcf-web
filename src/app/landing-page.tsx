@@ -27,6 +27,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { useAuthStore } from "@/stores/auth-store";
@@ -206,6 +214,116 @@ export function LandingPage() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* ── Feature Showcase (carousel) ── */}
+      <section className="border-y border-border/40 bg-card py-20 sm:py-28">
+        <div className="mx-auto max-w-5xl px-4">
+          <div className="text-center mb-14">
+            <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5 text-primary">
+              {t("landing.showcaseBadge")}
+            </Badge>
+            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+              {t("landing.showcaseTitle")}
+            </h2>
+          </div>
+
+          <Carousel opts={{ loop: true }} plugins={[Autoplay({ delay: 5000, stopOnInteraction: true })]} className="mx-auto max-w-4xl">
+            <CarouselContent>
+              {/* Slide 0 — Sentence playback */}
+              <CarouselItem>
+                <div className="flex flex-col items-center gap-8 px-2 lg:flex-row lg:gap-12 lg:min-h-[400px]">
+                  <div className="flex-1 space-y-4 text-center lg:text-left">
+                    <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                      {t("landing.showcase.0.title")}
+                    </h3>
+                    <p className="text-lg leading-relaxed text-muted-foreground">
+                      {t("landing.showcase.0.desc")}
+                    </p>
+                  </div>
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="h-[360px] overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/5">
+                      <Image src="/features/transcript.png" alt="Sentence playback" width={800} height={600} className="h-full w-auto object-cover object-top" />
+                    </div>
+                  </div>
+                </div>
+              </CarouselItem>
+
+              {/* Slide 1 — Word cards (3 fanned) */}
+              <CarouselItem>
+                <div className="flex flex-col items-center gap-8 px-2 lg:flex-row lg:gap-12 lg:min-h-[400px]">
+                  <div className="flex-1 space-y-4 text-center lg:text-left">
+                    <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                      {t("landing.showcase.1.title")}
+                    </h3>
+                    <p className="text-lg leading-relaxed text-muted-foreground">
+                      {t("landing.showcase.1.desc")}
+                    </p>
+                  </div>
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="relative h-[340px] w-[300px]">
+                      {/* Back — feminine noun (fan left) */}
+                      <div className="absolute top-[10%] left-1/2 -ml-[90px] w-[180px] origin-bottom -rotate-[15deg] overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5">
+                        <Image src="/features/wordcard-fem.png" alt="Feminine noun card" width={180} height={280} className="h-auto w-full object-cover" />
+                      </div>
+                      {/* Middle — verb conjugation (center) */}
+                      <div className="absolute top-[10%] left-1/2 -ml-[90px] w-[180px] origin-bottom z-10 overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/5">
+                        <Image src="/features/wordcard-verb.png" alt="Verb conjugation card" width={180} height={280} className="h-auto w-full object-cover" />
+                      </div>
+                      {/* Front — masculine noun (fan right) */}
+                      <div className="absolute top-[10%] left-1/2 -ml-[90px] w-[180px] origin-bottom rotate-[15deg] z-20 overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5">
+                        <Image src="/features/wordcard-noun.png" alt="Noun card" width={180} height={280} className="h-auto w-full object-cover" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CarouselItem>
+
+              {/* Slide 2 — AI explanation */}
+              <CarouselItem>
+                <div className="flex flex-col items-center gap-8 px-2 lg:flex-row lg:gap-12 lg:min-h-[400px]">
+                  <div className="flex-1 space-y-4 text-center lg:text-left">
+                    <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                      {t("landing.showcase.2.title")}
+                    </h3>
+                    <p className="text-lg leading-relaxed text-muted-foreground">
+                      {t("landing.showcase.2.desc")}
+                    </p>
+                  </div>
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="h-[360px] overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/5">
+                      <Image src="/features/explanation.png" alt="AI explanation" width={500} height={800} className="h-full w-auto object-cover object-top" />
+                    </div>
+                  </div>
+                </div>
+              </CarouselItem>
+
+              {/* Slide 3 — Flashcard review */}
+              <CarouselItem>
+                <div className="flex flex-col items-center gap-8 px-2 lg:flex-row lg:gap-12 lg:min-h-[400px]">
+                  <div className="flex-1 space-y-4 text-center lg:text-left">
+                    <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                      {t("landing.showcase.3.title")}
+                    </h3>
+                    <p className="text-lg leading-relaxed text-muted-foreground">
+                      {t("landing.showcase.3.desc")}
+                    </p>
+                  </div>
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="h-[360px] overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/5">
+                      <Image src="/features/flashcard.png" alt="Flashcard review" width={800} height={500} className="h-full w-auto object-cover object-top" />
+                    </div>
+                  </div>
+                </div>
+              </CarouselItem>
+            </CarouselContent>
+
+            <div className="mt-8 flex items-center justify-center gap-4">
+              <CarouselPrevious className="static translate-y-0" />
+              <CarouselNext className="static translate-y-0" />
+            </div>
+          </Carousel>
         </div>
       </section>
 

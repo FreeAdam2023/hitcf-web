@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Copy, Check, ExternalLink, Lightbulb, MessageCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Copy, Check, ExternalLink, Lightbulb, MessageCircle, Mic } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { startTache1Conversation } from "@/lib/api/speaking-conversation";
 
 const TACHE1_PROMPT = `Tu es l'examinateur du TCF Canada pour la Tâche 1 (Entretien dirigé). Simule un entretien de 2 minutes.
 
@@ -27,7 +29,19 @@ const THEME_FR = [
 
 export function SpeakingTache1Guide() {
   const t = useTranslations();
+  const router = useRouter();
   const [copied, setCopied] = useState(false);
+  const [starting, setStarting] = useState(false);
+
+  const handleStartAI = useCallback(async () => {
+    setStarting(true);
+    try {
+      const session = await startTache1Conversation();
+      router.push(`/speaking-conversation?sessionId=${session.id}`);
+    } catch {
+      setStarting(false);
+    }
+  }, [router]);
 
   const handleCopy = useCallback(async () => {
     await navigator.clipboard.writeText(TACHE1_PROMPT);
@@ -101,7 +115,11 @@ export function SpeakingTache1Guide() {
 
           {/* Action buttons */}
           <div className="flex flex-wrap items-center gap-2">
-            <Button onClick={handleCopy}>
+            <Button onClick={handleStartAI} disabled={starting}>
+              <Mic className="mr-1.5 h-3.5 w-3.5" />
+              {starting ? t("common.loading") : t("speakingGuide.startAIConversation")}
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleCopy}>
               {copied ? (
                 <>
                   <Check className="mr-1.5 h-3.5 w-3.5" />
@@ -114,24 +132,24 @@ export function SpeakingTache1Guide() {
                 </>
               )}
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="ghost" size="sm" asChild>
               <a
                 href={`https://chatgpt.com/?q=${encodeURIComponent(TACHE1_PROMPT)}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
-                {t("speakingGuide.chatgptSimulation")}
+                ChatGPT
               </a>
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="ghost" size="sm" asChild>
               <a
                 href={`https://grok.com/?q=${encodeURIComponent(TACHE1_PROMPT)}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
-                {t("speakingGuide.grokSimulation")}
+                Grok
               </a>
             </Button>
           </div>

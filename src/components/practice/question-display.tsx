@@ -49,7 +49,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
   const qZh = question.question_text_zh;
   const qEn = question.question_text_en;
   const qAr = question.question_text_ar;
-  const qTranslations = locale === "zh" ? [qZh, qEn]
+  const qTranslations = locale === "zh" ? [qEn, qZh]
     : locale === "ar" ? [qAr, qEn]
     : locale === "en" ? [qEn, qZh] : [];
   const hasTranslation = qTranslations.some(Boolean);

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { Mic, MicOff, Square, MessageCircle } from "lucide-react";
+import { Mic, MicOff, Square, MessageCircle, Volume2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +26,32 @@ import type {
 } from "@/lib/api/types";
 
 type Phase = "loading" | "prep" | "active" | "evaluating" | "completed";
+
+function escapeXml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function buildSceneSsml(scenario: string, tacheType: number): string {
+  const intro =
+    tacheType === 3
+      ? "Voici le sujet de discussion."
+      : "Écoutez bien le scénario.";
+  return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="fr-CA">
+  <voice name="fr-CA-SylvieNeural">
+    <break time="500ms"/>
+    <prosody rate="0.93" pitch="-2%">
+      ${escapeXml(intro)}
+      <break time="700ms"/>
+      ${escapeXml(scenario)}
+    </prosody>
+  </voice>
+</speak>`;
+}
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -55,6 +81,7 @@ export function SpeakingConversationView() {
   const sessionIdRef = useRef<string>("");
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const prepTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const sceneTtsTriggered = useRef(false);
 
   // Hooks
   const speech = useSpeechAssessment();
@@ -171,6 +198,28 @@ export function SpeakingConversationView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
 
+  // Auto-trigger TTS to read scenario during prep phase (Tâche 2/3 only)
+  useEffect(() => {
+    if (phase !== "prep") return;
+    if (!session?.scene_briefing?.scenario) return;
+    if ((session.prep_time_seconds ?? 0) <= 0) return;
+    if (sceneTtsTriggered.current) return;
+
+    sceneTtsTriggered.current = true;
+    const ssml = buildSceneSsml(
+      session.scene_briefing.scenario,
+      session.tache_type,
+    );
+    tts.speak(ssml, { ssml: true }).catch(() => {
+      // Non-critical — prep still works without TTS
+    });
+
+    return () => {
+      tts.stop();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
+
   // Speaking timer countdown
   useEffect(() => {
     if (phase !== "active") return;
@@ -195,6 +244,7 @@ export function SpeakingConversationView() {
   // Begin conversation (after prep)
   const handleBegin = useCallback(async () => {
     if (prepTimerRef.current) clearInterval(prepTimerRef.current);
+    tts.stop(); // Stop scene TTS if still playing
 
     try {
       const result = await beginConversation(sessionIdRef.current);
@@ -317,7 +367,7 @@ export function SpeakingConversationView() {
 
   if (phase === "loading") return <LoadingSpinner />;
 
-  const tacheLabel = session?.tache_type === 3 ? "Tâche 3" : "Tâche 2";
+  const tacheLabel = session?.tache_type === 1 ? "Tâche 1" : session?.tache_type === 3 ? "Tâche 3" : "Tâche 2";
   const timerColor =
     phase === "active" && timer <= 30
       ? "text-destructive"
@@ -358,6 +408,15 @@ export function SpeakingConversationView() {
       {phase === "prep" && (
         <Card>
           <CardContent className="flex flex-col items-center gap-4 pt-6">
+            {/* TTS indicator */}
+            {tts.isSpeaking && (
+              <div className="flex items-center gap-2 animate-in fade-in duration-700">
+                <Volume2 className="h-4 w-4 text-primary animate-pulse" />
+                <span className="text-sm font-medium text-primary">
+                  {t("examinerReading")}
+                </span>
+              </div>
+            )}
             <p className="text-center text-sm text-muted-foreground">
               {t("prepDescription")}
             </p>

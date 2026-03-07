@@ -17,6 +17,16 @@ export function startConversation(
   );
 }
 
+export function startTache1Conversation(
+  options?: RequestOptions,
+): Promise<SpeakingConversationResponse> {
+  return post<SpeakingConversationResponse>(
+    "/api/speaking-conversation/start-tache1",
+    undefined,
+    options,
+  );
+}
+
 export function beginConversation(
   sessionId: string,
   options?: RequestOptions,

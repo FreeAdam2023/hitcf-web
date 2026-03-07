@@ -64,15 +64,9 @@ function TranscriptBlock({
   const isListening = question.type === "listening";
   const isReading = question.type === "reading";
   const hasTranscript = !!question.transcript;
-  // Show option translations: listening Q1-10 (with real text) + all reading
+  // Show option translations: reading only (listening A1/A2 options already in transcript)
   const showTranscriptOptions =
-    question.options.length > 0 &&
-    (isReading ||
-      (isListening &&
-        question.question_number <= 10 &&
-        question.options.some(
-          (o) => o.text && o.text.length > 2 && !o.text.startsWith("Proposition"),
-        )));
+    isReading && question.options.length > 0;
 
   const sentences = explanation?.sentence_translation;
   const optTrans = explanation?.option_translations;

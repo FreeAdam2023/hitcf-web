@@ -432,6 +432,7 @@
     "title": "Tâche 1 · Entretien dirigé",
     "subtitle": "Entretien dirigé — L'examinateur pose des questions spontanées sur des sujets du quotidien, environ 2 minutes",
     "commonTopics": "Sujets courants",
+    "startAIConversation": "Lancer la conversation IA",
     "chatgptSimulation": "Simulation ChatGPT",
     "grokSimulation": "Simulation Grok",
     "examFlow": "Déroulement de l'épreuve",
@@ -657,7 +658,6 @@
     "passwordChangeFailed": "Échec du changement de mot de passe",
     "subscription": {
       "monthly": "Mensuel",
-      "quarterly": "Trimestriel",
       "yearly": "Annuel",
       "trialing": "Essai",
       "member": "Membre",
@@ -679,7 +679,7 @@
     },
     "continuePractice": "Continuer la pratique",
     "unlockAll": "Débloquez les 8 500+ questions + outils de vocabulaire",
-    "yearlyDeal": "Forfait annuel à partir de 8,33 $/mois avec 2 mois d'essai gratuit",
+    "yearlyDeal": "Forfait annuel à 99,90 $/an avec 14 jours d'essai gratuit",
     "upgradePro": "Passer à Pro",
     "profile": {
       "title": "Profil",
@@ -943,7 +943,7 @@
     "defaultTitle": "Débloquez l'expérience complète",
     "defaultDescription": "Passez à Pro pour accéder aux 8 500+ questions et aux fonctionnalités avancées",
     "viewPlans": "Voir les forfaits",
-    "yearlyTrial": "2 mois gratuits avec le forfait annuel",
+    "yearlyTrial": "14 jours gratuits avec le forfait annuel",
     "upgradePro": "Passer à Pro"
   },
   "continueBanner": {
@@ -1356,6 +1356,7 @@
     "endConversation": "Terminer la conversation",
     "youAreSaying": "Vous parlez",
     "examinerThinking": "L'examinateur répond",
+    "examinerReading": "L'examinateur lit le scénario...",
     "sceneBriefing": "Informations du scénario",
     "scenario": "Scénario",
     "yourRole": "Votre rôle",
@@ -1795,6 +1796,26 @@
     "contentBadge": "Bibliothèque complète",
     "contentTitle": "Plus de 8 500 questions, de A1 à C2",
     "contentSubtitle": "Les quatre épreuves couvertes, chaque série d'écoute inclut l'audio original",
+    "showcaseBadge": "Fonctionnalités clés",
+    "showcaseTitle": "Bien plus que des exercices — une expérience d'apprentissage complète",
+    "showcase": [
+      {
+        "title": "Écoute phrase par phrase + traduction",
+        "desc": "Jouez chaque phrase individuellement avec traduction trilingue français-anglais-chinois. Cliquez sur la phrase mal comprise pour la réécouter."
+      },
+      {
+        "title": "Fiches de vocabulaire intelligentes",
+        "desc": "Un mot inconnu ? Cliquez pour afficher sa fiche : genre coloré, conjugaison complète, prononciation instantanée, et sauvegarde en un clic dans votre carnet de vocabulaire."
+      },
+      {
+        "title": "Analyse IA des réponses",
+        "desc": "Plus qu'un simple corrigé — l'IA analyse chaque distracteur, met en avant le vocabulaire clé et approfondit la compréhension."
+      },
+      {
+        "title": "Flashcards et dictée",
+        "desc": "Vos mots sauvegardés deviennent automatiquement des flashcards et des exercices de dictée. La révision espacée transforme la reconnaissance en mémorisation."
+      }
+    ],
     "banks": [
       {
         "label": "Compréhension orale + écrite",
@@ -1852,7 +1873,7 @@
     "freeStart": "Commencer",
     "freeRegister": "Inscription gratuite",
     "proBadge": "Recommandé",
-    "proTrial": "2 mois gratuits",
+    "proTrial": "14 jours gratuits",
     "proTrialUnit": "d'essai (annuel)",
     "proFeatures": [
       "Bibliothèque complète écoute + lecture (réécoute par phrase)",
@@ -1880,7 +1901,7 @@
     "trust": [
       {
         "label": "Essai gratuit prolongé",
-        "desc": "2 mois (annuel) · 7 jours (mensuel/trimestriel)"
+        "desc": "14 jours (annuel) · 7 jours (mensuel)"
       },
       {
         "label": "Paiement sécurisé",
@@ -1907,7 +1928,7 @@
       },
       {
         "q": "Quels sont les avantages de Pro ?",
-        "a": "Débloquez les plus de 8 500 questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, le carnet de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Le plan annuel comprend 2 mois d'essai gratuit — annulation possible à tout moment."
+        "a": "Débloquez les plus de 8 500 questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, le carnet de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Le plan annuel comprend 14 jours d'essai gratuit — annulation possible à tout moment."
       },
       {
         "q": "Pouvez-vous garantir que j'atteindrai le NCLC 7 ?",
@@ -1919,7 +1940,7 @@
       },
       {
         "q": "Comment demander un remboursement ?",
-        "a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés trimestriels/annuels peuvent obtenir un remboursement proportionnel dans les 14 jours. Envoyez un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
+        "a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés annuels peuvent obtenir un remboursement proportionnel dans les 14 jours. Envoyez un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
       }
     ],
     "ctaImageAlt": "Panorama de la Colline du Parlement et de la rivière des Outaouais",
@@ -1949,8 +1970,8 @@
       "description": "Consultez votre préparation au NCLC 7, la précision en compréhension orale et écrite, les statistiques d'entraînement et les jours consécutifs. Suivez votre progression par rapport à l'objectif de 78 % de précision."
     },
     "pricing": {
-      "title": "Tarifs · 2 mois d'essai gratuit sur le plan annuel pour toutes les questions TCF + outils de vocabulaire",
-      "description": "Tarifs HiTCF : séries gratuites pour commencer, Pro débloque les plus de 8 500 questions, le mode examen, le cahier d'erreurs, les cartes mémoire de vocabulaire, la dictée et l'export Anki. 2 mois d'essai gratuit sur le plan annuel, annulation à tout moment."
+      "title": "Tarifs · 14 jours d'essai gratuit sur le plan annuel pour toutes les questions TCF + outils de vocabulaire",
+      "description": "Tarifs HiTCF : séries gratuites pour commencer, Pro débloque les plus de 8 500 questions, le mode examen, le cahier d'erreurs, les cartes mémoire de vocabulaire, la dictée et l'export Anki. 14 jours d'essai gratuit sur le plan annuel, annulation à tout moment."
     },
     "speedDrill": {
       "title": "Pratique par niveau · Entraînement ciblé par niveau et type de question",
@@ -2003,7 +2024,7 @@
     },
     "refund": {
       "title": "Politique de remboursement · Essai gratuit et procédure de remboursement",
-      "description": "Politique de remboursement de HiTCF : essai gratuit (2 mois pour le plan annuel, 7 jours pour le mensuel/trimestriel) annulation à tout moment. Remboursement intégral dans les 48 heures suivant le premier paiement, remboursement proportionnel dans les 14 jours pour le trimestriel/annuel. Remboursement via Stripe."
+      "description": "Politique de remboursement de HiTCF : essai gratuit (14 jours pour le plan annuel, 7 jours pour le mensuel) annulation à tout moment. Remboursement intégral dans les 48 heures suivant le premier paiement, remboursement proportionnel dans les 14 jours pour l'annuel. Remboursement via Stripe."
     },
     "disclaimer": {
       "title": "Avertissement · Sources du contenu et avis sur les résultats d'examen",
@@ -2225,7 +2246,7 @@
     "intro": "Merci d'avoir choisi HiTCF. Cette politique de remboursement s'applique à tous les services d'abonnement payant achetés via la Plateforme.",
     "freeTrial": {
       "title": "1. Essai gratuit",
-      "li1": "Tous les nouveaux utilisateurs ont droit à un essai gratuit (<b>2 mois pour le plan annuel</b>, 7 jours pour les plans mensuel/trimestriel). Aucun frais pendant la période d'essai.",
+      "li1": "Tous les nouveaux utilisateurs ont droit à un essai gratuit (<b>14 jours pour le plan annuel</b>, 7 jours pour le plan mensuel). Aucun frais pendant la période d'essai.",
       "li2": "Vous pouvez annuler à tout moment pendant l'essai sans frais.",
       "li3": "À la fin de l'essai, si vous n'avez pas annulé, vous serez automatiquement facturé selon le plan choisi.",
       "li4": "Chaque utilisateur (par adresse e-mail) n'a droit qu'à un seul essai gratuit."
@@ -2244,10 +2265,10 @@
       "fullLi2": "Si un problème technique de la Plateforme (tel que des échecs de connexion prolongés ou des pannes généralisées de fonctionnalités) vous empêche d'utiliser le service, et que nous ne parvenons pas à le résoudre dans les 72 heures.",
       "fullLi3": "Charges en double ou erronées.",
       "proTitle": "3.2 Remboursement proportionnel",
-      "proLi1": "Les abonnés trimestriels ou annuels qui demandent un remboursement dans les <b>14 jours</b> suivant le paiement peuvent recevoir un remboursement proportionnel pour les jours non utilisés.",
+      "proLi1": "Les abonnés annuels qui demandent un remboursement dans les <b>14 jours</b> suivant le paiement peuvent recevoir un remboursement proportionnel pour les jours non utilisés.",
       "noTitle": "3.3 Non remboursable",
       "noLi1": "Abonnés mensuels demandant un remboursement après les 48 premières heures.",
-      "noLi2": "Abonnés trimestriels/annuels demandant un remboursement après 14 jours.",
+      "noLi2": "Abonnés annuels demandant un remboursement après 14 jours.",
       "noLi3": "Non-utilisation pour des raisons personnelles (par ex., oubli d'annuler le renouvellement automatique, emploi du temps personnel).",
       "noLi4": "Demandes de remboursement basées sur des résultats d'examen insatisfaisants (la Plateforme ne garantit pas les résultats d'examen — voir notre <disclaimerLink>Avertissement</disclaimerLink>).",
       "noLi5": "Suspension ou résiliation de compte pour violation des <termsLink>Conditions d'utilisation</termsLink>."
@@ -2277,12 +2298,12 @@
     "faq2q": "Que puis-je faire avec la version gratuite ?",
     "faq2a": "La version gratuite comprend la première série d'écoute et les 2 premières séries de lecture avec toutes les questions, en modes entraînement et examen. Tentatives illimitées, gratuit pour toujours.",
     "faq3q": "Quels sont les avantages de Pro ?",
-    "faq3a": "Débloquez les plus de 8 500 questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, les outils de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Les plans annuels comprennent un essai gratuit de 2 mois, annulation à tout moment.",
+    "faq3a": "Débloquez les plus de 8 500 questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, les outils de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Le plan annuel comprend 14 jours d'essai gratuit, annulation à tout moment.",
     "faq4q": "Pouvez-vous garantir que j'atteindrai le NCLC 7 ?",
     "faq4a": "Non. HiTCF fournit un environnement d'entraînement aligné sur le TCF Canada pour vous aider à identifier et améliorer vos points faibles. Cependant, les scores réels dépendent de nombreux facteurs — nous ne promettons aucun résultat d'examen.",
     "faq5q": "Comment puis-je m'entraîner à l'expression orale et écrite ?",
     "faq5a": "Les sections d'expression orale et écrite proposent des sujets et tâches d'examen réels, avec la possibilité d'accéder à ChatGPT pour la pratique de conversation IA et la correction de rédactions — essentiellement un tuteur IA gratuit.",
     "faq6q": "Comment demander un remboursement ?",
-    "faq6a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés trimestriels/annuels peuvent obtenir un remboursement proportionnel dans les 14 jours. Envoyez simplement un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
+    "faq6a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés annuels peuvent obtenir un remboursement proportionnel dans les 14 jours. Envoyez simplement un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
   }
 }

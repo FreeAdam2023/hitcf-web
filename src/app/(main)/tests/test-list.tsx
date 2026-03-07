@@ -289,7 +289,7 @@ export function TestList() {
         setWritingTopics(items);
         setTests([]);
       } else {
-        const size = (tab === "speaking" || tab === "writing") ? 500 : 100;
+        const size = (tab === "speaking" || tab === "writing") ? 1000 : 100;
         const items = await fetchAllPages(
           (p) => listTestSets({ type: tab, exam_type: etParam, ...p }), size,
         );
@@ -372,16 +372,6 @@ export function TestList() {
 
     if (tab === "listening" || tab === "reading") {
       return filtered.sort((a, b) => {
-        // 1. Free tests first
-        const aFree = a.code.includes("gratuit") ? 0 : 1;
-        const bFree = b.code.includes("gratuit") ? 0 : 1;
-        if (aFree !== bFree) return aFree - bFree;
-        // 2. inProgress → notStarted → completed
-        const statusOrder = { inProgress: 0, notStarted: 1, completed: 2 };
-        const aStatus = statusOrder[getTestStatus(a.id)];
-        const bStatus = statusOrder[getTestStatus(b.id)];
-        if (aStatus !== bStatus) return aStatus - bStatus;
-        // 3. By number ascending
         const aNum = parseInt(a.code.match(/\d+/)?.[0] || "999", 10);
         const bNum = parseInt(b.code.match(/\d+/)?.[0] || "999", 10);
         return aNum - bNum;
@@ -429,7 +419,7 @@ export function TestList() {
     if (filteredTests.length === 0) return <EmptyState title={t("tests.emptyTitle")} description={t("tests.emptyDescription")} />;
 
     const isSearching = search.trim().length > 0;
-    const showAll = expanded || isSearching;
+    const showAll = expanded || isSearching || statusFilter !== "all";
 
     const visible = showAll ? filteredTests : filteredTests.slice(0, INITIAL_SHOW);
     const hiddenCount = filteredTests.length - visible.length;

@@ -16,7 +16,17 @@ export function useSpeechSynthesis(voice = "fr-CA-SylvieNeural") {
   const playerRef = useRef<unknown>(null) as React.MutableRefObject<unknown>;
 
   const speak = useCallback(
-    async (text: string) => {
+    async (text: string, options?: { ssml?: boolean }) => {
+      // Stop any previous playback
+      try {
+        const prev = playerRef.current as { close?: () => void } | null;
+        if (prev?.close) prev.close();
+        const prevSynth = synthesizerRef.current as { close?: () => void } | null;
+        if (prevSynth?.close) prevSynth.close();
+      } catch { /* ignore cleanup errors */ }
+      synthesizerRef.current = null;
+      playerRef.current = null;
+
       setState({ isSpeaking: true, error: null });
 
       try {
@@ -37,29 +47,32 @@ export function useSpeechSynthesis(voice = "fr-CA-SylvieNeural") {
         synthesizerRef.current = synthesizer;
 
         await new Promise<void>((resolve, reject) => {
-          synthesizer.speakTextAsync(
-            text,
-            (result) => {
-              if (
-                result.reason === sdk.ResultReason.SynthesizingAudioCompleted
-              ) {
-                resolve();
-              } else {
-                reject(
-                  new Error(
-                    result.errorDetails || "Speech synthesis failed",
-                  ),
-                );
-              }
-              synthesizer.close();
-              synthesizerRef.current = null;
-            },
-            (err) => {
-              synthesizer.close();
-              synthesizerRef.current = null;
-              reject(err);
-            },
-          );
+          const onResult = (result: { reason: number; errorDetails?: string }) => {
+            if (
+              result.reason === sdk.ResultReason.SynthesizingAudioCompleted
+            ) {
+              resolve();
+            } else {
+              reject(
+                new Error(
+                  result.errorDetails || "Speech synthesis failed",
+                ),
+              );
+            }
+            synthesizer.close();
+            synthesizerRef.current = null;
+          };
+          const onError = (err: unknown) => {
+            synthesizer.close();
+            synthesizerRef.current = null;
+            reject(err);
+          };
+
+          if (options?.ssml) {
+            synthesizer.speakSsmlAsync(text, onResult, onError);
+          } else {
+            synthesizer.speakTextAsync(text, onResult, onError);
+          }
         });
 
         // Wait for audio to finish playing

@@ -64,11 +64,15 @@ export default function SpeakingConversationResultsPage() {
     );
   }
 
-  const tacheLabel = session.tache_type === 3 ? "Tâche 3" : "Tâche 2";
+  const tacheLabel = session.tache_type === 1 ? "Tâche 1" : session.tache_type === 3 ? "Tâche 3" : "Tâche 2";
   const durationMin = Math.floor(session.duration_seconds / 60);
   const durationSec = session.duration_seconds % 60;
 
   const handleRetry = () => {
+    if (session.tache_type === 1) {
+      router.push("/tests?tab=speaking");
+      return;
+    }
     router.push(
       `/speaking-conversation?testSetId=${session.test_set_id}&questionId=${session.question_id}`,
     );

@@ -500,8 +500,8 @@ export interface SceneBriefing {
 export interface SpeakingConversationResponse {
   id: string;
   user_id: string;
-  test_set_id: string;
-  question_id: string;
+  test_set_id: string | null;
+  question_id: string | null;
   tache_type: number;
   status: "pending" | "active" | "completed" | "abandoned";
   turns: ConversationTurnResponse[];
