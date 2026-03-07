@@ -120,9 +120,10 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
     if (!sentenceTranslation || !data?.senses?.length) return null;
     const trans = sentenceTranslation.toLowerCase();
     return data.senses.find((s) => {
+      const native = s.native?.toLowerCase();
       const zh = s.zh?.toLowerCase();
       const en = s.en?.toLowerCase();
-      return (zh && trans.includes(zh)) || (en && trans.includes(en));
+      return (native && trans.includes(native)) || (zh && trans.includes(zh)) || (en && trans.includes(en));
     }) ?? null;
   }, [sentenceTranslation, data?.senses]);
 
@@ -230,7 +231,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
                 <div className="rounded-md border border-primary/20 bg-primary/5 px-2.5 py-1.5 text-sm">
                   <span className="text-xs text-muted-foreground">{t("wordCard.inContext")}</span>{" "}
                   <span className="font-medium text-primary">
-                    {locale === "en" ? contextSense.en : contextSense.zh}
+                    {contextSense.native || contextSense.zh}
                   </span>
                   {locale !== "en" && contextSense.en && (
                     <span className="ml-1.5 text-xs text-muted-foreground">
@@ -245,7 +246,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
                 <div className="space-y-0.5">
                   {data.senses.map((s, i) => {
                     const isContext = contextSense && s.zh === contextSense.zh && s.en === contextSense.en;
-                    const native = locale === "en" ? s.en : s.zh;
+                    const native = s.native || (locale === "en" ? s.en : s.zh);
                     return (
                       <div key={i} className="flex items-baseline gap-1.5 text-sm">
                         <span className="text-xs text-muted-foreground">{i + 1}.</span>

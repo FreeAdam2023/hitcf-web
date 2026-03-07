@@ -699,7 +699,7 @@ export interface VocabularyCardData {
   /** Meaning in the user's requested locale */
   meaning_native: string | null;
   /** Polysemy: up to 4 common senses */
-  senses?: { zh: string; en: string }[];
+  senses?: { zh: string; en: string; native?: string }[];
   /** Which locale this response was serialized for */
   locale?: string;
   // Verb
