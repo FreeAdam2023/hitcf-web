@@ -880,7 +880,8 @@
       "totalAttempts": "الإجمالي",
       "avgScore": "متوسط النتيجة",
       "bestLevel": "أفضل مستوى",
-      "last30days": "آخر 30 يوماً"
+      "last30days": "آخر 30 يوماً",
+      "readiness": "جاهزية CLB 7"
     },
     "filter": {
       "all": "الكل"

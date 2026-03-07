@@ -880,7 +880,8 @@
       "totalAttempts": "Total",
       "avgScore": "Avg Score",
       "bestLevel": "Best Level",
-      "last30days": "Last 30 days"
+      "last30days": "Last 30 days",
+      "readiness": "CLB 7 Readiness"
     },
     "filter": {
       "all": "All"

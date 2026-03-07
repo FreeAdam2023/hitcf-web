@@ -38,6 +38,8 @@ import { useTranslations, useLocale } from "next-intl";
 import type { AttemptResponse, SpeakingAttemptResponse } from "@/lib/api/types";
 import { TYPE_COLORS, TYPE_KEYS } from "@/lib/constants";
 import { localizeTestName } from "@/lib/test-name";
+import { getStatsOverview, type StatsOverview } from "@/lib/api/stats";
+import { CLB7Readiness } from "@/components/dashboard/clb7-readiness";
 import { cn } from "@/lib/utils";
 
 // Unified history item type
@@ -182,51 +184,90 @@ function ProgressBar({
   );
 }
 
-function SummaryCard({ progress }: { progress: ProgressResponse | null }) {
+function SummaryTabs({ progress, stats }: { progress: ProgressResponse | null; stats: StatsOverview | null }) {
   const t = useTranslations();
+  const [activeTab, setActiveTab] = useState<"progress" | "readiness">("progress");
 
-  if (!progress) return null;
+  if (!progress && !stats) return null;
 
   return (
-    <div className="rounded-xl border bg-card p-4">
-      <div className="mb-4 flex items-center gap-2">
-        <TrendingUp className="h-4 w-4 text-primary" />
-        <span className="text-sm font-medium text-muted-foreground">
+    <div className="rounded-xl border bg-card overflow-hidden">
+      {/* Tab header */}
+      <div className="flex border-b">
+        <button
+          onClick={() => setActiveTab("progress")}
+          className={cn(
+            "flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors",
+            activeTab === "progress"
+              ? "border-b-2 border-primary text-primary"
+              : "text-muted-foreground hover:text-foreground",
+          )}
+        >
+          <TrendingUp className="h-3.5 w-3.5" />
           {t("history.summary.title")}
-        </span>
+        </button>
+        {stats && stats.total_attempts > 0 && (
+          <button
+            onClick={() => setActiveTab("readiness")}
+            className={cn(
+              "flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors",
+              activeTab === "readiness"
+                ? "border-b-2 border-primary text-primary"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            <Trophy className="h-3.5 w-3.5" />
+            {t("history.summary.readiness")}
+          </button>
+        )}
       </div>
-      <div className="space-y-3">
-        <ProgressBar
-          icon={Headphones}
-          label={t("common.types.listening")}
-          done={progress.listening.done}
-          total={progress.listening.total}
-          colorClass="bg-blue-500 text-blue-500"
-        />
-        <ProgressBar
-          icon={BookOpen}
-          label={t("common.types.reading")}
-          done={progress.reading.done}
-          total={progress.reading.total}
-          colorClass="bg-emerald-500 text-emerald-500"
-        />
-        <ProgressBar
-          icon={Mic}
-          label={t("common.types.speaking")}
-          sublabel={t("history.summary.last30days")}
-          done={progress.speaking.done}
-          total={progress.speaking.total}
-          colorClass="bg-amber-500 text-amber-500"
-        />
-        <ProgressBar
-          icon={PenLine}
-          label={t("common.types.writing")}
-          sublabel={t("history.summary.last30days")}
-          done={progress.writing.done}
-          total={progress.writing.total}
-          colorClass="bg-rose-500 text-rose-500"
-        />
-      </div>
+
+      {/* Tab content */}
+      {activeTab === "progress" && progress && (
+        <div className="p-4 space-y-3">
+          <ProgressBar
+            icon={Headphones}
+            label={t("common.types.listening")}
+            done={progress.listening.done}
+            total={progress.listening.total}
+            colorClass="bg-blue-500 text-blue-500"
+          />
+          <ProgressBar
+            icon={BookOpen}
+            label={t("common.types.reading")}
+            done={progress.reading.done}
+            total={progress.reading.total}
+            colorClass="bg-emerald-500 text-emerald-500"
+          />
+          <ProgressBar
+            icon={Mic}
+            label={t("common.types.speaking")}
+            sublabel={t("history.summary.last30days")}
+            done={progress.speaking.done}
+            total={progress.speaking.total}
+            colorClass="bg-amber-500 text-amber-500"
+          />
+          <ProgressBar
+            icon={PenLine}
+            label={t("common.types.writing")}
+            sublabel={t("history.summary.last30days")}
+            done={progress.writing.done}
+            total={progress.writing.total}
+            colorClass="bg-rose-500 text-rose-500"
+          />
+        </div>
+      )}
+
+      {activeTab === "readiness" && stats && stats.total_attempts > 0 && (
+        <div className="[&>div]:border-0 [&>div]:shadow-none [&>div]:rounded-none">
+          <CLB7Readiness
+            listeningAccuracy={stats.listening_accuracy}
+            readingAccuracy={stats.reading_accuracy}
+            totalAttempts={stats.total_attempts}
+            streakDays={stats.streak_days}
+          />
+        </div>
+      )}
     </div>
   );
 }
@@ -562,8 +603,11 @@ export function HistoryList() {
     fetchPage(1, typeFilter, true);
   }, [typeFilter, fetchPage]);
 
+  const [stats, setStats] = useState<StatsOverview | null>(null);
+
   useEffect(() => {
     getAttemptProgress().then(setProgress).catch(() => {});
+    getStatsOverview().then(setStats).catch(() => {});
   }, []);
 
   const handleTypeChange = (v: string) => {
@@ -610,7 +654,7 @@ export function HistoryList() {
         />
       ) : (
         <>
-          <SummaryCard progress={progress} />
+          <SummaryTabs progress={progress} stats={stats} />
 
           <TypeFilterChips value={typeFilter} onChange={handleTypeChange} />
 

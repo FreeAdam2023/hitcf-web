@@ -880,7 +880,8 @@
       "totalAttempts": "Total",
       "avgScore": "Score moyen",
       "bestLevel": "Meilleur niveau",
-      "last30days": "30 derniers jours"
+      "last30days": "30 derniers jours",
+      "readiness": "Préparation CLB 7"
     },
     "filter": {
       "all": "Tout"

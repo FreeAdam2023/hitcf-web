@@ -880,7 +880,8 @@
       "totalAttempts": "总练习",
       "avgScore": "平均得分",
       "bestLevel": "最佳等级",
-      "last30days": "近30天"
+      "last30days": "近30天",
+      "readiness": "CLB 7 准备度"
     },
     "filter": {
       "all": "全部"
