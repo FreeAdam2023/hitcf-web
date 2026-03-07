@@ -100,12 +100,16 @@ jobs:
     needs: [deploy]
     runs-on: ubuntu-latest
     steps:
-      - name: Set site URL
+      - name: Set site URL and expected API host
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "SITE_URL=https://www.hitcf.com" >> $GITHUB_ENV
+            echo "EXPECTED_API=api.hitcf.com" >> $GITHUB_ENV
+            echo "FORBIDDEN_API=api-dev.hitcf.com" >> $GITHUB_ENV
           else
             echo "SITE_URL=https://dev.hitcf.com" >> $GITHUB_ENV
+            echo "EXPECTED_API=api-dev.hitcf.com" >> $GITHUB_ENV
+            echo "FORBIDDEN_API=api.hitcf.com" >> $GITHUB_ENV
           fi
 
       - name: Wait for container startup
@@ -124,6 +128,24 @@ jobs:
           done
           echo "::error::Site health check failed after 5 attempts"
           exit 1
+
+      - name: Verify API proxies to correct backend
+        run: |
+          HEALTH_BODY=$(curl -s "$SITE_URL/api/health" --max-time 10 -L || echo "")
+          echo "API health response: $HEALTH_BODY"
+          if echo "$HEALTH_BODY" | grep -q '"status":"ok"'; then
+            echo "API health OK"
+          else
+            echo "::warning::API health check did not return ok (may need auth)"
+          fi
+
+          # Ensure no cross-environment contamination
+          PAGE_BODY=$(curl -s "$SITE_URL" --max-time 10 -L || echo "")
+          if echo "$PAGE_BODY" | grep -q "$FORBIDDEN_API"; then
+            echo "::error::CRITICAL: ${{ github.ref_name }} build references wrong backend ($FORBIDDEN_API)!"
+            exit 1
+          fi
+          echo "No cross-environment contamination detected"
 
   notify:
     needs: [lint, test, deploy, smoke-test]
