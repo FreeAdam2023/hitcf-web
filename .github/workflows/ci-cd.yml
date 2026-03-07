@@ -68,11 +68,26 @@ jobs:
             echo "ENV_TAG=prod" >> $GITHUB_ENV
             echo "WEBAPP_NAME=hitcf-web-prod" >> $GITHUB_ENV
             echo "BACKEND_URL=${{ secrets.BACKEND_URL_PROD }}" >> $GITHUB_ENV
+            echo "EXPECTED_HOST=api.hitcf.com" >> $GITHUB_ENV
           else
             echo "ENV_TAG=dev" >> $GITHUB_ENV
             echo "WEBAPP_NAME=hitcf-web-dev" >> $GITHUB_ENV
             echo "BACKEND_URL=${{ secrets.BACKEND_URL_DEV }}" >> $GITHUB_ENV
+            echo "EXPECTED_HOST=api-dev.hitcf.com" >> $GITHUB_ENV
           fi
+
+      - name: Validate BACKEND_URL matches environment
+        run: |
+          if [ -z "$BACKEND_URL" ]; then
+            echo "::error::BACKEND_URL is empty! Check GitHub secret BACKEND_URL_${{ github.ref_name == 'main' && 'PROD' || 'DEV' }}"
+            exit 1
+          fi
+          if ! echo "$BACKEND_URL" | grep -q "$EXPECTED_HOST"; then
+            echo "::error::BACKEND_URL ($BACKEND_URL) does not match expected host ($EXPECTED_HOST) for ${{ github.ref_name }} branch!"
+            echo "::error::This would cause cross-environment contamination. Aborting."
+            exit 1
+          fi
+          echo "BACKEND_URL validated: matches $EXPECTED_HOST for ${{ github.ref_name }}"
 
       - name: Log in to Azure Container Registry
         uses: azure/docker-login@v2
