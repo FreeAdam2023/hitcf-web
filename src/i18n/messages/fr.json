@@ -881,6 +881,9 @@
       "avgScore": "Score moyen",
       "bestLevel": "Meilleur niveau",
       "last30days": "30 derniers jours",
+      "doneQuestions": "{count} faites · {pct}%",
+      "done30dQuestions": "30j : {count} questions",
+      "done30dSets": "30j : {count} séries",
       "readiness": "Préparation CLB 7"
     },
     "filter": {
@@ -1197,6 +1200,7 @@
     "flashcard": {
       "empty": "Aucun mot enregistré pour l'instant. Allez vous entraîner et enregistrez des mots d'abord.",
       "emptyNihao": "Aucune donnée de vocabulaire. Essayez de sélectionner un niveau ou une leçon.",
+      "emptyTheme": "Aucune donnée de vocabulaire thématique. Essayez de sélectionner une catégorie ou un thème.",
       "tapToFlip": "Appuyez pour retourner",
       "showDict": "Dictionnaire",
       "hideDict": "Masquer le dictionnaire",
@@ -1263,6 +1267,7 @@
       "filterCategory": "Catégorie",
       "filterTag": "Thème",
       "filterAll": "Tous",
+      "startFlashcard": "Commencer la révision par flashcards",
       "emptyTitle": "Aucune donnée de vocabulaire pour l'instant",
       "emptyDesc": "Le vocabulaire thématique est en cours de génération"
     },

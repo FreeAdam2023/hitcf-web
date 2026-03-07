@@ -147,14 +147,14 @@ function groupByDate(items: HistoryItem[]) {
 function ProgressBar({
   icon: Icon,
   label,
-  sublabel,
+  detail,
   done,
   total,
   colorClass,
 }: {
   icon: React.ElementType;
   label: string;
-  sublabel?: string;
+  detail: string;
   done: number;
   total: number;
   colorClass: string;
@@ -166,12 +166,9 @@ function ProgressBar({
         <div className="flex items-center gap-2">
           <Icon className={cn("h-3.5 w-3.5", colorClass)} />
           <span className="text-sm font-medium">{label}</span>
-          {sublabel && (
-            <span className="text-[10px] text-muted-foreground">{sublabel}</span>
-          )}
         </div>
         <span className="text-xs font-medium tabular-nums text-muted-foreground">
-          {done}/{total}
+          {detail}
         </span>
       </div>
       <div className="h-2 overflow-hidden rounded-full bg-muted">
@@ -228,6 +225,7 @@ function SummaryTabs({ progress, stats }: { progress: ProgressResponse | null; s
           <ProgressBar
             icon={Headphones}
             label={t("common.types.listening")}
+            detail={t("history.summary.doneQuestions", { count: progress.listening.done, pct: progress.listening.total > 0 ? Math.round((progress.listening.done / progress.listening.total) * 100) : 0 })}
             done={progress.listening.done}
             total={progress.listening.total}
             colorClass="bg-blue-500 text-blue-500"
@@ -235,6 +233,7 @@ function SummaryTabs({ progress, stats }: { progress: ProgressResponse | null; s
           <ProgressBar
             icon={BookOpen}
             label={t("common.types.reading")}
+            detail={t("history.summary.doneQuestions", { count: progress.reading.done, pct: progress.reading.total > 0 ? Math.round((progress.reading.done / progress.reading.total) * 100) : 0 })}
             done={progress.reading.done}
             total={progress.reading.total}
             colorClass="bg-emerald-500 text-emerald-500"
@@ -242,7 +241,7 @@ function SummaryTabs({ progress, stats }: { progress: ProgressResponse | null; s
           <ProgressBar
             icon={Mic}
             label={t("common.types.speaking")}
-            sublabel={t("history.summary.last30days")}
+            detail={t("history.summary.done30dQuestions", { count: progress.speaking.done })}
             done={progress.speaking.done}
             total={progress.speaking.total}
             colorClass="bg-amber-500 text-amber-500"
@@ -250,7 +249,7 @@ function SummaryTabs({ progress, stats }: { progress: ProgressResponse | null; s
           <ProgressBar
             icon={PenLine}
             label={t("common.types.writing")}
-            sublabel={t("history.summary.last30days")}
+            detail={t("history.summary.done30dSets", { count: progress.writing.done })}
             done={progress.writing.done}
             total={progress.writing.total}
             colorClass="bg-rose-500 text-rose-500"

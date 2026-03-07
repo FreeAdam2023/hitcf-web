@@ -224,6 +224,21 @@ export async function startNihaoExport(
   return res.json();
 }
 
+export async function startThemeExport(
+  tag?: string,
+  tagCategory?: string,
+): Promise<{ job_id: string }> {
+  const params = new URLSearchParams();
+  if (tag) params.set("tag", tag);
+  if (tagCategory) params.set("tag_category", tagCategory);
+  const qs = params.toString();
+  const res = await fetch(`/api/vocab/theme/export/start${qs ? `?${qs}` : ""}`, {
+    method: "POST",
+  });
+  if (!res.ok) handleExportError(res);
+  return res.json();
+}
+
 export async function startSavedExport(
   sourceType?: string,
 ): Promise<{ job_id: string }> {
@@ -238,7 +253,7 @@ export async function startSavedExport(
 }
 
 export async function getExportStatus(
-  type: "nihao" | "saved",
+  type: "nihao" | "saved" | "theme",
   jobId: string,
 ): Promise<ExportStatus> {
   const res = await fetch(`/api/vocab/${type}/export/status/${jobId}`);
@@ -247,7 +262,7 @@ export async function getExportStatus(
 }
 
 export async function downloadExportFile(
-  type: "nihao" | "saved",
+  type: "nihao" | "saved" | "theme",
   jobId: string,
 ): Promise<void> {
   const res = await fetch(`/api/vocab/${type}/export/download/${jobId}`);

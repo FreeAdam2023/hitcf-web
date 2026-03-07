@@ -1,13 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Loader2, Volume2 } from "lucide-react";
+import { Layers, Loader2, PenLine, Volume2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { WordCard } from "@/components/practice/word-card";
+import { ExportDialog } from "@/components/vocabulary/export-dialog";
 import { listThemeWords, getThemeFilters, getThemeStats } from "@/lib/api/vocabulary";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
 import type { PaginatedResponse, ThemeWordItem, ThemeFilters, ThemeStats, ThemeTagInfo } from "@/lib/api/types";
@@ -74,6 +75,22 @@ export function ThemeWordsView() {
 
   const hasFilter = !!(category || tag);
 
+  const flashcardHref = useMemo(() => {
+    const params = new URLSearchParams();
+    if (category) params.set("tag_category", category);
+    if (tag) params.set("tag", tag);
+    const qs = params.toString();
+    return `/vocabulary/theme-words/flashcard${qs ? `?${qs}` : ""}`;
+  }, [category, tag]);
+
+  const dictationHref = useMemo(() => {
+    const params = new URLSearchParams();
+    if (category) params.set("tag_category", category);
+    if (tag) params.set("tag", tag);
+    const qs = params.toString();
+    return `/vocabulary/theme-words/dictation${qs ? `?${qs}` : ""}`;
+  }, [category, tag]);
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 space-y-6">
       {/* Hero */}
@@ -104,6 +121,29 @@ export function ThemeWordsView() {
             <span className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
               {t("vocabulary.themeWords.totalWords", { count: stats.total })}
             </span>
+          </div>
+        )}
+
+        {/* CTA row */}
+        {data && data.total > 0 && (
+          <div className="mt-4 flex items-center gap-2 flex-wrap">
+            <Link href={flashcardHref}>
+              <Button>
+                <Layers className="mr-1.5 h-4 w-4" />
+                {t("vocabulary.themeWords.startFlashcard")}
+              </Button>
+            </Link>
+            <ExportDialog
+              wordCount={data.total}
+              exportType="theme"
+              exportParams={{ tag, tag_category: category }}
+            />
+            <Link href={dictationHref}>
+              <Button variant="outline" size="sm">
+                <PenLine className="mr-1.5 h-4 w-4" />
+                {t("vocabulary.dictation.button")}
+              </Button>
+            </Link>
           </div>
         )}
       </div>

@@ -32,8 +32,7 @@ import { SpeakingTache1Guide } from "./speaking-tache1-guide";
 import { ContinueBanner } from "@/components/shared/continue-banner";
 import { RecommendedBanner } from "@/components/shared/recommended-banner";
 import { useAuthStore } from "@/stores/auth-store";
-import { usePracticeStore } from "@/stores/practice-store";
-import { getInProgressDrills, resumeSpeedDrill, abandonSpeedDrill, type InProgressAttempt } from "@/lib/api/speed-drill";
+import { getInProgressDrills, abandonSpeedDrill, type InProgressAttempt } from "@/lib/api/speed-drill";
 import { LevelPracticeDialog } from "./level-practice-dialog";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
@@ -172,7 +171,6 @@ export function TestList() {
   const t = useTranslations();
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const initPractice = usePracticeStore((s) => s.init);
   const [mockLoading, setMockLoading] = useState(false);
   const [mockDialogOpen, setMockDialogOpen] = useState(false);
   const [mockTypes, setMockTypes] = useState<Set<string>>(new Set(["listening", "reading"]));
@@ -229,9 +227,8 @@ export function TestList() {
   const handleResumeDrill = async (attemptId: string) => {
     setResumingId(attemptId);
     try {
-      const result = await resumeSpeedDrill(attemptId);
-      initPractice(result.attempt_id, result.questions);
-      router.push(`/practice/${result.attempt_id}`);
+      // Don't pre-init store — let practice page load with answers
+      router.push(`/practice/${attemptId}`);
     } catch {
       setResumingId(null);
     }

@@ -881,6 +881,9 @@
       "avgScore": "平均得分",
       "bestLevel": "最佳等级",
       "last30days": "近30天",
+      "doneQuestions": "已练 {count} 题 · {pct}%",
+      "done30dQuestions": "近30天 {count} 题",
+      "done30dSets": "近30天 {count} 套",
       "readiness": "CLB 7 准备度"
     },
     "filter": {
@@ -1197,6 +1200,7 @@
     "flashcard": {
       "empty": "暂无收藏词汇，请先去做题收藏一些生词",
       "emptyNihao": "暂无词汇数据，请选择一个级别或课号",
+      "emptyTheme": "暂无主题词汇数据，请选择一个分类或主题",
       "tapToFlip": "点击翻转",
       "showDict": "查看词典",
       "hideDict": "收起词典",
@@ -1263,6 +1267,7 @@
       "filterCategory": "分类",
       "filterTag": "主题",
       "filterAll": "全部",
+      "startFlashcard": "开始翻卡复习",
       "emptyTitle": "暂无词汇数据",
       "emptyDesc": "主题词汇池正在生成中，敬请期待"
     },

@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import {
   ExportLimitError,
   startNihaoExport,
+  startThemeExport,
   startSavedExport,
   getExportStatus,
   downloadExportFile,
@@ -23,7 +24,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-type ExportType = "nihao" | "saved";
+type ExportType = "nihao" | "saved" | "theme";
 
 interface ExportDialogProps {
   wordCount: number;
@@ -83,6 +84,12 @@ export function ExportDialog({ wordCount, exportType, exportParams }: ExportDial
           level as string | undefined,
           lesson != null ? Number(lesson) : undefined,
           theme as string | undefined,
+        );
+        jobId = res.job_id;
+      } else if (exportType === "theme") {
+        const res = await startThemeExport(
+          exportParams.tag as string | undefined,
+          exportParams.tag_category as string | undefined,
         );
         jobId = res.job_id;
       } else {

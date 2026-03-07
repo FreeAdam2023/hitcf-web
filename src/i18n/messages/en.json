@@ -881,6 +881,9 @@
       "avgScore": "Avg Score",
       "bestLevel": "Best Level",
       "last30days": "Last 30 days",
+      "doneQuestions": "{count} done · {pct}%",
+      "done30dQuestions": "30d: {count} questions",
+      "done30dSets": "30d: {count} sets",
       "readiness": "CLB 7 Readiness"
     },
     "filter": {
@@ -1197,6 +1200,7 @@
     "flashcard": {
       "empty": "No saved words yet. Go practice and save some words first.",
       "emptyNihao": "No vocabulary data. Try selecting a level or lesson.",
+      "emptyTheme": "No theme vocabulary data. Try selecting a category or theme.",
       "tapToFlip": "Tap to flip",
       "showDict": "Dictionary",
       "hideDict": "Hide dictionary",
@@ -1263,6 +1267,7 @@
       "filterCategory": "Category",
       "filterTag": "Theme",
       "filterAll": "All",
+      "startFlashcard": "Start Flashcard Review",
       "emptyTitle": "No vocabulary data yet",
       "emptyDesc": "Theme vocabulary is being generated, stay tuned"
     },

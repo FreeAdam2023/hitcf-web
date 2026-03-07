@@ -881,6 +881,9 @@
       "avgScore": "متوسط النتيجة",
       "bestLevel": "أفضل مستوى",
       "last30days": "آخر 30 يوماً",
+      "doneQuestions": "{count} سؤال · {pct}%",
+      "done30dQuestions": "30 يوم: {count} سؤال",
+      "done30dSets": "30 يوم: {count} مجموعة",
       "readiness": "جاهزية CLB 7"
     },
     "filter": {
@@ -1197,6 +1200,7 @@
     "flashcard": {
       "empty": "لا توجد كلمات محفوظة بعد. تدرّب واحفظ بعض الكلمات أولاً.",
       "emptyNihao": "لا توجد بيانات مفردات. جرّب اختيار مستوى أو درس.",
+      "emptyTheme": "لا توجد بيانات مفردات موضوعية. جرّب اختيار تصنيف أو موضوع.",
       "tapToFlip": "انقر للقلب",
       "showDict": "القاموس",
       "hideDict": "إخفاء القاموس",
@@ -1263,6 +1267,7 @@
       "filterCategory": "التصنيف",
       "filterTag": "الموضوع",
       "filterAll": "الكل",
+      "startFlashcard": "بدء مراجعة البطاقات",
       "emptyTitle": "لا توجد بيانات مفردات بعد",
       "emptyDesc": "مفردات الموضوع قيد التوليد، ترقبوا"
     },
