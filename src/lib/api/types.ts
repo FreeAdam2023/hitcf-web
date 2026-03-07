@@ -85,6 +85,9 @@ export interface QuestionBrief {
   transcript: string | null;
   passage: string | null;
   question_text: string | null;
+  question_text_zh?: string | null;
+  question_text_en?: string | null;
+  question_text_ar?: string | null;
   options: Option[];
   topic?: string | null;
   topic_zh?: string | null;

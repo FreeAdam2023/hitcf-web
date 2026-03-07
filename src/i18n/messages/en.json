@@ -520,7 +520,8 @@
     "distractorCount": "({count} items)",
     "expandHint": "Click to expand",
     "vocabulary": "Key Vocabulary",
-    "studyPoints": "Study Points"
+    "studyPoints": "Study Points",
+    "keyClue": "Key clue for the answer"
   },
   "wordCard": {
     "loading": "Loading...",

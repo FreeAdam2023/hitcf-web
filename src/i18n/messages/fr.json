@@ -520,7 +520,8 @@
     "distractorCount": "({count} éléments)",
     "expandHint": "Cliquez pour développer",
     "vocabulary": "Vocabulaire clé",
-    "studyPoints": "Points d'étude"
+    "studyPoints": "Points d'étude",
+    "keyClue": "Indice clé pour la réponse"
   },
   "wordCard": {
     "loading": "Chargement...",

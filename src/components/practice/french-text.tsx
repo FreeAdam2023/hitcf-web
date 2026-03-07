@@ -3,8 +3,44 @@
 import { useCallback, useState } from "react";
 import { WordCard } from "./word-card";
 
-/** Regex to tokenize French text preserving words with accents, apostrophes, hyphens */
-const WORD_RE = /([a-zA-ZÀ-ÿœŒæÆçÇ](?:[a-zA-ZÀ-ÿœŒæÆçÇ'-]*[a-zA-ZÀ-ÿœŒæÆçÇ])?)/g;
+/** Regex to tokenize French text preserving words with accents, apostrophes, hyphens, and numbers */
+const WORD_RE = /([a-zA-ZÀ-ÿœŒæÆçÇ](?:[a-zA-ZÀ-ÿœŒæÆçÇ'-]*[a-zA-ZÀ-ÿœŒæÆçÇ])?|\d+)/g;
+
+/** Convert a number (0–999999) to its French word form */
+function numberToFrench(n: number): string | null {
+  if (n < 0 || n > 999999 || !Number.isInteger(n)) return null;
+  const ones = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf",
+    "dix", "onze", "douze", "treize", "quatorze", "quinze", "seize"];
+  if (n === 0) return "zéro";
+  if (n <= 16) return ones[n];
+  if (n <= 19) return "dix-" + ones[n - 10];
+  if (n <= 69) {
+    const tens = ["", "", "vingt", "trente", "quarante", "cinquante", "soixante"];
+    const t = Math.floor(n / 10), r = n % 10;
+    if (r === 0) return tens[t];
+    if (r === 1) return tens[t] + " et un";
+    return tens[t] + "-" + ones[r];
+  }
+  if (n <= 79) {
+    const r = n - 60;
+    if (r === 0) return "soixante";
+    return "soixante-" + (r === 11 ? "et-onze" : numberToFrench(r));
+  }
+  if (n <= 99) {
+    if (n === 80) return "quatre-vingts";
+    return "quatre-vingt-" + numberToFrench(n - 80);
+  }
+  if (n <= 999) {
+    const h = Math.floor(n / 100), r = n % 100;
+    const prefix = h === 1 ? "cent" : ones[h] + " cent";
+    if (r === 0) return h === 1 ? "cent" : prefix + "s";
+    return prefix + " " + numberToFrench(r);
+  }
+  const th = Math.floor(n / 1000), r = n % 1000;
+  const prefix = th === 1 ? "mille" : numberToFrench(th) + " mille";
+  if (r === 0) return prefix;
+  return prefix + " " + numberToFrench(r);
+}
 
 export interface WordSaveContext {
   sourceType?: string;
@@ -46,8 +82,10 @@ export function FrenchText({ text, disabled, className, saveContext }: FrenchTex
       e.stopPropagation();
       // Strip leading/trailing apostrophes/hyphens
       const cleaned = word.replace(/^['-]+|['-]+$/g, "");
-      if (cleaned.length <= 1) return;
-      setSelectedWord(cleaned);
+      if (cleaned.length <= 1 && !/^\d$/.test(cleaned)) return;
+      // Convert digits to French number word
+      const lookup = /^\d+$/.test(cleaned) ? numberToFrench(parseInt(cleaned, 10)) ?? cleaned : cleaned;
+      setSelectedWord(lookup);
       setSelectedSentence(extractSentence(text, cleaned));
       setAnchorEl(e.currentTarget);
     },
@@ -85,7 +123,7 @@ export function FrenchText({ text, disabled, className, saveContext }: FrenchTex
   return (
     <span className={className}>
       {parts.map((part, i) =>
-        part.isWord && part.text.replace(/^['-]+|['-]+$/g, "").length > 1 ? (
+        part.isWord && (part.text.replace(/^['-]+|['-]+$/g, "").length > 1 || /^\d+$/.test(part.text)) ? (
           <span
             key={i}
             className="cursor-pointer rounded-sm transition-colors hover:bg-blue-100/70 hover:text-blue-700 dark:hover:bg-blue-900/30 dark:hover:text-blue-300"

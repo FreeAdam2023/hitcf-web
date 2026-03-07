@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ChevronDown, Loader2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import type { QuestionBrief } from "@/lib/api/types";
 import { AudioPlayer, type AudioPlayerHandle } from "./audio-player";
 import { getImageUrl } from "@/lib/api/media";
@@ -37,11 +37,17 @@ interface QuestionDisplayProps {
   audioRef?: React.Ref<AudioPlayerHandle>;
   /** Called with current playback time (seconds) on each audio timeupdate */
   onAudioTimeUpdate?: (time: number) => void;
+  /** Whether the current question has been answered (controls translation visibility) */
+  answered?: boolean;
 }
 
-export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate, answered }: QuestionDisplayProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const isListening = question.type === "listening";
+  const questionTranslation = locale === "zh" ? question.question_text_zh
+    : locale === "ar" ? question.question_text_ar
+    : locale === "en" ? question.question_text_en : null;
   // Listening A1/A2 questions (Q1-10) may have an associated image in Azure
   const mayHaveImage = isListening && question.question_number <= 10;
   const [showTranslation, setShowTranslation] = useState(false);
@@ -161,9 +167,16 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
       )}
 
       {question.question_text && !isListening && (
-        <p className="text-base font-medium">
-          <FrenchText text={question.question_text} disabled={vocabDisabled} saveContext={saveContext} />
-        </p>
+        <div>
+          <p className="text-base font-medium">
+            <FrenchText text={question.question_text} disabled={vocabDisabled} saveContext={saveContext} />
+          </p>
+          {answered && questionTranslation && (
+            <p className="mt-1 text-sm text-muted-foreground animate-in fade-in slide-in-from-top-1 duration-200">
+              {questionTranslation}
+            </p>
+          )}
+        </div>
       )}
     </div>
   );

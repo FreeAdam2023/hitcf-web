@@ -520,7 +520,8 @@
     "distractorCount": "({count} عناصر)",
     "expandHint": "اضغط للتوسيع",
     "vocabulary": "المفردات",
-    "studyPoints": "نقاط الدراسة"
+    "studyPoints": "نقاط الدراسة",
+    "keyClue": "دليل رئيسي للإجابة"
   },
   "wordCard": {
     "loading": "جارٍ التحميل...",

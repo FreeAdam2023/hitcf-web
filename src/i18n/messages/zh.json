@@ -520,7 +520,8 @@
     "distractorCount": "({count}项)",
     "expandHint": "点击展开",
     "vocabulary": "重点词汇",
-    "studyPoints": "学习要点"
+    "studyPoints": "学习要点",
+    "keyClue": "解题关键线索"
   },
   "wordCard": {
     "loading": "加载中...",

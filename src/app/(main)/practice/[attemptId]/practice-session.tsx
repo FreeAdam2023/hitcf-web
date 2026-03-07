@@ -209,7 +209,7 @@ function TranscriptBlock({
                     <p className="font-medium leading-relaxed text-foreground">
                       {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                       <FrenchText text={s.fr} saveContext={saveContext} />
-                      {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400">★</span>}
+                      {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400" title={t("practice.explanation.keyClue")}>★</span>}
                     </p>
                     {locale === "zh" && showEn && s.en && (
                       <p className={`leading-relaxed text-blue-600 dark:text-blue-400${clickable ? " pl-4" : ""}`}>
@@ -573,6 +573,7 @@ export function PracticeSession() {
               saveContext={saveContext}
               audioRef={audioPlayerRef}
               onAudioTimeUpdate={setAudioTime}
+              answered={!!currentAnswer}
             />
           </div>
           <Button
