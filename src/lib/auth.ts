@@ -2,6 +2,7 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import jwt from "jsonwebtoken";
+import { headers as getHeaders, cookies as getCookies } from "next/headers";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8001";
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "dev-secret-change-in-production";
@@ -55,6 +56,23 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account }) {
       if (account?.provider === "google") {
         try {
+          // Extract tracking data from request context
+          let trackingData: Record<string, string> = {};
+          try {
+            const h = getHeaders();
+            const c = getCookies();
+            trackingData = {
+              signup_ip: h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "",
+              signup_user_agent: h.get("user-agent") || "",
+              signup_referer: h.get("referer") || "",
+              signup_utm_source: c.get("utm_source")?.value || "",
+              signup_utm_medium: c.get("utm_medium")?.value || "",
+              signup_utm_campaign: c.get("utm_campaign")?.value || "",
+            };
+          } catch {
+            // headers()/cookies() may fail outside route handler context
+          }
+
           const res = await fetch(
             `${BACKEND_URL}/api/google-auth/login-or-create`,
             {
@@ -67,6 +85,7 @@ export const authOptions: NextAuthOptions = {
                 google_id: account.providerAccountId,
                 email: user.email,
                 name: user.name,
+                ...trackingData,
               }),
             },
           );

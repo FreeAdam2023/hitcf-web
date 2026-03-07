@@ -1466,7 +1466,9 @@
       ],
       "freeValues": [
         "5 / day",
-        "Unlimited"
+        "Unlimited",
+        "20 lookups / 10 saves per day",
+        "3 / day"
       ]
     },
     "faq": {

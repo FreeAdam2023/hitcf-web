@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { Toaster } from "sonner";
 import { CommunityFab } from "@/components/layout/community-fab";
+import { UtmTracker } from "@/components/shared/utm-tracker";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -219,6 +220,7 @@ export default async function RootLayout({
             <LocaleProvider>
               {children}
               <CommunityFab />
+              <UtmTracker />
             </LocaleProvider>
           </AuthProvider>
           <Toaster richColors position="top-center" />

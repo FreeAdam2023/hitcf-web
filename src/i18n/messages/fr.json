@@ -1466,7 +1466,9 @@
       ],
       "freeValues": [
         "5 / jour",
-        "Illimité"
+        "Illimité",
+        "20 recherches / 10 favoris par jour",
+        "3 / jour"
       ]
     },
     "faq": {

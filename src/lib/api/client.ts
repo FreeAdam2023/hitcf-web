@@ -74,6 +74,26 @@ async function request<T>(
       throw new ApiError(403, body.detail || "Forbidden");
     }
 
+    if (res.status === 429) {
+      const body = await res.json().catch(() => ({ detail: "Too many requests" }));
+      const detail = body.detail;
+      // Quota exceeded — redirect to pricing page
+      if (
+        typeof detail === "object" &&
+        detail !== null &&
+        (detail.code === "QUESTION_QUOTA_EXCEEDED" || detail.code === "EXPLANATION_QUOTA_EXCEEDED") &&
+        typeof window !== "undefined"
+      ) {
+        window.location.href = "/pricing";
+        throw new ApiError(429, detail.message || "Daily question limit reached");
+      }
+      const message =
+        typeof detail === "string"
+          ? detail
+          : detail?.message || "Too many requests";
+      throw new ApiError(429, message);
+    }
+
     if (!res.ok) {
       const body = await res.json().catch(() => ({ detail: res.statusText }));
       throw new ApiError(res.status, body.detail || res.statusText);

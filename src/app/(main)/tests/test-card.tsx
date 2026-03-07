@@ -51,7 +51,7 @@ export function TestCard({
   const t = useTranslations();
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const locked = false; // All tests accessible; quota enforced at answer submission
+  const locked = false; // All listening/reading tests accessible; quota enforced at answer submission
 
   const [open, setOpen] = useState(false);
   const [starting, setStarting] = useState(false);
