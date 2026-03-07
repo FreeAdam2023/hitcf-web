@@ -46,7 +46,7 @@ const COMPARISON_FREE: (boolean | number)[] = [
   0, 0, false, false, 1, true, true, true, true, true,
 ];
 
-const FAQ_COUNT = 6;
+const FAQ_COUNT = 7;
 
 /* ------------------------------------------------------------------ */
 /*  Component                                                          */

@@ -235,7 +235,7 @@
     "writingTestName": "Writing Test {num}",
     "pageTitle": "Tests",
     "pageSubtitle": "TCF Canada listening, reading, speaking & writing practice",
-    "statsListening": "44 listening sets",
+    "statsListening": "42 listening sets",
     "statsReading": "44 reading sets",
     "statsSpeaking": "696 speaking topics",
     "statsWriting": "515 writing sets",
@@ -1454,12 +1454,12 @@
       "pro": "Pro",
       "rows": [
         "Listening + Reading (8,500+ questions)",
-        "AI Answer Analysis + Sentence Translation",
+        "AI Analysis + Translation + Grammar Breakdown",
         "Writing AI Scoring + Corrections",
         "Speaking AI Conversation + Pronunciation",
         "Exam Mode + Speed Drill",
         "Wrong Answer Review + Targeted Practice",
-        "Vocabulary + Flashcards + Dictation",
+        "Vocabulary + Flashcards + Dictation + Collocations",
         "CLB Level Estimate + Dashboard",
         "Anki Export + Textbook Word Pools",
         "Practice History + Stats"
@@ -1473,12 +1473,16 @@
       "title": "FAQ",
       "items": [
         {
+          "q": "What's the difference between monthly and yearly?",
+          "a": "Monthly is a recurring subscription with a 7-day free trial for new users — cancel anytime. Yearly is a one-time payment of US$99.90, effective immediately for one year, with no auto-renewal."
+        },
+        {
           "q": "Do I need a credit card for the free trial?",
-          "a": "Yes. After securely linking your card via Stripe, your 7-day free trial begins. Cancel anytime during the trial — you won't be charged."
+          "a": "For the monthly plan, yes — securely linked via Stripe. Cancel within 7 days and you won't be charged. The yearly plan is a one-time payment, no card-on-file subscription."
         },
         {
           "q": "Can I cancel anytime?",
-          "a": "Yes. Click \"Manage Subscription\" on the pricing page to access the Stripe customer portal and cancel with one click — no need to contact support. Your Pro access remains active until the end of the current billing cycle."
+          "a": "Monthly subscribers can cancel anytime via the Stripe customer portal (click \"Manage Subscription\" on the pricing page). Pro access remains until the end of the billing cycle. Yearly users don't need to cancel — there's no auto-renewal."
         },
         {
           "q": "What payment methods are supported?",
@@ -1786,7 +1790,7 @@
     "features": [
       {
         "title": "Listening",
-        "desc": "44 listening test sets with 1,700+ questions, original audio + sentence-by-sentence replay"
+        "desc": "42 listening test sets with 1,600+ questions, original audio + sentence-by-sentence replay"
       },
       {
         "title": "Reading",
@@ -1804,7 +1808,7 @@
     "stats": [
       "questions",
       "test sets",
-      "listening sets with audio",
+      "listening + reading sets",
       "CLB 7 threshold accuracy"
     ],
     "featuresBadge": "Four Sections",
@@ -1831,12 +1835,16 @@
       {
         "title": "Flashcard & Dictation Review",
         "desc": "Saved words become flashcards and dictation drills automatically. Spaced review turns recognition into retention."
+      },
+      {
+        "title": "Sentence Grammar · Grammar Cards",
+        "desc": "Tap any sentence for an AI grammar breakdown: structure, tense, collocations, and grammar points with quick-reference cards. Save collocations to your vocab pool."
       }
     ],
     "banks": [
       {
         "label": "Listening + Reading",
-        "sub": "44 test sets · A1–C2 all levels"
+        "sub": "86 test sets · A1–C2 all levels"
       },
       {
         "label": "Speaking Topics",

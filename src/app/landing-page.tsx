@@ -50,7 +50,7 @@ const FEATURE_META = [
 const STAT_META = [
   { value: "8,500+", color: "text-blue-600 dark:text-blue-400" },
   { value: "1,200+", color: "text-emerald-600 dark:text-emerald-400" },
-  { value: "44", color: "text-amber-600 dark:text-amber-400" },
+  { value: "86", color: "text-amber-600 dark:text-amber-400" },
   { value: "78%", color: "text-purple-600 dark:text-purple-400" },
 ];
 
@@ -175,50 +175,8 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ── Features ── */}
-      <section className="py-20 sm:py-28">
-        <div className="mx-auto max-w-5xl px-4">
-          <div className="text-center">
-            <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5 text-primary">
-              {t("landing.featuresBadge")}
-            </Badge>
-            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-              {t("landing.featuresTitle")}
-            </h2>
-            <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
-              {t("landing.featuresSubtitle")}
-            </p>
-          </div>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2">
-            {FEATURE_META.map((f, i) => {
-              const title = t(`landing.features.${i}.title`);
-              const desc = t(`landing.features.${i}.desc`);
-              return (
-                <Card
-                  key={i}
-                  className={`group relative overflow-hidden border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${f.borderColor} animate-fade-in-up-d${i + 1}`}
-                >
-                  <div className={`h-1 bg-gradient-to-r ${f.color}`} />
-                  <CardContent className="flex gap-4 pt-6">
-                    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${f.iconBg} transition-transform duration-300 group-hover:scale-110`}>
-                      <f.icon className={`h-6 w-6 ${f.iconColor}`} />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold">{title}</h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                        {desc}
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* ── Feature Showcase (carousel) ── */}
-      <section className="border-y border-border/40 bg-card py-20 sm:py-28">
+      <section className="py-20 sm:py-28">
         <div className="mx-auto max-w-5xl px-4">
           <div className="text-center mb-14">
             <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5 text-primary">
@@ -317,6 +275,53 @@ export function LandingPage() {
                   </div>
                 </div>
               </CarouselItem>
+
+              {/* Slide 4 — Grammar analysis */}
+              <CarouselItem>
+                <div className="flex flex-col items-center gap-8 px-2 lg:flex-row lg:gap-12 lg:min-h-[400px]">
+                  <div className="flex-1 space-y-4 text-center lg:text-left">
+                    <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                      {t("landing.showcase.4.title")}
+                    </h3>
+                    <p className="text-lg leading-relaxed text-muted-foreground">
+                      {t("landing.showcase.4.desc")}
+                    </p>
+                  </div>
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="flex h-[340px] w-[320px] flex-col items-center justify-center gap-4 rounded-2xl bg-gradient-to-br from-primary/5 via-blue-50/50 to-purple-50/30 p-6 shadow-xl ring-1 ring-black/5 dark:from-primary/10 dark:via-blue-950/30 dark:to-purple-950/20">
+                      <svg viewBox="0 0 200 160" fill="none" aria-hidden="true" className="w-full max-w-[240px]">
+                        <rect x="20" y="10" width="160" height="24" rx="4" fill="hsl(var(--muted))" fillOpacity="0.15" stroke="hsl(var(--border))" strokeWidth="1" />
+                        <text x="30" y="26" fontSize="10" fill="hsl(var(--muted-foreground))">Le chat dort sur le canapé</text>
+                        <g>
+                          <rect x="20" y="48" width="32" height="18" rx="3" fill="hsl(221 83% 53% / 0.12)" />
+                          <text x="36" y="60" textAnchor="middle" fontSize="7" fontWeight="600" fill="hsl(221 83% 53%)">DET</text>
+                          <rect x="58" y="48" width="32" height="18" rx="3" fill="hsl(262 83% 58% / 0.12)" />
+                          <text x="74" y="60" textAnchor="middle" fontSize="7" fontWeight="600" fill="hsl(262 83% 58%)">NOM</text>
+                          <rect x="96" y="48" width="32" height="18" rx="3" fill="hsl(142 76% 36% / 0.12)" />
+                          <text x="112" y="60" textAnchor="middle" fontSize="7" fontWeight="600" fill="hsl(142 76% 36%)">VERB</text>
+                          <rect x="134" y="48" width="46" height="18" rx="3" fill="hsl(38 92% 50% / 0.12)" />
+                          <text x="157" y="60" textAnchor="middle" fontSize="7" fontWeight="600" fill="hsl(38 92% 50%)">PREP+NOM</text>
+                        </g>
+                        <line x1="36" y1="66" x2="36" y2="80" stroke="hsl(221 83% 53% / 0.4)" strokeWidth="1" />
+                        <line x1="74" y1="66" x2="74" y2="80" stroke="hsl(262 83% 58% / 0.4)" strokeWidth="1" />
+                        <line x1="112" y1="66" x2="112" y2="80" stroke="hsl(142 76% 36% / 0.4)" strokeWidth="1" />
+                        <line x1="157" y1="66" x2="157" y2="80" stroke="hsl(38 92% 50% / 0.4)" strokeWidth="1" />
+                        <text x="36" y="90" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))">Le</text>
+                        <text x="74" y="90" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))">chat</text>
+                        <text x="112" y="90" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))">dort</text>
+                        <text x="157" y="90" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))">sur le…</text>
+                        <rect x="20" y="105" width="160" height="44" rx="6" fill="hsl(var(--card))" stroke="hsl(var(--border))" strokeWidth="1" />
+                        <text x="30" y="120" fontSize="7" fontWeight="700" fill="hsl(var(--primary))">dormir</text>
+                        <text x="65" y="120" fontSize="6" fill="hsl(var(--muted-foreground))">v. intr. · présent · 3e sg.</text>
+                        <rect x="30" y="128" width="50" height="10" rx="2" fill="hsl(var(--primary) / 0.08)" />
+                        <text x="55" y="136" textAnchor="middle" fontSize="6" fill="hsl(var(--primary))">dormir sur</text>
+                        <rect x="86" y="128" width="14" height="10" rx="2" fill="hsl(142 76% 36% / 0.12)" />
+                        <text x="93" y="136" textAnchor="middle" fontSize="7" fill="hsl(142 76% 36%)">★</text>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </CarouselItem>
             </CarouselContent>
 
             <div className="mt-8 flex items-center justify-center gap-4">
@@ -327,8 +332,50 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ── Content Depth ── */}
+      {/* ── Features ── */}
       <section className="border-y border-border/40 bg-card py-20 sm:py-28">
+        <div className="mx-auto max-w-5xl px-4">
+          <div className="text-center">
+            <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5 text-primary">
+              {t("landing.featuresBadge")}
+            </Badge>
+            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+              {t("landing.featuresTitle")}
+            </h2>
+            <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
+              {t("landing.featuresSubtitle")}
+            </p>
+          </div>
+          <div className="mt-14 grid gap-6 sm:grid-cols-2">
+            {FEATURE_META.map((f, i) => {
+              const title = t(`landing.features.${i}.title`);
+              const desc = t(`landing.features.${i}.desc`);
+              return (
+                <Card
+                  key={i}
+                  className={`group relative overflow-hidden border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${f.borderColor} animate-fade-in-up-d${i + 1}`}
+                >
+                  <div className={`h-1 bg-gradient-to-r ${f.color}`} />
+                  <CardContent className="flex gap-4 pt-6">
+                    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${f.iconBg} transition-transform duration-300 group-hover:scale-110`}>
+                      <f.icon className={`h-6 w-6 ${f.iconColor}`} />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold">{title}</h3>
+                      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                        {desc}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Content Depth ── */}
+      <section className="py-20 sm:py-28">
         <div className="mx-auto max-w-4xl px-4">
           <div className="text-center">
             <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5 text-primary">

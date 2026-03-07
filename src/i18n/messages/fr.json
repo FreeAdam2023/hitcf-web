@@ -235,7 +235,7 @@
     "writingTestName": "Expression écrite {num}",
     "pageTitle": "Tests",
     "pageSubtitle": "Entraînement TCF Canada : compréhension orale, compréhension écrite, expression orale et expression écrite",
-    "statsListening": "44 séries de compréhension orale",
+    "statsListening": "42 séries de compréhension orale",
     "statsReading": "44 séries de compréhension écrite",
     "statsSpeaking": "696 sujets d'expression orale",
     "statsWriting": "515 séries d'expression écrite",
@@ -1454,12 +1454,12 @@
       "pro": "Pro",
       "rows": [
         "Compréhension orale + écrite (8 500+ questions)",
-        "Analyse IA des réponses + traduction phrase par phrase",
+        "Analyse IA des réponses + analyse grammaticale + traduction phrase par phrase",
         "Correction IA de l'expression écrite",
         "Conversation IA + évaluation de la prononciation",
         "Mode examen + entraînement rapide",
         "Cahier d'erreurs + révision ciblée",
-        "Vocabulaire + flashcards + dictée",
+        "Vocabulaire + collocations + flashcards + dictée",
         "Estimation CLB + tableau de bord",
         "Exportation Anki + pools de mots des manuels",
         "Historique d'entraînement + statistiques"
@@ -1473,12 +1473,16 @@
       "title": "FAQ",
       "items": [
         {
+          "q": "Quelle est la différence entre l'abonnement mensuel et annuel ?",
+          "a": "L'abonnement mensuel est récurrent avec 7 jours d'essai gratuit pour les nouveaux utilisateurs — annulez à tout moment. L'abonnement annuel est un paiement unique de 99,90 US$, effectif immédiatement pour un an, sans renouvellement automatique."
+        },
+        {
           "q": "Ai-je besoin d'une carte de crédit pour l'essai gratuit ?",
-          "a": "Oui. Après avoir lié votre carte en toute sécurité via Stripe, votre essai gratuit de 7 jours commence. Annulez à tout moment pendant l'essai — vous ne serez pas débité(e)."
+          "a": "Pour le forfait mensuel, oui — lié de manière sécurisée via Stripe. Annulez dans les 7 jours et vous ne serez pas facturé. Le forfait annuel est un paiement unique, sans abonnement par carte."
         },
         {
           "q": "Puis-je annuler à tout moment ?",
-          "a": "Oui. Cliquez sur « Gérer l'abonnement » sur la page de tarification pour accéder au portail client Stripe et annuler en un clic — pas besoin de contacter le support. Votre accès Pro reste actif jusqu'à la fin du cycle de facturation en cours."
+          "a": "Les abonnés mensuels peuvent annuler à tout moment via le portail client Stripe (cliquez sur « Gérer l'abonnement » sur la page de tarification). L'accès Pro est maintenu jusqu'à la fin du cycle de facturation. Les utilisateurs annuels n'ont pas besoin d'annuler — il n'y a pas de renouvellement automatique."
         },
         {
           "q": "Quels modes de paiement sont acceptés ?",
@@ -1786,7 +1790,7 @@
     "features": [
       {
         "title": "Compréhension orale",
-        "desc": "44 séries d'écoute avec plus de 1 700 questions, audio original + réécoute phrase par phrase"
+        "desc": "42 séries d'écoute avec plus de 1 600 questions, audio original + réécoute phrase par phrase"
       },
       {
         "title": "Compréhension écrite",
@@ -1804,7 +1808,7 @@
     "stats": [
       "questions",
       "séries de tests",
-      "séries d'écoute avec audio",
+      "séries écoute + lecture",
       "précision seuil NCLC 7"
     ],
     "featuresBadge": "Quatre épreuves",
@@ -1831,12 +1835,16 @@
       {
         "title": "Flashcards et dictée",
         "desc": "Vos mots sauvegardés deviennent automatiquement des flashcards et des exercices de dictée. La révision espacée transforme la reconnaissance en mémorisation."
+      },
+      {
+        "title": "Analyse grammaticale · Fiches de grammaire",
+        "desc": "Cliquez sur n'importe quelle phrase pour une analyse AI : structure, temps, collocations et points de grammaire avec fiches de référence rapide. Sauvegardez les collocations dans votre pool de vocabulaire."
       }
     ],
     "banks": [
       {
         "label": "Compréhension orale + écrite",
-        "sub": "44 séries de tests · tous les niveaux A1–C2"
+        "sub": "86 séries de tests · tous les niveaux A1–C2"
       },
       {
         "label": "Sujets d'expression orale",
