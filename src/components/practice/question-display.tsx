@@ -45,9 +45,14 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
   const t = useTranslations();
   const locale = useLocale();
   const isListening = question.type === "listening";
-  const questionTranslation = locale === "zh" ? question.question_text_zh
-    : locale === "ar" ? question.question_text_ar
-    : locale === "en" ? question.question_text_en : null;
+  // Primary + secondary translation based on locale (like transcript block)
+  const qZh = question.question_text_zh;
+  const qEn = question.question_text_en;
+  const qAr = question.question_text_ar;
+  const qTranslations = locale === "zh" ? [qZh, qEn]
+    : locale === "ar" ? [qAr, qEn]
+    : locale === "en" ? [qEn, qZh] : [];
+  const hasTranslation = qTranslations.some(Boolean);
   // Listening A1/A2 questions (Q1-10) may have an associated image in Azure
   const mayHaveImage = isListening && question.question_number <= 10;
   const [showTranslation, setShowTranslation] = useState(false);
@@ -166,15 +171,21 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
         </div>
       )}
 
-      {question.question_text && !isListening && (
+      {question.question_text && (
         <div>
-          <p className="text-base font-medium">
-            <FrenchText text={question.question_text} disabled={vocabDisabled} saveContext={saveContext} />
-          </p>
-          {answered && questionTranslation && (
-            <p className="mt-1 text-sm text-muted-foreground animate-in fade-in slide-in-from-top-1 duration-200">
-              {questionTranslation}
+          {!isListening && (
+            <p className="text-base font-medium">
+              <FrenchText text={question.question_text} disabled={vocabDisabled} saveContext={saveContext} />
             </p>
+          )}
+          {isListening && (
+            <p className="text-sm font-medium text-muted-foreground">{question.question_text}</p>
+          )}
+          {answered && hasTranslation && (
+            <div className="mt-1 space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-200">
+              {qTranslations[0] && <p className="text-sm text-muted-foreground">{qTranslations[0]}</p>}
+              {qTranslations[1] && <p className="text-xs text-muted-foreground/70">{qTranslations[1]}</p>}
+            </div>
           )}
         </div>
       )}
