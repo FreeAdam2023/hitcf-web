@@ -12,14 +12,27 @@ import {
   Trophy,
   TrendingUp,
   Loader2,
+  Trash2,
 } from "lucide-react";
 import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { EmptyState } from "@/components/shared/empty-state";
-import { listAttempts } from "@/lib/api/attempts";
-import { listSpeakingAttempts } from "@/lib/api/speaking-attempts";
+import { deleteAttempt, getAttemptProgress, listAttempts } from "@/lib/api/attempts";
+import type { ProgressResponse } from "@/lib/api/attempts";
+import { deleteSpeakingAttempt, listSpeakingAttempts } from "@/lib/api/speaking-attempts";
 import { estimateTcfLevelFromRatio } from "@/lib/tcf-levels";
 import { useTranslations, useLocale } from "next-intl";
 import type { AttemptResponse, SpeakingAttemptResponse } from "@/lib/api/types";
@@ -87,10 +100,6 @@ const TYPE_ICONS: Record<string, React.ElementType> = {
   writing: PenLine,
 };
 
-const LEVEL_ORDER: Record<string, number> = {
-  C2: 0, C1: 1, B2: 2, B1: 3, A2: 4, A1: 5,
-};
-
 const PAGE_SIZE = 20;
 
 function formatDate(dateStr: string, locale: string): string {
@@ -133,58 +142,90 @@ function groupByDate(items: HistoryItem[]) {
   return { today, thisWeek, earlier };
 }
 
-function SummaryCard({ items, total }: { items: HistoryItem[]; total: number }) {
-  const t = useTranslations();
-  const completed = items.filter(
-    (a) => a.status === "completed" && a._source === "attempt" && a.score != null && a.total > 0,
+function ProgressBar({
+  icon: Icon,
+  label,
+  sublabel,
+  done,
+  total,
+  colorClass,
+}: {
+  icon: React.ElementType;
+  label: string;
+  sublabel?: string;
+  done: number;
+  total: number;
+  colorClass: string;
+}) {
+  const pct = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Icon className={cn("h-3.5 w-3.5", colorClass)} />
+          <span className="text-sm font-medium">{label}</span>
+          {sublabel && (
+            <span className="text-[10px] text-muted-foreground">{sublabel}</span>
+          )}
+        </div>
+        <span className="text-xs font-medium tabular-nums text-muted-foreground">
+          {done}/{total}
+        </span>
+      </div>
+      <div className="h-2 overflow-hidden rounded-full bg-muted">
+        <div
+          className={cn("h-full rounded-full transition-all", colorClass)}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
   );
-  const avgPct =
-    completed.length > 0
-      ? Math.round(
-          completed.reduce((sum, a) => sum + (a.score! / a.total) * 100, 0) /
-            completed.length,
-        )
-      : null;
-  const bestLevel =
-    completed.length > 0
-      ? completed
-          .map((a) => estimateTcfLevelFromRatio(a.score!, a.total))
-          .sort(
-            (a, b) => (LEVEL_ORDER[a.level] ?? 9) - (LEVEL_ORDER[b.level] ?? 9),
-          )[0]
-      : null;
+}
+
+function SummaryCard({ progress }: { progress: ProgressResponse | null }) {
+  const t = useTranslations();
+
+  if (!progress) return null;
 
   return (
     <div className="rounded-xl border bg-card p-4">
-      <div className="mb-3 flex items-center gap-2">
+      <div className="mb-4 flex items-center gap-2">
         <TrendingUp className="h-4 w-4 text-primary" />
         <span className="text-sm font-medium text-muted-foreground">
           {t("history.summary.title")}
         </span>
       </div>
-      <div className="grid grid-cols-3 divide-x text-center">
-        <div className="px-2">
-          <div className="text-2xl font-bold">{total}</div>
-          <div className="mt-0.5 text-xs text-muted-foreground">
-            {t("history.summary.totalAttempts")}
-          </div>
-        </div>
-        <div className="px-2">
-          <div className="text-2xl font-bold">
-            {avgPct != null ? `${avgPct}%` : "—"}
-          </div>
-          <div className="mt-0.5 text-xs text-muted-foreground">
-            {t("history.summary.avgScore")}
-          </div>
-        </div>
-        <div className="px-2">
-          <div className={cn("text-2xl font-bold", bestLevel?.color)}>
-            {bestLevel?.level ?? "—"}
-          </div>
-          <div className="mt-0.5 text-xs text-muted-foreground">
-            {t("history.summary.bestLevel")}
-          </div>
-        </div>
+      <div className="space-y-3">
+        <ProgressBar
+          icon={Headphones}
+          label={t("common.types.listening")}
+          done={progress.listening.done}
+          total={progress.listening.total}
+          colorClass="bg-blue-500 text-blue-500"
+        />
+        <ProgressBar
+          icon={BookOpen}
+          label={t("common.types.reading")}
+          done={progress.reading.done}
+          total={progress.reading.total}
+          colorClass="bg-emerald-500 text-emerald-500"
+        />
+        <ProgressBar
+          icon={Mic}
+          label={t("common.types.speaking")}
+          sublabel={t("history.summary.last30days")}
+          done={progress.speaking.done}
+          total={progress.speaking.total}
+          colorClass="bg-amber-500 text-amber-500"
+        />
+        <ProgressBar
+          icon={PenLine}
+          label={t("common.types.writing")}
+          sublabel={t("history.summary.last30days")}
+          done={progress.writing.done}
+          total={progress.writing.total}
+          colorClass="bg-rose-500 text-rose-500"
+        />
       </div>
     </div>
   );
@@ -235,7 +276,7 @@ function TypeFilterChips({
   );
 }
 
-function DateGroup({ label, items }: { label: string; items: HistoryItem[] }) {
+function DateGroup({ label, items, onDelete }: { label: string; items: HistoryItem[]; onDelete: (item: HistoryItem) => void }) {
   if (items.length === 0) return null;
   return (
     <div className="space-y-2">
@@ -243,16 +284,17 @@ function DateGroup({ label, items }: { label: string; items: HistoryItem[] }) {
         {label}
       </h3>
       {items.map((a) => (
-        <HistoryCard key={`${a._source}-${a.id}`} item={a} />
+        <HistoryCard key={`${a._source}-${a.id}`} item={a} onDelete={onDelete} />
       ))}
     </div>
   );
 }
 
-function HistoryCard({ item }: { item: HistoryItem }) {
+function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: HistoryItem) => void }) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
+  const [deleting, setDeleting] = useState(false);
   const isCompleted = item.status === "completed";
   const isSpeaking = item._source === "speaking";
 
@@ -368,7 +410,7 @@ function HistoryCard({ item }: { item: HistoryItem }) {
         )}
       </div>
 
-      {/* Level badge + arrow */}
+      {/* Level badge + delete + arrow */}
       <div className="flex items-center gap-2">
         {tcf && (
           <span
@@ -381,6 +423,49 @@ function HistoryCard({ item }: { item: HistoryItem }) {
             {tcf.level}
           </span>
         )}
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <button
+              onClick={(e) => e.stopPropagation()}
+              className="rounded-md p-1.5 text-muted-foreground/50 opacity-0 transition-all hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
+              aria-label={t("history.deleteConfirm")}
+            >
+              <Trash2 className="h-4 w-4" />
+            </button>
+          </AlertDialogTrigger>
+          <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{t("history.deleteConfirmTitle")}</AlertDialogTitle>
+              <AlertDialogDescription>{t("history.deleteConfirmDescription")}</AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>{t("history.deleteCancel")}</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                disabled={deleting}
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  setDeleting(true);
+                  try {
+                    if (isSpeaking) {
+                      await deleteSpeakingAttempt(item.id);
+                    } else {
+                      await deleteAttempt(item.id);
+                    }
+                    onDelete(item);
+                  } catch {
+                    alert(t("history.deleteFailed"));
+                  } finally {
+                    setDeleting(false);
+                  }
+                }}
+              >
+                {deleting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                {t("history.deleteConfirm")}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         <ChevronRight className="h-4 w-4 text-muted-foreground/50 transition-transform group-hover:translate-x-0.5" />
       </div>
     </div>
@@ -395,6 +480,7 @@ export function HistoryList() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
   const [typeFilter, setTypeFilter] = useState("all");
+  const [progress, setProgress] = useState<ProgressResponse | null>(null);
 
   const hasMore = allItems.length < total;
 
@@ -472,6 +558,10 @@ export function HistoryList() {
     fetchPage(1, typeFilter, true);
   }, [typeFilter, fetchPage]);
 
+  useEffect(() => {
+    getAttemptProgress().then(setProgress).catch(() => {});
+  }, []);
+
   const handleTypeChange = (v: string) => {
     setTypeFilter(v);
   };
@@ -481,6 +571,11 @@ export function HistoryList() {
     setPage(nextPage);
     fetchPage(nextPage, typeFilter, false);
   };
+
+  const handleDelete = useCallback((item: HistoryItem) => {
+    setAllItems((prev) => prev.filter((a) => !(a.id === item.id && a._source === item._source)));
+    setTotal((prev) => Math.max(0, prev - 1));
+  }, []);
 
   const grouped = groupByDate(allItems);
 
@@ -511,19 +606,21 @@ export function HistoryList() {
         />
       ) : (
         <>
-          <SummaryCard items={allItems} total={total} />
+          <SummaryCard progress={progress} />
 
           <TypeFilterChips value={typeFilter} onChange={handleTypeChange} />
 
           <div className="space-y-6">
-            <DateGroup label={t("history.groups.today")} items={grouped.today} />
+            <DateGroup label={t("history.groups.today")} items={grouped.today} onDelete={handleDelete} />
             <DateGroup
               label={t("history.groups.thisWeek")}
               items={grouped.thisWeek}
+              onDelete={handleDelete}
             />
             <DateGroup
               label={t("history.groups.earlier")}
               items={grouped.earlier}
+              onDelete={handleDelete}
             />
           </div>
 

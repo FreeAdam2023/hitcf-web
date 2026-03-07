@@ -35,7 +35,10 @@ export default function ExamPage() {
 
       if (attempt.is_mock_exam) {
         questions = await getMockExamQuestions(params.attemptId, { signal });
-        timeLimitSeconds = 25 * 60; // 25 minutes for mock listening
+        // Compute time limit from question types present
+        const hasListening = questions.some((q) => q.type === "listening");
+        const hasReading = questions.some((q) => q.type === "reading");
+        timeLimitSeconds = (hasListening ? 35 : 0) * 60 + (hasReading ? 60 : 0) * 60;
       } else {
         const testSet = await getTestSet(attempt.test_set_id, { signal });
         questions = await getTestSetQuestions(attempt.test_set_id, "exam", { signal });

@@ -291,6 +291,11 @@
     "showLess": "Réduire",
     "mockExam": "Examen blanc aléatoire",
     "mockExamDesc": "39 questions en 25 min, tirées au sort selon la répartition TCF",
+    "mockExamDialogDesc": "Sélectionnez les compétences à inclure, tirées au sort selon la répartition TCF",
+    "mockListeningInfo": "39 questions · 35 min · avec audio",
+    "mockReadingInfo": "39 questions · 60 min · compréhension écrite",
+    "mockExamStart": "Commencer l'examen",
+    "mockExamError": "Échec de la création de l'examen, veuillez réessayer",
     "filterAll": "Tout",
     "filterInProgress": "En cours",
     "filterCompleted": "Terminé",
@@ -874,7 +879,8 @@
       "title": "Ma progression",
       "totalAttempts": "Total",
       "avgScore": "Score moyen",
-      "bestLevel": "Meilleur niveau"
+      "bestLevel": "Meilleur niveau",
+      "last30days": "30 derniers jours"
     },
     "filter": {
       "all": "Tout"
@@ -883,7 +889,13 @@
       "today": "Aujourd'hui",
       "thisWeek": "Cette semaine",
       "earlier": "Précédemment"
-    }
+    },
+    "deleteConfirmTitle": "Supprimer cet enregistrement ?",
+    "deleteConfirmDescription": "Cette action est irréversible. Toutes les données de réponses associées seront également supprimées.",
+    "deleteCancel": "Annuler",
+    "deleteConfirm": "Supprimer",
+    "deleteSuccess": "Supprimé",
+    "deleteFailed": "Échec de la suppression, veuillez réessayer"
   },
   "payment": {
     "success": {
@@ -938,12 +950,6 @@
   "recommendedBanner": {
     "title": "Recommandé ensuite",
     "start": "Commencer"
-  },
-  "placementBanner": {
-    "title": "Testez votre niveau CLB",
-    "description": "Passez un test d'écoute gratuit et découvrez à quel point vous êtes proche du CLB 7",
-    "preparing": "Préparation...",
-    "startTest": "Passer le test"
   },
   "clb7Progress": {
     "reached": "Atteint",
@@ -1392,21 +1398,12 @@
         "valueDesc": "Moins de $0.70/jour pour 8 500+ questions couvrant les 4 sections",
         "savingsVsTutor": "97 % moins cher qu'un tuteur"
       },
-      "quarterly": {
-        "name": "Trimestriel",
-        "unit": "/ 3 mois",
-        "equiv": "≈ 13,30 $ US / mois",
-        "badge": "Économisez 33 %",
-        "trialLabel": "Essai gratuit de 14 jours",
-        "valueDesc": "Moins qu'un café par mois pour 8 500+ questions couvrant les 4 sections",
-        "savingsVsTutor": "98 % moins cher qu'un tuteur"
-      },
       "yearly": {
         "name": "Annuel",
         "unit": "/ an",
-        "equiv": "Inclut 2 mois gratuits, ≈ 8,33 $ US / mois",
+        "equiv": "≈ 8,33 $ US / mois, économisez 58 %",
         "badge": "Le plus populaire",
-        "trialLabel": "Essai gratuit de 2 mois",
+        "trialLabel": "Essai gratuit de 7 jours",
         "valueDesc": "Un café par mois pour l'entraînement + flashcards + dictée + exportation Anki",
         "savingsVsTutor": "99 % moins cher qu'un tuteur"
       }
@@ -1419,7 +1416,7 @@
     },
     "usdNote": "Tous les prix sont en USD · Annulez pendant l'essai sans frais",
     "trust": {
-      "trial": "Essai gratuit jusqu'à 2 mois",
+      "trial": "Essai gratuit de 7 jours",
       "stripe": "Paiements sécurisés via Stripe",
       "refund": "Garantie de remboursement sous 48 h",
       "cancel": "Annulez à tout moment en un clic"
@@ -1431,22 +1428,20 @@
       "free": "Gratuit",
       "pro": "Pro",
       "rows": [
-        "Compréhension orale (44 séries · 1 700+ questions · audio + réécoute par phrase)",
-        "Compréhension écrite (44 séries · 1 700+ questions)",
-        "Expression orale (696 séries · 3 500+ sujets)",
-        "Expression écrite (515 groupes · 1 500+ tâches)",
-        "Mode examen (chronométré + ordre aléatoire)",
+        "Compréhension orale + écrite (8 500+ questions)",
+        "Analyse IA des réponses + traduction phrase par phrase",
+        "Correction IA de l'expression écrite",
+        "Conversation IA + évaluation de la prononciation",
+        "Mode examen + entraînement rapide",
         "Cahier d'erreurs + révision ciblée",
-        "Entraînement rapide (par niveau / type de question)",
-        "Estimation du niveau CLB + analyse de préparation",
-        "Cahier de vocabulaire + flashcards + dictée",
+        "Vocabulaire + flashcards + dictée",
+        "Estimation CLB + tableau de bord",
         "Exportation Anki + pools de mots des manuels",
-        "Historique d'entraînement + tableau de bord statistique"
+        "Historique d'entraînement + statistiques"
       ],
       "freeValues": [
-        "Première série",
-        "2 premières séries",
-        "Basique"
+        "5 / jour",
+        "Illimité"
       ]
     },
     "faq": {
@@ -1454,7 +1449,7 @@
       "items": [
         {
           "q": "Ai-je besoin d'une carte de crédit pour l'essai gratuit ?",
-          "a": "Oui. Après avoir lié votre carte en toute sécurité via Stripe, votre essai gratuit commence (2 mois pour l'annuel, 14 jours pour le trimestriel, 7 jours pour le mensuel). Annulez à tout moment pendant l'essai — vous ne serez pas débité(e)."
+          "a": "Oui. Après avoir lié votre carte en toute sécurité via Stripe, votre essai gratuit de 7 jours commence. Annulez à tout moment pendant l'essai — vous ne serez pas débité(e)."
         },
         {
           "q": "Puis-je annuler à tout moment ?",
@@ -1474,7 +1469,7 @@
         },
         {
           "q": "Comment demander un remboursement ?",
-          "a": "Vous pouvez demander un remboursement intégral dans les 48 heures suivant votre premier paiement. Les abonnés trimestriels/annuels peuvent obtenir un remboursement au prorata dans les 14 jours. Envoyez simplement un e-mail à support@hitcf.com. Consultez notre politique de remboursement pour plus de détails."
+          "a": "Vous pouvez demander un remboursement intégral dans les 48 heures suivant votre premier paiement. Envoyez simplement un e-mail à support@hitcf.com. Consultez notre politique de remboursement pour plus de détails."
         }
       ]
     },

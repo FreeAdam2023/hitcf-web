@@ -65,6 +65,9 @@ export interface AudioSegment {
   start: number;
   end: number;
   sentence_index: number | null;
+  en?: string | null;
+  zh?: string | null;
+  ar?: string | null;
 }
 
 // Questions
@@ -86,6 +89,10 @@ export interface QuestionBrief {
   topic?: string | null;
   topic_zh?: string | null;
   audio_timestamps?: AudioSegment[] | null;
+  /** Source test set name (for cross-set practice like speed drill / mock exam) */
+  test_set_name?: string | null;
+  /** Original question number within its source test set */
+  original_question_number?: number | null;
 }
 
 export interface SentenceTranslation {
@@ -152,6 +159,7 @@ export interface WrongAnswerItem {
   question_type: "listening" | "reading" | null;
   level: string | null;
   question_text: string | null;
+  test_set_name: string | null;
 }
 
 // Attempts

@@ -2,12 +2,22 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
-import { listAttempts, createMockListeningExam } from "@/lib/api/attempts";
+import { listAttempts, createMockExam } from "@/lib/api/attempts";
 import { fetchAllPages } from "@/lib/api/fetch-all-pages";
 import type { TestSetItem, WritingTopicItem, AttemptResponse } from "@/lib/api/types";
 import type { TestAttemptInfo } from "./test-card";
@@ -21,8 +31,6 @@ import { WritingLevelCard } from "./writing-level-card";
 import { SpeakingTache1Guide } from "./speaking-tache1-guide";
 import { ContinueBanner } from "@/components/shared/continue-banner";
 import { RecommendedBanner } from "@/components/shared/recommended-banner";
-import { CLB7ProgressBar } from "@/components/shared/clb7-progress-bar";
-import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { useAuthStore } from "@/stores/auth-store";
 import { usePracticeStore } from "@/stores/practice-store";
 import { getInProgressDrills, resumeSpeedDrill, abandonSpeedDrill, type InProgressAttempt } from "@/lib/api/speed-drill";
@@ -166,14 +174,12 @@ export function TestList() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const initPractice = usePracticeStore((s) => s.init);
   const [mockLoading, setMockLoading] = useState(false);
+  const [mockDialogOpen, setMockDialogOpen] = useState(false);
+  const [mockTypes, setMockTypes] = useState<Set<string>>(new Set(["listening", "reading"]));
+  const [mockError, setMockError] = useState<string | null>(null);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
   const [drillInProgress, setDrillInProgress] = useState<InProgressAttempt[]>([]);
   const [resumingId, setResumingId] = useState<string | null>(null);
-  const canAccessPaid = useAuthStore((s) => {
-    if (s.isLoading) return true;
-    const status = s.user?.subscription?.status;
-    return status === "active" || status === "trialing" || s.user?.role === "admin";
-  });
   const [tab, setTab] = useState<TabType>("listening");
   const [expanded, setExpanded] = useState(false);
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
@@ -428,39 +434,6 @@ export function TestList() {
     const isSearching = search.trim().length > 0;
     const showAll = expanded || isSearching;
 
-    // Insert upgrade banner between free and locked tests
-    if (!canAccessPaid) {
-      const freeTests = filteredTests.filter((t) => t.is_free);
-      const paidTests = filteredTests.filter((t) => !t.is_free);
-      const visiblePaid = showAll ? paidTests : paidTests.slice(0, Math.max(0, INITIAL_SHOW - freeTests.length));
-      const hiddenCount = paidTests.length - visiblePaid.length;
-
-      if (freeTests.length > 0 && paidTests.length > 0) {
-        return (
-          <>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
-              {freeTests.map((t) => (
-                <TestCard key={t.id} test={t} attemptInfo={attemptMap.get(t.id)} />
-              ))}
-            </div>
-            <UpgradeBanner
-              className="my-6"
-              title={t("tests.unlockAll")}
-              description={t("tests.unlockDescription", { count: paidTests.length })}
-            />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
-              {visiblePaid.map((t) => (
-                <TestCard key={t.id} test={t} attemptInfo={attemptMap.get(t.id)} />
-              ))}
-            </div>
-            {hiddenCount > 0 && (
-              <ShowMoreButton count={hiddenCount} onClick={() => setExpanded(true)} />
-            )}
-          </>
-        );
-      }
-    }
-
     const visible = showAll ? filteredTests : filteredTests.slice(0, INITIAL_SHOW);
     const hiddenCount = filteredTests.length - visible.length;
 
@@ -632,7 +605,6 @@ export function TestList() {
         </div>
       </div>
       <ContinueBanner />
-      <CLB7ProgressBar />
       <Tabs value={tab} onValueChange={(v) => {
         const t = v as TabType;
         setTab(t);
@@ -655,6 +627,92 @@ export function TestList() {
             />
           </div>
         </div>
+
+        {/* Mock exam — independent of tabs */}
+        {isAuthenticated && (
+          <div className="mb-4 flex flex-wrap gap-3">
+            <Dialog open={mockDialogOpen} onOpenChange={(open) => { setMockDialogOpen(open); if (!open) setMockError(null); }}>
+              <DialogTrigger asChild>
+                <button
+                  className="inline-flex items-center gap-2 rounded-lg border-2 border-primary/20 bg-primary/5 px-5 py-2.5 text-sm font-semibold text-primary transition-all hover:border-primary/40 hover:bg-primary/10"
+                >
+                  <Shuffle className="h-4 w-4" />
+                  {t("tests.mockExam")}
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>{t("tests.mockExam")}</DialogTitle>
+                  <DialogDescription>{t("tests.mockExamDialogDesc")}</DialogDescription>
+                </DialogHeader>
+                <div className="space-y-3 py-2">
+                  <label className="flex items-center gap-3 rounded-lg border p-3 cursor-pointer hover:bg-accent/50 transition-colors">
+                    <Checkbox
+                      checked={mockTypes.has("listening")}
+                      onCheckedChange={(checked) => {
+                        setMockTypes((prev) => {
+                          const next = new Set(prev);
+                          if (checked) next.add("listening"); else next.delete("listening");
+                          return next;
+                        });
+                      }}
+                    />
+                    <Headphones className="h-4 w-4 text-blue-500" />
+                    <div>
+                      <div className="text-sm font-medium">{t("common.types.listening")}</div>
+                      <div className="text-xs text-muted-foreground">{t("tests.mockListeningInfo")}</div>
+                    </div>
+                  </label>
+                  <label className="flex items-center gap-3 rounded-lg border p-3 cursor-pointer hover:bg-accent/50 transition-colors">
+                    <Checkbox
+                      checked={mockTypes.has("reading")}
+                      onCheckedChange={(checked) => {
+                        setMockTypes((prev) => {
+                          const next = new Set(prev);
+                          if (checked) next.add("reading"); else next.delete("reading");
+                          return next;
+                        });
+                      }}
+                    />
+                    <BookOpen className="h-4 w-4 text-emerald-500" />
+                    <div>
+                      <div className="text-sm font-medium">{t("common.types.reading")}</div>
+                      <div className="text-xs text-muted-foreground">{t("tests.mockReadingInfo")}</div>
+                    </div>
+                  </label>
+                </div>
+                {mockError && (
+                  <p className="text-sm text-destructive">{mockError}</p>
+                )}
+                <DialogFooter>
+                  <Button
+                    disabled={mockTypes.size === 0 || mockLoading}
+                    onClick={async () => {
+                      setMockLoading(true);
+                      setMockError(null);
+                      try {
+                        const result = await createMockExam(Array.from(mockTypes));
+                        setMockDialogOpen(false);
+                        router.push(`/exam/${result.id}`);
+                      } catch {
+                        setMockError(t("tests.mockExamError"));
+                      } finally {
+                        setMockLoading(false);
+                      }
+                    }}
+                  >
+                    {mockLoading ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Shuffle className="mr-2 h-4 w-4" />
+                    )}
+                    {t("tests.mockExamStart")}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
 
         <TabsList className="mb-1">
           <TabsTrigger value="listening">{t("common.types.listening")}</TabsTrigger>
@@ -725,9 +783,9 @@ export function TestList() {
             </div>
           )}
 
-          {/* Action buttons: level practice + mock exam */}
+          {/* Speed drill button (listening/reading only) */}
           {(tab === "listening" || tab === "reading") && isAuthenticated && (
-            <div className="mb-4 flex flex-wrap gap-3">
+            <div className="mb-4">
               <button
                 onClick={() => setLevelDialogOpen(true)}
                 className="inline-flex items-center gap-2 rounded-lg border-2 border-violet-500/20 bg-violet-500/5 px-5 py-2.5 text-sm font-semibold text-violet-600 transition-all hover:border-violet-500/40 hover:bg-violet-500/10 dark:text-violet-400"
@@ -735,28 +793,6 @@ export function TestList() {
                 <Layers className="h-4 w-4" />
                 {t("speedDrill.title")}
               </button>
-              {tab === "listening" && (
-                <button
-                  onClick={async () => {
-                    setMockLoading(true);
-                    try {
-                      const result = await createMockListeningExam();
-                      router.push(`/exam/${result.id}`);
-                    } catch {
-                      setMockLoading(false);
-                    }
-                  }}
-                  disabled={mockLoading}
-                  className="inline-flex items-center gap-2 rounded-lg border-2 border-primary/20 bg-primary/5 px-5 py-2.5 text-sm font-semibold text-primary transition-all hover:border-primary/40 hover:bg-primary/10 disabled:opacity-50"
-                >
-                  {mockLoading ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <Shuffle className="h-4 w-4" />
-                  )}
-                  {t("tests.mockExam")}
-                </button>
-              )}
             </div>
           )}
 

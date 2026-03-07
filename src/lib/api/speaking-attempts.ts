@@ -1,4 +1,4 @@
-import { get, post, put } from "./client";
+import { del, get, post, put } from "./client";
 import type { RequestOptions } from "./client";
 import type { SpeakingAttemptResponse, PaginatedResponse } from "./types";
 
@@ -48,6 +48,13 @@ export function getSpeakingAttempt(
     `/api/speaking-attempts/${attemptId}`,
     options,
   );
+}
+
+export function deleteSpeakingAttempt(
+  attemptId: string,
+  options?: RequestOptions,
+): Promise<{ ok: boolean }> {
+  return del<{ ok: boolean }>(`/api/speaking-attempts/${attemptId}`, options);
 }
 
 export function listSpeakingAttempts(

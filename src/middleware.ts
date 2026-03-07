@@ -5,7 +5,6 @@ const PROTECTED_PREFIXES = [
   "/dashboard",
   "/wrong-answers",
   "/history",
-  "/speed-drill",
   "/practice/",
   "/exam/",
   "/results/",

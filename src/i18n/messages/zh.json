@@ -291,6 +291,11 @@
     "showLess": "收起",
     "mockExam": "随机模考",
     "mockExamDesc": "从 1600+ 题中按 TCF 等级配比随机组卷，39 题 25 分钟",
+    "mockExamDialogDesc": "选择要包含的技能，按 TCF 等级配比随机组卷",
+    "mockListeningInfo": "39 题 · 35 分钟 · 含音频",
+    "mockReadingInfo": "39 题 · 60 分钟 · 阅读理解",
+    "mockExamStart": "开始模考",
+    "mockExamError": "创建模考失败，请重试",
     "filterAll": "全部",
     "filterInProgress": "进行中",
     "filterCompleted": "已完成",
@@ -874,7 +879,8 @@
       "title": "我的进度",
       "totalAttempts": "总练习",
       "avgScore": "平均得分",
-      "bestLevel": "最佳等级"
+      "bestLevel": "最佳等级",
+      "last30days": "近30天"
     },
     "filter": {
       "all": "全部"
@@ -883,7 +889,13 @@
       "today": "今天",
       "thisWeek": "本周",
       "earlier": "更早"
-    }
+    },
+    "deleteConfirmTitle": "删除这条记录？",
+    "deleteConfirmDescription": "删除后无法恢复，相关答题数据也会一并删除。",
+    "deleteCancel": "取消",
+    "deleteConfirm": "删除",
+    "deleteSuccess": "已删除",
+    "deleteFailed": "删除失败，请重试"
   },
   "payment": {
     "success": {
@@ -938,12 +950,6 @@
   "recommendedBanner": {
     "title": "推荐下一步",
     "start": "开始"
-  },
-  "placementBanner": {
-    "title": "测一测你的 CLB 水平",
-    "description": "做一套免费听力真题，2 分钟后告诉你离 CLB 7 还差多远",
-    "preparing": "正在准备...",
-    "startTest": "立即测试"
   },
   "clb7Progress": {
     "reached": "达标",
@@ -1392,21 +1398,12 @@
         "valueDesc": "每天不到 7 毛钱，刷完四科 8,500 道题",
         "savingsVsTutor": "比请家教便宜 97%"
       },
-      "quarterly": {
-        "name": "季付",
-        "unit": "/ 3 个月",
-        "equiv": "≈ US$13.30 / 月",
-        "badge": "省 33%",
-        "trialLabel": "14 天免费试用",
-        "valueDesc": "每月一杯奶茶的钱，刷完四科 8,500 道题",
-        "savingsVsTutor": "比请家教便宜 98%"
-      },
       "yearly": {
         "name": "年付",
         "unit": "/ 年",
-        "equiv": "含 2 个月免费，≈ US$8.33 / 月",
+        "equiv": "≈ US$8.33 / 月，省 58%",
         "badge": "最受欢迎",
-        "trialLabel": "2 个月免费试用",
+        "trialLabel": "7 天免费试用",
         "valueDesc": "每月一杯咖啡的钱，刷题 + 翻卡 + 听写 + 导出 Anki",
         "savingsVsTutor": "比请家教便宜 99%"
       }
@@ -1419,7 +1416,7 @@
     },
     "usdNote": "所有价格均以美元（USD）计价 · 试用期内取消不收费",
     "trust": {
-      "trial": "最长 2 个月免费试用",
+      "trial": "7 天免费试用",
       "stripe": "Stripe 安全支付",
       "refund": "48h 无理由退款",
       "cancel": "随时一键取消"
@@ -1431,22 +1428,20 @@
       "free": "免费",
       "pro": "Pro",
       "rows": [
-        "听力题库（44 套 · 1,700+ 题 · 音频 + 逐句听）",
-        "阅读题库（44 套 · 1,700+ 题）",
-        "口语题库（696 套 · 3,500+ 个话题）",
-        "写作题库（515 组 · 1,500+ 个任务）",
-        "考试模式（限时 + 随机出题）",
+        "听力 + 阅读做题（8,500+ 道真题）",
+        "AI 答案解析 + 逐句翻译",
+        "写作 AI 评分 + 逐句纠错",
+        "口语 AI 对话 + 发音评估",
+        "考试模式 + 速练模式",
         "错题本 + 专项突破",
-        "速练模式（按等级 / 题型刷题）",
-        "CLB 等级估算 + 准备度分析",
-        "生词本 + 翻卡复习 + 听写模式",
+        "生词本 + 翻卡 + 听写",
+        "CLB 等级估算 + 仪表盘",
         "Anki 导出 + 教材词汇池",
-        "练习历史 + 统计仪表盘"
+        "练习历史 + 统计"
       ],
       "freeValues": [
-        "前 1 套",
-        "前 2 套",
-        "基础"
+        "每天 5 次",
+        "无限"
       ]
     },
     "faq": {
@@ -1454,7 +1449,7 @@
       "items": [
         {
           "q": "免费试用需要绑定信用卡吗？",
-          "a": "需要。通过 Stripe 安全绑定后开始免费试用（年付 2 个月，季付 14 天，月付 7 天）。试用期内随时取消，不会扣费。"
+          "a": "需要。通过 Stripe 安全绑定后开始 7 天免费试用。试用期内随时取消，不会扣费。"
         },
         {
           "q": "可以随时取消吗？",
@@ -1474,7 +1469,7 @@
         },
         {
           "q": "如何申请退款？",
-          "a": "首次付款后 48 小时内可申请全额退款；季付 / 年付用户 14 天内可按比例退款。发送邮件至 support@hitcf.com 即可。详见退款政策。"
+          "a": "首次付款后 48 小时内可申请全额退款。发送邮件至 support@hitcf.com 即可。详见退款政策。"
         }
       ]
     },

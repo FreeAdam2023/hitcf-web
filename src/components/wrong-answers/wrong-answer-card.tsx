@@ -89,6 +89,9 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
 
             <div className="min-w-0 flex-1 space-y-1.5">
               <div className="flex flex-wrap items-center gap-2">
+                {item.test_set_name && (
+                  <span className="text-xs text-muted-foreground">{item.test_set_name}</span>
+                )}
                 {item.question_number && (
                   <span className="text-sm font-medium">#{item.question_number}</span>
                 )}

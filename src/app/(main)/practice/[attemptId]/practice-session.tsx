@@ -115,8 +115,8 @@ function TranscriptBlock({
           )}
         </div>
         <div className="flex gap-1">
-          {/* EN bridge toggle — hidden for English-native users (bridge = native) */}
-          {locale !== "en" && (
+          {/* EN bridge toggle — only for Chinese users (FR+EN+ZH trilingual) */}
+          {locale === "zh" && (
             <button
               onClick={onToggleEn}
               className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
@@ -128,17 +128,19 @@ function TranscriptBlock({
               EN
             </button>
           )}
-          {/* Native toggle */}
-          <button
-            onClick={onToggleNative}
-            className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
-              showNative
-                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300"
-                : "bg-muted text-muted-foreground"
-            }`}
-          >
-            {locale === "en" ? "EN" : locale.toUpperCase()}
-          </button>
+          {/* Native toggle — hidden for French users (no translation needed) */}
+          {locale !== "fr" && (
+            <button
+              onClick={onToggleNative}
+              className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
+                showNative
+                  ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {locale === "en" ? "EN" : locale.toUpperCase()}
+            </button>
+          )}
         </div>
       </div>
 
@@ -161,12 +163,12 @@ function TranscriptBlock({
                     <p className="font-medium leading-relaxed text-foreground">
                       {key}. <FrenchText text={frText} saveContext={saveContext} />
                     </p>
-                    {locale !== "en" && showEn && s.en && (
+                    {locale === "zh" && showEn && s.en && (
                       <p className="pl-6 leading-relaxed text-blue-600 dark:text-blue-400">
                         {stripKeyPrefix(s.en, key)}
                       </p>
                     )}
-                    {showNative && nativeText && (
+                    {locale !== "fr" && showNative && nativeText && (
                       <p className="pl-6 leading-relaxed text-emerald-600 dark:text-emerald-400">
                         {stripKeyPrefix(nativeText, key)}
                       </p>
@@ -209,12 +211,12 @@ function TranscriptBlock({
                       <FrenchText text={s.fr} saveContext={saveContext} />
                       {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400">★</span>}
                     </p>
-                    {locale !== "en" && showEn && s.en && (
+                    {locale === "zh" && showEn && s.en && (
                       <p className={`leading-relaxed text-blue-600 dark:text-blue-400${clickable ? " pl-4" : ""}`}>
                         {s.en}
                       </p>
                     )}
-                    {showNative && nativeText && (
+                    {locale !== "fr" && showNative && nativeText && (
                       <p className={`leading-relaxed text-emerald-600 dark:text-emerald-400${clickable ? " pl-4" : ""}`}>
                         {nativeText}
                       </p>
@@ -226,7 +228,7 @@ function TranscriptBlock({
           );
         })()
       ) : audioTimestamps && audioTimestamps.length > 0 ? (
-        /* Whisper segments as clickable French sentences (no translations yet) */
+        /* Whisper segments as clickable French sentences with inline translations */
         <div className="space-y-2">
           {audioTimestamps.map((seg, i) => {
             const timeRange = sentenceTimeMap?.get(seg.sentence_index ?? i);
@@ -234,6 +236,7 @@ function TranscriptBlock({
               && currentAudioTime >= timeRange.start
               && currentAudioTime < timeRange.end;
             const clickable = !!timeRange && !!onSentenceClick;
+            const segNative = locale === "zh" ? seg.zh : locale === "ar" ? seg.ar : seg.en;
             return (
               <div
                 key={i}
@@ -256,6 +259,16 @@ function TranscriptBlock({
                   {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                   <FrenchText text={seg.text} saveContext={saveContext} />
                 </p>
+                {locale === "zh" && showEn && seg.en && (
+                  <p className={`leading-relaxed text-blue-600 dark:text-blue-400${clickable ? " pl-4" : ""}`}>
+                    {seg.en}
+                  </p>
+                )}
+                {locale !== "fr" && showNative && segNative && (
+                  <p className={`leading-relaxed text-emerald-600 dark:text-emerald-400${clickable ? " pl-4" : ""}`}>
+                    {segNative}
+                  </p>
+                )}
               </div>
             );
           })}
@@ -280,12 +293,12 @@ function TranscriptBlock({
                   <p className="font-medium text-foreground">
                     {opt.key.toUpperCase()}. {hasRealText && <FrenchText text={opt.text} saveContext={saveContext} />}
                   </p>
-                  {locale !== "en" && showEn && tr?.en && (
+                  {locale === "zh" && showEn && tr?.en && (
                     <p className="pl-6 text-blue-600 dark:text-blue-400">
                       {stripKeyPrefix(tr.en, opt.key)}
                     </p>
                   )}
-                  {showNative && optNative && (
+                  {locale !== "fr" && showNative && optNative && (
                     <p className="pl-6 text-emerald-600 dark:text-emerald-400">
                       {stripKeyPrefix(optNative, opt.key)}
                     </p>
@@ -398,10 +411,10 @@ export function PracticeSession() {
 
   // Prefetch explanation as soon as question loads (transcript translations + explanation ready before user answers)
   useEffect(() => {
-    if (question && !explanation && !explanationLoading) {
+    if (question && !explanation && !explanationLoading && !explanationError) {
       fetchExplanation(question.id);
     }
-  }, [question, explanation, explanationLoading, fetchExplanation]);
+  }, [question, explanation, explanationLoading, explanationError, fetchExplanation]);
 
   // In practice mode, clicking an option only sets the pending selection (does not submit)
   const handleSelect = useCallback((key: string) => {
@@ -673,7 +686,7 @@ export function PracticeSession() {
             <ExplanationPanel
               explanation={explanation}
               questionId={question.id}
-              defaultOpen={currentAnswer.is_correct === false}
+              defaultOpen={true}
               loading={explanationLoading}
               error={explanationError}
               onRetry={() => fetchExplanation(question.id)}
@@ -692,7 +705,7 @@ export function PracticeSession() {
             <ExplanationPanel
               explanation={explanation}
               questionId={question.id}
-              defaultOpen={currentAnswer.is_correct === false}
+              defaultOpen={true}
               loading={explanationLoading}
               error={explanationError}
               onRetry={() => fetchExplanation(question.id)}

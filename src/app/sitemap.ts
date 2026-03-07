@@ -36,12 +36,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
-    {
-      url: `${SITE_URL}/speed-drill`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
     // ── User dashboard pages ──
     {
       url: `${SITE_URL}/dashboard`,

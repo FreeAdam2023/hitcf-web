@@ -1,4 +1,4 @@
-import { get, post, put } from "./client";
+import { del, get, post, put } from "./client";
 import type { RequestOptions } from "./client";
 import type {
   ActiveAttemptResponse,
@@ -71,6 +71,13 @@ export function getAttemptReview(attemptId: string, options?: RequestOptions): P
 }
 
 // Mock exam
+export function createMockExam(
+  types: string[],
+  options?: RequestOptions,
+): Promise<{ id: string; mode: string; total: number; is_mock_exam: boolean; time_limit_minutes: number; started_at: string; types: string[] }> {
+  return post(`/api/mock-exam`, { types }, options);
+}
+
 export function createMockListeningExam(
   options?: RequestOptions,
 ): Promise<{ id: string; mode: string; total: number; is_mock_exam: boolean; time_limit_minutes: number; started_at: string }> {
@@ -82,6 +89,26 @@ export function getMockExamQuestions(
   options?: RequestOptions,
 ): Promise<QuestionBrief[]> {
   return get<QuestionBrief[]>(`/api/mock-exam/${attemptId}/questions`, options);
+}
+
+export interface ProgressResponse {
+  listening: { done: number; total: number };
+  reading: { done: number; total: number };
+  speaking: { done: number; total: number };
+  writing: { done: number; total: number };
+}
+
+export function getAttemptProgress(
+  options?: RequestOptions,
+): Promise<ProgressResponse> {
+  return get<ProgressResponse>("/api/attempts/progress", options);
+}
+
+export function deleteAttempt(
+  attemptId: string,
+  options?: RequestOptions,
+): Promise<{ ok: boolean }> {
+  return del<{ ok: boolean }>(`/api/attempts/${attemptId}`, options);
 }
 
 export function listAttempts(params?: {

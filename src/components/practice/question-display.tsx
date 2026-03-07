@@ -84,9 +84,19 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">
-          {t("common.questionCounter", { current: index + 1, total })}
-        </h2>
+        <div>
+          <h2 className="text-lg font-semibold">
+            {t("common.questionCounter", { current: index + 1, total })}
+          </h2>
+          {question.test_set_name && (
+            <p className="text-xs text-muted-foreground">
+              {question.test_set_name}
+              {question.original_question_number != null && (
+                <> · Q{question.original_question_number}</>
+              )}
+            </p>
+          )}
+        </div>
         <span className="flex items-center gap-2 text-sm text-muted-foreground">
           {isListening ? t("common.types.listening") : t("common.types.reading")}
           {question.level && <LevelBadge level={question.level} />}

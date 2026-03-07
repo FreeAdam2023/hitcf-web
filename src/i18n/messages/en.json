@@ -291,6 +291,11 @@
     "showLess": "Show less",
     "mockExam": "Random Mock Exam",
     "mockExamDesc": "39 questions in 25 min, randomly sampled by TCF level distribution",
+    "mockExamDialogDesc": "Select the skills to include, randomly sampled by TCF level distribution",
+    "mockListeningInfo": "39 questions · 35 min · with audio",
+    "mockReadingInfo": "39 questions · 60 min · reading comprehension",
+    "mockExamStart": "Start Mock Exam",
+    "mockExamError": "Failed to create mock exam, please try again",
     "filterAll": "All",
     "filterInProgress": "In Progress",
     "filterCompleted": "Completed",
@@ -874,7 +879,8 @@
       "title": "My Progress",
       "totalAttempts": "Total",
       "avgScore": "Avg Score",
-      "bestLevel": "Best Level"
+      "bestLevel": "Best Level",
+      "last30days": "Last 30 days"
     },
     "filter": {
       "all": "All"
@@ -883,7 +889,13 @@
       "today": "Today",
       "thisWeek": "This Week",
       "earlier": "Earlier"
-    }
+    },
+    "deleteConfirmTitle": "Delete this record?",
+    "deleteConfirmDescription": "This action cannot be undone. All associated answer data will also be deleted.",
+    "deleteCancel": "Cancel",
+    "deleteConfirm": "Delete",
+    "deleteSuccess": "Deleted",
+    "deleteFailed": "Failed to delete, please try again"
   },
   "payment": {
     "success": {
@@ -938,12 +950,6 @@
   "recommendedBanner": {
     "title": "Recommended Next",
     "start": "Start"
-  },
-  "placementBanner": {
-    "title": "Test your CLB level",
-    "description": "Take a free listening test and find out how close you are to CLB 7",
-    "preparing": "Preparing...",
-    "startTest": "Take the Test"
   },
   "clb7Progress": {
     "reached": "Reached",
@@ -1392,21 +1398,12 @@
         "valueDesc": "Less than $0.70/day for 8,500+ questions across all 4 sections",
         "savingsVsTutor": "97% cheaper than a tutor"
       },
-      "quarterly": {
-        "name": "Quarterly",
-        "unit": "/ 3 months",
-        "equiv": "≈ US$13.30 / mo",
-        "badge": "Save 33%",
-        "trialLabel": "14-day free trial",
-        "valueDesc": "Less than a coffee per month for 8,500+ questions across all 4 sections",
-        "savingsVsTutor": "98% cheaper than a tutor"
-      },
       "yearly": {
         "name": "Yearly",
         "unit": "/ year",
-        "equiv": "Includes 2 months free, ≈ US$8.33 / mo",
+        "equiv": "≈ US$8.33 / mo, save 58%",
         "badge": "Most Popular",
-        "trialLabel": "2-month free trial",
+        "trialLabel": "7-day free trial",
         "valueDesc": "One coffee per month for practice + flashcards + dictation + Anki export",
         "savingsVsTutor": "99% cheaper than a tutor"
       }
@@ -1419,7 +1416,7 @@
     },
     "usdNote": "All prices in USD · Cancel during trial at no charge",
     "trust": {
-      "trial": "Up to 2-month free trial",
+      "trial": "7-day free trial",
       "stripe": "Secure Stripe payments",
       "refund": "48h money-back guarantee",
       "cancel": "Cancel anytime with one click"
@@ -1431,22 +1428,20 @@
       "free": "Free",
       "pro": "Pro",
       "rows": [
-        "Listening (44 sets · 1,700+ questions · audio + sentence replay)",
-        "Reading (44 sets · 1,700+ questions)",
-        "Speaking (696 sets · 3,500+ topics)",
-        "Writing (515 groups · 1,500+ tasks)",
-        "Exam mode (timed + random order)",
-        "Wrong answer notebook + targeted review",
-        "Speed drill (by level / question type)",
-        "CLB level estimate + readiness analysis",
-        "Vocabulary book + flashcards + dictation",
-        "Anki export + textbook word pools",
-        "Practice history + stats dashboard"
+        "Listening + Reading (8,500+ questions)",
+        "AI Answer Analysis + Sentence Translation",
+        "Writing AI Scoring + Corrections",
+        "Speaking AI Conversation + Pronunciation",
+        "Exam Mode + Speed Drill",
+        "Wrong Answer Review + Targeted Practice",
+        "Vocabulary + Flashcards + Dictation",
+        "CLB Level Estimate + Dashboard",
+        "Anki Export + Textbook Word Pools",
+        "Practice History + Stats"
       ],
       "freeValues": [
-        "First set",
-        "First 2 sets",
-        "Basic"
+        "5 / day",
+        "Unlimited"
       ]
     },
     "faq": {
@@ -1454,7 +1449,7 @@
       "items": [
         {
           "q": "Do I need a credit card for the free trial?",
-          "a": "Yes. After securely linking your card via Stripe, your free trial begins (2 months for yearly, 14 days for quarterly, 7 days for monthly). Cancel anytime during the trial — you won't be charged."
+          "a": "Yes. After securely linking your card via Stripe, your 7-day free trial begins. Cancel anytime during the trial — you won't be charged."
         },
         {
           "q": "Can I cancel anytime?",
@@ -1474,7 +1469,7 @@
         },
         {
           "q": "How do I request a refund?",
-          "a": "You can request a full refund within 48 hours of your first payment. Quarterly/yearly subscribers can get a prorated refund within 14 days. Simply email support@hitcf.com. See our refund policy for details."
+          "a": "You can request a full refund within 48 hours of your first payment. Simply email support@hitcf.com. See our refund policy for details."
         }
       ]
     },

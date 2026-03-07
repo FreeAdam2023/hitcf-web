@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   FileText,
-  Lock,
   Headphones,
   BookOpen,
   CheckCircle2,
@@ -13,7 +12,6 @@ import {
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -53,11 +51,7 @@ export function TestCard({
   const t = useTranslations();
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const canAccessPaid = useAuthStore((s) => {
-    const status = s.user?.subscription?.status;
-    return status === "active" || status === "trialing" || s.user?.role === "admin";
-  });
-  const locked = !test.is_free && !canAccessPaid;
+  const locked = false; // All tests accessible; quota enforced at answer submission
 
   const [open, setOpen] = useState(false);
   const [starting, setStarting] = useState(false);
@@ -191,8 +185,6 @@ export function TestCard({
             )}>
               {hasCompleted ? (
                 <CheckCircle2 className="h-5 w-5" />
-              ) : locked ? (
-                <Lock className="h-5 w-5" />
               ) : (
                 <Icon className="h-5 w-5" />
               )}
@@ -207,19 +199,7 @@ export function TestCard({
                 )}
               </div>
             </div>
-            {test.is_free ? (
-              <Badge variant="secondary" className="shrink-0">
-                {t("common.status.free")}
-              </Badge>
-            ) : locked ? (
-              <Badge variant="outline" className="shrink-0 gap-1 text-muted-foreground">
-                <Lock className="h-3 w-3" />
-              </Badge>
-            ) : (
-              <Badge className="shrink-0 bg-gradient-to-r from-primary to-violet-500 text-white text-[10px] px-1.5 py-0 border-0">
-                PRO
-              </Badge>
-            )}
+            {/* Badges removed — all tests open, quota enforced at answer time */}
           </div>
         </CardHeader>
         <CardContent className="relative pt-0 pb-4">

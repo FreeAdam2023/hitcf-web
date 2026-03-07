@@ -3,13 +3,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Loader2, Star, Volume2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
-import { useSession } from "next-auth/react";
 import { Popover, PopoverContent, PopoverAnchor } from "@/components/ui/popover";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { getVocabularyCard } from "@/lib/api/vocabulary";
 import { getCached, setCache } from "@/lib/vocab-cache";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
+import { useAuthStore } from "@/stores/auth-store";
 import { useVocabStore } from "@/stores/vocab-store";
 import type { VocabularyCardData, ConjugationTable } from "@/lib/api/types";
 import type { WordSaveContext } from "./french-text";
@@ -25,7 +25,7 @@ interface WordCardProps {
 export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, sentence }: WordCardProps) {
   const t = useTranslations();
   const locale = useLocale();
-  const { data: session } = useSession();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const [currentWord, setCurrentWord] = useState(initialWord);
   const [data, setData] = useState<VocabularyCardData | null>(
     () => getCached(initialWord, locale) ?? null,
@@ -39,13 +39,13 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
 
   // Load saved words on first mount if not loaded
   useEffect(() => {
-    if (!vocabLoaded && session?.user) {
+    if (!vocabLoaded && isAuthenticated) {
       fetchSavedWords();
     }
-  }, [vocabLoaded, session?.user, fetchSavedWords]);
+  }, [vocabLoaded, isAuthenticated, fetchSavedWords]);
 
   const handleToggleSave = useCallback(() => {
-    if (!session?.user) return;
+    if (!isAuthenticated) return;
     const normalized = currentWord.trim().toLowerCase();
     if (isSaved(currentWord)) {
       removeWord(normalized);
@@ -60,7 +60,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
         sentence,
       });
     }
-  }, [session?.user, currentWord, isSaved, addWord, removeWord, saveContext, sentence]);
+  }, [isAuthenticated, currentWord, isSaved, addWord, removeWord, saveContext, sentence]);
 
   useEffect(() => {
     // Check cache first
@@ -181,7 +181,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
                       className={`h-4 w-4 ${playing ? "text-blue-500 animate-pulse" : "text-muted-foreground"}`}
                     />
                   </button>
-                  {session?.user && (
+                  {isAuthenticated && (
                     <button
                       onClick={handleToggleSave}
                       className="rounded-full p-1 hover:bg-muted transition-colors"

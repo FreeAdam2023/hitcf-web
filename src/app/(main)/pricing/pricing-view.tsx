@@ -35,11 +35,6 @@ const PLANS = [
     recommended: false,
   },
   {
-    key: "quarterly" as const,
-    price: "US$39.90",
-    recommended: false,
-  },
-  {
     key: "yearly" as const,
     price: "US$99.90",
     recommended: true,
@@ -48,7 +43,7 @@ const PLANS = [
 
 /** free column: true = check, false = X, number = index into freeValues */
 const COMPARISON_FREE: (boolean | number)[] = [
-  0, 1, false, false, false, false, false, false, false, false, 2,
+  0, 0, false, false, 1, true, true, true, true, true,
 ];
 
 const FAQ_COUNT = 6;
@@ -61,11 +56,11 @@ export function PricingView() {
   const t = useTranslations();
   const { isAuthenticated, hasActiveSubscription } = useAuthStore();
   const isSubscribed = hasActiveSubscription();
-  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "quarterly" | "yearly">("yearly");
+  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">("yearly");
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const activePlan = PLANS.find((p) => p.key === selectedPlan)!;
 
-  const handleSubscribe = async (plan: "monthly" | "quarterly" | "yearly") => {
+  const handleSubscribe = async (plan: "monthly" | "yearly") => {
     setLoadingPlan(plan);
     try {
       const { url } = await createCheckout(plan);
@@ -103,7 +98,7 @@ export function PricingView() {
 
       {/* ---- Plan Cards ---- */}
       <div>
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="mx-auto grid max-w-xl gap-4 sm:grid-cols-2">
           {PLANS.map((plan) => {
             const isSelected = selectedPlan === plan.key;
             const equiv = plan.key !== "monthly" ? t(`pricing.plans.${plan.key}.equiv`) : null;
