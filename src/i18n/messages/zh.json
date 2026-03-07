@@ -562,6 +562,21 @@
     "loadMsg5": "你是第一个探索这个词的人！我倍感荣幸",
     "loadMsg6": "快好了，我正在做最后的精修..."
   },
+  "sentenceAnalysis": {
+    "title": "句子分析",
+    "trigger": "分析此句语法",
+    "loading": "正在分析...",
+    "error": "分析失败",
+    "retry": "重试",
+    "structure": "句子结构",
+    "tense": "时态",
+    "collocations": "固定搭配",
+    "grammarPoints": "语法要点",
+    "saveCollocation": "收藏此搭配",
+    "unsaveCollocation": "取消收藏",
+    "saved": "已收藏到词汇池",
+    "unsaved": "已取消收藏"
+  },
   "exam": {
     "session": {
       "exitWarning": "考试进行中，请通过「提交考试」按钮退出",

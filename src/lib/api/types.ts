@@ -143,6 +143,31 @@ export interface Explanation {
   locale?: string;
 }
 
+export interface SentenceAnalysisCollocation {
+  phrase: string;
+  meaning: string;
+  meaning_en: string;
+  example: string;
+}
+
+export interface SentenceAnalysisGrammar {
+  name: string;
+  name_zh: string;
+  rule: string;
+  note: string;
+}
+
+export interface SentenceAnalysis {
+  sentence: string;
+  structure: string;
+  structure_en: string;
+  tense: string | null;
+  tense_zh: string | null;
+  tense_note: string | null;
+  collocations: SentenceAnalysisCollocation[];
+  grammar: SentenceAnalysisGrammar[];
+}
+
 export interface QuestionDetail extends QuestionBrief {
   correct_answer: string | null;
   explanation: Explanation | null;

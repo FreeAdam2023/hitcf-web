@@ -562,6 +562,21 @@
     "loadMsg5": "Vous êtes le premier à explorer ce mot ! C'est un honneur",
     "loadMsg6": "Presque terminé, je peaufine les derniers détails..."
   },
+  "sentenceAnalysis": {
+    "title": "Analyse de la phrase",
+    "trigger": "Analyser cette phrase",
+    "loading": "Analyse en cours...",
+    "error": "L'analyse a échoué",
+    "retry": "Réessayer",
+    "structure": "Structure de la phrase",
+    "tense": "Temps verbal",
+    "collocations": "Expressions figées",
+    "grammarPoints": "Points de grammaire",
+    "saveCollocation": "Enregistrer l'expression",
+    "unsaveCollocation": "Retirer l'expression",
+    "saved": "Ajouté au vocabulaire",
+    "unsaved": "Retiré du vocabulaire"
+  },
   "exam": {
     "session": {
       "exitWarning": "Examen en cours. Veuillez utiliser le bouton « Soumettre l'examen » pour quitter.",

@@ -562,6 +562,21 @@
     "loadMsg5": "You're the first to explore this word! I'm honored",
     "loadMsg6": "Almost done, just adding the finishing touches..."
   },
+  "sentenceAnalysis": {
+    "title": "Sentence Analysis",
+    "trigger": "Analyze this sentence",
+    "loading": "Analyzing...",
+    "error": "Analysis failed",
+    "retry": "Retry",
+    "structure": "Sentence Structure",
+    "tense": "Tense",
+    "collocations": "Fixed Expressions",
+    "grammarPoints": "Grammar Points",
+    "saveCollocation": "Save expression",
+    "unsaveCollocation": "Unsave expression",
+    "saved": "Saved to vocabulary",
+    "unsaved": "Removed from vocabulary"
+  },
   "exam": {
     "session": {
       "exitWarning": "Exam in progress. Please use the \"Submit Exam\" button to exit.",

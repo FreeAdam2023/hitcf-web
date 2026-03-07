@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -19,6 +19,7 @@ import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ReportDialog } from "@/components/practice/report-dialog";
 import { FrenchText, type WordSaveContext } from "@/components/practice/french-text";
+import { SentenceAnalysisSheet } from "@/components/practice/sentence-analysis-sheet";
 import type { AudioPlayerHandle } from "@/components/practice/audio-player";
 import type { AudioSegment, Explanation, QuestionBrief } from "@/lib/api/types";
 
@@ -46,6 +47,7 @@ function TranscriptBlock({
   currentAudioTime,
   onSentenceClick,
   saveContext,
+  questionId,
 }: {
   question: QuestionBrief;
   explanation: Explanation | null;
@@ -59,8 +61,10 @@ function TranscriptBlock({
   currentAudioTime?: number;
   onSentenceClick?: (start: number, end: number) => void;
   saveContext?: WordSaveContext;
+  questionId?: string;
 }) {
   const t = useTranslations();
+  const [analysisTarget, setAnalysisTarget] = useState<{ index: number; fr: string } | null>(null);
   const isListening = question.type === "listening";
   const isReading = question.type === "reading";
   const hasTranscript = !!question.transcript;
@@ -204,6 +208,13 @@ function TranscriptBlock({
                       {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                       <FrenchText text={s.fr} saveContext={saveContext} sentenceTranslations={sentences} />
                       {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400" title={t("practice.explanation.keyClue")}>★</span>}
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setAnalysisTarget({ index: i, fr: s.fr }); }}
+                        className="ml-1 inline-flex shrink-0 rounded p-0.5 text-muted-foreground/50 transition-colors hover:bg-muted hover:text-primary"
+                        title={t("sentenceAnalysis.trigger")}
+                      >
+                        <BookOpen className="h-3 w-3" />
+                      </button>
                     </p>
                     {locale === "zh" && showEn && s.en && (
                       <p className={`leading-relaxed text-blue-600 dark:text-blue-400${clickable ? " pl-4" : ""}`}>
@@ -252,6 +263,13 @@ function TranscriptBlock({
                 <p className="font-medium leading-relaxed text-foreground">
                   {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                   <FrenchText text={seg.text} saveContext={saveContext} sentenceTranslations={[{ fr: seg.text, en: seg.en ?? undefined, zh: seg.zh ?? undefined, native: segNative ?? undefined }]} />
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setAnalysisTarget({ index: seg.sentence_index ?? i, fr: seg.text }); }}
+                    className="ml-1 inline-flex shrink-0 rounded p-0.5 text-muted-foreground/50 transition-colors hover:bg-muted hover:text-primary"
+                    title={t("sentenceAnalysis.trigger")}
+                  >
+                    <BookOpen className="h-3 w-3" />
+                  </button>
                 </p>
                 {locale === "zh" && showEn && seg.en && (
                   <p className={`leading-relaxed text-blue-600 dark:text-blue-400${clickable ? " pl-4" : ""}`}>
@@ -302,6 +320,18 @@ function TranscriptBlock({
             })}
           </div>
         </div>
+      )}
+
+      {/* Sentence Analysis Sheet */}
+      {analysisTarget && questionId && (
+        <SentenceAnalysisSheet
+          open={!!analysisTarget}
+          onOpenChange={(open) => { if (!open) setAnalysisTarget(null); }}
+          questionId={questionId}
+          sentenceIndex={analysisTarget.index}
+          sentenceFr={analysisTarget.fr}
+          saveContext={saveContext}
+        />
       )}
     </div>
   );
@@ -680,6 +710,7 @@ export function PracticeSession() {
             currentAudioTime={audioTime}
             onSentenceClick={(start, end) => audioPlayerRef.current?.playSegment(start, end)}
             saveContext={saveContext}
+            questionId={question.id}
           />
         )}
 
