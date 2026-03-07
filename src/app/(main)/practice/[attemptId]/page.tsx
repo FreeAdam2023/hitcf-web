@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { usePracticeStore } from "@/stores/practice-store";
 import { getAttempt } from "@/lib/api/attempts";
 import { getTestSetQuestions } from "@/lib/api/test-sets";
+import { resumeSpeedDrill } from "@/lib/api/speed-drill";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
 import { PracticeSession } from "./practice-session";
@@ -30,11 +31,17 @@ export default function PracticePage() {
         return;
       }
 
-      const questions = await getTestSetQuestions(
-        attempt.test_set_id,
-        "practice",
-        { signal },
-      );
+      let questions;
+      if (attempt.mode === "speed_drill") {
+        const drill = await resumeSpeedDrill(params.attemptId);
+        questions = drill.questions;
+      } else {
+        questions = await getTestSetQuestions(
+          attempt.test_set_id,
+          "practice",
+          { signal },
+        );
+      }
 
       if (signal?.aborted) return;
       init(params.attemptId, questions, attempt.test_set_name, attempt.test_set_type, attempt.started_at, attempt.answers);
