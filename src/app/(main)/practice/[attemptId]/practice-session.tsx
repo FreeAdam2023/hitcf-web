@@ -578,7 +578,7 @@ export function PracticeSession() {
   const allAnswered = answers.size === questions.length;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[200px_1fr_320px] h-full overflow-hidden">
+    <div className="grid gap-3 lg:gap-6 lg:grid-cols-[200px_1fr_320px] h-full overflow-hidden">
       {/* 左侧：题号导航 (桌面) */}
       <div className="hidden lg:block overflow-y-auto scrollbar-on-hover">
         <div className="py-3">

@@ -261,7 +261,7 @@ export function ExamSession() {
 
   // --- Reading layout: two-column with navigator ---
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_200px]">
+    <div className="grid gap-3 lg:gap-6 lg:grid-cols-[1fr_200px]">
       <div className="space-y-4">
         {/* Header with prominent timer */}
         <div className="flex items-center justify-between">
