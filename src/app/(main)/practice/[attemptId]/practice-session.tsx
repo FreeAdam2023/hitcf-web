@@ -155,7 +155,7 @@ function TranscriptBlock({
                 return (
                   <div key={i} className="space-y-0.5">
                     <p className="font-medium leading-relaxed text-foreground">
-                      {key}. <FrenchText text={frText} saveContext={saveContext} />
+                      {key}. <FrenchText text={frText} saveContext={saveContext} sentenceTranslations={sentences} />
                     </p>
                     {locale === "zh" && showEn && s.en && (
                       <p className="pl-6 leading-relaxed text-blue-600 dark:text-blue-400">
@@ -202,7 +202,7 @@ function TranscriptBlock({
                   >
                     <p className="font-medium leading-relaxed text-foreground">
                       {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
-                      <FrenchText text={s.fr} saveContext={saveContext} />
+                      <FrenchText text={s.fr} saveContext={saveContext} sentenceTranslations={sentences} />
                       {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400" title={t("practice.explanation.keyClue")}>★</span>}
                     </p>
                     {locale === "zh" && showEn && s.en && (
@@ -251,7 +251,7 @@ function TranscriptBlock({
               >
                 <p className="font-medium leading-relaxed text-foreground">
                   {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
-                  <FrenchText text={seg.text} saveContext={saveContext} />
+                  <FrenchText text={seg.text} saveContext={saveContext} sentenceTranslations={[{ fr: seg.text, en: seg.en ?? undefined, zh: seg.zh ?? undefined, native: segNative ?? undefined }]} />
                 </p>
                 {locale === "zh" && showEn && seg.en && (
                   <p className={`leading-relaxed text-blue-600 dark:text-blue-400${clickable ? " pl-4" : ""}`}>

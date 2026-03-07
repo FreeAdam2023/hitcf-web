@@ -57,6 +57,8 @@ interface FrenchTextProps {
   className?: string;
   /** Context for saving words (source test, question, etc.) */
   saveContext?: WordSaveContext;
+  /** Sentence-level translations for context-aware word card matching */
+  sentenceTranslations?: { fr: string; zh?: string; en?: string; native?: string }[];
 }
 
 /** Extract the sentence containing a word from text */
@@ -71,9 +73,10 @@ function extractSentence(text: string, word: string): string | undefined {
  * Wraps French text, making each word clickable for vocabulary lookup.
  * Skips single-letter tokens (l', d', n', etc.).
  */
-export function FrenchText({ text, disabled, className, saveContext }: FrenchTextProps) {
+export function FrenchText({ text, disabled, className, saveContext, sentenceTranslations }: FrenchTextProps) {
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [selectedSentence, setSelectedSentence] = useState<string | undefined>(undefined);
+  const [selectedSentenceTranslation, setSelectedSentenceTranslation] = useState<string | undefined>(undefined);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleWordClick = useCallback(
@@ -85,16 +88,28 @@ export function FrenchText({ text, disabled, className, saveContext }: FrenchTex
       if (cleaned.length <= 1 && !/^\d$/.test(cleaned)) return;
       // Convert digits to French number word
       const lookup = /^\d+$/.test(cleaned) ? numberToFrench(parseInt(cleaned, 10)) ?? cleaned : cleaned;
+      const sentence = extractSentence(text, cleaned);
       setSelectedWord(lookup);
-      setSelectedSentence(extractSentence(text, cleaned));
+      setSelectedSentence(sentence);
+      // Find translation for the sentence containing this word
+      if (sentenceTranslations && sentence) {
+        const lowerSentence = sentence.toLowerCase();
+        const match = sentenceTranslations.find(
+          (st) => st.fr && lowerSentence.includes(st.fr.toLowerCase().slice(0, 20)),
+        );
+        setSelectedSentenceTranslation(match?.native || match?.zh || match?.en);
+      } else {
+        setSelectedSentenceTranslation(undefined);
+      }
       setAnchorEl(e.currentTarget);
     },
-    [disabled, text],
+    [disabled, text, sentenceTranslations],
   );
 
   const handleClose = useCallback(() => {
     setSelectedWord(null);
     setSelectedSentence(undefined);
+    setSelectedSentenceTranslation(undefined);
     setAnchorEl(null);
   }, []);
 
@@ -142,6 +157,7 @@ export function FrenchText({ text, disabled, className, saveContext }: FrenchTex
           onClose={handleClose}
           saveContext={saveContext}
           sentence={selectedSentence}
+          sentenceTranslation={selectedSentenceTranslation}
         />
       )}
     </span>

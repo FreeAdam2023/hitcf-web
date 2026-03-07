@@ -527,6 +527,7 @@
   "wordCard": {
     "loading": "Loading...",
     "error": "Failed to load. Please retry.",
+    "inContext": "In context:",
     "plural": "Plural: {form}",
     "adjForms": "Adjective Forms",
     "masc": "M",
