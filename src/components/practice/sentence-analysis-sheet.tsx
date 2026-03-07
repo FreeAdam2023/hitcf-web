@@ -186,7 +186,7 @@ export function SentenceAnalysisSheet({
 
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
-      <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto rounded-t-2xl pb-safe">
+      <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto pb-safe">
         <SheetHeader className="pb-2">
           <SheetTitle className="flex items-center gap-2 text-base">
             <BookOpen className="h-4 w-4 text-primary" />
