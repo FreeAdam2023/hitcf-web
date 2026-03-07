@@ -575,7 +575,8 @@
     "saveCollocation": "حفظ التعبير",
     "unsaveCollocation": "إزالة التعبير",
     "saved": "تمت الإضافة إلى المفردات",
-    "unsaved": "تمت الإزالة من المفردات"
+    "unsaved": "تمت الإزالة من المفردات",
+    "noGrammarCard": "لا توجد بطاقة نحوية متاحة"
   },
   "exam": {
     "session": {

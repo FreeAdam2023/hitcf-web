@@ -168,6 +168,28 @@ export interface SentenceAnalysis {
   grammar: SentenceAnalysisGrammar[];
 }
 
+export interface GrammarCardExample {
+  fr: string;
+  en: string;
+  zh: string;
+}
+
+export interface GrammarCard {
+  slug: string;
+  name: string;
+  name_zh: string;
+  name_en: string;
+  category: string;
+  level: string;
+  rule: string;
+  rule_zh: string;
+  explanation: string;
+  explanation_en: string;
+  examples: GrammarCardExample[];
+  irregulars: string | null;
+  tags: string[];
+}
+
 export interface QuestionDetail extends QuestionBrief {
   correct_answer: string | null;
   explanation: Explanation | null;

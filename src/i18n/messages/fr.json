@@ -575,7 +575,8 @@
     "saveCollocation": "Enregistrer l'expression",
     "unsaveCollocation": "Retirer l'expression",
     "saved": "Ajouté au vocabulaire",
-    "unsaved": "Retiré du vocabulaire"
+    "unsaved": "Retiré du vocabulaire",
+    "noGrammarCard": "Pas de fiche grammaire disponible"
   },
   "exam": {
     "session": {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { Loader2, Star, BookOpen, ArrowRight } from "lucide-react";
+import { Loader2, Star, BookOpen, ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import {
@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { generateSentenceAnalysis } from "@/lib/api/questions";
+import { generateSentenceAnalysis, matchGrammarCard } from "@/lib/api/questions";
 import { useAuthStore } from "@/stores/auth-store";
 import { useVocabStore } from "@/stores/vocab-store";
-import type { SentenceAnalysis } from "@/lib/api/types";
+import type { GrammarCard, SentenceAnalysis } from "@/lib/api/types";
 import type { WordSaveContext } from "./french-text";
 
 interface SentenceAnalysisSheetProps {
@@ -25,6 +25,97 @@ interface SentenceAnalysisSheetProps {
   sentenceIndex: number;
   sentenceFr: string;
   saveContext?: WordSaveContext;
+}
+
+/** Inline expandable grammar card */
+function GrammarCardInline({ name }: { name: string }) {
+  const t = useTranslations("sentenceAnalysis");
+  const locale = useLocale();
+  const [expanded, setExpanded] = useState(false);
+  const [card, setCard] = useState<GrammarCard | null | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
+
+  const handleToggle = useCallback(async () => {
+    if (expanded) {
+      setExpanded(false);
+      return;
+    }
+    setExpanded(true);
+    if (card !== undefined) return; // already fetched
+    setLoading(true);
+    try {
+      const result = await matchGrammarCard(name);
+      setCard(result);
+    } catch {
+      setCard(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [expanded, card, name]);
+
+  return (
+    <div>
+      <button
+        onClick={handleToggle}
+        className="inline-flex items-center gap-1 rounded-md border bg-primary/5 px-2 py-0.5 font-mono text-xs text-primary transition-colors hover:bg-primary/10"
+      >
+        {name}
+        {expanded ? (
+          <ChevronUp className="h-3 w-3" />
+        ) : (
+          <ChevronDown className="h-3 w-3" />
+        )}
+      </button>
+      {expanded && (
+        <div className="mt-1.5 animate-in fade-in slide-in-from-top-1 duration-200">
+          {loading && (
+            <div className="flex items-center gap-1.5 py-2 text-xs text-muted-foreground">
+              <Loader2 className="h-3 w-3 animate-spin" />
+              {t("loading")}
+            </div>
+          )}
+          {card === null && !loading && (
+            <p className="py-1 text-xs text-muted-foreground">{t("noGrammarCard")}</p>
+          )}
+          {card && (
+            <div className="rounded-lg border bg-muted/30 px-3 py-2 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-foreground">{card.name}</span>
+                {card.name_zh && <span className="text-muted-foreground">{card.name_zh}</span>}
+                <Badge variant="secondary" className="ml-auto text-[10px]">{card.level}</Badge>
+              </div>
+              {card.rule && (
+                <p className="mt-1 font-mono text-primary/80">{card.rule}</p>
+              )}
+              {card.rule_zh && locale !== "en" && (
+                <p className="text-muted-foreground">{card.rule_zh}</p>
+              )}
+              <p className="mt-1.5 leading-relaxed">
+                {locale === "en" ? card.explanation_en : card.explanation}
+              </p>
+              {card.examples.length > 0 && (
+                <div className="mt-1.5 space-y-1 border-t border-border/50 pt-1.5">
+                  {card.examples.map((ex, i) => (
+                    <div key={i}>
+                      <p className="font-medium text-foreground">{ex.fr}</p>
+                      <p className="text-muted-foreground">
+                        {locale === "en" ? ex.en : `${ex.zh} / ${ex.en}`}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {card.irregulars && (
+                <p className="mt-1.5 border-t border-border/50 pt-1.5 text-muted-foreground">
+                  {card.irregulars}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function SentenceAnalysisSheet({
@@ -144,7 +235,7 @@ export function SentenceAnalysisSheet({
               )}
             </section>
 
-            {/* Tense */}
+            {/* Tense — clickable to expand grammar card */}
             {data.tense && (
               <>
                 <Separator />
@@ -153,9 +244,7 @@ export function SentenceAnalysisSheet({
                     {t("tense")}
                   </h4>
                   <div className="flex items-center gap-2">
-                    <Badge variant="secondary" className="font-mono text-xs">
-                      {data.tense}
-                    </Badge>
+                    <GrammarCardInline name={data.tense} />
                     {data.tense_zh && (
                       <span className="text-sm">{data.tense_zh}</span>
                     )}
@@ -228,7 +317,7 @@ export function SentenceAnalysisSheet({
               </>
             )}
 
-            {/* Grammar points */}
+            {/* Grammar points — clickable to expand grammar card */}
             {data.grammar.length > 0 && (
               <>
                 <Separator />
@@ -243,9 +332,7 @@ export function SentenceAnalysisSheet({
                         className="rounded-lg border bg-card px-3 py-2"
                       >
                         <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="font-mono text-xs">
-                            {g.name}
-                          </Badge>
+                          <GrammarCardInline name={g.name} />
                           {g.name_zh && (
                             <span className="text-xs text-foreground/80">
                               {g.name_zh}

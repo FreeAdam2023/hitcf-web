@@ -1,5 +1,5 @@
 import { get, post } from "./client";
-import type { Explanation, QuestionDetail, SentenceAnalysis } from "./types";
+import type { Explanation, GrammarCard, QuestionDetail, SentenceAnalysis } from "./types";
 
 export function getQuestionDetail(questionId: string): Promise<QuestionDetail> {
   return get<QuestionDetail>(`/api/questions/${questionId}`);
@@ -29,4 +29,8 @@ export function generateSentenceAnalysis(
     sentence_fr: sentenceFr,
     locale: locale || undefined,
   });
+}
+
+export function matchGrammarCard(name: string): Promise<GrammarCard | null> {
+  return get<GrammarCard | null>(`/api/grammar-cards/match?q=${encodeURIComponent(name)}`);
 }

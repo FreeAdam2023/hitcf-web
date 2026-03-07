@@ -575,7 +575,8 @@
     "saveCollocation": "Save expression",
     "unsaveCollocation": "Unsave expression",
     "saved": "Saved to vocabulary",
-    "unsaved": "Removed from vocabulary"
+    "unsaved": "Removed from vocabulary",
+    "noGrammarCard": "No grammar card available"
   },
   "exam": {
     "session": {

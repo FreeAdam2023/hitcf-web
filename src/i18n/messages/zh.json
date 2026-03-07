@@ -575,7 +575,8 @@
     "saveCollocation": "收藏此搭配",
     "unsaveCollocation": "取消收藏",
     "saved": "已收藏到词汇池",
-    "unsaved": "已取消收藏"
+    "unsaved": "已取消收藏",
+    "noGrammarCard": "暂无语法卡片"
   },
   "exam": {
     "session": {
