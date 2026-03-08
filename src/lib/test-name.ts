@@ -12,16 +12,22 @@ export function localizeTestName(
   type: string,
   rawName: string,
 ): string {
-  const num = rawName.match(/\d+/)?.[0] || "";
-  const keyMap: Record<string, string> = {
-    listening: "tests.listeningTestName",
-    reading: "tests.readingTestName",
-    speaking: "tests.speakingTestName",
-    writing: "tests.writingTestName",
-  };
-  const key = keyMap[type];
-  if (key && num) {
-    return t(key, { num });
+  // Only localize standard names like "阅读测试 1" / "Compréhension Écrite test 01"
+  // Non-standard names (补充测试, 免费测试, etc.) are returned as-is
+  const standardPattern = /^(?:听力测试|阅读测试|口语测试|写作测试|Compréhension\s+(?:Orale|Écrite)\s+test|Expression\s+(?:Orale|Écrite)\s+test)\s*(\d+)$/i;
+  const match = rawName.match(standardPattern);
+  if (match) {
+    const num = match[1];
+    const keyMap: Record<string, string> = {
+      listening: "tests.listeningTestName",
+      reading: "tests.readingTestName",
+      speaking: "tests.speakingTestName",
+      writing: "tests.writingTestName",
+    };
+    const key = keyMap[type];
+    if (key) {
+      return t(key, { num });
+    }
   }
   return rawName;
 }

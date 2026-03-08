@@ -178,7 +178,17 @@ export function TestList() {
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
   const [drillInProgress, setDrillInProgress] = useState<InProgressAttempt[]>([]);
   const [resumingId, setResumingId] = useState<string | null>(null);
-  const [tab, setTab] = useState<TabType>("listening");
+  const [tab, setTab] = useState<TabType>(() => {
+    if (typeof window !== "undefined") {
+      // Prefer URL param, then localStorage
+      const params = new URLSearchParams(window.location.search);
+      const urlTab = params.get("tab");
+      if (urlTab && VALID_TABS.includes(urlTab as TabType)) return urlTab as TabType;
+      const stored = localStorage.getItem("hitcf_tests_tab");
+      if (stored && VALID_TABS.includes(stored as TabType)) return stored as TabType;
+    }
+    return "listening";
+  });
   const [expanded, setExpanded] = useState(false);
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
   const [attemptMap, setAttemptMap] = useState<Map<string, TestAttemptInfo>>(new Map());
@@ -209,14 +219,10 @@ export function TestList() {
       .catch(() => {});
   }, [isAuthenticated]);
 
-  // Restore tab from URL on mount
+  // Persist tab to localStorage whenever it changes
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const param = params.get("tab");
-    if (param && VALID_TABS.includes(param as TabType)) {
-      setTab(param as TabType);
-    }
-  }, []);
+    localStorage.setItem("hitcf_tests_tab", tab);
+  }, [tab]);
 
   // Load in-progress level practice attempts
   useEffect(() => {

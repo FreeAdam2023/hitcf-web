@@ -103,7 +103,8 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
   // Auto-play pronunciation when data is ready (especially from cache)
   const autoPlayedRef = useRef<string | null>(null);
   useEffect(() => {
-    if (!loading && data && autoPlayedRef.current !== currentWord) {
+    // Only auto-play when data matches current word (display_form check prevents stale audio)
+    if (!loading && data && autoPlayedRef.current !== currentWord && data.display_form?.toLowerCase() === currentWord.toLowerCase()) {
       autoPlayedRef.current = currentWord;
       speak(currentWord, data.audio_url);
     }
@@ -366,7 +367,7 @@ function WordFamilyChips({
   return (
     <div className="rounded-md border border-border/50 bg-muted/20 px-2 py-1.5">
       <p className="text-[10px] font-medium text-muted-foreground mb-1">
-        {family.emoji} {label}
+        {label}
       </p>
       <div className="flex flex-wrap gap-1">
         {family.members.map((m) => {
