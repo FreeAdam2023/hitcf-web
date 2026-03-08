@@ -23,10 +23,10 @@ const nextConfig = {
   },
   async rewrites() {
     return {
-      // fallback: only matches if NO filesystem route handled the request.
-      // /api/auth/[...nextauth] is a filesystem route → handled by Next.js.
-      // All other /api/* requests have no filesystem route → proxied to backend.
-      fallback: [
+      // afterFiles: runs after filesystem routes (e.g. NextAuth /api/auth/*)
+      // but BEFORE dynamic routes (e.g. [locale]). This prevents [locale]
+      // from capturing /api/* requests as locale="api".
+      afterFiles: [
         {
           source: "/api/:path*",
           destination: `${process.env.BACKEND_URL || "http://localhost:8001"}/api/:path*`,
