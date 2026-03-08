@@ -35,6 +35,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...localizedEntries("/vocabulary", { changeFrequency: "weekly", priority: 0.8 }),
     ...localizedEntries("/vocabulary/my-saved", { changeFrequency: "daily", priority: 0.6 }),
     ...localizedEntries("/vocabulary/nihao-french", { changeFrequency: "monthly", priority: 0.7 }),
+    // Referral
+    ...localizedEntries("/referral", { changeFrequency: "monthly", priority: 0.5 }),
     // Resources
     ...localizedEntries("/resources", { changeFrequency: "monthly", priority: 0.6 }),
     // Legal

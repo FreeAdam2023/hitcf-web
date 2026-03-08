@@ -44,6 +44,7 @@ function RegisterForm() {
     utm_source: searchParams.get("utm_source") || "",
     utm_medium: searchParams.get("utm_medium") || "",
     utm_campaign: searchParams.get("utm_campaign") || "",
+    referral_code: searchParams.get("ref") || "",
   }), [searchParams]);
 
   const [step, setStep] = useState<Step>("create");

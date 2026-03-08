@@ -94,6 +94,7 @@
     "upgradePro": "Passer à Pro",
     "accountSettings": "Paramètres du compte",
     "feedback": "Commentaires",
+    "referral": "Inviter des amis",
     "logout": "Se déconnecter"
   },
   "feedback": {
@@ -2066,7 +2067,29 @@
     "disclaimer": {
       "title": "Avertissement · Sources du contenu et avis sur les résultats d'examen",
       "description": "Avertissement de HiTCF : plateforme d'entraînement tierce indépendante, sans affiliation avec les organismes officiels du TCF. Les estimations de niveau NCLC sont fournies à titre indicatif uniquement. Contenu issu de documents publics."
+    },
+    "referral": {
+      "title": "Programme de parrainage · Invitez vos amis, gagnez des jours gratuits",
+      "description": "Invitez vos amis sur HiTCF et vous obtenez tous les deux 30 jours d'accès Pro gratuit. Partagez votre code de parrainage et gagnez des récompenses."
     }
+  },
+  "referralPage": {
+    "title": "Programme de parrainage",
+    "subtitle": "Invitez vos amis sur HiTCF — vous obtenez tous les deux 30 jours d'accès Pro gratuit !",
+    "howItWorks": "Comment ça marche",
+    "step1": "Partagez votre code de parrainage unique ou votre lien avec un ami.",
+    "step2": "Votre ami s'inscrit avec votre code et obtient 30 jours d'accès Pro gratuit.",
+    "step3": "Vous obtenez 30 jours ajoutés à votre abonnement en récompense !",
+    "subscriptionRequired": "Vous devez avoir un abonnement Pro actif pour générer un code de parrainage. Abonnez-vous d'abord pour commencer à parrainer des amis.",
+    "yourCode": "Votre code de parrainage",
+    "shareLink": "Lien de partage",
+    "totalReferred": "Parrainés",
+    "daysEarned": "Jours gagnés",
+    "remaining": "Restants",
+    "referralHistory": "Historique de parrainage",
+    "days": "jours",
+    "fraud": "Invalide",
+    "loginRequired": "Veuillez vous connecter pour accéder au programme de parrainage."
   },
   "disclaimerPage": {
     "heading": "Avertissement",

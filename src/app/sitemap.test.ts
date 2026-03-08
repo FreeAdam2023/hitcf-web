@@ -49,7 +49,7 @@ describe("sitemap", () => {
   });
 
   it("should have correct total count", () => {
-    // 15 unique paths × 4 locales = 60
-    expect(entries).toHaveLength(60);
+    // 16 unique paths × 4 locales = 64
+    expect(entries).toHaveLength(64);
   });
 });
