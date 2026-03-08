@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/practice/", "/exam/", "/results/"],
+        disallow: ["/api/", "/*/practice/", "/*/exam/", "/*/results/"],
       },
     ],
     sitemap: "https://www.hitcf.com/sitemap.xml",

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { MessageCircle, X } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 
 const WHATSAPP_LINK = "https://chat.whatsapp.com/Fvbx6XR8EQPDSvx4VW2yn7";
 

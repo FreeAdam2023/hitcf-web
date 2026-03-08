@@ -1,103 +1,46 @@
 import type { MetadataRoute } from "next";
 
 const SITE_URL = "https://www.hitcf.com";
+const LOCALES = ["zh", "en", "fr", "ar"];
+
+function localizedEntries(
+  path: string,
+  opts: { changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]; priority: number },
+): MetadataRoute.Sitemap {
+  return LOCALES.map((locale) => ({
+    url: `${SITE_URL}/${locale}${path}`,
+    lastModified: new Date(),
+    changeFrequency: opts.changeFrequency,
+    priority: opts.priority,
+    alternates: {
+      languages: Object.fromEntries(
+        LOCALES.map((l) => [l, `${SITE_URL}/${l}${path}`]),
+      ),
+    },
+  }));
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    // ── Core pages ──
-    {
-      url: SITE_URL,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${SITE_URL}/tests`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/pricing`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    // ── Feature pages (public-facing) ──
-    {
-      url: `${SITE_URL}/speaking-practice`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/speaking-conversation`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/wrong-answers`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.6,
-    },
-    {
-      url: `${SITE_URL}/history`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.5,
-    },
-    // ── Vocabulary ──
-    {
-      url: `${SITE_URL}/vocabulary`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/vocabulary/my-saved`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.6,
-    },
-    {
-      url: `${SITE_URL}/vocabulary/nihao-french`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    // ── Resources ──
-    {
-      url: `${SITE_URL}/resources`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    // ── Legal ──
-    {
-      url: `${SITE_URL}/terms-of-service`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${SITE_URL}/privacy-policy`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${SITE_URL}/refund-policy`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${SITE_URL}/disclaimer`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
+    // Core pages
+    ...localizedEntries("", { changeFrequency: "weekly", priority: 1 }),
+    ...localizedEntries("/tests", { changeFrequency: "weekly", priority: 0.9 }),
+    ...localizedEntries("/pricing", { changeFrequency: "monthly", priority: 0.8 }),
+    // Feature pages
+    ...localizedEntries("/speaking-practice", { changeFrequency: "weekly", priority: 0.8 }),
+    ...localizedEntries("/speaking-conversation", { changeFrequency: "weekly", priority: 0.8 }),
+    ...localizedEntries("/wrong-answers", { changeFrequency: "daily", priority: 0.6 }),
+    ...localizedEntries("/history", { changeFrequency: "daily", priority: 0.5 }),
+    // Vocabulary
+    ...localizedEntries("/vocabulary", { changeFrequency: "weekly", priority: 0.8 }),
+    ...localizedEntries("/vocabulary/my-saved", { changeFrequency: "daily", priority: 0.6 }),
+    ...localizedEntries("/vocabulary/nihao-french", { changeFrequency: "monthly", priority: 0.7 }),
+    // Resources
+    ...localizedEntries("/resources", { changeFrequency: "monthly", priority: 0.6 }),
+    // Legal
+    ...localizedEntries("/terms-of-service", { changeFrequency: "yearly", priority: 0.3 }),
+    ...localizedEntries("/privacy-policy", { changeFrequency: "yearly", priority: 0.3 }),
+    ...localizedEntries("/refund-policy", { changeFrequency: "yearly", priority: 0.3 }),
+    ...localizedEntries("/disclaimer", { changeFrequency: "yearly", priority: 0.3 }),
   ];
 }

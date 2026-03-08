@@ -1,17 +1,10 @@
 import { getRequestConfig } from "next-intl/server";
-import { cookies } from "next/headers";
-import { DEFAULT_LOCALE, type Locale, SUPPORTED_LOCALES } from "./locales";
+import { routing } from "./routing";
 
-export default getRequestConfig(async () => {
-  let locale: Locale = DEFAULT_LOCALE;
-  try {
-    const cookieStore = await cookies();
-    const raw = cookieStore.get("NEXT_LOCALE")?.value;
-    if (raw && SUPPORTED_LOCALES.includes(raw as Locale)) {
-      locale = raw as Locale;
-    }
-  } catch {
-    // cookies() not available during build — fall back to default
+export default getRequestConfig(async ({ requestLocale }) => {
+  let locale = await requestLocale;
+  if (!locale || !routing.locales.includes(locale as (typeof routing.locales)[number])) {
+    locale = routing.defaultLocale;
   }
   return {
     locale,
@@ -21,8 +14,8 @@ export default getRequestConfig(async () => {
 });
 
 export async function getMessages(locale: string) {
-  const validLocale = SUPPORTED_LOCALES.includes(locale as Locale)
-    ? (locale as Locale)
-    : DEFAULT_LOCALE;
+  const validLocale = routing.locales.includes(locale as (typeof routing.locales)[number])
+    ? locale
+    : routing.defaultLocale;
   return (await import(`./messages/${validLocale}.json`)).default;
 }

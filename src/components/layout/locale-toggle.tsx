@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Globe, Check } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import {
 import { useAuthStore } from "@/stores/auth-store";
 import { updateProfile } from "@/lib/api/auth";
 import { SUPPORTED_LOCALES, LOCALE_LABELS, type Locale } from "@/i18n/locales";
+import { useRouter, usePathname } from "@/i18n/navigation";
 
 export function LocaleToggle() {
   const locale = useLocale() as Locale;
@@ -20,6 +21,9 @@ export function LocaleToggle() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const fetchUser = useAuthStore((s) => s.fetchUser);
   const [saving, setSaving] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const [, startTransition] = useTransition();
 
   const handleSelect = async (target: Locale) => {
     if (target === locale) return;
@@ -28,10 +32,10 @@ export function LocaleToggle() {
       if (isAuthenticated) {
         await updateProfile({ ui_language: target });
         await fetchUser();
-      } else {
-        document.cookie = `NEXT_LOCALE=${target};path=/;max-age=31536000;SameSite=Lax`;
-        window.location.reload();
       }
+      startTransition(() => {
+        router.replace(pathname, { locale: target });
+      });
     } finally {
       setSaving(false);
     }

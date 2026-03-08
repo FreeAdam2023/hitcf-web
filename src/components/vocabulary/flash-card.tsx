@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { BookOpen, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Loader2, Volume2 } from "lucide-react";
 import { useAuthStore } from "@/stores/auth-store";
 import { useTranslations, useLocale } from "next-intl";
