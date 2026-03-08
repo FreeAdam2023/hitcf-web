@@ -53,8 +53,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
     : locale === "ar" ? [qAr, qEn]
     : locale === "en" ? [qEn, qZh] : [];
   const hasTranslation = qTranslations.some(Boolean);
-  // Listening A1/A2 questions (Q1-10) may have an associated image in Azure
-  const mayHaveImage = isListening && question.question_number <= 10;
+  const mayHaveImage = !!question.has_image;
   const [showTranslation, setShowTranslation] = useState(false);
 
   const [imageSrc, setImageSrc] = useState<string | null>(null);

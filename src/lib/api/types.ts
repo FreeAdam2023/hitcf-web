@@ -91,6 +91,7 @@ export interface QuestionBrief {
   options: Option[];
   topic?: string | null;
   topic_zh?: string | null;
+  has_image?: boolean;
   audio_timestamps?: AudioSegment[] | null;
   /** Source test set name (for cross-set practice like speed drill / mock exam) */
   test_set_name?: string | null;
