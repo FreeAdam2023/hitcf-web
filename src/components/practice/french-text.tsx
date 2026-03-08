@@ -117,22 +117,25 @@ export function FrenchText({ text, disabled, className, saveContext, sentenceTra
     return <span className={className}>{text}</span>;
   }
 
+  // Normalize to NFC so combining diacritics (e + ◌́) become precomposed (é)
+  const normalized = text.normalize("NFC");
+
   // Split text into tokens (words and non-words)
   const parts: { text: string; isWord: boolean }[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
 
   const re = new RegExp(WORD_RE.source, WORD_RE.flags);
-  while ((match = re.exec(text)) !== null) {
+  while ((match = re.exec(normalized)) !== null) {
     const matchStart = match.index;
     if (matchStart > lastIndex) {
-      parts.push({ text: text.slice(lastIndex, matchStart), isWord: false });
+      parts.push({ text: normalized.slice(lastIndex, matchStart), isWord: false });
     }
     parts.push({ text: match[0], isWord: true });
     lastIndex = matchStart + match[0].length;
   }
-  if (lastIndex < text.length) {
-    parts.push({ text: text.slice(lastIndex), isWord: false });
+  if (lastIndex < normalized.length) {
+    parts.push({ text: normalized.slice(lastIndex), isWord: false });
   }
 
   return (
