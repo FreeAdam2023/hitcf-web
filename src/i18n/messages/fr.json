@@ -2080,7 +2080,6 @@
     "step1": "Partagez votre code de parrainage unique ou votre lien avec un ami.",
     "step2": "Votre ami s'inscrit avec votre code et souscrit à un abonnement Pro.",
     "step3": "Dès qu'il s'abonne, vous obtenez tous les deux 30 jours ajoutés à vos abonnements !",
-    "subscriptionRequired": "Vous devez avoir un abonnement Pro actif pour générer un code de parrainage. Abonnez-vous d'abord pour commencer à parrainer des amis.",
     "yourCode": "Votre code de parrainage",
     "shareLink": "Lien de partage",
     "totalReferred": "Parrainés",
@@ -2088,6 +2087,7 @@
     "remaining": "Restants",
     "referralHistory": "Historique de parrainage",
     "days": "jours",
+    "pending": "En attente",
     "fraud": "Invalide",
     "loginRequired": "Veuillez vous connecter pour accéder au programme de parrainage."
   },

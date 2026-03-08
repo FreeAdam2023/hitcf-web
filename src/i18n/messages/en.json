@@ -2080,7 +2080,6 @@
     "step1": "Share your unique referral code or link with a friend.",
     "step2": "Your friend signs up using your code and subscribes to a Pro plan.",
     "step3": "Once they subscribe, you both get 30 days added to your subscriptions!",
-    "subscriptionRequired": "You need an active Pro subscription to generate a referral code. Subscribe first to start referring friends.",
     "yourCode": "Your Referral Code",
     "shareLink": "Share Link",
     "totalReferred": "Referred",
@@ -2088,6 +2087,7 @@
     "remaining": "Remaining",
     "referralHistory": "Referral History",
     "days": "days",
+    "pending": "Pending",
     "fraud": "Invalid",
     "loginRequired": "Please log in to access the referral program."
   },

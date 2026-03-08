@@ -13,11 +13,11 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Copy, Check, Gift, Users, Calendar, Share2, AlertCircle } from "lucide-react";
+import { Copy, Check, Gift, Users, Calendar, Share2, Clock } from "lucide-react";
 
 export function ReferralView() {
   const t = useTranslations("referralPage");
-  const { isAuthenticated, hasActiveSubscription } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
   const [stats, setStats] = useState<ReferralStats | null>(null);
   const [referrals, setReferrals] = useState<ReferralItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -86,8 +86,6 @@ export function ReferralView() {
     );
   }
 
-  const isSubscribed = hasActiveSubscription();
-
   return (
     <div className="mx-auto max-w-2xl space-y-6 p-4">
       <h1 className="text-2xl font-bold">{t("title")}</h1>
@@ -123,50 +121,39 @@ export function ReferralView() {
         </CardContent>
       </Card>
 
-      {/* Referral Code */}
-      {!isSubscribed ? (
-        <Card className="border-amber-500/50 bg-amber-50/50 dark:bg-amber-950/20">
-          <CardContent className="flex items-center gap-3 pt-6">
-            <AlertCircle className="h-5 w-5 shrink-0 text-amber-600" />
-            <p className="text-sm text-amber-800 dark:text-amber-200">
-              {t("subscriptionRequired")}
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Share2 className="h-5 w-5 text-primary" />
-              {t("yourCode")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Code display */}
+      {/* Referral Code — available to all logged-in users */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Share2 className="h-5 w-5 text-primary" />
+            {t("yourCode")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Code display */}
+          <div className="flex items-center gap-2">
+            <code className="flex-1 rounded-lg border bg-muted px-4 py-3 text-center font-mono text-2xl font-bold tracking-widest">
+              {stats?.referral_code || "—"}
+            </code>
+            <Button variant="outline" size="icon" onClick={copyCode}>
+              {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+            </Button>
+          </div>
+
+          {/* Share link */}
+          <div className="space-y-2">
+            <p className="text-sm font-medium">{t("shareLink")}</p>
             <div className="flex items-center gap-2">
-              <code className="flex-1 rounded-lg border bg-muted px-4 py-3 text-center font-mono text-2xl font-bold tracking-widest">
-                {stats?.referral_code || "—"}
+              <code className="flex-1 truncate rounded-lg border bg-muted px-3 py-2 text-xs text-muted-foreground">
+                {referralLink}
               </code>
-              <Button variant="outline" size="icon" onClick={copyCode}>
-                {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+              <Button variant="outline" size="sm" onClick={copyLink}>
+                {copiedLink ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
               </Button>
             </div>
-
-            {/* Share link */}
-            <div className="space-y-2">
-              <p className="text-sm font-medium">{t("shareLink")}</p>
-              <div className="flex items-center gap-2">
-                <code className="flex-1 truncate rounded-lg border bg-muted px-3 py-2 text-xs text-muted-foreground">
-                  {referralLink}
-                </code>
-                <Button variant="outline" size="sm" onClick={copyLink}>
-                  {copiedLink ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Stats */}
       {stats && (
@@ -218,6 +205,11 @@ export function ReferralView() {
                     {r.status === "completed" ? (
                       <span className="text-xs font-medium text-green-600">
                         +{r.referrer_reward_days} {t("days")}
+                      </span>
+                    ) : r.status === "pending" ? (
+                      <span className="flex items-center gap-1 text-xs font-medium text-amber-600">
+                        <Clock className="h-3 w-3" />
+                        {t("pending")}
                       </span>
                     ) : (
                       <span className="text-xs font-medium text-red-600">
