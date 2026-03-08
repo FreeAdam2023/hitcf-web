@@ -2070,16 +2070,16 @@
     },
     "referral": {
       "title": "Referral Program · Invite Friends, Earn Free Days",
-      "description": "Invite friends to HiTCF and both of you get 30 days of free Pro access. Share your referral code and earn rewards."
+      "description": "Invite friends to HiTCF and both of you get 7 days of free Pro access. Share your referral code and earn rewards."
     }
   },
   "referralPage": {
     "title": "Referral Program",
-    "subtitle": "Invite friends to HiTCF — you both get 30 days of free Pro access!",
+    "subtitle": "Invite friends to HiTCF — you both get 7 days of free Pro access!",
     "howItWorks": "How It Works",
     "step1": "Share your unique referral code or link with a friend.",
-    "step2": "Your friend signs up using your code and gets 30 days of Pro access for free.",
-    "step3": "You get 30 days added to your subscription as a thank-you reward!",
+    "step2": "Your friend signs up using your code and gets 7 days of Pro access for free.",
+    "step3": "You get 7 days added to your subscription as a thank-you reward!",
     "subscriptionRequired": "You need an active Pro subscription to generate a referral code. Subscribe first to start referring friends.",
     "yourCode": "Your Referral Code",
     "shareLink": "Share Link",
