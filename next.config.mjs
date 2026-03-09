@@ -23,13 +23,15 @@ const nextConfig = {
   },
   async rewrites() {
     return {
-      // fallback: runs AFTER all routes (including App Router) are checked,
-      // but BEFORE 404. This ensures NextAuth /api/auth/* routes are handled
-      // by the App Router route handler first, and only unmatched /api/*
-      // requests are proxied to the backend.
-      // The middleware matcher already excludes /api from locale processing,
-      // so [locale] won't capture /api/* requests.
-      fallback: [
+      // afterFiles: runs after filesystem routes but before dynamic routes.
+      // Rules are matched in order — first match wins.
+      afterFiles: [
+        // 1) NextAuth: identity rewrite keeps /api/auth/* local (App Router)
+        {
+          source: "/api/auth/:path*",
+          destination: "/api/auth/:path*",
+        },
+        // 2) All other /api/* routes proxy to the backend
         {
           source: "/api/:path*",
           destination: `${process.env.BACKEND_URL || "http://localhost:8001"}/api/:path*`,

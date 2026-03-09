@@ -207,7 +207,7 @@ function TranscriptBlock({
                     <p className="font-medium leading-relaxed text-foreground">
                       {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                       <FrenchText text={s.fr} saveContext={saveContext} sentenceTranslations={sentences} />
-                      {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400" title={t("practice.explanation.keyClue")}>★</span>}
+                      {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400" title={t("explanation.keyClue")}>★</span>}
                       <button
                         onClick={(e) => { e.stopPropagation(); setAnalysisTarget((prev) => prev?.index === i ? null : { index: i, fr: s.fr }); }}
                         className={`ml-1 inline-flex shrink-0 rounded p-0.5 transition-colors hover:bg-muted hover:text-primary ${analysisTarget?.index === i ? "text-primary" : "text-muted-foreground/50"}`}
