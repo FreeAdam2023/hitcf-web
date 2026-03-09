@@ -1,3 +1,10 @@
+## 2026-03-09 (0093c46)
+
+### Features
+- watermark only on content pages + explanation auto-retry (4c4faf7)
+
+---
+
 ## 2026-03-09 (5352b44)
 
 ### Style
