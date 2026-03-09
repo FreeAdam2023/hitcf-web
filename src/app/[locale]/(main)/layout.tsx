@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/navbar";
 import { ConditionalFooter } from "@/components/layout/conditional-footer";
 import { MainContainer } from "@/components/layout/main-container";
+import { WatermarkOverlay } from "@/components/shared/watermark-overlay";
 
 export default function MainLayout({
   children,
@@ -12,6 +13,7 @@ export default function MainLayout({
       <Navbar />
       <MainContainer>{children}</MainContainer>
       <ConditionalFooter />
+      <WatermarkOverlay />
     </div>
   );
 }

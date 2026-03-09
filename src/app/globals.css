@@ -82,6 +82,12 @@ body {
   padding-right: var(--safe-right);
 }
 
+/* ── Print protection: hide content, keep watermark ── */
+@media print {
+  [data-watermark] { opacity: 0.15 !important; }
+  body > *:not([data-watermark]) { visibility: hidden; }
+}
+
 /* ── Touch target minimum size (Apple HIG 44px) ── */
 @media (pointer: coarse) {
   button, a, [role="button"] {
