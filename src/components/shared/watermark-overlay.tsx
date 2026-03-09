@@ -7,11 +7,11 @@ import { useAuthStore } from "@/stores/auth-store";
 /**
  * Full-screen watermark overlay rendered via canvas → CSS background-image.
  *
- * Two modes controlled by backend `watermark_visible`:
- * - stealth (default): opacity ~0.018, imperceptible to naked eye
- * - visible: opacity ~0.06, subtly noticeable
+ * Brand "HiTCF.com" is always subtly visible.
+ * User identity (name + timestamp) controlled by backend `watermark_visible`:
+ * - false (default): identity imperceptible (opacity ~0.018)
+ * - true: identity subtly visible (opacity ~0.06)
  *
- * Always contains: HiTCF.com | username + timestamp.
  * Protected by MutationObserver against DevTools removal.
  */
 export function WatermarkOverlay() {
@@ -32,28 +32,35 @@ export function WatermarkOverlay() {
     canvas.width = tileW;
     canvas.height = tileH;
 
-    const visible = user.watermark_visible ?? false;
-    const opacity = visible ? 0.06 : 0.018;
+    const showIdentity = user.watermark_visible ?? false;
     const isDark = resolvedTheme === "dark";
     const rgb = isDark ? "255, 255, 255" : "0, 0, 0";
+    const brandOpacity = 0.06;
+    const identityOpacity = showIdentity ? 0.06 : 0.018;
 
     ctx.clearRect(0, 0, tileW, tileH);
     ctx.save();
     ctx.translate(tileW / 2, tileH / 2);
     ctx.rotate((-22 * Math.PI) / 180);
-
-    ctx.font = "14px -apple-system, BlinkMacSystemFont, sans-serif";
-    ctx.fillStyle = `rgba(${rgb}, ${opacity})`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
+    // Brand — always subtly visible
+    ctx.font = "14px -apple-system, BlinkMacSystemFont, sans-serif";
+    ctx.fillStyle = `rgba(${rgb}, ${brandOpacity})`;
+    ctx.fillText("HiTCF.com", 0, -16);
+
+    // User identity — hidden by default, visible when admin enables
     const name = user.name || user.email.split("@")[0];
     const now = new Date();
-    const ts = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+    const pad = (n: number) => String(n).padStart(2, "0");
+    const ts = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
-    ctx.fillText(`HiTCF.com | ${name}`, 0, -10);
     ctx.font = "12px -apple-system, BlinkMacSystemFont, sans-serif";
-    ctx.fillText(ts, 0, 12);
+    ctx.fillStyle = `rgba(${rgb}, ${identityOpacity})`;
+    ctx.fillText(name, 0, 2);
+    ctx.font = "11px -apple-system, BlinkMacSystemFont, sans-serif";
+    ctx.fillText(ts, 0, 18);
 
     ctx.restore();
     return canvas.toDataURL("image/png");
