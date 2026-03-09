@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
 
+import { parseUTCms } from "@/lib/utils";
 import { ArrowRight, RotateCcw, Share2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -60,8 +61,8 @@ export function ResultsView({ attempt }: ResultsViewProps) {
   // Calculate time taken
   let timeTakenSeconds: number | null = null;
   if (attempt.started_at && attempt.completed_at) {
-    const start = new Date(attempt.started_at).getTime();
-    const end = new Date(attempt.completed_at).getTime();
+    const start = parseUTCms(attempt.started_at);
+    const end = parseUTCms(attempt.completed_at);
     timeTakenSeconds = Math.round((end - start) / 1000);
   }
 

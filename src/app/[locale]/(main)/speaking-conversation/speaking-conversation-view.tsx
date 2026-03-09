@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { Mic, MicOff, Square, MessageCircle, Volume2, RotateCcw } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { parseUTCms } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { SceneBriefingCard } from "@/components/speaking/scene-briefing-card";
@@ -112,7 +113,7 @@ export function SpeakingConversationView() {
         setTurns(conv.turns);
         const elapsed = conv.conversation_started_at
           ? Math.floor(
-              (Date.now() - new Date(conv.conversation_started_at).getTime()) /
+              (Date.now() - parseUTCms(conv.conversation_started_at)) /
                 1000,
             )
           : 0;
@@ -133,7 +134,7 @@ export function SpeakingConversationView() {
       // status === "pending" — calculate remaining prep time
       const prepElapsed = conv.started_at
         ? Math.floor(
-            (Date.now() - new Date(conv.started_at).getTime()) / 1000,
+            (Date.now() - parseUTCms(conv.started_at)) / 1000,
           )
         : 0;
       const remainingPrep = Math.max(0, conv.prep_time_seconds - prepElapsed);

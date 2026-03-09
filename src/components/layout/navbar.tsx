@@ -28,7 +28,7 @@ import { usePracticeStore } from "@/stores/practice-store";
 import { UserMenu } from "./user-menu";
 import { ThemeToggle } from "./theme-toggle";
 import { LocaleToggle } from "./locale-toggle";
-import { cn } from "@/lib/utils";
+import { cn, parseUTCms } from "@/lib/utils";
 
 const NAV_KEYS = [
   { href: "/tests", key: "nav.tests" },
@@ -163,14 +163,14 @@ function ImmersiveHeader() {
   const totalQuestions = usePracticeStore((s) => s.questions.length);
   const startedAt = usePracticeStore((s) => s.startedAt);
 
-  const startRef = useRef(startedAt ? new Date(startedAt).getTime() : Date.now());
+  const startRef = useRef(startedAt ? parseUTCms(startedAt) : Date.now());
   const [elapsed, setElapsed] = useState(() =>
     Math.max(0, Math.floor((Date.now() - startRef.current) / 1000))
   );
 
   useEffect(() => {
     if (startedAt) {
-      startRef.current = new Date(startedAt).getTime();
+      startRef.current = parseUTCms(startedAt);
     }
     const timer = setInterval(() => {
       setElapsed(Math.max(0, Math.floor((Date.now() - startRef.current) / 1000)));

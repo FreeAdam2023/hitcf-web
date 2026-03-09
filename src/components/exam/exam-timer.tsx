@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Clock } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, parseUTCms } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 
 interface ExamTimerProps {
@@ -16,7 +16,7 @@ interface ExamTimerProps {
 export function ExamTimer({ timeLimitSeconds, startedAt, onTimeUp, prominent }: ExamTimerProps) {
   const t = useTranslations();
   const [remaining, setRemaining] = useState(() => {
-    const elapsed = Math.floor((Date.now() - new Date(startedAt).getTime()) / 1000);
+    const elapsed = Math.floor((Date.now() - parseUTCms(startedAt)) / 1000);
     return Math.max(0, timeLimitSeconds - elapsed);
   });
   const [announcement, setAnnouncement] = useState("");
@@ -24,7 +24,7 @@ export function ExamTimer({ timeLimitSeconds, startedAt, onTimeUp, prominent }: 
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const elapsed = Math.floor((Date.now() - new Date(startedAt).getTime()) / 1000);
+      const elapsed = Math.floor((Date.now() - parseUTCms(startedAt)) / 1000);
       const left = Math.max(0, timeLimitSeconds - elapsed);
       setRemaining(left);
 

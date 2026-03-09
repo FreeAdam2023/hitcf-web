@@ -415,7 +415,11 @@ export default function TestDetailPage() {
   const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
   const [activeExam, setActiveExam] = useState<ActiveAttemptResponse | null>(null);
 
-  const locked = test ? !test.is_free && !canAccessPaid : false;
+  // Listening/reading: always open (per-question quota enforced at answer time)
+  // Speaking/writing: require subscription unless marked as free
+  const locked = test
+    ? (test.type === "speaking" || test.type === "writing") && !test.is_free && !canAccessPaid
+    : false;
 
   useEffect(() => {
     getTestSet(params.id)
