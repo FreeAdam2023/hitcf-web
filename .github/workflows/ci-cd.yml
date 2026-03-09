@@ -144,6 +144,29 @@ jobs:
           echo "::error::Site health check failed after 5 attempts"
           exit 1
 
+      - name: Verify NextAuth routes are not proxied
+        run: |
+          # /api/auth/providers must return NextAuth JSON, NOT backend 404
+          AUTH_STATUS=$(curl -s -o /tmp/auth_body -w "%{http_code}" "$SITE_URL/api/auth/providers" --max-time 10 -L || echo "000")
+          AUTH_BODY=$(cat /tmp/auth_body 2>/dev/null || echo "")
+          echo "NextAuth providers: HTTP $AUTH_STATUS"
+          echo "Response body (first 200 chars): ${AUTH_BODY:0:200}"
+
+          if [ "$AUTH_STATUS" = "404" ]; then
+            echo "::error::CRITICAL: /api/auth/providers returned 404 — NextAuth routes are being proxied to backend!"
+            echo "::error::Check next.config.mjs rewrite rules: /api/auth/* must NOT be proxied."
+            exit 1
+          fi
+
+          # Response should be JSON with provider keys (google, credentials)
+          if echo "$AUTH_BODY" | grep -q '"google"'; then
+            echo "NextAuth providers OK (Google provider found)"
+          elif echo "$AUTH_BODY" | grep -q '"credentials"'; then
+            echo "NextAuth providers OK (Credentials provider found)"
+          else
+            echo "::warning::NextAuth /api/auth/providers returned HTTP $AUTH_STATUS but no known providers in response"
+          fi
+
       - name: Verify API proxies to correct backend
         run: |
           HEALTH_BODY=$(curl -s "$SITE_URL/api/health" --max-time 10 -L || echo "")
