@@ -158,9 +158,11 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
     <Popover open onOpenChange={(open) => !open && onClose()}>
       <PopoverAnchor virtualRef={{ current: anchorEl }} />
       <PopoverContent
-        className={`max-h-[70vh] overflow-y-auto p-0 ${isVerb ? "w-[420px]" : "w-96"}`}
+        className={`max-h-[min(70vh,480px)] overflow-y-auto p-0 ${isVerb ? "w-[420px]" : "w-96"}`}
         side="bottom"
         align="start"
+        collisionPadding={16}
+        avoidCollisions
         onOpenAutoFocus={(e) => e.preventDefault()}
         onClick={(e) => e.stopPropagation()}
       >
