@@ -5,8 +5,6 @@ import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8001";
-
 const PROTECTED_PREFIXES = [
   "/dashboard",
   "/wrong-answers",
@@ -25,8 +23,7 @@ const PROTECTED_PREFIXES = [
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // 1. www → non-www (MUST run first, before any other logic)
-  //    Ensures OAuth callbacks land on the same domain as CSRF cookies.
+  // 1. www → non-www
   const host = request.headers.get("host") || "";
   if (host.startsWith("www.")) {
     const url = request.nextUrl.clone();
@@ -35,21 +32,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
-  // 2. All /api/* — proxy or passthrough, but NEVER run i18n on API routes
-  if (pathname.startsWith("/api/")) {
-    if (!pathname.startsWith("/api/auth/")) {
-      // Proxy non-auth API to backend
-      const target = new URL(pathname + request.nextUrl.search, BACKEND_URL);
-      return NextResponse.rewrite(target);
-    }
-    // /api/auth/* — let NextAuth Pages Router handle it directly
-    return NextResponse.next();
-  }
-
-  // 3. i18n routing (locale detection + prefix)
+  // 2. i18n routing (locale detection + prefix)
   const response = intlMiddleware(request);
 
-  // 4. Auth protection (skip in dev)
+  // 3. Auth protection (skip in dev)
   if (process.env.NODE_ENV !== "development") {
     const localeMatch = pathname.match(/^\/(zh|en|fr|ar)(\/.*)?$/);
     const pathWithoutLocale = localeMatch ? (localeMatch[2] || "/") : pathname;
@@ -73,9 +59,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // All API routes — proxy non-auth to backend, www redirect for auth
-    "/api/:path*",
-    // All non-API routes except static files — i18n + auth + www redirect
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff|woff2)$).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff|woff2)$).*)",
   ],
 };

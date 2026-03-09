@@ -21,9 +21,14 @@ const nextConfig = {
       },
     ];
   },
-  // API proxy moved to middleware.ts — NextResponse.rewrite() to BACKEND_URL.
-  // next-intl plugin flattens afterFiles rewrites, breaking Pages Router
-  // route priority, so we handle it in middleware instead.
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path((?!auth).*)",
+        destination: `${process.env.BACKEND_URL || "http://localhost:8001"}/api/:path`,
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);

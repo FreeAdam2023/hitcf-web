@@ -21,9 +21,6 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-# BACKEND_URL needed at runtime for middleware proxy + auth callbacks
-ARG BACKEND_URL=http://localhost:8001
-ENV BACKEND_URL=$BACKEND_URL
 
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs

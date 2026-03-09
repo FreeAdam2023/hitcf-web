@@ -2,18 +2,7 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import jwt from "jsonwebtoken";
-// Dynamic import: next/headers only works in App Router context.
-// NextAuth now runs in Pages Router, so static import would break.
-let getHeaders: (() => ReturnType<typeof import("next/headers").headers>) | undefined;
-let getCookies: (() => ReturnType<typeof import("next/headers").cookies>) | undefined;
-try {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const mod = require("next/headers");
-  getHeaders = mod.headers;
-  getCookies = mod.cookies;
-} catch {
-  // Pages Router — next/headers not available
-}
+import { headers as getHeaders, cookies as getCookies } from "next/headers";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8001";
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "dev-secret-change-in-production";
@@ -70,18 +59,16 @@ export const authOptions: NextAuthOptions = {
           // Extract tracking data from request context
           let trackingData: Record<string, string> = {};
           try {
-            if (getHeaders && getCookies) {
-              const h = getHeaders();
-              const c = getCookies();
-              trackingData = {
-                signup_ip: h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "",
-                signup_user_agent: h.get("user-agent") || "",
-                signup_referer: h.get("referer") || "",
-                signup_utm_source: c.get("utm_source")?.value || "",
-                signup_utm_medium: c.get("utm_medium")?.value || "",
-                signup_utm_campaign: c.get("utm_campaign")?.value || "",
-              };
-            }
+            const h = getHeaders();
+            const c = getCookies();
+            trackingData = {
+              signup_ip: h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "",
+              signup_user_agent: h.get("user-agent") || "",
+              signup_referer: h.get("referer") || "",
+              signup_utm_source: c.get("utm_source")?.value || "",
+              signup_utm_medium: c.get("utm_medium")?.value || "",
+              signup_utm_campaign: c.get("utm_campaign")?.value || "",
+            };
           } catch {
             // headers()/cookies() may fail outside route handler context
           }
