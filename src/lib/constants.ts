@@ -51,3 +51,28 @@ export const TYPE_COLORS: Record<
 
 export const LOGIN_URL = "/login";
 export const CLB7_TARGET = 0.78;
+
+/* ------------------------------------------------------------------ */
+/*  Pricing — single source of truth for display amounts (USD)        */
+/* ------------------------------------------------------------------ */
+export const PRICING = {
+  monthly: 19.9,
+  yearly: 99.9,
+  quarterly: 39.9, // legacy
+  currency: "USD",
+  monthlyTrialDays: 7,
+  yearlyTrialDays: 14,
+  /** Yearly price divided by 12 */
+  get yearlyPerMonth() {
+    return +(this.yearly / 12).toFixed(2);
+  },
+  /** Savings percentage of yearly vs monthly-×-12 */
+  get savingsPercent() {
+    return Math.round((1 - this.yearly / (this.monthly * 12)) * 100);
+  },
+} as const;
+
+/** Format a price for display, e.g. "US$19.90" */
+export function formatPrice(amount: number, prefix = "US$"): string {
+  return `${prefix}${amount.toFixed(2)}`;
+}

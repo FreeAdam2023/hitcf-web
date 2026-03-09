@@ -23,6 +23,7 @@ import {
 import { useAuthStore } from "@/stores/auth-store";
 import { createCheckout, getCustomerPortal } from "@/lib/api/subscriptions";
 import { cn } from "@/lib/utils";
+import { PRICING, formatPrice } from "@/lib/constants";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -31,12 +32,12 @@ import { cn } from "@/lib/utils";
 const PLANS = [
   {
     key: "monthly" as const,
-    price: "US$19.90",
+    price: formatPrice(PRICING.monthly),
     recommended: false,
   },
   {
     key: "yearly" as const,
-    price: "US$99.90",
+    price: formatPrice(PRICING.yearly),
     recommended: true,
   },
 ];
@@ -59,6 +60,16 @@ export function PricingView() {
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">("yearly");
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const activePlan = PLANS.find((p) => p.key === selectedPlan)!;
+
+  // Shared interpolation params for i18n strings containing prices
+  const pp = {
+    monthlyPrice: PRICING.monthly.toFixed(2),
+    yearlyPrice: PRICING.yearly.toFixed(2),
+    yearlyPerMonth: PRICING.yearlyPerMonth.toFixed(2),
+    savingsPercent: String(PRICING.savingsPercent),
+    monthlyTrialDays: String(PRICING.monthlyTrialDays),
+    yearlyTrialDays: String(PRICING.yearlyTrialDays),
+  };
 
   const handleSubscribe = async (plan: "monthly" | "yearly") => {
     setLoadingPlan(plan);
@@ -101,7 +112,7 @@ export function PricingView() {
         <div className="mx-auto grid max-w-xl gap-4 sm:grid-cols-2">
           {PLANS.map((plan) => {
             const isSelected = selectedPlan === plan.key;
-            const equiv = plan.key !== "monthly" ? t(`pricing.plans.${plan.key}.equiv`) : null;
+            const equiv = plan.key !== "monthly" ? t(`pricing.plans.${plan.key}.equiv`, pp) : null;
             const badge = plan.key !== "monthly" ? t(`pricing.plans.${plan.key}.badge`) : null;
             return (
               <div
@@ -182,7 +193,7 @@ export function PricingView() {
             >
               {loadingPlan === selectedPlan
                 ? t("pricing.cta.redirecting")
-                : `${t(`pricing.plans.${activePlan.key}.trialLabel`)}${t("pricing.cta.trialSuffix")}`}
+                : `${t(`pricing.plans.${activePlan.key}.trialLabel`, pp)}${t("pricing.cta.trialSuffix")}`}
             </Button>
           ) : (
             <Button
@@ -191,7 +202,7 @@ export function PricingView() {
               asChild
             >
               <Link href="/register">
-                {`${t(`pricing.plans.${activePlan.key}.trialLabel`)}${t("pricing.cta.trialSuffix")}`}
+                {`${t(`pricing.plans.${activePlan.key}.trialLabel`, pp)}${t("pricing.cta.trialSuffix")}`}
               </Link>
             </Button>
           )}
@@ -214,7 +225,7 @@ export function PricingView() {
 
       {/* ---- Trust Strip ---- */}
       <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
-        <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {t("pricing.trust.trial")}</span>
+        <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {t("pricing.trust.trial", pp)}</span>
         <span className="inline-flex items-center gap-1"><CreditCard className="h-3.5 w-3.5" /> {t("pricing.trust.stripe")}</span>
         <span className="inline-flex items-center gap-1"><RefreshCw className="h-3.5 w-3.5" /> {t("pricing.trust.refund")}</span>
         <span className="inline-flex items-center gap-1"><Shield className="h-3.5 w-3.5" /> {t("pricing.trust.cancel")}</span>
@@ -319,7 +330,7 @@ export function PricingView() {
                     {t(`pricing.faq.items.${i}.q`)}
                   </AccordionTrigger>
                   <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
-                    {t(`pricing.faq.items.${i}.a`)}
+                    {t(`pricing.faq.items.${i}.a`, pp)}
                   </AccordionContent>
                 </AccordionItem>
               ))}

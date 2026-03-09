@@ -10,6 +10,7 @@ import { getCustomerPortal } from "@/lib/api/subscriptions";
 import { getStatsOverview, type StatsOverview } from "@/lib/api/stats";
 import { ApiError } from "@/lib/api/client";
 import { SUPPORTED_LOCALES, LOCALE_LABELS, type Locale } from "@/i18n/locales";
+import { PRICING } from "@/lib/constants";
 import {
   Card,
   CardContent,
@@ -473,7 +474,11 @@ export function AccountView() {
                 {t("account.unlockAll")}
               </p>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                {t("account.yearlyDeal")}
+                {t("account.yearlyDeal", {
+                  yearlyPrice: PRICING.yearly.toFixed(2),
+                  yearlyPerMonth: PRICING.yearlyPerMonth.toFixed(2),
+                  yearlyTrialDays: String(PRICING.yearlyTrialDays),
+                })}
               </p>
             </div>
             <Button

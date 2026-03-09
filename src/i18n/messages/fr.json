@@ -699,7 +699,7 @@
     },
     "continuePractice": "Continuer la pratique",
     "unlockAll": "Débloquez les 8 500+ questions + outils de vocabulaire",
-    "yearlyDeal": "Forfait annuel à 99,90 $/an avec 14 jours d'essai gratuit",
+    "yearlyDeal": "Forfait annuel à {yearlyPrice} $/an avec {yearlyTrialDays} jours d'essai gratuit",
     "upgradePro": "Passer à Pro",
     "profile": {
       "title": "Profil",
@@ -1433,16 +1433,16 @@
       "monthly": {
         "name": "Mensuel",
         "unit": "/ mois",
-        "trialLabel": "Essai gratuit de 7 jours",
+        "trialLabel": "Essai gratuit de {monthlyTrialDays} jours",
         "valueDesc": "Moins de $0.70/jour pour 8 500+ questions couvrant les 4 sections",
         "savingsVsTutor": "97 % moins cher qu'un tuteur"
       },
       "yearly": {
         "name": "Annuel",
         "unit": "/ an",
-        "equiv": "≈ 8,33 $ US / mois, économisez 58 % · Sans renouvellement auto",
+        "equiv": "≈ {yearlyPerMonth} $ US / mois, économisez {savingsPercent} % · Sans renouvellement auto",
         "badge": "Le plus populaire",
-        "trialLabel": "Essai gratuit de 14 jours",
+        "trialLabel": "Essai gratuit de {yearlyTrialDays} jours",
         "valueDesc": "Un café par mois pour l'entraînement + flashcards + dictée + exportation Anki",
         "savingsVsTutor": "99 % moins cher qu'un tuteur"
       }
@@ -1456,7 +1456,7 @@
     "usdNote": "Tous les prix sont en USD · Annulez pendant l'essai sans frais",
     "referralNudge": "Ou invitez un ami — 30 jours Pro gratuits pour chacun",
     "trust": {
-      "trial": "Essai gratuit de 7 jours",
+      "trial": "Essai gratuit de {monthlyTrialDays} jours",
       "stripe": "Paiements sécurisés via Stripe",
       "refund": "Garantie de remboursement sous 48 h",
       "cancel": "Annulez à tout moment en un clic"
@@ -1490,11 +1490,11 @@
       "items": [
         {
           "q": "Quelle est la différence entre l'abonnement mensuel et annuel ?",
-          "a": "L'abonnement mensuel est récurrent avec 7 jours d'essai gratuit pour les nouveaux utilisateurs — annulez à tout moment. L'abonnement annuel est un paiement unique de 99,90 US$, effectif immédiatement pour un an, sans renouvellement automatique."
+          "a": "L'abonnement mensuel est récurrent avec {monthlyTrialDays} jours d'essai gratuit pour les nouveaux utilisateurs — annulez à tout moment. L'abonnement annuel est un paiement unique de {yearlyPrice} US$, effectif immédiatement pour un an, sans renouvellement automatique."
         },
         {
           "q": "Ai-je besoin d'une carte de crédit pour l'essai gratuit ?",
-          "a": "Pour le forfait mensuel, oui — lié de manière sécurisée via Stripe. Annulez dans les 7 jours et vous ne serez pas facturé. Le forfait annuel est un paiement unique, sans abonnement par carte."
+          "a": "Pour le forfait mensuel, oui — lié de manière sécurisée via Stripe. Annulez dans les {monthlyTrialDays} jours et vous ne serez pas facturé. Le forfait annuel est un paiement unique, sans abonnement par carte."
         },
         {
           "q": "Puis-je annuler à tout moment ?",

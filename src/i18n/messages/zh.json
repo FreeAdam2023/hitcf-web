@@ -699,7 +699,7 @@
     },
     "continuePractice": "继续练习",
     "unlockAll": "解锁全部 8,500+ 道真题 + 词汇工具",
-    "yearlyDeal": "年付低至 $8.33/月，含 14 天免费试用",
+    "yearlyDeal": "年付低至 ${yearlyPerMonth}/月，含 {yearlyTrialDays} 天免费试用",
     "upgradePro": "升级 Pro",
     "profile": {
       "title": "个人信息",
@@ -1433,16 +1433,16 @@
       "monthly": {
         "name": "月付",
         "unit": "/ 月",
-        "trialLabel": "7 天免费试用",
+        "trialLabel": "{monthlyTrialDays} 天免费试用",
         "valueDesc": "每天不到 7 毛钱，刷完四科 8,500 道题",
         "savingsVsTutor": "比请家教便宜 97%"
       },
       "yearly": {
         "name": "年付",
         "unit": "/ 年",
-        "equiv": "≈ US$8.33 / 月，省 58% · 不自动续费",
+        "equiv": "≈ US${yearlyPerMonth} / 月，省 {savingsPercent}% · 不自动续费",
         "badge": "最受欢迎",
-        "trialLabel": "14 天免费试用",
+        "trialLabel": "{yearlyTrialDays} 天免费试用",
         "valueDesc": "每月一杯咖啡的钱，刷题 + 翻卡 + 听写 + 导出 Anki",
         "savingsVsTutor": "比请家教便宜 99%"
       }
@@ -1456,7 +1456,7 @@
     "usdNote": "所有价格均以美元（USD）计价 · 试用期内取消不收费",
     "referralNudge": "或者邀请好友，双方各得 30 天 Pro",
     "trust": {
-      "trial": "7 天免费试用",
+      "trial": "{monthlyTrialDays} 天免费试用",
       "stripe": "Stripe 安全支付",
       "refund": "48h 无理由退款",
       "cancel": "随时一键取消"
@@ -1490,11 +1490,11 @@
       "items": [
         {
           "q": "月付和年付有什么区别？",
-          "a": "月付为按月订阅，新用户享 7 天免费试用，到期自动续费，随时可取消。年付为一次性付款 US$99.90，立即生效，有效期一年，无自动续费。"
+          "a": "月付为按月订阅，新用户享 {monthlyTrialDays} 天免费试用，到期自动续费，随时可取消。年付为一次性付款 US${yearlyPrice}，立即生效，有效期一年，无自动续费。"
         },
         {
           "q": "免费试用需要绑定信用卡吗？",
-          "a": "月付方案需要绑定信用卡，通过 Stripe 安全处理，7 天试用期内随时取消不扣费。年付方案为一次性付款，直接支付即可。"
+          "a": "月付方案需要绑定信用卡，通过 Stripe 安全处理，{monthlyTrialDays} 天试用期内随时取消不扣费。年付方案为一次性付款，直接支付即可。"
         },
         {
           "q": "可以随时取消吗？",
