@@ -8,9 +8,8 @@ import { useAuthStore } from "@/stores/auth-store";
 /**
  * Full-screen watermark overlay rendered via canvas → CSS background-image.
  *
- * Only renders on content pages (practice, exam, results, tests, writing,
- * speaking, vocabulary, wrong-answers, speed-drill).
- * Non-content pages (pricing, account, etc.) have no watermark at all.
+ * Content pages: brand "HiTCF.com" (subtle) + hidden user ID.
+ * All other pages: hidden user ID only (no brand).
  *
  * Protected by MutationObserver against DevTools removal.
  */
@@ -38,7 +37,7 @@ export function WatermarkOverlay() {
   const contentPage = isContentPage(pathname);
 
   const generateWatermark = useCallback((): string | null => {
-    if (!user || !contentPage) return null;
+    if (!user) return null;
 
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -61,12 +60,14 @@ export function WatermarkOverlay() {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // Brand
-    ctx.font = "600 18px -apple-system, BlinkMacSystemFont, sans-serif";
-    ctx.fillStyle = `rgba(${rgb}, 0.065)`;
-    ctx.fillText("HiTCF.com", 0, -14);
+    // Brand — only on content pages
+    if (contentPage) {
+      ctx.font = "600 18px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillStyle = `rgba(${rgb}, 0.065)`;
+      ctx.fillText("HiTCF.com", 0, -14);
+    }
 
-    // User identity — show short ID (last 8 chars of ObjectId) for privacy
+    // User identity (hidden) — on ALL pages
     const uid = user.id.slice(-8);
     const now = new Date();
     const pad = (n: number) => String(n).padStart(2, "0");
@@ -74,9 +75,9 @@ export function WatermarkOverlay() {
 
     ctx.font = "12px -apple-system, BlinkMacSystemFont, sans-serif";
     ctx.fillStyle = `rgba(${rgb}, ${identityOpacity})`;
-    ctx.fillText(uid, 0, 8);
+    ctx.fillText(uid, 0, contentPage ? 8 : -4);
     ctx.font = "11px -apple-system, BlinkMacSystemFont, sans-serif";
-    ctx.fillText(ts, 0, 24);
+    ctx.fillText(ts, 0, contentPage ? 24 : 12);
 
     ctx.restore();
     return canvas.toDataURL("image/png");
@@ -101,11 +102,7 @@ export function WatermarkOverlay() {
   }, [generateWatermark]);
 
   useEffect(() => {
-    if (!user || !contentPage) {
-      // Clear overlay when leaving content pages
-      if (overlayRef.current) overlayRef.current.style.cssText = "";
-      return;
-    }
+    if (!user) return;
     applyWatermark();
 
     // Refresh timestamp every 5 minutes
@@ -132,7 +129,7 @@ export function WatermarkOverlay() {
       clearInterval(timer);
       observerRef.current?.disconnect();
     };
-  }, [user, contentPage, applyWatermark]);
+  }, [user, applyWatermark]);
 
   if (!user) return null;
 

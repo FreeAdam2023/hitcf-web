@@ -12,7 +12,7 @@ import { usePracticeStore } from "@/stores/practice-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
 import { getQuestionDetail, generateExplanation } from "@/lib/api/questions";
-import { QuotaExceededError } from "@/lib/api/client";
+import { ApiError, QuotaExceededError } from "@/lib/api/client";
 import { QuotaExceededModal } from "@/components/shared/quota-exceeded-modal";
 import { QuestionDisplay } from "@/components/practice/question-display";
 import { OptionList } from "@/components/practice/option-list";
@@ -386,7 +386,8 @@ export function PracticeSession() {
   const [audioTime, setAudioTime] = useState(0);
 
   // Fetch explanation — called once by parent, shared with both panels
-  // Auto-retries up to 2 times on failure (handles 409 pending, transient LLM errors)
+  // 409 = backend is generating → stay in loading state, poll every 5s
+  // Other errors → retry 2 times, then show error
   const fetchingRef = useRef(false);
   const expectedQuestionRef = useRef<string>("");
   const fetchExplanation = useCallback((questionId: string, force?: boolean) => {
@@ -396,31 +397,43 @@ export function PracticeSession() {
     setExplanationLoading(true);
     setExplanationError(false);
 
-    let retries = 0;
+    let pollCount = 0;
+    let errorCount = 0;
     const doFetch = () => {
       if (expectedQuestionRef.current !== questionId) {
         fetchingRef.current = false;
         return;
       }
-      generateExplanation(questionId, force && retries === 0, locale)
+      generateExplanation(questionId, force && pollCount === 0 && errorCount === 0, locale)
         .then((data) => {
           if (expectedQuestionRef.current === questionId) setExplanation(data);
           fetchingRef.current = false;
           setExplanationLoading(false);
         })
-        .catch(() => {
+        .catch((err) => {
           if (expectedQuestionRef.current !== questionId) {
             fetchingRef.current = false;
             return;
           }
-          retries++;
-          if (retries <= 2) {
-            setTimeout(doFetch, retries * 3000);
+          const is409 = err instanceof ApiError && err.status === 409;
+          if (is409) {
+            // Backend is generating — keep loading spinner, poll every 5s (up to 12 times = 60s)
+            pollCount++;
+            if (pollCount <= 12) {
+              setTimeout(doFetch, 5000);
+              return;
+            }
           } else {
-            setExplanationError(true);
-            fetchingRef.current = false;
-            setExplanationLoading(false);
+            // Real error (502, timeout, etc.) — retry up to 2 times
+            errorCount++;
+            if (errorCount <= 2) {
+              setTimeout(doFetch, 3000);
+              return;
+            }
           }
+          setExplanationError(true);
+          fetchingRef.current = false;
+          setExplanationLoading(false);
         });
     };
     doFetch();
