@@ -27,15 +27,15 @@ export function WatermarkOverlay() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return null;
 
-    const tileW = 320;
-    const tileH = 200;
+    const tileW = 400;
+    const tileH = 240;
     canvas.width = tileW;
     canvas.height = tileH;
 
     const showIdentity = user.watermark_visible ?? false;
     const isDark = resolvedTheme === "dark";
     const rgb = isDark ? "255, 255, 255" : "0, 0, 0";
-    const brandOpacity = 0.06;
+    const brandOpacity = 0.09;
     const identityOpacity = showIdentity ? 0.06 : 0.018;
 
     ctx.clearRect(0, 0, tileW, tileH);
@@ -45,10 +45,10 @@ export function WatermarkOverlay() {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // Brand — always subtly visible
-    ctx.font = "14px -apple-system, BlinkMacSystemFont, sans-serif";
+    // Brand — visible in screenshots, not annoying in daily use
+    ctx.font = "bold 22px -apple-system, BlinkMacSystemFont, sans-serif";
     ctx.fillStyle = `rgba(${rgb}, ${brandOpacity})`;
-    ctx.fillText("HiTCF.com", 0, -16);
+    ctx.fillText("HiTCF.com", 0, -14);
 
     // User identity — hidden by default, visible when admin enables
     const name = user.name || user.email.split("@")[0];
@@ -58,9 +58,9 @@ export function WatermarkOverlay() {
 
     ctx.font = "12px -apple-system, BlinkMacSystemFont, sans-serif";
     ctx.fillStyle = `rgba(${rgb}, ${identityOpacity})`;
-    ctx.fillText(name, 0, 2);
+    ctx.fillText(name, 0, 8);
     ctx.font = "11px -apple-system, BlinkMacSystemFont, sans-serif";
-    ctx.fillText(ts, 0, 18);
+    ctx.fillText(ts, 0, 24);
 
     ctx.restore();
     return canvas.toDataURL("image/png");
