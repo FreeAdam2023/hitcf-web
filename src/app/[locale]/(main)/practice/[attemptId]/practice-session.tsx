@@ -386,6 +386,7 @@ export function PracticeSession() {
   const [audioTime, setAudioTime] = useState(0);
 
   // Fetch explanation — called once by parent, shared with both panels
+  // Auto-retries up to 2 times on failure (handles 409 pending, transient LLM errors)
   const fetchingRef = useRef(false);
   const expectedQuestionRef = useRef<string>("");
   const fetchExplanation = useCallback((questionId: string, force?: boolean) => {
@@ -394,19 +395,35 @@ export function PracticeSession() {
     expectedQuestionRef.current = questionId;
     setExplanationLoading(true);
     setExplanationError(false);
-    generateExplanation(questionId, force, locale)
-      .then((data) => {
-        if (expectedQuestionRef.current === questionId) setExplanation(data);
-      })
-      .catch(() => {
-        if (expectedQuestionRef.current === questionId) setExplanationError(true);
-      })
-      .finally(() => {
-        if (expectedQuestionRef.current === questionId) {
+
+    let retries = 0;
+    const doFetch = () => {
+      if (expectedQuestionRef.current !== questionId) {
+        fetchingRef.current = false;
+        return;
+      }
+      generateExplanation(questionId, force && retries === 0, locale)
+        .then((data) => {
+          if (expectedQuestionRef.current === questionId) setExplanation(data);
           fetchingRef.current = false;
           setExplanationLoading(false);
-        }
-      });
+        })
+        .catch(() => {
+          if (expectedQuestionRef.current !== questionId) {
+            fetchingRef.current = false;
+            return;
+          }
+          retries++;
+          if (retries <= 2) {
+            setTimeout(doFetch, retries * 3000);
+          } else {
+            setExplanationError(true);
+            fetchingRef.current = false;
+            setExplanationLoading(false);
+          }
+        });
+    };
+    doFetch();
   }, [locale]);
 
   // Clear pending selection and indicators when navigating

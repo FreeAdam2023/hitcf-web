@@ -1,27 +1,44 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useAuthStore } from "@/stores/auth-store";
 
 /**
  * Full-screen watermark overlay rendered via canvas → CSS background-image.
  *
- * Brand "HiTCF.com" is always subtly visible.
- * User identity (name + timestamp) controlled by backend `watermark_visible`:
- * - false (default): identity imperceptible (opacity ~0.018)
- * - true: identity subtly visible (opacity ~0.06)
+ * Only renders on content pages (practice, exam, results, tests, writing,
+ * speaking, vocabulary, wrong-answers, speed-drill).
+ * Non-content pages (pricing, account, etc.) have no watermark at all.
  *
  * Protected by MutationObserver against DevTools removal.
  */
+
+// Routes where brand watermark is visible (content worth protecting)
+const CONTENT_PREFIXES = [
+  "/practice/", "/exam/", "/results/", "/tests",
+  "/writing-practice/", "/writing-exam/",
+  "/speaking-practice", "/speaking-conversation",
+  "/vocabulary", "/wrong-answers", "/speed-drill",
+];
+
+function isContentPage(pathname: string): boolean {
+  // Strip locale prefix (e.g. /en/practice/... → /practice/...)
+  const stripped = pathname.replace(/^\/[a-z]{2}(?=\/)/, "");
+  return CONTENT_PREFIXES.some((p) => stripped.startsWith(p));
+}
+
 export function WatermarkOverlay() {
   const user = useAuthStore((s) => s.user);
   const { resolvedTheme } = useTheme();
+  const pathname = usePathname();
   const overlayRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<MutationObserver | null>(null);
+  const contentPage = isContentPage(pathname);
 
   const generateWatermark = useCallback((): string | null => {
-    if (!user) return null;
+    if (!user || !contentPage) return null;
 
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -35,7 +52,6 @@ export function WatermarkOverlay() {
     const showIdentity = user.watermark_visible ?? false;
     const isDark = resolvedTheme === "dark";
     const rgb = isDark ? "255, 255, 255" : "0, 0, 0";
-    const brandOpacity = 0.065;
     const identityOpacity = showIdentity ? 0.06 : 0.018;
 
     ctx.clearRect(0, 0, tileW, tileH);
@@ -45,26 +61,26 @@ export function WatermarkOverlay() {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // Brand — visible in screenshots, not annoying in daily use
+    // Brand
     ctx.font = "600 18px -apple-system, BlinkMacSystemFont, sans-serif";
-    ctx.fillStyle = `rgba(${rgb}, ${brandOpacity})`;
+    ctx.fillStyle = `rgba(${rgb}, 0.065)`;
     ctx.fillText("HiTCF.com", 0, -14);
 
-    // User identity — hidden by default, visible when admin enables
-    const name = user.name || user.email.split("@")[0];
+    // User identity — show short ID (last 8 chars of ObjectId) for privacy
+    const uid = user.id.slice(-8);
     const now = new Date();
     const pad = (n: number) => String(n).padStart(2, "0");
     const ts = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
     ctx.font = "12px -apple-system, BlinkMacSystemFont, sans-serif";
     ctx.fillStyle = `rgba(${rgb}, ${identityOpacity})`;
-    ctx.fillText(name, 0, 8);
+    ctx.fillText(uid, 0, 8);
     ctx.font = "11px -apple-system, BlinkMacSystemFont, sans-serif";
     ctx.fillText(ts, 0, 24);
 
     ctx.restore();
     return canvas.toDataURL("image/png");
-  }, [user, resolvedTheme]);
+  }, [user, resolvedTheme, contentPage]);
 
   const applyWatermark = useCallback(() => {
     const el = overlayRef.current;
@@ -85,7 +101,11 @@ export function WatermarkOverlay() {
   }, [generateWatermark]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !contentPage) {
+      // Clear overlay when leaving content pages
+      if (overlayRef.current) overlayRef.current.style.cssText = "";
+      return;
+    }
     applyWatermark();
 
     // Refresh timestamp every 5 minutes
@@ -112,7 +132,7 @@ export function WatermarkOverlay() {
       clearInterval(timer);
       observerRef.current?.disconnect();
     };
-  }, [user, applyWatermark]);
+  }, [user, contentPage, applyWatermark]);
 
   if (!user) return null;
 
