@@ -19,7 +19,7 @@ import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ReportDialog } from "@/components/practice/report-dialog";
 import { FrenchText, type WordSaveContext } from "@/components/practice/french-text";
-import { SentenceAnalysisSheet } from "@/components/practice/sentence-analysis-sheet";
+import { SentenceAnalysisInline } from "@/components/practice/sentence-analysis-inline";
 import type { AudioPlayerHandle } from "@/components/practice/audio-player";
 import type { AudioSegment, Explanation, QuestionBrief } from "@/lib/api/types";
 
@@ -209,8 +209,8 @@ function TranscriptBlock({
                       <FrenchText text={s.fr} saveContext={saveContext} sentenceTranslations={sentences} />
                       {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400" title={t("practice.explanation.keyClue")}>★</span>}
                       <button
-                        onClick={(e) => { e.stopPropagation(); setAnalysisTarget({ index: i, fr: s.fr }); }}
-                        className="ml-1 inline-flex shrink-0 rounded p-0.5 text-muted-foreground/50 transition-colors hover:bg-muted hover:text-primary"
+                        onClick={(e) => { e.stopPropagation(); setAnalysisTarget((prev) => prev?.index === i ? null : { index: i, fr: s.fr }); }}
+                        className={`ml-1 inline-flex shrink-0 rounded p-0.5 transition-colors hover:bg-muted hover:text-primary ${analysisTarget?.index === i ? "text-primary" : "text-muted-foreground/50"}`}
                         title={t("sentenceAnalysis.trigger")}
                       >
                         <BookOpen className="h-3 w-3" />
@@ -225,6 +225,15 @@ function TranscriptBlock({
                       <p className={`leading-relaxed text-emerald-600 dark:text-emerald-400${clickable ? " pl-4" : ""}`}>
                         {nativeText}
                       </p>
+                    )}
+                    {analysisTarget?.index === i && questionId && (
+                      <SentenceAnalysisInline
+                        questionId={questionId}
+                        sentenceIndex={i}
+                        sentenceFr={s.fr}
+                        saveContext={saveContext}
+                        onClose={() => setAnalysisTarget(null)}
+                      />
                     )}
                   </div>
                 );
@@ -264,8 +273,8 @@ function TranscriptBlock({
                   {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                   <FrenchText text={seg.text} saveContext={saveContext} sentenceTranslations={[{ fr: seg.text, en: seg.en ?? undefined, zh: seg.zh ?? undefined, native: segNative ?? undefined }]} />
                   <button
-                    onClick={(e) => { e.stopPropagation(); setAnalysisTarget({ index: seg.sentence_index ?? i, fr: seg.text }); }}
-                    className="ml-1 inline-flex shrink-0 rounded p-0.5 text-muted-foreground/50 transition-colors hover:bg-muted hover:text-primary"
+                    onClick={(e) => { e.stopPropagation(); const idx = seg.sentence_index ?? i; setAnalysisTarget((prev) => prev?.index === idx ? null : { index: idx, fr: seg.text }); }}
+                    className={`ml-1 inline-flex shrink-0 rounded p-0.5 transition-colors hover:bg-muted hover:text-primary ${analysisTarget?.index === (seg.sentence_index ?? i) ? "text-primary" : "text-muted-foreground/50"}`}
                     title={t("sentenceAnalysis.trigger")}
                   >
                     <BookOpen className="h-3 w-3" />
@@ -280,6 +289,15 @@ function TranscriptBlock({
                   <p className={`leading-relaxed text-emerald-600 dark:text-emerald-400${clickable ? " pl-4" : ""}`}>
                     {segNative}
                   </p>
+                )}
+                {analysisTarget?.index === (seg.sentence_index ?? i) && questionId && (
+                  <SentenceAnalysisInline
+                    questionId={questionId}
+                    sentenceIndex={seg.sentence_index ?? i}
+                    sentenceFr={seg.text}
+                    saveContext={saveContext}
+                    onClose={() => setAnalysisTarget(null)}
+                  />
                 )}
               </div>
             );
@@ -322,17 +340,6 @@ function TranscriptBlock({
         </div>
       )}
 
-      {/* Sentence Analysis Sheet */}
-      {analysisTarget && questionId && (
-        <SentenceAnalysisSheet
-          open={!!analysisTarget}
-          onOpenChange={(open) => { if (!open) setAnalysisTarget(null); }}
-          questionId={questionId}
-          sentenceIndex={analysisTarget.index}
-          sentenceFr={analysisTarget.fr}
-          saveContext={saveContext}
-        />
-      )}
     </div>
   );
 }

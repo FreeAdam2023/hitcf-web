@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { toast } from "sonner";
-import { BookOpen, Headphones, Loader2 } from "lucide-react";
+import { ArrowDownWideNarrow, BookOpen, Clock, Headphones, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
@@ -69,8 +69,9 @@ export function WrongAnswerList() {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [startingPractice, setStartingPractice] = useState(false);
 
-  // Filters — defaults: unmastered only, sorted by most wrong
+  // Filters — defaults: unmastered only, sorted by recent
   const [type, setType] = useState("all");
+  const [sortBy, setSortBy] = useState<"recent" | "most_wrong">("recent");
   const [hideUnmastered, setHideUnmastered] = useState(true);
   const [page, setPage] = useState(1);
 
@@ -88,7 +89,7 @@ export function WrongAnswerList() {
       const result = await listWrongAnswers({
         type: type === "all" ? undefined : type,
         is_mastered: hideUnmastered ? false : undefined,
-        sort_by: "most_wrong",
+        sort_by: sortBy,
         page,
         page_size: 20,
       });
@@ -99,7 +100,7 @@ export function WrongAnswerList() {
     } finally {
       setLoading(false);
     }
-  }, [type, hideUnmastered, page, t]);
+  }, [type, sortBy, hideUnmastered, page, t]);
 
   useEffect(() => {
     fetchData();
@@ -248,13 +249,39 @@ export function WrongAnswerList() {
               })}
             </div>
 
-            <label className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground">
-              <Checkbox
-                checked={hideUnmastered}
-                onCheckedChange={(checked) => { setHideUnmastered(!!checked); setPage(1); }}
-              />
-              {t("wrongAnswers.filters.hideUnmastered")}
-            </label>
+            <div className="flex items-center gap-3">
+              {/* Sort toggle */}
+              <div className="flex rounded-lg border bg-muted/50 p-0.5">
+                <button
+                  onClick={() => { setSortBy("recent"); setPage(1); }}
+                  className={cn(
+                    "flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-colors",
+                    sortBy === "recent" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  <Clock className="h-3 w-3" />
+                  {t("wrongAnswers.filters.recentWrong")}
+                </button>
+                <button
+                  onClick={() => { setSortBy("most_wrong"); setPage(1); }}
+                  className={cn(
+                    "flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-colors",
+                    sortBy === "most_wrong" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  <ArrowDownWideNarrow className="h-3 w-3" />
+                  {t("wrongAnswers.filters.mostWrong")}
+                </button>
+              </div>
+
+              <label className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground">
+                <Checkbox
+                  checked={hideUnmastered}
+                  onCheckedChange={(checked) => { setHideUnmastered(!!checked); setPage(1); }}
+                />
+                {t("wrongAnswers.filters.hideUnmastered")}
+              </label>
+            </div>
           </div>
 
           {/* List */}

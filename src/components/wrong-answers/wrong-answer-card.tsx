@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { ChevronDown, CheckCircle, AlertCircle, Headphones, BookOpen } from "lucide-react";
+import { ChevronDown, CheckCircle, AlertCircle, Headphones, BookOpen, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,20 @@ const TYPE_ICONS: Record<string, React.ElementType> = {
   listening: Headphones,
   reading: BookOpen,
 };
+
+function formatRelativeTime(isoStr: string | null | undefined): string {
+  if (!isoStr) return "";
+  const diff = Date.now() - new Date(isoStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return "< 1 min";
+  if (mins < 60) return `${mins}m`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h`;
+  const days = Math.floor(hrs / 24);
+  if (days < 30) return `${days}d`;
+  const months = Math.floor(days / 30);
+  return `${months}mo`;
+}
 
 /** Left border color based on wrong frequency */
 function wrongCountBorder(item: WrongAnswerItem): string {
@@ -107,6 +121,12 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
                 <span className="text-xs font-medium text-red-500">
                   {t("wrongAnswers.card.wrongCount", { count: item.wrong_count })}
                 </span>
+                {item.last_wrong_at && (
+                  <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground/70">
+                    <Clock className="h-2.5 w-2.5" />
+                    {formatRelativeTime(item.last_wrong_at)}
+                  </span>
+                )}
               </div>
               {item.question_text && (
                 <p className="line-clamp-2 text-sm text-muted-foreground">

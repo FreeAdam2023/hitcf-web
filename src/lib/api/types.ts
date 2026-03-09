@@ -205,6 +205,7 @@ export interface WrongAnswerItem {
   consecutive_correct: number;
   last_selected: string | null;
   last_wrong_at: string;
+  created_at: string | null;
   is_mastered: boolean;
   question_number: number | null;
   question_type: "listening" | "reading" | null;
