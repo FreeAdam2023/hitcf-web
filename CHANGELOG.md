@@ -1,3 +1,10 @@
+## 2026-03-09 (0ab847d)
+
+### Bug Fixes
+- CI/CD notify only on failure + health monitor 1h cooldown (bca1e37)
+
+---
+
 ## 2026-03-09 (bab9da2)
 
 ### Features
