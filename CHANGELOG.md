@@ -1,3 +1,12 @@
+## 2026-03-09 (fea835a)
+
+### Bug Fixes
+- www→non-www redirect must run before API proxy and cover /api/auth/* (9779cb2)
+- www→non-www redirect must run before API proxy and cover /api/auth/* (0dfea44)
+- dynamic import next/headers for Pages Router compatibility (d40fd14)
+
+---
+
 ## 2026-03-09 (de60274)
 
 ### Bug Fixes
