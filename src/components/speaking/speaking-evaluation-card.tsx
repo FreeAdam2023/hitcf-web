@@ -31,7 +31,7 @@ export function SpeakingEvaluationCard({
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg">{t("evaluation")}</CardTitle>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Badge variant="outline" className="text-base font-bold">
                 {evaluation.total_score}/30
               </Badge>

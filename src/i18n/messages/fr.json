@@ -9,7 +9,8 @@
     "modes": {
       "practice": "Entraînement",
       "exam": "Examen",
-      "speed_drill": "Exercice rapide"
+      "speed_drill": "Exercice rapide",
+      "conversation": "Conversation IA"
     },
     "actions": {
       "save": "Enregistrer",
@@ -1384,6 +1385,7 @@
     "endConversation": "Terminer la conversation",
     "youAreSaying": "Vous parlez",
     "examinerThinking": "L'examinateur répond",
+    "replayScenario": "Réécouter le scénario",
     "examinerReading": "L'examinateur lit le scénario...",
     "sceneBriefing": "Informations du scénario",
     "scenario": "Scénario",

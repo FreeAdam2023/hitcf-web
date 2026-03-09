@@ -1,6 +1,7 @@
-import { get, post } from "./client";
+import { get, post, del } from "./client";
 import type { RequestOptions } from "./client";
 import type {
+  PaginatedResponse,
   SpeakingConversationResponse,
   BeginConversationResponse,
   TurnResponse,
@@ -83,6 +84,31 @@ export function getConversation(
   options?: RequestOptions,
 ): Promise<SpeakingConversationResponse> {
   return get<SpeakingConversationResponse>(
+    `/api/speaking-conversation/${sessionId}`,
+    options,
+  );
+}
+
+export function listConversations(
+  params?: { page?: number; page_size?: number; status?: string },
+  options?: RequestOptions,
+): Promise<PaginatedResponse<SpeakingConversationResponse>> {
+  const sp = new URLSearchParams();
+  if (params?.page) sp.set("page", String(params.page));
+  if (params?.page_size) sp.set("page_size", String(params.page_size));
+  if (params?.status) sp.set("status", params.status);
+  const qs = sp.toString();
+  return get<PaginatedResponse<SpeakingConversationResponse>>(
+    `/api/speaking-conversation/history${qs ? `?${qs}` : ""}`,
+    options,
+  );
+}
+
+export function deleteConversation(
+  sessionId: string,
+  options?: RequestOptions,
+): Promise<{ ok: boolean }> {
+  return del<{ ok: boolean }>(
     `/api/speaking-conversation/${sessionId}`,
     options,
   );

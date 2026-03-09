@@ -35,7 +35,7 @@ export function SceneBriefingCard({ briefing }: SceneBriefingCardProps) {
           <div className="mt-3 space-y-2 text-sm">
             <div>
               <span className="text-muted-foreground">{t("scenario")}:</span>{" "}
-              <span className="leading-relaxed">{briefing.scenario}</span>
+              <span className="break-words leading-relaxed">{briefing.scenario}</span>
             </div>
             <div>
               <span className="text-muted-foreground">{t("yourRole")}:</span>{" "}

@@ -33,9 +33,10 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { deleteAttempt, getAttemptProgress, listAttempts } from "@/lib/api/attempts";
 import type { ProgressResponse } from "@/lib/api/attempts";
 import { deleteSpeakingAttempt, listSpeakingAttempts } from "@/lib/api/speaking-attempts";
+import { listConversations, deleteConversation } from "@/lib/api/speaking-conversation";
 import { estimateTcfLevelFromRatio } from "@/lib/tcf-levels";
 import { useTranslations, useLocale } from "next-intl";
-import type { AttemptResponse, SpeakingAttemptResponse } from "@/lib/api/types";
+import type { AttemptResponse, SpeakingAttemptResponse, SpeakingConversationResponse } from "@/lib/api/types";
 import { TYPE_COLORS, TYPE_KEYS } from "@/lib/constants";
 import { localizeTestName } from "@/lib/test-name";
 import { getStatsOverview, type StatsOverview } from "@/lib/api/stats";
@@ -57,8 +58,11 @@ interface HistoryItem {
   answered_count: number;
   // For speaking
   speakingOverall: number | null;
+  // For conversations
+  tacheType?: number;
+  conversationScore?: number | null;
   // Source discriminator
-  _source: "attempt" | "speaking";
+  _source: "attempt" | "speaking" | "conversation";
 }
 
 function fromAttempt(a: AttemptResponse): HistoryItem {
@@ -92,6 +96,30 @@ function fromSpeaking(s: SpeakingAttemptResponse): HistoryItem {
     answered_count: 0,
     speakingOverall: s.scores?.overall ?? null,
     _source: "speaking",
+  };
+}
+
+function fromConversation(c: SpeakingConversationResponse): HistoryItem {
+  const tacheLabel = `Tâche ${c.tache_type}`;
+  const scenario = c.scene_briefing?.scenario;
+  const name = scenario
+    ? `${tacheLabel} — ${scenario.slice(0, 60)}${scenario.length > 60 ? "…" : ""}`
+    : tacheLabel;
+  return {
+    id: c.id,
+    test_set_name: name,
+    test_set_type: "speaking",
+    mode: "conversation",
+    status: c.status === "abandoned" ? "completed" : c.status,
+    started_at: c.started_at,
+    completed_at: c.completed_at ?? null,
+    score: null,
+    total: 30,
+    answered_count: c.turn_count,
+    speakingOverall: null,
+    tacheType: c.tache_type,
+    conversationScore: c.evaluation?.total_score ?? null,
+    _source: "conversation",
   };
 }
 
@@ -337,10 +365,15 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
   const [deleting, setDeleting] = useState(false);
   const isCompleted = item.status === "completed";
   const isSpeaking = item._source === "speaking";
+  const isConversation = item._source === "conversation";
 
   // URL depends on source
   let url: string;
-  if (isSpeaking) {
+  if (isConversation) {
+    url = isCompleted
+      ? `/speaking-conversation/results/${item.id}`
+      : `/speaking-conversation?sessionId=${item.id}`;
+  } else if (isSpeaking) {
     url = `/speaking-practice/results/${item.id}`;
   } else if (isCompleted) {
     url = `/results/${item.id}`;
@@ -351,11 +384,13 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
   }
 
   // Score display
-  const pct = isSpeaking
-    ? (item.speakingOverall != null ? Math.round(item.speakingOverall) : null)
-    : (isCompleted && item.score != null && item.total > 0
-        ? Math.round((item.score / item.total) * 100)
-        : null);
+  const pct = isConversation
+    ? (item.conversationScore != null ? Math.round((item.conversationScore / 30) * 100) : null)
+    : isSpeaking
+      ? (item.speakingOverall != null ? Math.round(item.speakingOverall) : null)
+      : (isCompleted && item.score != null && item.total > 0
+          ? Math.round((item.score / item.total) * 100)
+          : null);
 
   const tcf =
     !isSpeaking && isCompleted && item.score != null
@@ -431,9 +466,11 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
               />
             </div>
             <span className="text-xs font-medium tabular-nums">
-              {isSpeaking
-                ? `${pct}/100`
-                : `${item.score}/${item.total}`}
+              {isConversation
+                ? `${item.conversationScore}/30`
+                : isSpeaking
+                  ? `${pct}/100`
+                  : `${item.score}/${item.total}`}
             </span>
           </div>
         )}
@@ -491,7 +528,9 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
                   e.stopPropagation();
                   setDeleting(true);
                   try {
-                    if (isSpeaking) {
+                    if (isConversation) {
+                      await deleteConversation(item.id);
+                    } else if (isSpeaking) {
                       await deleteSpeakingAttempt(item.id);
                     } else {
                       await deleteAttempt(item.id);
@@ -557,13 +596,21 @@ export function HistoryList() {
               page_size: PAGE_SIZE,
             }),
           );
+          promises.push(
+            listConversations({
+              page: pageNum,
+              page_size: PAGE_SIZE,
+            }),
+          );
         } else {
+          promises.push(Promise.resolve(null));
           promises.push(Promise.resolve(null));
         }
 
-        const [regularResult, speakingResult] = await Promise.all(promises) as [
+        const [regularResult, speakingResult, conversationResult] = await Promise.all(promises) as [
           { items: AttemptResponse[]; total: number } | null,
           { items: SpeakingAttemptResponse[]; total: number } | null,
+          { items: SpeakingConversationResponse[]; total: number } | null,
         ];
 
         const regularItems = regularResult
@@ -572,16 +619,19 @@ export function HistoryList() {
         const speakingItems = speakingResult
           ? speakingResult.items.map(fromSpeaking)
           : [];
+        const conversationItems = conversationResult
+          ? conversationResult.items.map(fromConversation)
+          : [];
 
         // Merge and sort by date (newest first)
-        const merged = [...regularItems, ...speakingItems].sort((a, b) => {
+        const merged = [...regularItems, ...speakingItems, ...conversationItems].sort((a, b) => {
           const dateA = new Date(a.completed_at || a.started_at).getTime();
           const dateB = new Date(b.completed_at || b.started_at).getTime();
           return dateB - dateA;
         });
 
         const totalCount =
-          (regularResult?.total ?? 0) + (speakingResult?.total ?? 0);
+          (regularResult?.total ?? 0) + (speakingResult?.total ?? 0) + (conversationResult?.total ?? 0);
 
         setTotal(totalCount);
         setAllItems((prev) =>

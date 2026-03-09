@@ -5,7 +5,7 @@ import { useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { Mic, MicOff, Square, MessageCircle, Volume2 } from "lucide-react";
+import { Mic, MicOff, Square, MessageCircle, Volume2, RotateCcw } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -130,8 +130,20 @@ export function SpeakingConversationView() {
         return;
       }
 
-      // status === "pending"
-      setPrepTimer(conv.prep_time_seconds);
+      // status === "pending" — calculate remaining prep time
+      const prepElapsed = conv.started_at
+        ? Math.floor(
+            (Date.now() - new Date(conv.started_at).getTime()) / 1000,
+          )
+        : 0;
+      const remainingPrep = Math.max(0, conv.prep_time_seconds - prepElapsed);
+
+      if (remainingPrep <= 0) {
+        // Prep time expired during absence — go straight to begin
+        handleBegin();
+        return;
+      }
+      setPrepTimer(remainingPrep);
       setTimer(conv.speaking_time_seconds);
       setPhase("prep");
     },
@@ -377,16 +389,16 @@ export function SpeakingConversationView() {
         : "text-foreground";
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-4 pb-24">
+    <div className="mx-auto flex max-w-2xl flex-col gap-4 px-4 pb-28 sm:px-0">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <MessageCircle className="h-5 w-5 text-primary" />
-          <h1 className="text-lg font-semibold">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-2">
+          <MessageCircle className="h-5 w-5 shrink-0 text-primary" />
+          <h1 className="truncate text-lg font-semibold">
             {t("title")} · {tacheLabel}
           </h1>
         </div>
-        <span className={`font-mono text-lg font-bold ${timerColor}`}>
+        <span className={`shrink-0 font-mono text-lg font-bold ${timerColor}`}>
           {phase === "prep"
             ? formatTime(prepTimer)
             : formatTime(timer)}
@@ -409,15 +421,30 @@ export function SpeakingConversationView() {
       {phase === "prep" && (
         <Card>
           <CardContent className="flex flex-col items-center gap-4 pt-6">
-            {/* TTS indicator */}
-            {tts.isSpeaking && (
+            {/* TTS indicator / replay */}
+            {tts.isSpeaking ? (
               <div className="flex items-center gap-2 animate-in fade-in duration-700">
-                <Volume2 className="h-4 w-4 text-primary animate-pulse" />
+                <Volume2 className="h-4 w-4 animate-pulse text-primary" />
                 <span className="text-sm font-medium text-primary">
                   {t("examinerReading")}
                 </span>
               </div>
-            )}
+            ) : session?.scene_briefing?.scenario ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  const ssml = buildSceneSsml(
+                    session.scene_briefing!.scenario,
+                    session.tache_type,
+                  );
+                  tts.speak(ssml, { ssml: true });
+                }}
+              >
+                <RotateCcw className="mr-2 h-3.5 w-3.5" />
+                {t("replayScenario")}
+              </Button>
+            ) : null}
             <p className="text-center text-sm text-muted-foreground">
               {t("prepDescription")}
             </p>
@@ -435,7 +462,7 @@ export function SpeakingConversationView() {
 
           {/* Interim transcript */}
           {speech.isRecording && speech.transcript && (
-            <div className="rounded-md border border-blue-200 bg-blue-50/50 p-3 text-sm dark:border-blue-800 dark:bg-blue-950/20">
+            <div className="break-words rounded-md border border-blue-200 bg-blue-50/50 p-3 text-sm dark:border-blue-800 dark:bg-blue-950/20">
               <span className="text-muted-foreground">{t("youAreSaying")}:</span>{" "}
               {speech.transcript}
               {speech.interimTranscript && (
@@ -448,8 +475,8 @@ export function SpeakingConversationView() {
 
           {/* Controls */}
           {phase === "active" && (
-            <div className="fixed bottom-0 left-0 right-0 border-t bg-background p-4">
-              <div className="mx-auto flex max-w-2xl items-center justify-center gap-4">
+            <div className="fixed bottom-0 left-0 right-0 border-t bg-background p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+              <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 sm:gap-4">
                 <Button
                   size="lg"
                   variant={speech.isRecording ? "destructive" : "default"}

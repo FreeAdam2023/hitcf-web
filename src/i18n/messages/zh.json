@@ -9,7 +9,8 @@
     "modes": {
       "practice": "练习",
       "exam": "考试",
-      "speed_drill": "速练"
+      "speed_drill": "速练",
+      "conversation": "AI 对话"
     },
     "actions": {
       "save": "保存",
@@ -1384,6 +1385,7 @@
     "endConversation": "结束对话",
     "youAreSaying": "你正在说",
     "examinerThinking": "考官正在回复",
+    "replayScenario": "重新播放场景",
     "examinerReading": "考官正在朗读场景...",
     "sceneBriefing": "场景信息",
     "scenario": "场景",
