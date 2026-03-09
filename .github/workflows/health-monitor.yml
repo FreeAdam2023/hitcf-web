@@ -49,15 +49,38 @@ jobs:
             echo "::error::[$ENV_NAME] Backend /api/health failed: $BODY"
           fi
 
-      - name: Send alert if any check failed
+      - name: Check cooldown (1 alert per hour max)
+        id: cooldown
         if: |
           steps.site.outputs.status != '200' ||
           steps.auth.outputs.status == '404' ||
           steps.api.outputs.status == 'fail'
+        uses: actions/cache@v4
+        with:
+          path: /tmp/health-alert-sent
+          key: health-alert-${{ hashFiles('/dev/null') }}-${{ github.run_id }}
+          restore-keys: health-alert-
+
+      - name: Send alert if check failed and not recently alerted
+        if: |
+          (steps.site.outputs.status != '200' ||
+           steps.auth.outputs.status == '404' ||
+           steps.api.outputs.status == 'fail')
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
         run: |
+          # Cooldown: skip if alert was sent within the last hour
+          if [ -f /tmp/health-alert-sent ]; then
+            LAST=$(cat /tmp/health-alert-sent)
+            NOW=$(date +%s)
+            DIFF=$((NOW - LAST))
+            if [ "$DIFF" -lt 3600 ]; then
+              echo "Alert sent ${DIFF}s ago, cooldown active (1h). Skipping email."
+              exit 1
+            fi
+          fi
+
           if [ -z "$RESEND_API_KEY" ] || [ -z "$NOTIFY_EMAIL" ]; then
             echo "No notification secrets, skipping email"
             exit 1
@@ -91,5 +114,7 @@ jobs:
               --arg html "$BODY" \
               '{from: $from, to: [$to], subject: $subject, html: $html}')"
 
+          # Record timestamp for cooldown
+          date +%s > /tmp/health-alert-sent
           echo "Alert email sent"
           exit 1
