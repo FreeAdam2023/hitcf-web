@@ -1,3 +1,10 @@
+## 2026-03-09 (a0d1653)
+
+### Bug Fixes
+- explanation panel shows loading instead of error during generation (8bb88d8)
+
+---
+
 ## 2026-03-09 (0093c46)
 
 ### Features
