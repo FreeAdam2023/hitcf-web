@@ -10,6 +10,7 @@ import { Toaster } from "sonner";
 import { CommunityFab } from "@/components/layout/community-fab";
 import { UtmTracker } from "@/components/shared/utm-tracker";
 import { routing } from "@/i18n/routing";
+import { PRICING } from "@/lib/constants";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -177,20 +178,18 @@ export default async function LocaleLayout({
                   {
                     "@type": "Offer",
                     name: "Pro Monthly",
-                    price: "19.90",
-                    priceCurrency: "USD",
+                    price: PRICING.monthly.toFixed(2),
+                    priceCurrency: PRICING.currency,
                     billingIncrement: "P1M",
-                    description:
-                      "Full access to 8,500+ questions, exam mode, wrong answer notebook, vocabulary tools, Anki export. 7-day free trial.",
+                    description: `Full access to 8,500+ questions, exam mode, wrong answer notebook, vocabulary tools, Anki export. ${PRICING.monthlyTrialDays}-day free trial.`,
                   },
                   {
                     "@type": "Offer",
                     name: "Pro Yearly",
-                    price: "99.90",
-                    priceCurrency: "USD",
+                    price: PRICING.yearly.toFixed(2),
+                    priceCurrency: PRICING.currency,
                     billingIncrement: "P1Y",
-                    description:
-                      "Full access to all features including vocabulary flashcards, dictation, and Anki export. 2 months free trial.",
+                    description: `Full access to all features including vocabulary flashcards, dictation, and Anki export. ${PRICING.yearlyTrialDays}-day free trial.`,
                   },
                 ],
                 screenshot: `${SITE_URL}/opengraph-image`,

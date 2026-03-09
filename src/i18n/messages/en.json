@@ -699,7 +699,7 @@
     },
     "continuePractice": "Continue Practice",
     "unlockAll": "Unlock all 8,500+ questions + vocabulary tools",
-    "yearlyDeal": "Yearly plan from $8.33/mo with 14-day free trial",
+    "yearlyDeal": "Yearly plan from ${yearlyPerMonth}/mo with {yearlyTrialDays}-day free trial",
     "upgradePro": "Upgrade to Pro",
     "profile": {
       "title": "Profile",
@@ -1433,16 +1433,16 @@
       "monthly": {
         "name": "Monthly",
         "unit": "/ mo",
-        "trialLabel": "7-day free trial",
+        "trialLabel": "{monthlyTrialDays}-day free trial",
         "valueDesc": "Less than $0.70/day for 8,500+ questions across all 4 sections",
         "savingsVsTutor": "97% cheaper than a tutor"
       },
       "yearly": {
         "name": "Yearly",
         "unit": "/ year",
-        "equiv": "≈ US$8.33 / mo, save 58% · No auto-renewal",
+        "equiv": "≈ US${yearlyPerMonth} / mo, save {savingsPercent}% · No auto-renewal",
         "badge": "Most Popular",
-        "trialLabel": "14-day free trial",
+        "trialLabel": "{yearlyTrialDays}-day free trial",
         "valueDesc": "One coffee per month for practice + flashcards + dictation + Anki export",
         "savingsVsTutor": "99% cheaper than a tutor"
       }
@@ -1456,7 +1456,7 @@
     "usdNote": "All prices in USD · Cancel during trial at no charge",
     "referralNudge": "Or invite friends — both get 30 free days",
     "trust": {
-      "trial": "7-day free trial",
+      "trial": "{monthlyTrialDays}-day free trial",
       "stripe": "Secure Stripe payments",
       "refund": "48h money-back guarantee",
       "cancel": "Cancel anytime with one click"
@@ -1490,11 +1490,11 @@
       "items": [
         {
           "q": "What's the difference between monthly and yearly?",
-          "a": "Monthly is a recurring subscription with a 7-day free trial for new users — cancel anytime. Yearly is a one-time payment of US$99.90, effective immediately for one year, with no auto-renewal."
+          "a": "Monthly is a recurring subscription with a {monthlyTrialDays}-day free trial for new users — cancel anytime. Yearly is a one-time payment of US${yearlyPrice}, effective immediately for one year, with no auto-renewal."
         },
         {
           "q": "Do I need a credit card for the free trial?",
-          "a": "For the monthly plan, yes — securely linked via Stripe. Cancel within 7 days and you won't be charged. The yearly plan is a one-time payment, no card-on-file subscription."
+          "a": "For the monthly plan, yes — securely linked via Stripe. Cancel within {monthlyTrialDays} days and you won't be charged. The yearly plan is a one-time payment, no card-on-file subscription."
         },
         {
           "q": "Can I cancel anytime?",
