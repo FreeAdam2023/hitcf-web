@@ -1,3 +1,10 @@
+## 2026-03-09 (de60274)
+
+### Bug Fixes
+- dynamic import next/headers for Pages Router compatibility (de60274)
+
+---
+
 # Changelog
 
 ## 2026-03-09 (0749ed6)
