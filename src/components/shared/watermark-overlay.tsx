@@ -35,7 +35,7 @@ export function WatermarkOverlay() {
     const showIdentity = user.watermark_visible ?? false;
     const isDark = resolvedTheme === "dark";
     const rgb = isDark ? "255, 255, 255" : "0, 0, 0";
-    const brandOpacity = 0.09;
+    const brandOpacity = 0.065;
     const identityOpacity = showIdentity ? 0.06 : 0.018;
 
     ctx.clearRect(0, 0, tileW, tileH);
@@ -46,7 +46,7 @@ export function WatermarkOverlay() {
     ctx.textBaseline = "middle";
 
     // Brand — visible in screenshots, not annoying in daily use
-    ctx.font = "bold 22px -apple-system, BlinkMacSystemFont, sans-serif";
+    ctx.font = "600 18px -apple-system, BlinkMacSystemFont, sans-serif";
     ctx.fillStyle = `rgba(${rgb}, ${brandOpacity})`;
     ctx.fillText("HiTCF.com", 0, -14);
 
