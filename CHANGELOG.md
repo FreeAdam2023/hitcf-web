@@ -1,3 +1,10 @@
+## 2026-03-09 (1349ae9)
+
+### Bug Fixes
+- revert to App Router NextAuth with regex rewrite exclusion (f23a16e)
+
+---
+
 ## 2026-03-09 (04d0187)
 
 ### Bug Fixes
