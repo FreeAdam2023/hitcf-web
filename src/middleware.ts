@@ -25,20 +25,21 @@ const PROTECTED_PREFIXES = [
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // 1. Proxy /api/* (except /api/auth/*) to backend
-  //    /api/auth/* is handled by NextAuth in Pages Router — do NOT proxy.
-  if (pathname.startsWith("/api/") && !pathname.startsWith("/api/auth/")) {
-    const target = new URL(pathname + request.nextUrl.search, BACKEND_URL);
-    return NextResponse.rewrite(target);
-  }
-
-  // 2. www → non-www
+  // 1. www → non-www (MUST run first, before any other logic)
+  //    Ensures OAuth callbacks land on the same domain as CSRF cookies.
   const host = request.headers.get("host") || "";
   if (host.startsWith("www.")) {
     const url = request.nextUrl.clone();
     url.host = host.replace("www.", "");
     url.port = "";
     return NextResponse.redirect(url, 301);
+  }
+
+  // 2. Proxy /api/* (except /api/auth/*) to backend
+  //    /api/auth/* is handled by NextAuth in Pages Router — do NOT proxy.
+  if (pathname.startsWith("/api/") && !pathname.startsWith("/api/auth/")) {
+    const target = new URL(pathname + request.nextUrl.search, BACKEND_URL);
+    return NextResponse.rewrite(target);
   }
 
   // 3. i18n routing (locale detection + prefix)
@@ -68,9 +69,9 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // API routes (except auth and Next.js internals) — proxy to backend
-    "/api/((?!auth|_next).*)",
-    // All non-API routes except static files — i18n + auth
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff|woff2)$).*)",
+    // All API routes — proxy non-auth to backend, www redirect for auth
+    "/api/:path*",
+    // All non-API routes except static files — i18n + auth + www redirect
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff|woff2)$).*)",
   ],
 };
