@@ -1,3 +1,10 @@
+## 2026-03-09 (3ea5ded)
+
+### Style
+- enlarge brand watermark for screenshot visibility (3f672a1)
+
+---
+
 ## 2026-03-09 (5ac7872)
 
 ### Refactor
