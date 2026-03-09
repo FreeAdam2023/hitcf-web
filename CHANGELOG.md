@@ -1,3 +1,10 @@
+## 2026-03-09 (dcc340b)
+
+### Bug Fixes
+- UTC datetime parsing for timers + open listening/reading for free users (3575c01)
+
+---
+
 ## 2026-03-09 (1349ae9)
 
 ### Bug Fixes
