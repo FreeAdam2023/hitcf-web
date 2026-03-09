@@ -1,3 +1,10 @@
+## 2026-03-09 (5352b44)
+
+### Style
+- tone down brand watermark — 18px/0.065 compromise (db3b302)
+
+---
+
 ## 2026-03-09 (3ea5ded)
 
 ### Style
