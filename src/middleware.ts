@@ -12,6 +12,12 @@ const PROTECTED_PREFIXES = [
   "/practice/",
   "/exam/",
   "/results/",
+  "/vocabulary",
+  "/speaking-practice",
+  "/speaking-conversation",
+  "/writing-practice",
+  "/writing-exam",
+  "/referral",
 ];
 
 export function middleware(request: NextRequest) {
