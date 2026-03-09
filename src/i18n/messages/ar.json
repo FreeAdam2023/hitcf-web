@@ -83,7 +83,8 @@
     "exitConfirmAnswered": "لقد أجبت على {answered} من {total} سؤال.",
     "exitConfirmProgress": "سيتم حفظ تقدمك في {label}.",
     "exitConfirmContinue": "متابعة {label}",
-    "exitConfirmExit": "خروج"
+    "exitConfirmExit": "خروج",
+    "referral": "دعوة الأصدقاء"
   },
   "userMenu": {
     "pro": "Pro",
@@ -1454,6 +1455,7 @@
       "manageSubscription": "إدارة الاشتراك"
     },
     "usdNote": "جميع الأسعار بالدولار الأمريكي · الإلغاء أثناء التجربة بدون رسوم",
+    "referralNudge": "أو ادعُ صديقًا — 30 يومًا Pro مجانًا لكلاكما",
     "trust": {
       "trial": "تجربة مجانية 7 أيام",
       "stripe": "دفع آمن عبر Stripe",

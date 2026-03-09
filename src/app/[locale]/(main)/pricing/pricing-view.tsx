@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import {
   Check,
+  Gift,
   Shield,
   CreditCard,
   RefreshCw,
@@ -197,6 +198,17 @@ export function PricingView() {
           <p className="mt-2 text-xs text-muted-foreground">
             {t("pricing.usdNote")}
           </p>
+
+          {/* Referral nudge */}
+          {!isSubscribed && (
+            <Link
+              href="/referral"
+              className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-dashed border-primary/30 bg-primary/5 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+            >
+              <Gift className="h-4 w-4" />
+              {t("pricing.referralNudge")}
+            </Link>
+          )}
         </div>
       </div>
 

@@ -83,7 +83,8 @@
     "exitConfirmAnswered": "{answered} / {total} questions répondues.",
     "exitConfirmProgress": "Votre progression sera sauvegardée.",
     "exitConfirmContinue": "Continuer {label}",
-    "exitConfirmExit": "Confirmer la sortie"
+    "exitConfirmExit": "Confirmer la sortie",
+    "referral": "Inviter des amis"
   },
   "userMenu": {
     "pro": "Membre Pro",
@@ -1453,6 +1454,7 @@
       "manageSubscription": "Gérer l'abonnement"
     },
     "usdNote": "Tous les prix sont en USD · Annulez pendant l'essai sans frais",
+    "referralNudge": "Ou invitez un ami — 30 jours Pro gratuits pour chacun",
     "trust": {
       "trial": "Essai gratuit de 7 jours",
       "stripe": "Paiements sécurisés via Stripe",

@@ -83,7 +83,8 @@
     "exitConfirmAnswered": "{answered} / {total} questions answered.",
     "exitConfirmProgress": "Your progress will be saved.",
     "exitConfirmContinue": "Continue {label}",
-    "exitConfirmExit": "Confirm Exit"
+    "exitConfirmExit": "Confirm Exit",
+    "referral": "Invite Friends"
   },
   "userMenu": {
     "pro": "Pro Member",
@@ -1453,6 +1454,7 @@
       "manageSubscription": "Manage Subscription"
     },
     "usdNote": "All prices in USD · Cancel during trial at no charge",
+    "referralNudge": "Or invite friends — both get 30 free days",
     "trust": {
       "trial": "7-day free trial",
       "stripe": "Secure Stripe payments",

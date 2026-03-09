@@ -83,7 +83,8 @@
     "exitConfirmAnswered": "已答 {answered} / {total} 题。",
     "exitConfirmProgress": "退出后当前{label}进度将保留。",
     "exitConfirmContinue": "继续{label}",
-    "exitConfirmExit": "确认退出"
+    "exitConfirmExit": "确认退出",
+    "referral": "邀请好友"
   },
   "userMenu": {
     "pro": "Pro 会员",
@@ -1453,6 +1454,7 @@
       "manageSubscription": "管理订阅"
     },
     "usdNote": "所有价格均以美元（USD）计价 · 试用期内取消不收费",
+    "referralNudge": "或者邀请好友，双方各得 30 天 Pro",
     "trust": {
       "trial": "7 天免费试用",
       "stripe": "Stripe 安全支付",

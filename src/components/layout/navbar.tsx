@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import Image from "next/image";
-import { Clock, Menu } from "lucide-react";
+import { Clock, Gift, Menu } from "lucide-react";
 
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -82,6 +82,21 @@ export function Navbar() {
                     </Link>
                   </SheetClose>
                 ))}
+                <div className="my-2 border-t" />
+                <SheetClose asChild>
+                  <Link
+                    href="/referral"
+                    className={cn(
+                      "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                      pathname === "/referral"
+                        ? "bg-accent text-accent-foreground"
+                        : "text-primary hover:bg-primary/10",
+                    )}
+                  >
+                    <Gift className="h-4 w-4" />
+                    {t("nav.referral")}
+                  </Link>
+                </SheetClose>
               </div>
             </SheetContent>
           </Sheet>
