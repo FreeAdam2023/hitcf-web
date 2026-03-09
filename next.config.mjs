@@ -21,20 +21,9 @@ const nextConfig = {
       },
     ];
   },
-  async rewrites() {
-    return {
-      // afterFiles: runs after filesystem routes (pages/api, public files)
-      // but BEFORE dynamic routes ([locale]).
-      // NextAuth lives in pages/api/auth/ (Pages Router) so it's a true
-      // filesystem route matched before this rewrite.
-      afterFiles: [
-        {
-          source: "/api/:path*",
-          destination: `${process.env.BACKEND_URL || "http://localhost:8001"}/api/:path*`,
-        },
-      ],
-    };
-  },
+  // API proxy moved to middleware.ts — NextResponse.rewrite() to BACKEND_URL.
+  // next-intl plugin flattens afterFiles rewrites, breaking Pages Router
+  // route priority, so we handle it in middleware instead.
 };
 
 export default withNextIntl(nextConfig);
