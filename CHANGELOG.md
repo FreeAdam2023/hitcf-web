@@ -1,3 +1,10 @@
+## 2026-03-09 (04d0187)
+
+### Bug Fixes
+- skip i18n middleware for /api/auth/* routes (145ed5b)
+
+---
+
 ## 2026-03-09 (fea835a)
 
 ### Bug Fixes
