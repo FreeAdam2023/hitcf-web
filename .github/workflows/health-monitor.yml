@@ -9,48 +9,44 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        env:
-          - name: prod
-            url: https://www.hitcf.com
-            api: https://api.hitcf.com
-          - name: dev
-            url: https://dev.hitcf.com
-            api: https://api-dev.hitcf.com
+    # Only monitor prod — dev is behind Cloudflare Access (returns HTML login page)
+    env:
+      ENV_NAME: prod
+      SITE_URL: https://www.hitcf.com
+      API_URL: https://api.hitcf.com
     steps:
       - name: Check site reachable
         id: site
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ matrix.env.url }}" --max-time 15 -L || echo "000")
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL" --max-time 15 -L || echo "000")
           echo "status=$STATUS" >> $GITHUB_OUTPUT
           if [ "$STATUS" != "200" ]; then
-            echo "::error::[${{ matrix.env.name }}] Site returned HTTP $STATUS"
+            echo "::error::[$ENV_NAME] Site returned HTTP $STATUS"
           fi
 
       - name: Check NextAuth
         id: auth
         run: |
-          STATUS=$(curl -s -o /tmp/auth -w "%{http_code}" "${{ matrix.env.url }}/api/auth/providers" --max-time 10 -L || echo "000")
+          STATUS=$(curl -s -o /tmp/auth -w "%{http_code}" "$SITE_URL/api/auth/providers" --max-time 10 -L || echo "000")
           BODY=$(cat /tmp/auth 2>/dev/null || echo "")
           echo "status=$STATUS" >> $GITHUB_OUTPUT
           if [ "$STATUS" = "404" ]; then
-            echo "::error::[${{ matrix.env.name }}] CRITICAL: /api/auth/providers 404 — login is broken!"
+            echo "::error::[$ENV_NAME] CRITICAL: /api/auth/providers 404 — login is broken!"
             echo "body=${BODY:0:100}" >> $GITHUB_OUTPUT
           elif ! echo "$BODY" | grep -q '"credentials"'; then
-            echo "::warning::[${{ matrix.env.name }}] NextAuth HTTP $STATUS but no credentials provider"
+            echo "::warning::[$ENV_NAME] NextAuth HTTP $STATUS but no credentials provider"
           fi
 
       - name: Check backend API
         id: api
         run: |
-          BODY=$(curl -s "${{ matrix.env.api }}/api/health" --max-time 10 -L || echo "")
+          BODY=$(curl -s "$API_URL/api/health" --max-time 10 -L || echo "")
           echo "body=${BODY:0:100}" >> $GITHUB_OUTPUT
           if echo "$BODY" | grep -q '"status":"ok"'; then
             echo "status=ok" >> $GITHUB_OUTPUT
           else
             echo "status=fail" >> $GITHUB_OUTPUT
-            echo "::error::[${{ matrix.env.name }}] Backend /api/health failed: $BODY"
+            echo "::error::[$ENV_NAME] Backend /api/health failed: $BODY"
           fi
 
       - name: Send alert if any check failed
@@ -67,7 +63,6 @@ jobs:
             exit 1
           fi
 
-          ENV="${{ matrix.env.name }}"
           SITE_STATUS="${{ steps.site.outputs.status }}"
           AUTH_STATUS="${{ steps.auth.outputs.status }}"
           API_STATUS="${{ steps.api.outputs.status }}"
@@ -78,9 +73,9 @@ jobs:
           [ "$AUTH_STATUS" = "404" ] && FAILURES="$FAILURES<li><b>LOGIN BROKEN</b>: /api/auth/providers 404</li>"
           [ "$API_STATUS" = "fail" ] && FAILURES="$FAILURES<li>Backend API health check failed</li>"
 
-          SUBJECT="🚨 [$ENV] HiTCF Health Alert"
+          SUBJECT="🚨 [$ENV_NAME] HiTCF Health Alert"
           BODY="<div style='font-family:sans-serif'>
-            <h2 style='color:#ef4444'>🚨 Health Check Failed — $ENV</h2>
+            <h2 style='color:#ef4444'>🚨 Health Check Failed — $ENV_NAME</h2>
             <ul>$FAILURES</ul>
             <p><a href='$RUN_URL'>View details</a></p>
             <p style='color:#888;font-size:12px'>$(date -u '+%Y-%m-%d %H:%M UTC')</p>
