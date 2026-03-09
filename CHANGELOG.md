@@ -1,3 +1,10 @@
+## 2026-03-09 (5ac7872)
+
+### Refactor
+- centralize pricing constants, remove hardcoded prices (d715848)
+
+---
+
 ## 2026-03-09 (b7c1138)
 
 ### Bug Fixes
