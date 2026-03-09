@@ -1,3 +1,10 @@
+## 2026-03-09 (bf8e2b2)
+
+### Features
+- freemium quota system + explanation timeout fix (4b8ea6f)
+
+---
+
 ## 2026-03-09 (264f79a)
 
 ### Bug Fixes
