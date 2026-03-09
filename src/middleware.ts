@@ -35,11 +35,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
-  // 2. Proxy /api/* (except /api/auth/*) to backend
-  //    /api/auth/* is handled by NextAuth in Pages Router — do NOT proxy.
-  if (pathname.startsWith("/api/") && !pathname.startsWith("/api/auth/")) {
-    const target = new URL(pathname + request.nextUrl.search, BACKEND_URL);
-    return NextResponse.rewrite(target);
+  // 2. All /api/* — proxy or passthrough, but NEVER run i18n on API routes
+  if (pathname.startsWith("/api/")) {
+    if (!pathname.startsWith("/api/auth/")) {
+      // Proxy non-auth API to backend
+      const target = new URL(pathname + request.nextUrl.search, BACKEND_URL);
+      return NextResponse.rewrite(target);
+    }
+    // /api/auth/* — let NextAuth Pages Router handle it directly
+    return NextResponse.next();
   }
 
   // 3. i18n routing (locale detection + prefix)
