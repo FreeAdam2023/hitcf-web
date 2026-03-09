@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen, Lock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -171,6 +171,10 @@ export function TestList() {
   const t = useTranslations();
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const canAccessPaid = useAuthStore((s) => {
+    const status = s.user?.subscription?.status;
+    return status === "active" || status === "trialing" || s.user?.role === "admin";
+  });
   const [mockLoading, setMockLoading] = useState(false);
   const [mockDialogOpen, setMockDialogOpen] = useState(false);
   const [mockTypes, setMockTypes] = useState<Set<string>>(new Set(["listening", "reading"]));
@@ -631,6 +635,7 @@ export function TestList() {
                 >
                   <Shuffle className="h-4 w-4" />
                   {t("tests.mockExam")}
+                  {!canAccessPaid && <Lock className="h-3.5 w-3.5 text-amber-500" />}
                 </button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
@@ -678,29 +683,36 @@ export function TestList() {
                   <p className="text-sm text-destructive">{mockError}</p>
                 )}
                 <DialogFooter>
-                  <Button
-                    disabled={mockTypes.size === 0 || mockLoading}
-                    onClick={async () => {
-                      setMockLoading(true);
-                      setMockError(null);
-                      try {
-                        const result = await createMockExam(Array.from(mockTypes));
-                        setMockDialogOpen(false);
-                        router.push(`/exam/${result.id}`);
-                      } catch {
-                        setMockError(t("tests.mockExamError"));
-                      } finally {
-                        setMockLoading(false);
-                      }
-                    }}
-                  >
-                    {mockLoading ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                      <Shuffle className="mr-2 h-4 w-4" />
-                    )}
-                    {t("tests.mockExamStart")}
-                  </Button>
+                  {canAccessPaid ? (
+                    <Button
+                      disabled={mockTypes.size === 0 || mockLoading}
+                      onClick={async () => {
+                        setMockLoading(true);
+                        setMockError(null);
+                        try {
+                          const result = await createMockExam(Array.from(mockTypes));
+                          setMockDialogOpen(false);
+                          router.push(`/exam/${result.id}`);
+                        } catch {
+                          setMockError(t("tests.mockExamError"));
+                        } finally {
+                          setMockLoading(false);
+                        }
+                      }}
+                    >
+                      {mockLoading ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      ) : (
+                        <Shuffle className="mr-2 h-4 w-4" />
+                      )}
+                      {t("tests.mockExamStart")}
+                    </Button>
+                  ) : (
+                    <Button onClick={() => { setMockDialogOpen(false); router.push("/pricing"); }}>
+                      <Lock className="mr-2 h-4 w-4" />
+                      {t("quota.mockExamProRequired")}
+                    </Button>
+                  )}
                 </DialogFooter>
               </DialogContent>
             </Dialog>

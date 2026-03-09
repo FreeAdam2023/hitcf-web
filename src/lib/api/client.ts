@@ -10,6 +10,18 @@ export class ApiError extends Error {
   }
 }
 
+export class QuotaExceededError extends ApiError {
+  constructor(
+    public code: "QUESTION_QUOTA_EXCEEDED" | "EXPLANATION_QUOTA_EXCEEDED",
+    message: string,
+    public used: number,
+    public limit: number,
+  ) {
+    super(429, message);
+    this.name = "QuotaExceededError";
+  }
+}
+
 export interface RequestOptions {
   signal?: AbortSignal;
   timeout?: number;
@@ -77,15 +89,18 @@ async function request<T>(
     if (res.status === 429) {
       const body = await res.json().catch(() => ({ detail: "Too many requests" }));
       const detail = body.detail;
-      // Quota exceeded — redirect to pricing page
+      // Quota exceeded — throw typed error so components can show inline modal
       if (
         typeof detail === "object" &&
         detail !== null &&
-        (detail.code === "QUESTION_QUOTA_EXCEEDED" || detail.code === "EXPLANATION_QUOTA_EXCEEDED") &&
-        typeof window !== "undefined"
+        (detail.code === "QUESTION_QUOTA_EXCEEDED" || detail.code === "EXPLANATION_QUOTA_EXCEEDED")
       ) {
-        window.location.href = "/pricing";
-        throw new ApiError(429, detail.message || "Daily question limit reached");
+        throw new QuotaExceededError(
+          detail.code,
+          detail.message || "Daily limit reached",
+          detail.used ?? 0,
+          detail.limit ?? 0,
+        );
       }
       const message =
         typeof detail === "string"

@@ -15,7 +15,8 @@ export function generateExplanation(
   if (locale) params.set("locale", locale);
   const qs = params.toString();
   const url = `/api/questions/${questionId}/explanation${qs ? `?${qs}` : ""}`;
-  return post<Explanation>(url);
+  // LLM generation can take 30-60s on first call; use longer timeout
+  return post<Explanation>(url, undefined, { timeout: 90_000 });
 }
 
 export function generateSentenceAnalysis(
@@ -28,7 +29,7 @@ export function generateSentenceAnalysis(
     sentence_index: sentenceIndex,
     sentence_fr: sentenceFr,
     locale: locale || undefined,
-  });
+  }, { timeout: 90_000 });
 }
 
 export function matchGrammarCard(name: string): Promise<GrammarCard | null> {

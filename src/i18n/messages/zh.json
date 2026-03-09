@@ -2378,5 +2378,20 @@
     "faq5a": "口语和写作提供真题话题和写作任务，支持跳转到 ChatGPT 进行 AI 模拟对话和作文批改。相当于免费的 AI 外教。",
     "faq6q": "如何申请退款？",
     "faq6a": "首次付款后 48 小时内可全额退款，年付用户 14 天内可按比例退款。发邮件至 support@hitcf.com 即可，3 个工作日内处理。"
+  },
+  "quota": {
+    "exceeded": {
+      "title": "今日免费额度已用完",
+      "questionMessage": "你今天已使用 {used}/{limit} 道免费题目。",
+      "explanationMessage": "你今天已使用 {used}/{limit} 次免费解析。",
+      "resetHint": "配额将在 UTC 午夜重置。升级 Pro 解锁无限使用。",
+      "continueFree": "好的",
+      "upgradePro": "升级 Pro"
+    },
+    "badge": "今日 {used}/{limit}",
+    "unlimited": "无限",
+    "mockExamProRequired": "升级 Pro",
+    "speakingProHint": "话题免费浏览 — AI 对话和发音评估功能需要 Pro 会员。",
+    "writingProHint": "话题免费浏览 — AI 评分和批改功能需要 Pro 会员。"
   }
 }

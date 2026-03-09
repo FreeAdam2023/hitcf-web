@@ -2378,5 +2378,20 @@
     "faq5a": "Les sections d'expression orale et écrite proposent des sujets et tâches d'examen réels, avec la possibilité d'accéder à ChatGPT pour la pratique de conversation IA et la correction de rédactions — essentiellement un tuteur IA gratuit.",
     "faq6q": "Comment demander un remboursement ?",
     "faq6a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés annuels peuvent obtenir un remboursement proportionnel dans les 14 jours. Envoyez simplement un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
+  },
+  "quota": {
+    "exceeded": {
+      "title": "Limite quotidienne atteinte",
+      "questionMessage": "Vous avez utilisé vos {used}/{limit} questions gratuites pour aujourd'hui.",
+      "explanationMessage": "Vous avez utilisé vos {used}/{limit} explications gratuites pour aujourd'hui.",
+      "resetHint": "Votre quota se réinitialise à minuit UTC. Passez à Pro pour un accès illimité.",
+      "continueFree": "OK",
+      "upgradePro": "Passer à Pro"
+    },
+    "badge": "{used}/{limit} aujourd'hui",
+    "unlimited": "Illimité",
+    "mockExamProRequired": "Passer à Pro",
+    "speakingProHint": "Parcourez les sujets gratuitement — la conversation IA et l'évaluation de la prononciation nécessitent Pro.",
+    "writingProHint": "Parcourez les sujets gratuitement — la notation IA et la correction nécessitent Pro."
   }
 }

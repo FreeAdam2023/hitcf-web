@@ -12,6 +12,8 @@ import { usePracticeStore } from "@/stores/practice-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
 import { getQuestionDetail, generateExplanation } from "@/lib/api/questions";
+import { QuotaExceededError } from "@/lib/api/client";
+import { QuotaExceededModal } from "@/components/shared/quota-exceeded-modal";
 import { QuestionDisplay } from "@/components/practice/question-display";
 import { OptionList } from "@/components/practice/option-list";
 import { QuestionNavigator } from "@/components/practice/question-navigator";
@@ -370,6 +372,12 @@ export function PracticeSession() {
   const [savedIndicator, setSavedIndicator] = useState(false);
   const [wrongCollected, setWrongCollected] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
+  const [quotaModal, setQuotaModal] = useState<{
+    open: boolean;
+    type: "question" | "explanation";
+    used: number;
+    limit: number;
+  }>({ open: false, type: "question", used: 0, limit: 0 });
   const [explanation, setExplanation] = useState<Explanation | null>(null);
   const [explanationLoading, setExplanationLoading] = useState(false);
   const [explanationError, setExplanationError] = useState(false);
@@ -494,8 +502,17 @@ export function PracticeSession() {
         setTimeout(() => setSavedIndicator(false), 2000);
       }
     } catch (err) {
-      console.error("Failed to submit answer", err);
-      toast.error(t("common.errors.submitFailed"));
+      if (err instanceof QuotaExceededError) {
+        setQuotaModal({
+          open: true,
+          type: err.code === "QUESTION_QUOTA_EXCEEDED" ? "question" : "explanation",
+          used: err.used,
+          limit: err.limit,
+        });
+      } else {
+        console.error("Failed to submit answer", err);
+        toast.error(t("common.errors.submitFailed"));
+      }
     } finally {
       setSubmitting(false);
       setSubmittingKey(null);
@@ -794,6 +811,14 @@ export function PracticeSession() {
           onOpenChange={setReportOpen}
         />
       )}
+
+      <QuotaExceededModal
+        open={quotaModal.open}
+        onOpenChange={(open) => setQuotaModal((prev) => ({ ...prev, open }))}
+        type={quotaModal.type}
+        used={quotaModal.used}
+        limit={quotaModal.limit}
+      />
     </div>
   );
 }

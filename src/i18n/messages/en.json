@@ -2378,5 +2378,20 @@
     "faq5a": "Speaking and writing sections provide real exam topics and tasks, with the option to jump to ChatGPT for AI conversation practice and essay correction — essentially a free AI tutor.",
     "faq6q": "How do I request a refund?",
     "faq6a": "Full refund within 48 hours of first payment. Yearly subscribers can get a prorated refund within 14 days. Simply email support@hitcf.com — processed within 3 business days."
+  },
+  "quota": {
+    "exceeded": {
+      "title": "Daily Limit Reached",
+      "questionMessage": "You've used all {used}/{limit} free questions for today.",
+      "explanationMessage": "You've used all {used}/{limit} free explanations for today.",
+      "resetHint": "Your quota resets at midnight UTC. Upgrade to Pro for unlimited access.",
+      "continueFree": "OK",
+      "upgradePro": "Upgrade to Pro"
+    },
+    "badge": "{used}/{limit} today",
+    "unlimited": "Unlimited",
+    "mockExamProRequired": "Upgrade to Pro",
+    "speakingProHint": "Browse topics for free — AI conversation and pronunciation features require Pro.",
+    "writingProHint": "Browse topics for free — AI scoring and correction features require Pro."
   }
 }

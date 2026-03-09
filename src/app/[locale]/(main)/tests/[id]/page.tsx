@@ -55,9 +55,10 @@ function buildWritingChatGPTUrl(topic: QuestionBrief, taskNum: number): string {
   return `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
 }
 
-function SpeakingTopicList({ topics, isTache2, testSetId }: { topics: QuestionBrief[]; isTache2: boolean; testSetId: string }) {
+function SpeakingTopicList({ topics, isTache2, testSetId, canAccessPaid }: { topics: QuestionBrief[]; isTache2: boolean; testSetId: string; canAccessPaid: boolean }) {
   const t = useTranslations();
   const locale = useLocale();
+  const router = useRouter();
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const handleCopy = useCallback(async (topic: QuestionBrief) => {
@@ -86,26 +87,47 @@ function SpeakingTopicList({ topics, isTache2, testSetId }: { topics: QuestionBr
                   {topic.question_text}
                 </p>
                 {/* Primary action: AI Conversation */}
-                <Button asChild size="sm" className="w-full sm:w-auto">
-                  <Link href={`/speaking-conversation?testSetId=${testSetId}&questionId=${topic.id}`}>
-                    <Bot className="mr-1.5 h-3.5 w-3.5" />
-                    {t("speakingConversation.aiConversation")}
-                  </Link>
-                </Button>
+                {canAccessPaid ? (
+                  <Button asChild size="sm" className="w-full sm:w-auto">
+                    <Link href={`/speaking-conversation?testSetId=${testSetId}&questionId=${topic.id}`}>
+                      <Bot className="mr-1.5 h-3.5 w-3.5" />
+                      {t("speakingConversation.aiConversation")}
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button size="sm" className="w-full sm:w-auto" onClick={() => router.push("/pricing")}>
+                    <Lock className="mr-1.5 h-3.5 w-3.5" />
+                    {t("speakingConversation.aiConversation")} — Pro
+                  </Button>
+                )}
                 {/* Secondary actions */}
                 <div className="flex flex-wrap items-center gap-1.5">
-                  <Button asChild size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground">
-                    <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}`}>
-                      <Mic className="mr-1 h-3 w-3" />
-                      {t("speakingPractice.startPractice")}
-                    </Link>
-                  </Button>
-                  <Button asChild size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground">
-                    <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}&mode=exam`}>
-                      <Timer className="mr-1 h-3 w-3" />
-                      {t("speakingPractice.startExam")}
-                    </Link>
-                  </Button>
+                  {canAccessPaid ? (
+                    <Button asChild size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground">
+                      <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}`}>
+                        <Mic className="mr-1 h-3 w-3" />
+                        {t("speakingPractice.startPractice")}
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground" onClick={() => router.push("/pricing")}>
+                      <Lock className="mr-1 h-3 w-3" />
+                      {t("speakingPractice.startPractice")} — Pro
+                    </Button>
+                  )}
+                  {canAccessPaid ? (
+                    <Button asChild size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground">
+                      <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}&mode=exam`}>
+                        <Timer className="mr-1 h-3 w-3" />
+                        {t("speakingPractice.startExam")}
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground" onClick={() => router.push("/pricing")}>
+                      <Lock className="mr-1 h-3 w-3" />
+                      {t("speakingPractice.startExam")} — Pro
+                    </Button>
+                  )}
                   <span className="text-border">|</span>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -157,13 +179,13 @@ function SpeakingTopicList({ topics, isTache2, testSetId }: { topics: QuestionBr
 
 function WritingTestView({
   test,
-  locked,
+  canAccessPaid,
   topicsLoading,
   topics,
   backLink,
 }: {
   test: TestSetDetail;
-  locked: boolean;
+  canAccessPaid: boolean;
   topicsLoading: boolean;
   topics: QuestionBrief[];
   backLink: React.ReactNode;
@@ -184,12 +206,12 @@ function WritingTestView({
 
   // Check for active writing attempts on mount
   useEffect(() => {
-    if (locked) return;
+    if (!canAccessPaid) return;
     import("@/lib/api/writing-attempts").then(({ getActiveWritingAttempt }) => {
       getActiveWritingAttempt(test.id, "practice").then((a) => setActivePractice(a)).catch(() => {});
       getActiveWritingAttempt(test.id, "exam").then((a) => setActiveExam(a)).catch(() => {});
     });
-  }, [test.id, locked]);
+  }, [test.id, canAccessPaid]);
 
   const handleStartPractice = async (forceNew = false) => {
     setStarting(true);
@@ -242,16 +264,21 @@ function WritingTestView({
         </CardHeader>
       </Card>
 
-      {locked ? (
-        <Card>
-          <CardContent className="pt-6">
-            <PaywallButton />
-          </CardContent>
-        </Card>
-      ) : topicsLoading ? (
+      {topicsLoading ? (
         <LoadingSpinner />
       ) : (
         <>
+          {/* Subscription CTA for writing */}
+          {!canAccessPaid && (
+            <Card>
+              <CardContent className="pt-6">
+                <PaywallButton />
+                <p className="mt-2 text-center text-xs text-muted-foreground">
+                  {t("quota.writingProHint")}
+                </p>
+              </CardContent>
+            </Card>
+          )}
           {/* Mode description */}
           <div className="rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-3">
             <div className="space-y-1">
@@ -324,30 +351,32 @@ function WritingTestView({
             </div>
           )}
 
-          {/* Start buttons */}
-          <div className="flex gap-3">
-            {!activePractice && (
-              <Button
-                className="flex-1"
-                size="lg"
-                onClick={() => handleStartPractice(false)}
-                disabled={starting || startingExam}
-              >
-                {starting ? t("common.actions.starting") : t("testCard.startPractice")}
-              </Button>
-            )}
-            {!activeExam && (
-              <Button
-                className="flex-1"
-                size="lg"
-                variant="outline"
-                onClick={() => handleStartExam(false)}
-                disabled={starting || startingExam}
-              >
-                {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
-              </Button>
-            )}
-          </div>
+          {/* Start buttons — require subscription */}
+          {canAccessPaid ? (
+            <div className="flex gap-3">
+              {!activePractice && (
+                <Button
+                  className="flex-1"
+                  size="lg"
+                  onClick={() => handleStartPractice(false)}
+                  disabled={starting || startingExam}
+                >
+                  {starting ? t("common.actions.starting") : t("testCard.startPractice")}
+                </Button>
+              )}
+              {!activeExam && (
+                <Button
+                  className="flex-1"
+                  size="lg"
+                  variant="outline"
+                  onClick={() => handleStartExam(false)}
+                  disabled={starting || startingExam}
+                >
+                  {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
+                </Button>
+              )}
+            </div>
+          ) : null}
 
           {/* Task preview (read-only) */}
           <div className="space-y-3">
@@ -414,12 +443,6 @@ export default function TestDetailPage() {
   const [topicsLoading, setTopicsLoading] = useState(false);
   const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
   const [activeExam, setActiveExam] = useState<ActiveAttemptResponse | null>(null);
-
-  // Listening/reading: always open (per-question quota enforced at answer time)
-  // Speaking/writing: require subscription unless marked as free
-  const locked = test
-    ? (test.type === "speaking" || test.type === "writing") && !test.is_free && !canAccessPaid
-    : false;
 
   useEffect(() => {
     getTestSet(params.id)
@@ -515,16 +538,20 @@ export default function TestDetailPage() {
           </CardHeader>
         </Card>
 
-        {locked ? (
-          <Card>
-            <CardContent className="pt-6">
-              <PaywallButton />
-            </CardContent>
-          </Card>
-        ) : topicsLoading ? (
+        {topicsLoading ? (
           <LoadingSpinner />
         ) : (
           <>
+            {!canAccessPaid && (
+              <Card>
+                <CardContent className="pt-6">
+                  <PaywallButton />
+                  <p className="mt-2 text-center text-xs text-muted-foreground">
+                    {t("quota.speakingProHint")}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
             <div className="rounded-md bg-muted/50 p-4 text-xs leading-relaxed text-muted-foreground space-y-3">
               <div className="space-y-1">
                 <p className="font-medium text-foreground text-sm">
@@ -541,7 +568,7 @@ export default function TestDetailPage() {
                 <p>{t("testDetail.speakingModePronDesc")}</p>
               </div>
             </div>
-            <SpeakingTopicList topics={topics} isTache2={isTache2} testSetId={test.id} />
+            <SpeakingTopicList topics={topics} isTache2={isTache2} testSetId={test.id} canAccessPaid={canAccessPaid} />
           </>
         )}
       </div>
@@ -553,7 +580,7 @@ export default function TestDetailPage() {
     return (
       <WritingTestView
         test={test}
-        locked={locked}
+        canAccessPaid={canAccessPaid}
         topicsLoading={topicsLoading}
         topics={topics}
         backLink={backLink}
@@ -636,10 +663,7 @@ export default function TestDetailPage() {
           </div>
 
           <div className="mt-4 space-y-3">
-            {locked ? (
-              <PaywallButton />
-            ) : (
-              <>
+            <>
                 {/* Active practice resume card */}
                 {activePractice && activePractice.answered_count > 0 && (
                   <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
@@ -719,8 +743,7 @@ export default function TestDetailPage() {
                     </Button>
                   ) : null}
                 </div>
-              </>
-            )}
+            </>
           </div>
         </CardContent>
       </Card>
