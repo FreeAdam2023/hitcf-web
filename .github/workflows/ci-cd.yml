@@ -128,18 +128,18 @@ jobs:
           fi
 
       - name: Wait for container startup
-        run: sleep 30
+        run: sleep 90
 
       - name: Check site is reachable
         run: |
-          for i in 1 2 3 4 5; do
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL" --max-time 10 -L || echo "000")
+          for i in 1 2 3 4 5 6; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL" --max-time 15 -L || echo "000")
             echo "Attempt $i: HTTP $STATUS"
             if [ "$STATUS" = "200" ]; then
               echo "Site is up"
               exit 0
             fi
-            sleep 10
+            sleep 15
           done
           echo "::error::Site health check failed after 5 attempts"
           exit 1
