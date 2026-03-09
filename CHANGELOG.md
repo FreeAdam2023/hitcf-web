@@ -1,3 +1,10 @@
+## 2026-03-09 (aabb675)
+
+### Bug Fixes
+- remove MutationObserver infinite loop causing page freeze (9293349)
+
+---
+
 ## 2026-03-09 (0ab847d)
 
 ### Bug Fixes
