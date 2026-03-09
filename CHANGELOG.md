@@ -1,3 +1,10 @@
+## 2026-03-09 (b7c1138)
+
+### Bug Fixes
+- brand always visible, user identity hidden by default (4fd8b0e)
+
+---
+
 ## 2026-03-09 (aabb675)
 
 ### Bug Fixes
