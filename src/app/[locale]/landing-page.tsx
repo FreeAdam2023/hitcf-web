@@ -103,10 +103,8 @@ export function LandingPage() {
                 </span>
                 {t("landing.hero.titleSuffix")}
               </h1>
-              <p className="animate-fade-in-up-d2 mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-                {t("landing.hero.subtitle1")}
-                <br className="hidden sm:block" />
-                {t("landing.hero.subtitle2")}
+              <p className="animate-fade-in-up-d2 mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+                {t("landing.hero.subtitle")}
               </p>
               <div className="animate-fade-in-up-d3 mt-10 flex flex-wrap justify-center gap-4 lg:justify-start">
                 {isAuthenticated ? (
