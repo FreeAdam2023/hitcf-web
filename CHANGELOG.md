@@ -1,3 +1,10 @@
+## 2026-03-09 (264f79a)
+
+### Bug Fixes
+- health monitor only checks prod (dev behind Cloudflare Access) (5a4dc1a)
+
+---
+
 ## 2026-03-09 (dcc340b)
 
 ### Bug Fixes
