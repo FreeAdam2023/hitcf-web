@@ -1439,7 +1439,7 @@
       "yearly": {
         "name": "Annuel",
         "unit": "/ an",
-        "equiv": "≈ 8,33 $ US / mois, économisez 58 %",
+        "equiv": "≈ 8,33 $ US / mois, économisez 58 % · Sans renouvellement auto",
         "badge": "Le plus populaire",
         "trialLabel": "Essai gratuit de 14 jours",
         "valueDesc": "Un café par mois pour l'entraînement + flashcards + dictée + exportation Anki",
@@ -1480,7 +1480,7 @@
       "freeValues": [
         "5 / jour",
         "Illimité",
-        "20 recherches / 10 favoris par jour",
+        "20/jour",
         "3 / jour"
       ]
     },

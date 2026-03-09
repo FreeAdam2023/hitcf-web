@@ -5,7 +5,6 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import {
   Check,
-  X,
   Shield,
   CreditCard,
   RefreshCw,
@@ -215,43 +214,85 @@ export function PricingView() {
 
       {/* ---- Free vs Pro ---- */}
       <div>
-        <h2 className="mb-4 text-center text-lg font-bold tracking-tight">
+        <h2 className="mb-6 text-center text-lg font-bold tracking-tight">
           {t("pricing.comparison.title")} <span className="text-primary">{t("pricing.comparison.titlePro")}</span>
         </h2>
-        <Card>
-          <CardContent className="divide-y p-0">
-            <div className="flex items-center gap-3 px-5 py-3">
-              <span className="flex-1 text-sm font-medium text-muted-foreground">{t("pricing.comparison.feature")}</span>
-              <span className="w-16 text-center text-xs font-semibold text-muted-foreground">{t("pricing.comparison.free")}</span>
-              <span className="w-16 text-center text-xs font-semibold text-primary">{t("pricing.comparison.pro")}</span>
+
+        {/* ---- Desktop table (hidden on mobile) ---- */}
+        <Card className="hidden sm:block overflow-hidden">
+          <CardContent className="p-0">
+            {/* Header */}
+            <div className="grid grid-cols-[1fr_120px_80px] items-center border-b bg-muted/30 px-6 py-3.5">
+              <span className="text-sm font-semibold text-muted-foreground">{t("pricing.comparison.feature")}</span>
+              <span className="text-center text-sm font-semibold text-muted-foreground">{t("pricing.comparison.free")}</span>
+              <span className="text-center text-sm font-semibold text-primary">{t("pricing.comparison.pro")}</span>
             </div>
+            {/* Rows */}
             {COMPARISON_FREE.map((freeVal, i) => (
-              <div key={i} className="flex items-center gap-3 px-5 py-2.5 transition-colors hover:bg-muted/30">
-                <span className="flex-1 text-sm">{t(`pricing.comparison.rows.${i}`)}</span>
-                <span className="flex w-16 items-center justify-center">
+              <div
+                key={i}
+                className={cn(
+                  "grid grid-cols-[1fr_120px_80px] items-center px-6 py-3.5 transition-colors hover:bg-muted/20",
+                  i < COMPARISON_FREE.length - 1 && "border-b border-border/50",
+                )}
+              >
+                <span className="text-sm">{t(`pricing.comparison.rows.${i}`)}</span>
+                <span className="flex items-center justify-center">
                   {freeVal === true ? (
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-100 dark:bg-green-950">
-                      <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 dark:bg-green-950">
+                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
                     </div>
                   ) : freeVal === false ? (
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-muted">
-                      <X className="h-3 w-3 text-muted-foreground/40" />
-                    </div>
+                    <span className="text-xs text-muted-foreground/40">—</span>
                   ) : (
-                    <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+                    <span className="whitespace-nowrap rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
                       {t(`pricing.comparison.freeValues.${freeVal}`)}
                     </span>
                   )}
                 </span>
-                <span className="flex w-16 items-center justify-center">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10">
-                    <Check className="h-3 w-3 text-primary" />
+                <span className="flex items-center justify-center">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10">
+                    <Check className="h-3.5 w-3.5 text-primary" />
                   </div>
                 </span>
               </div>
             ))}
           </CardContent>
         </Card>
+
+        {/* ---- Mobile cards (hidden on desktop) ---- */}
+        <div className="space-y-2.5 sm:hidden">
+          {COMPARISON_FREE.map((freeVal, i) => (
+            <div
+              key={i}
+              className="flex items-start justify-between gap-3 rounded-xl border bg-card px-4 py-3.5"
+            >
+              <span className="flex-1 text-sm leading-snug">{t(`pricing.comparison.rows.${i}`)}</span>
+              <div className="flex shrink-0 items-center gap-3">
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-[10px] font-medium text-muted-foreground">{t("pricing.comparison.free")}</span>
+                  {freeVal === true ? (
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 dark:bg-green-950">
+                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                    </div>
+                  ) : freeVal === false ? (
+                    <span className="text-sm text-muted-foreground/40">—</span>
+                  ) : (
+                    <span className="max-w-[5rem] text-center text-[10px] leading-tight font-medium text-muted-foreground">
+                      {t(`pricing.comparison.freeValues.${freeVal}`)}
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-[10px] font-semibold text-primary">{t("pricing.comparison.pro")}</span>
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10">
+                    <Check className="h-3.5 w-3.5 text-primary" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* ---- FAQ ---- */}
