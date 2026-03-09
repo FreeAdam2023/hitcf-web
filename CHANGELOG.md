@@ -1,3 +1,10 @@
+## 2026-03-09 (bab9da2)
+
+### Features
+- watermark overlay for content protection + branding (2377b44)
+
+---
+
 ## 2026-03-09 (bf8e2b2)
 
 ### Features
