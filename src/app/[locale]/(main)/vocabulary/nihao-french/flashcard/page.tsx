@@ -8,7 +8,7 @@ import { listNihaoWords } from "@/lib/api/vocabulary";
 
 function NihaoFlashcardInner() {
   const t = useTranslations();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!;
   const level = searchParams.get("level") || undefined;
   const lesson = searchParams.get("lesson") ? Number(searchParams.get("lesson")) : undefined;
 

@@ -22,7 +22,7 @@ function GoogleIcon() {
 
 function LoginForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!;
   const callbackUrl = searchParams.get("callbackUrl") || "/tests";
   const t = useTranslations();
 

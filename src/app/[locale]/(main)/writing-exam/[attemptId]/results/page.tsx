@@ -154,7 +154,7 @@ function TaskFeedbackPanel({
 
 export default function WritingExamResultsPage() {
   const t = useTranslations();
-  const params = useParams<{ attemptId: string }>();
+  const params = useParams<{ attemptId: string }>()!;
   const router = useRouter();
   const reset = useWritingExamStore((s) => s.reset);
 

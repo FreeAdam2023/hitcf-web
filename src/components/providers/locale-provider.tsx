@@ -30,7 +30,7 @@ export function LocaleProvider({ locale, children }: { locale: string; children:
   const validLocale = (SUPPORTED_LOCALES.includes(locale as Locale) ? locale : "en") as Locale;
   const user = useAuthStore((s) => s.user);
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname()!;
 
   // If logged-in user's ui_language doesn't match URL locale, navigate to correct one
   const userLocale = user?.ui_language;

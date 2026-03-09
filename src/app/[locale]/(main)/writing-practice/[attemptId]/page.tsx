@@ -57,7 +57,7 @@ function scoreColor(score: number): string {
 
 export default function WritingPracticePage() {
   const t = useTranslations();
-  const params = useParams<{ attemptId: string }>();
+  const params = useParams<{ attemptId: string }>()!;
   useRouter(); // kept for potential future navigation
 
   const {

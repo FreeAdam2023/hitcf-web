@@ -11,7 +11,7 @@ import type { AttemptReview } from "@/lib/api/types";
 
 export default function ResultsPage() {
   const t = useTranslations();
-  const params = useParams<{ attemptId: string }>();
+  const params = useParams<{ attemptId: string }>()!;
   const [review, setReview] = useState<AttemptReview | null>(null);
   const [loading, setLoading] = useState(true);
 

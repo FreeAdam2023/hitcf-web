@@ -89,7 +89,7 @@ function ExamTimer({
 
 export default function SpeakingPracticeView() {
   const t = useTranslations();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!;
   const testSetId = searchParams.get("testSetId");
   const questionId = searchParams.get("questionId");
   const mode = (searchParams.get("mode") === "exam" ? "exam" : "practice") as "practice" | "exam";

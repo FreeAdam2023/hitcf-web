@@ -28,7 +28,7 @@ function formatDate(dateStr: string): string {
 
 export default function SpeakingResultsPage() {
   const t = useTranslations();
-  const params = useParams<{ attemptId: string }>();
+  const params = useParams<{ attemptId: string }>()!;
   const [attempt, setAttempt] = useState<SpeakingAttemptResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

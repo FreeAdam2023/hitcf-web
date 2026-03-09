@@ -14,7 +14,7 @@ import { WritingExamSession } from "./writing-exam-session";
 
 export default function WritingExamPage() {
   const t = useTranslations();
-  const params = useParams<{ attemptId: string }>();
+  const params = useParams<{ attemptId: string }>()!;
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

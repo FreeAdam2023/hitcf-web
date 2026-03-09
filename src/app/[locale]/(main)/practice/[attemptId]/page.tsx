@@ -13,7 +13,7 @@ import { PracticeSession } from "./practice-session";
 
 export default function PracticePage() {
   const t = useTranslations();
-  const params = useParams<{ attemptId: string }>();
+  const params = useParams<{ attemptId: string }>()!;
   const init = usePracticeStore((s) => s.init);
   const storeAttemptId = usePracticeStore((s) => s.attemptId);
   const [loading, setLoading] = useState(true);

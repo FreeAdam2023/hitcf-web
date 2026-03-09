@@ -8,7 +8,7 @@ import { listThemeWords } from "@/lib/api/vocabulary";
 
 function ThemeFlashcardInner() {
   const t = useTranslations();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!;
   const tag = searchParams.get("tag") || undefined;
   const tagCategory = searchParams.get("tag_category") || undefined;
 

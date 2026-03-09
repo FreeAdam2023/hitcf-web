@@ -36,7 +36,7 @@ export default function RegisterPage() {
 
 function RegisterForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!;
   const t = useTranslations();
 
   const trackingMeta = useMemo(() => ({

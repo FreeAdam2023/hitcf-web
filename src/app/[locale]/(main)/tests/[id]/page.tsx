@@ -400,7 +400,7 @@ function PaywallButton() {
 
 export default function TestDetailPage() {
   const t = useTranslations();
-  const params = useParams<{ id: string }>();
+  const params = useParams<{ id: string }>()!;
   const router = useRouter();
   const canAccessPaid = useAuthStore((s) => {
     const status = s.user?.subscription?.status;

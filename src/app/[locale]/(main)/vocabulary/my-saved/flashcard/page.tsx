@@ -16,7 +16,7 @@ function isSourceType(v: string | null): v is SourceType {
 function FlashcardInner() {
   const t = useTranslations();
   const { data: session } = useSession();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!;
   const sourceType = searchParams.get("source_type") || undefined;
 
   const loadCards = useCallback(async (): Promise<FlashCardWord[]> => {

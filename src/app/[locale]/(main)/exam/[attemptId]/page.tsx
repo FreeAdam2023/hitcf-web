@@ -12,7 +12,7 @@ import { ExamSession } from "./exam-session";
 
 export default function ExamPage() {
   const t = useTranslations();
-  const params = useParams<{ attemptId: string }>();
+  const params = useParams<{ attemptId: string }>()!;
   const init = useExamStore((s) => s.init);
   const storeAttemptId = useExamStore((s) => s.attemptId);
   const [loading, setLoading] = useState(true);

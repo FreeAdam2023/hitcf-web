@@ -28,7 +28,7 @@ import type { SpeakingConversationResponse } from "@/lib/api/types";
 export default function SpeakingConversationResultsPage() {
   const t = useTranslations("speakingConversation");
   const router = useRouter();
-  const params = useParams<{ sessionId: string }>();
+  const params = useParams<{ sessionId: string }>()!;
   const [session, setSession] = useState<SpeakingConversationResponse | null>(
     null,
   );

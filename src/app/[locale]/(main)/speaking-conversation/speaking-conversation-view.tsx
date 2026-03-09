@@ -63,7 +63,7 @@ function formatTime(seconds: number): string {
 export function SpeakingConversationView() {
   const t = useTranslations("speakingConversation");
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!;
   const testSetId = searchParams.get("testSetId") || "";
   const questionId = searchParams.get("questionId") || "";
   const urlSessionId = searchParams.get("sessionId") || "";

@@ -11,7 +11,7 @@ import type { DictationWord } from "@/stores/dictation-store";
 function DictationInner() {
   const t = useTranslations();
   const { data: session } = useSession();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()!;
   const sourceType = searchParams.get("source_type") || undefined;
 
   const loadWords = useCallback(async (): Promise<DictationWord[]> => {
