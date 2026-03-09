@@ -84,35 +84,21 @@ export function WatermarkOverlay() {
     // Refresh timestamp every 5 minutes
     const timer = setInterval(applyWatermark, 5 * 60 * 1000);
 
-    // MutationObserver: restore if tampered with via DevTools
+    // MutationObserver: re-attach if overlay is removed via DevTools
     const parent = overlayRef.current?.parentElement;
     if (parent) {
       observerRef.current = new MutationObserver((mutations) => {
         for (const m of mutations) {
-          // If our overlay was removed, re-attach it
-          if (m.type === "childList") {
-            const removed = Array.from(m.removedNodes);
-            if (removed.includes(overlayRef.current as Node)) {
-              parent.appendChild(overlayRef.current as Node);
-              applyWatermark();
-              return;
-            }
-          }
-          // If style was tampered with, re-apply
-          if (
-            m.type === "attributes" &&
-            m.target === overlayRef.current
-          ) {
+          if (m.type !== "childList") continue;
+          const removed = Array.from(m.removedNodes);
+          if (removed.includes(overlayRef.current as Node)) {
+            parent.appendChild(overlayRef.current as Node);
             applyWatermark();
+            return;
           }
         }
       });
-      observerRef.current.observe(parent, {
-        childList: true,
-        attributes: true,
-        subtree: true,
-        attributeFilter: ["style", "class"],
-      });
+      observerRef.current.observe(parent, { childList: true });
     }
 
     return () => {
