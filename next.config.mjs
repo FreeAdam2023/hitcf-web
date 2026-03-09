@@ -23,15 +23,11 @@ const nextConfig = {
   },
   async rewrites() {
     return {
-      // afterFiles: runs after filesystem routes but before dynamic routes.
-      // Rules are matched in order — first match wins.
+      // afterFiles: runs after filesystem routes (pages/api, public files)
+      // but BEFORE dynamic routes ([locale]).
+      // NextAuth lives in pages/api/auth/ (Pages Router) so it's a true
+      // filesystem route matched before this rewrite.
       afterFiles: [
-        // 1) NextAuth: identity rewrite keeps /api/auth/* local (App Router)
-        {
-          source: "/api/auth/:path*",
-          destination: "/api/auth/:path*",
-        },
-        // 2) All other /api/* routes proxy to the backend
         {
           source: "/api/:path*",
           destination: `${process.env.BACKEND_URL || "http://localhost:8001"}/api/:path*`,
