@@ -1,3 +1,10 @@
+## 2026-03-10 (df36d29)
+
+### Bug Fixes
+- compute TCF level from question_number when level field is null (6033cc9)
+
+---
+
 ## 2026-03-10 (097aadd)
 
 ### Features
