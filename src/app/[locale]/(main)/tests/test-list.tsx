@@ -37,7 +37,6 @@ import { getInProgressDrills, abandonSpeedDrill, type InProgressAttempt } from "
 import { LevelPracticeDialog } from "./level-practice-dialog";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
-type BrowseMode = "level" | "set";
 
 /** Group items by source_date, returning sections sorted newest-first.
  *  `label` is the raw "YYYY-MM" key; actual display formatting happens at render time. */
@@ -288,10 +287,9 @@ export function TestList() {
   type ExamTypeFilter = "all" | "tcf_canada" | "tcf_tp" | "tcf_irn" | "tcf_quebec";
   const [examTypeFilter] = useState<ExamTypeFilter>("tcf_canada");
 
-  // Speaking/Writing specific state
-  const [browseMode, setBrowseMode] = useState<BrowseMode>("level");
-  const [speakingTache, setSpeakingTache] = useState<1 | 2 | 3>(1);
-  const [writingTache, setWritingTache] = useState<1 | 2 | 3>(3);
+  // Speaking/Writing specific state (0 = mock exam)
+  const [speakingTache, setSpeakingTache] = useState<0 | 1 | 2 | 3>(1);
+  const [writingTache, setWritingTache] = useState<0 | 1 | 2 | 3>(3);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
 
   // Status filter for listening/reading tabs
@@ -302,7 +300,6 @@ export function TestList() {
   useEffect(() => {
     setSearch("");
     setSelectedYear(null);
-    setBrowseMode("level");
     setStatusFilter("all");
   }, [tab]);
 
@@ -311,26 +308,27 @@ export function TestList() {
     setLoading(true);
     const etParam = examTypeFilter === "all" ? undefined : examTypeFilter;
     try {
-      if ((tab === "speaking" || tab === "writing") && browseMode === "set") {
-        // Mock exam mode — no data fetch needed, just show entry card
+      if (tab === "speaking" && speakingTache === 0) {
+        // Mock exam — no data fetch needed
         setTests([]);
-      } else if (tab === "speaking" && browseMode === "level" && speakingTache === 1) {
+      } else if (tab === "writing" && writingTache === 0) {
         setTests([]);
-      } else if (tab === "speaking" && browseMode === "level") {
+      } else if (tab === "speaking" && speakingTache === 1) {
+        setTests([]);
+      } else if (tab === "speaking") {
         const items = await fetchAllPages(
           (p) => listTestSets({ type: "speaking", exam_type: etParam, task_number: speakingTache, ...p }), 500,
         );
         setTests(items);
-      } else if (tab === "writing" && browseMode === "level") {
+      } else if (tab === "writing") {
         const items = await fetchAllPages(
           (p) => listWritingTopics({ task_number: writingTache, ...p }), 500,
         );
         setWritingTopics(items);
         setTests([]);
       } else {
-        const size = (tab === "speaking" || tab === "writing") ? 1000 : 100;
         const items = await fetchAllPages(
-          (p) => listTestSets({ type: tab, exam_type: etParam, ...p }), size,
+          (p) => listTestSets({ type: tab, exam_type: etParam, ...p }), 100,
         );
         setTests(items);
       }
@@ -341,7 +339,7 @@ export function TestList() {
     } finally {
       setLoading(false);
     }
-  }, [tab, browseMode, speakingTache, writingTache, examTypeFilter]);
+  }, [tab, speakingTache, writingTache, examTypeFilter]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -351,11 +349,11 @@ export function TestList() {
 
   // ─── Derived: available years ─────────────────────────────
   const availableYears = useMemo(() => {
-    if (tab === "writing" && browseMode === "level") {
+    if (tab === "writing" && writingTache > 0) {
       return extractYears(writingTopics);
     }
     return extractYears(tests);
-  }, [tab, browseMode, tests, writingTopics]);
+  }, [tab, writingTache, tests, writingTopics]);
 
   // ─── Status helpers for listening/reading ────────────────
   const getTestStatus = useCallback(
@@ -445,14 +443,14 @@ export function TestList() {
 
   // ─── Latest month for freemium gating ─────────────────────
   const latestMonth = useMemo(() => {
-    if (tab === "writing" && browseMode === "level") {
+    if (tab === "writing" && writingTache > 0) {
       return getLatestMonth(writingTopics);
     }
     if (tab === "speaking" || tab === "writing") {
       return getLatestMonth(tests);
     }
     return null;
-  }, [tab, browseMode, tests, writingTopics]);
+  }, [tab, writingTache, tests, writingTopics]);
 
   // ─── Is speaking/writing tab? ─────────────────────────────
   const isSpeakingWriting = tab === "speaking" || tab === "writing";
@@ -920,18 +918,8 @@ export function TestList() {
           {/* ── Speaking/Writing controls ── */}
           {isSpeakingWriting && (
             <div className="mb-5 space-y-3">
-              {/* Mode toggle */}
-              <div className="flex gap-2">
-                <Pill active={browseMode === "level"} onClick={() => setBrowseMode("level")}>
-                  {t("tests.topicPractice")}
-                </Pill>
-                <Pill active={browseMode === "set"} onClick={() => setBrowseMode("set")}>
-                  {t("tests.mockExamMode")}
-                </Pill>
-              </div>
-
-              {/* Tâche pills (by-level mode only) */}
-              {browseMode === "level" && tab === "speaking" && (
+              {/* Tâche pills + mock exam pill */}
+              {tab === "speaking" && (
                 <div className="flex flex-wrap gap-2">
                   <Pill active={speakingTache === 1} onClick={() => setSpeakingTache(1)}>
                     {t("tests.writingTache1")}
@@ -942,9 +930,12 @@ export function TestList() {
                   <Pill active={speakingTache === 3} onClick={() => setSpeakingTache(3)}>
                     {t("tests.writingTache3")}
                   </Pill>
+                  <Pill active={speakingTache === 0} onClick={() => setSpeakingTache(0)}>
+                    {t("tests.mockExamMode")}
+                  </Pill>
                 </div>
               )}
-              {browseMode === "level" && tab === "writing" && (
+              {tab === "writing" && (
                 <div className="flex flex-wrap gap-2">
                   <Pill active={writingTache === 1} onClick={() => setWritingTache(1)}>
                     {t("tests.speakingTache1")}
@@ -955,11 +946,14 @@ export function TestList() {
                   <Pill active={writingTache === 3} onClick={() => setWritingTache(3)}>
                     {t("tests.speakingTache3")}
                   </Pill>
+                  <Pill active={writingTache === 0} onClick={() => setWritingTache(0)}>
+                    {t("tests.mockExamMode")}
+                  </Pill>
                 </div>
               )}
 
-              {/* Year pills (topic practice mode only) */}
-              {browseMode === "level" && availableYears.length > 1 && (
+              {/* Year pills (topic practice mode, not mock exam) */}
+              {(tab === "speaking" ? speakingTache > 0 : writingTache > 0) && availableYears.length > 1 && (
                 <div className="flex flex-wrap gap-2">
                   <Pill active={selectedYear === null} onClick={() => setSelectedYear(null)}>
                     {t("tests.all")}
@@ -981,15 +975,17 @@ export function TestList() {
           {/* ── Content ── */}
           {tab === "listening" || tab === "reading" ? (
             renderFlatGrid()
-          ) : browseMode === "level" && tab === "speaking" && speakingTache === 1 ? (
-            <SpeakingTache1Guide />
-          ) : browseMode === "level" && tab === "speaking" ? (
-            renderSpeakingByLevel()
-          ) : browseMode === "level" && tab === "writing" ? (
-            renderWritingByLevel()
-          ) : (
+          ) : tab === "speaking" && speakingTache === 0 ? (
             renderMockExamEntry()
-          )}
+          ) : tab === "writing" && writingTache === 0 ? (
+            renderMockExamEntry()
+          ) : tab === "speaking" && speakingTache === 1 ? (
+            <SpeakingTache1Guide />
+          ) : tab === "speaking" ? (
+            renderSpeakingByLevel()
+          ) : tab === "writing" ? (
+            renderWritingByLevel()
+          ) : null}
         </TabsContent>
       </Tabs>
     </div>
