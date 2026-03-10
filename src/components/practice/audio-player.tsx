@@ -335,7 +335,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         <div
           className="relative h-1.5 flex-1 cursor-pointer rounded-full bg-muted"
           role="slider"
-          aria-label="Seek"
+          aria-label={t("audio.seek")}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={Math.round(progress)}

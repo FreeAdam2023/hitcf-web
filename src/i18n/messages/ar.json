@@ -524,7 +524,8 @@
     "volume": "مستوى الصوت",
     "replay": "إعادة التشغيل",
     "speed": "السرعة",
-    "played": "تمّ التشغيل"
+    "played": "تمّ التشغيل",
+    "seek": "تقديم"
   },
   "explanation": {
     "viewExplanation": "عرض الشرح",
@@ -542,6 +543,7 @@
     "keyClue": "دليل رئيسي للإجابة"
   },
   "wordCard": {
+    "pronunciation": "النطق",
     "loading": "جارٍ التحميل...",
     "error": "فشل التحميل. يرجى إعادة المحاولة.",
     "inContext": "في السياق:",
@@ -678,6 +680,18 @@
       "save": "حفظ الصورة",
       "saving": "جارٍ الإنشاء...",
       "saved": "تم الحفظ! شاركها الآن! 🎉"
+    },
+    "encouragement": {
+      "excellent": "أداء ممتاز!",
+      "excellentDetail": "لقد وصلت إلى مستوى NCLC 10+!",
+      "great": "عمل رائع!",
+      "greatDetail": "لقد وصلت إلى مستوى NCLC 7!",
+      "good": "جيد! واصل!",
+      "goodDetail": "مزيد من الجهد لتجاوز NCLC 7!",
+      "progress": "تقدم! واصل التدريب!",
+      "progressDetail": "وصلت إلى NCLC 4+، واصل التدريب!",
+      "keepGoing": "لا تستسلم! كل تدريب يحسبه!",
+      "keepGoingDetail": "كل جلسة تدريب هي تقدم!"
     }
   },
   "encouragement": {
@@ -692,7 +706,6 @@
     "passwordChangeFailed": "فشل تغيير كلمة المرور",
     "subscription": {
       "monthly": "شهري",
-      "quarterly": "ربع سنوي",
       "yearly": "سنوي",
       "trialing": "تجريبي",
       "member": "عضو",
@@ -891,6 +904,8 @@
     "noMoreQuestions": "لا توجد أسئلة جديدة متاحة",
     "startFailed": "فشل بدء التدريب. يرجى إعادة المحاولة.",
     "remainingCount": "متبقي {count}",
+    "totalCount": "إجمالي {count}",
+    "includeDone": "تضمين الأسئلة المكتملة",
     "upgradeBanner": {
       "title": "التدريب حسب المستوى متاح فقط لمشتركي Pro",
       "description": "تدريب مستهدف حسب المستوى والنوع عبر بنك الأسئلة الكامل",
@@ -1316,7 +1331,9 @@
       "filterAll": "الكل",
       "startFlashcard": "بدء مراجعة البطاقات",
       "emptyTitle": "لا توجد بيانات مفردات بعد",
-      "emptyDesc": "مفردات الموضوع قيد التوليد، ترقبوا"
+      "emptyDesc": "مفردات الموضوع قيد التوليد، ترقبوا",
+      "themeCount": "{count} موضوع",
+      "statWordCount": "{count} كلمة"
     },
     "dictation": {
       "button": "إملاء",
@@ -2241,6 +2258,10 @@
     "referral": {
       "title": "برنامج الإحالة · ادعُ أصدقاءك واحصل على أيام مجانية",
       "description": "ادعُ أصدقاءك إلى HiTCF — عندما يشتركون، كلاكما يحصل على 30 يوماً إضافياً من اشتراك Pro!"
+    },
+    "writingMockExam": {
+      "title": "اختبار الكتابة التجريبي | HiTCF",
+      "description": "محاكاة كاملة لاختبار الكتابة TCF Canada مع تصحيح بالذكاء الاصطناعي"
     }
   },
   "referralPage": {

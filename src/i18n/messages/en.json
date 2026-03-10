@@ -524,7 +524,8 @@
     "volume": "Volume",
     "replay": "Replay",
     "speed": "Playback speed",
-    "played": "Played"
+    "played": "Played",
+    "seek": "Seek"
   },
   "explanation": {
     "viewExplanation": "View Explanation",
@@ -542,6 +543,7 @@
     "keyClue": "Key clue for the answer"
   },
   "wordCard": {
+    "pronunciation": "Pronunciation",
     "loading": "Loading...",
     "error": "Failed to load. Please retry.",
     "inContext": "In context:",
@@ -678,6 +680,18 @@
       "save": "Save Image",
       "saving": "Generating...",
       "saved": "Saved! Go share it! 🎉"
+    },
+    "encouragement": {
+      "excellent": "Excellent!",
+      "excellentDetail": "You've reached NCLC 10+ level!",
+      "great": "Great job!",
+      "greatDetail": "You've reached NCLC 7 level!",
+      "good": "Good work! Keep it up!",
+      "goodDetail": "A little more effort to break through NCLC 7!",
+      "progress": "Making progress! Keep practicing!",
+      "progressDetail": "You've reached NCLC 4+, keep practicing!",
+      "keepGoing": "Keep going! Every practice counts!",
+      "keepGoingDetail": "Every practice session is progress!"
     }
   },
   "encouragement": {
@@ -890,6 +904,8 @@
     "noMoreQuestions": "No more new questions available",
     "startFailed": "Failed to start practice. Please retry.",
     "remainingCount": "{count} remaining",
+    "totalCount": "{count} total",
+    "includeDone": "Include completed questions",
     "upgradeBanner": {
       "title": "Level Practice is Pro-only",
       "description": "Targeted practice by level and type across the full question bank",
@@ -1315,7 +1331,9 @@
       "filterAll": "All",
       "startFlashcard": "Start Flashcard Review",
       "emptyTitle": "No vocabulary data yet",
-      "emptyDesc": "Theme vocabulary is being generated, stay tuned"
+      "emptyDesc": "Theme vocabulary is being generated, stay tuned",
+      "themeCount": "{count} themes",
+      "statWordCount": "{count} words"
     },
     "dictation": {
       "button": "Dictation",
@@ -2240,6 +2258,10 @@
     "referral": {
       "title": "Referral Program · Invite Friends, Earn Free Days",
       "description": "Invite friends to HiTCF — when they subscribe, you both get 30 extra days of Pro access!"
+    },
+    "writingMockExam": {
+      "title": "Mock Writing Exam | HiTCF",
+      "description": "Full TCF Canada mock writing exam simulation with AI grading"
     }
   },
   "referralPage": {

@@ -35,3 +35,4 @@ export function generateSentenceAnalysis(
 export function matchGrammarCard(name: string): Promise<GrammarCard | null> {
   return get<GrammarCard | null>(`/api/grammar-cards/match?q=${encodeURIComponent(name)}`);
 }
+
