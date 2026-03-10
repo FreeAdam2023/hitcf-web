@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import {
@@ -24,6 +24,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { createCheckout, getCustomerPortal } from "@/lib/api/subscriptions";
 import { cn } from "@/lib/utils";
 import { PRICING, formatPrice, STATS_PARAMS } from "@/lib/constants";
+import { trackEvent } from "@/lib/analytics/track";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -61,6 +62,11 @@ export function PricingView() {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const activePlan = PLANS.find((p) => p.key === selectedPlan)!;
 
+  // Track pricing page view
+  useEffect(() => {
+    trackEvent("viewed_pricing");
+  }, []);
+
   // Shared interpolation params for i18n strings containing prices
   const pp = {
     monthlyPrice: PRICING.monthly.toFixed(2),
@@ -72,6 +78,7 @@ export function PricingView() {
   };
 
   const handleSubscribe = async (plan: "monthly" | "yearly") => {
+    trackEvent("clicked_subscribe", { plan });
     setLoadingPlan(plan);
     try {
       const { url } = await createCheckout(plan);
