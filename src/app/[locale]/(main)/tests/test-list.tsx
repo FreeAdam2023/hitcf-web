@@ -381,11 +381,7 @@ export function TestList() {
     });
 
     if (tab === "listening" || tab === "reading") {
-      return filtered.sort((a, b) => {
-        const aNum = parseInt(a.code.match(/\d+/)?.[0] || "999", 10);
-        const bNum = parseInt(b.code.match(/\d+/)?.[0] || "999", 10);
-        return aNum - bNum;
-      });
+      return filtered.sort((a, b) => a.order - b.order);
     }
 
     return filtered;
