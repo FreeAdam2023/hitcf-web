@@ -1,3 +1,23 @@
+## 2026-03-10 (8394879)
+
+### Features
+- sync exam countdown with backend — no more localStorage-only (59599e8)
+- redesign exam countdown as a standalone strip on /tests page (b2fabf6)
+- support free trial for all mock exams (listening/reading/speaking/writing) (f814ef8)
+
+### Refactor
+- unify continue banners — one banner for all in-progress work (d796b93)
+- move mock exam button inline with search bar (291f98f)
+- flatten speaking/writing tab UI — merge mock exam into Tâche pill row (a6f82f5)
+- move exam countdown from mock exam pages to /tests as global badge (6f17f89)
+- restructure speaking/writing tabs — kill test set concept, add mock exam to 随机模考 (19fdef9)
+
+### Other
+- remove: kill exam countdown badge from /tests page (e887def)
+- copy: add "首次免费体验" to speaking/writing mock exam descriptions (09cdf8c)
+
+---
+
 ## 2026-03-10 (df36d29)
 
 ### Bug Fixes
