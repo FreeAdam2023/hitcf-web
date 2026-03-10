@@ -18,6 +18,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
 import { listAttempts, createMockExam, checkMockFreeTrialEligible } from "@/lib/api/attempts";
+import { setExamDate as apiSetExamDate } from "@/lib/api/auth";
 import { fetchAllPages } from "@/lib/api/fetch-all-pages";
 import { getLatestMonth, isLatestMonth } from "@/lib/utils";
 import { STATS_PARAMS } from "@/lib/constants";
@@ -188,6 +189,7 @@ export function TestList() {
   const t = useTranslations();
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const userExamDate = useAuthStore((s) => s.user?.exam_date ?? null);
   const canAccessPaid = useAuthStore((s) => {
     const status = s.user?.subscription?.status;
     return status === "active" || status === "trialing" || s.user?.role === "admin";
@@ -201,6 +203,24 @@ export function TestList() {
   const [examDate, setExamDate] = useState<string>(
     () => (typeof window !== "undefined" ? localStorage.getItem("tcfExamDate") || "" : ""),
   );
+
+  // Sync exam date from backend on load (backend is source of truth for logged-in users)
+  useEffect(() => {
+    if (userExamDate) {
+      setExamDate(userExamDate);
+      localStorage.setItem("tcfExamDate", userExamDate);
+    }
+  }, [userExamDate]);
+
+  const handleExamDateChange = useCallback((value: string) => {
+    setExamDate(value);
+    if (value) localStorage.setItem("tcfExamDate", value);
+    else localStorage.removeItem("tcfExamDate");
+    if (isAuthenticated) {
+      apiSetExamDate(value || null).catch(() => {});
+    }
+  }, [isAuthenticated]);
+
   const [drillInProgress, setDrillInProgress] = useState<InProgressAttempt[]>([]);
   const [resumingId, setResumingId] = useState<string | null>(null);
   const [tab, setTab] = useState<TabType>(() => {
@@ -658,19 +678,14 @@ export function TestList() {
                   <input
                     type="date"
                     value={examDate}
-                    onChange={(e) => {
-                      const v = e.target.value;
-                      setExamDate(v);
-                      if (v) localStorage.setItem("tcfExamDate", v);
-                      else localStorage.removeItem("tcfExamDate");
-                    }}
+                    onChange={(e) => handleExamDateChange(e.target.value)}
                     min={new Date().toISOString().split("T")[0]}
                     className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                   />
                   {t("tests.examCountdownChange")}
                 </label>
                 <button
-                  onClick={() => { setExamDate(""); localStorage.removeItem("tcfExamDate"); }}
+                  onClick={() => handleExamDateChange("")}
                   className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
                 >
                   <X className="h-3.5 w-3.5" />
@@ -684,13 +699,7 @@ export function TestList() {
                 <input
                   type="date"
                   value=""
-                  onChange={(e) => {
-                    const v = e.target.value;
-                    if (v) {
-                      setExamDate(v);
-                      localStorage.setItem("tcfExamDate", v);
-                    }
-                  }}
+                  onChange={(e) => { if (e.target.value) handleExamDateChange(e.target.value); }}
                   min={new Date().toISOString().split("T")[0]}
                   className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                 />
