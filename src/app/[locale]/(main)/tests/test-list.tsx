@@ -721,8 +721,7 @@ export function TestList() {
         url.searchParams.set("tab", t);
         window.history.replaceState({}, "", url.pathname + url.search);
       }}>
-        {/* Exam type selector hidden — only TCF Canada data for now */}
-        {/* Search */}
+        {/* Search + Mock exam button in one row */}
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="relative max-w-sm flex-1">
             <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -733,15 +732,11 @@ export function TestList() {
               className="ps-9"
             />
           </div>
-        </div>
-
-        {/* Mock exam — independent of tabs */}
-        {isAuthenticated && (
-          <div className="mb-4 flex flex-wrap gap-3">
+          {isAuthenticated && (
             <Dialog open={mockDialogOpen} onOpenChange={(open) => { setMockDialogOpen(open); if (!open) setMockError(null); }}>
               <DialogTrigger asChild>
                 <button
-                  className="inline-flex items-center gap-2 rounded-lg border-2 border-primary/20 bg-primary/5 px-5 py-2.5 text-sm font-semibold text-primary transition-all hover:border-primary/40 hover:bg-primary/10"
+                  className="inline-flex items-center gap-2 rounded-lg border-2 border-primary/20 bg-primary/5 px-4 py-2 text-sm font-semibold text-primary transition-all hover:border-primary/40 hover:bg-primary/10"
                 >
                   <Shuffle className="h-4 w-4" />
                   {t("tests.mockExam")}
@@ -869,8 +864,8 @@ export function TestList() {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          </div>
-        )}
+          )}
+        </div>
 
         <TabsList className="mb-1">
           <TabsTrigger value="listening">{t("common.types.listening")}</TabsTrigger>
