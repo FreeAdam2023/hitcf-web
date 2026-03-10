@@ -23,7 +23,7 @@ import {
 import { useAuthStore } from "@/stores/auth-store";
 import { createCheckout, getCustomerPortal } from "@/lib/api/subscriptions";
 import { cn } from "@/lib/utils";
-import { PRICING, formatPrice } from "@/lib/constants";
+import { PRICING, formatPrice, STATS_PARAMS } from "@/lib/constants";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -44,7 +44,7 @@ const PLANS = [
 
 /** free column: true = check, false = X, number = index into freeValues */
 const COMPARISON_FREE: (boolean | number)[] = [
-  0, 0, false, false, false, true, 1, true, 2, true,
+  0, 0, 2, 2, false, true, 1, true, 3, true,
 ];
 
 const FAQ_COUNT = 7;
@@ -269,7 +269,7 @@ export function PricingView() {
                     <span className="text-xs text-muted-foreground/40">—</span>
                   ) : (
                     <span className="whitespace-nowrap rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
-                      {t(`pricing.comparison.freeValues.${freeVal}`)}
+                      {t(`pricing.comparison.freeValues.${freeVal}`, STATS_PARAMS)}
                     </span>
                   )}
                 </span>
@@ -302,7 +302,7 @@ export function PricingView() {
                     <span className="text-sm text-muted-foreground/40">—</span>
                   ) : (
                     <span className="max-w-[5rem] text-center text-[10px] leading-tight font-medium text-muted-foreground">
-                      {t(`pricing.comparison.freeValues.${freeVal}`)}
+                      {t(`pricing.comparison.freeValues.${freeVal}`, STATS_PARAMS)}
                     </span>
                   )}
                 </div>

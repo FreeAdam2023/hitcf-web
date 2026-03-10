@@ -238,10 +238,10 @@
     "writingTestName": "写作测试 {num}",
     "pageTitle": "题库",
     "pageSubtitle": "TCF Canada 听力、阅读、口语、写作全真模拟",
-    "statsListening": "42 套听力",
-    "statsReading": "44 套阅读",
-    "statsSpeaking": "696 口语话题",
-    "statsWriting": "515 写作套题",
+    "statsListening": "{listeningSets} 套听力",
+    "statsReading": "{readingSets} 套阅读",
+    "statsSpeaking": "{speakingSets} 口语话题",
+    "statsWriting": "{writingSets} 写作套题",
     "searchPlaceholder": "搜索题套名称或代号...",
     "examType": "考试类型",
     "examTypeAll": "全部",
@@ -306,7 +306,9 @@
     "tacheLabel": "Tâche {n}",
     "wordLimit": "{range} mots",
     "combinaison": "Combinaison {num}",
-    "tacheCombo": "Tâche 1 + 2 + 3"
+    "tacheCombo": "Tâche 1 + 2 + 3",
+    "freeThisMonth": "本月免费",
+    "unlockAllTopics": "升级解锁全部话题"
   },
   "testCard": {
     "best": "最高 {score}/{total} ({pct}%)",
@@ -1480,9 +1482,10 @@
         "练习历史 + 统计"
       ],
       "freeValues": [
-        "每天 5 题",
-        "20次/天",
-        "每天 3 次"
+        "每天 {dailyQuestions} 题",
+        "{dailyVocabFlips}次/天",
+        "最新月免费",
+        "每天 {dailyExplanations} 次"
       ]
     },
     "faq": {
@@ -1805,19 +1808,19 @@
     "features": [
       {
         "title": "听力理解",
-        "desc": "42 套听力真题，1,600+ 道题目，配原版音频 + 逐句精听"
+        "desc": "{listeningSets} 套听力真题，{listeningQuestions} 道题目，配原版音频 + 逐句精听"
       },
       {
         "title": "阅读理解",
-        "desc": "44 套阅读真题，1,700+ 道题目，覆盖 A1-C2 全部级别"
+        "desc": "{readingSets} 套阅读真题，{readingQuestions} 道题目，覆盖 A1-C2 全部级别"
       },
       {
         "title": "口语表达",
-        "desc": "696 套口语话题，3,500+ 个 Tâche 2 + Tâche 3 真题，AI 陪练"
+        "desc": "{speakingSets} 套口语话题，{speakingQuestions} 个 Tâche 2 + Tâche 3 真题，AI 陪练"
       },
       {
         "title": "写作表达",
-        "desc": "515 组写作题目，1,500+ 个任务，短消息 + 博客 + 议论文，AI 批改"
+        "desc": "{writingSets} 组写作题目，{writingQuestions} 个任务，短消息 + 博客 + 议论文，AI 批改"
       }
     ],
     "stats": [
@@ -1859,15 +1862,15 @@
     "banks": [
       {
         "label": "听力 + 阅读",
-        "sub": "86 套真题 · A1–C2 全等级"
+        "sub": "{listeningReadingSets} 套 · A1–C2 全级别"
       },
       {
         "label": "口语话题",
-        "sub": "696 套 · Tâche 2 + 3 真题"
+        "sub": "{speakingSets} 套 · Tâche 2 + 3 真题"
       },
       {
         "label": "写作任务",
-        "sub": "515 组 · 短消息 + 博客 + 议论文"
+        "sub": "{writingSets} 组 · 短消息 + 博客 + 议论文"
       }
     ],
     "allLevels": "· 全部 6 个等级均有覆盖",
@@ -1908,8 +1911,8 @@
     "pricingSubtitle": "免费题套随时练习，订阅解锁全部内容",
     "freeName": "免费版",
     "freeUnit": "/ 永久",
-    "freeFeature1": "8,500+ 道真题练习",
-    "freeFeature2": "每天 5 题 · 含 AI 解析",
+    "freeFeature1": "{totalQuestions} 道真题练习",
+    "freeFeature2": "每天 {dailyQuestions} 题 · 含 AI 解析",
     "freeStart": "开始使用",
     "freeRegister": "免费注册",
     "proBadge": "推荐",
@@ -1999,11 +2002,11 @@
     "keywords": "TCF Canada,CLB 7,TCF 练习,TCF 听力,TCF 阅读,TCF Canada 备考,加拿大移民法语,TCF 在线模拟,TCF 真题,TCF 词汇,法语 Anki,法语翻卡",
     "home": {
       "title": "HiTCF — CLB 7，练出来的 | TCF Canada 在线练习",
-      "description": "8,500+ 道 TCF Canada 真题，覆盖听力、阅读、口语、写作。练习模式 + 考试模式 + 错题本，助你系统备考冲刺 CLB 7。"
+      "description": "{totalQuestions} 道 TCF Canada 真题，覆盖听力、阅读、口语、写作。练习模式 + 考试模式 + 错题本，助你系统备考冲刺 CLB 7。"
     },
     "tests": {
-      "title": "TCF Canada 题库 · 8,500+ 道听力阅读口语写作真题",
-      "description": "TCF Canada 听力、阅读、口语、写作全真模拟题库。42 套听力含音频 + 逐句精听，44 套阅读，覆盖 A1-C2 全等级。"
+      "title": "TCF Canada 题库 · {totalQuestions} 道听力阅读口语写作真题",
+      "description": "TCF Canada 听力、阅读、口语、写作全真模拟题库。{listeningSets} 套听力含音频 + 逐句精听，{readingSets} 套阅读，覆盖 A1-C2 全等级。"
     },
     "dashboard": {
       "title": "我的仪表盘 · CLB 7 准备度与练习统计",
@@ -2391,7 +2394,7 @@
     "badge": "今日 {used}/{limit}",
     "unlimited": "无限",
     "mockExamProRequired": "升级 Pro",
-    "speakingProHint": "话题免费浏览 — AI 对话和发音评估功能需要 Pro 会员。",
-    "writingProHint": "话题免费浏览 — AI 评分和批改功能需要 Pro 会员。"
+    "speakingProHint": "最新月话题免费查看 — AI 对话、发音评估及历史月话题需要 Pro。",
+    "writingProHint": "最新月话题免费查看 — AI 评分、批改及历史月话题需要 Pro。"
   }
 }

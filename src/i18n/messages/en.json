@@ -238,10 +238,10 @@
     "writingTestName": "Writing Test {num}",
     "pageTitle": "Tests",
     "pageSubtitle": "TCF Canada listening, reading, speaking & writing practice",
-    "statsListening": "42 listening sets",
-    "statsReading": "44 reading sets",
-    "statsSpeaking": "696 speaking topics",
-    "statsWriting": "515 writing sets",
+    "statsListening": "{listeningSets} listening sets",
+    "statsReading": "{readingSets} reading sets",
+    "statsSpeaking": "{speakingSets} speaking topics",
+    "statsWriting": "{writingSets} writing sets",
     "searchPlaceholder": "Search by name or code...",
     "examType": "Exam Type",
     "examTypeAll": "All",
@@ -306,7 +306,9 @@
     "tacheLabel": "Tâche {n}",
     "wordLimit": "{range} mots",
     "combinaison": "Combinaison {num}",
-    "tacheCombo": "Tâche 1 + 2 + 3"
+    "tacheCombo": "Tâche 1 + 2 + 3",
+    "freeThisMonth": "Free this month",
+    "unlockAllTopics": "Upgrade to unlock all topics"
   },
   "testCard": {
     "best": "Best {score}/{total} ({pct}%)",
@@ -1480,9 +1482,10 @@
         "Practice History + Stats"
       ],
       "freeValues": [
-        "5 / day",
-        "20/day",
-        "3 / day"
+        "{dailyQuestions} / day",
+        "{dailyVocabFlips}/day",
+        "Latest month free",
+        "{dailyExplanations} / day"
       ]
     },
     "faq": {
@@ -1805,19 +1808,19 @@
     "features": [
       {
         "title": "Listening",
-        "desc": "42 listening test sets with 1,600+ questions, original audio + sentence-by-sentence replay"
+        "desc": "{listeningSets} listening test sets with {listeningQuestions} questions, original audio + sentence-by-sentence replay"
       },
       {
         "title": "Reading",
-        "desc": "44 reading test sets with 1,700+ questions, covering all levels from A1 to C2"
+        "desc": "{readingSets} reading test sets with {readingQuestions} questions, covering all levels from A1 to C2"
       },
       {
         "title": "Speaking",
-        "desc": "696 speaking topic sets with 3,500+ Tâche 2 + Tâche 3 prompts, AI practice partner"
+        "desc": "{speakingSets} speaking topic sets with {speakingQuestions} Tâche 2 + Tâche 3 prompts, AI practice partner"
       },
       {
         "title": "Writing",
-        "desc": "515 writing sets with 1,500+ tasks — short messages, articles & essays, AI grading"
+        "desc": "{writingSets} writing sets with {writingQuestions} tasks — short messages, articles & essays, AI grading"
       }
     ],
     "stats": [
@@ -1859,15 +1862,15 @@
     "banks": [
       {
         "label": "Listening + Reading",
-        "sub": "86 test sets · A1–C2 all levels"
+        "sub": "{listeningReadingSets} test sets · A1–C2 all levels"
       },
       {
         "label": "Speaking Topics",
-        "sub": "696 sets · Tâche 2 + 3 prompts"
+        "sub": "{speakingSets} sets · Tâche 2 + 3 prompts"
       },
       {
         "label": "Writing Tasks",
-        "sub": "515 sets · messages + articles + essays"
+        "sub": "{writingSets} sets · messages + articles + essays"
       }
     ],
     "allLevels": "· All 6 levels covered",
@@ -1908,8 +1911,8 @@
     "pricingSubtitle": "Free sets anytime, subscribe to unlock everything",
     "freeName": "Free",
     "freeUnit": "/ forever",
-    "freeFeature1": "8,500+ real questions",
-    "freeFeature2": "5 questions/day · AI explanations",
+    "freeFeature1": "{totalQuestions} real questions",
+    "freeFeature2": "{dailyQuestions} questions/day · AI explanations",
     "freeStart": "Get Started",
     "freeRegister": "Sign Up Free",
     "proBadge": "Recommended",
@@ -1999,11 +2002,11 @@
     "keywords": "TCF Canada,CLB 7,TCF practice,TCF listening,TCF reading,TCF Canada prep,Canada immigration French,TCF online mock,TCF questions,TCF vocabulary,French Anki,French flashcards",
     "home": {
       "title": "HiTCF — Practice Your Way to CLB 7 | TCF Canada Online Practice",
-      "description": "8,500+ TCF Canada practice questions covering listening, reading, speaking & writing. Practice mode + exam mode + wrong answer notebook — systematically prepare for CLB 7."
+      "description": "{totalQuestions} TCF Canada practice questions covering listening, reading, speaking & writing. Practice mode + exam mode + wrong answer notebook — systematically prepare for CLB 7."
     },
     "tests": {
-      "title": "TCF Canada Question Bank · 8,500+ Listening, Reading, Speaking & Writing Questions",
-      "description": "TCF Canada full mock question bank for listening, reading, speaking & writing. 42 listening sets with audio + sentence replay, 44 reading sets, A1-C2 coverage."
+      "title": "TCF Canada Question Bank · {totalQuestions} Listening, Reading, Speaking & Writing Questions",
+      "description": "TCF Canada full mock question bank for listening, reading, speaking & writing. {listeningSets} listening sets with audio + sentence replay, {readingSets} reading sets, A1-C2 coverage."
     },
     "dashboard": {
       "title": "My Dashboard · CLB 7 Readiness & Practice Stats",
@@ -2391,7 +2394,7 @@
     "badge": "{used}/{limit} today",
     "unlimited": "Unlimited",
     "mockExamProRequired": "Upgrade to Pro",
-    "speakingProHint": "Browse topics for free — AI conversation and pronunciation features require Pro.",
-    "writingProHint": "Browse topics for free — AI scoring and correction features require Pro."
+    "speakingProHint": "Latest month topics are free — AI conversation, pronunciation, and past months require Pro.",
+    "writingProHint": "Latest month topics are free — AI scoring, corrections, and past months require Pro."
   }
 }

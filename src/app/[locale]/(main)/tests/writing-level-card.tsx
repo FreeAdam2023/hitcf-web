@@ -20,16 +20,18 @@ import {
   createWritingAttempt,
   getActiveWritingAttempt,
 } from "@/lib/api/writing-attempts";
-import { cn } from "@/lib/utils";
+import { cn, isLatestMonth } from "@/lib/utils";
 import type { WritingTopicItem, WritingAttemptResponse } from "@/lib/api/types";
 
 
 export function WritingLevelCard({
   topic,
   tache,
+  latestMonth,
 }: {
   topic: WritingTopicItem;
   tache: number;
+  latestMonth: string | null;
 }) {
   const t = useTranslations();
   const locale = useLocale();
@@ -39,7 +41,8 @@ export function WritingLevelCard({
     const status = s.user?.subscription?.status;
     return status === "active" || status === "trialing" || s.user?.role === "admin";
   });
-  const locked = !topic.is_free && !canAccessPaid;
+  const isFreePreview = isLatestMonth(topic.source_date, latestMonth);
+  const locked = !isFreePreview && !canAccessPaid;
 
   const [open, setOpen] = useState(false);
   const [starting, setStarting] = useState(false);
@@ -145,10 +148,12 @@ export function WritingLevelCard({
                 </p>
               )}
             </div>
-            {topic.is_free ? (
-              <Badge variant="secondary" className="shrink-0">
-                {t("common.status.free")}
-              </Badge>
+            {isFreePreview ? (
+              !canAccessPaid ? (
+                <Badge variant="secondary" className="shrink-0 bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">
+                  {t("tests.freeThisMonth")}
+                </Badge>
+              ) : null
             ) : locked ? (
               <Badge variant="outline" className="shrink-0 gap-1 text-muted-foreground">
                 <Lock className="h-3 w-3" />
@@ -161,7 +166,7 @@ export function WritingLevelCard({
           </div>
         </CardHeader>
         <CardContent className="relative flex flex-1 flex-col justify-between gap-3">
-          <p className={cn("line-clamp-3 text-sm leading-relaxed", locked && "select-none")}>{preview}</p>
+          <p className={cn("line-clamp-3 text-sm leading-relaxed", locked && "select-none blur-[6px]")}>{preview}</p>
         </CardContent>
       </Card>
 

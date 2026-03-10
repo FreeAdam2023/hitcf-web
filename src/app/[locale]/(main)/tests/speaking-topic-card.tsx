@@ -8,17 +8,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores/auth-store";
-import { cn } from "@/lib/utils";
+import { cn, isLatestMonth } from "@/lib/utils";
 import type { TestSetItem } from "@/lib/api/types";
 
-export function SpeakingTopicCard({ test }: { test: TestSetItem }) {
+export function SpeakingTopicCard({ test, latestMonth }: { test: TestSetItem; latestMonth: string | null }) {
   const t = useTranslations();
   const router = useRouter();
   const canAccessPaid = useAuthStore((s) => {
     const status = s.user?.subscription?.status;
     return status === "active" || status === "trialing" || s.user?.role === "admin";
   });
-  const locked = !test.is_free && !canAccessPaid;
+  const isFreePreview = isLatestMonth(test.source_date, latestMonth);
+  const locked = !isFreePreview && !canAccessPaid;
 
   const partieMatch = test.name.match(/Partie\s+(\d+)/);
   const partieNum = partieMatch ? partieMatch[1] : "";
@@ -46,10 +47,12 @@ export function SpeakingTopicCard({ test }: { test: TestSetItem }) {
               {isTache2 ? t("tests.speakingTopicsTache2") : t("tests.speakingTopicsTache3")}
             </p>
           </div>
-          {test.is_free ? (
-            <Badge variant="secondary" className="shrink-0">
-              {t("common.status.free")}
-            </Badge>
+          {isFreePreview ? (
+            !canAccessPaid ? (
+              <Badge variant="secondary" className="shrink-0 bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">
+                {t("tests.freeThisMonth")}
+              </Badge>
+            ) : null
           ) : locked ? (
             <Badge variant="outline" className="shrink-0 gap-1 text-muted-foreground">
               <Lock className="h-3 w-3" />
@@ -71,7 +74,7 @@ export function SpeakingTopicCard({ test }: { test: TestSetItem }) {
         {locked ? (
           <Button size="sm" className="w-full" variant="outline" onClick={() => router.push("/pricing")}>
             <Lock className="mr-1.5 h-3.5 w-3.5" />
-            {t("testCard.subscribeUnlock")}
+            {t("tests.unlockAllTopics")}
           </Button>
         ) : (
           <Button asChild size="sm" className="w-full">

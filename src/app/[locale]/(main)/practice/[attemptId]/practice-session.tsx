@@ -9,9 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePracticeStore } from "@/stores/practice-store";
+import { useAuthStore } from "@/stores/auth-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
 import { getQuestionDetail, generateExplanation } from "@/lib/api/questions";
+import { getQuotaStatus, type QuotaStatus } from "@/lib/api/subscriptions";
 import { ApiError, QuotaExceededError } from "@/lib/api/client";
 import { QuotaExceededModal } from "@/components/shared/quota-exceeded-modal";
 import { QuestionDisplay } from "@/components/practice/question-display";
@@ -363,6 +365,8 @@ export function PracticeSession() {
   } = usePracticeStore();
 
   const locale = useLocale();
+  const hasActiveSub = useAuthStore((s) => s.hasActiveSubscription);
+  const isSubscriber = hasActiveSub();
   const { showEn, showNative, toggleEn, toggleNative } = useTranscriptLang();
 
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
@@ -384,6 +388,43 @@ export function PracticeSession() {
   const [hasImage, setHasImage] = useState(false);
   const audioPlayerRef = useRef<AudioPlayerHandle>(null);
   const [audioTime, setAudioTime] = useState(0);
+
+  // ── Quota tracking (free users) ──
+  const [initialQuota, setInitialQuota] = useState<QuotaStatus | null>(null);
+  const [sessionAnswered, setSessionAnswered] = useState(0);
+
+  useEffect(() => {
+    if (!isSubscriber) {
+      getQuotaStatus().then(setInitialQuota).catch(() => {});
+    }
+  }, [isSubscriber]);
+
+  // Show modal immediately when entering practice at quota limit
+  useEffect(() => {
+    if (!initialQuota || isSubscriber || initialQuota.questions.unlimited) return;
+    if (initialQuota.questions.used >= initialQuota.questions.limit) {
+      setQuotaModal({
+        open: true,
+        type: "question",
+        used: initialQuota.questions.used,
+        limit: initialQuota.questions.limit,
+      });
+    }
+  }, [initialQuota, isSubscriber]);
+
+  const quotaReached = useMemo(() => {
+    if (isSubscriber || !initialQuota || initialQuota.questions.unlimited) return false;
+    return (initialQuota.questions.used + sessionAnswered) >= initialQuota.questions.limit;
+  }, [isSubscriber, initialQuota, sessionAnswered]);
+
+  const showQuotaModal = useCallback(() => {
+    setQuotaModal({
+      open: true,
+      type: "question",
+      used: (initialQuota?.questions.used ?? 0) + sessionAnswered,
+      limit: initialQuota?.questions.limit ?? 0,
+    });
+  }, [initialQuota, sessionAnswered]);
 
   // Fetch explanation — called once by parent, shared with both panels
   // 409 = backend is generating → stay in loading state, poll every 5s
@@ -504,6 +545,11 @@ export function PracticeSession() {
   const handleConfirm = useCallback(async () => {
     if (!selectedKey || !question || !attemptId) return;
     if (answers.has(question.id) || submitting) return;
+    // Frontend quota gate — avoid wasting a round-trip
+    if (quotaReached) {
+      showQuotaModal();
+      return;
+    }
     setSubmitting(true);
     setSubmittingKey(selectedKey);
     try {
@@ -524,6 +570,7 @@ export function PracticeSession() {
       const fullAnswer = { ...res, correct_answer: correctAnswer ?? null };
       setAnswer(question.id, fullAnswer);
       setSelectedKey(null);
+      setSessionAnswered((c) => c + 1);
       if (fullAnswer.is_correct === false) {
         setWrongCollected(true);
         setTimeout(() => setWrongCollected(false), 2500);
@@ -547,7 +594,7 @@ export function PracticeSession() {
       setSubmitting(false);
       setSubmittingKey(null);
     }
-  }, [selectedKey, question, attemptId, answers, submitting, setAnswer]);
+  }, [selectedKey, question, attemptId, answers, submitting, setAnswer, quotaReached, showQuotaModal]);
 
   const handleComplete = async () => {
     if (!attemptId) return;
@@ -562,12 +609,24 @@ export function PracticeSession() {
   };
 
   const handleGoToQuestion = (index: number) => {
+    // Block navigation to unanswered questions when quota is reached
+    const target = questions[index];
+    if (quotaReached && target && !answers.has(target.id)) {
+      showQuotaModal();
+      return;
+    }
     goToQuestion(index);
   };
 
   const handleNext = useCallback(() => {
+    // Block navigation to next unanswered question when quota is reached
+    const next = questions[currentIndex + 1];
+    if (quotaReached && next && !answers.has(next.id)) {
+      showQuotaModal();
+      return;
+    }
     goNext();
-  }, [goNext]);
+  }, [goNext, questions, currentIndex, answers, quotaReached, showQuotaModal]);
 
   const handlePrev = useCallback(() => {
     goPrev();
