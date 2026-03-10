@@ -1,3 +1,11 @@
+## 2026-03-10 (d6b58bd)
+
+### Features
+- add speaking & writing mock exam pages + fix i18n namespace conflict (1d75bf9)
+- centralize stats/quotas, improve freemium gating, fix browser cache (95aa20c)
+
+---
+
 ## 2026-03-10 (f103efd)
 
 ### Features
