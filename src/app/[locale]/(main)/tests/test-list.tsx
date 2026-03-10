@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine, CalendarDays } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -198,6 +198,9 @@ export function TestList() {
   const [mockError, setMockError] = useState<string | null>(null);
   const [mockFreeTrialEligible, setMockFreeTrialEligible] = useState(false);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
+  const [examDate, setExamDate] = useState<string>(
+    () => (typeof window !== "undefined" ? localStorage.getItem("tcfExamDate") || "" : ""),
+  );
   const [drillInProgress, setDrillInProgress] = useState<InProgressAttempt[]>([]);
   const [resumingId, setResumingId] = useState<string | null>(null);
   const [tab, setTab] = useState<TabType>(() => {
@@ -632,6 +635,71 @@ export function TestList() {
           <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-600 dark:text-violet-400">
             {t("tests.statsWriting", STATS_PARAMS)}
           </span>
+        </div>
+
+        {/* ── Exam countdown strip ── */}
+        <div className="mt-4 flex items-center gap-3 rounded-xl border border-border/50 bg-muted/30 px-5 py-3">
+          <CalendarDays className="h-5 w-5 shrink-0 text-primary" />
+          {examDate ? (() => {
+            const days = Math.max(0, Math.ceil((new Date(examDate).getTime() - Date.now()) / 86400000));
+            return (
+              <>
+                {days > 0 ? (
+                  <>
+                    <span className="text-2xl font-bold tabular-nums text-primary">{days}</span>
+                    <span className="text-sm text-muted-foreground">{t("tests.daysUntilExamLabel")}</span>
+                  </>
+                ) : (
+                  <span className="text-sm font-semibold text-primary">{t("tests.examToday")}</span>
+                )}
+                <span className="text-xs text-muted-foreground">· {examDate}</span>
+                <div className="flex-1" />
+                <label className="relative cursor-pointer text-xs text-primary/70 hover:text-primary transition-colors">
+                  <input
+                    type="date"
+                    value={examDate}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      setExamDate(v);
+                      if (v) localStorage.setItem("tcfExamDate", v);
+                      else localStorage.removeItem("tcfExamDate");
+                    }}
+                    min={new Date().toISOString().split("T")[0]}
+                    className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                  />
+                  {t("tests.examCountdownChange")}
+                </label>
+                <button
+                  onClick={() => { setExamDate(""); localStorage.removeItem("tcfExamDate"); }}
+                  className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </>
+            );
+          })() : (
+            <>
+              <span className="flex-1 text-sm text-muted-foreground">{t("tests.examCountdownCTA")}</span>
+              <label className="relative cursor-pointer">
+                <input
+                  type="date"
+                  value=""
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    if (v) {
+                      setExamDate(v);
+                      localStorage.setItem("tcfExamDate", v);
+                    }
+                  }}
+                  min={new Date().toISOString().split("T")[0]}
+                  className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                />
+                <span className="rounded-full bg-primary/10 px-4 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors">
+                  {t("tests.setExamDate")}
+                </span>
+              </label>
+            </>
+          )}
         </div>
       </div>
       <ContinueBanner />
