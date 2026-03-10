@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine, CalendarDays } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine, CalendarDays } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -34,7 +34,7 @@ import { SpeakingTache1Guide } from "./speaking-tache1-guide";
 import { ContinueBanner } from "@/components/shared/continue-banner";
 import { RecommendedBanner } from "@/components/shared/recommended-banner";
 import { useAuthStore } from "@/stores/auth-store";
-import { getInProgressDrills, abandonSpeedDrill, type InProgressAttempt } from "@/lib/api/speed-drill";
+
 import { LevelPracticeDialog } from "./level-practice-dialog";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
@@ -221,8 +221,6 @@ export function TestList() {
     }
   }, [isAuthenticated]);
 
-  const [drillInProgress, setDrillInProgress] = useState<InProgressAttempt[]>([]);
-  const [resumingId, setResumingId] = useState<string | null>(null);
   const [tab, setTab] = useState<TabType>(() => {
     if (typeof window !== "undefined") {
       // Prefer URL param, then localStorage
@@ -273,30 +271,6 @@ export function TestList() {
     localStorage.setItem("hitcf_tests_tab", tab);
   }, [tab]);
 
-  // Load in-progress level practice attempts
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    getInProgressDrills().then(setDrillInProgress).catch(() => {});
-  }, [isAuthenticated]);
-
-  const handleResumeDrill = async (attemptId: string) => {
-    setResumingId(attemptId);
-    try {
-      // Don't pre-init store — let practice page load with answers
-      router.push(`/practice/${attemptId}`);
-    } catch {
-      setResumingId(null);
-    }
-  };
-
-  const handleAbandonDrill = async (attemptId: string) => {
-    try {
-      await abandonSpeedDrill(attemptId);
-      setDrillInProgress((prev) => prev.filter((a) => a.attempt_id !== attemptId));
-    } catch {
-      // ignore
-    }
-  };
 
   const [tests, setTests] = useState<TestSetItem[]>([]);
   const [writingTopics, setWritingTopics] = useState<WritingTopicItem[]>([]);
@@ -890,49 +864,6 @@ export function TestList() {
               <Pill active={statusFilter === "notStarted"} onClick={() => setStatusFilter("notStarted")}>
                 {t("tests.filterNotStarted")}({statusCounts.notStarted})
               </Pill>
-            </div>
-          )}
-
-          {/* In-progress level practice */}
-          {(tab === "listening" || tab === "reading") && drillInProgress.length > 0 && (
-            <div className="mb-4 space-y-2">
-              {drillInProgress.map((a) => {
-                const pct = a.total > 0 ? Math.round((a.answered_count / a.total) * 100) : 0;
-                return (
-                  <div
-                    key={a.attempt_id}
-                    className="flex items-center gap-4 rounded-xl border border-primary/20 bg-primary/5 px-5 py-3"
-                  >
-                    <div className="flex-1">
-                      <p className="text-sm font-semibold">{t("speedDrill.inProgress")}</p>
-                      <div className="mt-1.5 flex items-center gap-3">
-                        <div className="h-1.5 flex-1 rounded-full bg-primary/20">
-                          <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${pct}%` }} />
-                        </div>
-                        <span className="text-xs font-medium text-muted-foreground">
-                          {a.answered_count}/{a.total}
-                        </span>
-                      </div>
-                    </div>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="text-muted-foreground"
-                      onClick={() => handleAbandonDrill(a.attempt_id)}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => handleResumeDrill(a.attempt_id)}
-                      disabled={resumingId === a.attempt_id}
-                    >
-                      <ArrowRight className="mr-1 h-3.5 w-3.5" />
-                      {t("speedDrill.resume")}
-                    </Button>
-                  </div>
-                );
-              })}
             </div>
           )}
 
