@@ -45,3 +45,12 @@ export function resumeSpeedDrill(attemptId: string): Promise<SpeedDrillResponse>
 export function abandonSpeedDrill(attemptId: string): Promise<void> {
   return post(`/api/speed-drill/abandon/${attemptId}`);
 }
+
+export interface LevelStats {
+  type: string;
+  levels: Record<string, { total: number; completed: number }>;
+}
+
+export function fetchLevelStats(type: string): Promise<LevelStats> {
+  return get<LevelStats>(`/api/speed-drill/level-stats?type=${type}`);
+}

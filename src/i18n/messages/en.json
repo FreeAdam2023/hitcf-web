@@ -889,6 +889,7 @@
     "generating": "Generating...",
     "noMoreQuestions": "No more new questions available",
     "startFailed": "Failed to start practice. Please retry.",
+    "remainingCount": "{count} remaining",
     "upgradeBanner": {
       "title": "Level Practice is Pro-only",
       "description": "Targeted practice by level and type across the full question bank",
