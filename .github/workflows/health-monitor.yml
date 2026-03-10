@@ -42,7 +42,7 @@ jobs:
         run: |
           BODY=$(curl -s "$API_URL/api/health" --max-time 10 -L || echo "")
           echo "body=${BODY:0:100}" >> $GITHUB_OUTPUT
-          if echo "$BODY" | grep -q '"status":"ok"'; then
+          if echo "$BODY" | grep -q '"status"[[:space:]]*:[[:space:]]*"ok"'; then
             echo "status=ok" >> $GITHUB_OUTPUT
           else
             echo "status=fail" >> $GITHUB_OUTPUT
@@ -77,13 +77,13 @@ jobs:
             DIFF=$((NOW - LAST))
             if [ "$DIFF" -lt 3600 ]; then
               echo "Alert sent ${DIFF}s ago, cooldown active (1h). Skipping email."
-              exit 1
+              exit 0
             fi
           fi
 
           if [ -z "$RESEND_API_KEY" ] || [ -z "$NOTIFY_EMAIL" ]; then
             echo "No notification secrets, skipping email"
-            exit 1
+            exit 0
           fi
 
           SITE_STATUS="${{ steps.site.outputs.status }}"
@@ -117,4 +117,3 @@ jobs:
           # Record timestamp for cooldown
           date +%s > /tmp/health-alert-sent
           echo "Alert email sent"
-          exit 1
