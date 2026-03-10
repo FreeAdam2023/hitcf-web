@@ -22,6 +22,7 @@ export interface UserResponse {
   role: string;
   ui_language: string;
   subscription: SubscriptionInfo;
+  exam_date: string | null;
   watermark_visible?: boolean;
   created_at: string;
   last_login_at: string | null;

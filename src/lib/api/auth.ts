@@ -10,6 +10,10 @@ export function updateProfile(body: { name?: string; ui_language?: string }): Pr
   return put<{ message: string; name: string; ui_language: string }>("/api/user/me", body);
 }
 
+export function setExamDate(exam_date: string | null): Promise<{ exam_date: string | null }> {
+  return put<{ exam_date: string | null }>("/api/user/exam-date", { exam_date });
+}
+
 export function changePassword(body: {
   current_password: string;
   new_password: string;

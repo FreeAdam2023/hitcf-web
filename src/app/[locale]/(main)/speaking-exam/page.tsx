@@ -4,12 +4,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { Mic, Clock, Trophy, ChevronRight, CalendarDays, History, Gift } from "lucide-react";
+import { Mic, Clock, Trophy, ChevronRight, History, Gift } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { startSpeakingExam, checkFreeTrialEligible } from "@/lib/api/speaking-exam";
-import { Input } from "@/components/ui/input";
 
 type QuestionRange = "1m" | "3m" | "all";
 
@@ -27,25 +26,10 @@ export default function SpeakingExamPage() {
   );
   const [loading, setLoading] = useState(false);
   const [freeTrialEligible, setFreeTrialEligible] = useState(false);
-  const [examDate, setExamDate] = useState<string>(
-    () => (typeof window !== "undefined" ? localStorage.getItem("tcfExamDate") || "" : ""),
-  );
 
   useEffect(() => {
     checkFreeTrialEligible().then((r) => setFreeTrialEligible(r.eligible)).catch(() => {});
   }, []);
-
-  const daysUntilExam = examDate
-    ? Math.ceil((new Date(examDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-    : null;
-
-  const handleSetExamDate = (date: string) => {
-    setExamDate(date);
-    if (typeof window !== "undefined") {
-      if (date) localStorage.setItem("tcfExamDate", date);
-      else localStorage.removeItem("tcfExamDate");
-    }
-  };
 
   const handleStart = async () => {
     setLoading(true);
@@ -151,39 +135,6 @@ export default function SpeakingExamPage() {
           </CardContent>
         </Card>
       )}
-
-      {/* Exam countdown */}
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-base">
-            <CalendarDays className="h-4 w-4" />
-            {t("countdown")}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="flex items-center gap-2">
-            <Input
-              type="date"
-              value={examDate}
-              onChange={(e) => handleSetExamDate(e.target.value)}
-              className="flex-1"
-              min={new Date().toISOString().split("T")[0]}
-            />
-            {examDate && (
-              <Button variant="ghost" size="sm" onClick={() => handleSetExamDate("")}>
-                {t("clearDate")}
-              </Button>
-            )}
-          </div>
-          {daysUntilExam !== null && (
-            <p className={`text-sm font-medium ${daysUntilExam > 0 ? "text-primary" : "text-muted-foreground"}`}>
-              {daysUntilExam > 0
-                ? t("daysUntilExam", { days: daysUntilExam })
-                : t("examDatePassed")}
-            </p>
-          )}
-        </CardContent>
-      </Card>
 
       {/* Start button */}
       <Button

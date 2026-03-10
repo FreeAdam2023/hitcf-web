@@ -71,6 +71,10 @@ export function getAttemptReview(attemptId: string, options?: RequestOptions): P
 }
 
 // Mock exam
+export function checkMockFreeTrialEligible(options?: RequestOptions): Promise<{ eligible: boolean }> {
+  return get(`/api/mock-exam/free-trial`, options);
+}
+
 export function createMockExam(
   types: string[],
   options?: RequestOptions,
