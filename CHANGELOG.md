@@ -1,3 +1,10 @@
+## 2026-03-10 (c355793)
+
+### Bug Fixes
+- sort listening/reading tests by order field instead of code regex (c355793)
+
+---
+
 ## 2026-03-09 (a0d1653)
 
 ### Bug Fixes
