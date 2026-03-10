@@ -1,3 +1,10 @@
+## 2026-03-10 (097aadd)
+
+### Features
+- add mock exam entry buttons on speaking/writing tabs (88fda92)
+
+---
+
 ## 2026-03-10 (28103fa)
 
 ### Style
