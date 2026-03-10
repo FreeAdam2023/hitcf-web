@@ -27,6 +27,16 @@ export function getTcfPoints(questionNumber: number): number {
   return 33; // 36-39
 }
 
+/** TCF Canada 听力+阅读：按题号返回 CEFR 等级 */
+export function getTcfLevelByQuestionNumber(questionNumber: number): string {
+  if (questionNumber <= 4) return "A1";
+  if (questionNumber <= 10) return "A2";
+  if (questionNumber <= 19) return "B1";
+  if (questionNumber <= 30) return "B2";
+  if (questionNumber <= 35) return "C1";
+  return "C2"; // 36-39
+}
+
 export const TCF_MAX_SCORE = 699;
 
 /** 计算 TCF 699 分制得分 */

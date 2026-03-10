@@ -22,6 +22,7 @@ import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ReportDialog } from "@/components/practice/report-dialog";
+import { getTcfLevelByQuestionNumber } from "@/lib/tcf-levels";
 import { FrenchText, type WordSaveContext } from "@/components/practice/french-text";
 import { SentenceAnalysisInline } from "@/components/practice/sentence-analysis-inline";
 import type { AudioPlayerHandle } from "@/components/practice/audio-player";
@@ -701,7 +702,7 @@ export function PracticeSession() {
             answers={answers}
             questionIds={questions.map((q) => q.id)}
             onNavigate={handleGoToQuestion}
-            questions={questions.map((q) => ({ type: q.type, level: q.level }))}
+            questions={questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
           />
         </div>
       </div>
@@ -887,7 +888,7 @@ export function PracticeSession() {
               answers={answers}
               questionIds={questions.map((q) => q.id)}
               onNavigate={handleGoToQuestion}
-              questions={questions.map((q) => ({ type: q.type, level: q.level }))}
+              questions={questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
             />
           </div>
         </SheetContent>
