@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine, CalendarDays } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -198,6 +198,9 @@ export function TestList() {
   const [mockTypes, setMockTypes] = useState<Set<string>>(new Set(["listening", "reading"]));
   const [mockError, setMockError] = useState<string | null>(null);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
+  const [examDate, setExamDate] = useState<string>(
+    () => (typeof window !== "undefined" ? localStorage.getItem("tcfExamDate") || "" : ""),
+  );
   const [drillInProgress, setDrillInProgress] = useState<InProgressAttempt[]>([]);
   const [resumingId, setResumingId] = useState<string | null>(null);
   const [tab, setTab] = useState<TabType>(() => {
@@ -629,6 +632,32 @@ export function TestList() {
           <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-600 dark:text-violet-400">
             {t("tests.statsWriting", STATS_PARAMS)}
           </span>
+          {/* Exam countdown badge */}
+          <label className="relative cursor-pointer">
+            <input
+              type="date"
+              value={examDate}
+              onChange={(e) => {
+                const v = e.target.value;
+                setExamDate(v);
+                if (typeof window !== "undefined") {
+                  if (v) localStorage.setItem("tcfExamDate", v);
+                  else localStorage.removeItem("tcfExamDate");
+                }
+              }}
+              min={new Date().toISOString().split("T")[0]}
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+            />
+            <span className="inline-flex items-center gap-1 rounded-full bg-rose-500/10 px-3 py-1 text-xs font-medium text-rose-600 dark:text-rose-400">
+              <CalendarDays className="h-3 w-3" />
+              {examDate
+                ? (() => {
+                    const days = Math.ceil((new Date(examDate).getTime() - Date.now()) / 86400000);
+                    return days > 0 ? t("tests.daysUntilExam", { days }) : t("tests.examToday");
+                  })()
+                : t("tests.setExamDate")}
+            </span>
+          </label>
         </div>
       </div>
       <ContinueBanner />
