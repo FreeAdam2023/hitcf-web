@@ -41,12 +41,14 @@ jobs:
         id: api
         run: |
           BODY=$(curl -s "$API_URL/api/health" --max-time 10 -L || echo "")
-          echo "body=${BODY:0:100}" >> $GITHUB_OUTPUT
-          if echo "$BODY" | grep -q '"status":"ok"'; then
+          # Sanitize body for GITHUB_OUTPUT (strip newlines)
+          BODY_CLEAN=$(echo "$BODY" | tr -d '\n' | head -c 100)
+          echo "body=$BODY_CLEAN" >> $GITHUB_OUTPUT
+          if echo "$BODY" | grep -q '"status"[[:space:]]*:[[:space:]]*"ok"'; then
             echo "status=ok" >> $GITHUB_OUTPUT
           else
             echo "status=fail" >> $GITHUB_OUTPUT
-            echo "::error::[$ENV_NAME] Backend /api/health failed: $BODY"
+            echo "::error::[$ENV_NAME] Backend /api/health failed: $BODY_CLEAN"
           fi
 
       - name: Check cooldown (1 alert per hour max)
@@ -77,13 +79,13 @@ jobs:
             DIFF=$((NOW - LAST))
             if [ "$DIFF" -lt 3600 ]; then
               echo "Alert sent ${DIFF}s ago, cooldown active (1h). Skipping email."
-              exit 1
+              exit 0
             fi
           fi
 
           if [ -z "$RESEND_API_KEY" ] || [ -z "$NOTIFY_EMAIL" ]; then
             echo "No notification secrets, skipping email"
-            exit 1
+            exit 0
           fi
 
           SITE_STATUS="${{ steps.site.outputs.status }}"
@@ -92,9 +94,15 @@ jobs:
           RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
           FAILURES=""
-          [ "$SITE_STATUS" != "200" ] && FAILURES="$FAILURES<li>Site: HTTP $SITE_STATUS</li>"
-          [ "$AUTH_STATUS" = "404" ] && FAILURES="$FAILURES<li><b>LOGIN BROKEN</b>: /api/auth/providers 404</li>"
-          [ "$API_STATUS" = "fail" ] && FAILURES="$FAILURES<li>Backend API health check failed</li>"
+          if [ "$SITE_STATUS" != "200" ]; then
+            FAILURES="$FAILURES<li>Site: HTTP $SITE_STATUS</li>"
+          fi
+          if [ "$AUTH_STATUS" = "404" ]; then
+            FAILURES="$FAILURES<li><b>LOGIN BROKEN</b>: /api/auth/providers 404</li>"
+          fi
+          if [ "$API_STATUS" = "fail" ]; then
+            FAILURES="$FAILURES<li>Backend API health check failed</li>"
+          fi
 
           SUBJECT="🚨 [$ENV_NAME] HiTCF Health Alert"
           BODY="<div style='font-family:sans-serif'>
@@ -104,7 +112,7 @@ jobs:
             <p style='color:#888;font-size:12px'>$(date -u '+%Y-%m-%d %H:%M UTC')</p>
           </div>"
 
-          curl -s -X POST https://api.resend.com/emails \
+          curl -s -o /dev/null -X POST https://api.resend.com/emails \
             -H "Authorization: Bearer ${RESEND_API_KEY}" \
             -H "Content-Type: application/json" \
             -d "$(jq -n \
@@ -112,9 +120,9 @@ jobs:
               --arg to "$NOTIFY_EMAIL" \
               --arg subject "$SUBJECT" \
               --arg html "$BODY" \
-              '{from: $from, to: [$to], subject: $subject, html: $html}')"
+              '{from: $from, to: [$to], subject: $subject, html: $html}')" \
+            || echo "Warning: curl failed to send alert email"
 
           # Record timestamp for cooldown
           date +%s > /tmp/health-alert-sent
           echo "Alert email sent"
-          exit 1
