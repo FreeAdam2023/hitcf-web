@@ -1,3 +1,10 @@
+## 2026-03-10 (f103efd)
+
+### Features
+- centralize stats/quotas, improve freemium gating, fix browser cache (f103efd)
+
+---
+
 ## 2026-03-10 (c355793)
 
 ### Bug Fixes
