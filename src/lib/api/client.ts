@@ -65,6 +65,7 @@ async function request<T>(
       ...options,
       headers: defaultHeaders,
       signal: controller.signal,
+      cache: "no-store",
     });
 
     if (res.status === 401) {

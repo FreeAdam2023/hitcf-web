@@ -76,3 +76,61 @@ export const PRICING = {
 export function formatPrice(amount: number, prefix = "US$"): string {
   return `${prefix}${amount.toFixed(2)}`;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Site stats — single source of truth for all display numbers       */
+/* ------------------------------------------------------------------ */
+export const SITE_STATS = {
+  /** Test-set counts */
+  listeningSets: 42,
+  readingSets: 42,
+  speakingSets: "702",
+  writingSets: 520,
+  get listeningReadingSets() {
+    return this.listeningSets + this.readingSets;
+  },
+
+  /** Question counts (display strings) */
+  totalQuestions: "8,500+",
+  totalTestSets: "1,200+",
+  listeningQuestions: "1,600+",
+  readingQuestions: "1,700+",
+  speakingQuestions: "3,500+",
+  writingQuestions: "1,500+",
+
+  /** Bank display counts (landing page big numbers) */
+  listeningReadingQuestions: "3,400+",
+} as const;
+
+/* ------------------------------------------------------------------ */
+/*  Free-tier quotas                                                   */
+/* ------------------------------------------------------------------ */
+export const QUOTAS = {
+  dailyQuestions: 5,
+  dailyExplanations: 3,
+  dailyVocabFlips: 20,
+  dailySavedWords: 10,
+} as const;
+
+/**
+ * Flattened string params for i18n interpolation.
+ * Use: t("some.key", STATS_PARAMS)
+ */
+export const STATS_PARAMS: Record<string, string> = {
+  listeningSets: String(SITE_STATS.listeningSets),
+  readingSets: String(SITE_STATS.readingSets),
+  speakingSets: String(SITE_STATS.speakingSets),
+  writingSets: String(SITE_STATS.writingSets),
+  listeningReadingSets: String(SITE_STATS.listeningReadingSets),
+  totalQuestions: SITE_STATS.totalQuestions,
+  totalTestSets: SITE_STATS.totalTestSets,
+  listeningQuestions: SITE_STATS.listeningQuestions,
+  readingQuestions: SITE_STATS.readingQuestions,
+  speakingQuestions: SITE_STATS.speakingQuestions,
+  writingQuestions: SITE_STATS.writingQuestions,
+  listeningReadingQuestions: SITE_STATS.listeningReadingQuestions,
+  dailyQuestions: String(QUOTAS.dailyQuestions),
+  dailyExplanations: String(QUOTAS.dailyExplanations),
+  dailyVocabFlips: String(QUOTAS.dailyVocabFlips),
+  dailySavedWords: String(QUOTAS.dailySavedWords),
+};

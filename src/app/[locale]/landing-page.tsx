@@ -38,7 +38,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { useAuthStore } from "@/stores/auth-store";
-import { LOGIN_URL } from "@/lib/constants";
+import { LOGIN_URL, SITE_STATS, STATS_PARAMS } from "@/lib/constants";
 
 const FEATURE_META = [
   { icon: Headphones, color: "from-blue-500 to-blue-600", iconBg: "bg-blue-100 dark:bg-blue-900/40", iconColor: "text-blue-600 dark:text-blue-400", borderColor: "hover:border-blue-300 dark:hover:border-blue-700" },
@@ -48,18 +48,18 @@ const FEATURE_META = [
 ];
 
 const STAT_META = [
-  { value: "8,500+", color: "text-blue-600 dark:text-blue-400" },
-  { value: "1,200+", color: "text-emerald-600 dark:text-emerald-400" },
-  { value: "86", color: "text-amber-600 dark:text-amber-400" },
+  { value: SITE_STATS.totalQuestions, color: "text-blue-600 dark:text-blue-400" },
+  { value: SITE_STATS.totalTestSets, color: "text-emerald-600 dark:text-emerald-400" },
+  { value: String(SITE_STATS.listeningReadingSets), color: "text-amber-600 dark:text-amber-400" },
   { value: "78%", color: "text-purple-600 dark:text-purple-400" },
 ];
 
 const STEP_ICONS = [Sparkles, Target, Zap];
 
 const BANK_META = [
-  { icon: Headphones, color: "from-blue-500 to-blue-600", iconColor: "text-blue-500", count: "3,400+" },
-  { icon: MessageCircle, color: "from-amber-500 to-amber-600", iconColor: "text-amber-500", count: "3,500+" },
-  { icon: PenLine, color: "from-purple-500 to-purple-600", iconColor: "text-purple-500", count: "1,500+" },
+  { icon: Headphones, color: "from-blue-500 to-blue-600", iconColor: "text-blue-500", count: SITE_STATS.listeningReadingQuestions },
+  { icon: MessageCircle, color: "from-amber-500 to-amber-600", iconColor: "text-amber-500", count: SITE_STATS.speakingQuestions },
+  { icon: PenLine, color: "from-purple-500 to-purple-600", iconColor: "text-purple-500", count: SITE_STATS.writingQuestions },
 ];
 
 const HIGHLIGHT_ICONS = [Target, Zap, Sparkles];
@@ -347,7 +347,7 @@ export function LandingPage() {
           <div className="mt-14 grid gap-6 sm:grid-cols-2">
             {FEATURE_META.map((f, i) => {
               const title = t(`landing.features.${i}.title`);
-              const desc = t(`landing.features.${i}.desc`);
+              const desc = t(`landing.features.${i}.desc`, STATS_PARAMS);
               return (
                 <Card
                   key={i}
@@ -389,7 +389,7 @@ export function LandingPage() {
           <div className="mt-14 grid gap-6 sm:grid-cols-3">
             {BANK_META.map((bank, i) => {
               const label = t(`landing.banks.${i}.label`);
-              const sub = t(`landing.banks.${i}.sub`);
+              const sub = t(`landing.banks.${i}.sub`, STATS_PARAMS);
               return (
                 <Card key={i} className={`relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 animate-fade-in-up-d${i + 1}`}>
                   <div className={`h-1 bg-gradient-to-r ${bank.color}`} />
@@ -486,13 +486,13 @@ export function LandingPage() {
                     <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10">
                       <Check className="h-3 w-3 text-primary" />
                     </div>
-                    {t("landing.freeFeature1")}
+                    {t("landing.freeFeature1", STATS_PARAMS)}
                   </li>
                   <li className="flex items-center gap-2.5">
                     <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10">
                       <Check className="h-3 w-3 text-primary" />
                     </div>
-                    {t("landing.freeFeature2")}
+                    {t("landing.freeFeature2", STATS_PARAMS)}
                   </li>
                 </ul>
                 <Button className="mt-8 w-full" variant="outline" asChild>

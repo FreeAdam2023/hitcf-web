@@ -223,7 +223,7 @@
     },
     "layout": {
       "tagline": "Atteignez le NCLC 7 par la pratique",
-      "description1": "Plus de 8 500 questions TCF Canada couvrant la compréhension orale, la compréhension écrite, l'expression orale et l'expression écrite.",
+      "description1": "Plus de 8 500+ questions TCF Canada couvrant la compréhension orale, la compréhension écrite, l'expression orale et l'expression écrite.",
       "description2": "Préparation systématique — réussissez avec confiance, pas par chance.",
       "stat1": "8 500+ questions",
       "stat2": "1 297 séries de tests",
@@ -238,10 +238,10 @@
     "writingTestName": "Expression écrite {num}",
     "pageTitle": "Tests",
     "pageSubtitle": "Entraînement TCF Canada : compréhension orale, compréhension écrite, expression orale et expression écrite",
-    "statsListening": "42 séries de compréhension orale",
-    "statsReading": "44 séries de compréhension écrite",
-    "statsSpeaking": "696 sujets d'expression orale",
-    "statsWriting": "515 séries d'expression écrite",
+    "statsListening": "{listeningSets} séries de compréhension orale",
+    "statsReading": "{readingSets} séries de compréhension écrite",
+    "statsSpeaking": "{speakingSets} sujets d'expression orale",
+    "statsWriting": "{writingSets} séries d'expression écrite",
     "searchPlaceholder": "Rechercher par nom ou code...",
     "examType": "Type d'examen",
     "examTypeAll": "Tous",
@@ -306,7 +306,9 @@
     "tacheLabel": "Tâche {n}",
     "wordLimit": "{range} mots",
     "combinaison": "Combinaison {num}",
-    "tacheCombo": "Tâche 1 + 2 + 3"
+    "tacheCombo": "Tâche 1 + 2 + 3",
+    "freeThisMonth": "Gratuit ce mois-ci",
+    "unlockAllTopics": "Débloquer tous les sujets"
   },
   "testCard": {
     "best": "Meilleur {score}/{total} ({pct}%)",
@@ -610,7 +612,7 @@
       "title": "Vous voulez progresser plus vite ?",
       "description": "Les membres Pro débloquent tous les tests, le mode examen, le carnet d'erreurs et l'entraînement rapide",
       "features": [
-        "Plus de 8 500 questions débloquées",
+        "Plus de 8 500+ questions débloquées",
         "Le mode examen simule le vrai test",
         "Suivi automatique des erreurs",
         "Entraînement rapide pour une pratique efficace"
@@ -1480,9 +1482,10 @@
         "Historique d'entraînement + statistiques"
       ],
       "freeValues": [
-        "5 / jour",
-        "20/jour",
-        "3 / jour"
+        "{dailyQuestions} / jour",
+        "{dailyVocabFlips}/jour",
+        "Dernier mois gratuit",
+        "{dailyExplanations} / jour"
       ]
     },
     "faq": {
@@ -1805,19 +1808,19 @@
     "features": [
       {
         "title": "Compréhension orale",
-        "desc": "42 séries d'écoute avec plus de 1 600 questions, audio original + réécoute phrase par phrase"
+        "desc": "{listeningSets} séries d'écoute avec plus de {listeningQuestions} questions, audio original + réécoute phrase par phrase"
       },
       {
         "title": "Compréhension écrite",
-        "desc": "44 séries de lecture avec plus de 1 700 questions, couvrant tous les niveaux de A1 à C2"
+        "desc": "{readingSets} séries de lecture avec plus de {readingQuestions} questions, couvrant tous les niveaux de A1 à C2"
       },
       {
         "title": "Expression orale",
-        "desc": "696 séries de sujets d'expression orale avec plus de 3 500 sujets Tâche 2 + Tâche 3, partenaire d'entraînement IA"
+        "desc": "{speakingSets} séries de sujets d'expression orale avec plus de {speakingQuestions} sujets Tâche 2 + Tâche 3, partenaire d'entraînement IA"
       },
       {
         "title": "Expression écrite",
-        "desc": "515 séries d'écriture avec plus de 1 500 tâches — messages courts, articles et dissertations, notation IA"
+        "desc": "{writingSets} séries d'écriture avec plus de {writingQuestions} tâches — messages courts, articles et dissertations, notation IA"
       }
     ],
     "stats": [
@@ -1830,7 +1833,7 @@
     "featuresTitle": "Couverture complète du TCF",
     "featuresSubtitle": "Les quatre épreuves en un seul endroit, de A1 à C2",
     "contentBadge": "Bibliothèque complète",
-    "contentTitle": "Plus de 8 500 questions, de A1 à C2",
+    "contentTitle": "Plus de 8 500+ questions, de A1 à C2",
     "contentSubtitle": "Les quatre épreuves couvertes, chaque série d'écoute inclut l'audio original",
     "showcaseBadge": "Fonctionnalités clés",
     "showcaseTitle": "Bien plus que des exercices — une expérience d'apprentissage complète",
@@ -1859,15 +1862,15 @@
     "banks": [
       {
         "label": "Compréhension orale + écrite",
-        "sub": "86 séries de tests · tous les niveaux A1–C2"
+        "sub": "{listeningReadingSets} séries de tests · tous les niveaux A1–C2"
       },
       {
         "label": "Sujets d'expression orale",
-        "sub": "696 séries · sujets Tâche 2 + 3"
+        "sub": "{speakingSets} séries · sujets Tâche 2 + 3"
       },
       {
         "label": "Tâches d'expression écrite",
-        "sub": "515 séries · messages + articles + dissertations"
+        "sub": "{writingSets} séries · messages + articles + dissertations"
       }
     ],
     "allLevels": "· Les 6 niveaux couverts",
@@ -1908,8 +1911,8 @@
     "pricingSubtitle": "Séries gratuites à tout moment, abonnez-vous pour tout débloquer",
     "freeName": "Gratuit",
     "freeUnit": "/ pour toujours",
-    "freeFeature1": "8 500+ questions réelles",
-    "freeFeature2": "5 questions/jour · Analyses IA",
+    "freeFeature1": "{totalQuestions} questions réelles",
+    "freeFeature2": "{dailyQuestions} questions/jour · Analyses IA",
     "freeStart": "Commencer",
     "freeRegister": "Inscription gratuite",
     "proBadge": "Recommandé",
@@ -1968,7 +1971,7 @@
       },
       {
         "q": "Quels sont les avantages de Pro ?",
-        "a": "Débloquez les plus de 8 500 questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, le carnet de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Le plan annuel comprend 14 jours d'essai gratuit — annulation possible à tout moment."
+        "a": "Débloquez les plus de 8 500+ questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, le carnet de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Le plan annuel comprend 14 jours d'essai gratuit — annulation possible à tout moment."
       },
       {
         "q": "Pouvez-vous garantir que j'atteindrai le NCLC 7 ?",
@@ -1992,18 +1995,18 @@
   "meta": {
     "siteTitle": "HiTCF — Plateforme d'entraînement en ligne TCF Canada",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "Plus de 8 500 questions d'entraînement TCF Canada + outils de vocabulaire couvrant écoute, lecture, expression orale et écrite. Écoute phrase par phrase, flashcards, dictée, export Anki — atteignez le NCLC 7.",
+    "siteDescription": "Plus de 8 500+ questions d'entraînement TCF Canada + outils de vocabulaire couvrant écoute, lecture, expression orale et écrite. Écoute phrase par phrase, flashcards, dictée, export Anki — atteignez le NCLC 7.",
     "ogTitle": "HiTCF — Entraînez-vous pour atteindre le NCLC 7",
-    "ogDescription": "Plus de 8 500 questions TCF Canada + carnet de vocabulaire + export Anki. Entraînement, cartes mémoire et dictée en un seul endroit.",
+    "ogDescription": "Plus de 8 500+ questions TCF Canada + carnet de vocabulaire + export Anki. Entraînement, cartes mémoire et dictée en un seul endroit.",
     "ogImageAlt": "HiTCF — Plateforme d'entraînement en ligne TCF Canada",
     "keywords": "TCF Canada,NCLC 7,entraînement TCF,compréhension orale TCF,compréhension écrite TCF,préparation TCF Canada,français immigration Canada,simulation TCF en ligne,questions TCF,vocabulaire TCF,Anki français,cartes mémoire français",
     "home": {
       "title": "HiTCF — Entraînez-vous pour atteindre le NCLC 7 | Entraînement en ligne TCF Canada",
-      "description": "Plus de 8 500 questions d'entraînement TCF Canada couvrant compréhension orale, compréhension écrite, expression orale et écrite. Mode entraînement + mode examen + cahier d'erreurs — préparez-vous systématiquement au NCLC 7."
+      "description": "Plus de {totalQuestions} questions d'entraînement TCF Canada couvrant compréhension orale, compréhension écrite, expression orale et écrite. Mode entraînement + mode examen + cahier d'erreurs — préparez-vous systématiquement au NCLC 7."
     },
     "tests": {
-      "title": "Banque de questions TCF Canada · Plus de 8 500 questions de compréhension orale, écrite, expression orale et écrite",
-      "description": "Banque complète de questions simulées TCF Canada pour la compréhension orale, écrite, l'expression orale et écrite. 42 séries d'écoute avec audio + réécoute par phrase, 44 séries de lecture, niveaux A1-C2."
+      "title": "Banque de questions TCF Canada · Plus de {totalQuestions} questions de compréhension orale, écrite, expression orale et écrite",
+      "description": "Banque complète de questions simulées TCF Canada pour la compréhension orale, écrite, l'expression orale et écrite. {listeningSets} séries d'écoute avec audio + réécoute par phrase, {readingSets} séries de lecture, niveaux A1-C2."
     },
     "dashboard": {
       "title": "Mon tableau de bord · Préparation NCLC 7 et statistiques d'entraînement",
@@ -2011,7 +2014,7 @@
     },
     "pricing": {
       "title": "Tarifs · 14 jours d'essai gratuit sur le plan annuel pour toutes les questions TCF + outils de vocabulaire",
-      "description": "Tarifs HiTCF : séries gratuites pour commencer, Pro débloque les plus de 8 500 questions, le mode examen, le cahier d'erreurs, les cartes mémoire de vocabulaire, la dictée et l'export Anki. 14 jours d'essai gratuit sur le plan annuel, annulation à tout moment."
+      "description": "Tarifs HiTCF : séries gratuites pour commencer, Pro débloque les plus de 8 500+ questions, le mode examen, le cahier d'erreurs, les cartes mémoire de vocabulaire, la dictée et l'export Anki. 14 jours d'essai gratuit sur le plan annuel, annulation à tout moment."
     },
     "speedDrill": {
       "title": "Pratique par niveau · Entraînement ciblé par niveau et type de question",
@@ -2365,13 +2368,13 @@
     }
   },
   "schema": {
-    "siteDescription": "Plateforme d'entraînement en ligne TCF Canada — plus de 8 500 questions pour atteindre le NCLC 7",
+    "siteDescription": "Plateforme d'entraînement en ligne TCF Canada — plus de 8 500+ questions pour atteindre le NCLC 7",
     "faq1q": "HiTCF est-elle une plateforme officielle ?",
     "faq1a": "Non. HiTCF est une plateforme d'entraînement tierce exploitée de manière indépendante, sans affiliation avec France Éducation international ni IRCC. Les questions d'entraînement sont compilées à partir de documents publiquement accessibles et formatées selon le TCF Canada, mais ne sont pas des questions d'examen réelles.",
     "faq2q": "Que puis-je faire avec la version gratuite ?",
     "faq2a": "La version gratuite comprend la première série d'écoute et les 2 premières séries de lecture avec toutes les questions, en modes entraînement et examen. Tentatives illimitées, gratuit pour toujours.",
     "faq3q": "Quels sont les avantages de Pro ?",
-    "faq3a": "Débloquez les plus de 8 500 questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, les outils de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Le plan annuel comprend 14 jours d'essai gratuit, annulation à tout moment.",
+    "faq3a": "Débloquez les plus de 8 500+ questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, les outils de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Le plan annuel comprend 14 jours d'essai gratuit, annulation à tout moment.",
     "faq4q": "Pouvez-vous garantir que j'atteindrai le NCLC 7 ?",
     "faq4a": "Non. HiTCF fournit un environnement d'entraînement aligné sur le TCF Canada pour vous aider à identifier et améliorer vos points faibles. Cependant, les scores réels dépendent de nombreux facteurs — nous ne promettons aucun résultat d'examen.",
     "faq5q": "Comment puis-je m'entraîner à l'expression orale et écrite ?",
@@ -2391,7 +2394,7 @@
     "badge": "{used}/{limit} aujourd'hui",
     "unlimited": "Illimité",
     "mockExamProRequired": "Passer à Pro",
-    "speakingProHint": "Parcourez les sujets gratuitement — la conversation IA et l'évaluation de la prononciation nécessitent Pro.",
-    "writingProHint": "Parcourez les sujets gratuitement — la notation IA et la correction nécessitent Pro."
+    "speakingProHint": "Les sujets du dernier mois sont gratuits — la conversation IA, la prononciation et les mois précédents nécessitent Pro.",
+    "writingProHint": "Les sujets du dernier mois sont gratuits — la notation IA, la correction et les mois précédents nécessitent Pro."
   }
 }

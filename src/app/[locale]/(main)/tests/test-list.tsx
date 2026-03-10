@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen, Lock } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen, Lock, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -19,6 +19,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
 import { listAttempts, createMockExam } from "@/lib/api/attempts";
 import { fetchAllPages } from "@/lib/api/fetch-all-pages";
+import { getLatestMonth, isLatestMonth } from "@/lib/utils";
+import { STATS_PARAMS } from "@/lib/constants";
 import type { TestSetItem, WritingTopicItem, AttemptResponse } from "@/lib/api/types";
 import type { TestAttemptInfo } from "./test-card";
 import { SkeletonGrid } from "@/components/shared/skeleton-card";
@@ -107,24 +109,39 @@ function Pill({
 }
 
 // ─── Month section header ──────────────────────────────────────
-function MonthHeader({ label, countLabel, collapsible, open, onToggle }: {
+function MonthHeader({ label, countLabel, collapsible, open, onToggle, locked, isFreeMonth }: {
   label: string;
   countLabel: string;
   collapsible?: boolean;
   open?: boolean;
   onToggle?: () => void;
+  locked?: boolean;
+  isFreeMonth?: boolean;
 }) {
+  const t = useTranslations();
   const Wrapper = collapsible ? "button" : "div";
   return (
     <Wrapper
       className="flex w-full items-center gap-3 pb-3 pt-1"
       {...(collapsible ? { onClick: onToggle, type: "button" as const } : {})}
     >
-      <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+      <div className={`h-1.5 w-1.5 rounded-full ${isFreeMonth ? "bg-emerald-500" : "bg-primary"}`} />
       <h3 className="text-sm font-semibold text-foreground">{label}</h3>
       <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
         {countLabel}
       </span>
+      {isFreeMonth && (
+        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">
+          <Sparkles className="h-3 w-3" />
+          {t("tests.freeThisMonth")}
+        </span>
+      )}
+      {locked && (
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+          <Lock className="h-3 w-3" />
+          PRO
+        </span>
+      )}
       <div className="flex-1 border-t border-border/50" />
       {collapsible && (
         open ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />
@@ -139,6 +156,8 @@ const VALID_TABS: TabType[] = ["listening", "reading", "speaking", "writing"];
 function buildAttemptMap(attempts: AttemptResponse[]): Map<string, TestAttemptInfo> {
   const map = new Map<string, TestAttemptInfo>();
   for (const a of attempts) {
+    // Skip speed_drill attempts — they cross test sets and shouldn't affect per-set status
+    if (a.mode === "speed_drill") continue;
     const existing = map.get(a.test_set_id);
     if (!existing) {
       map.set(a.test_set_id, {
@@ -414,6 +433,17 @@ export function TestList() {
     [filteredWritingTopics, originalLabel],
   );
 
+  // ─── Latest month for freemium gating ─────────────────────
+  const latestMonth = useMemo(() => {
+    if (tab === "writing" && browseMode === "level") {
+      return getLatestMonth(writingTopics);
+    }
+    if (tab === "speaking" || tab === "writing") {
+      return getLatestMonth(tests);
+    }
+    return null;
+  }, [tab, browseMode, tests, writingTopics]);
+
   // ─── Is speaking/writing tab? ─────────────────────────────
   const isSpeakingWriting = tab === "speaking" || tab === "writing";
 
@@ -481,6 +511,8 @@ export function TestList() {
       <div className="space-y-4">
         {testSections.map((section, i) => {
           const open = isMonthOpen(section.month, i);
+          const isFreeMonth = isLatestMonth(section.month, latestMonth);
+          const sectionLocked = !isFreeMonth && !canAccessPaid;
           return (
             <div key={section.month}>
               <MonthHeader
@@ -489,14 +521,16 @@ export function TestList() {
                 collapsible
                 open={open}
                 onToggle={() => toggleMonth(section.month)}
+                locked={sectionLocked}
+                isFreeMonth={isFreeMonth && !canAccessPaid}
               />
               {open && (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
                   {section.items.map((t) =>
                     tab === "speaking" ? (
-                      <SpeakingTopicCard key={t.id} test={t} />
+                      <SpeakingTopicCard key={t.id} test={t} latestMonth={latestMonth} />
                     ) : (
-                      <WritingTopicCard key={t.id} test={t} />
+                      <WritingTopicCard key={t.id} test={t} latestMonth={latestMonth} />
                     ),
                   )}
                 </div>
@@ -516,6 +550,8 @@ export function TestList() {
       <div className="space-y-4">
         {testSections.map((section, i) => {
           const open = isMonthOpen(section.month, i);
+          const isFreeMonth = isLatestMonth(section.month, latestMonth);
+          const sectionLocked = !isFreeMonth && !canAccessPaid;
           return (
             <div key={section.month}>
               <MonthHeader
@@ -524,11 +560,13 @@ export function TestList() {
                 collapsible
                 open={open}
                 onToggle={() => toggleMonth(section.month)}
+                locked={sectionLocked}
+                isFreeMonth={isFreeMonth && !canAccessPaid}
               />
               {open && (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
                   {section.items.map((t) => (
-                    <SpeakingTopicCard key={t.id} test={t} />
+                    <SpeakingTopicCard key={t.id} test={t} latestMonth={latestMonth} />
                   ))}
                 </div>
               )}
@@ -547,6 +585,8 @@ export function TestList() {
       <div className="space-y-4">
         {writingTopicSections.map((section, i) => {
           const open = isMonthOpen(section.month, i);
+          const isFreeMonth = isLatestMonth(section.month, latestMonth);
+          const sectionLocked = !isFreeMonth && !canAccessPaid;
           return (
             <div key={section.month}>
               <MonthHeader
@@ -555,11 +595,13 @@ export function TestList() {
                 collapsible
                 open={open}
                 onToggle={() => toggleMonth(section.month)}
+                locked={sectionLocked}
+                isFreeMonth={isFreeMonth && !canAccessPaid}
               />
               {open && (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
                   {section.items.map((t) => (
-                    <WritingLevelCard key={t.question_id} topic={t} tache={writingTache} />
+                    <WritingLevelCard key={t.question_id} topic={t} tache={writingTache} latestMonth={latestMonth} />
                   ))}
                 </div>
               )}
@@ -584,16 +626,16 @@ export function TestList() {
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <span className="rounded-full bg-sky-500/10 px-3 py-1 text-xs font-medium text-sky-600 dark:text-sky-400">
-            {t("tests.statsListening")}
+            {t("tests.statsListening", STATS_PARAMS)}
           </span>
           <span className="rounded-full bg-teal-500/10 px-3 py-1 text-xs font-medium text-teal-600 dark:text-teal-400">
-            {t("tests.statsReading")}
+            {t("tests.statsReading", STATS_PARAMS)}
           </span>
           <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-600 dark:text-amber-400">
-            {t("tests.statsSpeaking")}
+            {t("tests.statsSpeaking", STATS_PARAMS)}
           </span>
           <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-600 dark:text-violet-400">
-            {t("tests.statsWriting")}
+            {t("tests.statsWriting", STATS_PARAMS)}
           </span>
         </div>
       </div>

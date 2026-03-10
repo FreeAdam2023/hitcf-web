@@ -20,10 +20,10 @@ import {
   createWritingAttempt,
   getActiveWritingAttempt,
 } from "@/lib/api/writing-attempts";
-import { cn } from "@/lib/utils";
+import { cn, isLatestMonth } from "@/lib/utils";
 import type { TestSetItem, WritingAttemptResponse } from "@/lib/api/types";
 
-export function WritingTopicCard({ test }: { test: TestSetItem }) {
+export function WritingTopicCard({ test, latestMonth }: { test: TestSetItem; latestMonth: string | null }) {
   const t = useTranslations();
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -31,7 +31,8 @@ export function WritingTopicCard({ test }: { test: TestSetItem }) {
     const status = s.user?.subscription?.status;
     return status === "active" || status === "trialing" || s.user?.role === "admin";
   });
-  const locked = !test.is_free && !canAccessPaid;
+  const isFreePreview = isLatestMonth(test.source_date, latestMonth);
+  const locked = !isFreePreview && !canAccessPaid;
 
   const [open, setOpen] = useState(false);
   const [starting, setStarting] = useState(false);
@@ -133,10 +134,12 @@ export function WritingTopicCard({ test }: { test: TestSetItem }) {
                 {t("tests.tacheCombo")}
               </p>
             </div>
-            {test.is_free ? (
-              <Badge variant="secondary" className="shrink-0">
-                {t("common.status.free")}
-              </Badge>
+            {isFreePreview ? (
+              !canAccessPaid ? (
+                <Badge variant="secondary" className="shrink-0 bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">
+                  {t("tests.freeThisMonth")}
+                </Badge>
+              ) : null
             ) : locked ? (
               <Badge variant="outline" className="shrink-0 gap-1 text-muted-foreground">
                 <Lock className="h-3 w-3" />
