@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
-import { listAttempts, createMockExam } from "@/lib/api/attempts";
+import { listAttempts, createMockExam, checkMockFreeTrialEligible } from "@/lib/api/attempts";
 import { fetchAllPages } from "@/lib/api/fetch-all-pages";
 import { getLatestMonth, isLatestMonth } from "@/lib/utils";
 import { STATS_PARAMS } from "@/lib/constants";
@@ -197,6 +197,7 @@ export function TestList() {
   const [mockDialogOpen, setMockDialogOpen] = useState(false);
   const [mockTypes, setMockTypes] = useState<Set<string>>(new Set(["listening", "reading"]));
   const [mockError, setMockError] = useState<string | null>(null);
+  const [mockFreeTrialEligible, setMockFreeTrialEligible] = useState(false);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
   const [examDate, setExamDate] = useState<string>(
     () => (typeof window !== "undefined" ? localStorage.getItem("tcfExamDate") || "" : ""),
@@ -242,7 +243,11 @@ export function TestList() {
     fetchAllPages((p) => listAttempts({ ...p }), 100)
       .then((items) => setAttemptMap(buildAttemptMap(items)))
       .catch(() => {});
-  }, [isAuthenticated]);
+    // Check mock exam free trial eligibility
+    if (!canAccessPaid) {
+      checkMockFreeTrialEligible().then((r) => setMockFreeTrialEligible(r.eligible)).catch(() => {});
+    }
+  }, [isAuthenticated, canAccessPaid]);
 
   // Persist tab to localStorage whenever it changes
   useEffect(() => {
@@ -694,7 +699,7 @@ export function TestList() {
                 >
                   <Shuffle className="h-4 w-4" />
                   {t("tests.mockExam")}
-                  {!canAccessPaid && <Lock className="h-3.5 w-3.5 text-amber-500" />}
+                  {!canAccessPaid && !mockFreeTrialEligible && <Lock className="h-3.5 w-3.5 text-amber-500" />}
                 </button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
@@ -776,7 +781,7 @@ export function TestList() {
                   <p className="text-sm text-destructive">{mockError}</p>
                 )}
                 <DialogFooter>
-                  {canAccessPaid ? (
+                  {canAccessPaid || mockFreeTrialEligible ? (
                     <Button
                       disabled={mockTypes.size === 0 || mockLoading}
                       onClick={async () => {
