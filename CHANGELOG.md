@@ -1,3 +1,10 @@
+## 2026-03-10 (28103fa)
+
+### Style
+- widen writing mode dialog from max-w-md to max-w-lg (d2942b2)
+
+---
+
 ## 2026-03-10 (d6b58bd)
 
 ### Features
