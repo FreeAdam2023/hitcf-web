@@ -889,6 +889,7 @@
     "generating": "正在生成...",
     "noMoreQuestions": "没有更多未做过的题目",
     "startFailed": "启动练习失败，请重试",
+    "remainingCount": "剩余 {count} 题",
     "upgradeBanner": {
       "title": "等级练习是 Pro 专属功能",
       "description": "按等级、按题型精准刷题，全题库针对性训练薄弱环节",

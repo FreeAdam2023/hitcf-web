@@ -889,6 +889,7 @@
     "generating": "Génération en cours...",
     "noMoreQuestions": "Plus de nouvelles questions disponibles",
     "startFailed": "Échec du démarrage de la pratique. Veuillez réessayer.",
+    "remainingCount": "{count} restantes",
     "upgradeBanner": {
       "title": "La pratique par niveau est réservée aux Pro",
       "description": "Pratique ciblée par niveau et type sur toute la banque de questions",

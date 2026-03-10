@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { usePracticeStore } from "@/stores/practice-store";
-import { startSpeedDrill } from "@/lib/api/speed-drill";
+import { startSpeedDrill, fetchLevelStats } from "@/lib/api/speed-drill";
+import type { LevelStats } from "@/lib/api/speed-drill";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
@@ -42,6 +43,22 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
   const [count, setCount] = useState(10);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [stats, setStats] = useState<LevelStats | null>(null);
+
+  // Fetch level stats when dialog opens
+  useEffect(() => {
+    if (open) {
+      fetchLevelStats(type).then(setStats).catch(() => setStats(null));
+    }
+  }, [open, type]);
+
+  // Compute total remaining for selected levels
+  const selectedRemaining = stats
+    ? Array.from(selectedLevels).reduce((sum, lvl) => {
+        const s = stats.levels[lvl];
+        return sum + (s ? s.total - s.completed : 0);
+      }, 0)
+    : null;
 
   const toggleLevel = (level: string) => {
     setSelectedLevels((prev) => {
@@ -98,18 +115,31 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
             <div className="flex flex-wrap gap-2">
               {LEVELS.map((level) => {
                 const active = selectedLevels.has(level);
+                const levelStats = stats?.levels[level];
+                const completed = levelStats?.completed ?? 0;
+                const total = levelStats?.total ?? 0;
+                const allDone = total > 0 && completed >= total;
+
                 return (
                   <button
                     key={level}
                     onClick={() => toggleLevel(level)}
                     className={cn(
-                      "rounded-lg px-4 py-2 text-sm font-semibold transition-all",
+                      "relative rounded-lg px-4 py-2 text-sm font-semibold transition-all",
                       active
                         ? LEVEL_COLORS[level]
                         : "bg-secondary text-muted-foreground/60 hover:text-muted-foreground",
                     )}
                   >
                     {level}
+                    {stats && total > 0 && (
+                      <span className={cn(
+                        "block text-[10px] font-normal leading-tight mt-0.5",
+                        allDone ? "text-green-600 dark:text-green-400" : "opacity-70",
+                      )}>
+                        {completed}/{total}
+                      </span>
+                    )}
                   </button>
                 );
               })}
@@ -118,7 +148,14 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
 
           {/* Count selection */}
           <div>
-            <p className="mb-2.5 text-sm font-medium text-muted-foreground">{t("speedDrill.questionCount")}</p>
+            <div className="mb-2.5 flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">{t("speedDrill.questionCount")}</p>
+              {selectedRemaining !== null && (
+                <span className="text-xs text-muted-foreground">
+                  {t("speedDrill.remainingCount", { count: selectedRemaining })}
+                </span>
+              )}
+            </div>
             <div className="flex gap-2">
               {COUNT_OPTIONS.map((n) => (
                 <button
