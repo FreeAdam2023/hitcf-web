@@ -28,7 +28,6 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { Input } from "@/components/ui/input";
 import { TestCard } from "./test-card";
 import { SpeakingTopicCard } from "./speaking-topic-card";
-import { WritingTopicCard } from "./writing-topic-card";
 import { WritingLevelCard } from "./writing-level-card";
 import { SpeakingTache1Guide } from "./speaking-tache1-guide";
 import { ContinueBanner } from "@/components/shared/continue-banner";
@@ -304,7 +303,10 @@ export function TestList() {
     setLoading(true);
     const etParam = examTypeFilter === "all" ? undefined : examTypeFilter;
     try {
-      if (tab === "speaking" && browseMode === "level" && speakingTache === 1) {
+      if ((tab === "speaking" || tab === "writing") && browseMode === "set") {
+        // Mock exam mode — no data fetch needed, just show entry card
+        setTests([]);
+      } else if (tab === "speaking" && browseMode === "level" && speakingTache === 1) {
         setTests([]);
       } else if (tab === "speaking" && browseMode === "level") {
         const items = await fetchAllPages(
@@ -503,41 +505,31 @@ export function TestList() {
     [expandedMonths],
   );
 
-  // ─── Render: Month-grouped test set cards (by-set) ────────
-  const renderGroupedTestSets = () => {
-    if (loading) return <SkeletonGrid />;
-    if (testSections.length === 0) return <EmptyState title={t("tests.emptyTitle")} description={t("tests.emptyDescription")} />;
+  // ─── Render: Mock exam entry card (speaking/writing by-set) ──
+  const renderMockExamEntry = () => {
+    const isSpeaking = tab === "speaking";
+    const icon = isSpeaking ? <Mic className="h-6 w-6" /> : <PenLine className="h-6 w-6" />;
+    const title = isSpeaking ? t("tests.mockSpeakingExam") : t("tests.mockWritingExam");
+    const desc = isSpeaking ? t("tests.mockSpeakingExamDesc") : t("tests.mockWritingExamDesc");
+    const href = isSpeaking ? "/speaking-exam" : "/writing-mock-exam";
+
     return (
-      <div className="space-y-4">
-        {testSections.map((section, i) => {
-          const open = isMonthOpen(section.month, i);
-          const isFreeMonth = isLatestMonth(section.month, latestMonth);
-          const sectionLocked = !isFreeMonth && !canAccessPaid;
-          return (
-            <div key={section.month}>
-              <MonthHeader
-                label={formatMonthLabel(section.month)}
-                countLabel={t("tests.setsCount", { count: section.items.length })}
-                collapsible
-                open={open}
-                onToggle={() => toggleMonth(section.month)}
-                locked={sectionLocked}
-                isFreeMonth={isFreeMonth && !canAccessPaid}
-              />
-              {open && (
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
-                  {section.items.map((t) =>
-                    tab === "speaking" ? (
-                      <SpeakingTopicCard key={t.id} test={t} latestMonth={latestMonth} />
-                    ) : (
-                      <WritingTopicCard key={t.id} test={t} latestMonth={latestMonth} />
-                    ),
-                  )}
-                </div>
-              )}
-            </div>
-          );
-        })}
+      <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-primary/20 bg-primary/5 px-8 py-12 text-center">
+        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
+          {icon}
+        </div>
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <p className="mt-2 max-w-md text-sm text-muted-foreground">{desc}</p>
+        {canAccessPaid ? (
+          <Button className="mt-6" onClick={() => router.push(href)}>
+            {t("tests.mockExamStart")}
+          </Button>
+        ) : (
+          <Button className="mt-6" onClick={() => router.push("/pricing")}>
+            <Lock className="mr-2 h-4 w-4" />
+            {t("quota.mockExamProRequired")}
+          </Button>
+        )}
       </div>
     );
   };
@@ -716,6 +708,40 @@ export function TestList() {
                       <div className="text-xs text-muted-foreground">{t("tests.mockReadingInfo")}</div>
                     </div>
                   </label>
+                  <label className="flex items-center gap-3 rounded-lg border p-3 cursor-pointer hover:bg-accent/50 transition-colors">
+                    <Checkbox
+                      checked={mockTypes.has("speaking")}
+                      onCheckedChange={(checked) => {
+                        setMockTypes((prev) => {
+                          const next = new Set(prev);
+                          if (checked) next.add("speaking"); else next.delete("speaking");
+                          return next;
+                        });
+                      }}
+                    />
+                    <Mic className="h-4 w-4 text-amber-500" />
+                    <div>
+                      <div className="text-sm font-medium">{t("common.types.speaking")}</div>
+                      <div className="text-xs text-muted-foreground">{t("tests.mockSpeakingExamDesc")}</div>
+                    </div>
+                  </label>
+                  <label className="flex items-center gap-3 rounded-lg border p-3 cursor-pointer hover:bg-accent/50 transition-colors">
+                    <Checkbox
+                      checked={mockTypes.has("writing")}
+                      onCheckedChange={(checked) => {
+                        setMockTypes((prev) => {
+                          const next = new Set(prev);
+                          if (checked) next.add("writing"); else next.delete("writing");
+                          return next;
+                        });
+                      }}
+                    />
+                    <PenLine className="h-4 w-4 text-violet-500" />
+                    <div>
+                      <div className="text-sm font-medium">{t("common.types.writing")}</div>
+                      <div className="text-xs text-muted-foreground">{t("tests.mockWritingExamDesc")}</div>
+                    </div>
+                  </label>
                 </div>
                 {mockError && (
                   <p className="text-sm text-destructive">{mockError}</p>
@@ -728,9 +754,18 @@ export function TestList() {
                         setMockLoading(true);
                         setMockError(null);
                         try {
-                          const result = await createMockExam(Array.from(mockTypes));
-                          setMockDialogOpen(false);
-                          router.push(`/exam/${result.id}`);
+                          const lrTypes = ["listening", "reading"].filter((t) => mockTypes.has(t));
+                          if (lrTypes.length > 0) {
+                            const result = await createMockExam(lrTypes);
+                            setMockDialogOpen(false);
+                            router.push(`/exam/${result.id}`);
+                          } else if (mockTypes.has("speaking")) {
+                            setMockDialogOpen(false);
+                            router.push("/speaking-exam");
+                          } else if (mockTypes.has("writing")) {
+                            setMockDialogOpen(false);
+                            router.push("/writing-mock-exam");
+                          }
                         } catch {
                           setMockError(t("tests.mockExamError"));
                         } finally {
@@ -848,32 +883,16 @@ export function TestList() {
 
           <RecommendedBanner type={tab} />
 
-          {/* ── Mock exam entry for speaking/writing ── */}
-          {isSpeakingWriting && isAuthenticated && (
-            <div className="mb-4">
-              <button
-                onClick={() => router.push(tab === "speaking" ? "/speaking-exam" : "/writing-mock-exam")}
-                className="inline-flex items-center gap-2 rounded-lg border-2 border-primary/20 bg-primary/5 px-5 py-2.5 text-sm font-semibold text-primary transition-all hover:border-primary/40 hover:bg-primary/10"
-              >
-                {tab === "speaking" ? <Mic className="h-4 w-4" /> : <PenLine className="h-4 w-4" />}
-                {tab === "speaking" ? t("tests.mockSpeakingExam") : t("tests.mockWritingExam")}
-              </button>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {tab === "speaking" ? t("tests.mockSpeakingExamDesc") : t("tests.mockWritingExamDesc")}
-              </p>
-            </div>
-          )}
-
           {/* ── Speaking/Writing controls ── */}
           {isSpeakingWriting && (
             <div className="mb-5 space-y-3">
               {/* Mode toggle */}
               <div className="flex gap-2">
                 <Pill active={browseMode === "level"} onClick={() => setBrowseMode("level")}>
-                  {t("tests.byLevel")}
+                  {t("tests.topicPractice")}
                 </Pill>
                 <Pill active={browseMode === "set"} onClick={() => setBrowseMode("set")}>
-                  {t("tests.bySet")}
+                  {t("tests.mockExamMode")}
                 </Pill>
               </div>
 
@@ -905,8 +924,8 @@ export function TestList() {
                 </div>
               )}
 
-              {/* Year pills */}
-              {availableYears.length > 1 && (
+              {/* Year pills (topic practice mode only) */}
+              {browseMode === "level" && availableYears.length > 1 && (
                 <div className="flex flex-wrap gap-2">
                   <Pill active={selectedYear === null} onClick={() => setSelectedYear(null)}>
                     {t("tests.all")}
@@ -935,7 +954,7 @@ export function TestList() {
           ) : browseMode === "level" && tab === "writing" ? (
             renderWritingByLevel()
           ) : (
-            renderGroupedTestSets()
+            renderMockExamEntry()
           )}
         </TabsContent>
       </Tabs>
