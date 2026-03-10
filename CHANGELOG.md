@@ -1,3 +1,17 @@
+## 2026-03-10 (a4b93f8)
+
+### Features
+- add frontend event tracking + fix health monitor alert step (327e099)
+
+### Bug Fixes
+- mobile footer nav link alignment with flex-wrap (16f5ed6)
+- health monitor false positives — grep pattern and exit codes (2cece6b)
+
+### Tests
+- add auth API + attempts API tests (13 tests) (a27e416)
+
+---
+
 ## 2026-03-10 (8394879)
 
 ### Features
