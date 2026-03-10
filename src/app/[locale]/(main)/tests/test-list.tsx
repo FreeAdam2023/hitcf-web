@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen, Lock, Sparkles } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, ArrowRight, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -847,6 +847,22 @@ export function TestList() {
           />
 
           <RecommendedBanner type={tab} />
+
+          {/* ── Mock exam entry for speaking/writing ── */}
+          {isSpeakingWriting && isAuthenticated && (
+            <div className="mb-4">
+              <button
+                onClick={() => router.push(tab === "speaking" ? "/speaking-exam" : "/writing-mock-exam")}
+                className="inline-flex items-center gap-2 rounded-lg border-2 border-primary/20 bg-primary/5 px-5 py-2.5 text-sm font-semibold text-primary transition-all hover:border-primary/40 hover:bg-primary/10"
+              >
+                {tab === "speaking" ? <Mic className="h-4 w-4" /> : <PenLine className="h-4 w-4" />}
+                {tab === "speaking" ? t("tests.mockSpeakingExam") : t("tests.mockWritingExam")}
+              </button>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {tab === "speaking" ? t("tests.mockSpeakingExamDesc") : t("tests.mockWritingExamDesc")}
+              </p>
+            </div>
+          )}
 
           {/* ── Speaking/Writing controls ── */}
           {isSpeakingWriting && (
