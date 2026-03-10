@@ -524,7 +524,8 @@
     "volume": "音量",
     "replay": "重新播放",
     "speed": "播放速度",
-    "played": "已播放"
+    "played": "已播放",
+    "seek": "拖动进度"
   },
   "explanation": {
     "viewExplanation": "查看解析",
@@ -542,6 +543,7 @@
     "keyClue": "解题关键线索"
   },
   "wordCard": {
+    "pronunciation": "发音",
     "loading": "加载中...",
     "error": "加载失败，请重试",
     "inContext": "此句中:",
@@ -678,6 +680,18 @@
       "save": "保存图片",
       "saving": "生成中...",
       "saved": "已保存！去小红书发帖吧 🎉"
+    },
+    "encouragement": {
+      "excellent": "卓越表现！",
+      "excellentDetail": "你已达到 NCLC 10+ 水平！",
+      "great": "非常棒！",
+      "greatDetail": "你已达到 NCLC 7 水平！",
+      "good": "不错！再接再厉！",
+      "goodDetail": "再加把劲就能突破 NCLC 7！",
+      "progress": "有进步！坚持练习！",
+      "progressDetail": "已达 NCLC 4+，坚持练习！",
+      "keepGoing": "加油！每一次练习都是进步！",
+      "keepGoingDetail": "每一次练习都是进步！"
     }
   },
   "encouragement": {
@@ -890,6 +904,8 @@
     "noMoreQuestions": "没有更多未做过的题目",
     "startFailed": "启动练习失败，请重试",
     "remainingCount": "剩余 {count} 题",
+    "totalCount": "共 {count} 题",
+    "includeDone": "包含已做过的题目",
     "upgradeBanner": {
       "title": "等级练习是 Pro 专属功能",
       "description": "按等级、按题型精准刷题，全题库针对性训练薄弱环节",
@@ -1315,7 +1331,9 @@
       "filterAll": "全部",
       "startFlashcard": "开始翻卡复习",
       "emptyTitle": "暂无词汇数据",
-      "emptyDesc": "主题词汇池正在生成中，敬请期待"
+      "emptyDesc": "主题词汇池正在生成中，敬请期待",
+      "themeCount": "{count} 主题",
+      "statWordCount": "{count} 词"
     },
     "dictation": {
       "button": "听写",
@@ -2240,6 +2258,10 @@
     "referral": {
       "title": "推荐奖励 · 邀请好友，赢取免费天数",
       "description": "邀请好友加入 HiTCF，好友订阅后双方各获 30 天免费延期！"
+    },
+    "writingMockExam": {
+      "title": "模拟写作考试 | HiTCF",
+      "description": "TCF Canada 全真模拟写作考试，AI智能评分"
     }
   },
   "referralPage": {

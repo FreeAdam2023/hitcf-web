@@ -191,7 +191,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
                   <button
                     onClick={handleSpeak}
                     className="rounded-full p-1 hover:bg-muted transition-colors"
-                    title="Prononciation"
+                    title={t("wordCard.pronunciation")}
                   >
                     <Volume2
                       className={`h-4 w-4 ${playing ? "text-blue-500 animate-pulse" : "text-muted-foreground"}`}

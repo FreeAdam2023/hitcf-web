@@ -115,7 +115,7 @@ export function ThemeWordsView() {
                 key={cat}
                 className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
               >
-                {cat} · {info.tag_count} 主题 · {info.word_count} 词
+                {cat} · {t("vocabulary.themeWords.themeCount", { count: info.tag_count })} · {t("vocabulary.themeWords.statWordCount", { count: info.word_count })}
               </span>
             ))}
             <span className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">

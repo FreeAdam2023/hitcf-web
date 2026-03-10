@@ -41,6 +41,7 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
 
   const [selectedLevels, setSelectedLevels] = useState<Set<string>>(new Set(LEVELS));
   const [count, setCount] = useState(10);
+  const [includeDone, setIncludeDone] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState<LevelStats | null>(null);
@@ -52,13 +53,25 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
     }
   }, [open, type]);
 
-  // Compute total remaining for selected levels
-  const selectedRemaining = stats
+  // Compute totals for selected levels
+  const selectedTotal = stats
     ? Array.from(selectedLevels).reduce((sum, lvl) => {
         const s = stats.levels[lvl];
-        return sum + (s ? s.total - s.completed : 0);
+        return sum + (s ? s.total : 0);
       }, 0)
     : null;
+
+  const selectedCompleted = stats
+    ? Array.from(selectedLevels).reduce((sum, lvl) => {
+        const s = stats.levels[lvl];
+        return sum + (s ? s.completed : 0);
+      }, 0)
+    : null;
+
+  const selectedRemaining =
+    selectedTotal !== null && selectedCompleted !== null
+      ? selectedTotal - selectedCompleted
+      : null;
 
   const toggleLevel = (level: string) => {
     setSelectedLevels((prev) => {
@@ -76,7 +89,7 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
     setError(null);
     try {
       const levels = allSelected ? undefined : Array.from(selectedLevels);
-      const result = await startSpeedDrill({ type, levels, count, dedup: true });
+      const result = await startSpeedDrill({ type, levels, count, dedup: !includeDone });
 
       if (!result.questions.length) {
         setError(t("speedDrill.noMoreQuestions"));
@@ -146,13 +159,36 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
             </div>
           </div>
 
+          {/* Include done toggle */}
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">{t("speedDrill.includeDone")}</span>
+            <button
+              role="switch"
+              aria-checked={includeDone}
+              onClick={() => setIncludeDone((v) => !v)}
+              className={cn(
+                "relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors",
+                includeDone ? "bg-primary" : "bg-muted-foreground/30",
+              )}
+            >
+              <span
+                className={cn(
+                  "pointer-events-none block h-4 w-4 rounded-full bg-background shadow-sm ring-0 transition-transform mt-0.5",
+                  includeDone ? "translate-x-[18px]" : "translate-x-0.5",
+                )}
+              />
+            </button>
+          </div>
+
           {/* Count selection */}
           <div>
             <div className="mb-2.5 flex items-center justify-between">
               <p className="text-sm font-medium text-muted-foreground">{t("speedDrill.questionCount")}</p>
-              {selectedRemaining !== null && (
+              {selectedRemaining !== null && selectedTotal !== null && (
                 <span className="text-xs text-muted-foreground">
-                  {t("speedDrill.remainingCount", { count: selectedRemaining })}
+                  {includeDone
+                    ? t("speedDrill.totalCount", { count: selectedTotal })
+                    : t("speedDrill.remainingCount", { count: selectedRemaining })}
                 </span>
               )}
             </div>

@@ -524,7 +524,8 @@
     "volume": "Volume",
     "replay": "Réécouter",
     "speed": "Vitesse de lecture",
-    "played": "Lu"
+    "played": "Lu",
+    "seek": "Chercher"
   },
   "explanation": {
     "viewExplanation": "Voir l'explication",
@@ -542,6 +543,7 @@
     "keyClue": "Indice clé pour la réponse"
   },
   "wordCard": {
+    "pronunciation": "Prononciation",
     "loading": "Chargement...",
     "error": "Échec du chargement. Veuillez réessayer.",
     "inContext": "En contexte :",
@@ -678,6 +680,18 @@
       "save": "Enregistrer l'image",
       "saving": "Génération en cours...",
       "saved": "Enregistré ! Allez le partager ! 🎉"
+    },
+    "encouragement": {
+      "excellent": "Performance exceptionnelle !",
+      "excellentDetail": "Vous avez atteint le niveau NCLC 10+ !",
+      "great": "Très bien !",
+      "greatDetail": "Vous avez atteint le niveau NCLC 7 !",
+      "good": "Pas mal ! Continuez !",
+      "goodDetail": "Encore un petit effort pour dépasser NCLC 7 !",
+      "progress": "Des progrès ! Continuez à pratiquer !",
+      "progressDetail": "Vous avez atteint NCLC 4+, continuez !",
+      "keepGoing": "Courage ! Chaque pratique compte !",
+      "keepGoingDetail": "Chaque session est un progrès !"
     }
   },
   "encouragement": {
@@ -890,6 +904,8 @@
     "noMoreQuestions": "Plus de nouvelles questions disponibles",
     "startFailed": "Échec du démarrage de la pratique. Veuillez réessayer.",
     "remainingCount": "{count} restantes",
+    "totalCount": "{count} au total",
+    "includeDone": "Inclure les questions déjà faites",
     "upgradeBanner": {
       "title": "La pratique par niveau est réservée aux Pro",
       "description": "Pratique ciblée par niveau et type sur toute la banque de questions",
@@ -1315,7 +1331,9 @@
       "filterAll": "Tous",
       "startFlashcard": "Commencer la révision par flashcards",
       "emptyTitle": "Aucune donnée de vocabulaire pour l'instant",
-      "emptyDesc": "Le vocabulaire thématique est en cours de génération"
+      "emptyDesc": "Le vocabulaire thématique est en cours de génération",
+      "themeCount": "{count} thèmes",
+      "statWordCount": "{count} mots"
     },
     "dictation": {
       "button": "Dictée",
@@ -2240,6 +2258,10 @@
     "referral": {
       "title": "Programme de parrainage · Invitez vos amis, gagnez des jours gratuits",
       "description": "Invitez vos amis sur HiTCF — quand ils s'abonnent, vous obtenez tous les deux 30 jours d'accès Pro supplémentaires !"
+    },
+    "writingMockExam": {
+      "title": "Examen d'écriture simulé | HiTCF",
+      "description": "Simulation complète de l'examen d'écriture TCF Canada avec correction IA"
     }
   },
   "referralPage": {
