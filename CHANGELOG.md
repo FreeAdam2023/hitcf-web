@@ -1,3 +1,10 @@
+## 2026-03-11 (27eda0c)
+
+### Features
+- CF Access Service Token for server-to-server API proxy (3c7ffa8)
+
+---
+
 ## 2026-03-11 (312e4d9)
 
 ### Bug Fixes
