@@ -905,6 +905,7 @@
     "startFailed": "فشل بدء التدريب. يرجى إعادة المحاولة.",
     "remainingCount": "متبقي {count}",
     "totalCount": "إجمالي {count}",
+    "doneCount": "مكتمل {count}",
     "includeDone": "تضمين الأسئلة المكتملة",
     "upgradeBanner": {
       "title": "التدريب حسب المستوى متاح فقط لمشتركي Pro",
