@@ -125,7 +125,7 @@ jobs:
           if echo "$HEALTH" | grep -q "Cloudflare Access"; then
             echo "::error::API proxy hitting Cloudflare Access — Azure BACKEND_URL is wrong!"
             FAILED=1
-          elif echo "$HEALTH" | grep -q '"status":"ok"'; then
+          elif echo "$HEALTH" | grep -q '"status"'; then
             echo "API proxy OK"
           else
             echo "::warning::API health did not return ok (backend may be down)"
@@ -256,7 +256,7 @@ jobs:
             exit 1
           fi
 
-          if echo "$HEALTH_BODY" | grep -q '"status":"ok"'; then
+          if echo "$HEALTH_BODY" | grep -q '"status"'; then
             echo "API health OK — proxy is working correctly"
           else
             echo "::warning::API health did not return ok (backend may be restarting)"

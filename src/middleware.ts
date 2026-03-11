@@ -27,8 +27,13 @@ const PROTECTED_PREFIXES = [
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // ── API proxy: /api/* except /api/auth/* (handled by NextAuth) ──
-  if (pathname.startsWith("/api/") && !pathname.startsWith("/api/auth/")) {
+  // ── NextAuth routes: let Next.js handle /api/auth/* directly ──
+  if (pathname.startsWith("/api/auth/")) {
+    return NextResponse.next();
+  }
+
+  // ── API proxy: /api/* → backend ──
+  if (pathname.startsWith("/api/")) {
     const host = request.headers.get("host") || "";
 
     // Environment guard: production host must never use dev backend
