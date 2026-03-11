@@ -1,12 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Loader2, Star, BookOpen, ArrowRight, ChevronDown, ChevronUp, X } from "lucide-react";
+import { Loader2, RefreshCw, Star, BookOpen, ArrowRight, ChevronDown, ChevronUp, X } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { generateSentenceAnalysis, matchGrammarCard } from "@/lib/api/questions";
+import { generateSentenceAnalysis, regenerateSentenceAnalysis, matchGrammarCard } from "@/lib/api/questions";
 import { useAuthStore } from "@/stores/auth-store";
 import { useVocabStore } from "@/stores/vocab-store";
 import type { GrammarCard, SentenceAnalysis } from "@/lib/api/types";
@@ -130,6 +130,19 @@ export function SentenceAnalysisInline({
     }
   }, [questionId, sentenceIndex, sentenceFr, locale]);
 
+  const handleRegenerate = useCallback(async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const result = await regenerateSentenceAnalysis(questionId, sentenceIndex, sentenceFr, locale);
+      setData(result);
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  }, [questionId, sentenceIndex, sentenceFr, locale]);
+
   // Fetch on mount, trigger expand animation
   useEffect(() => {
     fetchAnalysis();
@@ -183,12 +196,23 @@ export function SentenceAnalysisInline({
             <BookOpen className="h-3.5 w-3.5" />
             {t("title")}
           </div>
-          <button
-            onClick={onClose}
-            className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          >
-            <X className="h-3.5 w-3.5" />
-          </button>
+          <div className="flex items-center gap-1">
+            {data && !loading && (
+              <button
+                onClick={handleRegenerate}
+                className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                title={t("regenerate")}
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
         </div>
 
         {/* Loading */}

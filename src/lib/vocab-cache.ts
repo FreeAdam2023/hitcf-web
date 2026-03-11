@@ -14,3 +14,7 @@ export function getCached(word: string, locale?: string): VocabularyCardData | u
 export function setCache(word: string, data: VocabularyCardData, locale?: string): void {
   cache.set(_key(word, locale), data);
 }
+
+export function clearCache(word: string, locale?: string): void {
+  cache.delete(_key(word, locale));
+}

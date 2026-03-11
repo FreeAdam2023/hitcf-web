@@ -576,6 +576,7 @@
     "save": "收藏",
     "saved": "已收藏",
     "unsave": "取消收藏",
+    "regenerate": "重新生成卡片",
     "familyTitle": "同组词",
     "loadMsg1": "你发现了一座未开采的词矿！",
     "loadMsg2": "我正在奋力挖掘中... ⛏️",
@@ -598,7 +599,8 @@
     "unsaveCollocation": "取消收藏",
     "saved": "已收藏到词汇池",
     "unsaved": "已取消收藏",
-    "noGrammarCard": "暂无语法卡片"
+    "noGrammarCard": "暂无语法卡片",
+    "regenerate": "重新生成解析"
   },
   "exam": {
     "session": {

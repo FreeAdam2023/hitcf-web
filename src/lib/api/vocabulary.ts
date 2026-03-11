@@ -22,6 +22,13 @@ export function getVocabularyCard(word: string, locale?: string): Promise<Vocabu
   });
 }
 
+export function regenerateVocabularyCard(word: string, locale?: string): Promise<VocabularyCardData> {
+  const params = locale ? `?locale=${encodeURIComponent(locale)}` : "";
+  return post<VocabularyCardData>(`/api/vocabulary/${encodeURIComponent(word)}/regenerate${params}`, {}, {
+    timeout: VOCAB_CARD_TIMEOUT_MS,
+  });
+}
+
 // Saved words API
 export interface SaveWordRequest {
   word: string;

@@ -576,6 +576,7 @@
     "save": "Enregistrer",
     "saved": "Enregistré",
     "unsave": "Retirer",
+    "regenerate": "Régénérer la fiche",
     "familyTitle": "Famille de mots",
     "loadMsg1": "Vous avez trouvé un mot inexploré !",
     "loadMsg2": "Je le déterre pour vous... ⛏️",
@@ -598,7 +599,8 @@
     "unsaveCollocation": "Retirer l'expression",
     "saved": "Ajouté au vocabulaire",
     "unsaved": "Retiré du vocabulaire",
-    "noGrammarCard": "Pas de fiche grammaire disponible"
+    "noGrammarCard": "Pas de fiche grammaire disponible",
+    "regenerate": "Régénérer l'analyse"
   },
   "exam": {
     "session": {

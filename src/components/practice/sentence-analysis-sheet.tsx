@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { Loader2, Star, BookOpen, ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
+import { Loader2, RefreshCw, Star, BookOpen, ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { generateSentenceAnalysis, matchGrammarCard } from "@/lib/api/questions";
+import { generateSentenceAnalysis, regenerateSentenceAnalysis, matchGrammarCard } from "@/lib/api/questions";
 import { useAuthStore } from "@/stores/auth-store";
 import { useVocabStore } from "@/stores/vocab-store";
 import type { GrammarCard, SentenceAnalysis } from "@/lib/api/types";
@@ -154,6 +154,24 @@ export function SentenceAnalysisSheet({
     }
   }, [questionId, sentenceIndex, sentenceFr, locale, data]);
 
+  const handleRegenerate = useCallback(async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const result = await regenerateSentenceAnalysis(
+        questionId,
+        sentenceIndex,
+        sentenceFr,
+        locale,
+      );
+      setData(result);
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  }, [questionId, sentenceIndex, sentenceFr, locale]);
+
   const handleOpenChange = useCallback(
     (nextOpen: boolean) => {
       if (nextOpen) fetchAnalysis();
@@ -188,10 +206,21 @@ export function SentenceAnalysisSheet({
     <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto pb-safe">
         <SheetHeader className="pb-2">
-          <SheetTitle className="flex items-center gap-2 text-base">
-            <BookOpen className="h-4 w-4 text-primary" />
-            {t("title")}
-          </SheetTitle>
+          <div className="flex items-center justify-between">
+            <SheetTitle className="flex items-center gap-2 text-base">
+              <BookOpen className="h-4 w-4 text-primary" />
+              {t("title")}
+            </SheetTitle>
+            {data && !loading && (
+              <button
+                onClick={handleRegenerate}
+                className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                title={t("regenerate")}
+              >
+                <RefreshCw className="h-4 w-4" />
+              </button>
+            )}
+          </div>
         </SheetHeader>
 
         {/* Original sentence */}

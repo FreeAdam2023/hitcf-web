@@ -576,6 +576,7 @@
     "save": "Save",
     "saved": "Saved",
     "unsave": "Unsave",
+    "regenerate": "Regenerate card",
     "familyTitle": "Word Family",
     "loadMsg1": "You've struck an unmined word vein!",
     "loadMsg2": "I'm digging it out for you... ⛏️",
@@ -598,7 +599,8 @@
     "unsaveCollocation": "Unsave expression",
     "saved": "Saved to vocabulary",
     "unsaved": "Removed from vocabulary",
-    "noGrammarCard": "No grammar card available"
+    "noGrammarCard": "No grammar card available",
+    "regenerate": "Regenerate analysis"
   },
   "exam": {
     "session": {

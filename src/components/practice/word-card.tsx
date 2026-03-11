@@ -1,13 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Loader2, Star, Volume2 } from "lucide-react";
+import { Loader2, RefreshCw, Star, Volume2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { Popover, PopoverContent, PopoverAnchor } from "@/components/ui/popover";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { getVocabularyCard } from "@/lib/api/vocabulary";
-import { getCached, setCache } from "@/lib/vocab-cache";
+import { getVocabularyCard, regenerateVocabularyCard } from "@/lib/api/vocabulary";
+import { getCached, setCache, clearCache } from "@/lib/vocab-cache";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
 import { useAuthStore } from "@/stores/auth-store";
 import { useVocabStore } from "@/stores/vocab-store";
@@ -33,6 +33,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
   );
   const [loading, setLoading] = useState(!data);
   const [error, setError] = useState(false);
+  const [regenerating, setRegenerating] = useState(false);
   const { speak, playing } = useFrenchSpeech();
 
   const { isSaved, addWord, removeWord, isLoaded: vocabLoaded, fetchSavedWords } = useVocabStore();
@@ -62,6 +63,22 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
       });
     }
   }, [isAuthenticated, currentWord, isSaved, addWord, removeWord, saveContext, sentence]);
+
+  const handleRegenerate = useCallback(async () => {
+    if (regenerating || loading) return;
+    setRegenerating(true);
+    setError(false);
+    clearCache(currentWord, locale);
+    try {
+      const res = await regenerateVocabularyCard(currentWord, locale);
+      setCache(currentWord, res, locale);
+      setData(res);
+    } catch {
+      setError(true);
+    } finally {
+      setRegenerating(false);
+    }
+  }, [currentWord, locale, regenerating, loading]);
 
   useEffect(() => {
     // Check cache first
@@ -205,6 +222,18 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
                     >
                       <Star
                         className={`h-4 w-4 ${wordSaved ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"}`}
+                      />
+                    </button>
+                  )}
+                  {isAuthenticated && data && (
+                    <button
+                      onClick={handleRegenerate}
+                      disabled={regenerating}
+                      className="rounded-full p-1 hover:bg-muted transition-colors"
+                      title={t("wordCard.regenerate")}
+                    >
+                      <RefreshCw
+                        className={`h-3.5 w-3.5 text-muted-foreground ${regenerating ? "animate-spin" : ""}`}
                       />
                     </button>
                   )}

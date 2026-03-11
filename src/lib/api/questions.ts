@@ -32,6 +32,19 @@ export function generateSentenceAnalysis(
   }, { timeout: 90_000 });
 }
 
+export function regenerateSentenceAnalysis(
+  questionId: string,
+  sentenceIndex: number,
+  sentenceFr: string,
+  locale?: string,
+): Promise<SentenceAnalysis> {
+  return post<SentenceAnalysis>(`/api/questions/${questionId}/sentence-analysis/regenerate`, {
+    sentence_index: sentenceIndex,
+    sentence_fr: sentenceFr,
+    locale: locale || undefined,
+  }, { timeout: 90_000 });
+}
+
 export function matchGrammarCard(name: string): Promise<GrammarCard | null> {
   return get<GrammarCard | null>(`/api/grammar-cards/match?q=${encodeURIComponent(name)}`);
 }
