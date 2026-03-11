@@ -134,14 +134,21 @@ const PAGE_SIZE = 20;
 
 /** Parse a date string as UTC (backend returns naive UTC timestamps without Z). */
 function parseUTC(dateStr: string): Date {
-  if (dateStr.endsWith("Z") || dateStr.includes("+")) return new Date(dateStr);
+  // Already has timezone info (Z, +HH:MM, or -HH:MM suffix)
+  if (/Z$|[+-]\d{2}:\d{2}$/.test(dateStr)) return new Date(dateStr);
   return new Date(dateStr + "Z");
 }
 
+const LOCALE_MAP: Record<string, string> = {
+  zh: "zh-CN",
+  en: "en-US",
+  fr: "fr-FR",
+  ar: "ar-SA",
+};
+
 function formatDate(dateStr: string, locale: string): string {
   const d = parseUTC(dateStr);
-  const loc = locale === "zh" ? "zh-CN" : "en-US";
-  return d.toLocaleDateString(loc, {
+  return d.toLocaleDateString(LOCALE_MAP[locale] || locale, {
     month: "short",
     day: "numeric",
     hour: "2-digit",
