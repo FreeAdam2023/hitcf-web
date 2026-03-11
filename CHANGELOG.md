@@ -1,3 +1,11 @@
+## 2026-03-11 (62c1e70)
+
+### Bug Fixes
+- default speed drill question count to "all" (7e5bca7)
+- default speed drill question count to "all" (6945a35)
+
+---
+
 ## 2026-03-11 (a701ed5)
 
 ### Bug Fixes
