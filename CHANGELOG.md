@@ -1,3 +1,11 @@
+## 2026-03-11 (c5e941b)
+
+### Bug Fixes
+- normalize excessive newlines in reading passages (97621e8)
+- normalize excessive newlines in reading passages (d3f7e3f)
+
+---
+
 ## 2026-03-11 (08825b2)
 
 ### Bug Fixes
