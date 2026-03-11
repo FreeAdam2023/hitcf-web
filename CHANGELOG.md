@@ -1,3 +1,10 @@
+## 2026-03-11 (a05507c)
+
+### Bug Fixes
+- runtime BACKEND_URL — eliminate cross-environment contamination (a6a1762)
+
+---
+
 ## 2026-03-11 (0f72554)
 
 ### Features
