@@ -1,3 +1,10 @@
+## 2026-03-11 (a701ed5)
+
+### Bug Fixes
+- widen level practice dialog + fix theme toggle first click (4695c3d)
+
+---
+
 ## 2026-03-11 (06b68f7)
 
 ### Features
