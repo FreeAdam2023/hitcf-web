@@ -8,6 +8,8 @@ const intlMiddleware = createMiddleware(routing);
 // Read at module load (server startup) — picks up Azure App Settings at runtime.
 // NOT baked at build time like next.config.mjs rewrites.
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8001";
+const CF_ACCESS_CLIENT_ID = process.env.CF_ACCESS_CLIENT_ID || "";
+const CF_ACCESS_CLIENT_SECRET = process.env.CF_ACCESS_CLIENT_SECRET || "";
 
 const PROTECTED_PREFIXES = [
   "/dashboard",
@@ -56,6 +58,15 @@ export function middleware(request: NextRequest) {
 
     const target = new URL(pathname, BACKEND_URL);
     target.search = request.nextUrl.search;
+
+    // Cloudflare Access Service Token for server-to-server auth (dev environment)
+    if (CF_ACCESS_CLIENT_ID) {
+      const headers = new Headers(request.headers);
+      headers.set("CF-Access-Client-Id", CF_ACCESS_CLIENT_ID);
+      headers.set("CF-Access-Client-Secret", CF_ACCESS_CLIENT_SECRET);
+      return NextResponse.rewrite(target, { request: { headers } });
+    }
+
     return NextResponse.rewrite(target);
   }
 
