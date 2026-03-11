@@ -1,3 +1,10 @@
+## 2026-03-11 (cf729ee)
+
+### Features
+- add exclude-answered toggle to test card dialog (cf729ee)
+
+---
+
 ## 2026-03-11 (0720490)
 
 ### Bug Fixes
