@@ -1,3 +1,10 @@
+## 2026-03-11 (089eac6)
+
+### Bug Fixes
+- parse history timestamps as UTC so date grouping matches local time (dbaafa9)
+
+---
+
 ## 2026-03-11 (470bad0)
 
 ### Bug Fixes
