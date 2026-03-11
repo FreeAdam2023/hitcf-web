@@ -1,3 +1,17 @@
+## 2026-03-11 (06b68f7)
+
+### Features
+- show per-level completion progress in speed drill dialog (f3a6235)
+- show per-level completion progress in speed drill dialog (4b2bbce)
+
+### Bug Fixes
+- show done/total/remaining counts in level practice dialog (523e6fb)
+- i18n hardcoded strings + add dedup toggle to speed drill dialog (2655d31)
+- show done/total/remaining counts in level practice dialog (38bcc12)
+- i18n hardcoded strings + add dedup toggle to speed drill dialog (a05ddbc)
+
+---
+
 ## 2026-03-10 (a4b93f8)
 
 ### Features
