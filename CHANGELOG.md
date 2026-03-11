@@ -1,3 +1,11 @@
+## 2026-03-11 (470bad0)
+
+### Bug Fixes
+- rename speed drill to "等级练习" / "Level Practice" in history (f4d5ecf)
+- rename speed drill to "等级练习" / "Level Practice" in history (aa91b6a)
+
+---
+
 ## 2026-03-11 (62c1e70)
 
 ### Bug Fixes
