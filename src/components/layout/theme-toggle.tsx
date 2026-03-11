@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
   const t = useTranslations();
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -17,7 +17,7 @@ export function ThemeToggle() {
     return <Button variant="ghost" size="icon" className="h-8 w-8" disabled />;
   }
 
-  const isDark = theme === "dark";
+  const isDark = resolvedTheme === "dark";
 
   return (
     <Button

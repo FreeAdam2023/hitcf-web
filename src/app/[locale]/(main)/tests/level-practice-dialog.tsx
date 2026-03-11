@@ -108,7 +108,7 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>{t("speedDrill.title")}</DialogTitle>
         </DialogHeader>
@@ -125,7 +125,7 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
                 {allSelected ? t("speedDrill.deselectAll") : t("speedDrill.selectAll")}
               </button>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-6 gap-2">
               {LEVELS.map((level) => {
                 const active = selectedLevels.has(level);
                 const levelStats = stats?.levels[level];
