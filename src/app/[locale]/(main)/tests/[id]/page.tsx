@@ -444,7 +444,7 @@ export default function TestDetailPage() {
   const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
   const [activeExam, setActiveExam] = useState<ActiveAttemptResponse | null>(null);
   const [completion, setCompletion] = useState<{ total: number; answered: number } | null>(null);
-  const [excludeAnswered, setExcludeAnswered] = useState(true);
+  const [excludeAnswered, setExcludeAnswered] = useState(false);
 
   useEffect(() => {
     getTestSet(params.id)
