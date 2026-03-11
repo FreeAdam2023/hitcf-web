@@ -5,6 +5,10 @@ import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
+// Read at module load (server startup) — picks up Azure App Settings at runtime.
+// NOT baked at build time like next.config.mjs rewrites.
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8001";
+
 const PROTECTED_PREFIXES = [
   "/dashboard",
   "/wrong-answers",
@@ -22,6 +26,33 @@ const PROTECTED_PREFIXES = [
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  // ── API proxy: /api/* except /api/auth/* (handled by NextAuth) ──
+  if (pathname.startsWith("/api/") && !pathname.startsWith("/api/auth/")) {
+    const host = request.headers.get("host") || "";
+
+    // Environment guard: production host must never use dev backend
+    if (
+      !host.includes("localhost") &&
+      !host.includes("dev") &&
+      BACKEND_URL.includes("-dev")
+    ) {
+      console.error(
+        `CRITICAL: Production host "${host}" using dev backend: ${BACKEND_URL}`,
+      );
+      return new NextResponse(
+        JSON.stringify({
+          error: "Backend configuration error",
+          detail: "Production host using development backend URL",
+        }),
+        { status: 503, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
+    const target = new URL(pathname, BACKEND_URL);
+    target.search = request.nextUrl.search;
+    return NextResponse.rewrite(target);
+  }
 
   // 1. www → non-www
   const host = request.headers.get("host") || "";
@@ -58,7 +89,8 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // Removed "api|" from exclusion — middleware now handles /api/* proxy
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff|woff2)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff|woff2)$).*)",
   ],
 };

@@ -3,11 +3,24 @@ name: Build & Deploy
 on:
   push:
     branches: [main, dev]
+    paths-ignore:
+      - "CHANGELOG.md"
   workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref_name }}
+  cancel-in-progress: false
 
 env:
   ACR_REGISTRY: tomtroveacr.azurecr.io
   IMAGE_NAME: hitcf-web
+
+# BACKEND_URL is NO LONGER injected at build time.
+# Next.js standalone reads process.env.BACKEND_URL at runtime from Azure App Settings.
+# This means the same Docker image works for any environment — just set the Azure env var.
+# Required Azure App Settings per environment:
+#   hitcf-web-dev:  BACKEND_URL=https://hitcf-backend-dev.azurewebsites.net
+#   hitcf-web-prod: BACKEND_URL=https://api.hitcf.com
 
 jobs:
   lint:
@@ -45,8 +58,93 @@ jobs:
       - name: Run tests
         run: npm test
 
-  deploy:
+  # ── Gate: verify dev is healthy before deploying to prod ──
+  verify-dev:
+    if: github.ref_name == 'main'
     needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify latest dev deployment succeeded
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RESULT=$(gh api "repos/${{ github.repository }}/actions/workflows/ci-cd.yml/runs?branch=dev&per_page=5" \
+            --jq '[.workflow_runs[] | select(.status == "completed")] | .[0] | {conclusion, html_url, created_at}' 2>/dev/null || echo '{}')
+
+          CONCLUSION=$(echo "$RESULT" | jq -r '.conclusion // "none"')
+          RUN_URL=$(echo "$RESULT" | jq -r '.html_url // "N/A"')
+
+          echo "Latest completed dev workflow: $CONCLUSION ($RUN_URL)"
+
+          if [ "$CONCLUSION" != "success" ]; then
+            echo "::error::Latest dev deployment did not succeed (status: $CONCLUSION). Fix dev first."
+            exit 1
+          fi
+
+      - name: Smoke test dev environment
+        run: |
+          DEV_URL="https://hitcf-web-dev.azurewebsites.net"
+          FAILED=0
+
+          echo "===== Smoke testing dev: $DEV_URL ====="
+
+          # 1. Site reachable
+          echo "--- Site Check ---"
+          for i in 1 2 3; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$DEV_URL" --max-time 15 -L || echo "000")
+            echo "Attempt $i: HTTP $STATUS"
+            if [ "$STATUS" = "200" ]; then
+              break
+            fi
+            sleep 5
+          done
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::Dev site not reachable ($STATUS)"
+            FAILED=1
+          fi
+
+          # 2. NextAuth providers
+          echo "--- NextAuth ---"
+          STATUS=$(curl -s -o /tmp/auth -w "%{http_code}" "$DEV_URL/api/auth/providers" --max-time 10 -L || echo "000")
+          echo "GET /api/auth/providers → $STATUS"
+          if [ "$STATUS" = "404" ]; then
+            echo "::error::NextAuth routes broken (404) — routes are being proxied to backend!"
+            FAILED=1
+          elif [ "$STATUS" = "200" ]; then
+            if grep -q '"google"\|"credentials"' /tmp/auth; then
+              echo "NextAuth providers OK"
+            else
+              echo "::warning::No known providers in response"
+            fi
+          fi
+
+          # 3. API proxy not hitting Cloudflare Access (validates Azure BACKEND_URL setting)
+          echo "--- API Proxy ---"
+          HEALTH=$(curl -s "$DEV_URL/api/health" --max-time 10 -L || echo "")
+          echo "API health: ${HEALTH:0:200}"
+          if echo "$HEALTH" | grep -q "Cloudflare Access"; then
+            echo "::error::API proxy hitting Cloudflare Access — Azure BACKEND_URL is wrong!"
+            FAILED=1
+          elif echo "$HEALTH" | grep -q '"status":"ok"'; then
+            echo "API proxy OK"
+          else
+            echo "::warning::API health did not return ok (backend may be down)"
+          fi
+
+          echo "====================================="
+          if [ "$FAILED" -eq 1 ]; then
+            echo "::error::Dev smoke tests FAILED — fix dev before deploying to prod"
+            exit 1
+          fi
+          echo "All dev smoke tests passed ✓"
+
+  deploy:
+    needs: [lint, test, verify-dev]
+    if: |
+      always() &&
+      needs.lint.result == 'success' &&
+      needs.test.result == 'success' &&
+      (needs.verify-dev.result == 'success' || needs.verify-dev.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -67,27 +165,10 @@ jobs:
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "ENV_TAG=prod" >> $GITHUB_ENV
             echo "WEBAPP_NAME=hitcf-web-prod" >> $GITHUB_ENV
-            echo "BACKEND_URL=${{ secrets.BACKEND_URL_PROD }}" >> $GITHUB_ENV
-            echo "EXPECTED_HOST=api.hitcf.com" >> $GITHUB_ENV
           else
             echo "ENV_TAG=dev" >> $GITHUB_ENV
             echo "WEBAPP_NAME=hitcf-web-dev" >> $GITHUB_ENV
-            echo "BACKEND_URL=${{ secrets.BACKEND_URL_DEV }}" >> $GITHUB_ENV
-            echo "EXPECTED_HOST=api-dev.hitcf.com" >> $GITHUB_ENV
           fi
-
-      - name: Validate BACKEND_URL matches environment
-        run: |
-          if [ -z "$BACKEND_URL" ]; then
-            echo "::error::BACKEND_URL is empty! Check GitHub secret BACKEND_URL_${{ github.ref_name == 'main' && 'PROD' || 'DEV' }}"
-            exit 1
-          fi
-          if ! echo "$BACKEND_URL" | grep -q "$EXPECTED_HOST"; then
-            echo "::error::BACKEND_URL ($BACKEND_URL) does not match expected host ($EXPECTED_HOST) for ${{ github.ref_name }} branch!"
-            echo "::error::This would cause cross-environment contamination. Aborting."
-            exit 1
-          fi
-          echo "BACKEND_URL validated: matches $EXPECTED_HOST for ${{ github.ref_name }}"
 
       - name: Log in to Azure Container Registry
         uses: azure/docker-login@v2
@@ -98,8 +179,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build --build-arg BACKEND_URL=${{ env.BACKEND_URL }} \
-                       -t ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.ENV_TAG }} \
+          docker build -t ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.ENV_TAG }} \
                        -t ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
           docker push ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.ENV_TAG }}
           docker push ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
@@ -115,15 +195,13 @@ jobs:
     needs: [deploy]
     runs-on: ubuntu-latest
     steps:
-      - name: Set site URL and expected API host
+      - name: Set URLs
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "SITE_URL=https://www.hitcf.com" >> $GITHUB_ENV
-            echo "EXPECTED_API=api.hitcf.com" >> $GITHUB_ENV
             echo "FORBIDDEN_API=api-dev.hitcf.com" >> $GITHUB_ENV
           else
-            echo "SITE_URL=https://dev.hitcf.com" >> $GITHUB_ENV
-            echo "EXPECTED_API=api-dev.hitcf.com" >> $GITHUB_ENV
+            echo "SITE_URL=https://hitcf-web-dev.azurewebsites.net" >> $GITHUB_ENV
             echo "FORBIDDEN_API=api.hitcf.com" >> $GITHUB_ENV
           fi
 
@@ -141,12 +219,11 @@ jobs:
             fi
             sleep 15
           done
-          echo "::error::Site health check failed after 5 attempts"
+          echo "::error::Site health check failed after 6 attempts"
           exit 1
 
       - name: Verify NextAuth routes are not proxied
         run: |
-          # /api/auth/providers must return NextAuth JSON, NOT backend 404
           AUTH_STATUS=$(curl -s -o /tmp/auth_body -w "%{http_code}" "$SITE_URL/api/auth/providers" --max-time 10 -L || echo "000")
           AUTH_BODY=$(cat /tmp/auth_body 2>/dev/null || echo "")
           echo "NextAuth providers: HTTP $AUTH_STATUS"
@@ -158,7 +235,6 @@ jobs:
             exit 1
           fi
 
-          # Response should be JSON with provider keys (google, credentials)
           if echo "$AUTH_BODY" | grep -q '"google"'; then
             echo "NextAuth providers OK (Google provider found)"
           elif echo "$AUTH_BODY" | grep -q '"credentials"'; then
@@ -167,17 +243,26 @@ jobs:
             echo "::warning::NextAuth /api/auth/providers returned HTTP $AUTH_STATUS but no known providers in response"
           fi
 
-      - name: Verify API proxies to correct backend
+      - name: Verify API proxy to correct backend
         run: |
           HEALTH_BODY=$(curl -s "$SITE_URL/api/health" --max-time 10 -L || echo "")
-          echo "API health response: $HEALTH_BODY"
-          if echo "$HEALTH_BODY" | grep -q '"status":"ok"'; then
-            echo "API health OK"
-          else
-            echo "::warning::API health check did not return ok (may need auth)"
+          echo "API health response: ${HEALTH_BODY:0:300}"
+
+          # HARD FAIL: Cloudflare Access page means BACKEND_URL Azure env var is wrong
+          if echo "$HEALTH_BODY" | grep -q "Cloudflare Access"; then
+            echo "::error::CRITICAL: API proxy is hitting Cloudflare Access!"
+            echo "::error::The Azure App Setting BACKEND_URL is pointing to a Cloudflare Access-protected URL."
+            echo "::error::Fix BACKEND_URL in Azure Portal for ${{ github.ref_name == 'main' && 'hitcf-web-prod' || 'hitcf-web-dev' }}."
+            exit 1
           fi
 
-          # Ensure no cross-environment contamination
+          if echo "$HEALTH_BODY" | grep -q '"status":"ok"'; then
+            echo "API health OK — proxy is working correctly"
+          else
+            echo "::warning::API health did not return ok (backend may be restarting)"
+          fi
+
+          # Cross-environment contamination check (page source)
           PAGE_BODY=$(curl -s "$SITE_URL" --max-time 10 -L || echo "")
           if echo "$PAGE_BODY" | grep -q "$FORBIDDEN_API"; then
             echo "::error::CRITICAL: ${{ github.ref_name }} build references wrong backend ($FORBIDDEN_API)!"
@@ -186,7 +271,7 @@ jobs:
           echo "No cross-environment contamination detected"
 
   notify-failure:
-    needs: [lint, test, deploy, smoke-test]
+    needs: [lint, test, verify-dev, deploy, smoke-test]
     if: failure()
     runs-on: ubuntu-latest
     steps:
@@ -209,6 +294,7 @@ jobs:
 
           LINT="${{ needs.lint.result }}"
           TEST="${{ needs.test.result }}"
+          VERIFY_DEV="${{ needs.verify-dev.result }}"
           DEPLOY="${{ needs.deploy.result }}"
           SMOKE="${{ needs.smoke-test.result }}"
 
@@ -221,6 +307,7 @@ jobs:
               <tr><td style='padding:4px 12px;font-weight:bold'>Commit</td><td>${SHORT_SHA} — ${COMMIT}</td></tr>
               <tr><td style='padding:4px 12px;font-weight:bold'>Lint</td><td>${LINT}</td></tr>
               <tr><td style='padding:4px 12px;font-weight:bold'>Test</td><td>${TEST}</td></tr>
+              <tr><td style='padding:4px 12px;font-weight:bold'>Verify Dev</td><td>${VERIFY_DEV}</td></tr>
               <tr><td style='padding:4px 12px;font-weight:bold'>Deploy</td><td>${DEPLOY}</td></tr>
               <tr><td style='padding:4px 12px;font-weight:bold'>Smoke Test</td><td>${SMOKE}</td></tr>
             </table>

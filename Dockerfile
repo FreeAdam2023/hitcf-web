@@ -12,9 +12,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-ARG BACKEND_URL=http://localhost:8001
-ENV BACKEND_URL=$BACKEND_URL
-
+# BACKEND_URL is read at runtime from Azure App Settings, not injected at build time.
+# next.config.mjs falls back to http://localhost:8001 for local development.
 RUN npm run build
 
 # --- Production ---
