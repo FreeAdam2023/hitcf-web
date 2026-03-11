@@ -21,14 +21,8 @@ const nextConfig = {
       },
     ];
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path((?!auth).*)",
-        destination: `${process.env.BACKEND_URL || "http://localhost:8001"}/api/:path`,
-      },
-    ];
-  },
+  // API proxy moved to src/middleware.ts — reads BACKEND_URL at runtime,
+  // not baked at build time. This prevents cross-environment contamination.
 };
 
 export default withNextIntl(nextConfig);
