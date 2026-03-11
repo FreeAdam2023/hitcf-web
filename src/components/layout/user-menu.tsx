@@ -18,8 +18,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 
-function SubscriptionBadge({ status }: { status: string | null }) {
+function SubscriptionBadge({ status, plan }: { status: string | null; plan: string | null }) {
   const t = useTranslations();
+  if (plan === "tester" && status === "active") {
+    return (
+      <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100">
+        {t('userMenu.tester')}
+      </Badge>
+    );
+  }
   if (status === "active") {
     return (
       <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
@@ -82,7 +89,7 @@ export function UserMenu() {
           <p className="text-sm font-medium">{user.name || t('userMenu.defaultName')}</p>
           <p className="text-xs text-muted-foreground">{user.email}</p>
           <div className="mt-1.5">
-            <SubscriptionBadge status={user.subscription?.status ?? null} />
+            <SubscriptionBadge status={user.subscription?.status ?? null} plan={user.subscription?.plan ?? null} />
           </div>
         </div>
         <DropdownMenuSeparator />

@@ -216,13 +216,15 @@ export function AccountView() {
   const subStatus = user.subscription?.status;
   const subPlan = user.subscription?.plan;
   const planLabel =
-    subPlan === "monthly"
-      ? t("account.subscription.monthly")
-      : subPlan === "quarterly"
-        ? t("account.subscription.quarterly")
-        : subPlan === "yearly"
-          ? t("account.subscription.yearly")
-          : subPlan || "";
+    subPlan === "tester"
+      ? t("account.subscription.tester")
+      : subPlan === "monthly"
+        ? t("account.subscription.monthly")
+        : subPlan === "quarterly"
+          ? t("account.subscription.quarterly")
+          : subPlan === "yearly"
+            ? t("account.subscription.yearly")
+            : subPlan || "";
 
   const firstName = user.name?.split(/\s/)[0] || t("account.defaultName");
 
@@ -325,20 +327,22 @@ export function AccountView() {
                   </p>
                 )}
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-white/50 hover:bg-white/10 hover:text-white"
-              onClick={handleManageSubscription}
-              disabled={portalLoading}
-            >
-              {portalLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <ExternalLink className="h-4 w-4" />
-              )}
-              <span className="ml-1 text-xs">{t("account.subscription.manageSubscription")}</span>
-            </Button>
+            {subPlan !== "tester" && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-white/50 hover:bg-white/10 hover:text-white"
+                onClick={handleManageSubscription}
+                disabled={portalLoading}
+              >
+                {portalLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <ExternalLink className="h-4 w-4" />
+                )}
+                <span className="ml-1 text-xs">{t("account.subscription.manageSubscription")}</span>
+              </Button>
+            )}
           </div>
 
           {/* Stats Row */}

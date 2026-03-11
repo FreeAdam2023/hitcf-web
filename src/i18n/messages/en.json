@@ -88,6 +88,7 @@
   },
   "userMenu": {
     "pro": "Pro Member",
+    "tester": "Beta Tester",
     "trial": "Trial",
     "free": "Free User",
     "login": "Log In",
@@ -712,6 +713,7 @@
     "subscription": {
       "monthly": "Monthly",
       "yearly": "Yearly",
+      "tester": "Beta Tester",
       "trialing": "Trial",
       "member": "Member",
       "trialUntil": "Trial until {date}",
