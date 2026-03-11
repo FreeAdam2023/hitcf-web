@@ -184,11 +184,13 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
           <div>
             <div className="mb-2.5 flex items-center justify-between">
               <p className="text-sm font-medium text-muted-foreground">{t("speedDrill.questionCount")}</p>
-              {selectedRemaining !== null && selectedTotal !== null && (
+              {selectedRemaining !== null && selectedTotal !== null && selectedCompleted !== null && (
                 <span className="text-xs text-muted-foreground">
-                  {includeDone
-                    ? t("speedDrill.totalCount", { count: selectedTotal })
-                    : t("speedDrill.remainingCount", { count: selectedRemaining })}
+                  {t("speedDrill.doneCount", { count: selectedCompleted })}
+                  {" / "}
+                  {t("speedDrill.totalCount", { count: selectedTotal })}
+                  {" / "}
+                  {t("speedDrill.remainingCount", { count: selectedRemaining })}
                 </span>
               )}
             </div>

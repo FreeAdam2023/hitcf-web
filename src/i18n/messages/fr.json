@@ -905,6 +905,7 @@
     "startFailed": "Échec du démarrage de la pratique. Veuillez réessayer.",
     "remainingCount": "{count} restantes",
     "totalCount": "{count} au total",
+    "doneCount": "{count} faites",
     "includeDone": "Inclure les questions déjà faites",
     "upgradeBanner": {
       "title": "La pratique par niveau est réservée aux Pro",
