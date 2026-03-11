@@ -1,3 +1,14 @@
+## 2026-03-11 (8702cb4)
+
+### Features
+- add exclude-answered toggle to test card dialog (43e2d94)
+
+### Bug Fixes
+- (ci): auto-sync CHANGELOG commit from main to dev (8702cb4)
+- default excludeAnswered to false in test detail page (98730a6)
+
+---
+
 ## 2026-03-11 (cf729ee)
 
 ### Features
