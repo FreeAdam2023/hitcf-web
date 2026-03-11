@@ -1,3 +1,10 @@
+## 2026-03-11 (0720490)
+
+### Bug Fixes
+- default excludeAnswered to false in test detail page (0720490)
+
+---
+
 ## 2026-03-11 (27eda0c)
 
 ### Features
