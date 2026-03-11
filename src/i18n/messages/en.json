@@ -9,7 +9,7 @@
     "modes": {
       "practice": "Practice",
       "exam": "Exam",
-      "speed_drill": "Speed Drill",
+      "speed_drill": "Level Practice",
       "conversation": "AI Conversation"
     },
     "actions": {

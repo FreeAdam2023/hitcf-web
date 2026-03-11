@@ -9,7 +9,7 @@
     "modes": {
       "practice": "练习",
       "exam": "考试",
-      "speed_drill": "速练",
+      "speed_drill": "等级练习",
       "conversation": "AI 对话"
     },
     "actions": {
