@@ -155,8 +155,13 @@ jobs:
         if: github.ref_name == 'main'
         run: |
           git fetch origin dev
-          if ! git merge-base --is-ancestor origin/dev HEAD; then
-            echo "::error::Rejected: main contains commits not on origin/dev. Push dev first."
+          # List commits on main but not dev, excluding auto-generated CHANGELOG commits
+          EXTRA=$(git log origin/dev..HEAD --oneline --no-merges \
+            --invert-grep --grep="chore: update CHANGELOG" --grep="chore: sync CHANGELOG" || true)
+          if [ -n "$EXTRA" ]; then
+            echo "::error::Rejected: main contains non-CHANGELOG commits not on origin/dev:"
+            echo "$EXTRA"
+            echo "::error::Push dev first."
             exit 1
           fi
 
