@@ -40,7 +40,7 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
   const initPractice = usePracticeStore((s) => s.init);
 
   const [selectedLevels, setSelectedLevels] = useState<Set<string>>(new Set(LEVELS));
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(0);
   const [includeDone, setIncludeDone] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
