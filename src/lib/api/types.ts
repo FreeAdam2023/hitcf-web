@@ -230,6 +230,7 @@ export interface ActiveAttemptResponse {
 export interface CreateAttemptRequest {
   test_set_id: string;
   mode: "practice" | "exam" | "speed_drill";
+  exclude_answered?: boolean;
 }
 
 export interface SubmitAnswerRequest {
@@ -269,6 +270,7 @@ export interface AttemptDetail extends AttemptResponse {
   test_set_name?: string | null;
   test_set_type?: string | null;
   answers: AnswerResponse[];
+  filtered_question_ids?: string[];
 }
 
 // Attempt creation response

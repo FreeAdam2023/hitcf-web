@@ -43,10 +43,21 @@ export function getTestSet(id: string, options?: RequestOptions): Promise<TestSe
   return get<TestSetDetail>(`/api/test-sets/${id}`, options);
 }
 
+export function getTestSetCompletion(
+  id: string,
+  options?: RequestOptions,
+): Promise<{ total: number; answered: number }> {
+  return get<{ total: number; answered: number }>(`/api/test-sets/${id}/completion`, options);
+}
+
 export function getTestSetQuestions(
   id: string,
   mode: "practice" | "exam" | "review" = "practice",
-  options?: RequestOptions,
+  options?: RequestOptions & { questionIds?: string[] },
 ): Promise<QuestionBrief[]> {
-  return get<QuestionBrief[]>(`/api/test-sets/${id}/questions?mode=${mode}`, options);
+  let url = `/api/test-sets/${id}/questions?mode=${mode}`;
+  if (options?.questionIds?.length) {
+    url += `&question_ids=${options.questionIds.join(",")}`;
+  }
+  return get<QuestionBrief[]>(url, options);
 }

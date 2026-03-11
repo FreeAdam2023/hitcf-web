@@ -39,7 +39,10 @@ export default function PracticePage() {
         questions = await getTestSetQuestions(
           attempt.test_set_id,
           "practice",
-          { signal },
+          {
+            signal,
+            questionIds: attempt.filtered_question_ids,
+          },
         );
       }
 

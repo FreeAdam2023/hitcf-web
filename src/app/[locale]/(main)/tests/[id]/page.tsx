@@ -20,7 +20,7 @@ import {
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { useAuthStore } from "@/stores/auth-store";
-import { getTestSet, getTestSetQuestions } from "@/lib/api/test-sets";
+import { getTestSet, getTestSetQuestions, getTestSetCompletion } from "@/lib/api/test-sets";
 import { createAttempt, getActiveAttempt } from "@/lib/api/attempts";
 import type { ActiveAttemptResponse } from "@/lib/api/types";
 import type { TestSetDetail, QuestionBrief } from "@/lib/api/types";
@@ -443,6 +443,8 @@ export default function TestDetailPage() {
   const [topicsLoading, setTopicsLoading] = useState(false);
   const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
   const [activeExam, setActiveExam] = useState<ActiveAttemptResponse | null>(null);
+  const [completion, setCompletion] = useState<{ total: number; answered: number } | null>(null);
+  const [excludeAnswered, setExcludeAnswered] = useState(true);
 
   useEffect(() => {
     getTestSet(params.id)
@@ -456,10 +458,11 @@ export default function TestDetailPage() {
             .catch(() => setTopics([]))
             .finally(() => setTopicsLoading(false));
         }
-        // Check for active attempts (listening/reading only)
+        // Check for active attempts and completion stats (listening/reading only)
         if (data.type === "listening" || data.type === "reading") {
           getActiveAttempt(data.id, "practice").then(setActivePractice).catch(() => {});
           getActiveAttempt(data.id, "exam").then(setActiveExam).catch(() => {});
+          getTestSetCompletion(data.id).then(setCompletion).catch(() => {});
         }
       })
       .catch(() => setTest(null))
@@ -471,13 +474,18 @@ export default function TestDetailPage() {
     setStarting(true);
     try {
       const attempt = await createAttempt(
-        { test_set_id: test.id, mode: "practice" },
+        { test_set_id: test.id, mode: "practice", exclude_answered: excludeAnswered },
         { forceNew },
       );
       router.push(`/practice/${attempt.id}`);
-    } catch (err) {
-      console.error("Failed to create attempt", err);
-      toast.error(t("common.errors.createPracticeFailed"));
+    } catch (err: unknown) {
+      // Handle "all answered" case
+      if (err && typeof err === "object" && "message" in err && (err as { message: string }).message === "all_answered") {
+        toast.error(t("testDetail.allAnswered"));
+      } else {
+        console.error("Failed to create attempt", err);
+        toast.error(t("common.errors.createPracticeFailed"));
+      }
       setStarting(false);
     }
   };
@@ -661,6 +669,43 @@ export default function TestDetailPage() {
           <div className="mt-3 rounded-md border border-blue-200 bg-blue-50/50 p-3 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950/20 dark:text-blue-300">
             {t("testDetail.suggestion")}
           </div>
+
+          {/* Completion progress & exclude toggle */}
+          {completion && completion.answered > 0 && (
+            <div className="mt-4 space-y-3">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">
+                  {t("testDetail.completionProgress", { answered: completion.answered, total: completion.total })}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {Math.round((completion.answered / completion.total) * 100)}%
+                </span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-muted">
+                <div
+                  className="h-1.5 rounded-full bg-primary transition-all"
+                  style={{ width: `${Math.min(100, (completion.answered / completion.total) * 100)}%` }}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{t("testDetail.excludeAnswered")}</span>
+                <button
+                  role="switch"
+                  aria-checked={excludeAnswered}
+                  onClick={() => setExcludeAnswered((v) => !v)}
+                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors ${
+                    excludeAnswered ? "bg-primary" : "bg-muted-foreground/30"
+                  }`}
+                >
+                  <span
+                    className={`pointer-events-none block h-4 w-4 rounded-full bg-background shadow-sm ring-0 transition-transform mt-0.5 ${
+                      excludeAnswered ? "translate-x-[18px]" : "translate-x-0.5"
+                    }`}
+                  />
+                </button>
+              </div>
+            </div>
+          )}
 
           <div className="mt-4 space-y-3">
             <>
