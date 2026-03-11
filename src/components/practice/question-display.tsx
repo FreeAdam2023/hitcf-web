@@ -166,7 +166,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
 
       {question.passage && (
         <div className="max-h-[40vh] md:max-h-[60vh] overflow-y-auto rounded-md border bg-muted/50 p-4 text-sm leading-relaxed whitespace-pre-line">
-          <FrenchText text={question.passage.replace(/\n{3,}/g, "\n\n")} disabled={vocabDisabled} saveContext={saveContext} />
+          <FrenchText text={question.passage} disabled={vocabDisabled} saveContext={saveContext} />
         </div>
       )}
 
