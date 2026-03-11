@@ -132,8 +132,14 @@ const TYPE_ICONS: Record<string, React.ElementType> = {
 
 const PAGE_SIZE = 20;
 
+/** Parse a date string as UTC (backend returns naive UTC timestamps without Z). */
+function parseUTC(dateStr: string): Date {
+  if (dateStr.endsWith("Z") || dateStr.includes("+")) return new Date(dateStr);
+  return new Date(dateStr + "Z");
+}
+
 function formatDate(dateStr: string, locale: string): string {
-  const d = new Date(dateStr);
+  const d = parseUTC(dateStr);
   const loc = locale === "zh" ? "zh-CN" : "en-US";
   return d.toLocaleDateString(loc, {
     month: "short",
@@ -144,7 +150,7 @@ function formatDate(dateStr: string, locale: string): string {
 }
 
 function isToday(dateStr: string): boolean {
-  const d = new Date(dateStr);
+  const d = parseUTC(dateStr);
   const now = new Date();
   return (
     d.getFullYear() === now.getFullYear() &&
@@ -154,7 +160,7 @@ function isToday(dateStr: string): boolean {
 }
 
 function isThisWeek(dateStr: string): boolean {
-  const d = new Date(dateStr);
+  const d = parseUTC(dateStr);
   const diff = Date.now() - d.getTime();
   return diff < 7 * 24 * 60 * 60 * 1000;
 }
@@ -625,8 +631,8 @@ export function HistoryList() {
 
         // Merge and sort by date (newest first)
         const merged = [...regularItems, ...speakingItems, ...conversationItems].sort((a, b) => {
-          const dateA = new Date(a.completed_at || a.started_at).getTime();
-          const dateB = new Date(b.completed_at || b.started_at).getTime();
+          const dateA = parseUTC(a.completed_at || a.started_at).getTime();
+          const dateB = parseUTC(b.completed_at || b.started_at).getTime();
           return dateB - dateA;
         });
 
