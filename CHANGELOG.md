@@ -1,3 +1,10 @@
+## 2026-03-11 (312e4d9)
+
+### Bug Fixes
+- NextAuth 404 — skip i18n middleware for /api/auth/* routes (bc6acf5)
+
+---
+
 ## 2026-03-11 (1686c04)
 
 ### Bug Fixes
