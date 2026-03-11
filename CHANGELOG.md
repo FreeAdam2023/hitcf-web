@@ -1,3 +1,10 @@
+## 2026-03-11 (1686c04)
+
+### Bug Fixes
+- use correct Azure default hostname for dev smoke tests (d15dc2e)
+
+---
+
 ## 2026-03-11 (a05507c)
 
 ### Bug Fixes
