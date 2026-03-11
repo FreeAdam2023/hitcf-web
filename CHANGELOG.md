@@ -1,3 +1,11 @@
+## 2026-03-11 (08825b2)
+
+### Bug Fixes
+- robust UTC parsing and proper locale formatting for all languages (2986e6d)
+- robust UTC parsing and proper locale formatting for all languages (6b061b2)
+
+---
+
 ## 2026-03-11 (089eac6)
 
 ### Bug Fixes
