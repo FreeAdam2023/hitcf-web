@@ -359,6 +359,7 @@ export function PracticeSession() {
     questions,
     currentIndex,
     answers,
+    previouslyAnsweredIds,
     setAnswer,
     goNext,
     goPrev,
@@ -703,6 +704,7 @@ export function PracticeSession() {
             questionIds={questions.map((q) => q.id)}
             onNavigate={handleGoToQuestion}
             questions={questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
+            previouslyAnsweredIds={previouslyAnsweredIds}
           />
         </div>
       </div>

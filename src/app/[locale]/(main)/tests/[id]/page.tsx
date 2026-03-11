@@ -444,7 +444,6 @@ export default function TestDetailPage() {
   const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
   const [activeExam, setActiveExam] = useState<ActiveAttemptResponse | null>(null);
   const [completion, setCompletion] = useState<{ total: number; answered: number } | null>(null);
-  const [excludeAnswered, setExcludeAnswered] = useState(true);
 
   useEffect(() => {
     getTestSet(params.id)
@@ -474,18 +473,13 @@ export default function TestDetailPage() {
     setStarting(true);
     try {
       const attempt = await createAttempt(
-        { test_set_id: test.id, mode: "practice", exclude_answered: excludeAnswered },
+        { test_set_id: test.id, mode: "practice" },
         { forceNew },
       );
       router.push(`/practice/${attempt.id}`);
     } catch (err: unknown) {
-      // Handle "all answered" case
-      if (err && typeof err === "object" && "message" in err && (err as { message: string }).message === "all_answered") {
-        toast.error(t("testDetail.allAnswered"));
-      } else {
-        console.error("Failed to create attempt", err);
-        toast.error(t("common.errors.createPracticeFailed"));
-      }
+      console.error("Failed to create attempt", err);
+      toast.error(t("common.errors.createPracticeFailed"));
       setStarting(false);
     }
   };
@@ -686,23 +680,6 @@ export default function TestDetailPage() {
                   className="h-1.5 rounded-full bg-primary transition-all"
                   style={{ width: `${Math.min(100, (completion.answered / completion.total) * 100)}%` }}
                 />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{t("testDetail.excludeAnswered")}</span>
-                <button
-                  role="switch"
-                  aria-checked={excludeAnswered}
-                  onClick={() => setExcludeAnswered((v) => !v)}
-                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors ${
-                    excludeAnswered ? "bg-primary" : "bg-muted-foreground/30"
-                  }`}
-                >
-                  <span
-                    className={`pointer-events-none block h-4 w-4 rounded-full bg-background shadow-sm ring-0 transition-transform mt-0.5 ${
-                      excludeAnswered ? "translate-x-[18px]" : "translate-x-0.5"
-                    }`}
-                  />
-                </button>
               </div>
             </div>
           )}

@@ -60,7 +60,7 @@ export function TestCard({
   // Active attempt state (fetched when dialog opens)
   const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
   const [activeExam, setActiveExam] = useState<ActiveAttemptResponse | null>(null);
-  const [excludeAnswered, setExcludeAnswered] = useState(true);
+
 
   // Fetch active attempts when dialog opens
   useEffect(() => {
@@ -91,21 +91,16 @@ export function TestCard({
     router.push(`/practice/${activePractice!.id}`);
   };
 
-  const handleStartPractice = async (forceNew = false, excludeOverride?: boolean) => {
+  const handleStartPractice = async (forceNew = false) => {
     setStarting(true);
-    const exclude = excludeOverride ?? excludeAnswered;
     try {
       const attempt = await createAttempt(
-        { test_set_id: test.id, mode: "practice", exclude_answered: exclude },
+        { test_set_id: test.id, mode: "practice" },
         forceNew ? { forceNew: true } : undefined,
       );
       router.push(`/practice/${attempt.id}`);
-    } catch (err: unknown) {
-      if (err && typeof err === "object" && "message" in err && (err as { message: string }).message === "all_answered") {
-        toast.error(t("testDetail.allAnswered"));
-      } else {
-        toast.error(t("common.errors.createPracticeFailed"));
-      }
+    } catch {
+      toast.error(t("common.errors.createPracticeFailed"));
       setStarting(false);
     }
   };
@@ -281,30 +276,6 @@ export function TestCard({
             </ul>
           </div>
 
-          {/* Exclude answered toggle */}
-          {(test.type === "listening" || test.type === "reading") && (
-            <label className="flex items-center justify-between gap-2 cursor-pointer">
-              <span className="text-sm text-muted-foreground">{t("testDetail.excludeAnswered")}</span>
-              <button
-                type="button"
-                role="switch"
-                aria-checked={excludeAnswered}
-                onClick={() => setExcludeAnswered(!excludeAnswered)}
-                className={cn(
-                  "relative inline-flex h-5 w-9 shrink-0 rounded-full transition-colors",
-                  excludeAnswered ? "bg-primary" : "bg-muted-foreground/30",
-                )}
-              >
-                <span
-                  className={cn(
-                    "pointer-events-none block h-4 w-4 rounded-full bg-white shadow-sm transition-transform mt-0.5",
-                    excludeAnswered ? "translate-x-[18px]" : "translate-x-0.5",
-                  )}
-                />
-              </button>
-            </label>
-          )}
-
           {/* Active attempt notices */}
           {activePractice && (
             <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-sm">
@@ -370,7 +341,7 @@ export function TestCard({
                 {activePractice ? (
                   <button
                     className="flex-1 inline-flex items-center justify-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
-                    onClick={() => handleStartPractice(true, false)}
+                    onClick={() => handleStartPractice(true)}
                     disabled={starting || startingExam}
                   >
                     <RotateCcw className="h-3 w-3" />

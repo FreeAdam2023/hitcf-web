@@ -9,8 +9,9 @@ interface PracticeState {
   questions: QuestionBrief[];
   currentIndex: number;
   answers: Map<string, AnswerResponse>;
+  previouslyAnsweredIds: Set<string>;
 
-  init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null, startedAt?: string | null, existingAnswers?: AnswerResponse[]) => void;
+  init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null, startedAt?: string | null, existingAnswers?: AnswerResponse[], previouslyAnsweredIds?: string[]) => void;
   setAnswer: (questionId: string, answer: AnswerResponse) => void;
   goToQuestion: (index: number) => void;
   goNext: () => void;
@@ -26,8 +27,9 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   questions: [],
   currentIndex: 0,
   answers: new Map(),
+  previouslyAnsweredIds: new Set(),
 
-  init: (attemptId, questions, testSetName, testSetType, startedAt, existingAnswers) => {
+  init: (attemptId, questions, testSetName, testSetType, startedAt, existingAnswers, previouslyAnsweredIds) => {
     const answers = new Map<string, AnswerResponse>();
     if (existingAnswers?.length) {
       for (const a of existingAnswers) {
@@ -40,7 +42,16 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
       const firstUnanswered = questions.findIndex((q) => !answers.has(q.id));
       currentIndex = firstUnanswered === -1 ? 0 : firstUnanswered;
     }
-    set({ attemptId, questions, testSetName: testSetName ?? null, testSetType: testSetType ?? null, startedAt: startedAt ?? null, currentIndex, answers });
+    set({
+      attemptId,
+      questions,
+      testSetName: testSetName ?? null,
+      testSetType: testSetType ?? null,
+      startedAt: startedAt ?? null,
+      currentIndex,
+      answers,
+      previouslyAnsweredIds: new Set(previouslyAnsweredIds ?? []),
+    });
   },
 
   setAnswer: (questionId, answer) =>
@@ -72,5 +83,5 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   },
 
   reset: () =>
-    set({ attemptId: null, testSetName: null, testSetType: null, startedAt: null, questions: [], currentIndex: 0, answers: new Map() }),
+    set({ attemptId: null, testSetName: null, testSetType: null, startedAt: null, questions: [], currentIndex: 0, answers: new Map(), previouslyAnsweredIds: new Set() }),
 }));

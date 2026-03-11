@@ -23,6 +23,7 @@ interface QuestionNavigatorProps {
   mode?: "practice" | "exam";
   flaggedQuestions?: Set<number>;
   questions?: QuestionMeta[];
+  previouslyAnsweredIds?: Set<string>;
 }
 
 const LEVEL_ORDER = ["A1", "A2", "B1", "B2", "C1", "C2"];
@@ -36,6 +37,7 @@ export function QuestionNavigator({
   mode = "practice",
   flaggedQuestions,
   questions,
+  previouslyAnsweredIds,
 }: QuestionNavigatorProps) {
   const t = useTranslations();
   const isExam = mode === "exam";
@@ -49,6 +51,7 @@ export function QuestionNavigator({
     const isAnswered = !!answer;
     const questionNum = i + 1;
     const isFlagged = isExam && flaggedQuestions?.has(questionNum);
+    const isPrevAnswered = !isAnswered && !!qid && !!previouslyAnsweredIds?.has(qid);
 
     const typedAnswer = answer as AnswerResponse | undefined;
     const isCorrect = !isExam && !!typedAnswer && typedAnswer.is_correct === true;
@@ -71,13 +74,17 @@ export function QuestionNavigator({
           !isExam && isWrong && "bg-red-500 text-white",
           isExam && isAnswered && "bg-primary text-primary-foreground",
           !isExam && isAnswered && !isCorrect && !isWrong && "bg-primary text-primary-foreground",
-          !isAnswered && !isCurrent && "bg-muted hover:bg-accent",
+          !isAnswered && !isCurrent && isPrevAnswered && "bg-muted text-muted-foreground/70 hover:bg-accent",
+          !isAnswered && !isCurrent && !isPrevAnswered && "bg-muted hover:bg-accent",
           !isAnswered && isCurrent && "bg-primary/20",
         )}
       >
         {isCorrect ? "✓" : isWrong ? "✗" : questionNum}
         {isFlagged && (
           <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-orange-500" />
+        )}
+        {isPrevAnswered && (
+          <span className="absolute -bottom-0.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-blue-400" />
         )}
       </button>
     );
