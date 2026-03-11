@@ -83,7 +83,7 @@ jobs:
 
       - name: Smoke test dev environment
         run: |
-          DEV_URL="https://hitcf-web-dev.azurewebsites.net"
+          DEV_URL="https://hitcf-web-dev-fzb6cubsg6eugsaf.canadacentral-01.azurewebsites.net"
           FAILED=0
 
           echo "===== Smoke testing dev: $DEV_URL ====="
@@ -201,7 +201,7 @@ jobs:
             echo "SITE_URL=https://www.hitcf.com" >> $GITHUB_ENV
             echo "FORBIDDEN_API=api-dev.hitcf.com" >> $GITHUB_ENV
           else
-            echo "SITE_URL=https://hitcf-web-dev.azurewebsites.net" >> $GITHUB_ENV
+            echo "SITE_URL=https://hitcf-web-dev-fzb6cubsg6eugsaf.canadacentral-01.azurewebsites.net" >> $GITHUB_ENV
             echo "FORBIDDEN_API=api.hitcf.com" >> $GITHUB_ENV
           fi
 
