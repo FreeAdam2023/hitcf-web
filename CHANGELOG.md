@@ -1,3 +1,11 @@
+## 2026-03-11 (32a78d0)
+
+### Other
+- revert: remove frontend newline normalization, data fixed in DB instead (92b7fa4)
+- revert: remove frontend newline normalization, data fixed in DB instead (613aa0b)
+
+---
+
 ## 2026-03-11 (c5e941b)
 
 ### Bug Fixes
