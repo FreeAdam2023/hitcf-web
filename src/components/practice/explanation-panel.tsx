@@ -83,16 +83,7 @@ export function ExplanationPanel({
     explanation?.trap_pattern ||
     explanation?.similar_tip;
 
-  // Only show refresh button on dev/localhost
-  const [isDevHost, setIsDevHost] = useState(false);
-  useEffect(() => {
-    const host = window.location.hostname;
-    setIsDevHost(
-      host === "localhost" ||
-        host === "127.0.0.1" ||
-        host.startsWith("dev."),
-    );
-  }, []);
+  // Force refresh is available to all users (backend enforces rate limits)
 
   return (
     <div className="rounded-md border">
@@ -136,7 +127,7 @@ export function ExplanationPanel({
           ) : (
             <div className="space-y-3">
               {/* Dev-only: force refresh button */}
-              {isDevHost && questionId && onForceRefresh && (
+              {questionId && onForceRefresh && (
                 <div className="flex justify-end">
                   <button
                     onClick={onForceRefresh}
