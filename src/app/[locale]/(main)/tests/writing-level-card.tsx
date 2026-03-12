@@ -28,7 +28,7 @@ const FRENCH_MONTHS = [
   "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre",
 ];
 
-function formatDialogTitle(topic: WritingTopicItem, locale: string, tache: number): string {
+function formatDialogTitle(topic: WritingTopicItem, locale: string): string {
   const topicName = locale === "zh" && topic.topic_zh ? topic.topic_zh : topic.topic;
   const parts: string[] = [];
 
@@ -183,7 +183,7 @@ export function WritingLevelCard({
               </div>
               <div>
                 <DialogTitle>
-                  {formatDialogTitle(topic, locale, tache)}
+                  {formatDialogTitle(topic, locale)}
                 </DialogTitle>
                 <DialogDescription>
                   Tâche {tache}{topic.word_limit ? ` · ${topic.word_limit} mots` : ""}

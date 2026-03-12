@@ -529,34 +529,6 @@ export function TestList() {
     [expandedMonths],
   );
 
-  // ─── Render: Mock exam entry card (speaking/writing by-set) ──
-  const renderMockExamEntry = () => {
-    const isSpeaking = tab === "speaking";
-    const icon = isSpeaking ? <Mic className="h-6 w-6" /> : <PenLine className="h-6 w-6" />;
-    const title = isSpeaking ? t("tests.mockSpeakingExam") : t("tests.mockWritingExam");
-    const desc = isSpeaking ? t("tests.mockSpeakingExamDesc") : t("tests.mockWritingExamDesc");
-    const href = isSpeaking ? "/speaking-exam" : "/writing-mock-exam";
-
-    return (
-      <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-primary/20 bg-primary/5 px-8 py-12 text-center">
-        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
-          {icon}
-        </div>
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <p className="mt-2 max-w-md text-sm text-muted-foreground">{desc}</p>
-        {canAccessPaid ? (
-          <Button className="mt-6" onClick={() => router.push(href)}>
-            {t("tests.mockExamStart")}
-          </Button>
-        ) : (
-          <Button className="mt-6" onClick={() => router.push("/pricing")}>
-            <Lock className="mr-2 h-4 w-4" />
-            {t("quota.mockExamProRequired")}
-          </Button>
-        )}
-      </div>
-    );
-  };
 
   // ─── Render: Speaking by-level (month-grouped) ──────────────
   const renderSpeakingByLevel = () => {
