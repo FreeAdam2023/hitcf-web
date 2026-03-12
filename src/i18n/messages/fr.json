@@ -550,6 +550,7 @@
     "pronunciation": "Prononciation",
     "loading": "Chargement...",
     "error": "Échec du chargement. Veuillez réessayer.",
+    "generating": "Carte en cours de génération, veuillez patienter...",
     "inContext": "En contexte :",
     "plural": "Pluriel : {form}",
     "adjForms": "Formes de l'adjectif",

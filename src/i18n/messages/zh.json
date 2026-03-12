@@ -550,6 +550,7 @@
     "pronunciation": "发音",
     "loading": "加载中...",
     "error": "加载失败，请重试",
+    "generating": "卡片生成中，请稍候...",
     "inContext": "此句中:",
     "plural": "复数: {form}",
     "adjForms": "形容词变位 Adjectif",

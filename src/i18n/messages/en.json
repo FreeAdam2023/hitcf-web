@@ -550,6 +550,7 @@
     "pronunciation": "Pronunciation",
     "loading": "Loading...",
     "error": "Failed to load. Please retry.",
+    "generating": "Card is being generated, please wait...",
     "inContext": "In context:",
     "plural": "Plural: {form}",
     "adjForms": "Adjective Forms",
