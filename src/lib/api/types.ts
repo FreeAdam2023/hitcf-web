@@ -352,6 +352,7 @@ export interface WrongAnswerDetailQuestion {
   passage: string | null;
   transcript: string | null;
   audio_url: string | null;
+  has_image: boolean;
   options: Option[];
   correct_answer: string | null;
   explanation: Explanation | null;

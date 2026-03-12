@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { ChevronDown, CheckCircle, AlertCircle, Headphones, BookOpen, Clock } from "lucide-react";
+import { useState, useCallback, useEffect } from "react";
+import { ChevronDown, CheckCircle, AlertCircle, Headphones, BookOpen, Clock, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import { FrenchText } from "@/components/practice/french-text";
 import { OptionList } from "@/components/practice/option-list";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { getWrongAnswerDetail } from "@/lib/api/wrong-answers";
+import { getImageUrl } from "@/lib/api/media";
 import { useTranslations } from "next-intl";
 import type { WrongAnswerItem, WrongAnswerDetail } from "@/lib/api/types";
 import { TYPE_COLORS } from "@/lib/constants";
@@ -82,7 +83,22 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
     [detail, detailError, loadDetail],
   );
 
+  // Image loading for listening questions
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [imageLoading, setImageLoading] = useState(false);
+
   const q = detail?.question;
+  const isListening = q?.type === "listening";
+
+  useEffect(() => {
+    if (!q?.has_image || !detail?.question_id) return;
+    setImageLoading(true);
+    getImageUrl(detail.question_id)
+      .then((res) => setImageSrc(res.url))
+      .catch(() => setImageSrc(null))
+      .finally(() => setImageLoading(false));
+  }, [q?.has_image, detail?.question_id]);
+
   const colors = TYPE_COLORS[item.question_type || ""];
   const Icon = TYPE_ICONS[item.question_type || ""] || AlertCircle;
 
@@ -165,7 +181,44 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
               <p className="text-sm text-muted-foreground">{t("wrongAnswers.card.loading")}</p>
             ) : q ? (
               <>
-                {/* 1. Answer comparison — options first */}
+                {/* 1. Image (listening only) */}
+                {isListening && (imageLoading || imageSrc) && (
+                  <div className="flex justify-center">
+                    {imageLoading ? (
+                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    ) : imageSrc ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={imageSrc}
+                        alt={`Question ${q.question_number}`}
+                        className="max-h-64 rounded-md border"
+                      />
+                    ) : null}
+                  </div>
+                )}
+
+                {/* 2. Audio (listening only) */}
+                {isListening && q.audio_url && (
+                  <AudioPlayer questionId={detail!.question_id} />
+                )}
+
+                {/* 3. Passage (reading only) */}
+                {!isListening && q.passage && (
+                  <div className="rounded-lg bg-muted/50 p-3">
+                    <div className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+                      <FrenchText text={q.passage} />
+                    </div>
+                  </div>
+                )}
+
+                {/* 4. Question text */}
+                {q.question_text && (
+                  <p className="text-sm font-medium">
+                    <FrenchText text={q.question_text} />
+                  </p>
+                )}
+
+                {/* 5. Options with correct/wrong highlighting */}
                 {q.options && q.options.length > 0 && (
                   <OptionList
                     options={q.options}
@@ -178,7 +231,7 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
                   />
                 )}
 
-                {/* 2. Quick correct-reasoning summary */}
+                {/* 6. Explanation */}
                 {q.explanation?.correct_reasoning && (
                   <div className="rounded-lg border-l-4 border-l-emerald-500 bg-emerald-50/50 px-3 py-2 dark:bg-emerald-950/30">
                     <p className="text-xs text-emerald-700 dark:text-emerald-400">
@@ -186,28 +239,10 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
                     </p>
                   </div>
                 )}
+                <ExplanationPanel explanation={q.explanation} />
 
-                {/* 3. Audio (if listening) */}
-                {q.audio_url && q.type === "listening" && (
-                  <AudioPlayer questionId={detail!.question_id} />
-                )}
-
-                {/* 4. Context: passage + question text */}
-                {q.passage && (
-                  <div className="rounded-lg bg-muted/50 p-3">
-                    <div className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
-                      <FrenchText text={q.passage} />
-                    </div>
-                  </div>
-                )}
-                {q.question_text && (
-                  <p className="text-sm font-medium">
-                    <FrenchText text={q.question_text} />
-                  </p>
-                )}
-
-                {/* 5. Transcript */}
-                {q.transcript && (
+                {/* 7. Transcript (listening only, at the end) */}
+                {isListening && q.transcript && (
                   <div className="rounded-lg border p-3">
                     <p className="mb-1 text-xs font-medium text-muted-foreground">
                       {t("wrongAnswers.card.transcript")}
@@ -216,10 +251,7 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
                   </div>
                 )}
 
-                {/* 6. Full explanation (vocab, distractors, tips) */}
-                <ExplanationPanel explanation={q.explanation} />
-
-                {/* 7. Bottom mastery button */}
+                {/* 8. Bottom mastery button */}
                 {!item.is_mastered && (
                   <Button
                     className="w-full"
