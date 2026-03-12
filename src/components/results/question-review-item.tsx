@@ -45,7 +45,7 @@ export function QuestionReviewItem({ answer }: QuestionReviewItemProps) {
         </Badge>
         {(answer.type === "listening" || answer.type === "reading") && (
           <span className="shrink-0 rounded bg-muted px-1 py-0.5 text-[10px] font-medium text-muted-foreground tabular-nums">
-            {t('results.reviewItem.points', { points: getTcfPoints(answer.question_number) })}
+            {t('results.reviewItem.points', { points: getTcfPoints(answer.original_question_number ?? answer.question_number) })}
           </span>
         )}
 

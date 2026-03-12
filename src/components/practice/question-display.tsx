@@ -111,7 +111,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
           {isListening ? t("common.types.listening") : t("common.types.reading")}
           {question.level && <LevelBadge level={question.level} />}
           <span className="rounded bg-muted px-1.5 py-0.5 text-xs font-medium tabular-nums">
-            {t("common.points", { points: getTcfPoints(question.question_number) })}
+            {t("common.points", { points: getTcfPoints(question.original_question_number ?? question.question_number) })}
           </span>
         </span>
       </div>

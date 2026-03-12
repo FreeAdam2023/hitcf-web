@@ -299,6 +299,8 @@ export interface CompleteAttemptResponse {
 export interface ReviewAnswer {
   question_id: string;
   question_number: number;
+  /** Original question number within its source test set (differs from question_number in speed drill) */
+  original_question_number?: number | null;
   selected: string | null;
   is_correct: boolean | null;
   correct_answer: string | null;
