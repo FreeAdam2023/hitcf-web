@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { PenLine, Clock, ChevronRight, History, Gift } from "lucide-react";
+import { PenLine, Clock, History, Gift } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -83,7 +83,6 @@ export default function WritingMockExamPage() {
                   {t(item.timeKey)}
                 </div>
               </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
             </div>
           ))}
           <div className="flex items-center justify-center gap-2 rounded-lg bg-muted/50 p-2 text-sm text-muted-foreground">

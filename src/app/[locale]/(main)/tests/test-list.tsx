@@ -107,6 +107,30 @@ function Pill({
   );
 }
 
+function MockExamPill({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      aria-pressed={active}
+      className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-all duration-200 ${
+        active
+          ? "bg-gradient-to-r from-primary to-violet-500 text-white shadow-md"
+          : "bg-primary/10 text-primary hover:bg-primary/20 ring-1 ring-primary/20"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
 // ─── Month section header ──────────────────────────────────────
 function MonthHeader({ label, countLabel, collapsible, open, onToggle, locked, isFreeMonth }: {
   label: string;
@@ -904,9 +928,9 @@ export function TestList() {
                   <Pill active={speakingTache === 3} onClick={() => setSpeakingTache(3)}>
                     {t("tests.writingTache3")}
                   </Pill>
-                  <Pill active={speakingTache === 0} onClick={() => setSpeakingTache(0)}>
-                    {t("tests.mockExamMode")}
-                  </Pill>
+                  <MockExamPill active={false} onClick={() => router.push("/speaking-exam")}>
+                    {t("tests.mockSpeakingExam")}
+                  </MockExamPill>
                 </div>
               )}
               {tab === "writing" && (
@@ -920,9 +944,9 @@ export function TestList() {
                   <Pill active={writingTache === 3} onClick={() => setWritingTache(3)}>
                     {t("tests.speakingTache3")}
                   </Pill>
-                  <Pill active={writingTache === 0} onClick={() => setWritingTache(0)}>
-                    {t("tests.mockExamMode")}
-                  </Pill>
+                  <MockExamPill active={false} onClick={() => router.push("/writing-mock-exam")}>
+                    {t("tests.mockWritingExam")}
+                  </MockExamPill>
                 </div>
               )}
 
@@ -949,10 +973,6 @@ export function TestList() {
           {/* ── Content ── */}
           {tab === "listening" || tab === "reading" ? (
             renderFlatGrid()
-          ) : tab === "speaking" && speakingTache === 0 ? (
-            renderMockExamEntry()
-          ) : tab === "writing" && writingTache === 0 ? (
-            renderMockExamEntry()
           ) : tab === "speaking" && speakingTache === 1 ? (
             <SpeakingTache1Guide />
           ) : tab === "speaking" ? (

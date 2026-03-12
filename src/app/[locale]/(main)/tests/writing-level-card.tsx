@@ -23,6 +23,32 @@ import {
 import { cn, isLatestMonth } from "@/lib/utils";
 import type { WritingTopicItem, WritingAttemptResponse } from "@/lib/api/types";
 
+const FRENCH_MONTHS = [
+  "", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+  "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre",
+];
+
+function formatDialogTitle(topic: WritingTopicItem, locale: string, tache: number): string {
+  const topicName = locale === "zh" && topic.topic_zh ? topic.topic_zh : topic.topic;
+  const parts: string[] = [];
+
+  if (topic.source_date) {
+    const [year, month] = topic.source_date.split("-");
+    parts.push(year);
+    const m = parseInt(month, 10);
+    if (locale === "zh") {
+      parts.push(`${m}月`);
+    } else {
+      parts.push(FRENCH_MONTHS[m] || month);
+    }
+  }
+
+  if (topicName) {
+    parts.push(topicName);
+  }
+
+  return parts.length > 0 ? parts.join(" · ") : topic.test_set_name;
+}
 
 export function WritingLevelCard({
   topic,
@@ -46,9 +72,7 @@ export function WritingLevelCard({
 
   const [open, setOpen] = useState(false);
   const [starting, setStarting] = useState(false);
-  const [startingExam, setStartingExam] = useState(false);
   const [activePractice, setActivePractice] = useState<WritingAttemptResponse | null>(null);
-  const [activeExam, setActiveExam] = useState<WritingAttemptResponse | null>(null);
 
   const preview =
     topic.question_text && topic.question_text.length > 120
@@ -60,15 +84,10 @@ export function WritingLevelCard({
     if (!open || locked || !isAuthenticated) return;
 
     setActivePractice(null);
-    setActiveExam(null);
 
-    Promise.all([
-      getActiveWritingAttempt(topic.test_set_id, "practice").catch(() => null),
-      getActiveWritingAttempt(topic.test_set_id, "exam").catch(() => null),
-    ]).then(([practice, exam]) => {
-      setActivePractice(practice ?? null);
-      setActiveExam(exam ?? null);
-    });
+    getActiveWritingAttempt(topic.test_set_id, "practice")
+      .then((practice) => setActivePractice(practice ?? null))
+      .catch(() => null);
   }, [open, topic.test_set_id, locked, isAuthenticated]);
 
   const taskQuery = `?task=${tache}`;
@@ -91,23 +110,6 @@ export function WritingLevelCard({
     }
   };
 
-  const handleContinueExam = () => {
-    router.push(`/writing-exam/${activeExam!.id}${taskQuery}`);
-  };
-
-  const handleStartExam = async (forceNew = false) => {
-    setStartingExam(true);
-    try {
-      const attempt = await createWritingAttempt(
-        { test_set_id: topic.test_set_id, mode: "exam" },
-        forceNew ? { forceNew: true } : undefined,
-      );
-      router.push(`/writing-exam/${attempt.id}${taskQuery}`);
-    } catch {
-      toast.error(t("common.errors.createExamFailed"));
-      setStartingExam(false);
-    }
-  };
 
   return (
     <>
@@ -180,19 +182,18 @@ export function WritingLevelCard({
                 <PenLine className="h-5 w-5" />
               </div>
               <div>
-                <DialogTitle>{topic.test_set_name}</DialogTitle>
+                <DialogTitle>
+                  {formatDialogTitle(topic, locale, tache)}
+                </DialogTitle>
                 <DialogDescription>
-                  Tâche {tache} · {topic.word_limit ? `${topic.word_limit} mots` : ""}
+                  Tâche {tache}{topic.word_limit ? ` · ${topic.word_limit} mots` : ""}
                 </DialogDescription>
               </div>
             </div>
           </DialogHeader>
 
-          <div className="rounded-lg bg-muted/50 p-3.5 text-xs leading-relaxed text-muted-foreground space-y-1">
-            <ul className="list-disc pl-4 space-y-0.5">
-              <li><strong className="text-foreground">{t("writingExam.modeDialog.practiceLabel")}</strong>{t("writingExam.modeDialog.practiceDesc")}</li>
-              <li><strong className="text-foreground">{t("writingExam.modeDialog.examLabel")}</strong>{t("writingExam.modeDialog.examDesc")}</li>
-            </ul>
+          <div className="rounded-lg bg-muted/50 p-3.5 text-xs leading-relaxed text-muted-foreground">
+            <p>{t("writingExam.modeDialog.practiceDesc")}</p>
           </div>
 
           {activePractice && (
@@ -203,82 +204,34 @@ export function WritingLevelCard({
             </div>
           )}
 
-          {activeExam && (
-            <div className="rounded-lg border border-amber-500/20 bg-amber-50 dark:bg-amber-950/30 p-3 text-sm">
-              <span className="text-muted-foreground">
-                {t("writingExam.modeDialog.incompleteExam")}
-              </span>
-            </div>
-          )}
-
           <div className="space-y-2">
-            <div className="flex gap-3">
-              {activePractice ? (
-                <Button
-                  className="flex-1"
-                  onClick={handleContinuePractice}
-                  disabled={starting || startingExam}
-                >
-                  {t("testCard.continuePractice")}
-                </Button>
-              ) : (
-                <Button
-                  className="flex-1"
-                  onClick={() => handleStartPractice()}
-                  disabled={starting || startingExam}
-                >
-                  {starting ? t("common.actions.starting") : t("testCard.startPractice")}
-                </Button>
-              )}
+            {activePractice ? (
+              <Button
+                className="w-full"
+                onClick={handleContinuePractice}
+                disabled={starting}
+              >
+                {t("testCard.continuePractice")}
+              </Button>
+            ) : (
+              <Button
+                className="w-full"
+                onClick={() => handleStartPractice()}
+                disabled={starting}
+              >
+                {starting ? t("common.actions.starting") : t("testCard.startPractice")}
+              </Button>
+            )}
 
-              {activeExam ? (
-                <Button
-                  className="flex-1"
-                  variant="outline"
-                  onClick={handleContinueExam}
-                  disabled={starting || startingExam}
-                >
-                  {t("testCard.continueExam")}
-                </Button>
-              ) : (
-                <Button
-                  className="flex-1"
-                  variant="outline"
-                  onClick={() => handleStartExam()}
-                  disabled={starting || startingExam}
-                >
-                  {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
-                </Button>
-              )}
-            </div>
-
-            {(activePractice || activeExam) && (
-              <div className="flex gap-3">
-                {activePractice ? (
-                  <button
-                    className="flex-1 inline-flex items-center justify-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
-                    onClick={() => handleStartPractice(true)}
-                    disabled={starting || startingExam}
-                  >
-                    <RotateCcw className="h-3 w-3" />
-                    {t("testCard.restartPractice")}
-                  </button>
-                ) : (
-                  <div className="flex-1" />
-                )}
-                {activeExam ? (
-                  <button
-                    className="flex-1 inline-flex items-center justify-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
-                    onClick={() => handleStartExam(true)}
-                    disabled={starting || startingExam}
-                  >
-                    <RotateCcw className="h-3 w-3" />
-                    {t("testCard.restartExam")}
-                  </button>
-                ) : (
-                  <div className="flex-1" />
-                )}
-              </div>
+            {activePractice && (
+              <button
+                className="w-full inline-flex items-center justify-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
+                onClick={() => handleStartPractice(true)}
+                disabled={starting}
+              >
+                <RotateCcw className="h-3 w-3" />
+                {t("testCard.restartPractice")}
+              </button>
             )}
           </div>
         </DialogContent>
