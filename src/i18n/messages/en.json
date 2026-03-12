@@ -398,9 +398,9 @@
     "allAnswered": "All questions answered. Turn off \"Only unanswered questions\" to restart.",
     "speakingDescTache2": "Practice role-play scenarios. Copy the prompt and paste it into your favorite AI tool for conversation practice.",
     "speakingDescTache3": "Express and defend your opinion on a topic. Copy the prompt and paste it into your favorite AI tool for speaking practice.",
-    "speakingDescNew": "Choose a topic and practice real-time conversation with an AI examiner. Get a detailed 6-dimension evaluation after the session.",
-    "speakingModeAI": "AI Examiner Conversation",
-    "speakingModeAIDesc": "Real-time conversation with an AI examiner simulating a real TCF speaking test. Get a 6-dimension evaluation report after the session.",
+    "speakingDescNew": "Choose a topic and practice real-time conversation with HiTCF AI Coach. Get a detailed 6-dimension evaluation after the session.",
+    "speakingModeAI": "HiTCF AI Coach",
+    "speakingModeAIDesc": "Real-time conversation with HiTCF AI Coach simulating a real TCF speaking test. Get a 6-dimension evaluation report after the session.",
     "speakingModePron": "Pronunciation Practice / Mock Exam",
     "speakingModePronDesc": "Read aloud to the microphone for Azure pronunciation scores (accuracy, fluency, prosody). Exam mode has a time limit.",
     "externalAI": "External AI",
@@ -1413,7 +1413,7 @@
     }
   },
   "speakingConversation": {
-    "title": "AI Examiner Conversation",
+    "title": "HiTCF AI Coach",
     "aiConversation": "AI Chat",
     "noTopic": "Please select a topic first",
     "startFailed": "Failed to create conversation",
@@ -1445,7 +1445,7 @@
     "backToTests": "Back to Tests",
     "retry": "Try Again",
     "notFound": "Conversation not found",
-    "evaluatingDescription": "The AI examiner is evaluating your conversation, please wait...",
+    "evaluatingDescription": "The HiTCF AI Coach is evaluating your conversation, please wait...",
     "evaluationUnavailable": "Evaluation Unavailable",
     "evaluationUnavailableDesc": "AI evaluation could not be generated. You can try re-evaluating or refresh the page later.",
     "reEvaluate": "Re-evaluate",
@@ -1487,7 +1487,7 @@
     "format": "Format",
     "tache1Desc": "The examiner will ask questions about your daily life (identity, work, family, interests, etc.). Answer naturally.",
     "tache1Format": "Examiner asks → You answer · 2 min · No prep time",
-    "tache2Desc": "Read the scenario card below, then role-play with the AI examiner.",
+    "tache2Desc": "Read the scenario card below, then role-play with the HiTCF AI Coach.",
     "tache2YourRole": "Candidate — you need to ask questions",
     "tache2ExaminerRole": "The role described in the scenario",
     "prepNotice": "Prep Phase",
@@ -2239,11 +2239,11 @@
     },
     "speakingConversation": {
       "title": "TCF Speaking AI Conversation · Simulate Examiner Dialogue Tâche 2/3",
-      "description": "TCF Canada speaking AI conversation practice: simulate real exam Tâche 2 & Tâche 3 with an AI examiner. 6-dimension scoring covering pronunciation, grammar, vocabulary & task completion."
+      "description": "TCF Canada speaking AI conversation practice: simulate real exam Tâche 2 & Tâche 3 with an HiTCF AI Coach. 6-dimension scoring covering pronunciation, grammar, vocabulary & task completion."
     },
     "speakingExam": {
       "title": "TCF Mock Speaking Exam · Full 12-Minute Exam Simulation",
-      "description": "TCF Canada mock speaking exam: full 12-minute exam simulation with Tâche 1 interview + Tâche 2 role play + Tâche 3 point of view. AI examiner, 6-dimension scoring, TCF 20-point scale."
+      "description": "TCF Canada mock speaking exam: full 12-minute exam simulation with Tâche 1 interview + Tâche 2 role play + Tâche 3 point of view. HiTCF AI Coach, 6-dimension scoring, TCF 20-point scale."
     },
     "resources": {
       "title": "TCF Canada Exam Guide · Score Charts, Study Resources & Test Centers",
