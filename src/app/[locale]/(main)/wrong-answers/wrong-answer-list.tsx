@@ -153,6 +153,9 @@ export function WrongAnswerList() {
       router.push(`/practice/${result.id}`);
     } catch (err) {
       console.error("Failed to start practice", err);
+      toast.error(
+        err instanceof Error ? err.message : t("common.errors.operationFailed"),
+      );
       setStartingPractice(false);
     }
   };

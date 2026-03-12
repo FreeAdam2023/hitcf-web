@@ -118,6 +118,13 @@ export function SpeakingConversationView() {
             )
           : 0;
         const remaining = Math.max(0, conv.speaking_time_seconds - elapsed);
+
+        // Timer expired — end session (handleEnd will redirect to results)
+        if (remaining <= 0) {
+          handleEnd();
+          return;
+        }
+
         setTimer(remaining);
         setPhase("active");
 
