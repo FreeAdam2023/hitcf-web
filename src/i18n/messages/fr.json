@@ -1680,15 +1680,15 @@
       "items": [
         {
           "q": "Quelle est la différence entre l'abonnement mensuel et annuel ?",
-          "a": "L'abonnement mensuel est récurrent avec {monthlyTrialDays} jours d'essai gratuit pour les nouveaux utilisateurs — annulez à tout moment. L'abonnement annuel est un paiement unique de {yearlyPrice} US$, effectif immédiatement pour un an, sans renouvellement automatique."
+          "a": "L'abonnement mensuel est récurrent avec {monthlyTrialDays} jours d'essai gratuit pour les nouveaux utilisateurs — annulez à tout moment. L'abonnement annuel inclut {yearlyTrialDays} jours d'essai gratuit ; vous serez facturé {yearlyPrice} US$ après la période d'essai, valable un an sans renouvellement automatique."
         },
         {
           "q": "Ai-je besoin d'une carte de crédit pour l'essai gratuit ?",
-          "a": "Pour le forfait mensuel, oui — lié de manière sécurisée via Stripe. Annulez dans les {monthlyTrialDays} jours et vous ne serez pas facturé. Le forfait annuel est un paiement unique, sans abonnement par carte."
+          "a": "Les forfaits mensuel et annuel nécessitent tous deux une carte, traitée de manière sécurisée via Stripe. Annulez pendant la période d'essai ({monthlyTrialDays} jours pour le mensuel / {yearlyTrialDays} jours pour l'annuel) et vous ne serez pas facturé."
         },
         {
           "q": "Puis-je annuler à tout moment ?",
-          "a": "Les abonnés mensuels peuvent annuler à tout moment via le portail client Stripe (cliquez sur « Gérer l'abonnement » sur la page de tarification). L'accès Pro est maintenu jusqu'à la fin du cycle de facturation. Les utilisateurs annuels n'ont pas besoin d'annuler — il n'y a pas de renouvellement automatique."
+          "a": "Annulez à tout moment via le portail client Stripe (cliquez sur « Gérer l'abonnement » sur la page de tarification). Annulez pendant la période d'essai et vous ne serez pas facturé. Les utilisateurs payants conservent l'accès Pro jusqu'à la fin du cycle de facturation. L'abonnement annuel ne se renouvelle pas automatiquement."
         },
         {
           "q": "Quels modes de paiement sont acceptés ?",

@@ -1680,15 +1680,15 @@
       "items": [
         {
           "q": "What's the difference between monthly and yearly?",
-          "a": "Monthly is a recurring subscription with a {monthlyTrialDays}-day free trial for new users — cancel anytime. Yearly is a one-time payment of US${yearlyPrice}, effective immediately for one year, with no auto-renewal."
+          "a": "Monthly is a recurring subscription with a {monthlyTrialDays}-day free trial for new users — cancel anytime. Yearly includes a {yearlyTrialDays}-day free trial; you'll be charged US${yearlyPrice} after the trial ends, valid for one year with no auto-renewal."
         },
         {
           "q": "Do I need a credit card for the free trial?",
-          "a": "For the monthly plan, yes — securely linked via Stripe. Cancel within {monthlyTrialDays} days and you won't be charged. The yearly plan is a one-time payment, no card-on-file subscription."
+          "a": "Both monthly and yearly plans require a card, securely processed via Stripe. Cancel during the trial period ({monthlyTrialDays} days for monthly / {yearlyTrialDays} days for yearly) and you won't be charged."
         },
         {
           "q": "Can I cancel anytime?",
-          "a": "Monthly subscribers can cancel anytime via the Stripe customer portal (click \"Manage Subscription\" on the pricing page). Pro access remains until the end of the billing cycle. Yearly users don't need to cancel — there's no auto-renewal."
+          "a": "Cancel anytime via the Stripe customer portal (click \"Manage Subscription\" on the pricing page). Cancel during the trial and you won't be charged. Paid users keep Pro access until the end of the billing cycle. Yearly plans do not auto-renew."
         },
         {
           "q": "What payment methods are supported?",
