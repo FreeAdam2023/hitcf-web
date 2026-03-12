@@ -1,9 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { CheckCircle2, Circle, List, Loader2, Pen } from "lucide-react";
+import {
+  CheckCircle2,
+  ChevronRight,
+  Circle,
+  List,
+  Loader2,
+  Pen,
+} from "lucide-react";
 import { toast } from "sonner";
 import {
   Sheet,
@@ -25,6 +32,13 @@ interface WritingSidebarProps {
   mode: "practice" | "exam";
 }
 
+interface CombGroup {
+  combinaison_number: number;
+  items: WritingSidebarItem[];
+  hasCompleted: boolean;
+  hasInProgress: boolean;
+}
+
 function StatusIcon({ status }: { status: WritingSidebarItem["status"] }) {
   switch (status) {
     case "completed":
@@ -34,6 +48,16 @@ function StatusIcon({ status }: { status: WritingSidebarItem["status"] }) {
     default:
       return <Circle className="h-4 w-4 shrink-0 text-muted-foreground/40" />;
   }
+}
+
+function GroupStatusDot({ group }: { group: CombGroup }) {
+  if (group.hasCompleted) {
+    return <span className="h-2 w-2 shrink-0 rounded-full bg-green-500" />;
+  }
+  if (group.hasInProgress) {
+    return <span className="h-2 w-2 shrink-0 rounded-full bg-blue-500" />;
+  }
+  return <span className="h-2 w-2 shrink-0 rounded-full bg-muted-foreground/30" />;
 }
 
 function SidebarList({
@@ -48,12 +72,126 @@ function SidebarList({
   onNavigate: (testSetId: string) => void;
 }) {
   const t = useTranslations("writingSidebar");
+
+  // Group items by combinaison_number
+  const groups = useMemo(() => {
+    const map = new Map<number, WritingSidebarItem[]>();
+    const ungrouped: WritingSidebarItem[] = [];
+    for (const item of items) {
+      if (item.combinaison_number != null) {
+        const arr = map.get(item.combinaison_number) || [];
+        arr.push(item);
+        map.set(item.combinaison_number, arr);
+      } else {
+        ungrouped.push(item);
+      }
+    }
+    const result: CombGroup[] = [];
+    Array.from(map.entries()).forEach(([num, groupItems]) => {
+      result.push({
+        combinaison_number: num,
+        items: groupItems,
+        hasCompleted: groupItems.some((i: WritingSidebarItem) => i.status === "completed"),
+        hasInProgress: groupItems.some((i: WritingSidebarItem) => i.status === "in_progress"),
+      });
+    });
+    result.sort((a, b) => a.combinaison_number - b.combinaison_number);
+    return { groups: result, ungrouped };
+  }, [items]);
+
+  // Auto-expand the group containing the current test set
+  const currentGroup = useMemo(() => {
+    const item = items.find((i) => i.test_set_id === currentTestSetId);
+    return item?.combinaison_number ?? null;
+  }, [items, currentTestSetId]);
+
+  const [expanded, setExpanded] = useState<Set<number>>(
+    () => new Set(currentGroup != null ? [currentGroup] : []),
+  );
+
+  const toggleGroup = (num: number) => {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(num)) {
+        next.delete(num);
+      } else {
+        next.add(num);
+      }
+      return next;
+    });
+  };
+
   return (
     <div className="space-y-0.5">
       <p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {t("title")}
       </p>
-      {items.map((item) => {
+      {groups.groups.map((group) => {
+        const isExpanded = expanded.has(group.combinaison_number);
+        return (
+          <div key={group.combinaison_number}>
+            <button
+              type="button"
+              onClick={() => toggleGroup(group.combinaison_number)}
+              className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm font-medium hover:bg-muted/70 transition-colors"
+            >
+              <ChevronRight
+                className={cn(
+                  "h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform",
+                  isExpanded && "rotate-90",
+                )}
+              />
+              <GroupStatusDot group={group} />
+              <span className="flex-1">Comb. {group.combinaison_number}</span>
+              <span className="text-[10px] text-muted-foreground">
+                {group.items.length}
+              </span>
+            </button>
+            {isExpanded && (
+              <div className="ml-3 border-l pl-2 space-y-0.5">
+                {group.items.map((item) => {
+                  const isCurrent = item.test_set_id === currentTestSetId;
+                  const isNavigating = navigating === item.test_set_id;
+                  return (
+                    <button
+                      key={item.test_set_id}
+                      type="button"
+                      disabled={isCurrent || isNavigating}
+                      onClick={() => onNavigate(item.test_set_id)}
+                      className={cn(
+                        "flex w-full items-center gap-2 rounded-md px-2 py-1 text-left text-xs transition-colors",
+                        isCurrent
+                          ? "bg-primary/10 font-medium"
+                          : "hover:bg-muted/70",
+                        isNavigating && "opacity-60",
+                      )}
+                    >
+                      {isNavigating ? (
+                        <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" />
+                      ) : (
+                        <StatusIcon status={item.status} />
+                      )}
+                      <span className="flex-1 truncate">
+                        {item.source_date || item.name}
+                      </span>
+                      {item.best_score != null && (
+                        <Badge
+                          variant="secondary"
+                          className="ml-auto text-[10px] px-1.5 py-0"
+                        >
+                          {item.best_score}
+                        </Badge>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      })}
+      {/* Ungrouped items (no combinaison_number) */}
+      {groups.ungrouped.map((item) => {
         const isCurrent = item.test_set_id === currentTestSetId;
         const isNavigating = navigating === item.test_set_id;
         return (
@@ -64,9 +202,7 @@ function SidebarList({
             onClick={() => onNavigate(item.test_set_id)}
             className={cn(
               "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors",
-              isCurrent
-                ? "bg-primary/10 font-medium"
-                : "hover:bg-muted/70",
+              isCurrent ? "bg-primary/10 font-medium" : "hover:bg-muted/70",
               isNavigating && "opacity-60",
             )}
           >
@@ -75,16 +211,7 @@ function SidebarList({
             ) : (
               <StatusIcon status={item.status} />
             )}
-            <span className="flex-1 truncate">
-              {item.combinaison_number != null
-                ? `Comb. ${item.combinaison_number}`
-                : item.name}
-            </span>
-            {item.best_score != null && (
-              <Badge variant="secondary" className="ml-auto text-[10px] px-1.5 py-0">
-                {item.best_score}
-              </Badge>
-            )}
+            <span className="flex-1 truncate">{item.name}</span>
           </button>
         );
       })}

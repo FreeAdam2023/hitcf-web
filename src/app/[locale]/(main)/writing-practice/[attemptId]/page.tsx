@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import {
@@ -25,7 +25,6 @@ import { FrenchText } from "@/components/practice/french-text";
 import { WritingGuidePanel } from "@/components/writing/writing-guide-panel";
 import { ExpressionsDrawer } from "@/components/writing/expressions-drawer";
 import { WritingHintsPanel } from "@/components/writing/writing-hints-panel";
-import { WritingSidebar } from "@/components/writing/writing-sidebar";
 import { ConsigneTranslationToggle } from "@/components/writing/consigne-translation";
 import { getWritingAttempt } from "@/lib/api/writing-attempts";
 import { saveWritingEssays } from "@/lib/api/writing-attempts";
@@ -58,11 +57,11 @@ function scoreColor(score: number): string {
 export default function WritingPracticePage() {
   const t = useTranslations();
   const params = useParams<{ attemptId: string }>()!;
+  const searchParams = useSearchParams();
   useRouter(); // kept for potential future navigation
 
   const {
     attemptId,
-    testSetId,
     tasks,
     currentTaskIndex,
     essays,
@@ -106,6 +105,12 @@ export default function WritingPracticePage() {
           attempt.started_at,
           attempt.essays,
         );
+        // ?task=N → jump to that tâche (1-indexed)
+        const taskParam = searchParams.get("task");
+        if (taskParam) {
+          const idx = Math.max(0, Math.min(parseInt(taskParam, 10) - 1, writingTasks.length - 1));
+          if (idx > 0) goToTask(idx);
+        }
         setLoading(false);
       } catch (err) {
         if (!cancelled) {
@@ -190,6 +195,7 @@ export default function WritingPracticePage() {
     );
   }
 
+  const singleTaskMode = !!searchParams.get("task");
   const task = tasks[currentTaskIndex];
   const taskNum = currentTaskIndex + 1;
   const essayText = essays[String(taskNum)] || "";
@@ -209,9 +215,6 @@ export default function WritingPracticePage() {
   });
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)]">
-      {testSetId && <WritingSidebar currentTestSetId={testSetId} mode="practice" />}
-      <div className="flex-1 overflow-auto">
       <div className="mx-auto max-w-5xl space-y-4 p-4">
       <Breadcrumb
         items={[
@@ -226,29 +229,31 @@ export default function WritingPracticePage() {
       </div>
 
       {/* Task tabs */}
-      <div className="flex gap-1 rounded-lg bg-muted/50 p-1">
-        {taskTabs.map((tab, idx) => (
-          <button
-            key={tab.num}
-            onClick={() => goToTask(idx)}
-            className={cn(
-              "flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-              idx === currentTaskIndex
-                ? "bg-background shadow-sm"
-                : "hover:bg-background/50",
-            )}
-          >
-            <span>Tache {tab.num}</span>
-            {tab.hasFeedback ? (
-              <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
-            ) : tab.hasContent ? (
-              <span className="text-xs text-muted-foreground">{tab.wc}w</span>
-            ) : (
-              <Minus className="h-3 w-3 text-muted-foreground/50" />
-            )}
-          </button>
-        ))}
-      </div>
+      {!singleTaskMode && (
+        <div className="flex gap-1 rounded-lg bg-muted/50 p-1">
+          {taskTabs.map((tab, idx) => (
+            <button
+              key={tab.num}
+              onClick={() => goToTask(idx)}
+              className={cn(
+                "flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                idx === currentTaskIndex
+                  ? "bg-background shadow-sm"
+                  : "hover:bg-background/50",
+              )}
+            >
+              <span>Tache {tab.num}</span>
+              {tab.hasFeedback ? (
+                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+              ) : tab.hasContent ? (
+                <span className="text-xs text-muted-foreground">{tab.wc}w</span>
+              ) : (
+                <Minus className="h-3 w-3 text-muted-foreground/50" />
+              )}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Split view */}
       <div className="grid gap-4 lg:grid-cols-2">
@@ -436,29 +441,29 @@ export default function WritingPracticePage() {
       )}
 
       {/* Navigation */}
-      <div className="flex items-center justify-between">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => goToTask(currentTaskIndex - 1)}
-          disabled={currentTaskIndex === 0}
-        >
-          <ChevronLeft className="mr-1 h-4 w-4" />
-          {t("writingExam.prevTask")}
-        </Button>
+      {!singleTaskMode && (
+        <div className="flex items-center justify-between">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => goToTask(currentTaskIndex - 1)}
+            disabled={currentTaskIndex === 0}
+          >
+            <ChevronLeft className="mr-1 h-4 w-4" />
+            {t("writingExam.prevTask")}
+          </Button>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => goToTask(currentTaskIndex + 1)}
-          disabled={currentTaskIndex >= tasks.length - 1}
-        >
-          {t("writingExam.nextTask")}
-          <ChevronRight className="ml-1 h-4 w-4" />
-        </Button>
-      </div>
-    </div>
-    </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => goToTask(currentTaskIndex + 1)}
+            disabled={currentTaskIndex >= tasks.length - 1}
+          >
+            {t("writingExam.nextTask")}
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

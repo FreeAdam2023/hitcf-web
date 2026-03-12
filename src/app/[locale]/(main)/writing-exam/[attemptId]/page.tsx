@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
-import { WritingSidebar } from "@/components/writing/writing-sidebar";
 import { getWritingAttempt } from "@/lib/api/writing-attempts";
 import { getTestSetQuestions } from "@/lib/api/test-sets";
 import { useWritingExamStore } from "@/stores/writing-exam-store";
@@ -15,11 +14,12 @@ import { WritingExamSession } from "./writing-exam-session";
 export default function WritingExamPage() {
   const t = useTranslations();
   const params = useParams<{ attemptId: string }>()!;
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [testSetId, setTestSetId] = useState<string | null>(null);
   const init = useWritingExamStore((s) => s.init);
+  const goToTask = useWritingExamStore((s) => s.goToTask);
 
   useEffect(() => {
     let cancelled = false;
@@ -45,7 +45,6 @@ export default function WritingExamPage() {
 
         if (cancelled) return;
 
-        setTestSetId(attempt.test_set_id);
         init(
           attempt.id,
           attempt.test_set_id,
@@ -55,6 +54,12 @@ export default function WritingExamPage() {
           attempt.started_at,
           attempt.essays,
         );
+        // ?task=N → jump to that tâche (1-indexed)
+        const taskParam = searchParams.get("task");
+        if (taskParam) {
+          const idx = Math.max(0, Math.min(parseInt(taskParam, 10) - 1, writingTasks.length - 1));
+          if (idx > 0) goToTask(idx);
+        }
         setLoading(false);
       } catch (err) {
         if (!cancelled) {
@@ -77,11 +82,6 @@ export default function WritingExamPage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)]">
-      {testSetId && <WritingSidebar currentTestSetId={testSetId} mode="exam" />}
-      <div className="flex-1 overflow-auto">
-        <WritingExamSession />
-      </div>
-    </div>
+    <WritingExamSession singleTaskMode={!!searchParams.get("task")} />
   );
 }

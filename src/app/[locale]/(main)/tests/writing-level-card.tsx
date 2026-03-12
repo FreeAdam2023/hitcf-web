@@ -71,8 +71,10 @@ export function WritingLevelCard({
     });
   }, [open, topic.test_set_id, locked, isAuthenticated]);
 
+  const taskQuery = `?task=${tache}`;
+
   const handleContinuePractice = () => {
-    router.push(`/writing-practice/${activePractice!.id}`);
+    router.push(`/writing-practice/${activePractice!.id}${taskQuery}`);
   };
 
   const handleStartPractice = async (forceNew = false) => {
@@ -82,7 +84,7 @@ export function WritingLevelCard({
         { test_set_id: topic.test_set_id, mode: "practice" },
         forceNew ? { forceNew: true } : undefined,
       );
-      router.push(`/writing-practice/${attempt.id}`);
+      router.push(`/writing-practice/${attempt.id}${taskQuery}`);
     } catch {
       toast.error(t("common.errors.createPracticeFailed"));
       setStarting(false);
@@ -90,7 +92,7 @@ export function WritingLevelCard({
   };
 
   const handleContinueExam = () => {
-    router.push(`/writing-exam/${activeExam!.id}`);
+    router.push(`/writing-exam/${activeExam!.id}${taskQuery}`);
   };
 
   const handleStartExam = async (forceNew = false) => {
@@ -100,7 +102,7 @@ export function WritingLevelCard({
         { test_set_id: topic.test_set_id, mode: "exam" },
         forceNew ? { forceNew: true } : undefined,
       );
-      router.push(`/writing-exam/${attempt.id}`);
+      router.push(`/writing-exam/${attempt.id}${taskQuery}`);
     } catch {
       toast.error(t("common.errors.createExamFailed"));
       setStartingExam(false);
@@ -180,7 +182,7 @@ export function WritingLevelCard({
               <div>
                 <DialogTitle>{topic.test_set_name}</DialogTitle>
                 <DialogDescription>
-                  {t("writingExam.modeDialog.subtitle")}
+                  Tâche {tache} · {topic.word_limit ? `${topic.word_limit} mots` : ""}
                 </DialogDescription>
               </div>
             </div>

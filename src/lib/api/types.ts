@@ -400,6 +400,7 @@ export interface WritingSidebarItem {
   test_set_id: string;
   name: string;
   combinaison_number: number | null;
+  source_date: string | null;
   status: "not_started" | "in_progress" | "completed";
   best_score: number | null;
   question_count: number;

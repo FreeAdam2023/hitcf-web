@@ -42,7 +42,7 @@ const TASK_LABELS: Record<number, string> = {
   3: "Tache 3",
 };
 
-export function WritingExamSession() {
+export function WritingExamSession({ singleTaskMode = false }: { singleTaskMode?: boolean }) {
   const t = useTranslations();
   const router = useRouter();
   const {
@@ -205,30 +205,32 @@ export function WritingExamSession() {
       </div>
 
       {/* Task tabs */}
-      <div className="flex gap-1 rounded-lg bg-muted/50 p-1">
-        {taskTabs.map((tab, idx) => (
-          <button
-            key={tab.num}
-            onClick={() => goToTask(idx)}
-            className={cn(
-              "flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-              idx === currentTaskIndex
-                ? "bg-background shadow-sm"
-                : "hover:bg-background/50",
-            )}
-          >
-            <span>{TASK_LABELS[tab.num] || `Tache ${tab.num}`}</span>
-            {tab.hasContent ? (
-              <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                <Check className="h-3 w-3 text-green-500" />
-                {tab.wc}w
-              </span>
-            ) : (
-              <Minus className="h-3 w-3 text-muted-foreground/50" />
-            )}
-          </button>
-        ))}
-      </div>
+      {!singleTaskMode && (
+        <div className="flex gap-1 rounded-lg bg-muted/50 p-1">
+          {taskTabs.map((tab, idx) => (
+            <button
+              key={tab.num}
+              onClick={() => goToTask(idx)}
+              className={cn(
+                "flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                idx === currentTaskIndex
+                  ? "bg-background shadow-sm"
+                  : "hover:bg-background/50",
+              )}
+            >
+              <span>{TASK_LABELS[tab.num] || `Tache ${tab.num}`}</span>
+              {tab.hasContent ? (
+                <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <Check className="h-3 w-3 text-green-500" />
+                  {tab.wc}w
+                </span>
+              ) : (
+                <Minus className="h-3 w-3 text-muted-foreground/50" />
+              )}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Split view: prompt + editor */}
       <div className="grid gap-4 lg:grid-cols-2">
@@ -293,19 +295,21 @@ export function WritingExamSession() {
 
       {/* Navigation + Submit */}
       <div className="flex items-center justify-between">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => goToTask(currentTaskIndex - 1)}
-          disabled={currentTaskIndex === 0}
-        >
-          <ChevronLeft className="mr-1 h-4 w-4" />
-          {t("writingExam.prevTask")}
-        </Button>
+        {!singleTaskMode && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => goToTask(currentTaskIndex - 1)}
+            disabled={currentTaskIndex === 0}
+          >
+            <ChevronLeft className="mr-1 h-4 w-4" />
+            {t("writingExam.prevTask")}
+          </Button>
+        )}
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button size="sm" disabled={completing}>
+            <Button size="sm" disabled={completing} className={singleTaskMode ? "ml-auto" : ""}>
               <Send className="mr-1 h-4 w-4" />
               {t("writingExam.submitAll")}
             </Button>
@@ -357,15 +361,17 @@ export function WritingExamSession() {
           </AlertDialogContent>
         </AlertDialog>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => goToTask(currentTaskIndex + 1)}
-          disabled={currentTaskIndex >= tasks.length - 1}
-        >
-          {t("writingExam.nextTask")}
-          <ChevronRight className="ml-1 h-4 w-4" />
-        </Button>
+        {!singleTaskMode && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => goToTask(currentTaskIndex + 1)}
+            disabled={currentTaskIndex >= tasks.length - 1}
+          >
+            {t("writingExam.nextTask")}
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        )}
       </div>
     </div>
   );
