@@ -35,7 +35,7 @@ export function beginConversation(
   return post<BeginConversationResponse>(
     `/api/speaking-conversation/${sessionId}/begin`,
     undefined,
-    options,
+    { ...options, timeout: 60_000 },
   );
 }
 

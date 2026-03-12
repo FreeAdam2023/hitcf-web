@@ -147,7 +147,8 @@ export function SpeakingConversationView() {
       const remainingPrep = Math.max(0, conv.prep_time_seconds - prepElapsed);
 
       if (remainingPrep <= 0) {
-        // Prep time expired during absence — go straight to begin
+        // Prep time expired during absence — set speaking timer then begin
+        setTimer(conv.speaking_time_seconds);
         handleBegin();
         return;
       }
