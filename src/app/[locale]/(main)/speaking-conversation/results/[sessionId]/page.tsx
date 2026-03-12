@@ -112,26 +112,33 @@ export default function SpeakingConversationResultsPage() {
       {/* Evaluation */}
       {session.evaluation ? (
         <SpeakingEvaluationCard evaluation={session.evaluation} />
-      ) : (
-        <Card>
-          <CardContent className="flex flex-col items-center gap-3 pt-6 text-center">
-            <AlertTriangle className="h-8 w-8 text-amber-500" />
-            <p className="font-medium">{t("evaluationUnavailable")}</p>
-            <p className="text-sm text-muted-foreground">
-              {t("evaluationUnavailableDesc")}
-            </p>
-            <Button
-              onClick={handleReEvaluate}
-              disabled={reEvaluating}
-            >
-              <RefreshCw
-                className={`mr-2 h-4 w-4 ${reEvaluating ? "animate-spin" : ""}`}
-              />
-              {reEvaluating ? t("reEvaluating") : t("reEvaluate")}
-            </Button>
-          </CardContent>
-        </Card>
-      )}
+      ) : (() => {
+        const hasUserTurns = session.turns.some((turn) => turn.role === "user");
+        return (
+          <Card>
+            <CardContent className="flex flex-col items-center gap-3 pt-6 text-center">
+              <AlertTriangle className="h-8 w-8 text-amber-500" />
+              <p className="font-medium">
+                {hasUserTurns ? t("evaluationUnavailable") : t("noUserTurns")}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {hasUserTurns ? t("evaluationUnavailableDesc") : t("noUserTurnsDesc")}
+              </p>
+              {hasUserTurns && (
+                <Button
+                  onClick={handleReEvaluate}
+                  disabled={reEvaluating}
+                >
+                  <RefreshCw
+                    className={`mr-2 h-4 w-4 ${reEvaluating ? "animate-spin" : ""}`}
+                  />
+                  {reEvaluating ? t("reEvaluating") : t("reEvaluate")}
+                </Button>
+              )}
+            </CardContent>
+          </Card>
+        );
+      })()}
 
       {/* Conversation replay */}
       <Card>

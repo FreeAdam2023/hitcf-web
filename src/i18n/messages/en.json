@@ -1450,6 +1450,8 @@
     "evaluationUnavailableDesc": "AI evaluation could not be generated. You can try re-evaluating or refresh the page later.",
     "reEvaluate": "Re-evaluate",
     "reEvaluating": "Re-evaluating...",
+    "noUserTurns": "Conversation Not Started",
+    "noUserTurnsDesc": "You haven't spoken yet, so no evaluation can be generated. Please start a new conversation and try answering the examiner's questions.",
     "resuming": "Resuming conversation...",
     "dim": {
       "prononciation": "Pronunciation",

@@ -1450,6 +1450,8 @@
     "evaluationUnavailableDesc": "L'évaluation IA n'a pas pu être générée. Vous pouvez tenter une réévaluation ou actualiser la page plus tard.",
     "reEvaluate": "Réévaluer",
     "reEvaluating": "Réévaluation en cours...",
+    "noUserTurns": "Conversation non commencée",
+    "noUserTurnsDesc": "Vous n'avez pas encore parlé, aucune évaluation ne peut être générée. Veuillez recommencer une conversation et essayer de répondre aux questions de l'examinateur.",
     "resuming": "Reprise de la conversation...",
     "dim": {
       "prononciation": "Prononciation",

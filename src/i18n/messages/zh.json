@@ -1450,6 +1450,8 @@
     "evaluationUnavailableDesc": "AI 评估未能生成，你可以尝试重新评估，或稍后刷新页面查看。",
     "reEvaluate": "重新评估",
     "reEvaluating": "正在重新评估...",
+    "noUserTurns": "对话未开始",
+    "noUserTurnsDesc": "你还没有发言，无法生成评估。请重新开始对话并尝试回答考官的问题。",
     "resuming": "正在恢复对话...",
     "dim": {
       "prononciation": "发音",
