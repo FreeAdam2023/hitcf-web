@@ -157,12 +157,12 @@ export default function CheckinPage() {
 
       {/* Action buttons */}
       <div className="mt-6 flex gap-3">
-        {/* Share (mobile — Web Share API) */}
+        {/* Share (mobile only — Web Share API) */}
         {canShare && (
           <Button
             onClick={handleShare}
             disabled={sharing}
-            className="flex-1"
+            className="flex-1 md:hidden"
             size="lg"
           >
             {sharing ? (
