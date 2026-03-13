@@ -58,6 +58,7 @@ export const CLB7_TARGET = 0.78;
 export const PRICING = {
   monthly: 19.9,
   yearly: 99.9,
+  yearlyOriginal: 199.9,
   quarterly: 39.9, // legacy
   currency: "USD",
   monthlyTrialDays: 10,
@@ -69,6 +70,10 @@ export const PRICING = {
   /** Savings percentage of yearly vs monthly-×-12 */
   get savingsPercent() {
     return Math.round((1 - this.yearly / (this.monthly * 12)) * 100);
+  },
+  /** Discount percentage off original price */
+  get yearlyDiscountPercent() {
+    return Math.round((1 - this.yearly / this.yearlyOriginal) * 100);
   },
 } as const;
 

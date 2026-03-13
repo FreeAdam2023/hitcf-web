@@ -34,11 +34,15 @@ const PLANS = [
   {
     key: "monthly" as const,
     price: formatPrice(PRICING.monthly),
+    originalPrice: null as string | null,
+    discountPercent: 0,
     recommended: false,
   },
   {
     key: "yearly" as const,
     price: formatPrice(PRICING.yearly),
+    originalPrice: formatPrice(PRICING.yearlyOriginal),
+    discountPercent: PRICING.yearlyDiscountPercent,
     recommended: true,
   },
 ];
@@ -157,8 +161,16 @@ export function PricingView() {
                       )}
                     </div>
                     <div className="mt-1">
+                      {plan.originalPrice && (
+                        <span className="mr-2 text-base text-muted-foreground/60 line-through">{plan.originalPrice}</span>
+                      )}
                       <span className="text-3xl font-bold tracking-tight">{plan.price}</span>
                       <span className="ml-1 text-sm text-muted-foreground">{t(`pricing.plans.${plan.key}.unit`)}</span>
+                      {plan.discountPercent > 0 && (
+                        <span className="ml-2 inline-block rounded bg-red-500 px-1.5 py-0.5 text-[11px] font-bold text-white">
+                          -{plan.discountPercent}%
+                        </span>
+                      )}
                     </div>
                     {equiv && (
                       <p className="text-xs text-muted-foreground">{equiv}</p>
