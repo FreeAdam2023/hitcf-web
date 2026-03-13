@@ -4,6 +4,7 @@ export interface SubmitFeedbackBody {
   category: "bug" | "feature" | "content" | "other";
   content: string;
   page_url?: string;
+  screenshot?: string;
 }
 
 export interface SubmitFeedbackResponse {

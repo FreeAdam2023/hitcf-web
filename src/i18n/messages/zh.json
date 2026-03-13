@@ -115,7 +115,12 @@
     "submit": "提交反馈",
     "cancel": "取消",
     "success": "感谢你的反馈！",
-    "submitFailed": "提交失败，请重试"
+    "submitFailed": "提交失败，请重试",
+    "screenshot": "页面截图",
+    "removeScreenshot": "移除",
+    "captureScreenshot": "截取当前页面",
+    "openForm": "提交反馈",
+    "fab": "反馈"
   },
   "footer": {
     "tests": "题库",

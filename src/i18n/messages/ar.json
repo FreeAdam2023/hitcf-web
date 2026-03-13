@@ -115,7 +115,12 @@
     "submit": "إرسال",
     "cancel": "إلغاء",
     "success": "شكراً لملاحظاتك!",
-    "submitFailed": "فشل الإرسال، يرجى إعادة المحاولة"
+    "submitFailed": "فشل الإرسال، يرجى إعادة المحاولة",
+    "screenshot": "لقطة الشاشة",
+    "removeScreenshot": "إزالة",
+    "captureScreenshot": "التقاط الصفحة الحالية",
+    "openForm": "إرسال ملاحظات",
+    "fab": "ملاحظات"
   },
   "footer": {
     "tests": "الاختبارات",

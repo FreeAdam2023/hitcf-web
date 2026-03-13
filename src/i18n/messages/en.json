@@ -115,7 +115,12 @@
     "submit": "Submit",
     "cancel": "Cancel",
     "success": "Thanks for your feedback!",
-    "submitFailed": "Submit failed, please retry"
+    "submitFailed": "Submit failed, please retry",
+    "screenshot": "Screenshot",
+    "removeScreenshot": "Remove",
+    "captureScreenshot": "Capture current page",
+    "openForm": "Send Feedback",
+    "fab": "Feedback"
   },
   "footer": {
     "tests": "Tests",

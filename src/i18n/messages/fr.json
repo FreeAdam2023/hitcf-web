@@ -115,7 +115,12 @@
     "submit": "Envoyer",
     "cancel": "Annuler",
     "success": "Merci pour vos commentaires !",
-    "submitFailed": "Échec de l'envoi, veuillez réessayer"
+    "submitFailed": "Échec de l'envoi, veuillez réessayer",
+    "screenshot": "Capture d'écran",
+    "removeScreenshot": "Supprimer",
+    "captureScreenshot": "Capturer la page actuelle",
+    "openForm": "Envoyer un commentaire",
+    "fab": "Commentaires"
   },
   "footer": {
     "tests": "Tests",
