@@ -2635,7 +2635,14 @@
     "emptyTitle": "今天还没开始练习",
     "emptyDescription": "完成任意练习后即可生成打卡卡片，记录你的努力！",
     "startPractice": "开始练习",
-    "heroLabel": "今日练习"
+    "heroLabel": "今日练习",
+    "share": "分享",
+    "shareTitle": "HiTCF 每日打卡",
+    "shareText": "我在 HiTCF 完成了今日练习！一起来备考 TCF Canada 吧 💪",
+    "copyImage": "复制图片",
+    "copied": "已复制！",
+    "shareTip": "分享到微信、小红书、微博等社交平台",
+    "saveTip": "保存图片后分享到微信、小红书等社交平台"
   },
   "notifications": {
     "label": "通知",

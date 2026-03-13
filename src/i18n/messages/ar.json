@@ -2635,7 +2635,14 @@
     "emptyTitle": "لا ممارسة بعد اليوم",
     "emptyDescription": "أكمل أي تمرين لإنشاء بطاقة التسجيل اليومية وتتبع تقدمك!",
     "startPractice": "ابدأ التمرين",
-    "heroLabel": "تمارين اليوم"
+    "heroLabel": "تمارين اليوم",
+    "share": "مشاركة",
+    "shareTitle": "تسجيل يومي HiTCF",
+    "shareText": "أكملت تمريني اليومي على HiTCF! انضم إلي للتحضير لـ TCF Canada 💪",
+    "copyImage": "نسخ الصورة",
+    "copied": "تم النسخ!",
+    "shareTip": "شارك على WeChat وXiaohongshu وWeibo والمزيد",
+    "saveTip": "احفظ الصورة وشاركها على منصتك الاجتماعية المفضلة"
   },
   "notifications": {
     "label": "إشعارات",

@@ -2635,7 +2635,14 @@
     "emptyTitle": "No Practice Yet Today",
     "emptyDescription": "Complete any practice to generate your daily check-in card and track your progress!",
     "startPractice": "Start Practice",
-    "heroLabel": "ITEMS TODAY"
+    "heroLabel": "ITEMS TODAY",
+    "share": "Share",
+    "shareTitle": "HiTCF Daily Check-in",
+    "shareText": "I completed my daily practice on HiTCF! Join me in preparing for TCF Canada 💪",
+    "copyImage": "Copy Image",
+    "copied": "Copied!",
+    "shareTip": "Share to WeChat, Xiaohongshu, Weibo and more",
+    "saveTip": "Save the image and share to your favorite social platform"
   },
   "notifications": {
     "label": "Notifications",

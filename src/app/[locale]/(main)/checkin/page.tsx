@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { useTranslations } from "next-intl";
-import { Download, Loader2, Check, BookOpen, CalendarDays } from "lucide-react";
+import { Download, Loader2, Check, BookOpen, CalendarDays, Share2, Copy } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { CheckinPoster } from "@/components/checkin/checkin-poster";
@@ -17,6 +17,9 @@ export default function CheckinPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [sharing, setSharing] = useState(false);
+  const [copying, setCopying] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     fetchDailyCheckin()
@@ -37,6 +40,16 @@ export default function CheckinPage() {
       (data.words_looked_up ?? 0) > 0 ||
       (data.wrong_reviews ?? 0) > 0);
 
+  const generateBlob = async (): Promise<Blob> => {
+    const dataUrl = await toPng(posterRef.current!, {
+      width: 1080,
+      height: 1440,
+      pixelRatio: 1,
+    });
+    const res = await fetch(dataUrl);
+    return res.blob();
+  };
+
   const handleSave = async () => {
     if (!posterRef.current) return;
     setSaving(true);
@@ -55,6 +68,48 @@ export default function CheckinPage() {
       setTimeout(() => setSaved(false), 4000);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const canShare = typeof navigator !== "undefined" && !!navigator.share;
+
+  const handleShare = async () => {
+    if (!posterRef.current) return;
+    setSharing(true);
+    try {
+      const blob = await generateBlob();
+      const file = new File([blob], `hitcf-checkin-${data?.date || "today"}.png`, {
+        type: "image/png",
+      });
+      await navigator.share({
+        files: [file],
+        title: t("shareTitle"),
+        text: t("shareText"),
+      });
+    } catch (err) {
+      // User cancelled or API not supported — ignore
+      if (err instanceof Error && err.name !== "AbortError") {
+        // Fallback: save instead
+        handleSave();
+      }
+    } finally {
+      setSharing(false);
+    }
+  };
+
+  const handleCopy = async () => {
+    if (!posterRef.current) return;
+    setCopying(true);
+    setCopied(false);
+    try {
+      const blob = await generateBlob();
+      await navigator.clipboard.write([
+        new ClipboardItem({ "image/png": blob }),
+      ]);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } finally {
+      setCopying(false);
     }
   };
 
@@ -118,30 +173,68 @@ export default function CheckinPage() {
         </div>
       </div>
 
-      {/* Save button */}
-      <Button
-        onClick={handleSave}
-        disabled={saving}
-        className="mt-6 w-full"
-        size="lg"
-      >
-        {saving ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            {t("saving")}
-          </>
-        ) : saved ? (
-          <>
-            <Check className="mr-2 h-4 w-4" />
-            {t("saved")}
-          </>
-        ) : (
-          <>
-            <Download className="mr-2 h-4 w-4" />
-            {t("saveImage")}
-          </>
+      {/* Action buttons */}
+      <div className="mt-6 flex gap-3">
+        {/* Share (mobile — Web Share API) */}
+        {canShare && (
+          <Button
+            onClick={handleShare}
+            disabled={sharing}
+            className="flex-1"
+            size="lg"
+          >
+            {sharing ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Share2 className="mr-2 h-4 w-4" />
+            )}
+            {t("share")}
+          </Button>
         )}
-      </Button>
+
+        {/* Copy image (desktop) */}
+        {!canShare && (
+          <Button
+            onClick={handleCopy}
+            disabled={copying}
+            variant="outline"
+            className="flex-1"
+            size="lg"
+          >
+            {copying ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : copied ? (
+              <Check className="mr-2 h-4 w-4" />
+            ) : (
+              <Copy className="mr-2 h-4 w-4" />
+            )}
+            {copied ? t("copied") : t("copyImage")}
+          </Button>
+        )}
+
+        {/* Save / download */}
+        <Button
+          onClick={handleSave}
+          disabled={saving}
+          variant={canShare ? "outline" : "default"}
+          className="flex-1"
+          size="lg"
+        >
+          {saving ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : saved ? (
+            <Check className="mr-2 h-4 w-4" />
+          ) : (
+            <Download className="mr-2 h-4 w-4" />
+          )}
+          {saved ? t("saved") : t("saveImage")}
+        </Button>
+      </div>
+
+      {/* Sharing tip */}
+      <p className="mt-3 text-center text-xs text-muted-foreground">
+        {canShare ? t("shareTip") : t("saveTip")}
+      </p>
     </div>
   );
 }
