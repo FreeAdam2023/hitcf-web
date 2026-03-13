@@ -157,6 +157,7 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
                 );
               })}
             </div>
+            <p className="mt-2 text-[11px] text-muted-foreground/60">{t("speedDrill.dedupHint")}</p>
           </div>
 
           {/* Include done toggle */}

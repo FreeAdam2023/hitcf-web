@@ -930,6 +930,7 @@
     "totalCount": "共 {count}",
     "doneCount": "已做 {count}",
     "includeDone": "包含已做过的题目",
+    "dedupHint": "题目数量已去除跨套重复，实际不重复题目数",
     "upgradeBanner": {
       "title": "等级练习是 Pro 专属功能",
       "description": "按等级、按题型精准刷题，全题库针对性训练薄弱环节",
