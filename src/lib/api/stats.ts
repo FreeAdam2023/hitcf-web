@@ -64,5 +64,6 @@ export interface DailyCheckinData {
 }
 
 export function fetchDailyCheckin(): Promise<DailyCheckinData> {
-  return get<DailyCheckinData>("/api/stats/daily-checkin");
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  return get<DailyCheckinData>(`/api/stats/daily-checkin?tz=${encodeURIComponent(tz)}`);
 }
