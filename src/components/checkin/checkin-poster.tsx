@@ -53,8 +53,6 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
 
     // Summary parts (non-zero only)
     const summaryParts: string[] = [];
-    if (data.total_practice_minutes > 0)
-      summaryParts.push(t("minutes", { count: data.total_practice_minutes }));
     const totalVocab = data.vocabulary_saved + (data.words_looked_up ?? 0);
     if (totalVocab > 0) summaryParts.push(t("vocabSaved", { count: totalVocab }));
 
