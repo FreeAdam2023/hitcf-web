@@ -2616,5 +2616,14 @@
     "emptyTitle": "لا ممارسة بعد اليوم",
     "emptyDescription": "أكمل أي تمرين لإنشاء بطاقة التسجيل اليومية وتتبع تقدمك!",
     "startPractice": "ابدأ التمرين"
+  },
+  "notifications": {
+    "label": "إشعارات",
+    "title": "ما الجديد",
+    "empty": "لا توجد إشعارات",
+    "justNow": "الآن",
+    "minutesAgo": "منذ {count} دقيقة",
+    "hoursAgo": "منذ {count} ساعة",
+    "daysAgo": "منذ {count} يوم"
   }
 }

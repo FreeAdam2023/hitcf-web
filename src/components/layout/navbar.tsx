@@ -28,6 +28,7 @@ import { usePracticeStore } from "@/stores/practice-store";
 import { UserMenu } from "./user-menu";
 import { ThemeToggle } from "./theme-toggle";
 import { LocaleToggle } from "./locale-toggle";
+import { NotificationBell } from "./notification-bell";
 import { cn, parseUTCms } from "@/lib/utils";
 
 const NAV_KEYS = [
@@ -136,6 +137,7 @@ export function Navbar() {
         <div className="ms-auto flex items-center gap-2">
           <LocaleToggle />
           <ThemeToggle />
+          <NotificationBell />
           <UserMenu />
         </div>
       </div>

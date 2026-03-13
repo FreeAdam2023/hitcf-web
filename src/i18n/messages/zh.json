@@ -2616,5 +2616,14 @@
     "emptyTitle": "今天还没开始练习",
     "emptyDescription": "完成任意练习后即可生成打卡卡片，记录你的努力！",
     "startPractice": "开始练习"
+  },
+  "notifications": {
+    "label": "通知",
+    "title": "最新动态",
+    "empty": "暂无通知",
+    "justNow": "刚刚",
+    "minutesAgo": "{count} 分钟前",
+    "hoursAgo": "{count} 小时前",
+    "daysAgo": "{count} 天前"
   }
 }

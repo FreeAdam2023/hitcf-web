@@ -2616,5 +2616,14 @@
     "emptyTitle": "No Practice Yet Today",
     "emptyDescription": "Complete any practice to generate your daily check-in card and track your progress!",
     "startPractice": "Start Practice"
+  },
+  "notifications": {
+    "label": "Notifications",
+    "title": "What's New",
+    "empty": "No notifications yet",
+    "justNow": "Just now",
+    "minutesAgo": "{count}m ago",
+    "hoursAgo": "{count}h ago",
+    "daysAgo": "{count}d ago"
   }
 }
