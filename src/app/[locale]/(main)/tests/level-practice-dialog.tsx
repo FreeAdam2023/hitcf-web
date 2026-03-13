@@ -157,15 +157,9 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
                 );
               })}
             </div>
-            {stats && (() => {
-              const selRaw = Array.from(selectedLevels).reduce((s, l) => s + (stats.levels[l]?.raw_total ?? 0), 0);
-              const selDedup = selectedTotal ?? 0;
-              return selRaw > selDedup ? (
-                <p className="mt-2 text-[11px] text-muted-foreground/60">
-                  {t("speedDrill.dedupHint", { raw: selRaw, dedup: selDedup })}
-                </p>
-              ) : null;
-            })()}
+            <p className="mt-2 text-[11px] text-muted-foreground/60">
+              {t("speedDrill.dedupHint")}
+            </p>
           </div>
 
           {/* Include done toggle */}
