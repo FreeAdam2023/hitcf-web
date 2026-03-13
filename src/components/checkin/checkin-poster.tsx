@@ -150,18 +150,36 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
             🔥
           </div>
 
-          {/* Giant hero number */}
+          {/* Giant hero number + unit */}
           <div
             style={{
-              fontSize: 160,
-              fontWeight: 900,
-              lineHeight: 1,
-              color: "#ffffff",
-              textShadow: "0 0 60px rgba(255,100,0,0.5), 0 0 120px rgba(255,60,0,0.25)",
-              letterSpacing: "-0.02em",
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "center",
+              gap: 8,
             }}
           >
-            {heroNumber}
+            <div
+              style={{
+                fontSize: 160,
+                fontWeight: 900,
+                lineHeight: 1,
+                color: "#ffffff",
+                textShadow: "0 0 60px rgba(255,100,0,0.5), 0 0 120px rgba(255,60,0,0.25)",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              {heroNumber}
+            </div>
+            <div
+              style={{
+                fontSize: 48,
+                fontWeight: 700,
+                color: "rgba(255,255,255,0.45)",
+              }}
+            >
+              {t("heroUnit")}
+            </div>
           </div>
 
           {/* Hero label */}
