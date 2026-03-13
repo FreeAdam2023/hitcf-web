@@ -26,7 +26,7 @@ export default function PracticePage() {
     try {
       const attempt = await getAttempt(params.attemptId, { signal });
 
-      if (attempt.status === "completed") {
+      if (attempt.status !== "in_progress") {
         window.location.href = `/results/${params.attemptId}`;
         return;
       }
