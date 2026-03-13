@@ -3,9 +3,11 @@
 import { forwardRef } from "react";
 import { useTranslations } from "next-intl";
 import type { DailyCheckinData } from "@/lib/api/stats";
+import type { ProgressResponse } from "@/lib/api/attempts";
 
 export interface CheckinPosterProps {
   data: DailyCheckinData;
+  progress?: ProgressResponse | null;
 }
 
 /** Build dynamic activity items — only non-zero */
@@ -37,7 +39,7 @@ function buildActivities(
 }
 
 export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
-  function CheckinPoster({ data }, ref) {
+  function CheckinPoster({ data, progress }, ref) {
     const t = useTranslations("checkin");
     const activities = buildActivities(data, t);
 
@@ -258,6 +260,77 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
             </div>
           ))}
         </div>
+
+        {/* Overall progress */}
+        {progress && (
+          <div
+            style={{
+              margin: "40px 60px 0",
+              padding: "36px 44px",
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 20,
+              position: "relative",
+            }}
+          >
+            <div
+              style={{
+                fontSize: 32,
+                fontWeight: 600,
+                color: "rgba(255,255,255,0.5)",
+                marginBottom: 28,
+                letterSpacing: "0.05em",
+              }}
+            >
+              {t("overallProgress")}
+            </div>
+            {([
+              { key: "listening" as const, label: t("listening"), color: "#60a5fa", data: progress.listening },
+              { key: "reading" as const, label: t("reading"), color: "#34d399", data: progress.reading },
+              { key: "speaking" as const, label: t("speaking"), color: "#fbbf24", data: progress.speaking },
+              { key: "writing" as const, label: t("writing"), color: "#fb7185", data: progress.writing },
+            ]).map((item) => {
+              const pct = item.data.total > 0 ? Math.min(100, Math.round((item.data.done / item.data.total) * 100)) : 0;
+              return (
+                <div key={item.key} style={{ marginBottom: 22 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: 10,
+                    }}
+                  >
+                    <span style={{ fontSize: 30, fontWeight: 600, color: "rgba(255,255,255,0.75)" }}>
+                      {item.label}
+                    </span>
+                    <span style={{ fontSize: 28, fontWeight: 600, color: "rgba(255,255,255,0.55)", fontVariantNumeric: "tabular-nums" }}>
+                      {item.data.done}/{item.data.total} · {pct}%
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      height: 14,
+                      borderRadius: 7,
+                      background: "rgba(255,255,255,0.1)",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
+                      style={{
+                        height: "100%",
+                        width: `${pct}%`,
+                        borderRadius: 7,
+                        background: item.color,
+                        transition: "width 0.3s",
+                      }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* Spacer */}
         <div style={{ flex: 1 }} />

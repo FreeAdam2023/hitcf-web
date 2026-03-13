@@ -8,22 +8,28 @@ import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { CheckinPoster } from "@/components/checkin/checkin-poster";
 import { fetchDailyCheckin, type DailyCheckinData } from "@/lib/api/stats";
+import { getAttemptProgress, type ProgressResponse } from "@/lib/api/attempts";
 
 export default function CheckinPage() {
   const t = useTranslations("checkin");
   const router = useRouter();
   const posterRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<DailyCheckinData | null>(null);
+  const [progress, setProgress] = useState<ProgressResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [sharing, setSharing] = useState(false);
 
   useEffect(() => {
-    fetchDailyCheckin()
-      .then(setData)
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    Promise.all([
+      fetchDailyCheckin().catch(() => null),
+      getAttemptProgress().catch(() => null),
+    ]).then(([checkin, prog]) => {
+      setData(checkin);
+      setProgress(prog);
+      setLoading(false);
+    });
   }, []);
 
   const hasActivity =
@@ -150,7 +156,7 @@ export default function CheckinPage() {
               }
             }}
           >
-            <CheckinPoster ref={posterRef} data={data!} />
+            <CheckinPoster ref={posterRef} data={data!} progress={progress} />
           </div>
         </div>
       </div>

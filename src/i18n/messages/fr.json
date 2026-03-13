@@ -2638,6 +2638,7 @@
     "vocabSavedLabel": "Mots sauvés",
     "wordsUnit": "mots",
     "items": "items",
+    "overallProgress": "Progression globale",
     "sealText": "CERTIFIÉ",
     "verifyTitle": "ZONE DE VÉRIFICATION ANTI-CONTREFAÇON",
     "verifyBody": "Il est certifié que {name} a complété les tâches d'étude ci-dessus le {date} à l'Institut de Recherche d'Examens HiTCF. Résultats authentiques et vérifiés.",

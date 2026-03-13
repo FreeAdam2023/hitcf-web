@@ -2638,6 +2638,7 @@
     "vocabSavedLabel": "收藏单词",
     "wordsUnit": "词",
     "items": "题",
+    "overallProgress": "累计进度",
     "sealText": "认证专用",
     "verifyTitle": "防 伪 验 证 专 区",
     "verifyBody": "兹证明 {name} 同学于 {date} 在 HiTCF 考试研究院完成上述学习任务，成绩真实有效，特此认证。",
