@@ -231,10 +231,6 @@ export default function CheckinPage() {
         </Button>
       </div>
 
-      {/* Sharing tip */}
-      <p className="mt-3 text-center text-xs text-muted-foreground">
-        {canShare ? t("shareTip") : t("saveTip")}
-      </p>
     </div>
   );
 }
