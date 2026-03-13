@@ -704,49 +704,53 @@ export function HistoryList() {
 
       {loading ? (
         <LoadingSpinner />
-      ) : !allItems.length ? (
-        <EmptyState
-          title={t("history.empty.title")}
-          description={t("history.empty.description")}
-          action={
-            <Button asChild>
-              <Link href="/tests">{t("history.goToTests")}</Link>
-            </Button>
-          }
-        />
       ) : (
         <>
           <SummaryTabs progress={progress} stats={stats} />
 
           <TypeFilterChips value={typeFilter} onChange={handleTypeChange} />
 
-          <div className="space-y-6">
-            <DateGroup label={t("history.groups.today")} items={grouped.today} onDelete={handleDelete} />
-            <DateGroup
-              label={t("history.groups.thisWeek")}
-              items={grouped.thisWeek}
-              onDelete={handleDelete}
+          {!allItems.length ? (
+            <EmptyState
+              title={t("history.empty.title")}
+              description={t("history.empty.description")}
+              action={
+                <Button asChild>
+                  <Link href="/tests">{t("history.goToTests")}</Link>
+                </Button>
+              }
             />
-            <DateGroup
-              label={t("history.groups.earlier")}
-              items={grouped.earlier}
-              onDelete={handleDelete}
-            />
-          </div>
+          ) : (
+            <>
+              <div className="space-y-6">
+                <DateGroup label={t("history.groups.today")} items={grouped.today} onDelete={handleDelete} />
+                <DateGroup
+                  label={t("history.groups.thisWeek")}
+                  items={grouped.thisWeek}
+                  onDelete={handleDelete}
+                />
+                <DateGroup
+                  label={t("history.groups.earlier")}
+                  items={grouped.earlier}
+                  onDelete={handleDelete}
+                />
+              </div>
 
-          {hasMore && (
-            <div className="flex justify-center">
-              <Button
-                variant="outline"
-                onClick={loadMore}
-                disabled={loadingMore}
-              >
-                {loadingMore && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                {t("history.loadMore")}
-              </Button>
-            </div>
+              {hasMore && (
+                <div className="flex justify-center">
+                  <Button
+                    variant="outline"
+                    onClick={loadMore}
+                    disabled={loadingMore}
+                  >
+                    {loadingMore && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    {t("history.loadMore")}
+                  </Button>
+                </div>
+              )}
+            </>
           )}
         </>
       )}
