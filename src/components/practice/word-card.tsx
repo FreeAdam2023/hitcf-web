@@ -330,6 +330,24 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
                 </p>
               )}
 
+              {/* Gender counterpart (animate nouns) */}
+              {data.gender_counterpart?.word && (
+                <p className="text-xs text-muted-foreground">
+                  {data.gender === "féminin" ? t("wordCard.mascForm") : t("wordCard.femForm")}
+                  {": "}
+                  <button
+                    onClick={() => handleFamilyWordClick(data.gender_counterpart!.word)}
+                    className={`font-medium underline decoration-dotted underline-offset-2 hover:decoration-solid ${
+                      data.gender_counterpart.gender === "masculin"
+                        ? "text-blue-600 dark:text-blue-400"
+                        : "text-rose-600 dark:text-rose-400"
+                    }`}
+                  >
+                    {data.gender_counterpart.display}
+                  </button>
+                </p>
+              )}
+
               {/* Word Family chips */}
               {data.word_family && (
                 <WordFamilyChips

@@ -725,6 +725,8 @@ export interface VocabularyCardData {
   auxiliary?: string;
   // Adjective
   adjective_forms?: AdjectiveForms;
+  // Gender counterpart (animate nouns: e.g. réalisatrice → le réalisateur)
+  gender_counterpart?: { word: string; display: string; gender: string } | null;
   // Other
   examples: { fr: string; en: string; zh?: string; native?: string }[];
   cefr_level: string | null;
