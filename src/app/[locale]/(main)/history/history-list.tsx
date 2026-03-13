@@ -712,8 +712,8 @@ export function HistoryList() {
 
           {!allItems.length ? (
             <EmptyState
-              title={t("history.empty.title")}
-              description={t("history.empty.description")}
+              title={t(typeFilter !== "all" ? "history.empty.filteredTitle" : "history.empty.title")}
+              description={t(typeFilter !== "all" ? "history.empty.filteredDescription" : "history.empty.description")}
               action={
                 <Button asChild>
                   <Link href="/tests">{t("history.goToTests")}</Link>

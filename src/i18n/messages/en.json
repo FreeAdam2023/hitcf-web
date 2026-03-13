@@ -947,7 +947,9 @@
     "subtitle": "View all practice and exam results",
     "empty": {
       "title": "No records yet",
-      "description": "Complete a practice session and your results will appear here"
+      "description": "Complete a practice session and your results will appear here",
+      "filteredTitle": "No records for this type",
+      "filteredDescription": "Try another type or start practicing"
     },
     "goToTests": "Go to Tests",
     "incomplete": "Incomplete",

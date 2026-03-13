@@ -947,7 +947,9 @@
     "subtitle": "Consultez tous les résultats de pratique et d'examen",
     "empty": {
       "title": "Aucun résultat pour l'instant",
-      "description": "Complétez une session de pratique et vos résultats apparaîtront ici"
+      "description": "Complétez une session de pratique et vos résultats apparaîtront ici",
+      "filteredTitle": "Aucun résultat pour ce type",
+      "filteredDescription": "Essayez un autre type ou commencez à pratiquer"
     },
     "goToTests": "Aller aux tests",
     "incomplete": "Incomplet",
