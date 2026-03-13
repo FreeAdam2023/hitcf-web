@@ -58,7 +58,7 @@ export const CLB7_TARGET = 0.78;
 export const PRICING = {
   monthly: 19.9,
   yearly: 99.9,
-  yearlyOriginal: 199.9,
+  yearlyOriginal: 159.9,
   quarterly: 39.9, // legacy
   currency: "USD",
   monthlyTrialDays: 10,
