@@ -46,6 +46,7 @@ export interface DailyCheckinData {
   date: string;
   user_name: string;
   streak_days: number;
+  learning_days: number;
   listening: DailyCheckinSection;
   reading: DailyCheckinSection;
   writing: { tasks_completed: number; best_score: number };

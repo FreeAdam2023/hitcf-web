@@ -2612,6 +2612,7 @@
   "checkin": {
     "pageTitle": "Bilan quotidien",
     "streakDays": "{days} jours consécutifs",
+    "learningDays": "Jour {days} d'apprentissage",
     "listening": "Compréhension orale",
     "reading": "Compréhension écrite",
     "speaking": "Expression orale",

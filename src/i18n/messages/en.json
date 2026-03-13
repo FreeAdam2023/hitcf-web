@@ -2612,6 +2612,7 @@
   "checkin": {
     "pageTitle": "Daily Check-in",
     "streakDays": "{days}-day streak",
+    "learningDays": "Day {days} of learning",
     "listening": "Listening",
     "reading": "Reading",
     "speaking": "Speaking",

@@ -14,25 +14,25 @@ function buildActivities(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: (key: string, values?: any) => string,
 ) {
-  const items: { emoji: string; label: string; value: string }[] = [];
+  const items: { label: string; value: string }[] = [];
 
   if (data.listening.questions_answered > 0)
-    items.push({ emoji: "\uD83C\uDFA7", label: t("listening"), value: `${data.listening.correct}/${data.listening.questions_answered}` });
+    items.push({ label: t("listening"), value: `${data.listening.correct}/${data.listening.questions_answered}` });
   if (data.reading.questions_answered > 0)
-    items.push({ emoji: "\uD83D\uDCD6", label: t("reading"), value: `${data.reading.correct}/${data.reading.questions_answered}` });
+    items.push({ label: t("reading"), value: `${data.reading.correct}/${data.reading.questions_answered}` });
   const speakTotal = data.speaking.practice_count + data.speaking.conversation_count;
   if (speakTotal > 0)
-    items.push({ emoji: "\uD83C\uDF99\uFE0F", label: t("speaking"), value: `${speakTotal} ${t("sessions")}` });
+    items.push({ label: t("speaking"), value: `${speakTotal} ${t("sessions")}` });
   if (data.writing.tasks_completed > 0)
-    items.push({ emoji: "\u270D\uFE0F", label: t("writing"), value: `${data.writing.tasks_completed} ${t("tasks")}` });
+    items.push({ label: t("writing"), value: `${data.writing.tasks_completed} ${t("tasks")}` });
   if (data.speed_drill.questions_answered > 0)
-    items.push({ emoji: "\u26A1", label: t("speedDrill"), value: `${data.speed_drill.correct}/${data.speed_drill.questions_answered}` });
+    items.push({ label: t("speedDrill"), value: `${data.speed_drill.correct}/${data.speed_drill.questions_answered}` });
   if (data.wrong_reviews > 0)
-    items.push({ emoji: "\uD83D\uDD04", label: t("wrongReview"), value: `${data.wrong_reviews} ${t("items")}` });
+    items.push({ label: t("wrongReview"), value: `${data.wrong_reviews} ${t("items")}` });
   if (data.words_looked_up > 0)
-    items.push({ emoji: "\uD83D\uDCD6", label: t("wordsLearned"), value: `${data.words_looked_up} ${t("wordsUnit")}` });
+    items.push({ label: t("wordsLearned"), value: `${data.words_looked_up} ${t("wordsUnit")}` });
   if (data.vocabulary_saved > 0)
-    items.push({ emoji: "\u2B50", label: t("vocabSavedLabel"), value: `${data.vocabulary_saved} ${t("wordsUnit")}` });
+    items.push({ label: t("vocabSavedLabel"), value: `${data.vocabulary_saved} ${t("wordsUnit")}` });
   return items;
 }
 
@@ -143,11 +143,6 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
             position: "relative",
           }}
         >
-          {/* Fire emoji */}
-          <div style={{ fontSize: 80, lineHeight: 1, marginBottom: 16 }}>
-            🔥
-          </div>
-
           {/* Giant hero number + unit */}
           <div
             style={{
@@ -194,7 +189,7 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
           </div>
         </div>
 
-        {/* User name + streak badge */}
+        {/* User name + badges */}
         <div
           style={{
             display: "flex",
@@ -209,27 +204,27 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
               fontSize: 40,
               fontWeight: 700,
               color: "#ffffff",
-              marginBottom: data.streak_days > 0 ? 16 : 0,
+              marginBottom: 16,
             }}
           >
             {data.user_name}
           </div>
-          {data.streak_days > 0 && (
+          {data.learning_days > 0 && (
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 8,
-                background: "rgba(255,100,0,0.15)",
-                border: "1px solid rgba(255,100,0,0.25)",
+                background: "rgba(100,140,255,0.15)",
+                border: "1px solid rgba(100,140,255,0.25)",
                 borderRadius: 50,
                 padding: "10px 28px",
                 fontSize: 24,
                 fontWeight: 600,
-                color: "#ff8c00",
+                color: "#7cb3ff",
               }}
             >
-              🔥 {t("streakDays", { days: data.streak_days })}
+              {t("learningDays", { days: data.learning_days })}
             </div>
           )}
         </div>
@@ -259,7 +254,6 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
                 backdropFilter: "blur(10px)",
               }}
             >
-              <span style={{ fontSize: 26 }}>{item.emoji}</span>
               <span style={{ fontSize: 22, color: "rgba(255,255,255,0.55)", fontWeight: 500 }}>
                 {item.label}
               </span>

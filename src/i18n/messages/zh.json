@@ -2612,6 +2612,7 @@
   "checkin": {
     "pageTitle": "每日打卡",
     "streakDays": "连续打卡 {days} 天",
+    "learningDays": "学习第 {days} 天",
     "listening": "听力",
     "reading": "阅读",
     "speaking": "口语",

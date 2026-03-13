@@ -2612,6 +2612,7 @@
   "checkin": {
     "pageTitle": "تسجيل يومي",
     "streakDays": "{days} أيام متتالية",
+    "learningDays": "اليوم {days} من التعلم",
     "listening": "الاستماع",
     "reading": "القراءة",
     "speaking": "التحدث",
