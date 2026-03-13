@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { useTranslations } from "next-intl";
-import { Download, Loader2, Check, BookOpen, CalendarDays, Share2, Copy } from "lucide-react";
+import { Download, Loader2, Check, BookOpen, CalendarDays, Share2 } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { CheckinPoster } from "@/components/checkin/checkin-poster";
@@ -18,8 +18,6 @@ export default function CheckinPage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [sharing, setSharing] = useState(false);
-  const [copying, setCopying] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     fetchDailyCheckin()
@@ -94,22 +92,6 @@ export default function CheckinPage() {
       }
     } finally {
       setSharing(false);
-    }
-  };
-
-  const handleCopy = async () => {
-    if (!posterRef.current) return;
-    setCopying(true);
-    setCopied(false);
-    try {
-      const blob = await generateBlob();
-      await navigator.clipboard.write([
-        new ClipboardItem({ "image/png": blob }),
-      ]);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 3000);
-    } finally {
-      setCopying(false);
     }
   };
 
@@ -189,26 +171,6 @@ export default function CheckinPage() {
               <Share2 className="mr-2 h-4 w-4" />
             )}
             {t("share")}
-          </Button>
-        )}
-
-        {/* Copy image (desktop) */}
-        {!canShare && (
-          <Button
-            onClick={handleCopy}
-            disabled={copying}
-            variant="outline"
-            className="flex-1"
-            size="lg"
-          >
-            {copying ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : copied ? (
-              <Check className="mr-2 h-4 w-4" />
-            ) : (
-              <Copy className="mr-2 h-4 w-4" />
-            )}
-            {copied ? t("copied") : t("copyImage")}
           </Button>
         )}
 
