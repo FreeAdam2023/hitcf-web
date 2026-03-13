@@ -1281,7 +1281,8 @@
       "emptyDesc": "做题时点击法语单词，在弹窗中点击 ⭐ 即可收藏生词",
       "goToTests": "去题库开始练习",
       "flashcardReview": "翻卡复习",
-      "remove": "删除"
+      "remove": "删除",
+      "autoSaved": "智能收藏"
     },
     "flashcard": {
       "empty": "暂无收藏词汇，请先去做题收藏一些生词",

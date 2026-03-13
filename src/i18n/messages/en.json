@@ -1281,7 +1281,8 @@
       "emptyDesc": "Click any French word while practicing, then tap the ⭐ to save it",
       "goToTests": "Go to Tests",
       "flashcardReview": "Flashcard Review",
-      "remove": "Remove"
+      "remove": "Remove",
+      "autoSaved": "Smart Save"
     },
     "flashcard": {
       "empty": "No saved words yet. Go practice and save some words first.",

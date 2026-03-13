@@ -594,6 +594,7 @@ export interface SavedWordItem {
   test_set_name: string | null;
   question_number: number | null;
   sentence: string | null;
+  source: string | null;
   created_at: string;
   // Joined from vocabulary_cards:
   meaning_zh: string | null;

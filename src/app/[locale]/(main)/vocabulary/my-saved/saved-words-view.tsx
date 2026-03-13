@@ -225,6 +225,9 @@ function SavedWordRow({
           >
             <Volume2 className={`h-3.5 w-3.5 ${playingWord === item.word ? "text-blue-500" : "text-muted-foreground"}`} />
           </button>
+          {item.source === "auto" && (
+            <Badge variant="secondary" className="text-[10px] px-1.5 py-0 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">{t("vocabulary.mySaved.autoSaved")}</Badge>
+          )}
           {item.cefr_level && (
             <Badge variant="secondary" className="text-[10px] px-1.5 py-0">{item.cefr_level}</Badge>
           )}

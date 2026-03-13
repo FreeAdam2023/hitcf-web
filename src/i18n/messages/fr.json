@@ -1281,7 +1281,8 @@
       "emptyDesc": "Cliquez sur n'importe quel mot français pendant vos exercices, puis appuyez sur ⭐ pour l'enregistrer",
       "goToTests": "Aller aux tests",
       "flashcardReview": "Révision par flashcards",
-      "remove": "Supprimer"
+      "remove": "Supprimer",
+      "autoSaved": "Sauvegarde auto"
     },
     "flashcard": {
       "empty": "Aucun mot enregistré pour l'instant. Allez vous entraîner et enregistrez des mots d'abord.",
