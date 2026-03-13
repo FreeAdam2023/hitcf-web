@@ -51,11 +51,6 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
       data.speaking.conversation_count +
       (data.wrong_reviews ?? 0);
 
-    // Summary parts (non-zero only)
-    const summaryParts: string[] = [];
-    const totalVocab = data.vocabulary_saved + (data.words_looked_up ?? 0);
-    if (totalVocab > 0) summaryParts.push(t("vocabSaved", { count: totalVocab }));
-
     return (
       <div
         ref={ref}
@@ -263,30 +258,6 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
             </div>
           ))}
         </div>
-
-        {/* Summary line */}
-        {summaryParts.length > 0 && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 24,
-              padding: "32px 60px 0",
-              fontSize: 22,
-              fontWeight: 500,
-              color: "rgba(255,255,255,0.35)",
-              position: "relative",
-            }}
-          >
-            {summaryParts.map((part, i) => (
-              <span key={i}>
-                {i > 0 && <span style={{ margin: "0 0 0 0", opacity: 0.5 }}> / </span>}
-                {part}
-              </span>
-            ))}
-          </div>
-        )}
 
         {/* Spacer */}
         <div style={{ flex: 1 }} />
