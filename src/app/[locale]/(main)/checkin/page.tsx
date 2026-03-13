@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { useTranslations } from "next-intl";
-import { Download, Loader2, Check, BookOpen } from "lucide-react";
+import { Download, Loader2, Check, BookOpen, CalendarDays } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { CheckinPoster } from "@/components/checkin/checkin-poster";
@@ -69,7 +69,7 @@ export default function CheckinPage() {
   if (!hasActivity) {
     return (
       <div className="mx-auto max-w-lg px-4 py-16 text-center">
-        <div className="text-6xl mb-6">📅</div>
+        <CalendarDays className="mx-auto h-16 w-16 text-muted-foreground/60 mb-6" />
         <h1 className="text-2xl font-bold mb-3">{t("emptyTitle")}</h1>
         <p className="text-muted-foreground mb-8">{t("emptyDescription")}</p>
         <Button size="lg" onClick={() => router.push("/tests")}>
