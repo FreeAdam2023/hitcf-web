@@ -930,7 +930,7 @@
     "totalCount": "{count} au total",
     "doneCount": "{count} faites",
     "includeDone": "Inclure les questions déjà faites",
-    "dedupHint": "Les compteurs reflètent les questions uniques après suppression des doublons",
+    "dedupHint": "{raw} questions au total, {dedup} uniques après suppression des doublons",
     "upgradeBanner": {
       "title": "La pratique par niveau est réservée aux Pro",
       "description": "Pratique ciblée par niveau et type sur toute la banque de questions",

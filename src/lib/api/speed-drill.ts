@@ -48,7 +48,7 @@ export function abandonSpeedDrill(attemptId: string): Promise<void> {
 
 export interface LevelStats {
   type: string;
-  levels: Record<string, { total: number; completed: number }>;
+  levels: Record<string, { total: number; raw_total: number; completed: number }>;
 }
 
 export function fetchLevelStats(type: string): Promise<LevelStats> {

@@ -930,7 +930,7 @@
     "totalCount": "{count} total",
     "doneCount": "{count} done",
     "includeDone": "Include completed questions",
-    "dedupHint": "Counts reflect unique questions after removing cross-set duplicates",
+    "dedupHint": "{raw} questions total, {dedup} unique after removing duplicates",
     "upgradeBanner": {
       "title": "Level Practice is Pro-only",
       "description": "Targeted practice by level and type across the full question bank",
