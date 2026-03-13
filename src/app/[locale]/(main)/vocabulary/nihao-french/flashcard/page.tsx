@@ -43,6 +43,7 @@ function NihaoFlashcardInner() {
       backLink="/vocabulary/nihao-french"
       backLabel={t("vocabulary.nihaoFrench.title")}
       emptyMessage={t("vocabulary.flashcard.emptyNihao")}
+      pool="nihao"
     />
   );
 }

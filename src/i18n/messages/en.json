@@ -98,6 +98,7 @@
     "accountSettings": "Account Settings",
     "feedback": "Feedback",
     "referral": "Invite Friends",
+    "checkin": "Daily Check-in",
     "logout": "Log Out"
   },
   "feedback": {
@@ -2593,5 +2594,27 @@
     "mockExamProRequired": "Upgrade to Pro",
     "speakingProHint": "Latest month topics are free — AI conversation, pronunciation, and past months require Pro.",
     "writingProHint": "Latest month topics are free — AI scoring, corrections, and past months require Pro."
+  },
+  "checkin": {
+    "pageTitle": "Daily Check-in",
+    "streakDays": "{days}-day streak",
+    "listening": "Listening",
+    "reading": "Reading",
+    "speaking": "Speaking",
+    "writing": "Writing",
+    "attempts": "{count} attempts",
+    "sessions": "sessions",
+    "tasks": "tasks",
+    "bestScore": "Best {score}",
+    "minutes": "{count} min",
+    "vocabSaved": "{count} vocab",
+    "totalItems": "{count} items",
+    "tagline": "TCF Canada Daily Practice",
+    "saveImage": "Save Check-in Card",
+    "saving": "Generating...",
+    "saved": "Saved! Go share it! 🎉",
+    "emptyTitle": "No Practice Yet Today",
+    "emptyDescription": "Complete any practice to generate your daily check-in card and track your progress!",
+    "startPractice": "Start Practice"
   }
 }

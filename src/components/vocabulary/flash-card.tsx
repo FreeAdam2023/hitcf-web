@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
-import { getVocabularyCard } from "@/lib/api/vocabulary";
+import { getVocabularyCard, logWordView } from "@/lib/api/vocabulary";
 import { getCached, setCache } from "@/lib/vocab-cache";
 import type { VocabularyCardData, ConjugationTable } from "@/lib/api/types";
 
@@ -28,6 +28,8 @@ export interface FlashCardWord {
   part_of_speech?: string | null;
   /** IPA pronunciation (from pool data) */
   ipa?: string | null;
+  /** Source type for view tracking (listening/reading/speaking/writing) */
+  source_type?: string | null;
 }
 
 interface FlashCardViewProps {
@@ -35,6 +37,8 @@ interface FlashCardViewProps {
   backLink: string;
   backLabel: string;
   emptyMessage?: string;
+  /** Pool identifier for view tracking: "saved" | "nihao" | "theme" */
+  pool?: "saved" | "nihao" | "theme";
 }
 
 /* ------------------------------------------------------------------ */
@@ -656,7 +660,7 @@ function CardBack({ card, speak, playing }: {
 /*  Main view                                                           */
 /* ------------------------------------------------------------------ */
 
-export function FlashCardView({ loadCards, backLink, backLabel, emptyMessage }: FlashCardViewProps) {
+export function FlashCardView({ loadCards, backLink, backLabel, emptyMessage, pool = "saved" }: FlashCardViewProps) {
   const t = useTranslations();
 
   const [cards, setCards] = useState<FlashCardWord[]>([]);
@@ -700,8 +704,14 @@ export function FlashCardView({ loadCards, backLink, backLabel, emptyMessage }: 
 
   const handleFlip = useCallback(() => {
     if (animatingRef.current) return;
-    setFlipped((f) => !f);
-  }, []);
+    setFlipped((prev) => {
+      // Log view only when flipping front→back (i.e. prev was false)
+      if (!prev && cards[currentIndex]) {
+        logWordView(cards[currentIndex].word, cards[currentIndex].source_type, pool);
+      }
+      return !prev;
+    });
+  }, [cards, currentIndex, pool]);
 
   const navigate = useCallback((direction: "next" | "prev") => {
     if (animatingRef.current) return;

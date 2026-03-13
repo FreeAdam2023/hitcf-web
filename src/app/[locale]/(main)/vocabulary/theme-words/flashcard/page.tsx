@@ -42,6 +42,7 @@ function ThemeFlashcardInner() {
       backLink="/vocabulary/theme-words"
       backLabel={t("vocabulary.themeWords.title")}
       emptyMessage={t("vocabulary.flashcard.emptyTheme")}
+      pool="theme"
     />
   );
 }

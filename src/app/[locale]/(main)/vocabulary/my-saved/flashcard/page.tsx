@@ -39,6 +39,7 @@ function FlashcardInner() {
         article: item.article,
         part_of_speech: item.part_of_speech,
         ipa: item.ipa,
+        source_type: item.source_type,
       };
     });
   }, [session?.user, sourceType, t]);
@@ -56,6 +57,7 @@ function FlashcardInner() {
       loadCards={loadCards}
       backLink="/vocabulary/my-saved"
       backLabel={t("vocabulary.mySaved.title")}
+      pool="saved"
     />
   );
 }

@@ -98,6 +98,7 @@
     "accountSettings": "إعدادات الحساب",
     "feedback": "إرسال ملاحظات",
     "referral": "دعوة الأصدقاء",
+    "checkin": "تسجيل يومي",
     "logout": "تسجيل الخروج"
   },
   "feedback": {
@@ -2593,5 +2594,27 @@
     "mockExamProRequired": "الترقية إلى Pro",
     "speakingProHint": "مواضيع الشهر الأخير مجانية — المحادثة بالذكاء الاصطناعي والنطق والأشهر السابقة تتطلب Pro.",
     "writingProHint": "مواضيع الشهر الأخير مجانية — التقييم والتصحيح بالذكاء الاصطناعي والأشهر السابقة تتطلب Pro."
+  },
+  "checkin": {
+    "pageTitle": "تسجيل يومي",
+    "streakDays": "{days} أيام متتالية",
+    "listening": "الاستماع",
+    "reading": "القراءة",
+    "speaking": "التحدث",
+    "writing": "الكتابة",
+    "attempts": "{count} محاولات",
+    "sessions": "جلسات",
+    "tasks": "مهام",
+    "bestScore": "الأفضل {score}",
+    "minutes": "{count} دقيقة",
+    "vocabSaved": "{count} مفردات",
+    "totalItems": "{count} عناصر",
+    "tagline": "ممارسة يومية TCF Canada",
+    "saveImage": "حفظ البطاقة",
+    "saving": "جاري الإنشاء...",
+    "saved": "تم الحفظ! شاركها! 🎉",
+    "emptyTitle": "لا ممارسة بعد اليوم",
+    "emptyDescription": "أكمل أي تمرين لإنشاء بطاقة التسجيل اليومية وتتبع تقدمك!",
+    "startPractice": "ابدأ التمرين"
   }
 }

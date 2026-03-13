@@ -98,6 +98,7 @@
     "accountSettings": "Paramètres du compte",
     "feedback": "Commentaires",
     "referral": "Inviter des amis",
+    "checkin": "Bilan du jour",
     "logout": "Se déconnecter"
   },
   "feedback": {
@@ -2593,5 +2594,27 @@
     "mockExamProRequired": "Passer à Pro",
     "speakingProHint": "Les sujets du dernier mois sont gratuits — la conversation IA, la prononciation et les mois précédents nécessitent Pro.",
     "writingProHint": "Les sujets du dernier mois sont gratuits — la notation IA, la correction et les mois précédents nécessitent Pro."
+  },
+  "checkin": {
+    "pageTitle": "Bilan quotidien",
+    "streakDays": "{days} jours consécutifs",
+    "listening": "Compréhension orale",
+    "reading": "Compréhension écrite",
+    "speaking": "Expression orale",
+    "writing": "Expression écrite",
+    "attempts": "{count} tentatives",
+    "sessions": "sessions",
+    "tasks": "tâches",
+    "bestScore": "Meilleur {score}",
+    "minutes": "{count} min",
+    "vocabSaved": "{count} vocabulaire",
+    "totalItems": "{count} éléments",
+    "tagline": "Pratique quotidienne TCF Canada",
+    "saveImage": "Enregistrer la carte",
+    "saving": "Génération...",
+    "saved": "Enregistré ! Partagez-le ! 🎉",
+    "emptyTitle": "Pas encore de pratique aujourd'hui",
+    "emptyDescription": "Complétez un exercice pour générer votre carte quotidienne et suivre vos progrès !",
+    "startPractice": "Commencer"
   }
 }

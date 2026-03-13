@@ -275,3 +275,16 @@ export async function downloadExportFile(
   const res = await fetch(`/api/vocab/${type}/export/download/${jobId}`);
   await handleExportResponse(res, "vocabulary.apkg");
 }
+
+/** Fire-and-forget: log a word view for analytics */
+export function logWordView(
+  word: string,
+  sourceType?: string | null,
+  pool: "saved" | "nihao" | "theme" = "saved",
+): void {
+  post("/api/vocab/view", {
+    word,
+    source_type: sourceType ?? null,
+    pool,
+  }).catch(() => {});
+}

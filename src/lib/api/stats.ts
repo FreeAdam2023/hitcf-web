@@ -35,3 +35,31 @@ export function getStatsOverview(): Promise<StatsOverview> {
 export function getStatsHistory(): Promise<StatsHistory> {
   return get<StatsHistory>("/api/stats/history");
 }
+
+export interface DailyCheckinSection {
+  questions_answered: number;
+  correct: number;
+  attempts: number;
+}
+
+export interface DailyCheckinData {
+  date: string;
+  user_name: string;
+  streak_days: number;
+  listening: DailyCheckinSection;
+  reading: DailyCheckinSection;
+  writing: { tasks_completed: number; best_score: number };
+  speaking: {
+    practice_count: number;
+    conversation_count: number;
+    best_score: number;
+  };
+  vocabulary_saved: number;
+  total_practice_minutes: number;
+  verification_hash: string;
+  generated_at: string;
+}
+
+export function fetchDailyCheckin(): Promise<DailyCheckinData> {
+  return get<DailyCheckinData>("/api/stats/daily-checkin");
+}
