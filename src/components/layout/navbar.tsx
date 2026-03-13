@@ -26,7 +26,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { usePracticeStore } from "@/stores/practice-store";
 import { UserMenu } from "./user-menu";
-import { ThemeToggle } from "./theme-toggle";
 import { NotificationBell } from "./notification-bell";
 import { cn, parseUTCms } from "@/lib/utils";
 
@@ -139,7 +138,6 @@ export function Navbar() {
               <Flame className="h-4 w-4" />
             </Link>
           </Button>
-          <ThemeToggle />
           <NotificationBell />
           <UserMenu />
         </div>
@@ -197,7 +195,6 @@ function ImmersiveHeader() {
           {formatElapsed(elapsed)}
         </div>
         <div className="ms-auto flex items-center gap-1">
-          <ThemeToggle />
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="ghost" size="sm" className="gap-1.5 text-destructive hover:text-destructive hover:bg-destructive/10">

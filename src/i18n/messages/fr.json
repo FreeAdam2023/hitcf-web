@@ -769,6 +769,12 @@
       "title": "Langue de l'interface",
       "description": "Choisir la langue d'affichage"
     },
+    "theme": {
+      "title": "Apparence",
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système"
+    },
     "heroGreetingPro": "Bonjour, {name}",
     "heroGreetingFree": "Salut {name},",
     "quotes": {

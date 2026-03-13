@@ -769,6 +769,12 @@
       "title": "界面语言",
       "description": "选择平台显示语言"
     },
+    "theme": {
+      "title": "外观模式",
+      "light": "浅色",
+      "dark": "深色",
+      "system": "跟随系统"
+    },
     "heroGreetingPro": "Bonjour, {name}",
     "heroGreetingFree": "Salut {name},",
     "quotes": {

@@ -769,6 +769,12 @@
       "title": "لغة الواجهة",
       "description": "اختر لغة العرض"
     },
+    "theme": {
+      "title": "المظهر",
+      "light": "فاتح",
+      "dark": "داكن",
+      "system": "النظام"
+    },
     "heroGreetingPro": "Bonjour, {name}",
     "heroGreetingFree": "Salut {name},",
     "quotes": {

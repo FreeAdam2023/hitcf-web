@@ -37,7 +37,11 @@ import {
   ArrowRight,
   BarChart3,
   Globe,
+  Moon,
+  Sun,
+  Monitor,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const QUOTE_FR = [
   "Petit à petit, l'oiseau fait son nid.",
@@ -151,6 +155,7 @@ export function AccountView() {
   const fetchUser = useAuthStore((s) => s.fetchUser);
   const logout = useAuthStore((s) => s.logout);
   const router = useRouter();
+  const { theme, resolvedTheme, setTheme } = useTheme();
   const locale = (user?.ui_language || "zh") as Locale;
 
   // Stats
@@ -680,6 +685,33 @@ export function AccountView() {
                   <Check className="mr-1 h-3 w-3" />
                 ) : null}
                 {LOCALE_LABELS[loc]}
+              </Button>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ── Theme Card ── */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            {resolvedTheme === "dark" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+            {t("account.theme.title")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-2">
+            {(["light", "dark", "system"] as const).map((mode) => (
+              <Button
+                key={mode}
+                size="sm"
+                variant={theme === mode ? "default" : "outline"}
+                onClick={() => setTheme(mode)}
+              >
+                {mode === "light" && <Sun className="mr-1 h-3 w-3" />}
+                {mode === "dark" && <Moon className="mr-1 h-3 w-3" />}
+                {mode === "system" && <Monitor className="mr-1 h-3 w-3" />}
+                {t(`account.theme.${mode}`)}
               </Button>
             ))}
           </div>
