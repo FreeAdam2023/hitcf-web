@@ -26,7 +26,7 @@ export function SavedWordsView() {
   const [loading, setLoading] = useState(true);
   const [sourceType, setSourceType] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
-  const { speak, playing } = useFrenchSpeech();
+  const { speak, playingWord } = useFrenchSpeech();
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -164,7 +164,7 @@ export function SavedWordsView() {
                 item={item}
                 onDelete={handleDelete}
                 onSpeak={(word, url) => speak(word, url)}
-                playing={playing}
+                playingWord={playingWord}
                 t={t}
               />
             ))}
@@ -204,13 +204,13 @@ function SavedWordRow({
   item,
   onDelete,
   onSpeak,
-  playing,
+  playingWord,
   t,
 }: {
   item: SavedWordItem;
   onDelete: (word: string) => void;
   onSpeak: (word: string, url: string | null) => void;
-  playing: boolean;
+  playingWord: string | null;
   t: ReturnType<typeof useTranslations>;
 }) {
   return (
@@ -223,7 +223,7 @@ function SavedWordRow({
             onClick={() => onSpeak(item.word, item.audio_url)}
             className="rounded-full p-0.5 hover:bg-muted transition-colors"
           >
-            <Volume2 className={`h-3.5 w-3.5 ${playing ? "text-blue-500" : "text-muted-foreground"}`} />
+            <Volume2 className={`h-3.5 w-3.5 ${playingWord === item.word ? "text-blue-500" : "text-muted-foreground"}`} />
           </button>
           {item.cefr_level && (
             <Badge variant="secondary" className="text-[10px] px-1.5 py-0">{item.cefr_level}</Badge>

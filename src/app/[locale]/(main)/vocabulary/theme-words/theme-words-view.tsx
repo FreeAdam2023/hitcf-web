@@ -22,7 +22,7 @@ export function ThemeWordsView() {
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [tag, setTag] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
-  const { speak, playing } = useFrenchSpeech();
+  const { speak, playingWord } = useFrenchSpeech();
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -208,7 +208,7 @@ export function ThemeWordsView() {
                 item={item}
                 onSpeak={(word, url) => speak(word, url)}
                 onWordClick={handleWordClick}
-                playing={playing}
+                playingWord={playingWord}
                 showTag={!tag}
               />
             ))}
@@ -256,13 +256,13 @@ function ThemeWordRow({
   item,
   onSpeak,
   onWordClick,
-  playing,
+  playingWord,
   showTag,
 }: {
   item: ThemeWordItem;
   onSpeak: (word: string, url: string | null) => void;
   onWordClick: (word: string, el: HTMLElement) => void;
-  playing: boolean;
+  playingWord: string | null;
   showTag: boolean;
 }) {
   return (
@@ -285,7 +285,7 @@ function ThemeWordRow({
             onClick={() => onSpeak(item.word, item.audio_url)}
             className="rounded-full p-0.5 hover:bg-muted transition-colors"
           >
-            <Volume2 className={`h-3.5 w-3.5 ${playing ? "text-blue-500" : "text-muted-foreground"}`} />
+            <Volume2 className={`h-3.5 w-3.5 ${playingWord === item.word ? "text-blue-500" : "text-muted-foreground"}`} />
           </button>
           {item.cefr_level && (
             <Badge variant="secondary" className="text-[10px] px-1.5 py-0" title="CEFR">{item.cefr_level}</Badge>

@@ -23,7 +23,7 @@ export function NihaoWordsView() {
   const [lesson, setLesson] = useState<number | undefined>(undefined);
   const [theme, setTheme] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
-  const { speak, playing } = useFrenchSpeech();
+  const { speak, playingWord } = useFrenchSpeech();
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -226,7 +226,7 @@ export function NihaoWordsView() {
                 item={item}
                 onSpeak={(word, url) => speak(word, url)}
                 onWordClick={handleWordClick}
-                playing={playing}
+                playingWord={playingWord}
               />
             ))}
 
@@ -273,12 +273,12 @@ function NihaoWordRow({
   item,
   onSpeak,
   onWordClick,
-  playing,
+  playingWord,
 }: {
   item: NihaoWordItem;
   onSpeak: (word: string, url: string | null) => void;
   onWordClick: (word: string, el: HTMLElement) => void;
-  playing: boolean;
+  playingWord: string | null;
 }) {
   return (
     <div className="flex items-center gap-3 rounded-lg border px-4 py-2.5 transition-colors hover:bg-accent/30">
@@ -300,7 +300,7 @@ function NihaoWordRow({
             onClick={() => onSpeak(item.word, item.audio_url)}
             className="rounded-full p-0.5 hover:bg-muted transition-colors"
           >
-            <Volume2 className={`h-3.5 w-3.5 ${playing ? "text-blue-500" : "text-muted-foreground"}`} />
+            <Volume2 className={`h-3.5 w-3.5 ${playingWord === item.word ? "text-blue-500" : "text-muted-foreground"}`} />
           </button>
           {item.cefr_level && (
             <Badge variant="secondary" className="text-[10px] px-1.5 py-0" title="CEFR">{item.cefr_level}</Badge>

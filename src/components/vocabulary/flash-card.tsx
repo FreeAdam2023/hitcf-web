@@ -796,7 +796,7 @@ export function FlashCardView({ loadCards, backLink, backLabel, emptyMessage, po
   }
 
   return (
-    <div className="flashcard-anki mx-auto max-w-2xl px-4 py-8 space-y-6">
+    <div className="flashcard-anki mx-auto max-w-2xl px-4 py-6 pb-24 md:py-8 md:pb-8 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <Link href={backLink} className="text-sm text-muted-foreground hover:text-foreground">
@@ -818,7 +818,7 @@ export function FlashCardView({ loadCards, backLink, backLabel, emptyMessage, po
             style={{ perspective: "800px" }}
           >
             <div
-              className={`relative min-h-[320px] ${skipFlipTransition ? "" : "transition-transform duration-500"}`}
+              className={`relative min-h-[60svh] md:min-h-[420px] ${skipFlipTransition ? "" : "transition-transform duration-500"}`}
               style={{
                 transformStyle: "preserve-3d",
                 transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",

@@ -6,7 +6,7 @@ import { useCallback, useRef, useState } from "react";
  * Fallback: Web Speech API (browser TTS) with explicit French voice selection.
  */
 export function useFrenchSpeech() {
-  const [playing, setPlaying] = useState(false);
+  const [playingWord, setPlayingWord] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const speak = useCallback((word: string, audioUrl?: string | null) => {
@@ -20,15 +20,15 @@ export function useFrenchSpeech() {
       // Primary: play cached Azure TTS audio
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
-      setPlaying(true);
-      audio.onended = () => setPlaying(false);
+      setPlayingWord(word);
+      audio.onended = () => setPlayingWord(null);
       audio.onerror = () => {
-        setPlaying(false);
+        setPlayingWord(null);
         // Fallback to Web Speech API
         _webSpeech(word);
       };
       audio.play().catch(() => {
-        setPlaying(false);
+        setPlayingWord(null);
         _webSpeech(word);
       });
     } else {
@@ -36,7 +36,10 @@ export function useFrenchSpeech() {
     }
   }, []);
 
-  return { speak, playing };
+  /** @deprecated Use playingWord instead */
+  const playing = playingWord !== null;
+
+  return { speak, playing, playingWord };
 }
 
 /** Cached French voice reference */
