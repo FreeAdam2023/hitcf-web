@@ -2639,6 +2639,8 @@
     "wordsUnit": "mots",
     "items": "items",
     "overallProgress": "Progression globale",
+    "progressDone": "{count} terminés",
+    "progress30d": "{count} séries en 30j",
     "sealText": "CERTIFIÉ",
     "verifyTitle": "ZONE DE VÉRIFICATION ANTI-CONTREFAÇON",
     "verifyBody": "Il est certifié que {name} a complété les tâches d'étude ci-dessus le {date} à l'Institut de Recherche d'Examens HiTCF. Résultats authentiques et vérifiés.",

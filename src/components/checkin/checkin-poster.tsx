@@ -285,10 +285,10 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
               {t("overallProgress")}
             </div>
             {([
-              { key: "listening" as const, label: t("listening"), color: "#60a5fa", data: progress.listening },
-              { key: "reading" as const, label: t("reading"), color: "#34d399", data: progress.reading },
-              { key: "speaking" as const, label: t("speaking"), color: "#fbbf24", data: progress.speaking },
-              { key: "writing" as const, label: t("writing"), color: "#fb7185", data: progress.writing },
+              { key: "listening" as const, label: t("listening"), color: "#60a5fa", data: progress.listening, monthly: false },
+              { key: "reading" as const, label: t("reading"), color: "#34d399", data: progress.reading, monthly: false },
+              { key: "speaking" as const, label: t("speaking"), color: "#fbbf24", data: progress.speaking, monthly: true },
+              { key: "writing" as const, label: t("writing"), color: "#fb7185", data: progress.writing, monthly: true },
             ]).map((item) => {
               const pct = item.data.total > 0 ? Math.min(100, Math.round((item.data.done / item.data.total) * 100)) : 0;
               return (
@@ -305,7 +305,9 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
                       {item.label}
                     </span>
                     <span style={{ fontSize: 28, fontWeight: 600, color: "rgba(255,255,255,0.55)", fontVariantNumeric: "tabular-nums" }}>
-                      {item.data.done}/{item.data.total} · {pct}%
+                      {item.monthly
+                        ? t("progress30d", { count: item.data.done }) + ` · ${pct}%`
+                        : t("progressDone", { count: item.data.done }) + ` · ${pct}%`}
                     </span>
                   </div>
                   <div

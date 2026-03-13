@@ -2639,6 +2639,8 @@
     "wordsUnit": "words",
     "items": "items",
     "overallProgress": "Overall Progress",
+    "progressDone": "{count} done",
+    "progress30d": "{count} sets in 30d",
     "sealText": "CERTIFIED",
     "verifyTitle": "ANTI-COUNTERFEIT VERIFICATION ZONE",
     "verifyBody": "This is to certify that {name} has completed the above study tasks on {date} at the HiTCF Examination Research Institute. Results are authentic and hereby verified.",
