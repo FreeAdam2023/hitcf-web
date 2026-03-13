@@ -184,7 +184,7 @@ function TranscriptBlock({
             <div className="space-y-2">
               {sentences.map((s, i) => {
                 const nativeText = s.native || s.zh;
-                const isKey = isReading && s.is_key;
+                const isKey = (isReading || isListening) && s.is_key;
                 const timeRange = sentenceTimeMap?.get(i);
                 const isPlaying = timeRange && currentAudioTime != null
                   && currentAudioTime >= timeRange.start
@@ -256,11 +256,14 @@ function TranscriptBlock({
               && currentAudioTime < timeRange.end;
             const clickable = !!timeRange && !!onSentenceClick;
             const segNative = locale === "zh" ? seg.zh : locale === "ar" ? seg.ar : seg.en;
+            const sentIdx = seg.sentence_index ?? i;
+            const isKey = sentences?.[sentIdx]?.is_key;
             return (
               <div
                 key={i}
                 className={[
                   "rounded-md px-2 py-1 transition-colors",
+                  isKey ? "bg-amber-50/60 dark:bg-amber-950/20" : "",
                   isPlaying ? "bg-primary/10" : "",
                   clickable ? "cursor-pointer hover:bg-primary/5" : "",
                 ].filter(Boolean).join(" ")}
@@ -277,6 +280,7 @@ function TranscriptBlock({
                 <p className="font-medium leading-relaxed text-foreground">
                   {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                   <FrenchText text={seg.text} saveContext={saveContext} sentenceTranslations={[{ fr: seg.text, en: seg.en ?? undefined, zh: seg.zh ?? undefined, native: segNative ?? undefined }]} />
+                  {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400" title={t("explanation.keyClue")}>★</span>}
                   <button
                     onClick={(e) => { e.stopPropagation(); const idx = seg.sentence_index ?? i; setAnalysisTarget((prev) => prev?.index === idx ? null : { index: idx, fr: seg.text }); }}
                     className={`ml-1 inline-flex shrink-0 rounded p-0.5 transition-colors hover:bg-muted hover:text-primary ${analysisTarget?.index === (seg.sentence_index ?? i) ? "text-primary" : "text-muted-foreground/50"}`}
