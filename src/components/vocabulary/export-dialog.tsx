@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Download, Info, Loader2 } from "lucide-react";
+import { AlertTriangle, Download, Info, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   ExportLimitError,
@@ -121,7 +121,7 @@ export function ExportDialog({ wordCount, exportType, exportParams }: ExportDial
       if (cancelledRef.current) return;
       if (e instanceof ExportLimitError) {
         if (e.status === 429) setError(t("vocabulary.export.errorRateLimit"));
-        else if (e.status === 403) setError(t("vocabulary.export.errorWordLimit"));
+        else if (e.status === 403) setError(t("vocabulary.export.errorWordLimit", { limit: e.limit ?? 2000 }));
         else if (e.status === 401) setError(t("vocabulary.export.errorLogin"));
         else setError(t("vocabulary.export.errorGeneric"));
       } else {
@@ -232,7 +232,10 @@ export function ExportDialog({ wordCount, exportType, exportParams }: ExportDial
         )}
 
         {error && (
-          <p className="text-sm text-destructive">{error}</p>
+          <div className="flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-3">
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+            <p className="text-sm font-medium text-destructive">{error}</p>
+          </div>
         )}
 
         <Button onClick={handleExport} disabled={isWorking} className="w-full">

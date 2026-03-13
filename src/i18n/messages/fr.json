@@ -1319,7 +1319,7 @@
       "humor7": "Le français a 14 temps, je n'en ai choisi que 6 — de rien",
       "doNotClose": "Veuillez ne pas fermer ni actualiser — vous devrez recommencer l'exportation",
       "errorRateLimit": "Limite quotidienne d'exportation atteinte. Veuillez réessayer demain",
-      "errorWordLimit": "Les utilisateurs gratuits peuvent exporter jusqu'à 1 000 mots à la fois. Passez à Pro pour plus",
+      "errorWordLimit": "Les utilisateurs gratuits peuvent exporter jusqu'à {limit} mots à la fois. Passez à Pro pour plus",
       "errorLogin": "Veuillez vous connecter pour exporter",
       "errorGeneric": "L'exportation a échoué. Veuillez réessayer plus tard",
       "platformTip": "Le fichier .apkg exporté s'ouvre avec Anki, une application gratuite et open source de flashcards. La version bureau (Windows / Mac / Linux) et AnkiDroid (Android) sont gratuites ; AnkiMobile (iOS) coûte $24.99 en achat unique. Nous recommandons de réviser sur ordinateur pour la meilleure expérience.",

@@ -1319,7 +1319,7 @@
       "humor7": "French has 14 tenses, I only picked 6 — you're welcome",
       "doNotClose": "Please don't close or refresh — you'll need to restart the export",
       "errorRateLimit": "Daily export limit reached. Please try again tomorrow",
-      "errorWordLimit": "Free users can export up to 1,000 words at a time. Upgrade to Pro for more",
+      "errorWordLimit": "Free users can export up to {limit} words at a time. Upgrade to Pro for more",
       "errorLogin": "Please log in to export",
       "errorGeneric": "Export failed. Please try again later",
       "platformTip": "The exported .apkg file opens with Anki, a free open-source flashcard app. Desktop (Windows / Mac / Linux) and AnkiDroid (Android) are free; AnkiMobile (iOS) is a one-time $24.99 purchase. We recommend reviewing on desktop for the best experience.",

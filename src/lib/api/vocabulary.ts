@@ -77,21 +77,30 @@ export function getSavedWordStats(): Promise<SavedWordStats> {
 
 // Export error handling
 export class ExportLimitError extends Error {
-  constructor(public status: number, message: string) {
+  limit?: number;
+  constructor(public status: number, message: string, limit?: number) {
     super(message);
     this.name = "ExportLimitError";
+    this.limit = limit;
   }
 }
 
-function handleExportError(res: Response): never {
+async function handleExportError(res: Response): Promise<never> {
   if (res.status === 401) throw new ExportLimitError(401, "Login required");
   if (res.status === 429) throw new ExportLimitError(429, "Rate limit exceeded");
-  if (res.status === 403) throw new ExportLimitError(403, "Word count limit exceeded");
+  if (res.status === 403) {
+    let limit: number | undefined;
+    try {
+      const body = await res.json();
+      limit = body?.detail?.limit;
+    } catch { /* ignore */ }
+    throw new ExportLimitError(403, "Word count limit exceeded", limit);
+  }
   throw new Error("Export failed");
 }
 
 async function handleExportResponse(res: Response, fallbackFilename: string) {
-  if (!res.ok) handleExportError(res);
+  if (!res.ok) await handleExportError(res);
   const blob = await res.blob();
   const cd = res.headers.get("content-disposition") || "";
   // Prefer filename* (RFC 5987, UTF-8) over plain filename
@@ -227,7 +236,7 @@ export async function startNihaoExport(
   const res = await fetch(`/api/vocab/nihao/export/start${qs ? `?${qs}` : ""}`, {
     method: "POST",
   });
-  if (!res.ok) handleExportError(res);
+  if (!res.ok) await handleExportError(res);
   return res.json();
 }
 
@@ -242,7 +251,7 @@ export async function startThemeExport(
   const res = await fetch(`/api/vocab/theme/export/start${qs ? `?${qs}` : ""}`, {
     method: "POST",
   });
-  if (!res.ok) handleExportError(res);
+  if (!res.ok) await handleExportError(res);
   return res.json();
 }
 
@@ -255,7 +264,7 @@ export async function startSavedExport(
   const res = await fetch(`/api/vocab/saved/export/start${qs ? `?${qs}` : ""}`, {
     method: "POST",
   });
-  if (!res.ok) handleExportError(res);
+  if (!res.ok) await handleExportError(res);
   return res.json();
 }
 
