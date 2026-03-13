@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import Image from "next/image";
-import { Clock, Gift, Menu } from "lucide-react";
+import { Clock, Flame, Gift, Menu } from "lucide-react";
 
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,6 @@ import {
 import { usePracticeStore } from "@/stores/practice-store";
 import { UserMenu } from "./user-menu";
 import { ThemeToggle } from "./theme-toggle";
-import { LocaleToggle } from "./locale-toggle";
 import { NotificationBell } from "./notification-bell";
 import { cn, parseUTCms } from "@/lib/utils";
 
@@ -135,7 +134,11 @@ export function Navbar() {
         </nav>
 
         <div className="ms-auto flex items-center gap-2">
-          <LocaleToggle />
+          <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
+            <Link href="/checkin" aria-label={t("nav.checkin")}>
+              <Flame className="h-4 w-4" />
+            </Link>
+          </Button>
           <ThemeToggle />
           <NotificationBell />
           <UserMenu />
@@ -194,7 +197,6 @@ function ImmersiveHeader() {
           {formatElapsed(elapsed)}
         </div>
         <div className="ms-auto flex items-center gap-1">
-          <LocaleToggle />
           <ThemeToggle />
           <AlertDialog>
             <AlertDialogTrigger asChild>

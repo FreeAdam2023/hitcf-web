@@ -84,7 +84,8 @@
     "exitConfirmProgress": "سيتم حفظ تقدمك في {label}.",
     "exitConfirmContinue": "متابعة {label}",
     "exitConfirmExit": "خروج",
-    "referral": "دعوة الأصدقاء"
+    "referral": "دعوة الأصدقاء",
+    "checkin": "تسجيل يومي"
   },
   "userMenu": {
     "pro": "Pro",
@@ -2633,7 +2634,8 @@
     "verifyFootnote": "بإشراف مركز شهادات HiTCF · باطل إذا تم التعديل · للاستخدام الدراسي فقط",
     "emptyTitle": "لا ممارسة بعد اليوم",
     "emptyDescription": "أكمل أي تمرين لإنشاء بطاقة التسجيل اليومية وتتبع تقدمك!",
-    "startPractice": "ابدأ التمرين"
+    "startPractice": "ابدأ التمرين",
+    "heroLabel": "تمارين اليوم"
   },
   "notifications": {
     "label": "إشعارات",

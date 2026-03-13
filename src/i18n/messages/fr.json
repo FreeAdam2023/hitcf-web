@@ -84,7 +84,8 @@
     "exitConfirmProgress": "Votre progression sera sauvegardée.",
     "exitConfirmContinue": "Continuer {label}",
     "exitConfirmExit": "Confirmer la sortie",
-    "referral": "Inviter des amis"
+    "referral": "Inviter des amis",
+    "checkin": "Bilan quotidien"
   },
   "userMenu": {
     "pro": "Membre Pro",
@@ -2633,7 +2634,8 @@
     "verifyFootnote": "Supervisé par le Centre de Certification HiTCF · Nul si modifié · Usage limité au suivi d'études",
     "emptyTitle": "Pas encore de pratique aujourd'hui",
     "emptyDescription": "Complétez un exercice pour générer votre carte quotidienne et suivre vos progrès !",
-    "startPractice": "Commencer"
+    "startPractice": "Commencer",
+    "heroLabel": "EXERCICES AUJOURD'HUI"
   },
   "notifications": {
     "label": "Notifications",

@@ -84,7 +84,8 @@
     "exitConfirmProgress": "退出后当前{label}进度将保留。",
     "exitConfirmContinue": "继续{label}",
     "exitConfirmExit": "确认退出",
-    "referral": "邀请好友"
+    "referral": "邀请好友",
+    "checkin": "每日打卡"
   },
   "userMenu": {
     "pro": "Pro 会员",
@@ -2633,7 +2634,8 @@
     "verifyFootnote": "本证书由 HiTCF 认证中心监制 · 涂改无效 · 仅供学习打卡使用",
     "emptyTitle": "今天还没开始练习",
     "emptyDescription": "完成任意练习后即可生成打卡卡片，记录你的努力！",
-    "startPractice": "开始练习"
+    "startPractice": "开始练习",
+    "heroLabel": "今日练习"
   },
   "notifications": {
     "label": "通知",
