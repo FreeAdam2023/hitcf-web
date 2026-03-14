@@ -138,7 +138,6 @@ export function WrongAnswerList() {
     try {
       const result = await practiceWrongAnswers({
         type: type === "all" ? undefined : type,
-        count: 10,
       });
 
       initPractice(result.id, result.questions);
@@ -207,7 +206,7 @@ export function WrongAnswerList() {
             ) : (
               <>
                 <BookOpen className="mr-1.5 h-4 w-4" />
-                {t("wrongAnswers.practiceFromWrong", { count: 10 })}
+                {t("wrongAnswers.practiceFromWrong", { count: waStats ? waStats.total - waStats.mastered : data?.total ?? 0 })}
               </>
             )}
           </Button>
