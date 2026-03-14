@@ -778,6 +778,40 @@ export function PracticeSession() {
           </div>
         )}
 
+        {/* 快捷导航：选项下方，方便不看解析直接切题 */}
+        <div className="flex items-center justify-between">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
+          >
+            <ChevronLeft className="mr-1 h-4 w-4" />
+            {t("practice.session.prev")}
+          </Button>
+
+          {allAnswered && (
+            <Button
+              size="sm"
+              onClick={handleComplete}
+              disabled={completing}
+            >
+              <CheckCircle className="mr-1 h-4 w-4" />
+              {completing ? t("common.actions.submitting") : t("practice.session.completePractice")}
+            </Button>
+          )}
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleNext}
+            disabled={isLast}
+          >
+            {t("practice.session.next")}
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        </div>
+
         {/* 听力原文 / 阅读逐句翻译 — 答题后展开 */}
         {currentAnswer && (question.type === "listening" || question.type === "reading") && (
           <div className="animate-in fade-in slide-in-from-top-2 duration-300">
@@ -820,40 +854,44 @@ export function PracticeSession() {
           </div>
         )}
 
-        <Separator />
+        {/* 底部导航：解析/翻译之后再放一组，看完解析方便直接下一题 */}
+        {currentAnswer && (
+          <>
+            <Separator />
+            <div className="flex items-center justify-between">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handlePrev}
+                disabled={currentIndex === 0}
+              >
+                <ChevronLeft className="mr-1 h-4 w-4" />
+                {t("practice.session.prev")}
+              </Button>
 
-        <div className="flex items-center justify-between">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handlePrev}
-            disabled={currentIndex === 0}
-          >
-            <ChevronLeft className="mr-1 h-4 w-4" />
-            {t("practice.session.prev")}
-          </Button>
+              {allAnswered && (
+                <Button
+                  size="sm"
+                  onClick={handleComplete}
+                  disabled={completing}
+                >
+                  <CheckCircle className="mr-1 h-4 w-4" />
+                  {completing ? t("common.actions.submitting") : t("practice.session.completePractice")}
+                </Button>
+              )}
 
-          {allAnswered && (
-            <Button
-              size="sm"
-              onClick={handleComplete}
-              disabled={completing}
-            >
-              <CheckCircle className="mr-1 h-4 w-4" />
-              {completing ? t("common.actions.submitting") : t("practice.session.completePractice")}
-            </Button>
-          )}
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleNext}
-            disabled={isLast}
-          >
-            {t("practice.session.next")}
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
-        </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleNext}
+                disabled={isLast}
+              >
+                {t("practice.session.next")}
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </Button>
+            </div>
+          </>
+        )}
       </div>
 
       {/* 右侧：解析面板 (桌面) */}
