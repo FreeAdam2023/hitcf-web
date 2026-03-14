@@ -163,12 +163,12 @@ export default function CheckinPage() {
 
       {/* Action buttons */}
       <div className="mt-6 flex gap-3">
-        {/* Share (mobile only — Web Share API) */}
-        {canShare && (
+        {canShare ? (
+          /* Mobile: share button (iOS save-to-photos via share sheet) */
           <Button
             onClick={handleShare}
             disabled={sharing}
-            className="flex-1 md:hidden"
+            className="flex-1"
             size="lg"
           >
             {sharing ? (
@@ -176,27 +176,26 @@ export default function CheckinPage() {
             ) : (
               <Share2 className="mr-2 h-4 w-4" />
             )}
-            {t("share")}
+            {t("saveImage")}
+          </Button>
+        ) : (
+          /* Desktop: download as file */
+          <Button
+            onClick={handleSave}
+            disabled={saving}
+            className="flex-1"
+            size="lg"
+          >
+            {saving ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : saved ? (
+              <Check className="mr-2 h-4 w-4" />
+            ) : (
+              <Download className="mr-2 h-4 w-4" />
+            )}
+            {saved ? t("saved") : t("saveImage")}
           </Button>
         )}
-
-        {/* Save / download */}
-        <Button
-          onClick={handleSave}
-          disabled={saving}
-          variant={canShare ? "outline" : "default"}
-          className="flex-1"
-          size="lg"
-        >
-          {saving ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : saved ? (
-            <Check className="mr-2 h-4 w-4" />
-          ) : (
-            <Download className="mr-2 h-4 w-4" />
-          )}
-          {saved ? t("saved") : t("saveImage")}
-        </Button>
       </div>
 
     </div>
