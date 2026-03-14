@@ -104,7 +104,7 @@ function TranscriptBlock({
   if (!isReading && !hasTranscript && !audioTimestamps?.length && !showTranscriptOptions) return null;
 
   return (
-    <div className="rounded-lg bg-muted/50 p-3 text-sm animate-in fade-in duration-300">
+    <div className="rounded-lg bg-muted/50 p-3 text-sm lg:text-base animate-in fade-in duration-300">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h4 className="flex items-center gap-1.5 font-medium">
@@ -698,7 +698,7 @@ export function PracticeSession() {
   const allAnswered = totalAnswered >= questions.length;
 
   return (
-    <div className="grid gap-3 lg:gap-6 lg:grid-cols-[200px_1fr_320px] h-full overflow-hidden">
+    <div className="grid gap-3 lg:gap-6 lg:grid-cols-[200px_1fr_360px] h-full overflow-hidden">
       {/* 左侧：题号导航 (桌面) */}
       <div className="hidden lg:block overflow-y-auto scrollbar-on-hover">
         <div className="py-3">
@@ -910,7 +910,7 @@ export function PracticeSession() {
               saveContext={saveContext}
             />
           ) : (
-            <div className="rounded-md border p-4 text-sm text-muted-foreground">
+            <div className="rounded-md border p-4 text-sm lg:text-base text-muted-foreground">
               <p>{t("practice.session.viewAfterAnswer")}</p>
             </div>
           )}

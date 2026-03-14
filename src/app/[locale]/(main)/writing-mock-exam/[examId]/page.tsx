@@ -227,7 +227,7 @@ export default function WritingExamSessionPage() {
               <Card>
                 <CardContent className="pt-4">
                   <h3 className="mb-2 text-sm font-semibold">{t("consigne")}</h3>
-                  <div className="whitespace-pre-wrap text-sm leading-relaxed">
+                  <div className="whitespace-pre-wrap text-sm lg:text-base leading-relaxed">
                     {currentQuestion.question_text}
                   </div>
                 </CardContent>
@@ -237,7 +237,7 @@ export default function WritingExamSessionPage() {
               <Card>
                 <CardContent className="pt-4">
                   <h3 className="mb-2 text-sm font-semibold">{t("refDocs")}</h3>
-                  <div className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
+                  <div className="whitespace-pre-wrap text-sm lg:text-base leading-relaxed text-muted-foreground">
                     {currentQuestion.passage}
                   </div>
                 </CardContent>
@@ -268,7 +268,7 @@ export default function WritingExamSessionPage() {
             value={currentText}
             onChange={(e) => handleEssayChange(e.target.value)}
             placeholder={t("editorPlaceholder")}
-            className="flex-1 resize-none p-4 text-sm leading-relaxed outline-none"
+            className="flex-1 resize-none p-4 text-sm lg:text-base leading-relaxed outline-none"
             spellCheck
             lang="fr"
           />

@@ -127,7 +127,7 @@ export default function SpeakingConversationResultsPage() {
               <p className="font-medium">
                 {hasUserTurns ? t("evaluationUnavailable") : t("noUserTurns")}
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm lg:text-base text-muted-foreground">
                 {hasUserTurns ? t("evaluationUnavailableDesc") : t("noUserTurnsDesc")}
               </p>
               {hasUserTurns && (

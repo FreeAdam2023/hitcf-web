@@ -104,7 +104,7 @@ export function ExplanationPanel({
       </Button>
 
       {open && (
-        <div className="border-t px-4 py-3 text-sm">
+        <div className="border-t px-4 py-3 text-sm lg:text-base">
           {loading ? (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -214,7 +214,7 @@ export function ExplanationPanel({
                             )}
                           </div>
                           {v.meaning && (
-                            <p className="mt-0.5 text-xs text-muted-foreground">
+                            <p className="mt-0.5 text-xs lg:text-sm text-muted-foreground">
                               {v.meaning}
                             </p>
                           )}

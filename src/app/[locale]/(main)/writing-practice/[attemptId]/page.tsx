@@ -262,7 +262,7 @@ export default function WritingPracticePage() {
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
             Consigne
           </h3>
-          <div className="prose prose-sm max-w-none text-sm leading-relaxed whitespace-pre-line">
+          <div className="prose prose-sm lg:prose-base max-w-none text-sm lg:text-base leading-relaxed whitespace-pre-line">
             <FrenchText text={task?.question_text ?? ""} />
           </div>
           {task?.passage && (
@@ -270,7 +270,7 @@ export default function WritingPracticePage() {
               <p className="mb-1 text-xs font-medium text-muted-foreground">
                 {t("writingExam.referenceDocuments")}
               </p>
-              <div className="whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
+              <div className="whitespace-pre-line text-xs lg:text-sm leading-relaxed text-muted-foreground">
                 <FrenchText text={task.passage} />
               </div>
             </div>
@@ -285,7 +285,7 @@ export default function WritingPracticePage() {
         <div className="flex flex-col gap-2">
           <textarea
             ref={textareaRef}
-            className="w-full flex-1 rounded-lg border bg-background px-4 py-3 text-sm leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[250px] resize-y disabled:opacity-50"
+            className="w-full flex-1 rounded-lg border bg-background px-4 py-3 text-sm lg:text-base leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[250px] resize-y disabled:opacity-50"
             placeholder={t("writingExam.placeholder")}
             value={essayText}
             onChange={(e) => setEssay(String(taskNum), e.target.value)}
@@ -367,9 +367,9 @@ export default function WritingPracticePage() {
                 return (
                   <div key={key} className="space-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">
+                      <span className="text-sm lg:text-base font-medium">
                         {CRITERION_NAMES[key]}
-                        <span className="ml-1 text-xs text-muted-foreground">
+                        <span className="ml-1 text-xs lg:text-sm text-muted-foreground">
                           ({t(`testDetail.criteria.${key}`)})
                         </span>
                       </span>
@@ -381,7 +381,7 @@ export default function WritingPracticePage() {
                         style={{ width: `${(c.score / 5) * 100}%` }}
                       />
                     </div>
-                    <p className="text-xs text-muted-foreground">{c.feedback}</p>
+                    <p className="text-xs lg:text-sm text-muted-foreground">{c.feedback}</p>
                   </div>
                 );
               })}
@@ -390,7 +390,7 @@ export default function WritingPracticePage() {
             <Separator />
             <div>
               <p className="mb-1 text-sm font-medium">{t("testDetail.overallComment")}</p>
-              <p className="text-sm text-muted-foreground">{feedback.overall_comment}</p>
+              <p className="text-sm lg:text-base text-muted-foreground">{feedback.overall_comment}</p>
             </div>
 
             {/* Corrections */}
@@ -401,7 +401,7 @@ export default function WritingPracticePage() {
                   <p className="mb-2 text-sm font-medium">{t("testDetail.corrections")}</p>
                   <div className="space-y-2">
                     {feedback.corrections.map((c, i) => (
-                      <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
+                      <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs lg:text-sm">
                         <div className="flex items-start gap-1.5">
                           <span className="line-through text-red-500"><FrenchText text={c.original} /></span>
                           <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
@@ -423,7 +423,7 @@ export default function WritingPracticePage() {
                   <p className="mb-2 text-sm font-medium">{t("testDetail.vocabSuggestions")}</p>
                   <div className="space-y-2">
                     {feedback.vocab_suggestions.map((v, i) => (
-                      <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
+                      <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs lg:text-sm">
                         <div className="flex items-start gap-1.5">
                           <span className="text-muted-foreground"><FrenchText text={v.original} /></span>
                           <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />

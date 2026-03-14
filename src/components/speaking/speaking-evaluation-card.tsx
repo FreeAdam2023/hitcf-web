@@ -49,7 +49,7 @@ export function SpeakingEvaluationCard({
             const dim = evaluation[key];
             return (
               <div key={key} className="space-y-1">
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center justify-between text-sm lg:text-base">
                   <span>{t(`dim.${key}`)}</span>
                   <span className="font-medium">{dim.score}/5</span>
                 </div>
@@ -59,7 +59,7 @@ export function SpeakingEvaluationCard({
                   indicatorClassName={color}
                 />
                 {dim.feedback && (
-                  <p className="text-xs text-muted-foreground">{dim.feedback}</p>
+                  <p className="text-xs lg:text-sm text-muted-foreground">{dim.feedback}</p>
                 )}
               </div>
             );
@@ -74,7 +74,7 @@ export function SpeakingEvaluationCard({
             <CardTitle className="text-base">{t("overallComment")}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm leading-relaxed">{evaluation.overall_comment}</p>
+            <p className="text-sm lg:text-base leading-relaxed">{evaluation.overall_comment}</p>
           </CardContent>
         </Card>
       )}
@@ -88,7 +88,7 @@ export function SpeakingEvaluationCard({
           <CardContent>
             <div className="space-y-3">
               {evaluation.corrections.map((c, i) => (
-                <div key={i} className="rounded-md bg-muted/50 p-3 text-sm">
+                <div key={i} className="rounded-md bg-muted/50 p-3 text-sm lg:text-base">
                   <div className="flex gap-2">
                     <span className="text-destructive line-through">
                       {c.original}
@@ -97,7 +97,7 @@ export function SpeakingEvaluationCard({
                       {c.corrected}
                     </span>
                   </div>
-                  <p className="mt-1 text-xs text-muted-foreground">
+                  <p className="mt-1 text-xs lg:text-sm text-muted-foreground">
                     {c.explanation}
                   </p>
                 </div>
@@ -116,7 +116,7 @@ export function SpeakingEvaluationCard({
           <CardContent>
             <div className="space-y-3">
               {evaluation.vocab_suggestions.map((v, i) => (
-                <div key={i} className="rounded-md bg-muted/50 p-3 text-sm">
+                <div key={i} className="rounded-md bg-muted/50 p-3 text-sm lg:text-base">
                   <div className="flex gap-2">
                     <span className="text-muted-foreground">{v.original}</span>
                     <span>→</span>
@@ -124,7 +124,7 @@ export function SpeakingEvaluationCard({
                       {v.suggestion}
                     </span>
                   </div>
-                  <p className="mt-1 text-xs text-muted-foreground">
+                  <p className="mt-1 text-xs lg:text-sm text-muted-foreground">
                     {v.reason}
                   </p>
                 </div>

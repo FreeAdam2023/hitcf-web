@@ -101,7 +101,7 @@ export default function SpeakingResultsPage() {
           </div>
           <div>
             <h2 className="text-lg font-semibold">{t("speakingPractice.results.title")}</h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm lg:text-base text-muted-foreground">
               {attempt.test_set_name}
             </p>
           </div>
@@ -138,7 +138,7 @@ export default function SpeakingResultsPage() {
           <h3 className="mb-2 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
             {t("speakingPractice.transcript")}
           </h3>
-          <p className="text-sm leading-relaxed whitespace-pre-line">
+          <p className="text-sm lg:text-base leading-relaxed whitespace-pre-line">
             {attempt.transcript}
           </p>
         </div>

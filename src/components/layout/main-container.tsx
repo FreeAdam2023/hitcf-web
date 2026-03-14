@@ -23,7 +23,7 @@ export function MainContainer({ children }: { children: React.ReactNode }) {
     <main
       className={cn(
         "mx-auto w-full px-4 animate-fade-in-up",
-        isFixedLayout ? "max-w-7xl h-[calc(100dvh-2.5rem)] overflow-hidden py-2" : "max-w-6xl flex-1 py-6",
+        isFixedLayout ? "max-w-7xl xl:max-w-[1400px] h-[calc(100dvh-2.5rem)] overflow-hidden py-2" : "max-w-6xl flex-1 py-6",
       )}
     >
       {children}

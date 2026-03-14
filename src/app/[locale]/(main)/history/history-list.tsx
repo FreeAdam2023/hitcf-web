@@ -436,7 +436,7 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
       {/* Content */}
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <span className="truncate text-sm font-medium">
+          <span className="truncate text-sm lg:text-base font-medium">
             {item.mode === "speed_drill"
               ? t(`common.modes.speed_drill`)
               : item.test_set_name
@@ -453,7 +453,7 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
           )}
         </div>
 
-        <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
+        <div className="mt-1 flex items-center gap-3 text-xs lg:text-sm text-muted-foreground">
           {item.test_set_type && (
             <span>{t(`common.types.${item.test_set_type}`)}</span>
           )}

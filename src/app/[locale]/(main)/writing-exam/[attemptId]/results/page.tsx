@@ -74,9 +74,9 @@ function TaskFeedbackPanel({
             return (
               <div key={key} className="space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">
+                  <span className="text-sm lg:text-base font-medium">
                     {CRITERION_NAMES[key]}
-                    <span className="ml-1 text-xs text-muted-foreground">({criterionDesc})</span>
+                    <span className="ml-1 text-xs lg:text-sm text-muted-foreground">({criterionDesc})</span>
                   </span>
                   <span className="text-sm font-semibold">{c.score}/5</span>
                 </div>
@@ -86,7 +86,7 @@ function TaskFeedbackPanel({
                     style={{ width: `${(c.score / 5) * 100}%` }}
                   />
                 </div>
-                <p className="text-xs text-muted-foreground">{c.feedback}</p>
+                <p className="text-xs lg:text-sm text-muted-foreground">{c.feedback}</p>
               </div>
             );
           })}
@@ -96,7 +96,7 @@ function TaskFeedbackPanel({
         <Separator />
         <div>
           <p className="mb-1 text-sm font-medium">{t("testDetail.overallComment")}</p>
-          <p className="text-sm text-muted-foreground">{feedback.overall_comment}</p>
+          <p className="text-sm lg:text-base text-muted-foreground">{feedback.overall_comment}</p>
         </div>
 
         {/* Expandable corrections + suggestions */}
@@ -115,7 +115,7 @@ function TaskFeedbackPanel({
                     <p className="mb-2 text-sm font-medium">{t("testDetail.corrections")}</p>
                     <div className="space-y-2">
                       {feedback.corrections.map((c, i) => (
-                        <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
+                        <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs lg:text-sm">
                           <div className="flex items-start gap-1.5">
                             <span className="line-through text-red-500">{c.original}</span>
                             <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
@@ -132,7 +132,7 @@ function TaskFeedbackPanel({
                     <p className="mb-2 text-sm font-medium">{t("testDetail.vocabSuggestions")}</p>
                     <div className="space-y-2">
                       {feedback.vocab_suggestions.map((v, i) => (
-                        <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs">
+                        <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs lg:text-sm">
                           <div className="flex items-start gap-1.5">
                             <span className="text-muted-foreground">{v.original}</span>
                             <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />

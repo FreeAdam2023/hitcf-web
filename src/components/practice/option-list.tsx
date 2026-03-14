@@ -85,7 +85,7 @@ export function OptionList({
             aria-checked={isSelected}
             aria-label={`${opt.key}${opt.text ? `: ${opt.text}` : ""}`}
             className={cn(
-              "rounded-md border text-sm transition-colors",
+              "rounded-md border text-sm lg:text-base transition-colors",
               isHorizontal
                 ? "flex flex-1 items-center justify-center p-3"
                 : "flex w-full items-start gap-3 p-3 text-left",

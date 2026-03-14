@@ -131,7 +131,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
 
       {instructionData && (
         <div>
-          <p className="text-sm text-muted-foreground italic">
+          <p className="text-sm lg:text-base text-muted-foreground italic">
             {instructionData.fr}
             <button
               type="button"
@@ -168,7 +168,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
       )}
 
       {question.passage && (
-        <div className="max-h-[40vh] md:max-h-[60vh] overflow-y-auto rounded-md border bg-muted/50 p-4 text-sm leading-relaxed whitespace-pre-line">
+        <div className="max-h-[40vh] md:max-h-[60vh] overflow-y-auto rounded-md border bg-muted/50 p-4 text-sm lg:text-base leading-relaxed whitespace-pre-line">
           <FrenchText text={question.passage} disabled={vocabDisabled} saveContext={saveContext} />
         </div>
       )}
@@ -181,12 +181,12 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
             </p>
           )}
           {isListening && (
-            <p className="text-sm font-medium text-muted-foreground">{question.question_text}</p>
+            <p className="text-sm lg:text-base font-medium text-muted-foreground">{question.question_text}</p>
           )}
           {answered && hasTranslation && (
             <div className="mt-1 space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-200">
-              {qTranslations[0] && <p className="text-sm text-muted-foreground">{qTranslations[0]}</p>}
-              {qTranslations[1] && <p className="text-xs text-muted-foreground/70">{qTranslations[1]}</p>}
+              {qTranslations[0] && <p className="text-sm lg:text-base text-muted-foreground">{qTranslations[0]}</p>}
+              {qTranslations[1] && <p className="text-xs lg:text-sm text-muted-foreground/70">{qTranslations[1]}</p>}
             </div>
           )}
         </div>

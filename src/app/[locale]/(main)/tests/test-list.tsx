@@ -609,7 +609,7 @@ export function TestList() {
             {t("tests.pageTitle")}
           </span>
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-sm lg:text-base text-muted-foreground">
           {t("tests.pageSubtitle")}
         </p>
         <div className="mt-3 flex flex-wrap gap-2">

@@ -36,7 +36,7 @@ function DimensionBar({ label, score }: { label: string; score: number }) {
   else if (pct >= 40) barColor = "bg-amber-500";
   return (
     <div className="space-y-1">
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex items-center justify-between text-sm lg:text-base">
         <span>{label}</span>
         <span className="font-medium">{score}/5</span>
       </div>
@@ -70,13 +70,13 @@ function TaskResultCard({ task, t }: { task: WritingExamTask; t: (key: string) =
               <DimensionBar label={t("dim.grammaire")} score={fb.grammaire.score} />
             </div>
             {fb.overall_comment && (
-              <p className="text-sm text-muted-foreground">{fb.overall_comment}</p>
+              <p className="text-sm lg:text-base text-muted-foreground">{fb.overall_comment}</p>
             )}
             {fb.corrections.length > 0 && (
               <div className="space-y-1">
                 <h4 className="text-xs font-semibold text-muted-foreground">{t("corrections")}</h4>
                 {fb.corrections.slice(0, 5).map((c, i) => (
-                  <div key={i} className="rounded border p-2 text-xs">
+                  <div key={i} className="rounded border p-2 text-xs lg:text-sm">
                     <span className="line-through text-red-500">{c.original}</span>
                     {" → "}
                     <span className="text-emerald-600">{c.corrected}</span>
@@ -89,7 +89,7 @@ function TaskResultCard({ task, t }: { task: WritingExamTask; t: (key: string) =
               <div className="space-y-1">
                 <h4 className="text-xs font-semibold text-muted-foreground">{t("vocabSuggestions")}</h4>
                 {fb.vocab_suggestions.map((v, i) => (
-                  <div key={i} className="rounded border p-2 text-xs">
+                  <div key={i} className="rounded border p-2 text-xs lg:text-sm">
                     <span className="text-muted-foreground">{v.original}</span>
                     {" → "}
                     <span className="font-medium text-primary">{v.suggestion}</span>
@@ -100,7 +100,7 @@ function TaskResultCard({ task, t }: { task: WritingExamTask; t: (key: string) =
             )}
           </>
         ) : (
-          <p className="text-sm text-muted-foreground">{t("noEvaluation")}</p>
+          <p className="text-sm lg:text-base text-muted-foreground">{t("noEvaluation")}</p>
         )}
       </CardContent>
     </Card>
@@ -146,7 +146,7 @@ export default function WritingExamResultsPage() {
             <Trophy className="mt-0.5 h-6 w-6 shrink-0 text-primary" />
             <div className="flex-1">
               <CardTitle className="text-xl">{t("examResults")}</CardTitle>
-              <p className="mt-1 text-sm text-muted-foreground">{dateStr}</p>
+              <p className="mt-1 text-sm lg:text-base text-muted-foreground">{dateStr}</p>
             </div>
           </div>
         </CardHeader>
@@ -194,7 +194,7 @@ export default function WritingExamResultsPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="whitespace-pre-wrap text-sm leading-relaxed">{exam.ai_feedback}</div>
+            <div className="whitespace-pre-wrap text-sm lg:text-base leading-relaxed">{exam.ai_feedback}</div>
           </CardContent>
         </Card>
       )}

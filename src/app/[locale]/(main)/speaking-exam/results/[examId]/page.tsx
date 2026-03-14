@@ -47,7 +47,7 @@ function DimensionBar({ label, score, max = 5 }: { label: string; score: number;
 
   return (
     <div className="space-y-1">
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex items-center justify-between text-sm lg:text-base">
         <span>{label}</span>
         <span className="font-medium">{score}/5</span>
       </div>
@@ -102,11 +102,11 @@ function TacheResultCard({
               <span className="font-bold">{ev.total_score}/30</span>
             </div>
             {ev.overall_comment && (
-              <p className="text-sm text-muted-foreground">{ev.overall_comment}</p>
+              <p className="text-sm lg:text-base text-muted-foreground">{ev.overall_comment}</p>
             )}
           </>
         ) : (
-          <p className="text-sm text-muted-foreground">{t("noEvaluation")}</p>
+          <p className="text-sm lg:text-base text-muted-foreground">{t("noEvaluation")}</p>
         )}
       </CardContent>
     </Card>
@@ -115,7 +115,7 @@ function TacheResultCard({
 
 function ReplayPanel({ tache, t }: { tache: TacheSummary | null; tacheNumber: number; t: (key: string) => string }) {
   if (!tache?.turns?.length) {
-    return <p className="py-4 text-center text-sm text-muted-foreground">{t("noEvaluation")}</p>;
+    return <p className="py-4 text-center text-sm lg:text-base text-muted-foreground">{t("noEvaluation")}</p>;
   }
   return (
     <div className="space-y-2 py-2">
@@ -125,7 +125,7 @@ function ReplayPanel({ tache, t }: { tache: TacheSummary | null; tacheNumber: nu
           className={`flex ${turn.role === "user" ? "justify-end" : "justify-start"}`}
         >
           <div
-            className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${
+            className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm lg:text-base ${
               turn.role === "user"
                 ? "bg-primary text-primary-foreground"
                 : "bg-muted"
@@ -192,7 +192,7 @@ export default function SpeakingExamResultsPage() {
             <Trophy className="mt-0.5 h-6 w-6 shrink-0 text-primary" />
             <div className="flex-1">
               <CardTitle className="text-xl">{t("examResults")}</CardTitle>
-              <p className="mt-1 text-sm text-muted-foreground">{dateStr}</p>
+              <p className="mt-1 text-sm lg:text-base text-muted-foreground">{dateStr}</p>
             </div>
           </div>
         </CardHeader>
@@ -237,7 +237,7 @@ export default function SpeakingExamResultsPage() {
             <p className="text-xs text-muted-foreground">{t("aiFeedbackDesc")}</p>
           </CardHeader>
           <CardContent>
-            <div className="whitespace-pre-wrap text-sm leading-relaxed">
+            <div className="whitespace-pre-wrap text-sm lg:text-base leading-relaxed">
               {exam.ai_feedback}
             </div>
           </CardContent>

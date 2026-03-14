@@ -38,7 +38,7 @@ export function ConversationChat({ turns, isWaiting }: ConversationChatProps) {
             )}
             <div
               className={cn(
-                "max-w-[85%] break-words rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed sm:max-w-[80%]",
+                "max-w-[85%] break-words rounded-2xl px-3.5 py-2.5 text-sm lg:text-base leading-relaxed sm:max-w-[80%]",
                 isExaminer
                   ? "rounded-tl-sm bg-muted"
                   : "rounded-tr-sm bg-primary text-primary-foreground",

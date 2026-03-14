@@ -445,15 +445,15 @@ export default function SpeakingExamSessionPage() {
           <CardContent className="space-y-4">
             {currentTache === 1 && (
               <>
-                <p className="text-sm text-muted-foreground">{t("tache1Desc")}</p>
-                <div className="rounded-lg bg-muted/50 p-3 text-sm">
+                <p className="text-sm lg:text-base text-muted-foreground">{t("tache1Desc")}</p>
+                <div className="rounded-lg bg-muted/50 p-3 text-sm lg:text-base">
                   <strong>{t("format")}:</strong> {t("tache1Format")}
                 </div>
               </>
             )}
             {currentTache === 2 && exam?.t2_question && (
               <>
-                <p className="text-sm text-muted-foreground">{t("tache2Desc")}</p>
+                <p className="text-sm lg:text-base text-muted-foreground">{t("tache2Desc")}</p>
                 <SceneBriefingCard
                   briefing={{
                     scenario: exam.t2_question.question_text || "",
@@ -463,19 +463,19 @@ export default function SpeakingExamSessionPage() {
                     tache_type: 2,
                   }}
                 />
-                <div className="rounded-lg bg-blue-50 p-3 text-sm dark:bg-blue-950/30">
+                <div className="rounded-lg bg-blue-50 p-3 text-sm lg:text-base dark:bg-blue-950/30">
                   <strong>{t("prepNotice")}:</strong> {t("tache2PrepNotice")}
                 </div>
               </>
             )}
             {currentTache === 3 && exam?.t3_question && (
               <>
-                <p className="text-sm text-muted-foreground">{t("tache3Desc")}</p>
+                <p className="text-sm lg:text-base text-muted-foreground">{t("tache3Desc")}</p>
                 <div className="rounded-lg border p-3">
-                  <p className="text-sm font-medium">{t("topic")}:</p>
-                  <p className="mt-1 text-sm">{exam.t3_question.question_text}</p>
+                  <p className="text-sm lg:text-base font-medium">{t("topic")}:</p>
+                  <p className="mt-1 text-sm lg:text-base">{exam.t3_question.question_text}</p>
                   {exam.t3_question.topic_zh && (
-                    <p className="mt-1 text-xs text-muted-foreground">
+                    <p className="mt-1 text-xs lg:text-sm text-muted-foreground">
                       {exam.t3_question.topic_zh}
                     </p>
                   )}
@@ -539,7 +539,7 @@ export default function SpeakingExamSessionPage() {
                 {tc("replayScenario")}
               </Button>
             )}
-            <p className="text-center text-sm text-muted-foreground">
+            <p className="text-center text-sm lg:text-base text-muted-foreground">
               {tc("prepDescription")}
             </p>
             <Button onClick={handleBeginTache}>{tc("startEarly")}</Button>

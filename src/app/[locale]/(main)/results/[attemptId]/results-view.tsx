@@ -161,7 +161,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
           )}
         </div>
         {completedDate && (
-          <p className="mt-1 text-sm text-muted-foreground">{completedDate}</p>
+          <p className="mt-1 text-sm lg:text-base text-muted-foreground">{completedDate}</p>
         )}
       </div>
 
@@ -234,7 +234,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
               <QuestionReviewItem key={ans.question_id} answer={ans} />
             ))
           ) : (
-            <div className="px-4 py-8 text-center text-sm text-muted-foreground">
+            <div className="px-4 py-8 text-center text-sm lg:text-base text-muted-foreground">
               {filter === "wrong" ? t("results.noWrongAnswers") : t("results.noAnswerRecords")}
             </div>
           )}
