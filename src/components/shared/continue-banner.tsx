@@ -99,9 +99,7 @@ export function ContinueBanner() {
           size="sm"
           variant="ghost"
           className="shrink-0 text-primary-foreground/70 hover:text-primary-foreground hover:bg-white/10"
-          onClick={() => {
-            abandonSpeedDrill(drill.attempt_id).then(() => setItem(null)).catch(() => {});
-          }}
+          onClick={() => setItem(null)}
         >
           <X className="h-4 w-4" />
         </Button>
