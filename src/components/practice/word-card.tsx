@@ -295,7 +295,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
               )}
 
               {/* All senses (if multiple) */}
-              {data.senses && data.senses.length > 1 ? (
+              {data.senses && data.senses.length > 0 ? (
                 <div className="space-y-0.5">
                   {data.senses.map((s, i) => {
                     const isContext = contextSense && s.zh === contextSense.zh && s.en === contextSense.en;
