@@ -5,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { Play, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { listAttempts } from "@/lib/api/attempts";
-import { getInProgressDrills, abandonSpeedDrill, type InProgressAttempt } from "@/lib/api/speed-drill";
+import { getInProgressDrills, type InProgressAttempt } from "@/lib/api/speed-drill";
 import { useTranslations } from "next-intl";
 import { localizeTestName } from "@/lib/test-name";
 import type { AttemptResponse } from "@/lib/api/types";
