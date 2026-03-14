@@ -726,7 +726,7 @@ export function PracticeSession() {
               audioRef={audioPlayerRef}
               onAudioTimeUpdate={setAudioTime}
               answered={!!currentAnswer}
-              autoPlayAudio={question.type === "listening"}
+              autoPlayAudio={question.type === "listening" && currentIndex > 0}
             />
           </div>
           <Button
