@@ -39,8 +39,6 @@ export default function CheckinPage() {
       data.writing.tasks_completed > 0 ||
       data.speaking.practice_count > 0 ||
       data.speaking.conversation_count > 0 ||
-      (data.speed_drill?.questions_answered ?? 0) > 0 ||
-      data.vocabulary_saved > 0 ||
       (data.words_looked_up ?? 0) > 0 ||
       (data.wrong_reviews ?? 0) > 0);
 

@@ -55,8 +55,6 @@ export interface DailyCheckinData {
     conversation_count: number;
     best_score: number;
   };
-  speed_drill: DailyCheckinSection;
-  vocabulary_saved: number;
   words_looked_up: number;
   wrong_reviews: number;
   total_practice_minutes: number;

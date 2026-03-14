@@ -27,14 +27,10 @@ function buildActivities(
     items.push({ label: t("speaking"), value: `${speakTotal} ${t("sessions")}` });
   if (data.writing.tasks_completed > 0)
     items.push({ label: t("writing"), value: `${data.writing.tasks_completed} ${t("tasks")}` });
-  if (data.speed_drill.questions_answered > 0)
-    items.push({ label: t("speedDrill"), value: `${data.speed_drill.correct}/${data.speed_drill.questions_answered}` });
   if (data.wrong_reviews > 0)
     items.push({ label: t("wrongReview"), value: `${data.wrong_reviews} ${t("items")}` });
   if (data.words_looked_up > 0)
     items.push({ label: t("wordsLearned"), value: `${data.words_looked_up} ${t("wordsUnit")}` });
-  if (data.vocabulary_saved > 0)
-    items.push({ label: t("vocabSavedLabel"), value: `${data.vocabulary_saved} ${t("wordsUnit")}` });
   return items;
 }
 
@@ -47,7 +43,6 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
     const heroNumber =
       data.listening.questions_answered +
       data.reading.questions_answered +
-      (data.speed_drill?.questions_answered ?? 0) +
       data.writing.tasks_completed +
       data.speaking.practice_count +
       data.speaking.conversation_count +
