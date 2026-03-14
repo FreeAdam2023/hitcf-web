@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Mic, Clock, Calendar, RotateCcw, List, ArrowLeft } from "lucide-react";
+import { useCelebration } from "@/hooks/use-celebration";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -32,6 +33,10 @@ export default function SpeakingResultsPage() {
   const [attempt, setAttempt] = useState<SpeakingAttemptResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  // Celebration — safe before early returns (undefined when still loading)
+  const spkPracticePct = attempt?.scores?.overall ?? undefined;
+  useCelebration(spkPracticePct);
 
   useEffect(() => {
     getSpeakingAttempt(params.attemptId)

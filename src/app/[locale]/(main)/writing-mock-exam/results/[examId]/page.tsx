@@ -5,6 +5,7 @@ import { useRouter } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowLeft, RotateCcw, Trophy, BarChart3, BrainCircuit, History } from "lucide-react";
+import { useCelebration } from "@/hooks/use-celebration";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -112,6 +113,10 @@ export default function WritingExamResultsPage() {
   const params = useParams<{ examId: string }>()!;
   const [exam, setExam] = useState<WritingExamDetail | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Celebration: total_score out of 60
+  const celebrationPct = exam?.total_score != null ? Math.round((exam.total_score / 60) * 100) : undefined;
+  useCelebration(celebrationPct);
 
   useEffect(() => {
     getWritingExam(params.examId)

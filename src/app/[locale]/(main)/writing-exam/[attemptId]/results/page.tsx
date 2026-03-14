@@ -5,6 +5,7 @@ import { useRouter } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowRight, PenLine, RotateCcw } from "lucide-react";
+import { useCelebration } from "@/hooks/use-celebration";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -162,6 +163,14 @@ export default function WritingExamResultsPage() {
   const [testSet, setTestSet] = useState<TestSetDetail | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Celebration — compute from results (safe: undefined before data loads)
+  const writingPct = results
+    ? results.tasks.length > 0
+      ? Math.round(((results.total_score ?? 0) / (results.tasks.length * 20)) * 100)
+      : 0
+    : undefined;
+  useCelebration(writingPct);
+
   useEffect(() => {
     // Clear exam store on results page
     reset();
@@ -189,7 +198,7 @@ export default function WritingExamResultsPage() {
     );
   }
 
-  const totalPossible = results.tasks.length * 20;
+  const totalPossible = results ? results.tasks.length * 20 : 0;
   const pct = totalPossible > 0 ? Math.round(((results.total_score ?? 0) / totalPossible) * 100) : 0;
 
   return (

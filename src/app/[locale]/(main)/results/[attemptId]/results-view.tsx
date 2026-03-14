@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
+import { useCelebration } from "@/hooks/use-celebration";
 
 import { parseUTCms } from "@/lib/utils";
 import { ArrowRight, RotateCcw, Share2 } from "lucide-react";
@@ -48,6 +49,8 @@ export function ResultsView({ attempt }: ResultsViewProps) {
   const [shareOpen, setShareOpen] = useState(false);
 
   const score = attempt.score ?? 0;
+  const scorePct = attempt.total > 0 ? Math.round((score / attempt.total) * 100) : 0;
+  useCelebration(scorePct);
   const isPointBased = attempt.test_set_type === "listening" || attempt.test_set_type === "reading";
   const tcfPoints = isPointBased ? calcTcfScore(attempt.answers) : undefined;
   const sortedAnswers = [...attempt.answers].sort(

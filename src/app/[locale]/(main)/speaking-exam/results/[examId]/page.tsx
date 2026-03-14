@@ -14,6 +14,7 @@ import {
   BrainCircuit,
   History,
 } from "lucide-react";
+import { useCelebration } from "@/hooks/use-celebration";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -144,6 +145,10 @@ export default function SpeakingExamResultsPage() {
   const params = useParams<{ examId: string }>()!;
   const [exam, setExam] = useState<SpeakingExamDetail | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Celebration: total_score out of 20
+  const celebrationPct = exam?.total_score != null ? Math.round((exam.total_score / 20) * 100) : undefined;
+  useCelebration(celebrationPct);
 
   useEffect(() => {
     getSpeakingExam(params.examId, { include_turns: true })

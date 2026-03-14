@@ -12,6 +12,7 @@ import {
   AlertTriangle,
   RefreshCw,
 } from "lucide-react";
+import { useCelebration } from "@/hooks/use-celebration";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +35,11 @@ export default function SpeakingConversationResultsPage() {
   );
   const [loading, setLoading] = useState(true);
   const [reEvaluating, setReEvaluating] = useState(false);
+
+  // Celebration — safe before early returns (undefined when no session yet)
+  const convEvalScore = session?.evaluation?.total_score;
+  const convCelebrationPct = convEvalScore != null ? Math.round((convEvalScore / 30) * 100) : session ? 50 : undefined;
+  useCelebration(convCelebrationPct);
 
   useEffect(() => {
     getConversation(params.sessionId)
