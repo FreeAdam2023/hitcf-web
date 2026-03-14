@@ -19,9 +19,9 @@ function buildActivities(
   const items: { label: string; value: string }[] = [];
 
   if (data.listening.questions_answered > 0)
-    items.push({ label: t("listening"), value: `${data.listening.correct}/${data.listening.questions_answered}` });
+    items.push({ label: t("listening"), value: `${data.listening.questions_answered} ${t("questionsUnit")}` });
   if (data.reading.questions_answered > 0)
-    items.push({ label: t("reading"), value: `${data.reading.correct}/${data.reading.questions_answered}` });
+    items.push({ label: t("reading"), value: `${data.reading.questions_answered} ${t("questionsUnit")}` });
   const speakTotal = data.speaking.practice_count + data.speaking.conversation_count;
   if (speakTotal > 0)
     items.push({ label: t("speaking"), value: `${speakTotal} ${t("sessions")}` });

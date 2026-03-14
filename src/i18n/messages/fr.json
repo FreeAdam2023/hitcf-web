@@ -2641,6 +2641,7 @@
     "wrongReview": "Révision erreurs",
     "wordsLearned": "Mots appris",
     "wordsUnit": "mots",
+    "questionsUnit": "Qs",
     "items": "items",
     "overallProgress": "Progression globale",
     "progressDone": "{count} terminés",
