@@ -50,12 +50,14 @@ export function unsaveWord(word: string): Promise<{ ok: boolean }> {
 
 export function listSavedWords(params?: {
   source_type?: string;
+  source?: string;
   test_set_id?: string;
   page?: number;
   page_size?: number;
 }): Promise<PaginatedResponse<SavedWordItem>> {
   const searchParams = new URLSearchParams();
   if (params?.source_type) searchParams.set("source_type", params.source_type);
+  if (params?.source) searchParams.set("source", params.source);
   if (params?.test_set_id) searchParams.set("test_set_id", params.test_set_id);
   if (params?.page) searchParams.set("page", String(params.page));
   if (params?.page_size) searchParams.set("page_size", String(params.page_size));

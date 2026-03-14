@@ -1287,7 +1287,10 @@
       "goToTests": "Aller aux tests",
       "flashcardReview": "Révision par flashcards",
       "remove": "Supprimer",
-      "autoSaved": "Sauvegarde auto"
+      "autoSaved": "Sauvegarde auto",
+      "sourceAll": "Tous",
+      "sourceManual": "Manuel",
+      "sourceAuto": "Auto"
     },
     "flashcard": {
       "empty": "Aucun mot enregistré pour l'instant. Allez vous entraîner et enregistrez des mots d'abord.",

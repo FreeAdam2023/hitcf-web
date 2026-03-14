@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "@/i18n/navigation";
-import { Loader2, Trash2, Volume2, Layers, PenLine } from "lucide-react";
+import { Loader2, Trash2, Volume2, Layers, PenLine, Hand, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +25,7 @@ export function SavedWordsView() {
   const [data, setData] = useState<PaginatedResponse<SavedWordItem> | null>(null);
   const [loading, setLoading] = useState(true);
   const [sourceType, setSourceType] = useState<string | undefined>(undefined);
+  const [source, setSource] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
   const { speak, playingWord } = useFrenchSpeech();
 
@@ -33,6 +34,7 @@ export function SavedWordsView() {
     try {
       const res = await listSavedWords({
         source_type: sourceType,
+        source,
         page,
         page_size: 20,
       });
@@ -42,7 +44,7 @@ export function SavedWordsView() {
     } finally {
       setLoading(false);
     }
-  }, [sourceType, page]);
+  }, [sourceType, source, page]);
 
   useEffect(() => {
     if (session?.user) {
@@ -120,26 +122,60 @@ export function SavedWordsView() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-2">
-        <button
-          onClick={() => handleFilterChange(undefined)}
-          className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
-            !sourceType ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"
-          }`}
-        >
-          {t("vocabulary.mySaved.filterAll")}
-        </button>
-        {SOURCE_TYPES.map((type) => (
+      <div className="space-y-2">
+        {/* Source type filter (listening/reading/speaking/writing) */}
+        <div className="flex flex-wrap gap-2">
           <button
-            key={type}
-            onClick={() => handleFilterChange(type)}
+            onClick={() => handleFilterChange(undefined)}
             className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
-              sourceType === type ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"
+              !sourceType ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"
             }`}
           >
-            {t(`common.types.${type}`)}
+            {t("vocabulary.mySaved.filterAll")}
           </button>
-        ))}
+          {SOURCE_TYPES.map((type) => (
+            <button
+              key={type}
+              onClick={() => handleFilterChange(type)}
+              className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
+                sourceType === type ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"
+              }`}
+            >
+              {t(`common.types.${type}`)}
+            </button>
+          ))}
+        </div>
+        {/* Source filter (manual / auto) */}
+        <div className="flex items-center gap-2">
+          <div className="flex rounded-lg border bg-muted/50 p-0.5">
+            <button
+              onClick={() => { setSource(undefined); setPage(1); }}
+              className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
+                !source ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t("vocabulary.mySaved.sourceAll")}
+            </button>
+            <button
+              onClick={() => { setSource("manual"); setPage(1); }}
+              className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
+                source === "manual" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Hand className="h-3 w-3" />
+              {t("vocabulary.mySaved.sourceManual")}
+            </button>
+            <button
+              onClick={() => { setSource("auto"); setPage(1); }}
+              className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
+                source === "auto" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Sparkles className="h-3 w-3" />
+              {t("vocabulary.mySaved.sourceAuto")}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Content */}

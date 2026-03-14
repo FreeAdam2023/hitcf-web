@@ -1287,7 +1287,10 @@
       "goToTests": "الذهاب إلى الاختبارات",
       "flashcardReview": "مراجعة البطاقات",
       "remove": "إزالة",
-      "autoSaved": "حفظ ذكي"
+      "autoSaved": "حفظ ذكي",
+      "sourceAll": "الكل",
+      "sourceManual": "يدوي",
+      "sourceAuto": "ذكي"
     },
     "flashcard": {
       "empty": "لا توجد كلمات محفوظة بعد. تدرّب واحفظ بعض الكلمات أولاً.",

@@ -1287,7 +1287,10 @@
       "goToTests": "去题库开始练习",
       "flashcardReview": "翻卡复习",
       "remove": "删除",
-      "autoSaved": "智能收藏"
+      "autoSaved": "智能收藏",
+      "sourceAll": "全部",
+      "sourceManual": "手动收藏",
+      "sourceAuto": "智能收藏"
     },
     "flashcard": {
       "empty": "暂无收藏词汇，请先去做题收藏一些生词",

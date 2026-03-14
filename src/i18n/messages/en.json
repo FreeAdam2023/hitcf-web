@@ -1287,7 +1287,10 @@
       "goToTests": "Go to Tests",
       "flashcardReview": "Flashcard Review",
       "remove": "Remove",
-      "autoSaved": "Smart Save"
+      "autoSaved": "Smart Save",
+      "sourceAll": "All",
+      "sourceManual": "Manual",
+      "sourceAuto": "Smart Save"
     },
     "flashcard": {
       "empty": "No saved words yet. Go practice and save some words first.",
