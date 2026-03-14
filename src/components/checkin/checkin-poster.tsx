@@ -198,10 +198,12 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
         >
           <div
             style={{
-              fontSize: 40,
-              fontWeight: 700,
+              fontSize: 56,
+              fontWeight: 800,
               color: "#ffffff",
               marginBottom: 16,
+              letterSpacing: "0.02em",
+              textShadow: "0 0 40px rgba(255,180,100,0.3)",
             }}
           >
             {data.user_name}
