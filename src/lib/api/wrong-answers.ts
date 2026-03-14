@@ -46,6 +46,7 @@ export interface PracticeWrongAnswersResponse {
   total: number;
   status: string;
   question_ids: string[];
+  questions: import("./types").QuestionBrief[];
 }
 
 export function practiceWrongAnswers(body: {

@@ -18,7 +18,6 @@ import {
 } from "@/lib/api/wrong-answers";
 import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
-import { getTestSetQuestions } from "@/lib/api/test-sets";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { useTranslations } from "next-intl";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -142,14 +141,7 @@ export function WrongAnswerList() {
         count: 10,
       });
 
-      const questions = await getTestSetQuestions(result.test_set_id, "practice");
-      const questionIdSet = new Set(result.question_ids);
-      const practiceQuestions = questions.filter((q) => questionIdSet.has(q.id));
-
-      initPractice(
-        result.id,
-        practiceQuestions.length > 0 ? practiceQuestions : questions.slice(0, result.total),
-      );
+      initPractice(result.id, result.questions);
       router.push(`/practice/${result.id}`);
     } catch (err) {
       console.error("Failed to start practice", err);
