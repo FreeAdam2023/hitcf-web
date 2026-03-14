@@ -486,7 +486,9 @@
       "correct": "正确",
       "wrong": "错误",
       "answered": "已答",
-      "questionLabel": "第{n}题，{status}"
+      "questionLabel": "第{n}题，{status}",
+      "showMixed": "时间顺序",
+      "showGrouped": "按类型分组"
     },
     "session": {
       "tabTranscript": "原文",

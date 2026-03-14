@@ -778,6 +778,48 @@ export function PracticeSession() {
           </div>
         )}
 
+        {/* 听力原文 / 阅读逐句翻译 — 答题后展开 */}
+        {currentAnswer && (question.type === "listening" || question.type === "reading") && (
+          <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+            <TranscriptBlock
+              question={question}
+              explanation={explanation}
+              showEn={showEn}
+              showNative={showNative}
+              onToggleEn={toggleEn}
+              onToggleNative={toggleNative}
+              transcriptLabel={
+                question.type === "listening"
+                  ? t("practice.session.tabTranscript")
+                  : t("practice.session.passageTranslation")
+              }
+              locale={locale}
+              audioTimestamps={question.audio_timestamps}
+              currentAudioTime={audioTime}
+              onSentenceClick={(start, end) => audioPlayerRef.current?.playSegment(start, end)}
+              saveContext={saveContext}
+              questionId={question.id}
+            />
+          </div>
+        )}
+
+        {/* 移动端：解析面板 — 答题后展开 */}
+        {currentAnswer && (
+          <div className="shrink-0 animate-in fade-in slide-in-from-top-2 duration-300 lg:hidden">
+            <ExplanationPanel
+              explanation={explanation}
+              questionId={question.id}
+              defaultOpen={true}
+              loading={explanationLoading}
+              error={explanationError}
+              onRetry={() => fetchExplanation(question.id)}
+              onForceRefresh={() => fetchExplanation(question.id, true)}
+              onOpen={() => !explanation && !explanationLoading && fetchExplanation(question.id)}
+              saveContext={saveContext}
+            />
+          </div>
+        )}
+
         <Separator />
 
         <div className="flex items-center justify-between">
@@ -811,46 +853,6 @@ export function PracticeSession() {
             {t("practice.session.next")}
             <ChevronRight className="ml-1 h-4 w-4" />
           </Button>
-        </div>
-
-        {/* 听力原文 / 阅读逐句翻译（导航按钮下方，内容可滚动） */}
-        {currentAnswer && (question.type === "listening" || question.type === "reading") && (
-          <TranscriptBlock
-            question={question}
-            explanation={explanation}
-            showEn={showEn}
-            showNative={showNative}
-            onToggleEn={toggleEn}
-            onToggleNative={toggleNative}
-            transcriptLabel={
-              question.type === "listening"
-                ? t("practice.session.tabTranscript")
-                : t("practice.session.passageTranslation")
-            }
-            locale={locale}
-            audioTimestamps={question.audio_timestamps}
-            currentAudioTime={audioTime}
-            onSentenceClick={(start, end) => audioPlayerRef.current?.playSegment(start, end)}
-            saveContext={saveContext}
-            questionId={question.id}
-          />
-        )}
-
-        {/* 移动端：解析面板 */}
-        <div className="shrink-0 lg:hidden">
-          {currentAnswer && (
-            <ExplanationPanel
-              explanation={explanation}
-              questionId={question.id}
-              defaultOpen={true}
-              loading={explanationLoading}
-              error={explanationError}
-              onRetry={() => fetchExplanation(question.id)}
-              onForceRefresh={() => fetchExplanation(question.id, true)}
-              onOpen={() => !explanation && !explanationLoading && fetchExplanation(question.id)}
-              saveContext={saveContext}
-            />
-          )}
         </div>
       </div>
 

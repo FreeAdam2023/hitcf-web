@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Headphones, BookOpen, Shuffle, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import type { AnswerResponse } from "@/lib/api/types";
@@ -27,6 +27,10 @@ interface QuestionNavigatorProps {
 }
 
 const LEVEL_ORDER = ["A1", "A2", "B1", "B2", "C1", "C2"];
+const TYPE_LABELS: Record<string, { icon: typeof Headphones; label: string }> = {
+  listening: { icon: Headphones, label: "common.types.listening" },
+  reading: { icon: BookOpen, label: "common.types.reading" },
+};
 
 export function QuestionNavigator({
   total,
@@ -46,6 +50,11 @@ export function QuestionNavigator({
   const totalAnswered = previousAnswers
     ? new Set([...Array.from(answers.keys()), ...Array.from(previousAnswers.keys())]).size
     : answers.size;
+
+  // Detect mixed types (wrong answer practice with both listening + reading)
+  const types = questions ? new Set(questions.map((q) => q.type)) : new Set<string>();
+  const isMixedType = types.size > 1;
+  const [groupByType, setGroupByType] = useState(true);
 
   function renderButton(i: number) {
     const qid = questionIds[i];
@@ -89,8 +98,69 @@ export function QuestionNavigator({
     );
   }
 
+  // Mixed-type display (wrong answer practice with listening + reading)
+  if (useGrouped && isMixedType) {
+    // Group by type
+    const typeGroups: { type: string; indices: number[] }[] = [];
+    let curType: string | null = null;
+    let curGroup: { type: string; indices: number[] } | null = null;
+
+    for (let i = 0; i < questions.length; i++) {
+      const qType = questions[i].type;
+      if (qType !== curType) {
+        curType = qType;
+        curGroup = { type: qType, indices: [i] };
+        typeGroups.push(curGroup);
+      } else {
+        curGroup!.indices.push(i);
+      }
+    }
+
+    return (
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-medium text-muted-foreground">{t("practice.navigator.title")}</h3>
+          <button
+            onClick={() => setGroupByType((v) => !v)}
+            className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+            title={groupByType ? t("practice.navigator.showMixed") : t("practice.navigator.showGrouped")}
+          >
+            {groupByType ? <Shuffle className="h-3 w-3" /> : <Layers className="h-3 w-3" />}
+          </button>
+        </div>
+        {groupByType ? (
+          <div className="space-y-3">
+            {typeGroups.map((group) => {
+              const meta = TYPE_LABELS[group.type];
+              const Icon = meta?.icon;
+              return (
+                <div key={group.type}>
+                  <div className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                    {Icon && <Icon className="h-3.5 w-3.5" />}
+                    <span>{meta ? t(meta.label) : group.type}</span>
+                    <span className="text-muted-foreground/60">({group.indices.length})</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 p-0.5">
+                    {group.indices.map((i) => renderButton(i))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="flex flex-wrap gap-1.5 p-0.5">
+            {Array.from({ length: total }, (_, i) => renderButton(i))}
+          </div>
+        )}
+        <p className="text-xs text-muted-foreground">
+          {t("common.answeredProgress", { answered: totalAnswered, total })}
+        </p>
+      </div>
+    );
+  }
+
   if (useGrouped) {
-    // Group question indices by level
+    // Group question indices by level (single-type: listening or reading)
     const groups: { level: string; indices: number[] }[] = [];
     let currentGroup: { level: string; indices: number[] } | null = null;
 

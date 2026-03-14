@@ -486,7 +486,9 @@
       "correct": "Correct",
       "wrong": "Wrong",
       "answered": "Answered",
-      "questionLabel": "Question {n}, {status}"
+      "questionLabel": "Question {n}, {status}",
+      "showMixed": "Time order",
+      "showGrouped": "Group by type"
     },
     "session": {
       "tabTranscript": "Transcript",

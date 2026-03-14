@@ -486,7 +486,9 @@
       "correct": "Correct",
       "wrong": "Incorrect",
       "answered": "Répondu",
-      "questionLabel": "Question {n}, {status}"
+      "questionLabel": "Question {n}, {status}",
+      "showMixed": "Ordre chronologique",
+      "showGrouped": "Grouper par type"
     },
     "session": {
       "tabTranscript": "Transcription",
