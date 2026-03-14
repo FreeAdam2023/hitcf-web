@@ -195,7 +195,7 @@ function TranscriptBlock({
                     key={i}
                     className={[
                       "space-y-0.5 rounded-md px-2 py-1 transition-colors",
-                      isKey ? "bg-amber-50/60 dark:bg-amber-950/20" : "",
+                      isKey ? "border-l-[3px] border-amber-500 bg-amber-50 pl-3 dark:bg-amber-950/30" : "",
                       isPlaying ? "bg-primary/10" : "",
                       clickable ? "cursor-pointer hover:bg-primary/5" : "",
                     ].filter(Boolean).join(" ")}
@@ -212,7 +212,7 @@ function TranscriptBlock({
                     <p className="font-medium leading-relaxed text-foreground">
                       {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                       <FrenchText text={s.fr} saveContext={saveContext} sentenceTranslations={sentences} />
-                      {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400" title={t("explanation.keyClue")}>★</span>}
+                      {isKey && <span className="ml-2 inline-flex items-center gap-0.5 rounded bg-amber-500/15 px-1.5 py-0.5 text-xs font-semibold text-amber-600 dark:text-amber-400" title={t("explanation.keyClue")}>★ KEY</span>}
                       <button
                         onClick={(e) => { e.stopPropagation(); setAnalysisTarget((prev) => prev?.index === i ? null : { index: i, fr: s.fr }); }}
                         className={`ml-1 inline-flex shrink-0 rounded p-0.5 transition-colors hover:bg-muted hover:text-primary ${analysisTarget?.index === i ? "text-primary" : "text-muted-foreground/50"}`}
@@ -263,7 +263,7 @@ function TranscriptBlock({
                 key={i}
                 className={[
                   "rounded-md px-2 py-1 transition-colors",
-                  isKey ? "bg-amber-50/60 dark:bg-amber-950/20" : "",
+                  isKey ? "border-l-[3px] border-amber-500 bg-amber-50 pl-3 dark:bg-amber-950/30" : "",
                   isPlaying ? "bg-primary/10" : "",
                   clickable ? "cursor-pointer hover:bg-primary/5" : "",
                 ].filter(Boolean).join(" ")}
@@ -280,7 +280,7 @@ function TranscriptBlock({
                 <p className="font-medium leading-relaxed text-foreground">
                   {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                   <FrenchText text={seg.text} saveContext={saveContext} sentenceTranslations={[{ fr: seg.text, en: seg.en ?? undefined, zh: seg.zh ?? undefined, native: segNative ?? undefined }]} />
-                  {isKey && <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400" title={t("explanation.keyClue")}>★</span>}
+                  {isKey && <span className="ml-2 inline-flex items-center gap-0.5 rounded bg-amber-500/15 px-1.5 py-0.5 text-xs font-semibold text-amber-600 dark:text-amber-400" title={t("explanation.keyClue")}>★ KEY</span>}
                   <button
                     onClick={(e) => { e.stopPropagation(); const idx = seg.sentence_index ?? i; setAnalysisTarget((prev) => prev?.index === idx ? null : { index: idx, fr: seg.text }); }}
                     className={`ml-1 inline-flex shrink-0 rounded p-0.5 transition-colors hover:bg-muted hover:text-primary ${analysisTarget?.index === (seg.sentence_index ?? i) ? "text-primary" : "text-muted-foreground/50"}`}
