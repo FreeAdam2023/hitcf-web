@@ -39,9 +39,11 @@ interface QuestionDisplayProps {
   onAudioTimeUpdate?: (time: number) => void;
   /** Whether the current question has been answered (controls translation visibility) */
   answered?: boolean;
+  /** Auto-play audio when question changes (listening practice) */
+  autoPlayAudio?: boolean;
 }
 
-export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate, answered }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate, answered, autoPlayAudio }: QuestionDisplayProps) {
   const t = useTranslations();
   const locale = useLocale();
   const isListening = question.type === "listening";
@@ -123,6 +125,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
           maxPlays={audioMaxPlays}
           onPlaybackComplete={onAudioPlaybackComplete}
           onTimeUpdate={onAudioTimeUpdate}
+          autoPlay={autoPlayAudio}
         />
       )}
 

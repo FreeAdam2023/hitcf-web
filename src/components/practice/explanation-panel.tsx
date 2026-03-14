@@ -126,24 +126,22 @@ export function ExplanationPanel({
             </p>
           ) : (
             <div className="space-y-3">
-              {/* Dev-only: force refresh button */}
-              {questionId && onForceRefresh && (
-                <div className="flex justify-end">
-                  <button
-                    onClick={onForceRefresh}
-                    disabled={loading}
-                    className="flex items-center gap-1 rounded px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50"
-                  >
-                    <RefreshCw className="h-3 w-3" />
-                    {t("explanation.forceRefresh")}
-                  </button>
-                </div>
-              )}
-
               {/* 2. 答案解析 — Hero Section */}
               {explanation!.correct_reasoning && (
                 <div className="rounded-lg border-l-4 border-emerald-500 bg-emerald-50/50 p-3 dark:bg-emerald-950/20">
-                  <h4 className="mb-1 font-medium">{t("explanation.title")}</h4>
+                  <div className="mb-1 flex items-center justify-between">
+                    <h4 className="font-medium">{t("explanation.title")}</h4>
+                    {questionId && onForceRefresh && (
+                      <button
+                        onClick={onForceRefresh}
+                        disabled={loading}
+                        className="rounded p-1 text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50"
+                        title={t("explanation.forceRefresh")}
+                      >
+                        <RefreshCw className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                  </div>
                   <p className="leading-relaxed text-foreground/90">
                     {explanation!.correct_reasoning}
                   </p>

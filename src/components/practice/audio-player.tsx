@@ -26,12 +26,14 @@ interface AudioPlayerProps {
   maxPlays?: number;
   onPlaybackComplete?: () => void;
   onTimeUpdate?: (currentTime: number) => void;
+  /** Automatically start playback when questionId changes */
+  autoPlay?: boolean;
 }
 
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25];
 
 export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
-  function AudioPlayer({ questionId, maxPlays, onPlaybackComplete, onTimeUpdate: onTimeUpdateProp }, ref) {
+  function AudioPlayer({ questionId, maxPlays, onPlaybackComplete, onTimeUpdate: onTimeUpdateProp, autoPlay }, ref) {
   const t = useTranslations();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [url, setUrl] = useState<string | null>(null);
@@ -115,6 +117,13 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     pendingSeekRef.current = null;
     segmentEndRef.current = null;
   }, [questionId]);
+
+  // Auto-play on question change (e.g. clicking "next" in listening practice)
+  useEffect(() => {
+    if (!autoPlay) return;
+    pendingPlayRef.current = true;
+    loadUrl();
+  }, [questionId, autoPlay, loadUrl]);
 
   // Auto-play after URL loads when user clicked play or pending seek
   useEffect(() => {
