@@ -23,7 +23,7 @@ export function Footer() {
           </div>
 
           {/* Center — nav links */}
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+          <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground sm:gap-x-6">
             <Link
               href="/tests"
               className="transition-colors hover:text-foreground"
@@ -104,7 +104,7 @@ export function Footer() {
           </div>
 
           {/* Right — legal links */}
-          <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground sm:gap-x-6">
             <Link
               href="/terms-of-service"
               className="transition-colors hover:text-foreground"
