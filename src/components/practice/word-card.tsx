@@ -6,7 +6,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Popover, PopoverContent, PopoverAnchor } from "@/components/ui/popover";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { getVocabularyCard, regenerateVocabularyCard } from "@/lib/api/vocabulary";
+import { getVocabularyCard, regenerateVocabularyCard, logWordView } from "@/lib/api/vocabulary";
 import { getCached, setCache, clearCache } from "@/lib/vocab-cache";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
 import { useAuthStore } from "@/stores/auth-store";
@@ -89,6 +89,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
       setLoading(false);
       setError(false);
       setGenerating(false);
+      logWordView(currentWord, saveContext?.sourceType ?? null);
       return;
     }
 
@@ -107,6 +108,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
           setData(res);
           setGenerating(false);
           setLoading(false);
+          logWordView(currentWord, saveContext?.sourceType ?? null);
         })
         .catch((err) => {
           if (cancelled) return;
