@@ -750,7 +750,7 @@ export function LandingPage() {
                 {t("landing.ctaTitle")}
               </h2>
               <p className="mt-4 text-lg text-muted-foreground">
-                {t("landing.ctaSubtitle")}
+                {t("landing.ctaSubtitle", STATS_PARAMS)}
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-4 lg:justify-start">
                 <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg shadow-primary/25" asChild>

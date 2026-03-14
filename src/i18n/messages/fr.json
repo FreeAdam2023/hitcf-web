@@ -2197,7 +2197,7 @@
     ],
     "ctaImageAlt": "Panorama de la Colline du Parlement et de la rivière des Outaouais",
     "ctaTitle": "À quel point êtes-vous proche du NCLC 7 ?",
-    "ctaSubtitle": "5 questions CO/CE gratuites par jour — sujets EO/EE du dernier mois en accès libre",
+    "ctaSubtitle": "{dailyQuestions} questions CO/CE gratuites par jour — sujets EO/EE du dernier mois en accès libre",
     "ctaContinue": "Continuer l'entraînement",
     "ctaRegister": "Inscription gratuite, testez votre niveau"
   },

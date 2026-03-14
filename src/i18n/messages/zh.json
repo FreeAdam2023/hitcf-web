@@ -2197,7 +2197,7 @@
     ],
     "ctaImageAlt": "渥太华国会山与渥太华河全景",
     "ctaTitle": "离 CLB 7 还差几步？",
-    "ctaSubtitle": "每天 5 道听力阅读真题免费练，最新月口语写作题目免费看",
+    "ctaSubtitle": "每天 {dailyQuestions} 道听力阅读真题免费练，最新月口语写作题目免费看",
     "ctaContinue": "继续做题",
     "ctaRegister": "免费注册，测测你的水平"
   },

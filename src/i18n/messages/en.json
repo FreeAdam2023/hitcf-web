@@ -2197,7 +2197,7 @@
     ],
     "ctaImageAlt": "Parliament Hill and Ottawa River panorama",
     "ctaTitle": "How Close Are You to CLB 7?",
-    "ctaSubtitle": "5 free listening & reading questions daily — latest month's speaking & writing topics open",
+    "ctaSubtitle": "{dailyQuestions} free listening & reading questions daily — latest month's speaking & writing topics open",
     "ctaContinue": "Continue Practicing",
     "ctaRegister": "Sign Up Free, Test Your Level"
   },
