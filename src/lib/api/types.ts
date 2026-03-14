@@ -270,7 +270,7 @@ export interface AttemptDetail extends AttemptResponse {
   test_set_type?: string | null;
   answers: AnswerResponse[];
   filtered_question_ids?: string[];
-  previously_answered_ids?: string[];
+  previously_answered?: AnswerResponse[];
 }
 
 // Attempt creation response
@@ -281,7 +281,7 @@ export interface CreateAttemptResponse {
   total: number;
   status: string;
   started_at: string;
-  previously_answered_ids?: string[];
+  previously_answered?: AnswerResponse[];
 }
 
 // Complete attempt response

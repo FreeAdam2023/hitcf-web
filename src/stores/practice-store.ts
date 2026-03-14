@@ -9,9 +9,9 @@ interface PracticeState {
   questions: QuestionBrief[];
   currentIndex: number;
   answers: Map<string, AnswerResponse>;
-  previouslyAnsweredIds: Set<string>;
+  previousAnswers: Map<string, AnswerResponse>;
 
-  init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null, startedAt?: string | null, existingAnswers?: AnswerResponse[], previouslyAnsweredIds?: string[]) => void;
+  init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null, startedAt?: string | null, existingAnswers?: AnswerResponse[], previousAnswers?: AnswerResponse[]) => void;
   setAnswer: (questionId: string, answer: AnswerResponse) => void;
   goToQuestion: (index: number) => void;
   goNext: () => void;
@@ -27,19 +27,29 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   questions: [],
   currentIndex: 0,
   answers: new Map(),
-  previouslyAnsweredIds: new Set(),
+  previousAnswers: new Map(),
 
-  init: (attemptId, questions, testSetName, testSetType, startedAt, existingAnswers, previouslyAnsweredIds) => {
+  init: (attemptId, questions, testSetName, testSetType, startedAt, existingAnswers, previousAnswers) => {
     const answers = new Map<string, AnswerResponse>();
     if (existingAnswers?.length) {
       for (const a of existingAnswers) {
         answers.set(a.question_id, a);
       }
     }
-    // Jump to first unanswered question
+    const prevMap = new Map<string, AnswerResponse>();
+    if (previousAnswers?.length) {
+      for (const a of previousAnswers) {
+        // Only store if not already answered in this attempt
+        if (!answers.has(a.question_id)) {
+          prevMap.set(a.question_id, a);
+        }
+      }
+    }
+    // Jump to first unanswered question (skip both current and previous answers)
     let currentIndex = 0;
-    if (answers.size > 0) {
-      const firstUnanswered = questions.findIndex((q) => !answers.has(q.id));
+    const allAnsweredIds = new Set([...Array.from(answers.keys()), ...Array.from(prevMap.keys())]);
+    if (allAnsweredIds.size > 0) {
+      const firstUnanswered = questions.findIndex((q) => !allAnsweredIds.has(q.id));
       currentIndex = firstUnanswered === -1 ? 0 : firstUnanswered;
     }
     set({
@@ -50,7 +60,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
       startedAt: startedAt ?? null,
       currentIndex,
       answers,
-      previouslyAnsweredIds: new Set(previouslyAnsweredIds ?? []),
+      previousAnswers: prevMap,
     });
   },
 
@@ -83,5 +93,5 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   },
 
   reset: () =>
-    set({ attemptId: null, testSetName: null, testSetType: null, startedAt: null, questions: [], currentIndex: 0, answers: new Map(), previouslyAnsweredIds: new Set() }),
+    set({ attemptId: null, testSetName: null, testSetType: null, startedAt: null, questions: [], currentIndex: 0, answers: new Map(), previousAnswers: new Map() }),
 }));

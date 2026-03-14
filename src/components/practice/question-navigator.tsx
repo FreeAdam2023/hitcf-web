@@ -23,7 +23,7 @@ interface QuestionNavigatorProps {
   mode?: "practice" | "exam";
   flaggedQuestions?: Set<number>;
   questions?: QuestionMeta[];
-  previouslyAnsweredIds?: Set<string>;
+  previousAnswers?: Map<string, AnswerResponse>;
 }
 
 const LEVEL_ORDER = ["A1", "A2", "B1", "B2", "C1", "C2"];
@@ -37,25 +37,28 @@ export function QuestionNavigator({
   mode = "practice",
   flaggedQuestions,
   questions,
-  previouslyAnsweredIds,
+  previousAnswers,
 }: QuestionNavigatorProps) {
   const t = useTranslations();
   const isExam = mode === "exam";
   const isListeningOrReading = questions?.[0]?.type === "listening" || questions?.[0]?.type === "reading";
   const useGrouped = !isExam && isListeningOrReading && questions && questions.length > 0;
+  const totalAnswered = previousAnswers
+    ? new Set([...Array.from(answers.keys()), ...Array.from(previousAnswers.keys())]).size
+    : answers.size;
 
   function renderButton(i: number) {
     const qid = questionIds[i];
     const answer = qid ? answers.get(qid) : undefined;
+    const prevAnswer = !answer && qid ? previousAnswers?.get(qid) : undefined;
+    const effectiveAnswer = (answer ?? prevAnswer) as AnswerResponse | undefined;
     const isCurrent = i === currentIndex;
-    const isAnswered = !!answer;
+    const isAnswered = !!effectiveAnswer;
     const questionNum = i + 1;
     const isFlagged = isExam && flaggedQuestions?.has(questionNum);
-    const isPrevAnswered = !isAnswered && !!qid && !!previouslyAnsweredIds?.has(qid);
 
-    const typedAnswer = answer as AnswerResponse | undefined;
-    const isCorrect = !isExam && !!typedAnswer && typedAnswer.is_correct === true;
-    const isWrong = !isExam && !!typedAnswer && typedAnswer.is_correct === false;
+    const isCorrect = !isExam && !!effectiveAnswer && effectiveAnswer.is_correct === true;
+    const isWrong = !isExam && !!effectiveAnswer && effectiveAnswer.is_correct === false;
 
     let statusLabel = t("practice.navigator.unanswered");
     if (isCorrect) statusLabel = t("practice.navigator.correct");
@@ -74,17 +77,13 @@ export function QuestionNavigator({
           !isExam && isWrong && "bg-red-500 text-white",
           isExam && isAnswered && "bg-primary text-primary-foreground",
           !isExam && isAnswered && !isCorrect && !isWrong && "bg-primary text-primary-foreground",
-          !isAnswered && !isCurrent && isPrevAnswered && "bg-muted text-muted-foreground/70 hover:bg-accent",
-          !isAnswered && !isCurrent && !isPrevAnswered && "bg-muted hover:bg-accent",
+          !isAnswered && !isCurrent && "bg-muted hover:bg-accent",
           !isAnswered && isCurrent && "bg-primary/20",
         )}
       >
         {isCorrect ? "✓" : isWrong ? "✗" : questionNum}
         {isFlagged && (
           <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-orange-500" />
-        )}
-        {isPrevAnswered && (
-          <span className="absolute -bottom-0.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-blue-400" />
         )}
       </button>
     );
@@ -118,7 +117,7 @@ export function QuestionNavigator({
         <PaginatedGrid
           total={total}
           currentIndex={currentIndex}
-          answers={answers}
+          totalAnswered={totalAnswered}
           renderButton={renderButton}
           t={t}
         />
@@ -141,7 +140,7 @@ export function QuestionNavigator({
           ))}
         </div>
         <p className="text-xs text-muted-foreground">
-          {t("common.answeredProgress", { answered: answers.size, total })}
+          {t("common.answeredProgress", { answered: totalAnswered, total })}
         </p>
       </div>
     );
@@ -152,7 +151,7 @@ export function QuestionNavigator({
     <PaginatedGrid
       total={total}
       currentIndex={currentIndex}
-      answers={answers}
+      totalAnswered={totalAnswered}
       renderButton={renderButton}
       t={t}
     />
@@ -164,13 +163,13 @@ export function QuestionNavigator({
 function PaginatedGrid({
   total,
   currentIndex,
-  answers,
+  totalAnswered,
   renderButton,
   t,
 }: {
   total: number;
   currentIndex: number;
-  answers: Map<string, unknown>;
+  totalAnswered: number;
   renderButton: (i: number) => React.ReactNode;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: any;
@@ -218,7 +217,7 @@ function PaginatedGrid({
         {Array.from({ length: end - start }, (_, j) => renderButton(start + j))}
       </div>
       <p className="text-xs text-muted-foreground">
-        {t("common.answeredProgress", { answered: answers.size, total })}
+        {t("common.answeredProgress", { answered: totalAnswered, total })}
       </p>
     </div>
   );

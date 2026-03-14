@@ -363,7 +363,7 @@ export function PracticeSession() {
     questions,
     currentIndex,
     answers,
-    previouslyAnsweredIds,
+    previousAnswers,
     setAnswer,
     goNext,
     goPrev,
@@ -521,7 +521,7 @@ export function PracticeSession() {
   }, []);
 
   const question = questions[currentIndex];
-  const currentAnswer = question ? (answers.get(question.id) ?? null) : null;
+  const currentAnswer = question ? (answers.get(question.id) ?? previousAnswers.get(question.id) ?? null) : null;
 
   const saveContext: WordSaveContext | undefined = question
     ? {
@@ -543,14 +543,14 @@ export function PracticeSession() {
   // In practice mode, clicking an option only sets the pending selection (does not submit)
   const handleSelect = useCallback((key: string) => {
     if (!question || !attemptId) return;
-    if (answers.has(question.id) || submitting) return;
+    if (answers.has(question.id) || previousAnswers.has(question.id) || submitting) return;
     setSelectedKey(key);
-  }, [question, attemptId, answers, submitting]);
+  }, [question, attemptId, answers, previousAnswers, submitting]);
 
   // Confirm button triggers actual submission
   const handleConfirm = useCallback(async () => {
     if (!selectedKey || !question || !attemptId) return;
-    if (answers.has(question.id) || submitting) return;
+    if (answers.has(question.id) || previousAnswers.has(question.id) || submitting) return;
     // Frontend quota gate — avoid wasting a round-trip
     if (quotaReached) {
       showQuotaModal();
@@ -600,7 +600,7 @@ export function PracticeSession() {
       setSubmitting(false);
       setSubmittingKey(null);
     }
-  }, [selectedKey, question, attemptId, answers, submitting, setAnswer, quotaReached, showQuotaModal]);
+  }, [selectedKey, question, attemptId, answers, previousAnswers, submitting, setAnswer, quotaReached, showQuotaModal]);
 
   const handleComplete = async () => {
     if (!attemptId) return;
@@ -656,7 +656,7 @@ export function PracticeSession() {
 
       const q = questions[currentIndex];
       if (!q) return;
-      const answered = answersRef.current.has(q.id);
+      const answered = answersRef.current.has(q.id) || previousAnswers.has(q.id);
 
       // Enter = confirm pending selection
       if (e.key === "Enter" && !answered) {
@@ -689,12 +689,13 @@ export function PracticeSession() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [questions, currentIndex]);
+  }, [questions, currentIndex, previousAnswers]);
 
   if (!question || !attemptId) return <LoadingSpinner />;
 
   const isLast = currentIndex === questions.length - 1;
-  const allAnswered = answers.size === questions.length;
+  const totalAnswered = new Set([...Array.from(answers.keys()), ...Array.from(previousAnswers.keys())]).size;
+  const allAnswered = totalAnswered >= questions.length;
 
   return (
     <div className="grid gap-3 lg:gap-6 lg:grid-cols-[200px_1fr_320px] h-full overflow-hidden">
@@ -708,7 +709,7 @@ export function PracticeSession() {
             questionIds={questions.map((q) => q.id)}
             onNavigate={handleGoToQuestion}
             questions={questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
-            previouslyAnsweredIds={previouslyAnsweredIds}
+            previousAnswers={previousAnswers}
           />
         </div>
       </div>
