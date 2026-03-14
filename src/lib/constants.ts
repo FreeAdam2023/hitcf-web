@@ -138,4 +138,6 @@ export const STATS_PARAMS: Record<string, string> = {
   dailyExplanations: String(QUOTAS.dailyExplanations),
   dailyVocabFlips: String(QUOTAS.dailyVocabFlips),
   dailySavedWords: String(QUOTAS.dailySavedWords),
+  dailyExports: "3",
+  exportWordLimit: "2,000",
 };

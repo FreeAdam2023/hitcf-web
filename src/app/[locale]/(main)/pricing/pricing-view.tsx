@@ -49,7 +49,7 @@ const PLANS = [
 
 /** free column: true = check, false = X, number = index into freeValues */
 const COMPARISON_FREE: (boolean | number)[] = [
-  0, 0, 2, 2, false, true, 1, true, 3, true,
+  0, 0, 2, 2, false, true, 1, true, 4, true,
 ];
 
 const FAQ_COUNT = 7;

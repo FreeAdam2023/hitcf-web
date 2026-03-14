@@ -1693,7 +1693,8 @@
         "{dailyQuestions} / jour",
         "{dailyVocabFlips}/jour",
         "Dernier mois gratuit",
-        "{dailyExplanations} / jour"
+        "{dailyExplanations} / jour",
+        "{dailyExports}/jour · ≤{exportWordLimit} mots"
       ]
     },
     "faq": {
