@@ -256,8 +256,7 @@ function TranscriptBlock({
               && currentAudioTime < timeRange.end;
             const clickable = !!timeRange && !!onSentenceClick;
             const segNative = locale === "zh" ? seg.zh : locale === "ar" ? seg.ar : seg.en;
-            const sentIdx = seg.sentence_index ?? i;
-            const isKey = sentences?.[sentIdx]?.is_key;
+            const isKey = seg.is_key;
             return (
               <div
                 key={i}

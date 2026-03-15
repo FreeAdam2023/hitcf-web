@@ -141,7 +141,6 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
                 onClick={() => setShowTranslation(!showTranslation)}
                 className="ml-1.5 inline-flex items-center gap-0.5 not-italic text-xs text-primary/70 hover:text-primary"
               >
-                {t("practice.questionDisplay.tabChinese")}
                 <ChevronDown className={`h-3 w-3 transition-transform ${showTranslation || answered ? "rotate-180" : ""}`} />
               </button>
             )}
@@ -188,7 +187,9 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
             </p>
           )}
           {isListening && (
-            <p className="text-sm lg:text-base font-medium text-muted-foreground">{question.question_text}</p>
+            <p className="text-sm lg:text-base font-medium text-muted-foreground">
+              <FrenchText text={question.question_text} disabled={vocabDisabled} saveContext={saveContext} />
+            </p>
           )}
           {answered && hasTranslation && (
             <div className="mt-1 space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-200">

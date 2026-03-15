@@ -70,6 +70,7 @@ export interface AudioSegment {
   en?: string | null;
   zh?: string | null;
   ar?: string | null;
+  is_key?: boolean;
 }
 
 // Questions
