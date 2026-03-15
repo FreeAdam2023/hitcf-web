@@ -185,8 +185,12 @@ export function SavedWordsView() {
         </div>
       ) : !data || data.items.length === 0 ? (
         <div className="rounded-lg border border-dashed p-8 text-center">
-          <p className="text-lg font-medium text-muted-foreground">{t("vocabulary.mySaved.emptyTitle")}</p>
-          <p className="mt-1 text-sm text-muted-foreground">{t("vocabulary.mySaved.emptyDesc")}</p>
+          <p className="text-lg font-medium text-muted-foreground">
+            {source === "auto" ? t("vocabulary.mySaved.emptyAutoTitle") : t("vocabulary.mySaved.emptyTitle")}
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {source === "auto" ? t("vocabulary.mySaved.emptyAutoDesc") : t("vocabulary.mySaved.emptyDesc")}
+          </p>
           <Link href="/tests">
             <Button variant="outline" className="mt-4">{t("vocabulary.mySaved.goToTests")}</Button>
           </Link>

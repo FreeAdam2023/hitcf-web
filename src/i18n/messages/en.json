@@ -1284,6 +1284,8 @@
       "filterAll": "All",
       "emptyTitle": "No saved words yet",
       "emptyDesc": "Click any French word while practicing, then tap the ⭐ to save it",
+      "emptyAutoTitle": "No smart saves yet",
+      "emptyAutoDesc": "Key vocabulary from questions you get wrong will be automatically saved here",
       "goToTests": "Go to Tests",
       "flashcardReview": "Flashcard Review",
       "remove": "Remove",

@@ -1284,6 +1284,8 @@
       "filterAll": "全部",
       "emptyTitle": "还没有收藏",
       "emptyDesc": "做题时点击法语单词，在弹窗中点击 ⭐ 即可收藏生词",
+      "emptyAutoTitle": "还没有智能收藏",
+      "emptyAutoDesc": "做题时答错的题目中出现的关键词汇会自动收录到这里",
       "goToTests": "去题库开始练习",
       "flashcardReview": "翻卡复习",
       "remove": "删除",

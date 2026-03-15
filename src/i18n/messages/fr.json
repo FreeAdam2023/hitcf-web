@@ -1284,6 +1284,8 @@
       "filterAll": "Tous",
       "emptyTitle": "Aucun mot enregistré pour l'instant",
       "emptyDesc": "Cliquez sur n'importe quel mot français pendant vos exercices, puis appuyez sur ⭐ pour l'enregistrer",
+      "emptyAutoTitle": "Pas encore de sauvegarde intelligente",
+      "emptyAutoDesc": "Le vocabulaire clé des questions auxquelles vous répondez incorrectement sera automatiquement enregistré ici",
       "goToTests": "Aller aux tests",
       "flashcardReview": "Révision par flashcards",
       "remove": "Supprimer",
