@@ -193,6 +193,18 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
         >
           <div
             style={{
+              fontSize: 22,
+              fontWeight: 600,
+              color: "rgba(255,255,255,0.4)",
+              letterSpacing: "0.25em",
+              marginBottom: 12,
+              textTransform: "uppercase",
+            }}
+          >
+            — {t("studentLabel")} —
+          </div>
+          <div
+            style={{
               fontSize: 56,
               fontWeight: 800,
               color: "#ffffff",

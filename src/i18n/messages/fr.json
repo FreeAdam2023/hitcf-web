@@ -2654,6 +2654,7 @@
     "emptyTitle": "Pas encore de pratique aujourd'hui",
     "emptyDescription": "Complétez un exercice pour générer votre carte quotidienne et suivre vos progrès !",
     "startPractice": "Commencer",
+    "studentLabel": "Étudiant(e)",
     "heroLabel": "TERMINÉS AUJOURD'HUI",
     "heroUnit": "items",
     "share": "Partager",
