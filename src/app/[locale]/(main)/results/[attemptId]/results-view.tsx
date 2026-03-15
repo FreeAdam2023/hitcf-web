@@ -34,9 +34,12 @@ interface ResultsViewProps {
 export function ResultsView({ attempt }: ResultsViewProps) {
   const t = useTranslations();
   const router = useRouter();
-  const displayName = attempt.test_set_type && attempt.test_set_name
-    ? localizeTestName(t, attempt.test_set_type, attempt.test_set_name)
-    : (attempt.test_set_name || t("results.defaultTitle"));
+  const isSpeedDrillMode = attempt.mode === "speed_drill";
+  const displayName = isSpeedDrillMode
+    ? t("common.modes.speed_drill")
+    : attempt.test_set_type && attempt.test_set_name
+      ? localizeTestName(t, attempt.test_set_type, attempt.test_set_name)
+      : (attempt.test_set_name || t("results.defaultTitle"));
   const canAccessPaid = useAuthStore((s) => {
     if (s.isLoading) return true;
     const status = s.user?.subscription?.status;
@@ -51,8 +54,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
   const score = attempt.score ?? 0;
   const scorePct = attempt.total > 0 ? Math.round((score / attempt.total) * 100) : 0;
   useCelebration(scorePct);
-  const isSpeedDrill = attempt.mode === "speed_drill";
-  const isPointBased = !isSpeedDrill && (attempt.test_set_type === "listening" || attempt.test_set_type === "reading");
+  const isPointBased = !isSpeedDrillMode && (attempt.test_set_type === "listening" || attempt.test_set_type === "reading");
   const tcfPoints = isPointBased ? calcTcfScore(attempt.answers) : undefined;
   const sortedAnswers = [...attempt.answers].sort(
     (a, b) => a.question_number - b.question_number,
@@ -85,7 +87,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
 
   // Find next test set (skip for mock exams and speed drills)
   useEffect(() => {
-    if (!attempt.test_set_type || attempt.is_mock_exam || isSpeedDrill) return;
+    if (!attempt.test_set_type || attempt.is_mock_exam || isSpeedDrillMode) return;
     const type = attempt.test_set_type as "listening" | "reading" | "speaking" | "writing";
     listTestSets({ type, page_size: 100 })
       .then((res) => {
@@ -135,7 +137,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
       <Breadcrumb
         items={[
           { label: t("results.breadcrumbTests"), href: attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests" },
-          ...(isSpeedDrill
+          ...(isSpeedDrillMode
             ? [{ label: t("common.modes.speed_drill") }]
             : attempt.test_set_id && !attempt.is_mock_exam
               ? [{ label: displayName, href: `/tests/${attempt.test_set_id}` }]
