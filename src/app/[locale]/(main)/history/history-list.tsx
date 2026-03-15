@@ -470,14 +470,17 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
         {/* Score bar */}
         {pct !== null && (
           <div className="mt-2 flex items-center gap-2">
-            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted flex">
               <div
-                className={cn(
-                  "h-full rounded-full transition-all",
-                  pct >= 78 ? "bg-green-500" : pct >= 50 ? "bg-amber-500" : "bg-red-400",
-                )}
-                style={{ width: `${pct}%` }}
+                className="h-full bg-green-500 transition-all"
+                style={{ width: `${pct}%`, borderRadius: pct >= 100 ? "9999px" : "9999px 0 0 9999px" }}
               />
+              {pct < 100 && !isSpeaking && !isConversation && (
+                <div
+                  className="h-full bg-red-300 dark:bg-red-400/60 transition-all"
+                  style={{ width: `${100 - pct}%`, borderRadius: "0 9999px 9999px 0" }}
+                />
+              )}
             </div>
             <span className="text-xs font-medium tabular-nums">
               {isConversation
