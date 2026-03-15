@@ -51,7 +51,8 @@ export function ResultsView({ attempt }: ResultsViewProps) {
   const score = attempt.score ?? 0;
   const scorePct = attempt.total > 0 ? Math.round((score / attempt.total) * 100) : 0;
   useCelebration(scorePct);
-  const isPointBased = attempt.test_set_type === "listening" || attempt.test_set_type === "reading";
+  const isSpeedDrill = attempt.mode === "speed_drill";
+  const isPointBased = !isSpeedDrill && (attempt.test_set_type === "listening" || attempt.test_set_type === "reading");
   const tcfPoints = isPointBased ? calcTcfScore(attempt.answers) : undefined;
   const sortedAnswers = [...attempt.answers].sort(
     (a, b) => a.question_number - b.question_number,
@@ -82,9 +83,9 @@ export function ResultsView({ attempt }: ResultsViewProps) {
 
   const wrongCount = sortedAnswers.filter((a) => a.is_correct === false).length;
 
-  // Find next test set (skip for mock exams)
+  // Find next test set (skip for mock exams and speed drills)
   useEffect(() => {
-    if (!attempt.test_set_type || attempt.is_mock_exam) return;
+    if (!attempt.test_set_type || attempt.is_mock_exam || isSpeedDrill) return;
     const type = attempt.test_set_type as "listening" | "reading" | "speaking" | "writing";
     listTestSets({ type, page_size: 100 })
       .then((res) => {
@@ -134,11 +135,13 @@ export function ResultsView({ attempt }: ResultsViewProps) {
       <Breadcrumb
         items={[
           { label: t("results.breadcrumbTests"), href: attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests" },
-          ...(attempt.test_set_id && !attempt.is_mock_exam
-            ? [{ label: displayName, href: `/tests/${attempt.test_set_id}` }]
-            : attempt.is_mock_exam
-              ? [{ label: displayName }]
-              : []),
+          ...(isSpeedDrill
+            ? [{ label: t("common.modes.speed_drill") }]
+            : attempt.test_set_id && !attempt.is_mock_exam
+              ? [{ label: displayName, href: `/tests/${attempt.test_set_id}` }]
+              : attempt.is_mock_exam
+                ? [{ label: displayName }]
+                : []),
           { label: t("results.breadcrumbReport") },
         ]}
       />
