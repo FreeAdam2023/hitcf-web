@@ -29,11 +29,7 @@ import {
   Sparkles,
   LogOut,
   Crown,
-  Target,
-  Flame,
   BookOpen,
-  Headphones,
-  BookOpenText,
   ArrowRight,
   BarChart3,
   Globe,
@@ -69,81 +65,6 @@ function formatDate(dateStr: string | null | undefined, locale = "zh"): string {
     month: "long",
     day: "numeric",
   });
-}
-
-function StatCell({
-  icon: Icon,
-  value,
-  label,
-  accent,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  value: string | number;
-  label: string;
-  accent?: string;
-}) {
-  return (
-    <div className="flex flex-col items-center gap-1 text-center">
-      <Icon className={`h-5 w-5 ${accent || "text-white/70"}`} />
-      <p className="text-2xl font-bold text-white">{value}</p>
-      <p className="text-xs text-white/60">{label}</p>
-    </div>
-  );
-}
-
-function AccuracyRing({
-  value,
-  label,
-  size = 72,
-}: {
-  value: number;
-  label: string;
-  size?: number;
-}) {
-  const radius = (size - 8) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference * (1 - value / 100);
-
-  return (
-    <div className="flex flex-col items-center gap-1">
-      <div className="relative" style={{ width: size, height: size }}>
-        <svg width={size} height={size} className="-rotate-90">
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            fill="none"
-            stroke="rgba(255,255,255,0.15)"
-            strokeWidth={4}
-          />
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            fill="none"
-            stroke="url(#ring-gradient)"
-            strokeWidth={4}
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={offset}
-            className="transition-all duration-1000"
-          />
-          <defs>
-            <linearGradient id="ring-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#fbbf24" />
-              <stop offset="100%" stopColor="#f59e0b" />
-            </linearGradient>
-          </defs>
-        </svg>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-sm font-bold text-white">
-            {Math.round(value)}%
-          </span>
-        </div>
-      </div>
-      <p className="text-xs text-white/60">{label}</p>
-    </div>
-  );
 }
 
 export function AccountView() {
@@ -349,58 +270,6 @@ export function AccountView() {
               </Button>
             )}
           </div>
-
-          {/* Stats Row */}
-          {stats && (
-            <div className="relative mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              <StatCell
-                icon={BookOpen}
-                value={stats.total_attempts}
-                label={t("account.stats.practiceCount")}
-              />
-              <StatCell
-                icon={Target}
-                value={
-                  stats.accuracy_rate > 0
-                    ? `${Math.round(stats.accuracy_rate)}%`
-                    : "-"
-                }
-                label={t("account.stats.totalAccuracy")}
-              />
-              <StatCell
-                icon={Flame}
-                value={stats.streak_days}
-                label={t("account.stats.streakDays")}
-                accent="text-orange-400"
-              />
-              <StatCell
-                icon={BarChart3}
-                value={stats.total_questions_answered}
-                label={t("account.stats.totalQuestions")}
-              />
-            </div>
-          )}
-
-          {/* Accuracy Rings */}
-          {stats &&
-            (stats.listening_accuracy > 0 || stats.reading_accuracy > 0) && (
-              <div className="relative mt-6 flex items-center justify-center gap-8 border-t border-white/10 pt-6">
-                <div className="flex items-center gap-2">
-                  <Headphones className="h-4 w-4 text-white/40" />
-                  <AccuracyRing
-                    value={stats.listening_accuracy}
-                    label={t("account.stats.listeningAccuracy")}
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <BookOpenText className="h-4 w-4 text-white/40" />
-                  <AccuracyRing
-                    value={stats.reading_accuracy}
-                    label={t("account.stats.readingAccuracy")}
-                  />
-                </div>
-              </div>
-            )}
 
           {/* Quote */}
           <div className="relative mt-6 border-t border-white/10 pt-4">
