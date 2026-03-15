@@ -379,6 +379,7 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
   const isCompleted = item.status === "completed";
   const isSpeaking = item._source === "speaking";
   const isConversation = item._source === "conversation";
+  const isSpeedDrill = item.mode === "speed_drill";
 
   // URL depends on source
   let url: string;
@@ -406,7 +407,7 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
           : null);
 
   const tcf =
-    !isSpeaking && isCompleted && item.score != null
+    !isSpeaking && !isSpeedDrill && isCompleted && item.score != null
       ? estimateTcfLevelFromRatio(item.score, item.total)
       : null;
 
