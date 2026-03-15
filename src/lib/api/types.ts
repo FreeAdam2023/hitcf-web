@@ -585,6 +585,31 @@ export interface TurnResponse {
   turn_count: number;
 }
 
+// ── WebSocket Message Types ──────────────────────────────────────────
+
+export type WSClientMessage =
+  | { type: "auth"; token: string }
+  | { type: "begin"; session_id: string }
+  | {
+      type: "turn";
+      user_text: string;
+      pronunciation_scores?: Record<string, number> | null;
+      word_scores?: Array<{ word: string; accuracy: number; errorType: string }>;
+    }
+  | { type: "end"; locale?: string }
+  | { type: "ping" };
+
+export type WSServerMessage =
+  | { type: "auth_ok"; user_id: string }
+  | { type: "auth_error"; detail: string }
+  | { type: "stream_start" }
+  | { type: "stream_delta"; text: string }
+  | { type: "stream_end"; full_text: string; turn_count: number }
+  | { type: "ended" }
+  | { type: "evaluation_done" }
+  | { type: "error"; code: string; detail: string }
+  | { type: "pong" };
+
 // Saved Words
 export interface SavedWordItem {
   id: string;

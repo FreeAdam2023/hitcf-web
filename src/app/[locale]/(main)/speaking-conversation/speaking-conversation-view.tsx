@@ -15,6 +15,8 @@ import { SceneBriefingCard } from "@/components/speaking/scene-briefing-card";
 import { ConversationChat } from "@/components/speaking/conversation-chat";
 import { useSpeechAssessment, type WordScore } from "@/hooks/use-speech-assessment";
 import { useSpeechSynthesis } from "@/hooks/use-speech-synthesis";
+import { useConversationWS } from "@/hooks/use-conversation-ws";
+import { useStreamingTTS } from "@/hooks/use-streaming-tts";
 import {
   startConversation,
   beginConversation,
@@ -78,16 +80,111 @@ export function SpeakingConversationView() {
   const [isWaiting, setIsWaiting] = useState(false);
   const [timer, setTimer] = useState(0);
   const [prepTimer, setPrepTimer] = useState(0);
+  const [useWS, setUseWS] = useState(true); // WS mode flag; false = HTTP fallback
 
   // Refs
   const sessionIdRef = useRef<string>("");
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const prepTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const sceneTtsTriggered = useRef(false);
+  const pendingTurnRef = useRef<{
+    transcript: string;
+    scores: Record<string, number> | null;
+    wordScores: Array<{ word: string; accuracy: number; errorType: string }>;
+  } | null>(null);
 
   // Hooks
   const speech = useSpeechAssessment();
-  const tts = useSpeechSynthesis();
+  const tts = useSpeechSynthesis(); // Used for prep TTS + HTTP fallback
+  const streamingTts = useStreamingTTS(); // Used for WS streaming TTS
+
+  // ── WebSocket callbacks (stable refs via useCallback) ──
+
+  const onStreamStart = useCallback(() => {
+    setIsWaiting(false);
+  }, []);
+
+  const onStreamDelta = useCallback(
+    (text: string) => {
+      streamingTts.feedChunk(text);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  const onStreamEnd = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (fullText: string, _turnCount: number) => {
+      streamingTts.finalize();
+
+      // Add the pending user turn (if any) + examiner turn to the turns list
+      const pending = pendingTurnRef.current;
+      pendingTurnRef.current = null;
+
+      const examinerTurn: ConversationTurnResponse = {
+        role: "examiner",
+        text: fullText,
+        timestamp: new Date().toISOString(),
+        pronunciation_scores: null,
+        word_scores: [],
+      };
+
+      if (pending) {
+        const userTurn: ConversationTurnResponse = {
+          role: "user",
+          text: pending.transcript,
+          timestamp: new Date().toISOString(),
+          pronunciation_scores: pending.scores,
+          word_scores: pending.wordScores,
+        };
+        setTurns((prev) => [...prev, userTurn, examinerTurn]);
+      } else {
+        // begin_conversation: only examiner turn
+        setTurns((prev) => [...prev, examinerTurn]);
+      }
+
+      setIsWaiting(false);
+      speech.reset();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  const onEnded = useCallback(() => {
+    setPhase("evaluating");
+  }, []);
+
+  const onEvaluationDone = useCallback(() => {
+    if (sessionIdRef.current) {
+      router.push(`/speaking-conversation/results/${sessionIdRef.current}`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onWSError = useCallback(
+    (code: string, detail: string) => {
+      toast.error(detail || code);
+      setIsWaiting(false);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  const ws = useConversationWS({
+    onStreamStart,
+    onStreamDelta,
+    onStreamEnd,
+    onEnded,
+    onEvaluationDone,
+    onError: onWSError,
+  });
+
+  // Fall back to HTTP when WS connection fails
+  useEffect(() => {
+    if (ws.connectionFailed && useWS) {
+      setUseWS(false);
+    }
+  }, [ws.connectionFailed, useWS]);
 
   // Cleanup timers
   useEffect(() => {
@@ -199,6 +296,23 @@ export function SpeakingConversationView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Connect WebSocket when entering active phase
+  useEffect(() => {
+    if (phase === "active" && useWS && !ws.isConnected && !ws.connectionFailed) {
+      ws.connect();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, useWS]);
+
+  // Disconnect WS on unmount or phase change away from active
+  useEffect(() => {
+    return () => {
+      ws.disconnect();
+      streamingTts.stop();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Prep timer countdown
   useEffect(() => {
     if (phase !== "prep") return;
@@ -268,6 +382,37 @@ export function SpeakingConversationView() {
     if (prepTimerRef.current) clearInterval(prepTimerRef.current);
     tts.stop(); // Stop scene TTS if still playing
 
+    setPhase("active");
+
+    // WS mode: wait for connection then send begin
+    if (useWS) {
+      // Connection might not be ready yet — the useEffect above will connect.
+      // We use a small delay to let WS connect, then send begin.
+      const waitForWS = async () => {
+        // Wait up to 3s for connection
+        for (let i = 0; i < 30; i++) {
+          if (ws.isConnected) {
+            ws.sendBegin(sessionIdRef.current);
+            setIsWaiting(true);
+            return;
+          }
+          if (ws.connectionFailed) break;
+          await new Promise((r) => setTimeout(r, 100));
+        }
+        // Fallback to HTTP if WS not ready
+        setUseWS(false);
+        await handleBeginHTTP();
+      };
+      waitForWS();
+      return;
+    }
+
+    await handleBeginHTTP();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [useWS, ws.isConnected, ws.connectionFailed]);
+
+  // HTTP fallback for begin
+  const handleBeginHTTP = useCallback(async () => {
     try {
       const result = await beginConversation(sessionIdRef.current);
       const examinerTurn: ConversationTurnResponse = {
@@ -278,9 +423,6 @@ export function SpeakingConversationView() {
         word_scores: [],
       };
       setTurns([examinerTurn]);
-      setPhase("active");
-
-      // TTS: speak examiner's opening
       tts.speak(result.examiner_text);
     } catch (err) {
       const message = err instanceof Error ? err.message : t("beginFailed");
@@ -298,40 +440,48 @@ export function SpeakingConversationView() {
       const transcript = speech.transcript;
       if (!transcript.trim()) return;
 
+      const scores = speech.scores
+        ? {
+            accuracy: speech.scores.accuracy,
+            fluency: speech.scores.fluency,
+            completeness: speech.scores.completeness,
+            prosody: speech.scores.prosody,
+            overall: speech.scores.overall,
+          }
+        : null;
+      const wordScores = speech.wordScores.map((w: WordScore) => ({
+        word: w.word,
+        accuracy: w.accuracy,
+        errorType: w.errorType,
+      }));
+
       setIsWaiting(true);
 
+      // WS mode
+      if (useWS && ws.isConnected) {
+        pendingTurnRef.current = { transcript, scores, wordScores };
+        ws.sendTurn({
+          user_text: transcript,
+          pronunciation_scores: scores,
+          word_scores: wordScores,
+        });
+        return;
+      }
+
+      // HTTP fallback
       try {
         const result = await sendTurn(sessionIdRef.current, {
           user_text: transcript,
-          pronunciation_scores: speech.scores
-            ? {
-                accuracy: speech.scores.accuracy,
-                fluency: speech.scores.fluency,
-                completeness: speech.scores.completeness,
-                prosody: speech.scores.prosody,
-                overall: speech.scores.overall,
-              }
-            : null,
-          word_scores: speech.wordScores.map((w: WordScore) => ({
-            word: w.word,
-            accuracy: w.accuracy,
-            errorType: w.errorType,
-          })),
+          pronunciation_scores: scores,
+          word_scores: wordScores,
         });
 
-        // Add user turn + examiner turn
         const userTurn: ConversationTurnResponse = {
           role: "user",
           text: transcript,
           timestamp: new Date().toISOString(),
-          pronunciation_scores: speech.scores
-            ? { ...speech.scores }
-            : null,
-          word_scores: speech.wordScores.map((w: WordScore) => ({
-            word: w.word,
-            accuracy: w.accuracy,
-            errorType: w.errorType,
-          })),
+          pronunciation_scores: scores,
+          word_scores: wordScores,
         };
         const examinerTurn: ConversationTurnResponse = {
           role: "examiner",
@@ -341,8 +491,6 @@ export function SpeakingConversationView() {
           word_scores: [],
         };
         setTurns((prev) => [...prev, userTurn, examinerTurn]);
-
-        // TTS
         tts.speak(result.examiner_text);
       } catch (err) {
         const message = err instanceof Error ? err.message : t("turnFailed");
@@ -354,28 +502,36 @@ export function SpeakingConversationView() {
     } else {
       // Start recording
       tts.stop();
+      streamingTts.stop();
       speech.reset();
       await speech.startRecording();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [speech.isRecording, speech.transcript, speech.scores, speech.wordScores]);
+  }, [speech.isRecording, speech.transcript, speech.scores, speech.wordScores, useWS, ws.isConnected]);
 
   // End conversation
   const handleEnd = useCallback(async () => {
     if (timerRef.current) clearInterval(timerRef.current);
     if (speech.isRecording) speech.stopRecording();
     tts.stop();
+    streamingTts.stop();
 
     setPhase("evaluating");
 
+    // WS mode
+    if (useWS && ws.isConnected) {
+      ws.sendEnd();
+      // onEnded + onEvaluationDone callbacks handle the rest
+      return;
+    }
+
+    // HTTP fallback
     try {
       const conv = await endConversation(sessionIdRef.current);
       setSession(conv);
       router.push(`/speaking-conversation/results/${conv.id}`);
     } catch {
       toast.error(t("endFailed"));
-      // Session is likely already marked completed on backend —
-      // redirect to results (evaluation may be null but user can re-evaluate)
       if (sessionIdRef.current) {
         router.push(
           `/speaking-conversation/results/${sessionIdRef.current}`,
@@ -383,7 +539,7 @@ export function SpeakingConversationView() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [speech.isRecording]);
+  }, [speech.isRecording, useWS, ws.isConnected]);
 
   // ── Render ────────────────────────────────────────────────────────
 
@@ -466,7 +622,11 @@ export function SpeakingConversationView() {
       {(phase === "active" || phase === "evaluating") && (
         <>
           <Card className="flex min-h-[400px] flex-col">
-            <ConversationChat turns={turns} isWaiting={isWaiting} />
+            <ConversationChat
+              turns={turns}
+              isWaiting={isWaiting}
+              streamingExaminerText={ws.streamingText || undefined}
+            />
           </Card>
 
           {/* Interim transcript */}
@@ -491,7 +651,7 @@ export function SpeakingConversationView() {
                   variant={speech.isRecording ? "destructive" : "default"}
                   className="h-14 w-14 rounded-full p-0"
                   onClick={handleToggleRecord}
-                  disabled={isWaiting || phase !== "active"}
+                  disabled={isWaiting || ws.isStreaming || phase !== "active"}
                 >
                   {speech.isRecording ? (
                     <MicOff className="h-6 w-6" />
@@ -502,7 +662,7 @@ export function SpeakingConversationView() {
                 <Button
                   variant="outline"
                   onClick={handleEnd}
-                  disabled={isWaiting}
+                  disabled={isWaiting || ws.isStreaming}
                 >
                   <Square className="mr-2 h-4 w-4" />
                   {t("endConversation")}

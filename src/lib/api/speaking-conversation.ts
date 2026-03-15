@@ -113,3 +113,13 @@ export function deleteConversation(
     options,
   );
 }
+
+export function getWSToken(
+  options?: RequestOptions,
+): Promise<{ token: string; ws_url: string }> {
+  return post<{ token: string; ws_url: string }>(
+    "/api/speaking-conversation/ws-token",
+    undefined,
+    options,
+  );
+}
