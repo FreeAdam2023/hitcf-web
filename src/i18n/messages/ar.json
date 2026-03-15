@@ -661,6 +661,7 @@
     "loadError": "فشل تحميل النتائج",
     "scoreCard": {
       "answered": "{score}/{total} صحيح",
+      "wrong": "{count} خطأ",
       "timeUsed": "الوقت: {time}"
     },
     "reviewItem": {

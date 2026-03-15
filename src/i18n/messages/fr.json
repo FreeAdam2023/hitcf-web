@@ -661,6 +661,7 @@
     "loadError": "Échec du chargement des données de score",
     "scoreCard": {
       "answered": "{score}/{total} correct(s)",
+      "wrong": "{count} erreur(s)",
       "timeUsed": "Temps : {time}"
     },
     "reviewItem": {

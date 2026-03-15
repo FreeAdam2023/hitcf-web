@@ -661,6 +661,7 @@
     "loadError": "Failed to load score data",
     "scoreCard": {
       "answered": "{score}/{total} correct",
+      "wrong": "{count} wrong",
       "timeUsed": "Time: {time}"
     },
     "reviewItem": {

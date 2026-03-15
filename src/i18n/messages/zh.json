@@ -661,6 +661,7 @@
     "loadError": "无法加载成绩数据",
     "scoreCard": {
       "answered": "答对 {score}/{total} 题",
+      "wrong": "答错 {count} 题",
       "timeUsed": "用时 {time}"
     },
     "reviewItem": {

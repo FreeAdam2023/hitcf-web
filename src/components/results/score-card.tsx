@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Clock, CheckCircle2 } from "lucide-react";
+import { Clock } from "lucide-react";
 import { getEstimatedTcfLevel, TCF_MAX_SCORE } from "@/lib/tcf-levels";
 import { cn, formatTime } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -49,16 +49,16 @@ function CircularProgress({
 }) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const [offset, setOffset] = useState(circumference);
+  const [animated, setAnimated] = useState(false);
 
   useEffect(() => {
-    // Delay slightly so the animation is visible
-    const timer = setTimeout(() => {
-      const pct = Math.min(Math.max(value, 0), 100);
-      setOffset(circumference - (pct / 100) * circumference);
-    }, 100);
+    const timer = setTimeout(() => setAnimated(true), 100);
     return () => clearTimeout(timer);
-  }, [value, circumference]);
+  }, []);
+
+  const pct = Math.min(Math.max(value, 0), 100);
+  const correctLen = animated ? (pct / 100) * circumference : 0;
+  const wrongLen = animated ? ((100 - pct) / 100) * circumference : 0;
 
   return (
     <svg width={size} height={size} className="rotate-[-90deg]">
@@ -72,18 +72,30 @@ function CircularProgress({
         strokeWidth={strokeWidth}
         className="text-muted/40"
       />
-      {/* Progress ring */}
+      {/* Wrong (red) ring — drawn first as full background */}
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="currentColor"
+        stroke="#fca5a5"
         strokeWidth={strokeWidth}
-        strokeLinecap="round"
         strokeDasharray={circumference}
-        strokeDashoffset={offset}
-        className="text-primary transition-all ease-out"
+        strokeDashoffset={circumference - (correctLen + wrongLen)}
+        className="transition-all ease-out dark:stroke-red-400/60"
+        style={{ transitionDuration: "1.4s" }}
+      />
+      {/* Correct (green) ring — drawn on top */}
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={radius}
+        fill="none"
+        stroke="#22c55e"
+        strokeWidth={strokeWidth}
+        strokeDasharray={circumference}
+        strokeDashoffset={circumference - correctLen}
+        className="transition-all ease-out"
         style={{ transitionDuration: "1.4s" }}
       />
     </svg>
@@ -93,7 +105,6 @@ function CircularProgress({
 export function ScoreCard({
   score,
   total,
-  answeredCount,
   timeTakenSeconds,
   tcfPoints,
 }: ScoreCardProps) {
@@ -160,10 +171,14 @@ export function ScoreCard({
 
         {/* Meta info */}
         <div className="mt-4 flex items-center gap-6 text-sm text-muted-foreground">
-          {answeredCount != null && (
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-green-500" />
+            {t('results.scoreCard.answered', { score, total })}
+          </span>
+          {total - score > 0 && (
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4" />
-              {t('results.scoreCard.answered', { score, total })}
+              <span className="inline-block h-2.5 w-2.5 rounded-full bg-red-300 dark:bg-red-400/60" />
+              {t('results.scoreCard.wrong', { count: total - score })}
             </span>
           )}
           {timeTakenSeconds != null && timeTakenSeconds > 0 && (
