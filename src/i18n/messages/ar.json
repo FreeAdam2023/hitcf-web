@@ -553,7 +553,8 @@
     "expandHint": "اضغط للتوسيع",
     "vocabulary": "المفردات",
     "studyPoints": "نقاط الدراسة",
-    "keyClue": "دليل رئيسي للإجابة"
+    "keyClue": "دليل رئيسي للإجابة",
+    "keyLabel": "★ جملة الإجابة"
   },
   "wordCard": {
     "pronunciation": "النطق",

@@ -553,7 +553,8 @@
     "expandHint": "Cliquez pour développer",
     "vocabulary": "Vocabulaire clé",
     "studyPoints": "Points d'étude",
-    "keyClue": "Indice clé pour la réponse"
+    "keyClue": "Indice clé pour la réponse",
+    "keyLabel": "★ Phrase clé"
   },
   "wordCard": {
     "pronunciation": "Prononciation",

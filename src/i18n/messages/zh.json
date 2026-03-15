@@ -553,7 +553,8 @@
     "expandHint": "点击展开",
     "vocabulary": "重点词汇",
     "studyPoints": "学习要点",
-    "keyClue": "解题关键线索"
+    "keyClue": "解题关键线索",
+    "keyLabel": "★ 选项定位句"
   },
   "wordCard": {
     "pronunciation": "发音",

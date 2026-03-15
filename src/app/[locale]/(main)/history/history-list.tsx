@@ -52,6 +52,7 @@ interface HistoryItem {
   status: string;
   started_at: string;
   completed_at: string | null;
+  updated_at: string | null;
   // For listening/reading/writing
   score: number | null;
   total: number;
@@ -74,6 +75,7 @@ function fromAttempt(a: AttemptResponse): HistoryItem {
     status: a.status,
     started_at: a.started_at,
     completed_at: a.completed_at,
+    updated_at: a.updated_at ?? null,
     score: a.score,
     total: a.total,
     answered_count: a.answered_count,
@@ -91,6 +93,7 @@ function fromSpeaking(s: SpeakingAttemptResponse): HistoryItem {
     status: s.status,
     started_at: s.started_at,
     completed_at: s.completed_at,
+    updated_at: null,
     score: null,
     total: 100,
     answered_count: 0,
@@ -113,6 +116,7 @@ function fromConversation(c: SpeakingConversationResponse): HistoryItem {
     status: c.status === "abandoned" ? "completed" : c.status,
     started_at: c.started_at,
     completed_at: c.completed_at ?? null,
+    updated_at: null,
     score: null,
     total: 30,
     answered_count: c.turn_count,
@@ -172,12 +176,19 @@ function isThisWeek(dateStr: string): boolean {
   return diff < 7 * 24 * 60 * 60 * 1000;
 }
 
+/** Pick the most recent date for sorting and grouping. */
+function latestDate(item: HistoryItem): string {
+  const candidates = [item.started_at, item.completed_at, item.updated_at].filter(Boolean) as string[];
+  if (candidates.length === 0) return item.started_at;
+  return candidates.reduce((a, b) => (parseUTC(a).getTime() >= parseUTC(b).getTime() ? a : b));
+}
+
 function groupByDate(items: HistoryItem[]) {
   const today: HistoryItem[] = [];
   const thisWeek: HistoryItem[] = [];
   const earlier: HistoryItem[] = [];
   for (const item of items) {
-    const d = item.completed_at || item.started_at;
+    const d = latestDate(item);
     if (isToday(d)) today.push(item);
     else if (isThisWeek(d)) thisWeek.push(item);
     else earlier.push(item);
@@ -461,9 +472,7 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
           <span>{t(`common.modes.${item.mode}`)}</span>
           <span className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
-            {item.completed_at
-              ? formatDate(item.completed_at, locale)
-              : formatDate(item.started_at, locale)}
+            {formatDate(latestDate(item), locale)}
           </span>
         </div>
 
@@ -640,10 +649,10 @@ export function HistoryList() {
           ? conversationResult.items.map(fromConversation)
           : [];
 
-        // Merge and sort by date (newest first)
+        // Merge and sort by most recent date (newest first)
         const merged = [...regularItems, ...speakingItems, ...conversationItems].sort((a, b) => {
-          const dateA = parseUTC(a.completed_at || a.started_at).getTime();
-          const dateB = parseUTC(b.completed_at || b.started_at).getTime();
+          const dateA = parseUTC(latestDate(a)).getTime();
+          const dateB = parseUTC(latestDate(b)).getTime();
           return dateB - dateA;
         });
 

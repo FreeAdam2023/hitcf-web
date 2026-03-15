@@ -212,7 +212,7 @@ function TranscriptBlock({
                     <p className="font-medium leading-relaxed text-foreground">
                       {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                       <FrenchText text={s.fr} saveContext={saveContext} sentenceTranslations={sentences} />
-                      {isKey && <span className="ml-2 inline-flex items-center gap-0.5 rounded bg-amber-500/15 px-1.5 py-0.5 text-xs font-semibold text-amber-600 dark:text-amber-400" title={t("explanation.keyClue")}>★ KEY</span>}
+                      {isKey && <span className="ml-2 inline-flex items-center gap-0.5 rounded bg-amber-500/15 px-1.5 py-0.5 text-xs font-semibold text-amber-600 dark:text-amber-400" title={t("explanation.keyClue")}>{t("explanation.keyLabel")}</span>}
                       <button
                         onClick={(e) => { e.stopPropagation(); setAnalysisTarget((prev) => prev?.index === i ? null : { index: i, fr: s.fr }); }}
                         className={`ml-1 inline-flex shrink-0 rounded p-0.5 transition-colors hover:bg-muted hover:text-primary ${analysisTarget?.index === i ? "text-primary" : "text-muted-foreground/50"}`}
@@ -279,7 +279,7 @@ function TranscriptBlock({
                 <p className="font-medium leading-relaxed text-foreground">
                   {clickable && <Play className="mr-1 inline h-3 w-3 text-muted-foreground" />}
                   <FrenchText text={seg.text} saveContext={saveContext} sentenceTranslations={[{ fr: seg.text, en: seg.en ?? undefined, zh: seg.zh ?? undefined, native: segNative ?? undefined }]} />
-                  {isKey && <span className="ml-2 inline-flex items-center gap-0.5 rounded bg-amber-500/15 px-1.5 py-0.5 text-xs font-semibold text-amber-600 dark:text-amber-400" title={t("explanation.keyClue")}>★ KEY</span>}
+                  {isKey && <span className="ml-2 inline-flex items-center gap-0.5 rounded bg-amber-500/15 px-1.5 py-0.5 text-xs font-semibold text-amber-600 dark:text-amber-400" title={t("explanation.keyClue")}>{t("explanation.keyLabel")}</span>}
                   <button
                     onClick={(e) => { e.stopPropagation(); const idx = seg.sentence_index ?? i; setAnalysisTarget((prev) => prev?.index === idx ? null : { index: idx, fr: seg.text }); }}
                     className={`ml-1 inline-flex shrink-0 rounded p-0.5 transition-colors hover:bg-muted hover:text-primary ${analysisTarget?.index === (seg.sentence_index ?? i) ? "text-primary" : "text-muted-foreground/50"}`}

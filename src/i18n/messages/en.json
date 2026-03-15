@@ -553,7 +553,8 @@
     "expandHint": "Click to expand",
     "vocabulary": "Key Vocabulary",
     "studyPoints": "Study Points",
-    "keyClue": "Key clue for the answer"
+    "keyClue": "Key clue for the answer",
+    "keyLabel": "★ Answer Clue"
   },
   "wordCard": {
     "pronunciation": "Pronunciation",

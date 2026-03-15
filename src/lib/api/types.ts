@@ -264,6 +264,7 @@ export interface AttemptResponse {
   status: "in_progress" | "completed" | "abandoned";
   started_at: string;
   completed_at: string | null;
+  updated_at?: string | null;
 }
 
 export interface AttemptDetail extends AttemptResponse {
