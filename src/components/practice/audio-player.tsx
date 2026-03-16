@@ -157,7 +157,11 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     const tryPlay = () => {
       audio.play()
         .then(() => setPlaying(true))
-        .catch(() => setError(t("audio.playError")));
+        .catch(() => {
+          // Autoplay blocked by browser policy — silently wait for manual click
+          if (autoPlay) return;
+          setError(t("audio.playError"));
+        });
     };
 
     if (audio.readyState >= 2) {

@@ -235,7 +235,7 @@ export function ExamSession() {
           disabled={submitting || answers.has(question.id)}
           mode="exam"
           examSelected={currentAnswer?.selected ?? null}
-          audioOnly={question.question_number <= 10}
+          audioOnly={question.options.every((o) => !o.text?.trim())}
           horizontal={!!question.has_image}
           vocabDisabled
         />

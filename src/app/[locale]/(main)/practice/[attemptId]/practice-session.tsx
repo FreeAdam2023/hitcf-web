@@ -745,7 +745,7 @@ export function PracticeSession() {
           disabled={submitting}
           pendingSelected={selectedKey}
           submittingKey={submittingKey}
-          audioOnly={question.type === "listening" && question.question_number <= 10}
+          audioOnly={question.type === "listening" && question.options.every((o) => !o.text?.trim())}
           horizontal={!!question.has_image}
           saveContext={saveContext}
         />
