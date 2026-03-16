@@ -181,16 +181,9 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
 
       {question.question_text && (
         <div>
-          {!isListening && (
-            <p className="text-base font-medium">
-              <FrenchText text={question.question_text} disabled={vocabDisabled} saveContext={saveContext} />
-            </p>
-          )}
-          {isListening && (
-            <p className="text-sm lg:text-base font-medium text-muted-foreground">
-              <FrenchText text={question.question_text} disabled={vocabDisabled} saveContext={saveContext} />
-            </p>
-          )}
+          <p className="text-base font-medium">
+            <FrenchText text={question.question_text} disabled={vocabDisabled} saveContext={saveContext} />
+          </p>
           {answered && hasTranslation && (
             <div className="mt-1 space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-200">
               {locale === "zh" && qEn && <p className="text-sm lg:text-base text-blue-600 dark:text-blue-400">{qEn}</p>}
