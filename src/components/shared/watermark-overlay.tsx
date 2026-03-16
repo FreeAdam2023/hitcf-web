@@ -62,9 +62,9 @@ export function WatermarkOverlay() {
 
     // Brand — only on content pages
     if (contentPage) {
-      ctx.font = "600 18px -apple-system, BlinkMacSystemFont, sans-serif";
-      ctx.fillStyle = `rgba(${rgb}, 0.065)`;
-      ctx.fillText("HiTCF.com", 0, -14);
+      ctx.font = "600 26px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillStyle = `rgba(${rgb}, 0.08)`;
+      ctx.fillText("HiTCF.com", 0, -18);
     }
 
     // User identity (hidden) — on ALL pages
