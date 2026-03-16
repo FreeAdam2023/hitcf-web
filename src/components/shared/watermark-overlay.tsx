@@ -43,8 +43,8 @@ export function WatermarkOverlay() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return null;
 
-    const tileW = 400;
-    const tileH = 240;
+    const tileW = 440;
+    const tileH = 260;
     canvas.width = tileW;
     canvas.height = tileH;
 
@@ -62,9 +62,9 @@ export function WatermarkOverlay() {
 
     // Brand — only on content pages
     if (contentPage) {
-      ctx.font = "600 26px -apple-system, BlinkMacSystemFont, sans-serif";
-      ctx.fillStyle = `rgba(${rgb}, 0.08)`;
-      ctx.fillText("HiTCF.com", 0, -18);
+      ctx.font = "600 36px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillStyle = `rgba(${rgb}, 0.09)`;
+      ctx.fillText("HiTCF.com", 0, -20);
     }
 
     // User identity (hidden) — on ALL pages
