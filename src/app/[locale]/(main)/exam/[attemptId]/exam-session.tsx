@@ -236,6 +236,7 @@ export function ExamSession() {
           mode="exam"
           examSelected={currentAnswer?.selected ?? null}
           audioOnly={question.question_number <= 10}
+          horizontal={!!question.has_image}
           vocabDisabled
         />
 

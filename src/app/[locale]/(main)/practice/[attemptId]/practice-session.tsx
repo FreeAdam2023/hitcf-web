@@ -748,7 +748,7 @@ export function PracticeSession() {
           pendingSelected={selectedKey}
           submittingKey={submittingKey}
           audioOnly={question.type === "listening" && question.question_number <= 10}
-          horizontal={hasImage}
+          horizontal={!!question.has_image}
           saveContext={saveContext}
         />
 
