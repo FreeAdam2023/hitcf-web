@@ -111,15 +111,15 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
             <img
               src="/logo.png"
               alt="HiTCF"
-              width={48}
-              height={48}
-              style={{ borderRadius: 10 }}
+              width={64}
+              height={64}
+              style={{ borderRadius: 12 }}
             />
-            <span style={{ fontSize: 28, fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>
+            <span style={{ fontSize: 36, fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>
               HiTCF
             </span>
           </div>
-          <span style={{ fontSize: 22, color: "rgba(255,255,255,0.45)", fontWeight: 500 }}>
+          <span style={{ fontSize: 28, color: "rgba(255,255,255,0.45)", fontWeight: 500 }}>
             {data.date}
           </span>
         </div>
@@ -360,7 +360,7 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
           {/* Verification hash — subtle */}
           <div
             style={{
-              fontSize: 12,
+              fontSize: 16,
               color: "rgba(255,255,255,0.15)",
               letterSpacing: "0.2em",
               fontFamily: "monospace",
@@ -370,7 +370,7 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
           </div>
           <div
             style={{
-              width: 200,
+              width: 240,
               height: 1,
               background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)",
             }}
@@ -379,15 +379,15 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 12,
-              fontSize: 22,
+              gap: 14,
+              fontSize: 30,
             }}
           >
-            <span style={{ fontWeight: 700, color: "rgba(255,255,255,0.5)" }}>
+            <span style={{ fontWeight: 700, color: "rgba(255,255,255,0.55)" }}>
               hitcf.com
             </span>
-            <span style={{ color: "rgba(255,255,255,0.15)" }}>|</span>
-            <span style={{ color: "rgba(255,255,255,0.3)", fontWeight: 400 }}>
+            <span style={{ color: "rgba(255,255,255,0.2)" }}>|</span>
+            <span style={{ color: "rgba(255,255,255,0.35)", fontWeight: 400 }}>
               {t("tagline")}
             </span>
           </div>
