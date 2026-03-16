@@ -45,8 +45,14 @@ export async function generateMetadata({
     },
     description: t("siteDescription"),
     keywords: t("keywords").split(","),
+    applicationName: "HiTCF",
     authors: [{ name: "HiTCF" }],
     creator: "HiTCF",
+    appleWebApp: {
+      capable: true,
+      title: "HiTCF",
+      statusBarStyle: "default",
+    },
     metadataBase: new URL(SITE_URL),
     alternates: {
       canonical: `/${locale}`,
