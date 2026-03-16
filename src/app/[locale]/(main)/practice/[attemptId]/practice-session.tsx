@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -12,6 +12,7 @@ import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
+import { toggleBookmark, checkBookmarks } from "@/lib/api/bookmarks";
 import { getQuestionDetail, generateExplanation } from "@/lib/api/questions";
 import { getQuotaStatus, type QuotaStatus } from "@/lib/api/subscriptions";
 import { ApiError, QuotaExceededError } from "@/lib/api/client";
@@ -22,6 +23,7 @@ import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ReportDialog } from "@/components/practice/report-dialog";
+import { cn } from "@/lib/utils";
 import { getTcfLevelByQuestionNumber } from "@/lib/tcf-levels";
 import { FrenchText, type WordSaveContext } from "@/components/practice/french-text";
 import { SentenceAnalysisInline } from "@/components/practice/sentence-analysis-inline";
@@ -394,6 +396,17 @@ export function PracticeSession() {
   const audioPlayerRef = useRef<AudioPlayerHandle>(null);
   const [audioTime, setAudioTime] = useState(0);
 
+  // ── Bookmarks ──
+  const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (questions.length === 0) return;
+    const ids = questions.map((q) => q.id);
+    checkBookmarks(ids)
+      .then((res) => setBookmarkedIds(new Set(res.bookmarked)))
+      .catch(() => {});
+  }, [questions]);
+
   // ── Quota tracking (free users) ──
   const [initialQuota, setInitialQuota] = useState<QuotaStatus | null>(null);
   const [sessionAnswered, setSessionAnswered] = useState(0);
@@ -530,6 +543,22 @@ export function PracticeSession() {
         questionNumber: question.question_number,
       }
     : undefined;
+
+  const handleToggleBookmark = useCallback(async () => {
+    if (!question) return;
+    try {
+      const res = await toggleBookmark(question.id);
+      setBookmarkedIds((prev) => {
+        const next = new Set(prev);
+        if (res.bookmarked) next.add(question.id);
+        else next.delete(question.id);
+        return next;
+      });
+      toast.success(res.bookmarked ? t("review.bookmarks.added") : t("review.bookmarks.removed"));
+    } catch {
+      toast.error(t("common.errors.operationFailed"));
+    }
+  }, [question, t]);
 
   // Prefetch explanation as soon as question loads (transcript translations + explanation ready before user answers)
   useEffect(() => {
@@ -727,15 +756,31 @@ export function PracticeSession() {
               autoPlayAudio={question.type === "listening" && currentIndex > 0}
             />
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="shrink-0 text-muted-foreground hover:text-orange-500"
-            title={t("practice.session.reportTitle")}
-            onClick={() => setReportOpen(true)}
-          >
-            <AlertTriangle className="h-4 w-4" />
-          </Button>
+          <div className="flex shrink-0 items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "shrink-0",
+                question && bookmarkedIds.has(question.id)
+                  ? "text-yellow-500 hover:text-yellow-600"
+                  : "text-muted-foreground hover:text-yellow-500",
+              )}
+              title={t("review.bookmarks.toggle")}
+              onClick={handleToggleBookmark}
+            >
+              <Star className={cn("h-4 w-4", question && bookmarkedIds.has(question.id) && "fill-current")} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="shrink-0 text-muted-foreground hover:text-orange-500"
+              title={t("practice.session.reportTitle")}
+              onClick={() => setReportOpen(true)}
+            >
+              <AlertTriangle className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
 
         <OptionList

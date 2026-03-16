@@ -19,7 +19,7 @@ const CONTENT_PREFIXES = [
   "/practice/", "/exam/", "/results/", "/tests",
   "/writing-practice/", "/writing-exam/",
   "/speaking-practice", "/speaking-conversation",
-  "/vocabulary", "/wrong-answers", "/speed-drill",
+  "/vocabulary", "/wrong-answers", "/review", "/speed-drill",
 ];
 
 function isContentPage(pathname: string): boolean {

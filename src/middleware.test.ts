@@ -4,6 +4,7 @@ import { describe, it, expect } from "vitest";
 const PROTECTED_PREFIXES = [
   "/dashboard",
   "/wrong-answers",
+  "/review",
   "/history",
   "/practice/",
   "/exam/",
@@ -71,6 +72,10 @@ describe("middleware route protection", () => {
 
   it("should protect /zh/wrong-answers", () => {
     expect(isProtected("/zh/wrong-answers")).toBe(true);
+  });
+
+  it("should protect /en/review", () => {
+    expect(isProtected("/en/review")).toBe(true);
   });
 
   it("should protect /en/history", () => {

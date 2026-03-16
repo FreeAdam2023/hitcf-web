@@ -72,6 +72,7 @@
     "tests": "Tests",
     "dashboard": "Tableau de bord",
     "wrongAnswers": "Carnet d'erreurs",
+    "review": "Révision",
     "vocabulary": "Vocabulaire",
     "history": "Historique",
     "speedDrill": "Pratique par niveau",
@@ -910,6 +911,32 @@
         "Filtrage par type et niveau",
         "Pratique en un clic à partir des erreurs",
         "Suivi de la maîtrise et de la progression"
+      ]
+    }
+  },
+  "review": {
+    "title": "Carnet de révision",
+    "subtitle": "Suivez vos points faibles et marquez les questions importantes",
+    "tabs": {
+      "wrong": "Erreurs",
+      "bookmarks": "Favoris"
+    },
+    "bookmarks": {
+      "remove": "Retirer",
+      "toggle": "Ajouter / Retirer des favoris",
+      "added": "Ajouté aux favoris",
+      "removed": "Retiré des favoris",
+      "emptyTitle": "Aucune question en favoris",
+      "emptyDescription": "Appuyez sur l'étoile pendant la pratique pour ajouter des questions en favoris"
+    },
+    "upgradeBanner": {
+      "title": "Le carnet de révision est réservé aux Pro",
+      "description": "Collectez automatiquement les erreurs, ajoutez des favoris et générez des exercices ciblés",
+      "features": [
+        "Collecter automatiquement toutes les erreurs",
+        "Ajouter n'importe quelle question en favoris",
+        "Pratiquer en un clic à partir des erreurs",
+        "Marquer comme maîtrisé, suivre les progrès"
       ]
     }
   },
@@ -2242,6 +2269,10 @@
     "wrongAnswers": {
       "title": "Cahier d'erreurs · Suivez et surmontez vos points faibles",
       "description": "Collecte automatique des erreurs en compréhension orale et écrite TCF Canada. Filtrez par type, niveau et maîtrise. Générez des sessions de révision ciblées pour surmonter vos points faibles."
+    },
+    "review": {
+      "title": "Carnet de révision · Erreurs et favoris",
+      "description": "Suivez vos erreurs et ajoutez des questions en favoris. Filtrez par type et niveau, générez des exercices ciblés pour surmonter vos points faibles."
     },
     "history": {
       "title": "Historique d'entraînement · Tous les résultats d'entraînement et d'examen TCF",

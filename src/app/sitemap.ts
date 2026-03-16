@@ -29,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Feature pages
     ...localizedEntries("/speaking-practice", { changeFrequency: "weekly", priority: 0.8 }),
     ...localizedEntries("/speaking-conversation", { changeFrequency: "weekly", priority: 0.8 }),
-    ...localizedEntries("/wrong-answers", { changeFrequency: "daily", priority: 0.6 }),
+    ...localizedEntries("/review", { changeFrequency: "daily", priority: 0.6 }),
     ...localizedEntries("/history", { changeFrequency: "daily", priority: 0.5 }),
     // Vocabulary
     ...localizedEntries("/vocabulary", { changeFrequency: "weekly", priority: 0.8 }),

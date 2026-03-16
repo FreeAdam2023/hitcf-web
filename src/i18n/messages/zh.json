@@ -72,6 +72,7 @@
     "tests": "题库",
     "dashboard": "仪表盘",
     "wrongAnswers": "错题本",
+    "review": "复习本",
     "vocabulary": "生词本",
     "history": "记录",
     "speedDrill": "等级练习",
@@ -908,6 +909,32 @@
       "features": [
         "自动收集所有错题",
         "按类型、等级筛选",
+        "一键从错题生成练习",
+        "标记已掌握，追踪进步"
+      ]
+    }
+  },
+  "review": {
+    "title": "复习本",
+    "subtitle": "追踪薄弱环节，收藏重点题目",
+    "tabs": {
+      "wrong": "错题",
+      "bookmarks": "收藏"
+    },
+    "bookmarks": {
+      "remove": "取消收藏",
+      "toggle": "收藏 / 取消收藏",
+      "added": "已收藏",
+      "removed": "已取消收藏",
+      "emptyTitle": "还没有收藏的题目",
+      "emptyDescription": "练习时点击星标收藏想复习的题目"
+    },
+    "upgradeBanner": {
+      "title": "复习本是 Pro 专属功能",
+      "description": "自动收集错题，收藏重点题目，标记掌握状态，支持从错题直接生成练习",
+      "features": [
+        "自动收集所有错题",
+        "收藏任意题目方便复习",
         "一键从错题生成练习",
         "标记已掌握，追踪进步"
       ]
@@ -2242,6 +2269,10 @@
     "wrongAnswers": {
       "title": "错题本 · 追踪薄弱环节定向突破",
       "description": "自动收集 TCF Canada 听力和阅读的错题，按类型、等级和掌握状态筛选。支持一键生成错题练习，针对性突破薄弱环节。"
+    },
+    "review": {
+      "title": "复习本 · 错题收藏一站复习",
+      "description": "自动收集错题，收藏重点题目。按类型、等级筛选，一键生成错题练习，系统性突破薄弱环节。"
     },
     "history": {
       "title": "练习记录 · 查看所有 TCF 练习和考试成绩",

@@ -14,6 +14,7 @@ const CF_ACCESS_CLIENT_SECRET = process.env.CF_ACCESS_CLIENT_SECRET || "";
 const PROTECTED_PREFIXES = [
   "/dashboard",
   "/wrong-answers",
+  "/review",
   "/history",
   "/practice/",
   "/exam/",

@@ -1,24 +1,10 @@
-import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
-import { WrongAnswerList } from "./wrong-answer-list";
+import { redirect } from "next/navigation";
 
-export async function generateMetadata({
+export default async function WrongAnswersRedirect({
   params,
 }: {
   params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
+}) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "meta.wrongAnswers" });
-  return {
-    title: t("title"),
-    description: t("description"),
-    alternates: {
-      canonical: `/${locale}/wrong-answers`,
-      languages: { zh: "/zh/wrong-answers", en: "/en/wrong-answers", fr: "/fr/wrong-answers", ar: "/ar/wrong-answers" },
-    },
-  };
-}
-
-export default function WrongAnswersPage() {
-  return <WrongAnswerList />;
+  redirect(`/${locale}/review`);
 }

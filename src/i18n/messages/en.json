@@ -72,6 +72,7 @@
     "tests": "Tests",
     "dashboard": "Dashboard",
     "wrongAnswers": "Wrong Notes",
+    "review": "Review",
     "vocabulary": "Vocabulary",
     "history": "History",
     "speedDrill": "Level Practice",
@@ -908,6 +909,32 @@
       "features": [
         "Automatically collect all wrong answers",
         "Filter by type and level",
+        "One-click practice from wrong answers",
+        "Mark mastered, track progress"
+      ]
+    }
+  },
+  "review": {
+    "title": "Review Book",
+    "subtitle": "Track weak points and bookmark important questions",
+    "tabs": {
+      "wrong": "Wrong Answers",
+      "bookmarks": "Bookmarks"
+    },
+    "bookmarks": {
+      "remove": "Unbookmark",
+      "toggle": "Bookmark / Unbookmark",
+      "added": "Bookmarked",
+      "removed": "Bookmark removed",
+      "emptyTitle": "No bookmarked questions yet",
+      "emptyDescription": "Tap the star icon during practice to bookmark questions for review"
+    },
+    "upgradeBanner": {
+      "title": "Review Book is Pro-only",
+      "description": "Automatically collect wrong answers, bookmark important questions, and generate targeted practice",
+      "features": [
+        "Automatically collect all wrong answers",
+        "Bookmark any question for review",
         "One-click practice from wrong answers",
         "Mark mastered, track progress"
       ]
@@ -2242,6 +2269,10 @@
     "wrongAnswers": {
       "title": "Wrong Answer Notebook · Track & Overcome Weak Areas",
       "description": "Auto-collect wrong answers from TCF Canada listening & reading. Filter by type, level & mastery. Generate targeted review sessions to break through weak spots."
+    },
+    "review": {
+      "title": "Review Book · Wrong Answers & Bookmarks",
+      "description": "Track wrong answers and bookmark important questions. Filter by type and level, generate targeted practice sessions to overcome weak areas."
     },
     "history": {
       "title": "Practice History · All TCF Practice & Exam Results",

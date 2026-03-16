@@ -31,7 +31,7 @@ import { cn, parseUTCms } from "@/lib/utils";
 
 const NAV_KEYS = [
   { href: "/tests", key: "nav.tests" },
-  { href: "/wrong-answers", key: "nav.wrongAnswers" },
+  { href: "/review", key: "nav.review" },
   { href: "/vocabulary", key: "nav.vocabulary" },
   { href: "/history", key: "nav.history" },
   { href: "/pricing", key: "nav.pricing" },

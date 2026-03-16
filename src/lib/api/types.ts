@@ -217,6 +217,31 @@ export interface WrongAnswerItem {
   test_set_name: string | null;
 }
 
+// Bookmarks
+export interface BookmarkItem {
+  id: string;
+  question_id: string;
+  test_set_id: string;
+  created_at: string | null;
+  question_number: number | null;
+  question_type: "listening" | "reading" | null;
+  level: string | null;
+  question_text: string | null;
+  test_set_name: string | null;
+}
+
+export interface BookmarkStats {
+  total: number;
+}
+
+export interface BookmarkDetail {
+  id: string;
+  question_id: string;
+  test_set_id: string;
+  created_at: string;
+  question: WrongAnswerDetailQuestion | null;
+}
+
 // Attempts
 export interface ActiveAttemptResponse {
   id: string;
