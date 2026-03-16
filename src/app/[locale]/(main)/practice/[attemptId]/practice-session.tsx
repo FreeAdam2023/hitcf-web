@@ -390,7 +390,7 @@ export function PracticeSession() {
   const [explanation, setExplanation] = useState<Explanation | null>(null);
   const [explanationLoading, setExplanationLoading] = useState(false);
   const [explanationError, setExplanationError] = useState(false);
-  const [hasImage, setHasImage] = useState(false);
+  // hasImage state removed — horizontal layout now uses question.has_image directly
   const audioPlayerRef = useRef<AudioPlayerHandle>(null);
   const [audioTime, setAudioTime] = useState(0);
 
@@ -493,7 +493,6 @@ export function PracticeSession() {
     setExplanation(null);
     setExplanationLoading(false);
     setExplanationError(false);
-    setHasImage(false);
     setAudioTime(0);
     fetchingRef.current = false;
   }, [currentIndex]);
@@ -721,7 +720,6 @@ export function PracticeSession() {
               question={question}
               index={currentIndex}
               total={questions.length}
-              onImageLoaded={setHasImage}
               saveContext={saveContext}
               audioRef={audioPlayerRef}
               onAudioTimeUpdate={setAudioTime}
