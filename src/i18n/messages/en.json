@@ -515,6 +515,7 @@
         "wrong_answer": "Wrong answer",
         "audio_issue": "Audio problem",
         "option_error": "Option content error",
+        "transcript_issue": "Transcript/subtitle error",
         "other": "Other issue"
       },
       "typeLabel": "Issue Type",

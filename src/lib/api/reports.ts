@@ -1,7 +1,7 @@
 import { post } from "./client";
 
 export interface ReportQuestionBody {
-  issue_type: "wrong_answer" | "bad_audio" | "wrong_option" | "other";
+  issue_type: "wrong_answer" | "bad_audio" | "wrong_option" | "bad_transcript" | "other";
   description?: string;
 }
 

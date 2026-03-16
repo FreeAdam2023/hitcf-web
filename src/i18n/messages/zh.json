@@ -515,6 +515,7 @@
         "wrong_answer": "答案错误",
         "audio_issue": "音频有问题",
         "option_error": "选项内容错误",
+        "transcript_issue": "原文/字幕有误",
         "other": "其他问题"
       },
       "typeLabel": "问题类型",

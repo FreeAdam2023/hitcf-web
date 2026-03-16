@@ -515,6 +515,7 @@
         "wrong_answer": "إجابة خاطئة",
         "audio_issue": "مشكلة في الصوت",
         "option_error": "خطأ في محتوى الخيار",
+        "transcript_issue": "خطأ في النص/الترجمة",
         "other": "مشكلة أخرى"
       },
       "typeLabel": "نوع المشكلة",
