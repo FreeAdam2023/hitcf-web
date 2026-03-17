@@ -64,7 +64,8 @@ export function SpeakingScriptsView() {
         target_level: data.targetLevel,
         persona: {
           occupation: data.occupation,
-          city: data.city,
+          hometown: data.hometown,
+          current_city: data.currentCity,
           family: data.family,
           hobbies: data.hobbies,
           immigration_reason: data.immigrationReason,

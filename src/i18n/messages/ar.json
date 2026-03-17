@@ -517,21 +517,65 @@
       "fields": {
         "targetLevel": "المستوى المستهدف",
         "occupation": "المهنة",
-        "city": "المدينة / البلد",
+        "hometown": "من أين أنت",
+        "currentCity": "المدينة الحالية",
         "family": "الحالة العائلية",
         "hobbies": "الهوايات",
+        "hobbiesHint": "انقر للاختيار، أو اكتب هوايتك",
+        "customHobby": "هواية مخصصة",
         "immigrationReason": "سبب الهجرة",
+        "immigrationHint": "انقر للاختيار، أو اكتب سببك",
+        "customReason": "سبب مخصص",
         "frenchDuration": "مدة تعلم الفرنسية",
         "extra": "معلومات إضافية"
       },
       "placeholders": {
         "occupation": "مثال: مهندس برمجيات",
-        "city": "مثال: شنغهاي / الصين",
-        "family": "مثال: متزوج(ة)، طفل واحد",
-        "hobbies": "مثال: القراءة، السفر، الطبخ",
-        "immigrationReason": "مثال: من أجل تعليم أطفالي",
-        "frenchDuration": "مثال: سنة ونصف",
+        "hometown": "مثال: بكين / الصين",
+        "currentCity": "مثال: مونتريال / كندا",
+        "family": "اختر",
+        "customHobby": "اكتب واضغط Enter",
+        "customReason": "اكتب واضغط Enter",
+        "customReason": "اكتب واضغط Enter",
         "extra": "مثال: عشت في بكين 10 سنوات، انتقلت إلى مونتريال العام الماضي؛ أحب الجري في مون رويال في عطلة نهاية الأسبوع"
+      },
+      "familyOptions": {
+        "single": "أعزب / Célibataire",
+        "married": "متزوج(ة) / Marié(e)",
+        "marriedOneChild": "متزوج(ة)، طفل واحد / Marié(e), un enfant",
+        "marriedTwoChildren": "متزوج(ة)، طفلان / Marié(e), deux enfants",
+        "divorced": "مطلق(ة) / Divorcé(e)",
+        "other": "آخر / Autre"
+      },
+      "hobbyTags": {
+        "reading": "القراءة / Lecture",
+        "travel": "السفر / Voyages",
+        "cooking": "الطبخ / Cuisine",
+        "sports": "الرياضة / Sport",
+        "music": "الموسيقى / Musique",
+        "cinema": "السينما / Cinéma",
+        "photography": "التصوير / Photographie",
+        "hiking": "المشي / Randonnée",
+        "gaming": "الألعاب / Jeux vidéo",
+        "painting": "الرسم / Peinture",
+        "yoga": "اليوغا / Yoga",
+        "dancing": "الرقص / Danse"
+      },
+      "immigrationTags": {
+        "childEducation": "تعليم الأطفال",
+        "career": "تطوير مهني",
+        "study": "دراسات عليا",
+        "quality": "جودة الحياة",
+        "family": "لم الشمل",
+        "adventure": "مغامرة جديدة"
+      },
+      "frenchDurationTags": {
+        "3months": "3 أشهر / 3 mois",
+        "6months": "6 أشهر / 6 mois",
+        "1year": "سنة / 1 an",
+        "1.5years": "سنة ونصف / 1 an et demi",
+        "2years": "سنتان / 2 ans",
+        "3years": "3+ سنوات / 3 ans+"
       }
     }
   },

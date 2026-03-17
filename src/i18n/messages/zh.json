@@ -511,27 +511,70 @@
     "personaForm": {
       "title": "创建你的考试人设",
       "subtitle": "填写个人信息，AI 将生成符合你背景的法语对话脚本",
-      "tip": "不需要填写真实信息！编一个你能记住、考场上能本能反应出来的人设就好。",
+      "tip": "可以不填写真实信息！编一个你能记住、考场上能本能反应出来的人设就好。",
       "quickFill": "快速填充模板",
       "submit": "生成脚本",
       "fields": {
         "targetLevel": "目标等级",
         "occupation": "职业",
-        "city": "城市 / 国家",
+        "hometown": "来自哪里",
+        "currentCity": "现居城市",
         "family": "家庭状况",
         "hobbies": "爱好",
+        "hobbiesHint": "点击选择，也可以自己输入",
+        "customHobby": "自定义爱好",
         "immigrationReason": "移民原因",
+        "immigrationHint": "点击选择，也可以自己输入",
+        "customReason": "自定义原因",
         "frenchDuration": "学法语时长",
         "extra": "补充信息"
       },
       "placeholders": {
         "occupation": "例：软件工程师",
-        "city": "例：上海 / 中国",
-        "family": "例：已婚，一个孩子",
-        "hobbies": "例：读书、旅行、烹饪",
-        "immigrationReason": "例：为了孩子教育",
-        "frenchDuration": "例：一年半",
+        "hometown": "例：北京 / 中国",
+        "currentCity": "例：蒙特利尔 / 加拿大",
+        "family": "请选择",
+        "customHobby": "输入后回车添加",
+        "customReason": "输入后回车添加",
         "extra": "例：在北京住了 10 年，去年搬到蒙特利尔；喜欢周末去 Mont-Royal 跑步"
+      },
+      "familyOptions": {
+        "single": "单身 / Célibataire",
+        "married": "已婚 / Marié(e)",
+        "marriedOneChild": "已婚，一个孩子 / Marié(e), un enfant",
+        "marriedTwoChildren": "已婚，两个孩子 / Marié(e), deux enfants",
+        "divorced": "离异 / Divorcé(e)",
+        "other": "其他 / Autre"
+      },
+      "hobbyTags": {
+        "reading": "读书 / Lecture",
+        "travel": "旅行 / Voyages",
+        "cooking": "烹饪 / Cuisine",
+        "sports": "运动 / Sport",
+        "music": "音乐 / Musique",
+        "cinema": "电影 / Cinéma",
+        "photography": "摄影 / Photographie",
+        "hiking": "徒步 / Randonnée",
+        "gaming": "游戏 / Jeux vidéo",
+        "painting": "绘画 / Peinture",
+        "yoga": "瑜伽 / Yoga",
+        "dancing": "跳舞 / Danse"
+      },
+      "immigrationTags": {
+        "childEducation": "孩子教育 / Éducation des enfants",
+        "career": "职业发展 / Développement de carrière",
+        "study": "留学深造 / Études supérieures",
+        "quality": "生活质量 / Qualité de vie",
+        "family": "家庭团聚 / Regroupement familial",
+        "adventure": "新的冒险 / Nouvelle aventure"
+      },
+      "frenchDurationTags": {
+        "3months": "3 个月 / 3 mois",
+        "6months": "6 个月 / 6 mois",
+        "1year": "1 年 / 1 an",
+        "1.5years": "1 年半 / 1 an et demi",
+        "2years": "2 年 / 2 ans",
+        "3years": "3 年+ / 3 ans+"
       }
     }
   },

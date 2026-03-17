@@ -517,21 +517,65 @@
       "fields": {
         "targetLevel": "Niveau cible",
         "occupation": "Profession",
-        "city": "Ville / Pays",
+        "hometown": "Ville d'origine",
+        "currentCity": "Ville actuelle",
         "family": "Situation familiale",
         "hobbies": "Loisirs",
+        "hobbiesHint": "Cliquez pour sélectionner, ou tapez le vôtre",
+        "customHobby": "Loisir personnalisé",
         "immigrationReason": "Raison de l'immigration",
+        "immigrationHint": "Cliquez pour sélectionner, ou tapez le vôtre",
+        "customReason": "Raison personnalisée",
         "frenchDuration": "Durée d'apprentissage du français",
         "extra": "Informations supplémentaires"
       },
       "placeholders": {
         "occupation": "ex. : Ingénieur(e) logiciel",
-        "city": "ex. : Shanghai / Chine",
-        "family": "ex. : Marié(e), un enfant",
-        "hobbies": "ex. : Lecture, voyages, cuisine",
-        "immigrationReason": "ex. : Pour l'éducation de mon enfant",
-        "frenchDuration": "ex. : Un an et demi",
+        "hometown": "ex. : Pékin / Chine",
+        "currentCity": "ex. : Montréal / Canada",
+        "family": "Sélectionner",
+        "customHobby": "Tapez et appuyez sur Entrée",
+        "customReason": "Tapez et appuyez sur Entrée",
+        "customReason": "Tapez et appuyez sur Entrée",
         "extra": "ex. : J'ai vécu à Pékin pendant 10 ans, j'ai déménagé à Montréal l'année dernière ; j'aime courir au Mont-Royal le week-end"
+      },
+      "familyOptions": {
+        "single": "Célibataire",
+        "married": "Marié(e)",
+        "marriedOneChild": "Marié(e), un enfant",
+        "marriedTwoChildren": "Marié(e), deux enfants",
+        "divorced": "Divorcé(e)",
+        "other": "Autre"
+      },
+      "hobbyTags": {
+        "reading": "Lecture",
+        "travel": "Voyages",
+        "cooking": "Cuisine",
+        "sports": "Sport",
+        "music": "Musique",
+        "cinema": "Cinéma",
+        "photography": "Photographie",
+        "hiking": "Randonnée",
+        "gaming": "Jeux vidéo",
+        "painting": "Peinture",
+        "yoga": "Yoga",
+        "dancing": "Danse"
+      },
+      "immigrationTags": {
+        "childEducation": "Éducation des enfants",
+        "career": "Développement de carrière",
+        "study": "Études supérieures",
+        "quality": "Qualité de vie",
+        "family": "Regroupement familial",
+        "adventure": "Nouvelle aventure"
+      },
+      "frenchDurationTags": {
+        "3months": "3 mois",
+        "6months": "6 mois",
+        "1year": "1 an",
+        "1.5years": "1 an et demi",
+        "2years": "2 ans",
+        "3years": "3 ans+"
       }
     }
   },
