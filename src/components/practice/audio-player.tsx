@@ -208,12 +208,25 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     }
   };
 
-  const restart = () => {
+  const restart = async () => {
+    if (exhausted) return;
+    if (!url || Date.now() - fetchedAtRef.current > SAS_REFRESH_MS) {
+      pendingPlayRef.current = true;
+      await loadUrl();
+      return;
+    }
     const audio = audioRef.current;
     if (!audio) return;
     audio.currentTime = 0;
     setProgress(0);
+    setCurrentTime(0);
     segmentEndRef.current = null;
+    try {
+      await audio.play();
+      setPlaying(true);
+    } catch {
+      setError(t("audio.playError"));
+    }
   };
 
   const toggleMute = () => {
