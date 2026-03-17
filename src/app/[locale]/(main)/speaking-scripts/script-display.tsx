@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import {
@@ -59,6 +59,16 @@ export function ScriptDisplay({
     () => new Set(script.topics.map((_, i) => i)),
   );
   const [deleting, setDeleting] = useState(false);
+
+  // Scroll to hash anchor (e.g. #identite)
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (hash) {
+      setTimeout(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, []);
 
   const toggleTopic = useCallback((idx: number) => {
     setExpandedTopics((prev) => {
@@ -132,7 +142,7 @@ export function ScriptDisplay({
         const expanded = expandedTopics.has(topicIdx);
         const icon = THEME_ICONS[topic.theme] ?? "📝";
         return (
-          <Card key={topicIdx}>
+          <Card key={topicIdx} id={topic.theme}>
             <CardHeader
               className="cursor-pointer pb-3"
               onClick={() => toggleTopic(topicIdx)}

@@ -26,13 +26,13 @@ Règles :
 - Parle uniquement en français.`;
 
 const THEME_FR = [
-  { fr: "Identité", examples: "Votre nom, nationalité, âge, ville" },
-  { fr: "Études", examples: "Votre parcours, diplômes, matières" },
-  { fr: "Travail", examples: "Votre métier, expérience, entreprise" },
-  { fr: "Loisirs", examples: "Sports, musique, lecture, voyages" },
-  { fr: "Famille", examples: "Parents, enfants, frères et sœurs" },
-  { fr: "Quotidien", examples: "Routine, repas, transport, logement" },
-  { fr: "Projet Canada", examples: "Pourquoi le Canada, objectifs, plans" },
+  { fr: "Identité", key: "identite", examples: "Votre nom, nationalité, âge, ville" },
+  { fr: "Études", key: "etudes", examples: "Votre parcours, diplômes, matières" },
+  { fr: "Travail", key: "travail", examples: "Votre métier, expérience, entreprise" },
+  { fr: "Loisirs", key: "loisirs", examples: "Sports, musique, lecture, voyages" },
+  { fr: "Famille", key: "famille", examples: "Parents, enfants, frères et sœurs" },
+  { fr: "Quotidien", key: "quotidien", examples: "Routine, repas, transport, logement" },
+  { fr: "Projet Canada", key: "immigration", examples: "Pourquoi le Canada, objectifs, plans" },
 ];
 
 export function SpeakingTache1Guide() {
@@ -102,18 +102,32 @@ export function SpeakingTache1Guide() {
           <div>
             <p className="mb-2.5 text-sm font-medium">{t("speakingGuide.commonTopics")}</p>
             <div className="flex flex-wrap gap-2">
-              {THEME_FR.map((theme, idx) => (
-                <div
-                  key={theme.fr}
-                  className="group relative rounded-lg border bg-card px-3 py-2 text-sm transition-colors hover:border-amber-300 hover:bg-amber-50/50 dark:hover:border-amber-700 dark:hover:bg-amber-950/30"
-                >
-                  <span className="font-medium">{topicLabels[idx]}</span>
-                  <span className="ml-1.5 text-xs text-muted-foreground">{theme.fr}</span>
-                  <div className="absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-popover px-3 py-1.5 text-xs text-popover-foreground shadow-md group-hover:block">
-                    {theme.examples}
+              {THEME_FR.map((theme, idx) =>
+                hasScript ? (
+                  <Link
+                    key={theme.fr}
+                    href={`/speaking-scripts#${theme.key}`}
+                    className="group relative rounded-lg border border-emerald-200 bg-emerald-50/60 px-3 py-2 text-sm transition-colors hover:border-emerald-400 hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/30 dark:hover:border-emerald-600 dark:hover:bg-emerald-900/40"
+                  >
+                    <span className="font-medium text-emerald-800 dark:text-emerald-300">{topicLabels[idx]}</span>
+                    <span className="ml-1.5 text-xs text-emerald-600 dark:text-emerald-400">{theme.fr}</span>
+                    <div className="absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-popover px-3 py-1.5 text-xs text-popover-foreground shadow-md group-hover:block">
+                      {theme.examples}
+                    </div>
+                  </Link>
+                ) : (
+                  <div
+                    key={theme.fr}
+                    className="group relative rounded-lg border bg-card px-3 py-2 text-sm transition-colors hover:border-amber-300 hover:bg-amber-50/50 dark:hover:border-amber-700 dark:hover:bg-amber-950/30"
+                  >
+                    <span className="font-medium">{topicLabels[idx]}</span>
+                    <span className="ml-1.5 text-xs text-muted-foreground">{theme.fr}</span>
+                    <div className="absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-popover px-3 py-1.5 text-xs text-popover-foreground shadow-md group-hover:block">
+                      {theme.examples}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ),
+              )}
             </div>
           </div>
 
