@@ -74,7 +74,7 @@ export function SpeakingTache1Guide() {
 
   return (
     <div className="space-y-4 animate-fade-in-up">
-      <Card className="border-l-4 border-l-amber-500 overflow-hidden">
+      <Card className="border-l-4 border-l-amber-500">
         <CardHeader className="pb-3">
           <div className="flex items-start gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10">
