@@ -475,6 +475,60 @@
       "أجب بشكل طبيعي، 2-3 جمل لكل سؤال، حوالي دقيقتين إجمالاً"
     ]
   },
+  "speakingScripts": {
+    "title": "نصوص شفوية مخصصة",
+    "subtitle": "Tâche 1 · أنشئ حوارات فرنسية مبنية على ملفك الشخصي للقراءة والحفظ",
+    "generating": "الذكاء الاصطناعي يُنشئ نصوصك المخصصة...",
+    "generateSuccess": "تم إنشاء النصوص بنجاح!",
+    "exportSuccess": "تم تصدير CSV بنجاح",
+    "deleteSuccess": "تم حذف النص",
+    "examiner": "الممتحن",
+    "candidate": "المرشح",
+    "topicCount": "{count} مواضيع",
+    "exchangeCount": "{count} تبادلات",
+    "exportCSV": "تصدير CSV",
+    "regenerate": "إعادة الإنشاء",
+    "editPersona": "تعديل الملف الشخصي",
+    "viewMyScript": "عرض نصي",
+    "generateScript": "إنشاء نص",
+    "themes": {
+      "identite": "الهوية",
+      "etudes": "الدراسة",
+      "travail": "العمل",
+      "loisirs": "الهوايات",
+      "famille": "العائلة",
+      "quotidien": "الحياة اليومية",
+      "immigration": "الهجرة"
+    },
+    "presets": {
+      "student": "طالب(ة)",
+      "immigrant": "مهاجر(ة)",
+      "worker": "عامل(ة)"
+    },
+    "personaForm": {
+      "title": "أنشئ ملفك الشخصي للامتحان",
+      "subtitle": "أدخل معلوماتك وسيقوم الذكاء الاصطناعي بإنشاء حوارات فرنسية مخصصة لخلفيتك",
+      "quickFill": "قوالب سريعة",
+      "submit": "إنشاء النص",
+      "fields": {
+        "targetLevel": "المستوى المستهدف",
+        "occupation": "المهنة",
+        "city": "المدينة / البلد",
+        "family": "الحالة العائلية",
+        "hobbies": "الهوايات",
+        "immigrationReason": "سبب الهجرة",
+        "frenchDuration": "مدة تعلم الفرنسية"
+      },
+      "placeholders": {
+        "occupation": "مثال: مهندس برمجيات",
+        "city": "مثال: شنغهاي / الصين",
+        "family": "مثال: متزوج(ة)، طفل واحد",
+        "hobbies": "مثال: القراءة، السفر، الطبخ",
+        "immigrationReason": "مثال: من أجل تعليم أطفالي",
+        "frenchDuration": "مثال: سنة ونصف"
+      }
+    }
+  },
   "practice": {
     "questionDisplay": {
       "imageListening": "استمع إلى الخيارات الأربعة واختر الخيار المطابق للصورة.",
@@ -2325,6 +2379,10 @@
     "speakingExam": {
       "title": "اختبار شفهي تجريبي TCF · محاكاة كاملة 12 دقيقة",
       "description": "اختبار شفهي تجريبي TCF Canada: محاكاة كاملة 12 دقيقة مع Tâche 1 مقابلة + Tâche 2 لعب أدوار + Tâche 3 التعبير عن رأي. ممتحن ذكي، تقييم 6 أبعاد، مقياس TCF من 20 نقطة."
+    },
+    "speakingScripts": {
+      "title": "نصوص شفوية مخصصة · مولد حوارات Tâche 1",
+      "description": "يُنشئ الذكاء الاصطناعي نصوص حوار فرنسية مخصصة لجميع مواضيع Tâche 1 السبعة في TCF Canada بناءً على ملفك الشخصي. يدعم تشغيل TTS وتصدير CSV لـ Anki."
     },
     "resources": {
       "title": "دليل اختبار TCF Canada · جداول الدرجات وموارد الدراسة ومراكز الاختبار",

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { Copy, Check, ExternalLink, Lightbulb, MessageCircle, Mic, MoreHorizontal } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import { Copy, Check, ExternalLink, FileText, Lightbulb, MessageCircle, Mic, MoreHorizontal } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { startTache1Conversation } from "@/lib/api/speaking-conversation";
+import { listSpeakingScripts } from "@/lib/api/speaking-scripts";
 
 const TACHE1_PROMPT = `Tu es l'examinateur du TCF Canada pour la Tâche 1 (Entretien dirigé). Simule un entretien de 2 minutes.
 
@@ -38,6 +40,13 @@ export function SpeakingTache1Guide() {
   const router = useRouter();
   const [copied, setCopied] = useState(false);
   const [starting, setStarting] = useState(false);
+  const [hasScript, setHasScript] = useState(false);
+
+  useEffect(() => {
+    listSpeakingScripts()
+      .then((scripts) => setHasScript(scripts.length > 0))
+      .catch(() => {});
+  }, []);
 
   const handleStartAI = useCallback(async () => {
     setStarting(true);
@@ -124,6 +133,14 @@ export function SpeakingTache1Guide() {
             <Button onClick={handleStartAI} disabled={starting}>
               <Mic className="mr-1.5 h-3.5 w-3.5" />
               {starting ? t("common.starting") : t("speakingGuide.startAIConversation")}
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/speaking-scripts">
+                <FileText className="mr-1.5 h-3.5 w-3.5" />
+                {hasScript
+                  ? t("speakingScripts.viewMyScript")
+                  : t("speakingScripts.generateScript")}
+              </Link>
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

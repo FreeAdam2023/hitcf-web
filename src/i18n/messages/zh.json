@@ -475,6 +475,60 @@
       "自然回答，每个回答 2-3 句即可，共约 2 分钟"
     ]
   },
+  "speakingScripts": {
+    "title": "个性化口语脚本",
+    "subtitle": "Tâche 1 · 根据你的人设生成法语对话脚本，朗读背诵",
+    "generating": "AI 正在生成你的个性化脚本……",
+    "generateSuccess": "脚本生成成功！",
+    "exportSuccess": "CSV 导出成功",
+    "deleteSuccess": "脚本已删除",
+    "examiner": "考官",
+    "candidate": "考生",
+    "topicCount": "{count} 个主题",
+    "exchangeCount": "{count} 轮对话",
+    "exportCSV": "导出 CSV",
+    "regenerate": "重新生成",
+    "editPersona": "编辑人设",
+    "viewMyScript": "查看我的脚本",
+    "generateScript": "生成个性化脚本",
+    "themes": {
+      "identite": "身份",
+      "etudes": "学业",
+      "travail": "工作",
+      "loisirs": "爱好",
+      "famille": "家庭",
+      "quotidien": "日常",
+      "immigration": "移民"
+    },
+    "presets": {
+      "student": "留学生",
+      "immigrant": "移民",
+      "worker": "工作者"
+    },
+    "personaForm": {
+      "title": "创建你的考试人设",
+      "subtitle": "填写个人信息，AI 将生成符合你背景的法语对话脚本",
+      "quickFill": "快速填充模板",
+      "submit": "生成脚本",
+      "fields": {
+        "targetLevel": "目标等级",
+        "occupation": "职业",
+        "city": "城市 / 国家",
+        "family": "家庭状况",
+        "hobbies": "爱好",
+        "immigrationReason": "移民原因",
+        "frenchDuration": "学法语时长"
+      },
+      "placeholders": {
+        "occupation": "例：软件工程师",
+        "city": "例：上海 / 中国",
+        "family": "例：已婚，一个孩子",
+        "hobbies": "例：读书、旅行、烹饪",
+        "immigrationReason": "例：为了孩子教育",
+        "frenchDuration": "例：一年半"
+      }
+    }
+  },
   "practice": {
     "questionDisplay": {
       "imageListening": "听四个选项，选择与图片相符的。",
@@ -2325,6 +2379,10 @@
     "speakingExam": {
       "title": "TCF 模拟口语考试 · 完整 12 分钟考场流程",
       "description": "TCF Canada 模拟口语考试：完整模拟 12 分钟考场流程，包含 Tâche 1 引导式访谈 + Tâche 2 情景互动 + Tâche 3 观点表达。HiTCF AI 陪练官实时对话，6 维评分，20 分制 TCF 标准评分。"
+    },
+    "speakingScripts": {
+      "title": "个性化口语脚本 · Tâche 1 考试人设对话生成",
+      "description": "根据你的个人背景，AI 自动生成 TCF Canada Tâche 1 全部 7 个主题的法语对话脚本。支持朗读、TTS 播放和 Anki CSV 导出。"
     },
     "resources": {
       "title": "TCF Canada 考试指南 · 分数对照、学习资源、考场信息",

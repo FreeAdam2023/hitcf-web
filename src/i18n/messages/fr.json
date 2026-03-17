@@ -475,6 +475,60 @@
       "Répondez naturellement, 2-3 phrases chacune, environ 2 minutes au total"
     ]
   },
+  "speakingScripts": {
+    "title": "Scripts d'oral personnalisés",
+    "subtitle": "Tâche 1 · Générez des dialogues en français adaptés à votre profil pour lire et mémoriser",
+    "generating": "L'IA génère vos scripts personnalisés...",
+    "generateSuccess": "Scripts générés avec succès !",
+    "exportSuccess": "CSV exporté avec succès",
+    "deleteSuccess": "Script supprimé",
+    "examiner": "Examinateur",
+    "candidate": "Candidat",
+    "topicCount": "{count} sujets",
+    "exchangeCount": "{count} échanges",
+    "exportCSV": "Exporter CSV",
+    "regenerate": "Régénérer",
+    "editPersona": "Modifier le profil",
+    "viewMyScript": "Voir mon script",
+    "generateScript": "Générer un script",
+    "themes": {
+      "identite": "Identité",
+      "etudes": "Études",
+      "travail": "Travail",
+      "loisirs": "Loisirs",
+      "famille": "Famille",
+      "quotidien": "Vie quotidienne",
+      "immigration": "Immigration"
+    },
+    "presets": {
+      "student": "Étudiant(e)",
+      "immigrant": "Immigrant(e)",
+      "worker": "Travailleur(-se)"
+    },
+    "personaForm": {
+      "title": "Créez votre profil d'examen",
+      "subtitle": "Renseignez vos informations et l'IA générera des dialogues en français adaptés à votre parcours",
+      "quickFill": "Modèles rapides",
+      "submit": "Générer le script",
+      "fields": {
+        "targetLevel": "Niveau cible",
+        "occupation": "Profession",
+        "city": "Ville / Pays",
+        "family": "Situation familiale",
+        "hobbies": "Loisirs",
+        "immigrationReason": "Raison de l'immigration",
+        "frenchDuration": "Durée d'apprentissage du français"
+      },
+      "placeholders": {
+        "occupation": "ex. : Ingénieur(e) logiciel",
+        "city": "ex. : Shanghai / Chine",
+        "family": "ex. : Marié(e), un enfant",
+        "hobbies": "ex. : Lecture, voyages, cuisine",
+        "immigrationReason": "ex. : Pour l'éducation de mon enfant",
+        "frenchDuration": "ex. : Un an et demi"
+      }
+    }
+  },
   "practice": {
     "questionDisplay": {
       "imageListening": "Écoutez les quatre options et choisissez celle qui correspond à l'image.",
@@ -2325,6 +2379,10 @@
     "speakingExam": {
       "title": "Examen oral simulé TCF · Simulation complète de 12 minutes",
       "description": "Examen oral simulé TCF Canada : simulation complète de 12 minutes avec Tâche 1 entretien + Tâche 2 jeu de rôle + Tâche 3 point de vue. Examinateur IA, notation sur 6 dimensions, échelle TCF de 20 points."
+    },
+    "speakingScripts": {
+      "title": "Scripts d'oral personnalisés · Générateur de dialogues Tâche 1",
+      "description": "L'IA génère des scripts de dialogue en français personnalisés pour les 7 sujets de la Tâche 1 du TCF Canada selon votre profil. Lecture TTS et export CSV Anki inclus."
     },
     "resources": {
       "title": "Guide de l'examen TCF Canada · Tableaux de scores, ressources d'étude et centres d'examen",

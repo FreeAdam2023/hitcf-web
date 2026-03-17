@@ -475,6 +475,60 @@
       "Answer naturally, 2-3 sentences each, ~2 minutes total"
     ]
   },
+  "speakingScripts": {
+    "title": "Personalized Speaking Scripts",
+    "subtitle": "Tâche 1 · Generate French dialogue scripts based on your persona for reading and memorization",
+    "generating": "AI is generating your personalized scripts...",
+    "generateSuccess": "Scripts generated successfully!",
+    "exportSuccess": "CSV exported successfully",
+    "deleteSuccess": "Script deleted",
+    "examiner": "Examiner",
+    "candidate": "Candidate",
+    "topicCount": "{count} topics",
+    "exchangeCount": "{count} exchanges",
+    "exportCSV": "Export CSV",
+    "regenerate": "Regenerate",
+    "editPersona": "Edit Persona",
+    "viewMyScript": "View My Script",
+    "generateScript": "Generate Script",
+    "themes": {
+      "identite": "Identity",
+      "etudes": "Education",
+      "travail": "Work",
+      "loisirs": "Hobbies",
+      "famille": "Family",
+      "quotidien": "Daily Life",
+      "immigration": "Immigration"
+    },
+    "presets": {
+      "student": "Student",
+      "immigrant": "Immigrant",
+      "worker": "Worker"
+    },
+    "personaForm": {
+      "title": "Create Your Exam Persona",
+      "subtitle": "Fill in your details and AI will generate French dialogue scripts tailored to your background",
+      "quickFill": "Quick-fill Templates",
+      "submit": "Generate Script",
+      "fields": {
+        "targetLevel": "Target Level",
+        "occupation": "Occupation",
+        "city": "City / Country",
+        "family": "Family Status",
+        "hobbies": "Hobbies",
+        "immigrationReason": "Immigration Reason",
+        "frenchDuration": "French Study Duration"
+      },
+      "placeholders": {
+        "occupation": "e.g., Software Engineer",
+        "city": "e.g., Shanghai / China",
+        "family": "e.g., Married, one child",
+        "hobbies": "e.g., Reading, traveling, cooking",
+        "immigrationReason": "e.g., For my child's education",
+        "frenchDuration": "e.g., One and a half years"
+      }
+    }
+  },
   "practice": {
     "questionDisplay": {
       "imageListening": "Listen to the four options and choose the one matching the image.",
@@ -2325,6 +2379,10 @@
     "speakingExam": {
       "title": "TCF Mock Speaking Exam · Full 12-Minute Exam Simulation",
       "description": "TCF Canada mock speaking exam: full 12-minute exam simulation with Tâche 1 interview + Tâche 2 role play + Tâche 3 point of view. HiTCF AI Coach, 6-dimension scoring, TCF 20-point scale."
+    },
+    "speakingScripts": {
+      "title": "Personalized Speaking Scripts · Tâche 1 Dialogue Generator",
+      "description": "AI generates personalized French dialogue scripts for all 7 TCF Canada Tâche 1 topics based on your background. Supports TTS playback and Anki CSV export."
     },
     "resources": {
       "title": "TCF Canada Exam Guide · Score Charts, Study Resources & Test Centers",
