@@ -108,6 +108,10 @@ export function getAttemptProgress(
   return get<ProgressResponse>("/api/attempts/progress", options);
 }
 
+export function getAnsweredPerTestset(): Promise<Record<string, number>> {
+  return get<Record<string, number>>("/api/attempts/answered-per-testset");
+}
+
 export function deleteAttempt(
   attemptId: string,
   options?: RequestOptions,

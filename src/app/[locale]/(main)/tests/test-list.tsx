@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
-import { listAttempts, createMockExam, checkMockFreeTrialEligible } from "@/lib/api/attempts";
+import { listAttempts, createMockExam, checkMockFreeTrialEligible, getAnsweredPerTestset } from "@/lib/api/attempts";
 import { setExamDate as apiSetExamDate } from "@/lib/api/auth";
 import { fetchAllPages } from "@/lib/api/fetch-all-pages";
 import { getLatestMonth, isLatestMonth } from "@/lib/utils";
@@ -259,6 +259,7 @@ export function TestList() {
   const [expanded, setExpanded] = useState(false);
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
   const [attemptMap, setAttemptMap] = useState<Map<string, TestAttemptInfo>>(new Map());
+  const [answeredMap, setAnsweredMap] = useState<Record<string, number>>({});
 
   // Helper: format "YYYY-MM" into localized month header
   const formatMonthLabel = useCallback(
@@ -283,6 +284,9 @@ export function TestList() {
     if (!isAuthenticated) return;
     fetchAllPages((p) => listAttempts({ ...p }), 100)
       .then((items) => setAttemptMap(buildAttemptMap(items)))
+      .catch(() => {});
+    getAnsweredPerTestset()
+      .then((data) => setAnsweredMap(data))
       .catch(() => {});
     // Check mock exam free trial eligibility
     if (!canAccessPaid) {
@@ -373,16 +377,43 @@ export function TestList() {
     return extractYears(tests);
   }, [tab, writingTache, tests, writingTopics]);
 
+  // Build merged attempt info: combine attemptMap (practice/exam) with answeredMap (all modes incl. speed drill)
+  const getMergedAttemptInfo = useCallback(
+    (test: TestSetItem): TestAttemptInfo | undefined => {
+      const info = attemptMap.get(test.id);
+      const answered = answeredMap[test.id];
+      if (!info && !answered) return undefined;
+      if (info) {
+        // Supplement with drill answered count if higher
+        return { ...info, drillAnswered: answered };
+      }
+      // No formal attempt but has answered questions (from speed drill)
+      return {
+        bestScore: null,
+        bestTotal: test.question_count,
+        hasInProgress: false,
+        attemptCount: 0,
+        drillAnswered: answered,
+      };
+    },
+    [attemptMap, answeredMap],
+  );
+
   // ─── Status helpers for listening/reading ────────────────
   const getTestStatus = useCallback(
     (testId: string): "completed" | "inProgress" | "notStarted" => {
       const info = attemptMap.get(testId);
-      if (!info) return "notStarted";
+      if (!info) {
+        // Check if answered via speed drill
+        if (answeredMap[testId]) return "inProgress";
+        return "notStarted";
+      }
       if (info.bestScore !== null && info.bestScore !== undefined) return "completed";
       if (info.hasInProgress) return "inProgress";
+      if (answeredMap[testId]) return "inProgress";
       return "notStarted";
     },
-    [attemptMap],
+    [attemptMap, answeredMap],
   );
 
   // ─── Status counts for filter chips ─────────────────────
@@ -490,7 +521,7 @@ export function TestList() {
       <>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
           {visible.map((t) => (
-            <TestCard key={t.id} test={t} attemptInfo={attemptMap.get(t.id)} />
+            <TestCard key={t.id} test={t} attemptInfo={getMergedAttemptInfo(t)} />
           ))}
         </div>
         {hiddenCount > 0 && (

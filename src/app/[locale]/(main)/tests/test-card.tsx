@@ -34,6 +34,8 @@ export interface TestAttemptInfo {
   inProgressAnswered?: number;
   inProgressTotal?: number;
   attemptCount: number;
+  /** Unique questions answered across all modes (incl. speed drill) */
+  drillAnswered?: number;
 }
 
 const TYPE_ICONS: Record<string, React.ElementType> = {
@@ -130,6 +132,7 @@ export function TestCard({
   // Progress display
   const hasCompleted = attemptInfo?.bestScore !== null && attemptInfo?.bestScore !== undefined;
   const hasInProgress = attemptInfo?.hasInProgress && !hasCompleted;
+  const hasDrillOnly = !hasCompleted && !hasInProgress && (attemptInfo?.drillAnswered ?? 0) > 0;
   const bestPct = hasCompleted
     ? Math.round((attemptInfo!.bestScore! / attemptInfo!.bestTotal) * 100)
     : null;
@@ -246,8 +249,28 @@ export function TestCard({
               </div>
             </div>
           )}
+          {/* Drill progress: questions answered via speed drill (no formal attempt) */}
+          {hasDrillOnly && (
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2 w-2 rounded-full bg-amber-400" />
+                  <span className="text-amber-600 dark:text-amber-400">{t("common.status.inProgress")}</span>
+                </div>
+                <span className="text-muted-foreground">
+                  {attemptInfo!.drillAnswered}/{test.question_count}
+                </span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-amber-400 transition-all"
+                  style={{ width: `${Math.round((attemptInfo!.drillAnswered! / test.question_count) * 100)}%` }}
+                />
+              </div>
+            </div>
+          )}
           {/* Default: not started */}
-          {!hasCompleted && !hasInProgress && !locked && (
+          {!hasCompleted && !hasInProgress && !hasDrillOnly && !locked && (
             <div className="h-1.5 w-full rounded-full bg-muted" />
           )}
         </CardContent>
