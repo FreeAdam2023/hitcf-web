@@ -38,7 +38,10 @@ export default function SpeakingConversationResultsPage() {
 
   // Celebration — safe before early returns (undefined when no session yet)
   const convEvalScore = session?.evaluation?.total_score;
-  const convCelebrationPct = convEvalScore != null ? Math.round((convEvalScore / 30) * 100) : session ? 50 : undefined;
+  const hasUserTurns = session?.turns.some((turn) => turn.role === "user");
+  const convCelebrationPct = convEvalScore != null
+    ? Math.round((convEvalScore / 30) * 100)
+    : hasUserTurns ? 50 : undefined;
   useCelebration(convCelebrationPct);
 
   useEffect(() => {

@@ -8,10 +8,11 @@ import { useTranslations } from "next-intl";
 import { Mic, MicOff, Square, MessageCircle, Volume2, RotateCcw } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { parseUTCms } from "@/lib/utils";
+import { cn, parseUTCms } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { SceneBriefingCard } from "@/components/speaking/scene-briefing-card";
+import { SampleDialoguePanel } from "@/components/speaking/sample-dialogue-panel";
 import { ConversationChat } from "@/components/speaking/conversation-chat";
 import { useSpeechAssessment, type WordScore } from "@/hooks/use-speech-assessment";
 import { useSpeechSynthesis } from "@/hooks/use-speech-synthesis";
@@ -87,11 +88,6 @@ export function SpeakingConversationView() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const prepTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const sceneTtsTriggered = useRef(false);
-  const pendingTurnRef = useRef<{
-    transcript: string;
-    scores: Record<string, number> | null;
-    wordScores: Array<{ word: string; accuracy: number; errorType: string }>;
-  } | null>(null);
 
   // Hooks
   const speech = useSpeechAssessment();
@@ -117,10 +113,6 @@ export function SpeakingConversationView() {
     (fullText: string, _turnCount: number) => {
       streamingTts.finalize();
 
-      // Add the pending user turn (if any) + examiner turn to the turns list
-      const pending = pendingTurnRef.current;
-      pendingTurnRef.current = null;
-
       const examinerTurn: ConversationTurnResponse = {
         role: "examiner",
         text: fullText,
@@ -128,20 +120,8 @@ export function SpeakingConversationView() {
         pronunciation_scores: null,
         word_scores: [],
       };
-
-      if (pending) {
-        const userTurn: ConversationTurnResponse = {
-          role: "user",
-          text: pending.transcript,
-          timestamp: new Date().toISOString(),
-          pronunciation_scores: pending.scores,
-          word_scores: pending.wordScores,
-        };
-        setTurns((prev) => [...prev, userTurn, examinerTurn]);
-      } else {
-        // begin_conversation: only examiner turn
-        setTurns((prev) => [...prev, examinerTurn]);
-      }
+      // User turn already added immediately on stop — just append examiner
+      setTurns((prev) => [...prev, examinerTurn]);
 
       setIsWaiting(false);
       speech.reset();
@@ -457,11 +437,19 @@ export function SpeakingConversationView() {
         errorType: w.errorType,
       }));
 
+      // Show user message immediately (before waiting for LLM)
+      const userTurn: ConversationTurnResponse = {
+        role: "user",
+        text: transcript,
+        timestamp: new Date().toISOString(),
+        pronunciation_scores: scores,
+        word_scores: wordScores,
+      };
+      setTurns((prev) => [...prev, userTurn]);
       setIsWaiting(true);
 
       // WS mode
       if (useWS && ws.isConnected) {
-        pendingTurnRef.current = { transcript, scores, wordScores };
         ws.sendTurn({
           user_text: transcript,
           pronunciation_scores: scores,
@@ -478,13 +466,6 @@ export function SpeakingConversationView() {
           word_scores: wordScores,
         });
 
-        const userTurn: ConversationTurnResponse = {
-          role: "user",
-          text: transcript,
-          timestamp: new Date().toISOString(),
-          pronunciation_scores: scores,
-          word_scores: wordScores,
-        };
         const examinerTurn: ConversationTurnResponse = {
           role: "examiner",
           text: result.examiner_text,
@@ -492,7 +473,7 @@ export function SpeakingConversationView() {
           pronunciation_scores: null,
           word_scores: [],
         };
-        setTurns((prev) => [...prev, userTurn, examinerTurn]);
+        setTurns((prev) => [...prev, examinerTurn]);
         tts.speak(result.examiner_text);
       } catch (err) {
         const message = err instanceof Error ? err.message : t("turnFailed");
@@ -584,6 +565,14 @@ export function SpeakingConversationView() {
         <SceneBriefingCard briefing={session.scene_briefing} />
       )}
 
+      {/* Sample dialogue (prep: expanded, active: collapsed) */}
+      {session && (
+        <SampleDialoguePanel
+          tacheType={session.tache_type}
+          defaultCollapsed={phase !== "prep"}
+        />
+      )}
+
       {/* Prep phase: waiting screen */}
       {phase === "prep" && (
         <Card>
@@ -647,28 +636,40 @@ export function SpeakingConversationView() {
           {/* Controls */}
           {phase === "active" && (
             <div className="fixed bottom-0 left-0 right-0 border-t bg-background p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-              <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 sm:gap-4">
-                <Button
-                  size="lg"
-                  variant={speech.isRecording ? "destructive" : "default"}
-                  className="h-14 w-14 rounded-full p-0"
-                  onClick={handleToggleRecord}
-                  disabled={isWaiting || ws.isStreaming || phase !== "active"}
-                >
-                  {speech.isRecording ? (
-                    <MicOff className="h-6 w-6" />
-                  ) : (
-                    <Mic className="h-6 w-6" />
-                  )}
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={handleEnd}
-                  disabled={isWaiting || ws.isStreaming}
-                >
-                  <Square className="mr-2 h-4 w-4" />
-                  {t("endConversation")}
-                </Button>
+              <div className="mx-auto flex max-w-2xl flex-col items-center gap-2">
+                <div className="flex items-center justify-center gap-3 sm:gap-4">
+                  <Button
+                    size="lg"
+                    variant={speech.isRecording ? "destructive" : "default"}
+                    className={cn(
+                      "h-14 w-14 rounded-full p-0",
+                      speech.isRecording && "animate-pulse",
+                    )}
+                    onClick={handleToggleRecord}
+                    disabled={isWaiting || ws.isStreaming || phase !== "active"}
+                  >
+                    {speech.isRecording ? (
+                      <MicOff className="h-6 w-6" />
+                    ) : (
+                      <Mic className="h-6 w-6" />
+                    )}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={handleEnd}
+                    disabled={isWaiting || ws.isStreaming}
+                  >
+                    <Square className="mr-2 h-4 w-4" />
+                    {t("endConversation")}
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {isWaiting || ws.isStreaming
+                    ? t("micHintWaiting")
+                    : speech.isRecording
+                      ? t("micHintStopAndSend")
+                      : t("micHintStartRecording")}
+                </p>
               </div>
             </div>
           )}

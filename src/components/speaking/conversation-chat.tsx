@@ -5,6 +5,7 @@ import { Bot, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ConversationTurnResponse } from "@/lib/api/types";
 import { useTranslations } from "next-intl";
+import { ExaminerMessageTranslation } from "./examiner-message-translation";
 
 interface ConversationChatProps {
   turns: ConversationTurnResponse[];
@@ -46,6 +47,7 @@ export function ConversationChat({ turns, isWaiting, streamingExaminerText }: Co
               )}
             >
               {turn.text}
+              {isExaminer && <ExaminerMessageTranslation frenchText={turn.text} />}
             </div>
             {!isExaminer && (
               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">

@@ -1518,6 +1518,17 @@
     "noUserTurns": "Conversation non commencée",
     "noUserTurnsDesc": "Vous n'avez pas encore parlé, aucune évaluation ne peut être générée. Veuillez recommencer une conversation et essayer de répondre aux questions de l'examinateur.",
     "resuming": "Reprise de la conversation...",
+    "micHintStartRecording": "Cliquez sur le micro pour parler",
+    "micHintStopAndSend": "Cliquez pour envoyer votre réponse",
+    "micHintWaiting": "En attente de la réponse de l'examinateur...",
+    "showTranslation": "Traduire",
+    "hideTranslation": "Masquer la traduction",
+    "translating": "Traduction...",
+    "sampleDialogue": {
+      "title": "Dialogue exemple",
+      "description": "Exemple de conversation pour comprendre le déroulement. Essayez de lire les réponses à voix haute.",
+      "tryReading": "Essayez de lire à voix haute"
+    },
     "dim": {
       "prononciation": "Prononciation",
       "fluidite": "Fluidité",

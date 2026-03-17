@@ -1518,6 +1518,17 @@
     "noUserTurns": "对话未开始",
     "noUserTurnsDesc": "你还没有发言，无法生成评估。请重新开始对话并尝试回答考官的问题。",
     "resuming": "正在恢复对话...",
+    "micHintStartRecording": "点击麦克风开始说话",
+    "micHintStopAndSend": "点击发送你的回答",
+    "micHintWaiting": "等待考官回复中...",
+    "showTranslation": "显示翻译",
+    "hideTranslation": "隐藏翻译",
+    "translating": "翻译中...",
+    "sampleDialogue": {
+      "title": "范文对话参考",
+      "description": "参考以下示范对话了解流程，你可以朗读蓝框中的回答来练习。",
+      "tryReading": "试着朗读这句"
+    },
     "dim": {
       "prononciation": "发音",
       "fluidite": "流利度",

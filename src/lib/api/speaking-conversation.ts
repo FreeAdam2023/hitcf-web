@@ -114,6 +114,18 @@ export function deleteConversation(
   );
 }
 
+export function translateConversationText(
+  text: string,
+  targetLocale: string,
+  options?: RequestOptions,
+): Promise<{ translation: string }> {
+  return post<{ translation: string }>(
+    "/api/speaking-conversation/translate",
+    { text, target_locale: targetLocale },
+    options,
+  );
+}
+
 export function getWSToken(
   options?: RequestOptions,
 ): Promise<{ token: string; ws_url: string }> {

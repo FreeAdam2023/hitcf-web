@@ -1518,6 +1518,17 @@
     "noUserTurns": "Conversation Not Started",
     "noUserTurnsDesc": "You haven't spoken yet, so no evaluation can be generated. Please start a new conversation and try answering the examiner's questions.",
     "resuming": "Resuming conversation...",
+    "micHintStartRecording": "Click the mic to start speaking",
+    "micHintStopAndSend": "Click to send your answer",
+    "micHintWaiting": "Waiting for examiner to reply...",
+    "showTranslation": "Translate",
+    "hideTranslation": "Hide translation",
+    "translating": "Translating...",
+    "sampleDialogue": {
+      "title": "Sample Dialogue",
+      "description": "Reference example for the conversation flow. Try reading the blue responses aloud.",
+      "tryReading": "Try reading this aloud"
+    },
     "dim": {
       "prononciation": "Pronunciation",
       "fluidite": "Fluency",

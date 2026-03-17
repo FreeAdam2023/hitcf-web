@@ -1518,6 +1518,17 @@
     "noUserTurns": "المحادثة لم تبدأ",
     "noUserTurnsDesc": "لم تتحدث بعد، لذا لا يمكن إنشاء تقييم. يرجى بدء محادثة جديدة ومحاولة الإجابة على أسئلة الممتحن.",
     "resuming": "جارٍ استئناف المحادثة...",
+    "micHintStartRecording": "اضغط على الميكروفون للبدء بالتحدث",
+    "micHintStopAndSend": "اضغط لإرسال إجابتك",
+    "micHintWaiting": "في انتظار رد الممتحن...",
+    "showTranslation": "ترجمة",
+    "hideTranslation": "إخفاء الترجمة",
+    "translating": "جارٍ الترجمة...",
+    "sampleDialogue": {
+      "title": "حوار نموذجي",
+      "description": "مثال مرجعي لسير المحادثة. حاول قراءة الردود بصوت عالٍ.",
+      "tryReading": "حاول قراءة هذه الجملة"
+    },
     "dim": {
       "prononciation": "النطق",
       "fluidite": "الطلاقة",
