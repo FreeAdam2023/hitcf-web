@@ -518,7 +518,8 @@
         "family": "Situation familiale",
         "hobbies": "Loisirs",
         "immigrationReason": "Raison de l'immigration",
-        "frenchDuration": "Durée d'apprentissage du français"
+        "frenchDuration": "Durée d'apprentissage du français",
+        "extra": "Informations supplémentaires"
       },
       "placeholders": {
         "occupation": "ex. : Ingénieur(e) logiciel",
@@ -526,7 +527,8 @@
         "family": "ex. : Marié(e), un enfant",
         "hobbies": "ex. : Lecture, voyages, cuisine",
         "immigrationReason": "ex. : Pour l'éducation de mon enfant",
-        "frenchDuration": "ex. : Un an et demi"
+        "frenchDuration": "ex. : Un an et demi",
+        "extra": "ex. : J'ai vécu à Pékin pendant 10 ans, j'ai déménagé à Montréal l'année dernière ; j'aime courir au Mont-Royal le week-end"
       }
     }
   },

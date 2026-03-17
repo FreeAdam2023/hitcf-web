@@ -518,7 +518,8 @@
         "family": "Family Status",
         "hobbies": "Hobbies",
         "immigrationReason": "Immigration Reason",
-        "frenchDuration": "French Study Duration"
+        "frenchDuration": "French Study Duration",
+        "extra": "Additional Info"
       },
       "placeholders": {
         "occupation": "e.g., Software Engineer",
@@ -526,7 +527,8 @@
         "family": "e.g., Married, one child",
         "hobbies": "e.g., Reading, traveling, cooking",
         "immigrationReason": "e.g., For my child's education",
-        "frenchDuration": "e.g., One and a half years"
+        "frenchDuration": "e.g., One and a half years",
+        "extra": "e.g., Lived in Beijing for 10 years, moved to Montreal last year; enjoy running on Mont-Royal on weekends"
       }
     }
   },

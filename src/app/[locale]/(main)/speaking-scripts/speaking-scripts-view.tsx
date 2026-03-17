@@ -69,6 +69,7 @@ export function SpeakingScriptsView() {
           hobbies: data.hobbies,
           immigration_reason: data.immigrationReason,
           french_duration: data.frenchDuration,
+          extra: data.extra,
         },
       };
 

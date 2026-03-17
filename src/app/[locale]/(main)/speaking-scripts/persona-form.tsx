@@ -15,6 +15,7 @@ export interface PersonaFormData {
   hobbies: string;
   immigrationReason: string;
   frenchDuration: string;
+  extra: string;
 }
 
 const DEFAULT_VALUES: PersonaFormData = {
@@ -25,6 +26,7 @@ const DEFAULT_VALUES: PersonaFormData = {
   hobbies: "",
   immigrationReason: "",
   frenchDuration: "",
+  extra: "",
 };
 
 interface PresetTemplate {
@@ -189,6 +191,20 @@ export function PersonaForm({ onSubmit, defaultValues }: PersonaFormProps) {
               />
             </div>
           ))}
+
+          {/* Extra info textarea */}
+          <div>
+            <label className="mb-1.5 block text-sm font-medium">
+              {t("personaForm.fields.extra")}
+            </label>
+            <textarea
+              className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              value={form.extra}
+              onChange={(e) => updateField("extra", e.target.value)}
+              placeholder={t("personaForm.placeholders.extra")}
+              rows={3}
+            />
+          </div>
 
           <Button type="submit" className="w-full">
             {t("personaForm.submit")}

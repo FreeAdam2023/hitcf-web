@@ -518,7 +518,8 @@
         "family": "家庭状况",
         "hobbies": "爱好",
         "immigrationReason": "移民原因",
-        "frenchDuration": "学法语时长"
+        "frenchDuration": "学法语时长",
+        "extra": "补充信息"
       },
       "placeholders": {
         "occupation": "例：软件工程师",
@@ -526,7 +527,8 @@
         "family": "例：已婚，一个孩子",
         "hobbies": "例：读书、旅行、烹饪",
         "immigrationReason": "例：为了孩子教育",
-        "frenchDuration": "例：一年半"
+        "frenchDuration": "例：一年半",
+        "extra": "例：在北京住了 10 年，去年搬到蒙特利尔；喜欢周末去 Mont-Royal 跑步"
       }
     }
   },
