@@ -637,7 +637,17 @@ export function SpeakingConversationView() {
           {phase === "active" && (
             <div className="fixed bottom-0 left-0 right-0 border-t bg-background p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
               <div className="mx-auto flex max-w-2xl flex-col items-center gap-2">
-                <div className="flex items-center justify-center gap-3 sm:gap-4">
+                <div className="flex w-full items-center justify-between">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleEnd}
+                    disabled={isWaiting || ws.isStreaming}
+                    className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                  >
+                    <Square className="mr-1.5 h-3.5 w-3.5" />
+                    {t("endConversation")}
+                  </Button>
                   <Button
                     size="lg"
                     variant={speech.isRecording ? "destructive" : "default"}
@@ -653,14 +663,6 @@ export function SpeakingConversationView() {
                     ) : (
                       <Mic className="h-6 w-6" />
                     )}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={handleEnd}
-                    disabled={isWaiting || ws.isStreaming}
-                  >
-                    <Square className="mr-2 h-4 w-4" />
-                    {t("endConversation")}
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground">
