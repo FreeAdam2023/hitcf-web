@@ -6,7 +6,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
-import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, ChevronDown, Bot } from "lucide-react";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, MoreHorizontal, Bot } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -104,10 +104,8 @@ function SpeakingTopicList({ topics, isTache2, testSetId, canAccessPaid }: { top
                 <div className="flex flex-wrap items-center gap-1.5">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="h-7 text-xs text-muted-foreground">
-                        <ExternalLink className="mr-1 h-3 w-3" />
-                        {t("testDetail.externalAI")}
-                        <ChevronDown className="ml-0.5 h-3 w-3" />
+                      <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground">
+                        <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">

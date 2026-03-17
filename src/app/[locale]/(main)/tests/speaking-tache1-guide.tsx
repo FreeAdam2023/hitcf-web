@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { Copy, Check, ExternalLink, Lightbulb, MessageCircle, Mic, ChevronDown } from "lucide-react";
+import { Copy, Check, ExternalLink, Lightbulb, MessageCircle, Mic, MoreHorizontal } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -127,10 +127,8 @@ export function SpeakingTache1Guide() {
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="text-xs text-muted-foreground">
-                  <ExternalLink className="mr-1 h-3 w-3" />
-                  {t("testDetail.externalAI")}
-                  <ChevronDown className="ml-0.5 h-3 w-3" />
+                <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground">
+                  <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start">
