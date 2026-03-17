@@ -44,6 +44,13 @@ export function SpeakingScriptsView() {
           setMode("form");
         }
       } catch {
+        // API failed — still try localStorage
+        try {
+          const stored = localStorage.getItem("hitcf_speaking_persona");
+          if (stored) setSavedPersona(JSON.parse(stored));
+        } catch {
+          // ignore
+        }
         setMode("form");
       }
     })();
