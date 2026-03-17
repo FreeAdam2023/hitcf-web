@@ -35,7 +35,7 @@ export function generateSpeakingScript(
 }
 
 export function listSpeakingScripts(): Promise<SpeakingScriptResponse[]> {
-  return get<SpeakingScriptResponse[]>("/api/speaking-scripts/");
+  return get<SpeakingScriptResponse[]>("/api/speaking-scripts");
 }
 
 export function getSpeakingScript(
