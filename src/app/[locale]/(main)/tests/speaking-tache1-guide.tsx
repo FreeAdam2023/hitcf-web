@@ -2,10 +2,16 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { Copy, Check, ExternalLink, Lightbulb, MessageCircle, Mic } from "lucide-react";
+import { Copy, Check, ExternalLink, Lightbulb, MessageCircle, Mic, ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { startTache1Conversation } from "@/lib/api/speaking-conversation";
 
 const TACHE1_PROMPT = `Tu es l'examinateur du TCF Canada pour la Tâche 1 (Entretien dirigé). Simule un entretien de 2 minutes.
@@ -119,39 +125,44 @@ export function SpeakingTache1Guide() {
               <Mic className="mr-1.5 h-3.5 w-3.5" />
               {starting ? t("common.loading") : t("speakingGuide.startAIConversation")}
             </Button>
-            <Button variant="outline" size="sm" onClick={handleCopy}>
-              {copied ? (
-                <>
-                  <Check className="mr-1.5 h-3.5 w-3.5" />
-                  {t("common.actions.copied")}
-                </>
-              ) : (
-                <>
-                  <Copy className="mr-1.5 h-3.5 w-3.5" />
-                  {t("common.actions.copyPrompt")}
-                </>
-              )}
-            </Button>
-            <Button variant="ghost" size="sm" asChild>
-              <a
-                href={`https://chatgpt.com/?q=${encodeURIComponent(TACHE1_PROMPT)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
-                ChatGPT
-              </a>
-            </Button>
-            <Button variant="ghost" size="sm" asChild>
-              <a
-                href={`https://grok.com/?q=${encodeURIComponent(TACHE1_PROMPT)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
-                Grok
-              </a>
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="text-xs text-muted-foreground">
+                  <ExternalLink className="mr-1 h-3 w-3" />
+                  {t("testDetail.externalAI")}
+                  <ChevronDown className="ml-0.5 h-3 w-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                <DropdownMenuItem asChild>
+                  <a
+                    href={`https://chatgpt.com/?q=${encodeURIComponent(TACHE1_PROMPT)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="gap-2"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" /> ChatGPT
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a
+                    href={`https://grok.com/?q=${encodeURIComponent(TACHE1_PROMPT)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="gap-2"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" /> Grok
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleCopy} className="gap-2">
+                  {copied ? (
+                    <><Check className="h-3.5 w-3.5" /> {t("common.actions.copied")}</>
+                  ) : (
+                    <><Copy className="h-3.5 w-3.5" /> {t("common.actions.copyPrompt")}</>
+                  )}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </CardContent>
       </Card>
