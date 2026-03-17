@@ -461,7 +461,7 @@
     "title": "Tâche 1 · 自我介绍面试",
     "subtitle": "Entretien dirigé — 考官围绕日常话题即兴提问，约 2 分钟",
     "commonTopics": "常见提问主题",
-    "startAIConversation": "开始 AI 对话",
+    "startAIConversation": "开始对话",
     "chatgptSimulation": "ChatGPT 模拟",
     "grokSimulation": "Grok 模拟",
     "examFlow": "考试流程",
@@ -1278,6 +1278,15 @@
     "error": "生成失败",
     "retry": "重试"
   },
+  "grammarCheatSheet": {
+    "trigger": "语法速查",
+    "title": "法语语法速查表",
+    "subtitle": "35 条核心语法规则，写作时随时查阅",
+    "searchPlaceholder": "搜索语法点...",
+    "noResults": "未找到匹配的语法点",
+    "empty": "暂无语法卡片",
+    "viewCard": "查看语法卡片"
+  },
   "writingSidebar": {
     "title": "题目列表",
     "loading": "加载中...",
@@ -1470,7 +1479,7 @@
   },
   "speakingConversation": {
     "title": "HiTCF AI 陪练官",
-    "aiConversation": "AI 对话",
+    "aiConversation": "开始对话",
     "noTopic": "请先选择一个话题",
     "startFailed": "创建对话失败",
     "beginFailed": "开始对话失败",

@@ -304,11 +304,13 @@ export function SpeakingConversationView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, useWS]);
 
-  // Disconnect WS on unmount or phase change away from active
+  // Cleanup on unmount: stop audio, disconnect WS
   useEffect(() => {
     return () => {
-      ws.disconnect();
+      tts.stop();
       streamingTts.stop();
+      ws.disconnect();
+      if (speech.isRecording) speech.stopRecording();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

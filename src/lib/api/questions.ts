@@ -45,6 +45,11 @@ export function regenerateSentenceAnalysis(
   }, { timeout: 90_000 });
 }
 
+export function getGrammarCards(category?: string): Promise<GrammarCard[]> {
+  const qs = category ? `?category=${encodeURIComponent(category)}` : "";
+  return get<GrammarCard[]>(`/api/grammar-cards${qs}`);
+}
+
 export function matchGrammarCard(name: string): Promise<GrammarCard | null> {
   return get<GrammarCard | null>(`/api/grammar-cards/match?q=${encodeURIComponent(name)}`);
 }

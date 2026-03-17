@@ -444,6 +444,7 @@ export interface CorrectionItem {
   original: string;
   corrected: string;
   explanation: string;
+  grammar_point?: string;
 }
 
 export interface VocabSuggestionItem {

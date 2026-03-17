@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
+import { GrammarPointBadge } from "@/components/writing/grammar-point-badge";
 import { getWritingAttemptResults } from "@/lib/api/writing-attempts";
 import { getTestSet } from "@/lib/api/test-sets";
 import type { WritingAttemptResults, WritingFeedback, TestSetDetail } from "@/lib/api/types";
@@ -122,6 +123,7 @@ function TaskFeedbackPanel({
                             <span className="font-medium text-green-600">{c.corrected}</span>
                           </div>
                           <p className="mt-1 text-muted-foreground">{c.explanation}</p>
+                          {c.grammar_point && <GrammarPointBadge slug={c.grammar_point} />}
                         </div>
                       ))}
                     </div>

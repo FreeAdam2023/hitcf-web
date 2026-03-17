@@ -461,7 +461,7 @@
     "title": "Tâche 1 · Entretien dirigé",
     "subtitle": "Entretien dirigé — L'examinateur pose des questions spontanées sur des sujets du quotidien, environ 2 minutes",
     "commonTopics": "Sujets courants",
-    "startAIConversation": "Lancer la conversation IA",
+    "startAIConversation": "Lancer la conversation",
     "chatgptSimulation": "Simulation ChatGPT",
     "grokSimulation": "Simulation Grok",
     "examFlow": "Déroulement de l'épreuve",
@@ -1278,6 +1278,15 @@
     "error": "La génération a échoué",
     "retry": "Réessayer"
   },
+  "grammarCheatSheet": {
+    "trigger": "Grammaire",
+    "title": "Aide-mémoire de grammaire française",
+    "subtitle": "35 règles essentielles pour référence rapide",
+    "searchPlaceholder": "Rechercher...",
+    "noResults": "Aucune règle correspondante",
+    "empty": "Aucune fiche disponible",
+    "viewCard": "Voir la fiche"
+  },
   "writingSidebar": {
     "title": "Questions",
     "loading": "Chargement...",
@@ -1470,7 +1479,7 @@
   },
   "speakingConversation": {
     "title": "HiTCF AI Coach",
-    "aiConversation": "Discussion IA",
+    "aiConversation": "Discuter",
     "noTopic": "Veuillez d'abord sélectionner un sujet",
     "startFailed": "Impossible de créer la conversation",
     "beginFailed": "Impossible de démarrer la conversation",

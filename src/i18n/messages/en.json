@@ -461,7 +461,7 @@
     "title": "Tâche 1 · Guided Interview",
     "subtitle": "Entretien dirigé — The examiner asks spontaneous questions on everyday topics, ~2 minutes",
     "commonTopics": "Common Topics",
-    "startAIConversation": "Start AI Conversation",
+    "startAIConversation": "Start Conversation",
     "chatgptSimulation": "ChatGPT Simulation",
     "grokSimulation": "Grok Simulation",
     "examFlow": "Exam Flow",
@@ -1278,6 +1278,15 @@
     "error": "Generation failed",
     "retry": "Retry"
   },
+  "grammarCheatSheet": {
+    "trigger": "Grammar",
+    "title": "French Grammar Cheat Sheet",
+    "subtitle": "35 core grammar rules for quick reference while writing",
+    "searchPlaceholder": "Search grammar...",
+    "noResults": "No matching grammar rules",
+    "empty": "No grammar cards available",
+    "viewCard": "View grammar card"
+  },
   "writingSidebar": {
     "title": "Questions",
     "loading": "Loading...",
@@ -1470,7 +1479,7 @@
   },
   "speakingConversation": {
     "title": "HiTCF AI Coach",
-    "aiConversation": "AI Chat",
+    "aiConversation": "Start Chat",
     "noTopic": "Please select a topic first",
     "startFailed": "Failed to create conversation",
     "beginFailed": "Failed to start conversation",

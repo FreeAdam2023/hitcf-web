@@ -123,7 +123,7 @@ export function SpeakingTache1Guide() {
           <div className="flex flex-wrap items-center gap-2">
             <Button onClick={handleStartAI} disabled={starting}>
               <Mic className="mr-1.5 h-3.5 w-3.5" />
-              {starting ? t("common.loading") : t("speakingGuide.startAIConversation")}
+              {starting ? t("common.starting") : t("speakingGuide.startAIConversation")}
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

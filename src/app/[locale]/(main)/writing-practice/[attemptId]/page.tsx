@@ -25,6 +25,8 @@ import { FrenchText } from "@/components/practice/french-text";
 import { WritingGuidePanel } from "@/components/writing/writing-guide-panel";
 import { ExpressionsDrawer } from "@/components/writing/expressions-drawer";
 import { WritingHintsPanel } from "@/components/writing/writing-hints-panel";
+import { GrammarCheatSheet } from "@/components/writing/grammar-cheat-sheet";
+import { GrammarPointBadge } from "@/components/writing/grammar-point-badge";
 import { ConsigneTranslationToggle } from "@/components/writing/consigne-translation";
 import { getWritingAttempt } from "@/lib/api/writing-attempts";
 import { saveWritingEssays } from "@/lib/api/writing-attempts";
@@ -256,7 +258,7 @@ export default function WritingPracticePage() {
       )}
 
       {/* Split view */}
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
         {/* Left: Consigne */}
         <div className="space-y-3 rounded-lg border bg-card p-4">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
@@ -282,10 +284,10 @@ export default function WritingPracticePage() {
         </div>
 
         {/* Right: Editor + Feedback */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 lg:sticky lg:top-4">
           <textarea
             ref={textareaRef}
-            className="w-full flex-1 rounded-lg border bg-background px-4 py-3 text-sm lg:text-base leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[250px] resize-y disabled:opacity-50"
+            className="w-full rounded-lg border bg-background px-4 py-3 text-sm lg:text-base leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[250px] resize-y disabled:opacity-50"
             placeholder={t("writingExam.placeholder")}
             value={essayText}
             onChange={(e) => setEssay(String(taskNum), e.target.value)}
@@ -296,6 +298,7 @@ export default function WritingPracticePage() {
             <AccentToolbar textareaRef={textareaRef} className="flex-1" />
             <ExpressionsDrawer taskNumber={taskNum} textareaRef={textareaRef} />
             {task && <WritingHintsPanel questionId={task.id} textareaRef={textareaRef} />}
+            <GrammarCheatSheet />
           </div>
 
           {/* Word count + Grade button */}
@@ -408,6 +411,7 @@ export default function WritingPracticePage() {
                           <span className="font-medium text-green-600"><FrenchText text={c.corrected} /></span>
                         </div>
                         <p className="mt-1 text-muted-foreground">{c.explanation}</p>
+                        {c.grammar_point && <GrammarPointBadge slug={c.grammar_point} />}
                       </div>
                     ))}
                   </div>

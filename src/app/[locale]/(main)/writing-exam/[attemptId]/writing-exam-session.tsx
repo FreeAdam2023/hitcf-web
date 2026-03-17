@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ExamTimer } from "@/components/exam/exam-timer";
 import { AccentToolbar } from "@/components/writing/accent-toolbar";
+import { GrammarCheatSheet } from "@/components/writing/grammar-cheat-sheet";
 import { useWritingExamStore } from "@/stores/writing-exam-store";
 import { saveWritingEssays, completeWritingAttempt } from "@/lib/api/writing-attempts";
 import { cn } from "@/lib/utils";
@@ -233,7 +234,7 @@ export function WritingExamSession({ singleTaskMode = false }: { singleTaskMode?
       )}
 
       {/* Split view: prompt + editor */}
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
         {/* Left: Consigne */}
         <div className="space-y-3 rounded-lg border bg-card p-4">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
@@ -255,17 +256,20 @@ export function WritingExamSession({ singleTaskMode = false }: { singleTaskMode?
         </div>
 
         {/* Right: Editor */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 lg:sticky lg:top-4">
           <textarea
             ref={textareaRef}
-            className="w-full flex-1 rounded-lg border bg-background px-4 py-3 text-sm leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[300px] resize-y"
+            className="w-full rounded-lg border bg-background px-4 py-3 text-sm leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[300px] resize-y"
             placeholder={t("writingExam.placeholder")}
             value={essayText}
             onChange={(e) => setEssay(String(taskNum), e.target.value)}
           />
 
-          {/* Accent toolbar */}
-          <AccentToolbar textareaRef={textareaRef} />
+          {/* Accent toolbar + grammar cheat sheet */}
+          <div className="flex items-center gap-2">
+            <AccentToolbar textareaRef={textareaRef} className="flex-1" />
+            <GrammarCheatSheet />
+          </div>
 
           {/* Word count */}
           <div className="flex items-center justify-between text-xs text-muted-foreground">

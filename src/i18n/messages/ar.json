@@ -461,7 +461,7 @@
     "title": "Tâche 1 · المقابلة الموجّهة",
     "subtitle": "Entretien dirigé — يطرح الممتحن أسئلة تلقائية حول مواضيع يومية، حوالي دقيقتين",
     "commonTopics": "المواضيع الشائعة",
-    "startAIConversation": "بدء محادثة الذكاء الاصطناعي",
+    "startAIConversation": "بدء المحادثة",
     "chatgptSimulation": "محاكاة ChatGPT",
     "grokSimulation": "محاكاة Grok",
     "examFlow": "سير الامتحان",
@@ -1278,6 +1278,15 @@
     "error": "فشل التوليد",
     "retry": "إعادة المحاولة"
   },
+  "grammarCheatSheet": {
+    "trigger": "القواعد",
+    "title": "ملخص قواعد اللغة الفرنسية",
+    "subtitle": "35 قاعدة نحوية أساسية للرجوع السريع",
+    "searchPlaceholder": "بحث عن قاعدة...",
+    "noResults": "لم يتم العثور على قواعد مطابقة",
+    "empty": "لا توجد بطاقات قواعد",
+    "viewCard": "عرض البطاقة"
+  },
   "writingSidebar": {
     "title": "الأسئلة",
     "loading": "جارٍ التحميل...",
@@ -1470,7 +1479,7 @@
   },
   "speakingConversation": {
     "title": "HiTCF AI Coach",
-    "aiConversation": "محادثة ذكية",
+    "aiConversation": "بدء الحوار",
     "noTopic": "يرجى اختيار موضوع أولاً",
     "startFailed": "فشل إنشاء المحادثة",
     "beginFailed": "فشل بدء المحادثة",
