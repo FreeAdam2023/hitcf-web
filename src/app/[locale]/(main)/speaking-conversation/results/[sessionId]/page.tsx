@@ -11,6 +11,7 @@ import {
   MessageCircle,
   AlertTriangle,
   RefreshCw,
+  FileText,
 } from "lucide-react";
 import { useCelebration } from "@/hooks/use-celebration";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ import {
   reEvaluateConversation,
 } from "@/lib/api/speaking-conversation";
 import type { SpeakingConversationResponse } from "@/lib/api/types";
+import { Link } from "@/i18n/navigation";
 
 export default function SpeakingConversationResultsPage() {
   const t = useTranslations("speakingConversation");
@@ -45,6 +47,7 @@ export default function SpeakingConversationResultsPage() {
   useCelebration(convCelebrationPct);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getConversation(params.sessionId)
       .then(setSession)
       .catch(() => setSession(null))
@@ -162,7 +165,7 @@ export default function SpeakingConversationResultsPage() {
       </Card>
 
       {/* Actions */}
-      <div className="flex gap-3">
+      <div className="flex flex-wrap gap-3">
         <Button variant="outline" onClick={() => router.push("/tests")}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           {t("backToTests")}
@@ -171,6 +174,14 @@ export default function SpeakingConversationResultsPage() {
           <RotateCcw className="mr-2 h-4 w-4" />
           {t("retry")}
         </Button>
+        {session.tache_type === 1 && (
+          <Button variant="outline" asChild>
+            <Link href="/speaking-scripts">
+              <FileText className="mr-2 h-4 w-4" />
+              {t("viewScript")}
+            </Link>
+          </Button>
+        )}
       </div>
     </div>
   );

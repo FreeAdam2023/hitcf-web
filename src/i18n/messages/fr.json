@@ -1611,6 +1611,7 @@
     "turns": "tours",
     "backToTests": "Retour aux tests",
     "retry": "Réessayer",
+    "viewScript": "Scripts d'oral",
     "notFound": "Conversation introuvable",
     "evaluatingDescription": "HiTCF AI Coach évalue votre conversation, veuillez patienter...",
     "evaluationUnavailable": "Évaluation indisponible",

@@ -1610,6 +1610,7 @@
     "turns": "轮",
     "backToTests": "返回题库",
     "retry": "重新对话",
+    "viewScript": "个性化脚本",
     "notFound": "未找到对话记录",
     "evaluatingDescription": "HiTCF AI 陪练官正在评估你的对话表现，请稍候...",
     "evaluationUnavailable": "评估暂不可用",

@@ -1610,6 +1610,7 @@
     "turns": "turns",
     "backToTests": "Back to Tests",
     "retry": "Try Again",
+    "viewScript": "Speaking Scripts",
     "notFound": "Conversation not found",
     "evaluatingDescription": "The HiTCF AI Coach is evaluating your conversation, please wait...",
     "evaluationUnavailable": "Evaluation Unavailable",
