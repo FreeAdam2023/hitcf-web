@@ -25,9 +25,17 @@ export function getWritingSubmissions(
   );
 }
 
+export interface SentenceTranslation {
+  fr: string;
+  en: string;
+  zh: string;
+}
+
 export interface ConsigneTranslation {
   question_text: string | null;
   passage: string | null;
+  question_sentences: SentenceTranslation[];
+  passage_sentences: SentenceTranslation[];
 }
 
 export function getConsigneTranslation(
