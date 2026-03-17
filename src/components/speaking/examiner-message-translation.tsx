@@ -18,8 +18,6 @@ export function ExaminerMessageTranslation({ frenchText }: { frenchText: string 
     () => _translationCache.get(cacheKey) ?? null,
   );
 
-  if (locale === "fr") return null;
-
   const handleToggle = useCallback(async () => {
     if (visible) { setVisible(false); return; }
     if (translation) { setVisible(true); return; }
@@ -35,6 +33,8 @@ export function ExaminerMessageTranslation({ frenchText }: { frenchText: string 
       setLoading(false);
     }
   }, [visible, translation, frenchText, locale, cacheKey]);
+
+  if (locale === "fr") return null;
 
   return (
     <div className="mt-1.5 border-t border-border/30 pt-1">
