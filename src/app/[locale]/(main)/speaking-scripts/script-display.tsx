@@ -90,10 +90,17 @@ export function ScriptDisplay({
   }, [script.id, t, tc]);
 
   const handleDelete = useCallback(async () => {
+    if (!window.confirm(t("destroyConfirm"))) return;
     setDeleting(true);
     try {
       await deleteSpeakingScript(script.id);
-      toast.success(t("deleteSuccess"));
+      // Also clear local persona data
+      try {
+        localStorage.removeItem("hitcf_speaking_persona");
+      } catch {
+        // ignore
+      }
+      toast.success(t("destroySuccess"));
       onRegenerate();
     } catch {
       toast.error(tc("errors.generic"));
@@ -219,14 +226,13 @@ export function ScriptDisplay({
           {t("editPersona")}
         </Button>
         <Button
-          variant="ghost"
+          variant="destructive"
           size="sm"
           onClick={handleDelete}
           disabled={deleting}
-          className="text-destructive hover:text-destructive"
         >
           <Trash2 className="mr-1.5 h-3.5 w-3.5" />
-          {tc("actions.cancel")}
+          {t("destroyData")}
         </Button>
       </div>
     </div>
