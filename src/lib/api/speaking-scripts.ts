@@ -18,6 +18,7 @@ export interface SpeakingScriptResponse {
   target_level: string;
   persona: Record<string, string>;
   topics: ScriptTopic[];
+  generation_status: "partial" | "complete" | "error";
   created_at: string;
 }
 
