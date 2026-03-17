@@ -478,7 +478,7 @@
   "speakingScripts": {
     "title": "Personalized Speaking Scripts",
     "subtitle": "Tâche 1 · Generate French dialogue scripts based on your persona for reading and memorization",
-    "generating": "AI is generating your personalized scripts...",
+    "generating": "HiTCF is generating your personalized scripts...",
     "generateSuccess": "Scripts generated successfully!",
     "exportSuccess": "CSV exported successfully",
     "deleteSuccess": "Script deleted",

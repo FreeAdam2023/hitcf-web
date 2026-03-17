@@ -478,7 +478,7 @@
   "speakingScripts": {
     "title": "نصوص شفوية مخصصة",
     "subtitle": "Tâche 1 · أنشئ حوارات فرنسية مبنية على ملفك الشخصي للقراءة والحفظ",
-    "generating": "الذكاء الاصطناعي يُنشئ نصوصك المخصصة...",
+    "generating": "HiTCF يُنشئ نصوصك المخصصة...",
     "generateSuccess": "تم إنشاء النصوص بنجاح!",
     "exportSuccess": "تم تصدير CSV بنجاح",
     "deleteSuccess": "تم حذف النص",

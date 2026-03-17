@@ -478,7 +478,7 @@
   "speakingScripts": {
     "title": "个性化口语脚本",
     "subtitle": "Tâche 1 · 根据你的人设生成法语对话脚本，朗读背诵",
-    "generating": "AI 正在生成你的个性化脚本……",
+    "generating": "HiTCF 正在为你生成个性化脚本……",
     "generateSuccess": "脚本生成成功！",
     "exportSuccess": "CSV 导出成功",
     "deleteSuccess": "脚本已删除",

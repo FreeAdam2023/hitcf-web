@@ -478,7 +478,7 @@
   "speakingScripts": {
     "title": "Scripts d'oral personnalisés",
     "subtitle": "Tâche 1 · Générez des dialogues en français adaptés à votre profil pour lire et mémoriser",
-    "generating": "L'IA génère vos scripts personnalisés...",
+    "generating": "HiTCF génère vos scripts personnalisés...",
     "generateSuccess": "Scripts générés avec succès !",
     "exportSuccess": "CSV exporté avec succès",
     "deleteSuccess": "Script supprimé",
