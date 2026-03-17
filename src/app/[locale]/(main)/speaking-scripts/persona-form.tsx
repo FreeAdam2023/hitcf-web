@@ -123,33 +123,36 @@ function TagPicker({
   onChange,
   customPlaceholder,
   allowCustom = true,
+  maxSelect,
 }: {
   tags: { key: string; label: string }[];
   selected: string[];
   onChange: (val: string[]) => void;
   customPlaceholder?: string;
   allowCustom?: boolean;
+  maxSelect?: number;
 }) {
   const [customInput, setCustomInput] = useState("");
+  const atLimit = maxSelect != null && selected.length >= maxSelect;
 
   const toggle = useCallback(
     (label: string) => {
       if (selected.includes(label)) {
         onChange(selected.filter((s) => s !== label));
-      } else {
+      } else if (!atLimit) {
         onChange([...selected, label]);
       }
     },
-    [selected, onChange],
+    [selected, onChange, atLimit],
   );
 
   const addCustom = useCallback(() => {
     const val = customInput.trim();
-    if (val && !selected.includes(val)) {
+    if (val && !selected.includes(val) && !atLimit) {
       onChange([...selected, val]);
     }
     setCustomInput("");
-  }, [customInput, selected, onChange]);
+  }, [customInput, selected, onChange, atLimit]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -171,10 +174,13 @@ function TagPicker({
               key={key}
               type="button"
               onClick={() => toggle(label)}
+              disabled={!active && atLimit}
               className={`rounded-full border px-2.5 py-1 text-xs transition-colors ${
                 active
                   ? "border-primary bg-primary text-primary-foreground"
-                  : "border-input bg-background hover:bg-accent"
+                  : atLimit
+                    ? "border-input bg-background opacity-40 cursor-not-allowed"
+                    : "border-input bg-background hover:bg-accent"
               }`}
             >
               {label}
@@ -423,6 +429,7 @@ export function PersonaForm({ onSubmit, defaultValues }: PersonaFormProps) {
               selected={hobbiesArr}
               onChange={(arr) => updateField("hobbies", arr.join(", "))}
               customPlaceholder={t("personaForm.placeholders.customHobby")}
+              maxSelect={3}
             />
           </div>
 
@@ -440,6 +447,7 @@ export function PersonaForm({ onSubmit, defaultValues }: PersonaFormProps) {
               onChange={(arr) =>
                 updateField("immigrationReason", arr.join(", "))
               }
+              maxSelect={2}
               customPlaceholder={t("personaForm.placeholders.customReason")}
             />
           </div>
