@@ -205,6 +205,7 @@ export function SpeakingScriptsView() {
       {mode === "display" && script && (
         <ScriptDisplay
           script={script}
+          onScriptUpdate={setScript}
           onRegenerate={handleRegenerate}
           onEditPersona={handleEditPersona}
         />
