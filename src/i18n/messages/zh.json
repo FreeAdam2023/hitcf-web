@@ -581,6 +581,27 @@
         "2years": "2 年 / 2 ans",
         "3years": "3 年+ / 3 ans+"
       }
+    },
+    "practice": {
+      "start": "开始练习",
+      "title": "脚本练习",
+      "selectTheme": "选择主题",
+      "readAlong": "照读模式",
+      "readAlongDesc": "显示脚本文字，跟读练习发音",
+      "memory": "记忆模式",
+      "memoryDesc": "隐藏脚本，听考官提问后凭记忆回答",
+      "begin": "开始",
+      "exchange": "第 {current} / {total} 轮",
+      "next": "下一轮",
+      "retry": "重试",
+      "finish": "完成",
+      "referenceAnswer": "参考答案",
+      "textMatch": "文本匹配",
+      "sessionComplete": "练习完成",
+      "exchanges": "轮",
+      "breakdown": "逐轮得分",
+      "practiceAgain": "再练一次",
+      "backToScript": "返回脚本"
     }
   },
   "practice": {

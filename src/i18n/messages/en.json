@@ -581,6 +581,27 @@
         "2years": "2 years / 2 ans",
         "3years": "3+ years / 3 ans+"
       }
+    },
+    "practice": {
+      "start": "Start Practice",
+      "title": "Script Practice",
+      "selectTheme": "Select Topic",
+      "readAlong": "Read Along",
+      "readAlongDesc": "Script text visible, practice pronunciation by reading aloud",
+      "memory": "Memory Mode",
+      "memoryDesc": "Script hidden, listen to examiner and answer from memory",
+      "begin": "Begin",
+      "exchange": "Exchange {current} / {total}",
+      "next": "Next",
+      "retry": "Retry",
+      "finish": "Finish",
+      "referenceAnswer": "Reference Answer",
+      "textMatch": "Text Match",
+      "sessionComplete": "Practice Complete",
+      "exchanges": "exchanges",
+      "breakdown": "Score Breakdown",
+      "practiceAgain": "Practice Again",
+      "backToScript": "Back to Script"
     }
   },
   "practice": {

@@ -15,8 +15,9 @@ import {
 } from "@/lib/api/speaking-scripts";
 import { PersonaForm, type PersonaFormData } from "./persona-form";
 import { ScriptDisplay } from "./script-display";
+import { ScriptPractice } from "./script-practice";
 
-type ViewMode = "loading" | "form" | "generating" | "display";
+type ViewMode = "loading" | "form" | "generating" | "display" | "practice";
 
 const GENERATING_STEPS = [
   "generatingStep1",
@@ -170,6 +171,14 @@ export function SpeakingScriptsView() {
     setMode("form");
   }, []);
 
+  const handleStartPractice = useCallback(() => {
+    setMode("practice");
+  }, []);
+
+  const handleBackToDisplay = useCallback(() => {
+    setMode("display");
+  }, []);
+
   if (mode === "loading") {
     return (
       <div className="flex min-h-[40vh] items-center justify-center">
@@ -208,6 +217,14 @@ export function SpeakingScriptsView() {
           onScriptUpdate={setScript}
           onRegenerate={handleRegenerate}
           onEditPersona={handleEditPersona}
+          onStartPractice={handleStartPractice}
+        />
+      )}
+
+      {mode === "practice" && script && (
+        <ScriptPractice
+          script={script}
+          onBack={handleBackToDisplay}
         />
       )}
     </div>

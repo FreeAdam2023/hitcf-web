@@ -1,7 +1,9 @@
-import { get, post, del as del_ } from "./client";
+import { get, post, patch, del as del_ } from "./client";
 
 export interface ScriptExchange {
   examiner_fr: string;
+  examiner_zh: string;
+  examiner_en: string;
   candidate_fr: string;
   zh: string;
   en: string;
@@ -43,6 +45,16 @@ export function getSpeakingScript(
   id: string,
 ): Promise<SpeakingScriptResponse> {
   return get<SpeakingScriptResponse>(`/api/speaking-scripts/${id}`);
+}
+
+export function updateScriptExchange(
+  id: string,
+  body: { theme: string; exchange_index: number; candidate_fr: string },
+): Promise<SpeakingScriptResponse> {
+  return patch<SpeakingScriptResponse>(
+    `/api/speaking-scripts/${id}/exchange`,
+    body,
+  );
 }
 
 export function deleteSpeakingScript(id: string): Promise<{ ok: boolean }> {

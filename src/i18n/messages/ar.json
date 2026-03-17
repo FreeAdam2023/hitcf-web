@@ -582,6 +582,27 @@
         "2years": "سنتان / 2 ans",
         "3years": "3+ سنوات / 3 ans+"
       }
+    },
+    "practice": {
+      "start": "بدء التدريب",
+      "title": "تدريب على النص",
+      "selectTheme": "اختر الموضوع",
+      "readAlong": "القراءة المصاحبة",
+      "readAlongDesc": "النص مرئي، تدرب على النطق بالقراءة بصوت عالٍ",
+      "memory": "وضع الذاكرة",
+      "memoryDesc": "النص مخفي، استمع للسؤال وأجب من الذاكرة",
+      "begin": "ابدأ",
+      "exchange": "التبادل {current} / {total}",
+      "next": "التالي",
+      "retry": "إعادة",
+      "finish": "إنهاء",
+      "referenceAnswer": "الإجابة المرجعية",
+      "textMatch": "تطابق النص",
+      "sessionComplete": "اكتمل التدريب",
+      "exchanges": "تبادلات",
+      "breakdown": "تفاصيل النتائج",
+      "practiceAgain": "تدرب مرة أخرى",
+      "backToScript": "العودة للنص"
     }
   },
   "practice": {

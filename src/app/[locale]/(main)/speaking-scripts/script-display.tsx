@@ -9,16 +9,35 @@ import {
   Trash2,
   Volume2,
   Loader2,
+  User,
+  GraduationCap,
+  Briefcase,
+  Heart,
+  Users,
+  Coffee,
+  Plane,
+  Check,
+  X,
+  Play,
+  MoreHorizontal,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useSpeechSynthesis } from "@/hooks/use-speech-synthesis";
 import {
   type SpeakingScriptResponse,
   type ScriptTopic,
   deleteSpeakingScript,
   getSpeakingScript,
+  updateScriptExchange,
 } from "@/lib/api/speaking-scripts";
 
 const ALL_THEMES = [
@@ -31,14 +50,14 @@ const ALL_THEMES = [
   "immigration",
 ] as const;
 
-const THEME_ICONS: Record<string, string> = {
-  identite: "👤",
-  etudes: "🎓",
-  travail: "💼",
-  loisirs: "🎯",
-  famille: "👨‍👩‍👧",
-  quotidien: "🏠",
-  immigration: "✈️",
+const THEME_ICONS: Record<string, LucideIcon> = {
+  identite: User,
+  etudes: GraduationCap,
+  travail: Briefcase,
+  loisirs: Heart,
+  famille: Users,
+  quotidien: Coffee,
+  immigration: Plane,
 };
 
 const LEVEL_COLORS: Record<string, string> = {
@@ -55,10 +74,26 @@ interface ScriptDisplayProps {
   onScriptUpdate: (script: SpeakingScriptResponse) => void;
   onRegenerate: () => void;
   onEditPersona: () => void;
+  onStartPractice: () => void;
 }
 
-function TopicContent({ topic, t }: { topic: ScriptTopic; t: (key: string) => string }) {
+function TopicContent({
+  topic,
+  scriptId,
+  t,
+  tc,
+  onScriptUpdate,
+}: {
+  topic: ScriptTopic;
+  scriptId: string;
+  t: (key: string) => string;
+  tc: (key: string) => string;
+  onScriptUpdate: (script: SpeakingScriptResponse) => void;
+}) {
   const tts = useSpeechSynthesis("fr-CA-SylvieNeural");
+  const [editingIdx, setEditingIdx] = useState<number | null>(null);
+  const [editText, setEditText] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const handleSpeak = useCallback(
     (text: string) => {
@@ -71,44 +106,134 @@ function TopicContent({ topic, t }: { topic: ScriptTopic; t: (key: string) => st
     [tts],
   );
 
+  const startEdit = useCallback((idx: number, text: string) => {
+    setEditingIdx(idx);
+    setEditText(text);
+  }, []);
+
+  const cancelEdit = useCallback(() => {
+    setEditingIdx(null);
+    setEditText("");
+  }, []);
+
+  const saveEdit = useCallback(async () => {
+    if (editingIdx === null || !editText.trim()) return;
+    setSaving(true);
+    try {
+      const updated = await updateScriptExchange(scriptId, {
+        theme: topic.theme,
+        exchange_index: editingIdx,
+        candidate_fr: editText.trim(),
+      });
+      onScriptUpdate(updated);
+      setEditingIdx(null);
+      setEditText("");
+    } catch {
+      toast.error(tc("errors.generic"));
+    } finally {
+      setSaving(false);
+    }
+  }, [editingIdx, editText, scriptId, topic.theme, onScriptUpdate, tc]);
+
   return (
     <div className="space-y-3">
       {topic.exchanges.map((ex, exIdx) => (
         <div key={exIdx} className="space-y-1.5">
+          {/* Examiner question */}
           <div className="rounded-lg bg-muted/50 px-3 py-2 text-sm">
             <span className="mr-1.5 font-medium text-muted-foreground">
               {t("examiner")}:
             </span>
             {ex.examiner_fr}
           </div>
-          <div className="rounded-lg bg-blue-50 px-3 py-2 text-sm dark:bg-blue-950/30">
-            <div className="flex items-start justify-between gap-2">
-              <div className="flex-1">
-                <span className="mr-1.5 font-medium text-blue-700 dark:text-blue-400">
-                  {t("candidate")}:
-                </span>
-                {ex.candidate_fr}
-              </div>
-              <div className="flex shrink-0 items-center gap-1.5">
-                {ex.level_tag && (
-                  <span
-                    className={`rounded px-1.5 py-0.5 text-xs font-medium ${
-                      LEVEL_COLORS[ex.level_tag] ?? ""
-                    }`}
-                  >
-                    {ex.level_tag}
-                  </span>
-                )}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7"
-                  onClick={() => handleSpeak(ex.candidate_fr)}
-                >
-                  <Volume2 className="h-3.5 w-3.5" />
-                </Button>
-              </div>
+          {(ex.examiner_zh || ex.examiner_en) && (
+            <div className="px-3 text-xs text-muted-foreground">
+              {ex.examiner_zh && <span>{ex.examiner_zh}</span>}
+              {ex.examiner_zh && ex.examiner_en && <span> / </span>}
+              {ex.examiner_en && <span>{ex.examiner_en}</span>}
             </div>
+          )}
+
+          {/* Candidate answer */}
+          <div className="rounded-lg bg-blue-50 px-3 py-2 text-sm dark:bg-blue-950/30">
+            {editingIdx === exIdx ? (
+              <div className="space-y-2">
+                <textarea
+                  className="w-full rounded border bg-background px-2 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                  value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                  rows={2}
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      saveEdit();
+                    }
+                    if (e.key === "Escape") cancelEdit();
+                  }}
+                />
+                <div className="flex gap-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7"
+                    onClick={saveEdit}
+                    disabled={saving}
+                  >
+                    {saving ? (
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      <Check className="h-3.5 w-3.5 text-green-600" />
+                    )}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7"
+                    onClick={cancelEdit}
+                    disabled={saving}
+                  >
+                    <X className="h-3.5 w-3.5 text-red-600" />
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1">
+                  <span className="mr-1.5 font-medium text-blue-700 dark:text-blue-400">
+                    {t("candidate")}:
+                  </span>
+                  {ex.candidate_fr}
+                </div>
+                <div className="flex shrink-0 items-center gap-1.5">
+                  {ex.level_tag && (
+                    <span
+                      className={`rounded px-1.5 py-0.5 text-xs font-medium ${
+                        LEVEL_COLORS[ex.level_tag] ?? ""
+                      }`}
+                    >
+                      {ex.level_tag}
+                    </span>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7"
+                    onClick={() => startEdit(exIdx, ex.candidate_fr)}
+                  >
+                    <Pencil className="h-3 w-3 text-muted-foreground" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7"
+                    onClick={() => handleSpeak(ex.candidate_fr)}
+                  >
+                    <Volume2 className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
           {(ex.zh || ex.en) && (
             <div className="px-3 text-xs text-muted-foreground">
@@ -128,6 +253,7 @@ export function ScriptDisplay({
   onScriptUpdate,
   onRegenerate,
   onEditPersona,
+  onStartPractice,
 }: ScriptDisplayProps) {
   const t = useTranslations("speakingScripts");
   const tc = useTranslations("common");
@@ -231,7 +357,7 @@ export function ScriptDisplay({
         {ALL_THEMES.map((theme) => {
           const isGenerated = generatedThemes.has(theme);
           const isActive = activeTheme === theme;
-          const icon = THEME_ICONS[theme] ?? "📝";
+          const Icon = THEME_ICONS[theme] ?? User;
 
           return (
             <button
@@ -250,7 +376,7 @@ export function ScriptDisplay({
                 }
               `}
             >
-              <span>{icon}</span>
+              <Icon className="h-3.5 w-3.5" />
               <span>{t(`themes.${theme}`)}</span>
               {isGenerated && (
                 <Badge variant="outline" className="ml-0.5 text-[10px] px-1 py-0">
@@ -269,7 +395,13 @@ export function ScriptDisplay({
       {activeTopic ? (
         <Card id={activeTheme}>
           <CardContent className="pt-5">
-            <TopicContent topic={activeTopic} t={t} />
+            <TopicContent
+              topic={activeTopic}
+              scriptId={script.id}
+              t={t}
+              tc={tc}
+              onScriptUpdate={onScriptUpdate}
+            />
           </CardContent>
         </Card>
       ) : (
@@ -285,24 +417,40 @@ export function ScriptDisplay({
       )}
 
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-2 border-t pt-4">
-        <Button variant="outline" size="sm" onClick={onRegenerate}>
-          <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
-          {t("regenerate")}
-        </Button>
-        <Button variant="outline" size="sm" onClick={onEditPersona}>
-          <Pencil className="mr-1.5 h-3.5 w-3.5" />
-          {t("editPersona")}
-        </Button>
+      <div className="flex items-center justify-between border-t pt-4">
         <Button
-          variant="destructive"
           size="sm"
-          onClick={handleDelete}
-          disabled={deleting}
+          onClick={onStartPractice}
+          disabled={isPartial}
         >
-          <Trash2 className="mr-1.5 h-3.5 w-3.5" />
-          {t("destroyData")}
+          <Play className="mr-1.5 h-3.5 w-3.5" />
+          {t("practice.start")}
         </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={onRegenerate}>
+              <RefreshCw className="mr-2 h-3.5 w-3.5" />
+              {t("regenerate")}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onEditPersona}>
+              <Pencil className="mr-2 h-3.5 w-3.5" />
+              {t("editPersona")}
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={handleDelete}
+              disabled={deleting}
+              className="text-destructive focus:text-destructive"
+            >
+              <Trash2 className="mr-2 h-3.5 w-3.5" />
+              {t("destroyData")}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

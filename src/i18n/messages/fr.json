@@ -582,6 +582,27 @@
         "2years": "2 ans",
         "3years": "3 ans+"
       }
+    },
+    "practice": {
+      "start": "Commencer",
+      "title": "Pratique de script",
+      "selectTheme": "Choisir le thème",
+      "readAlong": "Lecture accompagnée",
+      "readAlongDesc": "Texte visible, pratiquez la prononciation en lisant à haute voix",
+      "memory": "Mode mémoire",
+      "memoryDesc": "Texte caché, écoutez la question et répondez de mémoire",
+      "begin": "Commencer",
+      "exchange": "Échange {current} / {total}",
+      "next": "Suivant",
+      "retry": "Réessayer",
+      "finish": "Terminer",
+      "referenceAnswer": "Réponse de référence",
+      "textMatch": "Correspondance",
+      "sessionComplete": "Pratique terminée",
+      "exchanges": "échanges",
+      "breakdown": "Détail des scores",
+      "practiceAgain": "Recommencer",
+      "backToScript": "Retour au script"
     }
   },
   "practice": {
