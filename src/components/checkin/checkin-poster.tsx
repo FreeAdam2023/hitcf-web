@@ -1,9 +1,31 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { DailyCheckinData } from "@/lib/api/stats";
 import type { ProgressResponse } from "@/lib/api/attempts";
+
+/**
+ * Convert an image URL to a base64 data URL.
+ * html-to-image cannot reliably fetch relative-path images on mobile,
+ * so we pre-convert the logo to an inline data URL.
+ */
+function useBase64Image(src: string): string {
+  const [dataUrl, setDataUrl] = useState(src);
+  useEffect(() => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      canvas.getContext("2d")!.drawImage(img, 0, 0);
+      setDataUrl(canvas.toDataURL("image/png"));
+    };
+    img.src = src;
+  }, [src]);
+  return dataUrl;
+}
 
 export interface CheckinPosterProps {
   data: DailyCheckinData;
@@ -37,6 +59,7 @@ function buildActivities(
 export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
   function CheckinPoster({ data, progress }, ref) {
     const t = useTranslations("checkin");
+    const logoSrc = useBase64Image("/logo.png");
     const activities = buildActivities(data, t);
 
     // Hero number: total practice items today
@@ -109,7 +132,7 @@ export const CheckinPoster = forwardRef<HTMLDivElement, CheckinPosterProps>(
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/logo.png"
+              src={logoSrc}
               alt="HiTCF"
               width={80}
               height={80}
