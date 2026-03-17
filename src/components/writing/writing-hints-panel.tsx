@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Lightbulb, RefreshCw } from "lucide-react";
 import {
@@ -37,7 +37,6 @@ function getAngleColor(angle: string): string {
   for (const [key, cls] of Object.entries(ANGLE_COLORS)) {
     if (lower.includes(key)) return cls;
   }
-  // Deterministic fallback based on string hash
   const colors = [
     "border-l-blue-500",
     "border-l-green-500",
@@ -55,12 +54,17 @@ function getAngleColor(angle: string): string {
   return colors[Math.abs(hash) % colors.length];
 }
 
+// In-memory cache keyed by questionId — survives re-renders and re-mounts
+const _hintsCache = new Map<string, WritingHintCard[]>();
+
 export function WritingHintsPanel({ questionId, textareaRef }: WritingHintsPanelProps) {
   const t = useTranslations("writingHints");
-  const [cards, setCards] = useState<WritingHintCard[]>([]);
+  const [cards, setCards] = useState<WritingHintCard[]>(
+    () => _hintsCache.get(questionId) ?? [],
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [fetched, setFetched] = useState(false);
+  const fetchedRef = useRef<Set<string>>(new Set());
 
   const fetchHints = useCallback(async () => {
     setLoading(true);
@@ -68,7 +72,8 @@ export function WritingHintsPanel({ questionId, textareaRef }: WritingHintsPanel
     try {
       const result = await getWritingHints(questionId);
       setCards(result.cards);
-      setFetched(true);
+      _hintsCache.set(questionId, result.cards);
+      fetchedRef.current.add(questionId);
     } catch {
       setError(true);
     } finally {
@@ -78,11 +83,13 @@ export function WritingHintsPanel({ questionId, textareaRef }: WritingHintsPanel
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
-      if (open && !fetched && !loading) {
+      if (open && !fetchedRef.current.has(questionId) && !_hintsCache.has(questionId) && !loading) {
         fetchHints();
+      } else if (open && _hintsCache.has(questionId)) {
+        setCards(_hintsCache.get(questionId)!);
       }
     },
-    [fetched, loading, fetchHints],
+    [questionId, loading, fetchHints],
   );
 
   const handleInsert = (phrase: string) => {
@@ -95,7 +102,7 @@ export function WritingHintsPanel({ questionId, textareaRef }: WritingHintsPanel
   };
 
   return (
-    <Sheet onOpenChange={handleOpenChange}>
+    <Sheet onOpenChange={handleOpenChange} modal={false}>
       <SheetTrigger asChild>
         <Button variant="outline" size="sm" className="gap-1.5 text-xs">
           <Lightbulb className="h-3.5 w-3.5" />
@@ -103,7 +110,7 @@ export function WritingHintsPanel({ questionId, textareaRef }: WritingHintsPanel
         </Button>
       </SheetTrigger>
 
-      <SheetContent side="right" className="w-[340px] sm:w-[400px] overflow-y-auto">
+      <SheetContent side="right" className="w-[340px] sm:w-[400px] overflow-y-auto" onInteractOutside={(e) => e.preventDefault()}>
         <SheetHeader>
           <SheetTitle className="text-base">{t("title")}</SheetTitle>
           <p className="text-xs text-muted-foreground">{t("subtitle")}</p>
