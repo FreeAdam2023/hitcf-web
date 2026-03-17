@@ -517,8 +517,7 @@
       "fields": {
         "targetLevel": "目标等级",
         "occupation": "职业",
-        "hometown": "来自哪里",
-        "currentCity": "现居城市",
+        "city": "现居城市",
         "family": "家庭状况",
         "hobbies": "爱好",
         "hobbiesHint": "点击选择，也可以自己输入",
@@ -531,8 +530,7 @@
       },
       "placeholders": {
         "occupation": "例：软件工程师",
-        "hometown": "例：北京 / 中国",
-        "currentCity": "例：蒙特利尔 / 加拿大",
+        "city": "例：蒙特利尔 / 加拿大",
         "family": "请选择",
         "customHobby": "输入后回车添加",
         "customReason": "输入后回车添加",

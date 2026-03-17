@@ -517,8 +517,7 @@
       "fields": {
         "targetLevel": "المستوى المستهدف",
         "occupation": "المهنة",
-        "hometown": "من أين أنت",
-        "currentCity": "المدينة الحالية",
+        "city": "المدينة الحالية",
         "family": "الحالة العائلية",
         "hobbies": "الهوايات",
         "hobbiesHint": "انقر للاختيار، أو اكتب هوايتك",
@@ -531,8 +530,7 @@
       },
       "placeholders": {
         "occupation": "مثال: مهندس برمجيات",
-        "hometown": "مثال: بكين / الصين",
-        "currentCity": "مثال: مونتريال / كندا",
+        "city": "مثال: مونتريال / كندا",
         "family": "اختر",
         "customHobby": "اكتب واضغط Enter",
         "customReason": "اكتب واضغط Enter",

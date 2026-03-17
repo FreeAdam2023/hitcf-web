@@ -10,8 +10,7 @@ import { Input } from "@/components/ui/input";
 export interface PersonaFormData {
   targetLevel: string;
   occupation: string;
-  hometown: string;
-  currentCity: string;
+  city: string;
   family: string;
   hobbies: string;
   immigrationReason: string;
@@ -22,8 +21,7 @@ export interface PersonaFormData {
 const DEFAULT_VALUES: PersonaFormData = {
   targetLevel: "CLB7",
   occupation: "",
-  hometown: "",
-  currentCity: "",
+  city: "",
   family: "",
   hobbies: "",
   immigrationReason: "",
@@ -43,8 +41,7 @@ const PRESETS: PresetTemplate[] = [
     labelKey: "presets.student",
     data: {
       occupation: "大学生 / Étudiant(e) universitaire",
-      hometown: "上海 / Shanghai, Chine",
-      currentCity: "蒙特利尔 / Montréal, Canada",
+      city: "蒙特利尔 / Montréal, Canada",
       hobbies: "读书 / Lecture, 电影 / Cinéma, 旅行 / Voyages",
       immigrationReason: "留学深造 / Études supérieures",
       frenchDuration: "2 年 / 2 ans",
@@ -55,8 +52,7 @@ const PRESETS: PresetTemplate[] = [
     labelKey: "presets.immigrant",
     data: {
       occupation: "会计 / Comptable",
-      hometown: "上海 / Shanghai, Chine",
-      currentCity: "多伦多 / Toronto, Canada",
+      city: "多伦多 / Toronto, Canada",
       hobbies: "烹饪 / Cuisine, 徒步 / Randonnée, 电影 / Cinéma",
       immigrationReason: "孩子教育 / Éducation des enfants",
       frenchDuration: "1 年半 / 1 an et demi",
@@ -67,8 +63,7 @@ const PRESETS: PresetTemplate[] = [
     labelKey: "presets.worker",
     data: {
       occupation: "软件工程师 / Ingénieur(e) logiciel",
-      hometown: "北京 / Pékin, Chine",
-      currentCity: "北京 / Pékin, Chine",
+      city: "北京 / Pékin, Chine",
       hobbies: "运动 / Sport, 音乐 / Musique, 游戏 / Jeux vidéo",
       immigrationReason: "职业发展 / Développement de carrière",
       frenchDuration: "6 个月 / 6 mois",
@@ -284,7 +279,7 @@ export function PersonaForm({ onSubmit, defaultValues }: PersonaFormProps) {
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      if (!form.occupation.trim() || !form.hometown.trim()) return;
+      if (!form.occupation.trim() || !form.city.trim()) return;
       onSubmit(form);
     },
     [form, onSubmit],
@@ -383,29 +378,17 @@ export function PersonaForm({ onSubmit, defaultValues }: PersonaFormProps) {
             />
           </div>
 
-          {/* Hometown + Current city */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="mb-1.5 block text-sm font-medium">
-                {t("personaForm.fields.hometown")} *
-              </label>
-              <Input
-                value={form.hometown}
-                onChange={(e) => updateField("hometown", e.target.value)}
-                placeholder={t("personaForm.placeholders.hometown")}
-                required
-              />
-            </div>
-            <div>
-              <label className="mb-1.5 block text-sm font-medium">
-                {t("personaForm.fields.currentCity")}
-              </label>
-              <Input
-                value={form.currentCity}
-                onChange={(e) => updateField("currentCity", e.target.value)}
-                placeholder={t("personaForm.placeholders.currentCity")}
-              />
-            </div>
+          {/* City */}
+          <div>
+            <label className="mb-1.5 block text-sm font-medium">
+              {t("personaForm.fields.city")} *
+            </label>
+            <Input
+              value={form.city}
+              onChange={(e) => updateField("city", e.target.value)}
+              placeholder={t("personaForm.placeholders.city")}
+              required
+            />
           </div>
 
           {/* Family dropdown */}

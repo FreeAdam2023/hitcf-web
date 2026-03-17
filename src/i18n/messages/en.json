@@ -517,8 +517,7 @@
       "fields": {
         "targetLevel": "Target Level",
         "occupation": "Occupation",
-        "hometown": "From",
-        "currentCity": "Current City",
+        "city": "Current City",
         "family": "Family Status",
         "hobbies": "Hobbies",
         "hobbiesHint": "Click to select, or type your own",
@@ -531,8 +530,7 @@
       },
       "placeholders": {
         "occupation": "e.g., Software Engineer",
-        "hometown": "e.g., Beijing / China",
-        "currentCity": "e.g., Montreal / Canada",
+        "city": "e.g., Montreal / Canada",
         "family": "Select",
         "customHobby": "Type and press Enter",
         "customReason": "Type and press Enter",
