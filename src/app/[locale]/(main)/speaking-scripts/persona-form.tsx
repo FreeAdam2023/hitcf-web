@@ -110,7 +110,7 @@ const DURATION_KEYS = [
   "3months",
   "6months",
   "1year",
-  "1.5years",
+  "1_5years",
   "2years",
   "3years",
 ] as const;
