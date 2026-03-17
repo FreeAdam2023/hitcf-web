@@ -6,7 +6,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
-import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, ChevronDown, Timer, Bot } from "lucide-react";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, ChevronDown, Bot } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -100,35 +100,8 @@ function SpeakingTopicList({ topics, isTache2, testSetId, canAccessPaid }: { top
                     {t("speakingConversation.aiConversation")} — Pro
                   </Button>
                 )}
-                {/* Secondary actions */}
+                {/* External AI (collapsed) */}
                 <div className="flex flex-wrap items-center gap-1.5">
-                  {canAccessPaid ? (
-                    <Button asChild size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground">
-                      <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}`}>
-                        <Mic className="mr-1 h-3 w-3" />
-                        {t("speakingPractice.startPractice")}
-                      </Link>
-                    </Button>
-                  ) : (
-                    <Button size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground" onClick={() => router.push("/pricing")}>
-                      <Lock className="mr-1 h-3 w-3" />
-                      {t("speakingPractice.startPractice")} — Pro
-                    </Button>
-                  )}
-                  {canAccessPaid ? (
-                    <Button asChild size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground">
-                      <Link href={`/speaking-practice?testSetId=${testSetId}&questionId=${topic.id}&mode=exam`}>
-                        <Timer className="mr-1 h-3 w-3" />
-                        {t("speakingPractice.startExam")}
-                      </Link>
-                    </Button>
-                  ) : (
-                    <Button size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground" onClick={() => router.push("/pricing")}>
-                      <Lock className="mr-1 h-3 w-3" />
-                      {t("speakingPractice.startExam")} — Pro
-                    </Button>
-                  )}
-                  <span className="text-border">|</span>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="sm" className="h-7 text-xs text-muted-foreground">
