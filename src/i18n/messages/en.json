@@ -508,6 +508,7 @@
     "personaForm": {
       "title": "Create Your Exam Persona",
       "subtitle": "Fill in your details and AI will generate French dialogue scripts tailored to your background",
+      "tip": "No need to use your real info! Just make up a persona you can remember and respond to instinctively during the exam.",
       "quickFill": "Quick-fill Templates",
       "submit": "Generate Script",
       "fields": {

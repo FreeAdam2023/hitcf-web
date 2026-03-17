@@ -508,6 +508,7 @@
     "personaForm": {
       "title": "Créez votre profil d'examen",
       "subtitle": "Renseignez vos informations et l'IA générera des dialogues en français adaptés à votre parcours",
+      "tip": "Pas besoin d'utiliser vos vraies infos ! Inventez un profil que vous pouvez mémoriser et auquel vous répondrez instinctivement le jour de l'examen.",
       "quickFill": "Modèles rapides",
       "submit": "Générer le script",
       "fields": {

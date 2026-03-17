@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
-import { GraduationCap, Home, Briefcase } from "lucide-react";
+import { GraduationCap, Home, Briefcase, Lightbulb } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -126,6 +126,14 @@ export function PersonaForm({ onSubmit, defaultValues }: PersonaFormProps) {
         </p>
       </CardHeader>
       <CardContent>
+        {/* Tip: no need for real info */}
+        <div className="mb-5 flex items-start gap-2.5 rounded-lg border border-amber-200 bg-amber-50 p-3 dark:border-amber-800 dark:bg-amber-950/40">
+          <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+          <p className="text-sm font-medium text-amber-900 dark:text-amber-200">
+            {t("personaForm.tip")}
+          </p>
+        </div>
+
         {/* Preset templates */}
         <div className="mb-6">
           <p className="mb-2 text-sm font-medium">{t("personaForm.quickFill")}</p>
