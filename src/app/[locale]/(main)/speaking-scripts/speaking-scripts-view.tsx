@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
@@ -17,6 +17,75 @@ import { PersonaForm, type PersonaFormData } from "./persona-form";
 import { ScriptDisplay } from "./script-display";
 
 type ViewMode = "loading" | "form" | "generating" | "display";
+
+const GENERATING_STEPS = [
+  "generatingStep1",
+  "generatingStep2",
+  "generatingStep3",
+  "generatingStep4",
+] as const;
+
+function GeneratingAnimation({
+  t,
+}: {
+  t: (key: string) => string;
+}) {
+  const [stepIdx, setStepIdx] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    // Cycle through steps every 8s
+    const stepTimer = setInterval(() => {
+      setStepIdx((prev) => Math.min(prev + 1, GENERATING_STEPS.length - 1));
+    }, 8000);
+
+    // Smooth progress bar (fake, reaches ~90% then slows)
+    intervalRef.current = setInterval(() => {
+      setProgress((prev) => {
+        if (prev < 70) return prev + 1.5;
+        if (prev < 90) return prev + 0.3;
+        return prev;
+      });
+    }, 300);
+
+    return () => {
+      clearInterval(stepTimer);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
+
+  return (
+    <div className="flex min-h-[30vh] flex-col items-center justify-center gap-6">
+      {/* Animated dots */}
+      <div className="flex gap-1.5">
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            className="h-2.5 w-2.5 rounded-full bg-primary animate-bounce"
+            style={{ animationDelay: `${i * 0.15}s` }}
+          />
+        ))}
+      </div>
+
+      {/* Main text */}
+      <p className="text-sm font-medium">{t("generating")}</p>
+
+      {/* Progress bar */}
+      <div className="w-64 overflow-hidden rounded-full bg-muted">
+        <div
+          className="h-1.5 rounded-full bg-primary transition-all duration-500 ease-out"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      {/* Step hint */}
+      <p className="text-xs text-muted-foreground animate-pulse">
+        {t(GENERATING_STEPS[stepIdx])}
+      </p>
+    </div>
+  );
+}
 
 export function SpeakingScriptsView() {
   const t = useTranslations("speakingScripts");
@@ -131,12 +200,7 @@ export function SpeakingScriptsView() {
         />
       )}
 
-      {mode === "generating" && (
-        <div className="flex min-h-[30vh] flex-col items-center justify-center gap-4">
-          <LoadingSpinner />
-          <p className="text-sm text-muted-foreground">{t("generating")}</p>
-        </div>
-      )}
+      {mode === "generating" && <GeneratingAnimation t={t} />}
 
       {mode === "display" && script && (
         <ScriptDisplay
