@@ -693,7 +693,7 @@ export function TestList() {
                     <Calendar
                       mode="single"
                       selected={examDate ? new Date(examDate + "T00:00:00") : undefined}
-                      onSelect={(day) => {
+                      onSelect={(day: Date | undefined) => {
                         if (day) {
                           const iso = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
                           handleExamDateChange(iso);
@@ -729,7 +729,7 @@ export function TestList() {
                   <Calendar
                     mode="single"
                     selected={undefined}
-                    onSelect={(day) => {
+                    onSelect={(day: Date | undefined) => {
                       if (day) {
                         const iso = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
                         handleExamDateChange(iso);
