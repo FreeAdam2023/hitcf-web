@@ -317,7 +317,7 @@ export function WritingSidebar({
   );
 
   return (
-    <div className="w-[340px] shrink-0 border-l bg-background flex flex-col h-full">
+    <div className="w-[300px] shrink-0 border-l bg-background flex flex-col h-full">
       {/* Header with tabs and close button */}
       <div className="flex items-center gap-1.5 border-b px-3 py-2">
         <Tabs

@@ -215,7 +215,7 @@ export default function WritingPracticePage() {
   });
 
   return (
-      <div className="mx-auto max-w-7xl space-y-4 p-4">
+      <div className="space-y-4 px-4 py-4 lg:px-6">
       <Breadcrumb
         items={[
           { label: t("testDetail.breadcrumbTests"), href: "/tests?tab=writing" },
@@ -258,10 +258,16 @@ export default function WritingPracticePage() {
       {/* Three-column layout: Consigne | Editor | Sidebar */}
       <div className="flex gap-4 items-start">
         {/* Left: Consigne */}
-        <div className="hidden lg:block w-[320px] xl:w-[380px] shrink-0 space-y-3 rounded-lg border bg-card p-4 sticky top-4 max-h-[calc(100vh-6rem)] overflow-y-auto">
+        <div className="hidden lg:block w-[280px] xl:w-[320px] shrink-0 space-y-3 rounded-lg border bg-card p-4 sticky top-4 max-h-[calc(100vh-6rem)] overflow-y-auto">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
             Consigne
           </h3>
+          {task?.topic && (
+            <div className="rounded-md bg-primary/5 px-3 py-1.5">
+              <p className="text-sm font-medium">{task.topic}</p>
+              {task.topic_zh && <p className="text-xs text-muted-foreground">{task.topic_zh}</p>}
+            </div>
+          )}
           <div className="prose prose-sm max-w-none text-sm leading-relaxed whitespace-pre-line">
             <FrenchText text={task?.question_text ?? ""} />
           </div>
