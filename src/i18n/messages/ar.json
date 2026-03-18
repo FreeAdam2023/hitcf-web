@@ -873,7 +873,8 @@
       "member": "عضو",
       "trialUntil": "تجريبي حتى {date}",
       "renewalDate": "يُجدَّد في {date}",
-      "manageSubscription": "إدارة الاشتراك"
+      "manageSubscription": "إدارة الاشتراك",
+      "cancelSubscription": "إلغاء الاشتراك"
     },
     "stats": {
       "title": "إحصائيات الدراسة",
@@ -1194,6 +1195,27 @@
     "viewPlans": "عرض الخطط",
     "yearlyTrial": "14 يوماً مجاناً مع الخطة السنوية",
     "upgradePro": "الترقية إلى Pro"
+  },
+  "cancelSubscription": {
+    "title": "إلغاء الاشتراك",
+    "description": "نأسف لرؤيتك تغادر. أخبرنا بالسبب لمساعدتنا على التحسين.",
+    "reasons": {
+      "too_expensive": "السعر مرتفع",
+      "not_using": "لا أستخدمه بما يكفي",
+      "found_alternative": "وجدت منصة أخرى",
+      "exam_done": "اجتزت اختبار TCF",
+      "other": "سبب آخر"
+    },
+    "feedbackLabel": "ملاحظات إضافية (اختياري)",
+    "feedbackPlaceholder": "أخبرنا كيف يمكننا التحسين...",
+    "next": "التالي",
+    "keepSubscription": "الاحتفاظ بالاشتراك",
+    "confirmTitle": "تأكيد الإلغاء؟",
+    "confirmWarning": "يرجى تأكيد رغبتك في إلغاء الاشتراك.",
+    "confirmDetail": "ستتم إعادة توجيهك إلى Stripe لإتمام الإلغاء. ستحتفظ بصلاحيات Pro حتى نهاية فترة الفوترة الحالية.",
+    "confirmCancel": "تأكيد الإلغاء",
+    "goBack": "رجوع",
+    "error": "حدث خطأ. يرجى المحاولة لاحقاً."
   },
   "continueBanner": {
     "title": "لديك جلسة تدريب غير مكتملة",

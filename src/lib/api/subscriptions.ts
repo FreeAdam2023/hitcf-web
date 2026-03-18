@@ -24,3 +24,10 @@ export function getQuotaStatus(): Promise<QuotaStatus> {
 export function getCustomerPortal(): Promise<{ url: string }> {
   return get<{ url: string }>("/api/subscriptions/portal");
 }
+
+export function submitCancelReason(body: {
+  reason: string;
+  feedback?: string;
+}): Promise<{ portal_url: string }> {
+  return post<{ portal_url: string }>("/api/subscriptions/cancel-reason", body);
+}

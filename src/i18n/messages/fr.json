@@ -873,7 +873,8 @@
       "member": "Membre",
       "trialUntil": "Essai jusqu'au {date}",
       "renewalDate": "Renouvellement le {date}",
-      "manageSubscription": "Gérer l'abonnement"
+      "manageSubscription": "Gérer l'abonnement",
+      "cancelSubscription": "Annuler l'abonnement"
     },
     "stats": {
       "title": "Statistiques d'étude",
@@ -1194,6 +1195,27 @@
     "viewPlans": "Voir les forfaits",
     "yearlyTrial": "14 jours gratuits avec le forfait annuel",
     "upgradePro": "Passer à Pro"
+  },
+  "cancelSubscription": {
+    "title": "Annuler l'abonnement",
+    "description": "Nous sommes désolés de vous voir partir. Dites-nous pourquoi pour nous aider à nous améliorer.",
+    "reasons": {
+      "too_expensive": "Trop cher",
+      "not_using": "Utilisation insuffisante",
+      "found_alternative": "Trouvé une autre plateforme",
+      "exam_done": "TCF déjà passé",
+      "other": "Autre raison"
+    },
+    "feedbackLabel": "Commentaire supplémentaire (facultatif)",
+    "feedbackPlaceholder": "Dites-nous comment nous améliorer...",
+    "next": "Suivant",
+    "keepSubscription": "Garder l'abonnement",
+    "confirmTitle": "Confirmer l'annulation ?",
+    "confirmWarning": "Veuillez confirmer que vous souhaitez annuler votre abonnement.",
+    "confirmDetail": "Vous serez redirigé vers Stripe pour finaliser l'annulation. Vous conserverez l'accès Pro jusqu'à la fin de votre période de facturation en cours.",
+    "confirmCancel": "Confirmer l'annulation",
+    "goBack": "Retour",
+    "error": "Une erreur s'est produite. Veuillez réessayer plus tard."
   },
   "continueBanner": {
     "title": "Vous avez une session de pratique incomplète",

@@ -872,7 +872,8 @@
       "member": "Member",
       "trialUntil": "Trial until {date}",
       "renewalDate": "Renews {date}",
-      "manageSubscription": "Manage Subscription"
+      "manageSubscription": "Manage Subscription",
+      "cancelSubscription": "Cancel Subscription"
     },
     "stats": {
       "title": "Study Stats",
@@ -1193,6 +1194,27 @@
     "viewPlans": "View Plans",
     "yearlyTrial": "14 days free with yearly plan",
     "upgradePro": "Upgrade to Pro"
+  },
+  "cancelSubscription": {
+    "title": "Cancel Subscription",
+    "description": "We're sorry to see you go. Please tell us why so we can improve.",
+    "reasons": {
+      "too_expensive": "Too expensive",
+      "not_using": "Not using it enough",
+      "found_alternative": "Found another platform",
+      "exam_done": "Already passed TCF",
+      "other": "Other reason"
+    },
+    "feedbackLabel": "Additional feedback (optional)",
+    "feedbackPlaceholder": "Tell us how we can improve...",
+    "next": "Next",
+    "keepSubscription": "Keep Subscription",
+    "confirmTitle": "Confirm Cancellation?",
+    "confirmWarning": "Please confirm you want to cancel your subscription.",
+    "confirmDetail": "You will be redirected to Stripe to complete the cancellation. You'll keep Pro access until the end of your current billing period.",
+    "confirmCancel": "Confirm Cancel",
+    "goBack": "Go Back",
+    "error": "Something went wrong. Please try again later."
   },
   "continueBanner": {
     "title": "You have an incomplete practice session",

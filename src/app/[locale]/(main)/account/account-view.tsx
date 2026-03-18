@@ -38,6 +38,7 @@ import {
   Monitor,
 } from "lucide-react";
 import { useTheme } from "next-themes";
+import { CancelSubscriptionDialog } from "@/components/subscription/cancel-subscription-dialog";
 
 const QUOTE_FR = [
   "Petit à petit, l'oiseau fait son nid.",
@@ -103,6 +104,7 @@ export function AccountView() {
 
   // Subscription management
   const [portalLoading, setPortalLoading] = useState(false);
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
 
   const quoteIndex = useMemo(
     () => Math.floor(Math.random() * QUOTE_FR.length),
@@ -254,20 +256,30 @@ export function AccountView() {
                 )}
             </div>
             {subPlan !== "tester" && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-white/50 hover:bg-white/10 hover:text-white"
-                onClick={handleManageSubscription}
-                disabled={portalLoading}
-              >
-                {portalLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <ExternalLink className="h-4 w-4" />
-                )}
-                <span className="ml-1 text-xs">{t("account.subscription.manageSubscription")}</span>
-              </Button>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-white/50 hover:bg-white/10 hover:text-white"
+                  onClick={handleManageSubscription}
+                  disabled={portalLoading}
+                >
+                  {portalLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <ExternalLink className="h-4 w-4" />
+                  )}
+                  <span className="ml-1 text-xs">{t("account.subscription.manageSubscription")}</span>
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-white/30 hover:bg-red-500/10 hover:text-red-300"
+                  onClick={() => setCancelDialogOpen(true)}
+                >
+                  <span className="text-xs">{t("account.subscription.cancelSubscription")}</span>
+                </Button>
+              </div>
             )}
           </div>
 
@@ -604,6 +616,10 @@ export function AccountView() {
           </div>
         </CardContent>
       </Card>
+      <CancelSubscriptionDialog
+        open={cancelDialogOpen}
+        onOpenChange={setCancelDialogOpen}
+      />
     </div>
   );
 }
