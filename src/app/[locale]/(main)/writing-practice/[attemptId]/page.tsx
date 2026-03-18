@@ -13,6 +13,9 @@ import {
   CheckCircle2,
   ArrowRight,
   AlertCircle,
+  MessageSquarePlus,
+  Lightbulb,
+  BookOpen,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -23,9 +26,8 @@ import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { AccentToolbar } from "@/components/writing/accent-toolbar";
 import { FrenchText } from "@/components/practice/french-text";
 import { WritingGuidePanel } from "@/components/writing/writing-guide-panel";
-import { ExpressionsDrawer } from "@/components/writing/expressions-drawer";
-import { WritingHintsPanel } from "@/components/writing/writing-hints-panel";
-import { GrammarCheatSheet } from "@/components/writing/grammar-cheat-sheet";
+import { WritingSidebar } from "@/components/writing/writing-sidebar";
+import type { SidebarTab } from "@/components/writing/writing-sidebar";
 import { GrammarPointBadge } from "@/components/writing/grammar-point-badge";
 import { ConsigneTranslationToggle } from "@/components/writing/consigne-translation";
 import { getWritingAttempt } from "@/lib/api/writing-attempts";
@@ -78,7 +80,7 @@ export default function WritingPracticePage() {
   const [grading, setGrading] = useState<Record<string, boolean>>({});
   const [gradingResults, setGradingResults] = useState<Record<string, WritingFeedback>>({});
   const [gradingErrors, setGradingErrors] = useState<Record<string, string>>({});
-  const [panelOpen, setPanelOpen] = useState(false);
+  const [sidebarTab, setSidebarTab] = useState<SidebarTab | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Load attempt + questions
@@ -218,7 +220,7 @@ export default function WritingPracticePage() {
   });
 
   return (
-      <div className={cn("mx-auto max-w-5xl space-y-4 p-4 transition-[margin] duration-300", panelOpen && "lg:mr-[400px]")}>
+      <div className="mx-auto max-w-7xl space-y-4 p-4">
       <Breadcrumb
         items={[
           { label: t("testDetail.breadcrumbTests"), href: "/tests?tab=writing" },
@@ -258,217 +260,259 @@ export default function WritingPracticePage() {
         </div>
       )}
 
-      {/* Split view */}
-      <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
-        {/* Left: Consigne */}
-        <div className="space-y-3 rounded-lg border bg-card p-4">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-            Consigne
-          </h3>
-          <div className="prose prose-sm lg:prose-base max-w-none text-sm lg:text-base leading-relaxed whitespace-pre-line">
-            <FrenchText text={task?.question_text ?? ""} />
-          </div>
-          {task?.passage && (
-            <div className="mt-3 rounded-md bg-muted/50 p-3">
-              <p className="mb-1 text-xs font-medium text-muted-foreground">
-                {t("writingExam.referenceDocuments")}
-              </p>
-              <div className="whitespace-pre-line text-xs lg:text-sm leading-relaxed text-muted-foreground">
-                <FrenchText text={task.passage} />
+      {/* Split view + sidebar */}
+      <div className="flex gap-4">
+        {/* Main content */}
+        <div className="flex-1 min-w-0 space-y-4">
+          <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
+            {/* Left: Consigne */}
+            <div className="space-y-3 rounded-lg border bg-card p-4">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Consigne
+              </h3>
+              <div className="prose prose-sm lg:prose-base max-w-none text-sm lg:text-base leading-relaxed whitespace-pre-line">
+                <FrenchText text={task?.question_text ?? ""} />
               </div>
-            </div>
-          )}
-
-          {task && <ConsigneTranslationToggle key={task.id} questionId={task.id} />}
-
-          <WritingGuidePanel taskNumber={taskNum} />
-        </div>
-
-        {/* Right: Editor + Feedback */}
-        <div className="flex flex-col gap-2 lg:sticky lg:top-4">
-          <textarea
-            ref={textareaRef}
-            className="w-full rounded-lg border bg-background px-4 py-3 text-sm lg:text-base leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[250px] resize-y disabled:opacity-50"
-            placeholder={t("writingExam.placeholder")}
-            value={essayText}
-            onChange={(e) => setEssay(String(taskNum), e.target.value)}
-            disabled={isGrading}
-          />
-
-          <div className="flex items-center gap-2">
-            <AccentToolbar textareaRef={textareaRef} className="flex-1" />
-            <ExpressionsDrawer taskNumber={taskNum} textareaRef={textareaRef} onPanelOpenChange={setPanelOpen} />
-            {task && <WritingHintsPanel questionId={task.id} textareaRef={textareaRef} onPanelOpenChange={setPanelOpen} />}
-            <GrammarCheatSheet onPanelOpenChange={setPanelOpen} />
-          </div>
-
-          {/* Word count + Grade button */}
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">
-              {t("writingExam.wordCount")}{" "}
-              <span className={cn(
-                "font-medium",
-                wordCount > 0 && (wordCount < wordRange[0] || wordCount > wordRange[1])
-                  ? "text-orange-500"
-                  : wordCount >= wordRange[0] && wordCount <= wordRange[1]
-                  ? "text-green-600"
-                  : "",
-              )}>
-                {wordCount}
-              </span>
-              {" / "}{wordRange[0]}-{wordRange[1]}
-            </span>
-            <Button
-              size="sm"
-              onClick={() => handleGrade(currentTaskIndex)}
-              disabled={isGrading || !essayText.trim() || wordCount < 10}
-            >
-              {isGrading ? (
-                <>
-                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                  {t("testDetail.grading")}
-                </>
-              ) : (
-                <>
-                  <CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />
-                  {t("testDetail.submitGrading")}
-                </>
+              {task?.passage && (
+                <div className="mt-3 rounded-md bg-muted/50 p-3">
+                  <p className="mb-1 text-xs font-medium text-muted-foreground">
+                    {t("writingExam.referenceDocuments")}
+                  </p>
+                  <div className="whitespace-pre-line text-xs lg:text-sm leading-relaxed text-muted-foreground">
+                    <FrenchText text={task.passage} />
+                  </div>
+                </div>
               )}
-            </Button>
+
+              {task && <ConsigneTranslationToggle key={task.id} questionId={task.id} />}
+
+              <WritingGuidePanel taskNumber={taskNum} />
+            </div>
+
+            {/* Right: Editor + Feedback */}
+            <div className="flex flex-col gap-2 lg:sticky lg:top-4">
+              <textarea
+                ref={textareaRef}
+                className="w-full rounded-lg border bg-background px-4 py-3 text-sm lg:text-base leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[250px] resize-y disabled:opacity-50"
+                placeholder={t("writingExam.placeholder")}
+                value={essayText}
+                onChange={(e) => setEssay(String(taskNum), e.target.value)}
+                disabled={isGrading}
+              />
+
+              <div className="flex items-center gap-2">
+                <AccentToolbar textareaRef={textareaRef} className="flex-1" />
+                <Button
+                  variant={sidebarTab === "expressions" ? "default" : "outline"}
+                  size="sm"
+                  className="gap-1.5 text-xs"
+                  onClick={() => setSidebarTab(prev => prev === "expressions" ? null : "expressions")}
+                >
+                  <MessageSquarePlus className="h-3.5 w-3.5" />
+                  {t("expressionsDrawer.trigger")}
+                </Button>
+                {task && (
+                  <Button
+                    variant={sidebarTab === "hints" ? "default" : "outline"}
+                    size="sm"
+                    className="gap-1.5 text-xs"
+                    onClick={() => setSidebarTab(prev => prev === "hints" ? null : "hints")}
+                  >
+                    <Lightbulb className="h-3.5 w-3.5" />
+                    {t("writingHints.trigger")}
+                  </Button>
+                )}
+                <Button
+                  variant={sidebarTab === "grammar" ? "default" : "outline"}
+                  size="sm"
+                  className="gap-1.5 text-xs"
+                  onClick={() => setSidebarTab(prev => prev === "grammar" ? null : "grammar")}
+                >
+                  <BookOpen className="h-3.5 w-3.5" />
+                  {t("grammarCheatSheet.trigger")}
+                </Button>
+              </div>
+
+              {/* Word count + Grade button */}
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-muted-foreground">
+                  {t("writingExam.wordCount")}{" "}
+                  <span className={cn(
+                    "font-medium",
+                    wordCount > 0 && (wordCount < wordRange[0] || wordCount > wordRange[1])
+                      ? "text-orange-500"
+                      : wordCount >= wordRange[0] && wordCount <= wordRange[1]
+                      ? "text-green-600"
+                      : "",
+                  )}>
+                    {wordCount}
+                  </span>
+                  {" / "}{wordRange[0]}-{wordRange[1]}
+                </span>
+                <Button
+                  size="sm"
+                  onClick={() => handleGrade(currentTaskIndex)}
+                  disabled={isGrading || !essayText.trim() || wordCount < 10}
+                >
+                  {isGrading ? (
+                    <>
+                      <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                      {t("testDetail.grading")}
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />
+                      {t("testDetail.submitGrading")}
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {/* Error */}
+              {error && (
+                <div className="flex items-start gap-2 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Error */}
-          {error && (
-            <div className="flex items-start gap-2 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-              <span>{error}</span>
+          {/* Feedback panel (below split view) */}
+          {feedback && (
+            <Card>
+              <CardContent className="pt-4 space-y-4">
+                {/* Score header */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-2xl font-bold">{feedback.total_score}</span>
+                    <span className="text-sm text-muted-foreground"> / 20</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Badge variant="secondary">NCLC {feedback.estimated_nclc}</Badge>
+                    <Badge variant="outline">{feedback.estimated_level}</Badge>
+                  </div>
+                </div>
+
+                {/* 4 criteria */}
+                <div className="grid gap-3">
+                  {(["adequation", "coherence", "vocabulaire", "grammaire"] as const).map((key) => {
+                    const c = feedback[key];
+                    if (!c) return null;
+                    return (
+                      <div key={key} className="space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm lg:text-base font-medium">
+                            {CRITERION_NAMES[key]}
+                            <span className="ml-1 text-xs lg:text-sm text-muted-foreground">
+                              ({t(`testDetail.criteria.${key}`)})
+                            </span>
+                          </span>
+                          <span className="text-sm font-semibold">{c.score}/5</span>
+                        </div>
+                        <div className="h-2 rounded-full bg-muted">
+                          <div
+                            className={`h-2 rounded-full transition-all ${scoreColor(c.score)}`}
+                            style={{ width: `${(c.score / 5) * 100}%` }}
+                          />
+                        </div>
+                        <p className="text-xs lg:text-sm text-muted-foreground">{c.feedback}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <Separator />
+                <div>
+                  <p className="mb-1 text-sm font-medium">{t("testDetail.overallComment")}</p>
+                  <p className="text-sm lg:text-base text-muted-foreground">{feedback.overall_comment}</p>
+                </div>
+
+                {/* Corrections */}
+                {feedback.corrections.length > 0 && (
+                  <>
+                    <Separator />
+                    <div>
+                      <p className="mb-2 text-sm font-medium">{t("testDetail.corrections")}</p>
+                      <div className="space-y-2">
+                        {feedback.corrections.map((c, i) => (
+                          <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs lg:text-sm">
+                            <div className="flex items-start gap-1.5">
+                              <span className="line-through text-red-500"><FrenchText text={c.original} /></span>
+                              <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
+                              <span className="font-medium text-green-600"><FrenchText text={c.corrected} /></span>
+                            </div>
+                            <p className="mt-1 text-muted-foreground">{c.explanation}</p>
+                            {c.grammar_point && <GrammarPointBadge slug={c.grammar_point} />}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* Vocab suggestions */}
+                {feedback.vocab_suggestions.length > 0 && (
+                  <>
+                    <Separator />
+                    <div>
+                      <p className="mb-2 text-sm font-medium">{t("testDetail.vocabSuggestions")}</p>
+                      <div className="space-y-2">
+                        {feedback.vocab_suggestions.map((v, i) => (
+                          <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs lg:text-sm">
+                            <div className="flex items-start gap-1.5">
+                              <span className="text-muted-foreground"><FrenchText text={v.original} /></span>
+                              <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
+                              <span className="font-medium text-blue-600"><FrenchText text={v.suggestion} /></span>
+                            </div>
+                            <p className="mt-1 text-muted-foreground">{v.reason}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Navigation */}
+          {!singleTaskMode && (
+            <div className="flex items-center justify-between">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => goToTask(currentTaskIndex - 1)}
+                disabled={currentTaskIndex === 0}
+              >
+                <ChevronLeft className="mr-1 h-4 w-4" />
+                {t("writingExam.prevTask")}
+              </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => goToTask(currentTaskIndex + 1)}
+                disabled={currentTaskIndex >= tasks.length - 1}
+              >
+                {t("writingExam.nextTask")}
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </Button>
             </div>
           )}
         </div>
+
+        {/* Sidebar (conditional) */}
+        {sidebarTab && task && (
+          <WritingSidebar
+            taskNumber={taskNum}
+            questionId={task.id}
+            textareaRef={textareaRef}
+            defaultTab={sidebarTab}
+            onClose={() => setSidebarTab(null)}
+          />
+        )}
       </div>
-
-      {/* Feedback panel (below split view) */}
-      {feedback && (
-        <Card>
-          <CardContent className="pt-4 space-y-4">
-            {/* Score header */}
-            <div className="flex items-center justify-between">
-              <div>
-                <span className="text-2xl font-bold">{feedback.total_score}</span>
-                <span className="text-sm text-muted-foreground"> / 20</span>
-              </div>
-              <div className="flex gap-2">
-                <Badge variant="secondary">NCLC {feedback.estimated_nclc}</Badge>
-                <Badge variant="outline">{feedback.estimated_level}</Badge>
-              </div>
-            </div>
-
-            {/* 4 criteria */}
-            <div className="grid gap-3">
-              {(["adequation", "coherence", "vocabulaire", "grammaire"] as const).map((key) => {
-                const c = feedback[key];
-                if (!c) return null;
-                return (
-                  <div key={key} className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm lg:text-base font-medium">
-                        {CRITERION_NAMES[key]}
-                        <span className="ml-1 text-xs lg:text-sm text-muted-foreground">
-                          ({t(`testDetail.criteria.${key}`)})
-                        </span>
-                      </span>
-                      <span className="text-sm font-semibold">{c.score}/5</span>
-                    </div>
-                    <div className="h-2 rounded-full bg-muted">
-                      <div
-                        className={`h-2 rounded-full transition-all ${scoreColor(c.score)}`}
-                        style={{ width: `${(c.score / 5) * 100}%` }}
-                      />
-                    </div>
-                    <p className="text-xs lg:text-sm text-muted-foreground">{c.feedback}</p>
-                  </div>
-                );
-              })}
-            </div>
-
-            <Separator />
-            <div>
-              <p className="mb-1 text-sm font-medium">{t("testDetail.overallComment")}</p>
-              <p className="text-sm lg:text-base text-muted-foreground">{feedback.overall_comment}</p>
-            </div>
-
-            {/* Corrections */}
-            {feedback.corrections.length > 0 && (
-              <>
-                <Separator />
-                <div>
-                  <p className="mb-2 text-sm font-medium">{t("testDetail.corrections")}</p>
-                  <div className="space-y-2">
-                    {feedback.corrections.map((c, i) => (
-                      <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs lg:text-sm">
-                        <div className="flex items-start gap-1.5">
-                          <span className="line-through text-red-500"><FrenchText text={c.original} /></span>
-                          <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
-                          <span className="font-medium text-green-600"><FrenchText text={c.corrected} /></span>
-                        </div>
-                        <p className="mt-1 text-muted-foreground">{c.explanation}</p>
-                        {c.grammar_point && <GrammarPointBadge slug={c.grammar_point} />}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
-
-            {/* Vocab suggestions */}
-            {feedback.vocab_suggestions.length > 0 && (
-              <>
-                <Separator />
-                <div>
-                  <p className="mb-2 text-sm font-medium">{t("testDetail.vocabSuggestions")}</p>
-                  <div className="space-y-2">
-                    {feedback.vocab_suggestions.map((v, i) => (
-                      <div key={i} className="rounded-md bg-muted/50 p-2.5 text-xs lg:text-sm">
-                        <div className="flex items-start gap-1.5">
-                          <span className="text-muted-foreground"><FrenchText text={v.original} /></span>
-                          <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
-                          <span className="font-medium text-blue-600"><FrenchText text={v.suggestion} /></span>
-                        </div>
-                        <p className="mt-1 text-muted-foreground">{v.reason}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Navigation */}
-      {!singleTaskMode && (
-        <div className="flex items-center justify-between">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => goToTask(currentTaskIndex - 1)}
-            disabled={currentTaskIndex === 0}
-          >
-            <ChevronLeft className="mr-1 h-4 w-4" />
-            {t("writingExam.prevTask")}
-          </Button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => goToTask(currentTaskIndex + 1)}
-            disabled={currentTaskIndex >= tasks.length - 1}
-          >
-            {t("writingExam.nextTask")}
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
-        </div>
-      )}
     </div>
   );
 }
