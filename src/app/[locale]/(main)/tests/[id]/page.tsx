@@ -86,22 +86,21 @@ function SpeakingTopicList({ topics, isTache2, testSetId, canAccessPaid }: { top
                 <p className="text-sm leading-relaxed">
                   {topic.question_text}
                 </p>
-                {/* Primary action: AI Conversation */}
+                {/* Actions */}
+                <div className="flex flex-wrap items-center gap-1.5">
                 {canAccessPaid ? (
-                  <Button asChild size="sm" className="w-full sm:w-auto">
+                  <Button asChild size="sm">
                     <Link href={`/speaking-conversation?testSetId=${testSetId}&questionId=${topic.id}`}>
                       <Bot className="mr-1.5 h-3.5 w-3.5" />
                       {t("speakingConversation.aiConversation")}
                     </Link>
                   </Button>
                 ) : (
-                  <Button size="sm" className="w-full sm:w-auto" onClick={() => router.push("/pricing")}>
+                  <Button size="sm" onClick={() => router.push("/pricing")}>
                     <Lock className="mr-1.5 h-3.5 w-3.5" />
                     {t("speakingConversation.aiConversation")} — Pro
                   </Button>
                 )}
-                {/* External AI (collapsed) */}
-                <div className="flex flex-wrap items-center gap-1.5">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground">
