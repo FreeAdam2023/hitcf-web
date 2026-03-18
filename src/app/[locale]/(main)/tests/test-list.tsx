@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine, CalendarDays } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -27,6 +27,8 @@ import type { TestAttemptInfo } from "./test-card";
 import { SkeletonGrid } from "@/components/shared/skeleton-card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import { TestCard } from "./test-card";
 import { SpeakingTopicCard } from "./speaking-topic-card";
 import { WritingLevelCard } from "./writing-level-card";
@@ -224,7 +226,7 @@ export function TestList() {
   const [mockError, setMockError] = useState<string | null>(null);
   const [mockFreeTrialEligible, setMockFreeTrialEligible] = useState(false);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
-  const examDateRef = useRef<HTMLInputElement>(null);
+  const [examDateOpen, setExamDateOpen] = useState(false);
   const [examDate, setExamDate] = useState("");
 
   // Hydration-safe: read localStorage + backend sync after mount
@@ -681,16 +683,28 @@ export function TestList() {
                 )}
                 <span className="text-xs text-muted-foreground">· {examDate}</span>
                 <div className="flex-1" />
-                <label className="relative cursor-pointer text-xs text-primary/70 hover:text-primary transition-colors">
-                  <input
-                    type="date"
-                    value={examDate}
-                    onChange={(e) => handleExamDateChange(e.target.value)}
-                    min={new Date().toISOString().split("T")[0]}
-                    className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                  />
-                  {t("tests.examCountdownChange")}
-                </label>
+                <Popover open={examDateOpen} onOpenChange={setExamDateOpen}>
+                  <PopoverTrigger asChild>
+                    <button type="button" className="text-xs text-primary/70 hover:text-primary transition-colors">
+                      {t("tests.examCountdownChange")}
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="end">
+                    <Calendar
+                      mode="single"
+                      selected={examDate ? new Date(examDate + "T00:00:00") : undefined}
+                      onSelect={(day) => {
+                        if (day) {
+                          const iso = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+                          handleExamDateChange(iso);
+                        }
+                        setExamDateOpen(false);
+                      }}
+                      disabled={{ before: new Date() }}
+                      defaultMonth={examDate ? new Date(examDate + "T00:00:00") : new Date()}
+                    />
+                  </PopoverContent>
+                </Popover>
                 <button
                   onClick={() => handleExamDateChange("")}
                   className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
@@ -702,21 +716,31 @@ export function TestList() {
           })() : (
             <>
               <span className="flex-1 text-sm text-muted-foreground">{t("tests.examCountdownCTA")}</span>
-              <button
-                type="button"
-                onClick={() => examDateRef.current?.showPicker()}
-                className="rounded-full bg-primary/10 px-4 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
-              >
-                {t("tests.setExamDate")}
-              </button>
-              <input
-                ref={examDateRef}
-                type="date"
-                value=""
-                onChange={(e) => { if (e.target.value) handleExamDateChange(e.target.value); }}
-                min={new Date().toISOString().split("T")[0]}
-                className="sr-only"
-              />
+              <Popover open={examDateOpen} onOpenChange={setExamDateOpen}>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className="rounded-full bg-primary/10 px-4 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
+                  >
+                    {t("tests.setExamDate")}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="end">
+                  <Calendar
+                    mode="single"
+                    selected={undefined}
+                    onSelect={(day) => {
+                      if (day) {
+                        const iso = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+                        handleExamDateChange(iso);
+                      }
+                      setExamDateOpen(false);
+                    }}
+                    disabled={{ before: new Date() }}
+                    defaultMonth={new Date()}
+                  />
+                </PopoverContent>
+              </Popover>
             </>
           )}
         </div>
