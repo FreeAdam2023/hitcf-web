@@ -1883,9 +1883,9 @@
       "pro": "Pro",
       "rows": [
         "Compréhension orale + écrite (8 500+ questions)",
-        "Analyse IA des réponses + analyse grammaticale + traduction phrase par phrase",
-        "Correction IA de l'expression écrite",
-        "Conversation IA + évaluation de la prononciation",
+        "Analyse approfondie + traduction + analyse grammaticale",
+        "Correction de l'expression écrite",
+        "Conversation orale + évaluation de la prononciation",
         "Mode examen + entraînement rapide",
         "Cahier d'erreurs + révision ciblée",
         "Vocabulaire + collocations + flashcards + dictée",
@@ -2260,8 +2260,8 @@
         "desc": "Un mot inconnu ? Cliquez pour afficher sa fiche : genre coloré, conjugaison complète, prononciation instantanée, et sauvegarde en un clic dans votre carnet de vocabulaire."
       },
       {
-        "title": "Analyse IA des réponses",
-        "desc": "Plus qu'un simple corrigé — l'IA analyse chaque distracteur, met en avant le vocabulaire clé et approfondit la compréhension."
+        "title": "Analyse approfondie des réponses",
+        "desc": "Plus qu'un simple corrigé — chaque distracteur est analysé, le vocabulaire clé mis en avant et la compréhension approfondie."
       },
       {
         "title": "Flashcards et dictée",
@@ -2269,7 +2269,7 @@
       },
       {
         "title": "Analyse grammaticale · Fiches de grammaire",
-        "desc": "Cliquez sur n'importe quelle phrase pour une analyse AI : structure, temps, collocations et points de grammaire avec fiches de référence rapide. Sauvegardez les collocations dans votre pool de vocabulaire."
+        "desc": "Cliquez sur n'importe quelle phrase pour une analyse complète : structure, temps, collocations et points de grammaire avec fiches de référence rapide. Sauvegardez les collocations dans votre pool de vocabulaire."
       }
     ],
     "banks": [
@@ -2296,7 +2296,7 @@
       },
       {
         "title": "Choisissez un test",
-        "desc": "Parcourez par épreuve, des séries gratuites disponibles immédiatement"
+        "desc": "Parcourez par épreuve, commencez dès l'inscription"
       },
       {
         "title": "Commencez l'entraînement",
@@ -2325,7 +2325,7 @@
     "freeName": "Gratuit",
     "freeUnit": "/ pour toujours",
     "freeFeature1": "{totalQuestions} questions réelles",
-    "freeFeature2": "{dailyQuestions} questions/jour · Analyses IA",
+    "freeFeature2": "{dailyQuestions} questions/jour · analyses approfondies",
     "freeStart": "Commencer",
     "freeRegister": "Inscription gratuite",
     "proBadge": "Recommandé",

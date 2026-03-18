@@ -1882,9 +1882,9 @@
       "pro": "Pro",
       "rows": [
         "Listening + Reading (8,500+ questions)",
-        "AI Analysis + Translation + Grammar Breakdown",
-        "Writing AI Scoring + Corrections",
-        "Speaking AI Conversation + Pronunciation",
+        "In-Depth Analysis + Translation + Grammar Breakdown",
+        "Writing Scoring + Corrections",
+        "Speaking Conversation + Pronunciation",
         "Exam Mode + Speed Drill",
         "Wrong Answer Review + Targeted Practice",
         "Vocabulary + Flashcards + Dictation + Collocations",
@@ -2259,8 +2259,8 @@
         "desc": "Stuck on a word? Tap it for an instant card: gender color-coded, full verb conjugation, pronunciation at a tap, and one-click save to your word book."
       },
       {
-        "title": "AI Answer Analysis",
-        "desc": "More than right or wrong — AI breaks down every distractor, highlights key vocabulary, and connects the dots for deeper understanding."
+        "title": "In-Depth Answer Analysis",
+        "desc": "More than right or wrong — every distractor is broken down, key vocabulary highlighted, and the dots connected for deeper understanding."
       },
       {
         "title": "Flashcard & Dictation Review",
@@ -2268,7 +2268,7 @@
       },
       {
         "title": "Sentence Grammar · Grammar Cards",
-        "desc": "Tap any sentence for an AI grammar breakdown: structure, tense, collocations, and grammar points with quick-reference cards. Save collocations to your vocab pool."
+        "desc": "Tap any sentence for a full grammar breakdown: structure, tense, collocations, and grammar points with quick-reference cards. Save collocations to your vocab pool."
       }
     ],
     "banks": [
@@ -2295,7 +2295,7 @@
       },
       {
         "title": "Choose a Test",
-        "desc": "Browse by section, free sets available instantly"
+        "desc": "Browse by section, start practicing right after sign-up"
       },
       {
         "title": "Start Practicing",
@@ -2324,7 +2324,7 @@
     "freeName": "Free",
     "freeUnit": "/ forever",
     "freeFeature1": "{totalQuestions} real questions",
-    "freeFeature2": "{dailyQuestions} questions/day · AI explanations",
+    "freeFeature2": "{dailyQuestions} questions/day · in-depth explanations",
     "freeStart": "Get Started",
     "freeRegister": "Sign Up Free",
     "proBadge": "Recommended",
