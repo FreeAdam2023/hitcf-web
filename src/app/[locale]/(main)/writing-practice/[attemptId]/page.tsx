@@ -215,50 +215,49 @@ export default function WritingPracticePage() {
   });
 
   return (
-      <div className="space-y-4 px-4 py-4 lg:px-6">
-      <Breadcrumb
-        items={[
-          { label: t("testDetail.breadcrumbTests"), href: "/tests?tab=writing" },
-          { label: testSet?.name ?? t("writingPractice.title") },
-        ]}
-      />
-
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">{t("writingPractice.title")}</h2>
+      <div className="flex h-[calc(100vh-4rem)] flex-col overflow-hidden px-4 lg:px-6">
+      {/* Top bar: breadcrumb + header + tabs */}
+      <div className="shrink-0 space-y-2 py-3">
+        <Breadcrumb
+          items={[
+            { label: t("testDetail.breadcrumbTests"), href: "/tests?tab=writing" },
+            { label: testSet?.name ?? t("writingPractice.title") },
+          ]}
+        />
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">{t("writingPractice.title")}</h2>
+        </div>
+        {!singleTaskMode && (
+          <div className="flex gap-1 rounded-lg bg-muted/50 p-1">
+            {taskTabs.map((tab, idx) => (
+              <button
+                key={tab.num}
+                onClick={() => goToTask(idx)}
+                className={cn(
+                  "flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  idx === currentTaskIndex
+                    ? "bg-background shadow-sm"
+                    : "hover:bg-background/50",
+                )}
+              >
+                <span>Tache {tab.num}</span>
+                {tab.hasFeedback ? (
+                  <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+                ) : tab.hasContent ? (
+                  <span className="text-xs text-muted-foreground">{tab.wc}w</span>
+                ) : (
+                  <Minus className="h-3 w-3 text-muted-foreground/50" />
+                )}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Task tabs */}
-      {!singleTaskMode && (
-        <div className="flex gap-1 rounded-lg bg-muted/50 p-1">
-          {taskTabs.map((tab, idx) => (
-            <button
-              key={tab.num}
-              onClick={() => goToTask(idx)}
-              className={cn(
-                "flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                idx === currentTaskIndex
-                  ? "bg-background shadow-sm"
-                  : "hover:bg-background/50",
-              )}
-            >
-              <span>Tache {tab.num}</span>
-              {tab.hasFeedback ? (
-                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
-              ) : tab.hasContent ? (
-                <span className="text-xs text-muted-foreground">{tab.wc}w</span>
-              ) : (
-                <Minus className="h-3 w-3 text-muted-foreground/50" />
-              )}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Three-column layout: Consigne | Editor | Sidebar */}
-      <div className="flex gap-4 items-start">
+      {/* Three-column layout: Consigne | Editor | Sidebar — each scrolls independently */}
+      <div className="flex min-h-0 flex-1 gap-4">
         {/* Left: Consigne */}
-        <div className="hidden lg:block w-[280px] xl:w-[320px] shrink-0 space-y-3 rounded-lg border bg-card p-4 sticky top-4 max-h-[calc(100vh-6rem)] overflow-y-auto">
+        <div className="hidden lg:flex w-[280px] xl:w-[320px] shrink-0 flex-col space-y-3 rounded-lg border bg-card p-4 overflow-y-auto">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
             Consigne
           </h3>
@@ -288,7 +287,7 @@ export default function WritingPracticePage() {
         </div>
 
         {/* Center: Editor */}
-        <div className="flex-1 min-w-0 space-y-4">
+        <div className="flex-1 min-w-0 flex flex-col gap-2 overflow-y-auto">
           {/* Mobile-only consigne (hidden on lg+) */}
           <div className="lg:hidden space-y-3 rounded-lg border bg-card p-4">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
@@ -314,7 +313,7 @@ export default function WritingPracticePage() {
           <div className="flex flex-col gap-2">
             <textarea
               ref={textareaRef}
-              className="w-full rounded-lg border bg-background px-4 py-3 text-sm leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[300px] resize-y disabled:opacity-50"
+              className="w-full rounded-lg border bg-background px-4 py-3 text-sm leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[200px] flex-1 resize-none disabled:opacity-50"
               placeholder={t("writingExam.placeholder")}
               value={essayText}
               onChange={(e) => setEssay(String(taskNum), e.target.value)}
@@ -493,7 +492,7 @@ export default function WritingPracticePage() {
 
         {/* Right: Sidebar (always visible on lg+) */}
         {task && (
-          <div className="hidden lg:block">
+          <div className="hidden lg:flex lg:h-full">
             <WritingSidebar
               taskNumber={taskNum}
               questionId={task.id}
