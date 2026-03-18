@@ -150,7 +150,9 @@ export function BookmarkCard({ item, onRemove }: BookmarkCardProps) {
                 {isListening && (imageLoading || imageSrc) && (
                   <div className="flex justify-center">
                     {imageLoading ? (
-                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                      <div className="flex h-48 w-72 items-center justify-center rounded-md border bg-muted/50">
+                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                      </div>
                     ) : imageSrc ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img

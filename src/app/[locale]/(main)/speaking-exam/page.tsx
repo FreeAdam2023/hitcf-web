@@ -21,13 +21,13 @@ const RANGE_OPTIONS: { value: QuestionRange; labelKey: string }[] = [
 export default function SpeakingExamPage() {
   const t = useTranslations("speakingExam");
   const router = useRouter();
-  const [range, setRange] = useState<QuestionRange>(
-    () => (typeof window !== "undefined" ? localStorage.getItem("speakingExamRange") as QuestionRange : null) || "1m",
-  );
+  const [range, setRange] = useState<QuestionRange>("1m");
   const [loading, setLoading] = useState(false);
   const [freeTrialEligible, setFreeTrialEligible] = useState(false);
 
   useEffect(() => {
+    const stored = localStorage.getItem("speakingExamRange") as QuestionRange | null;
+    if (stored) setRange(stored);
     checkFreeTrialEligible().then((r) => setFreeTrialEligible(r.eligible)).catch(() => {});
   }, []);
 

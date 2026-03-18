@@ -474,14 +474,14 @@
     "chatgptSimulation": "ChatGPT Simulation",
     "grokSimulation": "Grok Simulation",
     "examFlow": "Exam Flow",
-    "noFixedTopics": "No fixed questions",
-    "noFixedTopicsDesc": "The examiner asks spontaneous questions that cannot be predicted",
-    "prepStrategy": "Preparation: Prepare 2-3 natural sentences per topic. Don't memorize — keep it conversational.",
+    "noFixedTopics": "Fixed topic range, flexible wording",
+    "noFixedTopicsDesc": "The examiner asks questions around 13 common topics — wording varies but topics are predictable",
+    "prepStrategy": "Strategy: Use the script generator to prepare 3-5 sentences per topic, memorize them, then deliver naturally.",
     "flowSteps": [
       "Examiner says 'Bonjour, installez-vous' and the timer starts",
-      "Brief self-introduction (name, nationality, occupation)",
+      "Self-introduction (name, nationality, occupation, family, etc. — 6-8 sentences)",
       "Examiner asks 1-2 questions on 3-4 topics",
-      "Answer naturally, 2-3 sentences each, ~2 minutes total"
+      "3-5 sentences per answer, ~2 minutes total"
     ]
   },
   "speakingScripts": {

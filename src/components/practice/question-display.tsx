@@ -157,18 +157,27 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
       )}
 
       {mayHaveImage && (imageLoading || imageSrc) && (
-        <div className={`flex justify-center${!imageLoaded && !imageLoading ? " hidden" : ""}`}>
+        <div className="flex justify-center">
           {imageLoading ? (
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <div className="flex h-48 w-72 items-center justify-center rounded-md border bg-muted/50">
+              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            </div>
           ) : imageSrc ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={imageSrc}
-              alt={`Question ${question.question_number}`}
-              className="max-h-64 rounded-md border"
-              onLoad={() => setImageLoaded(true)}
-              onError={() => { setImageSrc(null); setImageLoaded(false); }}
-            />
+            <div className="relative">
+              {!imageLoaded && (
+                <div className="flex h-48 w-72 items-center justify-center rounded-md border bg-muted/50 animate-pulse">
+                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                </div>
+              )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imageSrc}
+                alt={`Question ${question.question_number}`}
+                className={`max-h-64 rounded-md border${!imageLoaded ? " absolute opacity-0" : ""}`}
+                onLoad={() => setImageLoaded(true)}
+                onError={() => { setImageSrc(null); setImageLoaded(false); }}
+              />
+            </div>
           ) : null}
         </div>
       )}

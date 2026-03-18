@@ -474,14 +474,14 @@
     "chatgptSimulation": "Simulation ChatGPT",
     "grokSimulation": "Simulation Grok",
     "examFlow": "Déroulement de l'épreuve",
-    "noFixedTopics": "Pas de questions fixes",
-    "noFixedTopicsDesc": "L'examinateur pose des questions spontanées qui ne peuvent pas être prédites",
-    "prepStrategy": "Préparation : Préparez 2-3 phrases naturelles par sujet. Ne mémorisez pas — restez naturel et conversationnel.",
+    "noFixedTopics": "Sujets prévisibles, formulation variable",
+    "noFixedTopicsDesc": "L'examinateur pose des questions autour de 13 thèmes courants — la formulation varie mais les sujets sont prévisibles",
+    "prepStrategy": "Stratégie : Utilisez le générateur de scripts pour préparer 3-5 phrases par sujet, mémorisez-les puis exprimez-vous naturellement.",
     "flowSteps": [
       "L'examinateur dit « Bonjour, installez-vous » et le chronomètre démarre",
-      "Brève présentation personnelle (nom, nationalité, profession)",
+      "Présentation personnelle (nom, nationalité, profession, famille, etc. — 6-8 phrases)",
       "L'examinateur pose 1-2 questions sur 3-4 sujets",
-      "Répondez naturellement, 2-3 phrases chacune, environ 2 minutes au total"
+      "3-5 phrases par réponse, environ 2 minutes au total"
     ]
   },
   "speakingScripts": {

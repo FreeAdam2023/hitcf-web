@@ -21,13 +21,13 @@ const RANGE_OPTIONS: { value: QuestionRange; labelKey: string }[] = [
 export default function WritingMockExamPage() {
   const t = useTranslations("writingMockExam");
   const router = useRouter();
-  const [range, setRange] = useState<QuestionRange>(
-    () => (typeof window !== "undefined" ? localStorage.getItem("writingExamRange") as QuestionRange : null) || "1m",
-  );
+  const [range, setRange] = useState<QuestionRange>("1m");
   const [loading, setLoading] = useState(false);
   const [freeTrialEligible, setFreeTrialEligible] = useState(false);
 
   useEffect(() => {
+    const stored = localStorage.getItem("writingExamRange") as QuestionRange | null;
+    if (stored) setRange(stored);
     checkWritingFreeTrialEligible().then((r) => setFreeTrialEligible(r.eligible)).catch(() => {});
   }, []);
 

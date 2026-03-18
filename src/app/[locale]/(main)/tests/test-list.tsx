@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine, CalendarDays } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -224,15 +224,17 @@ export function TestList() {
   const [mockError, setMockError] = useState<string | null>(null);
   const [mockFreeTrialEligible, setMockFreeTrialEligible] = useState(false);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
-  const [examDate, setExamDate] = useState<string>(
-    () => (typeof window !== "undefined" ? localStorage.getItem("tcfExamDate") || "" : ""),
-  );
+  const examDateRef = useRef<HTMLInputElement>(null);
+  const [examDate, setExamDate] = useState("");
 
-  // Sync exam date from backend on load (backend is source of truth for logged-in users)
+  // Hydration-safe: read localStorage + backend sync after mount
   useEffect(() => {
     if (userExamDate) {
       setExamDate(userExamDate);
       localStorage.setItem("tcfExamDate", userExamDate);
+    } else {
+      const stored = localStorage.getItem("tcfExamDate");
+      if (stored) setExamDate(stored);
     }
   }, [userExamDate]);
 
@@ -245,17 +247,21 @@ export function TestList() {
     }
   }, [isAuthenticated]);
 
-  const [tab, setTab] = useState<TabType>(() => {
-    if (typeof window !== "undefined") {
-      // Prefer URL param, then localStorage
-      const params = new URLSearchParams(window.location.search);
-      const urlTab = params.get("tab");
-      if (urlTab && VALID_TABS.includes(urlTab as TabType)) return urlTab as TabType;
-      const stored = localStorage.getItem("hitcf_tests_tab");
-      if (stored && VALID_TABS.includes(stored as TabType)) return stored as TabType;
+  const [tab, setTab] = useState<TabType>("listening");
+
+  // Hydration-safe: restore tab from URL param or localStorage after mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlTab = params.get("tab");
+    if (urlTab && VALID_TABS.includes(urlTab as TabType)) {
+      setTab(urlTab as TabType);
+      return;
     }
-    return "listening";
-  });
+    const stored = localStorage.getItem("hitcf_tests_tab");
+    if (stored && VALID_TABS.includes(stored as TabType)) {
+      setTab(stored as TabType);
+    }
+  }, []);
   const [expanded, setExpanded] = useState(false);
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
   const [attemptMap, setAttemptMap] = useState<Map<string, TestAttemptInfo>>(new Map());
@@ -696,18 +702,21 @@ export function TestList() {
           })() : (
             <>
               <span className="flex-1 text-sm text-muted-foreground">{t("tests.examCountdownCTA")}</span>
-              <label className="relative cursor-pointer">
-                <input
-                  type="date"
-                  value=""
-                  onChange={(e) => { if (e.target.value) handleExamDateChange(e.target.value); }}
-                  min={new Date().toISOString().split("T")[0]}
-                  className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                />
-                <span className="rounded-full bg-primary/10 px-4 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors">
-                  {t("tests.setExamDate")}
-                </span>
-              </label>
+              <button
+                type="button"
+                onClick={() => examDateRef.current?.showPicker()}
+                className="rounded-full bg-primary/10 px-4 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
+              >
+                {t("tests.setExamDate")}
+              </button>
+              <input
+                ref={examDateRef}
+                type="date"
+                value=""
+                onChange={(e) => { if (e.target.value) handleExamDateChange(e.target.value); }}
+                min={new Date().toISOString().split("T")[0]}
+                className="sr-only"
+              />
             </>
           )}
         </div>

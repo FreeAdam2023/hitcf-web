@@ -474,14 +474,14 @@
     "chatgptSimulation": "ChatGPT 模拟",
     "grokSimulation": "Grok 模拟",
     "examFlow": "考试流程",
-    "noFixedTopics": "没有固定题目",
-    "noFixedTopicsDesc": "考官即兴提问，不可预测具体问题",
-    "prepStrategy": "准备策略：每个主题准备 2-3 句自然回答，不要背诵，保持对话感",
+    "noFixedTopics": "题目范围固定，问法灵活",
+    "noFixedTopicsDesc": "考官围绕 13 个常见主题提问，问法不固定但主题可预判",
+    "prepStrategy": "准备策略：用脚本生成器为每个主题准备 3-5 句回答，熟练背诵后自然表达",
     "flowSteps": [
       "考官说「Bonjour, installez-vous」，开始计时",
-      "简短自我介绍（姓名、国籍、职业）",
+      "自我介绍（姓名、国籍、职业、家庭等，6-8 句）",
       "考官就 3-4 个主题各问 1-2 个问题",
-      "自然回答，每个回答 2-3 句即可，共约 2 分钟"
+      "每个回答 3-5 句，共约 2 分钟"
     ]
   },
   "speakingScripts": {
