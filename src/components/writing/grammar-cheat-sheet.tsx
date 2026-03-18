@@ -38,7 +38,7 @@ const LEVEL_COLORS: Record<string, string> = {
 // Module-level cache — cards don't change during a session
 let _cardsCache: GrammarCard[] | null = null;
 
-export function GrammarCheatSheet() {
+export function GrammarCheatSheet({ onPanelOpenChange }: { onPanelOpenChange?: (open: boolean) => void } = {}) {
   const t = useTranslations("grammarCheatSheet");
   const locale = useLocale();
   const [cards, setCards] = useState<GrammarCard[]>(_cardsCache ?? []);
@@ -65,11 +65,12 @@ export function GrammarCheatSheet() {
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
+      onPanelOpenChange?.(open);
       if (open && cards.length === 0 && !loading) {
         fetchCards();
       }
     },
-    [cards.length, loading, fetchCards],
+    [cards.length, loading, fetchCards, onPanelOpenChange],
   );
 
   // Filter cards by search

@@ -62,6 +62,7 @@ export function WritingExamSession({ singleTaskMode = false }: { singleTaskMode?
   } = useWritingExamStore();
 
   const [completing, setCompleting] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Prevent accidental back navigation
@@ -189,7 +190,7 @@ export function WritingExamSession({ singleTaskMode = false }: { singleTaskMode?
   });
 
   return (
-    <div className="mx-auto max-w-5xl space-y-4 p-4">
+    <div className={cn("mx-auto max-w-5xl space-y-4 p-4 transition-[margin] duration-300", panelOpen && "lg:mr-[400px]")}>
       {/* Header with timer */}
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">
@@ -268,7 +269,7 @@ export function WritingExamSession({ singleTaskMode = false }: { singleTaskMode?
           {/* Accent toolbar + grammar cheat sheet */}
           <div className="flex items-center gap-2">
             <AccentToolbar textareaRef={textareaRef} className="flex-1" />
-            <GrammarCheatSheet />
+            <GrammarCheatSheet onPanelOpenChange={setPanelOpen} />
           </div>
 
           {/* Word count */}

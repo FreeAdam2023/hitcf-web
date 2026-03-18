@@ -16,6 +16,7 @@ import { insertTextAtCursor } from "@/lib/textarea-utils";
 interface ExpressionsDrawerProps {
   taskNumber: number;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
+  onPanelOpenChange?: (open: boolean) => void;
 }
 
 interface ExpressionItem {
@@ -115,7 +116,7 @@ const CATEGORY_ORDER: Record<number, string[]> = {
   3: ["opening", "connector", "opinion", "closing"],
 };
 
-export function ExpressionsDrawer({ taskNumber, textareaRef }: ExpressionsDrawerProps) {
+export function ExpressionsDrawer({ taskNumber, textareaRef, onPanelOpenChange }: ExpressionsDrawerProps) {
   const t = useTranslations("expressionsDrawer");
 
   const tn = Math.min(Math.max(taskNumber, 1), 3) as 1 | 2 | 3;
@@ -134,7 +135,7 @@ export function ExpressionsDrawer({ taskNumber, textareaRef }: ExpressionsDrawer
   };
 
   return (
-    <Sheet modal={false}>
+    <Sheet modal={false} onOpenChange={(open) => onPanelOpenChange?.(open)}>
       <SheetTrigger asChild>
         <Button variant="outline" size="sm" className="gap-1.5 text-xs">
           <MessageSquarePlus className="h-3.5 w-3.5" />

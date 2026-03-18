@@ -78,6 +78,7 @@ export default function WritingPracticePage() {
   const [grading, setGrading] = useState<Record<string, boolean>>({});
   const [gradingResults, setGradingResults] = useState<Record<string, WritingFeedback>>({});
   const [gradingErrors, setGradingErrors] = useState<Record<string, string>>({});
+  const [panelOpen, setPanelOpen] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Load attempt + questions
@@ -217,7 +218,7 @@ export default function WritingPracticePage() {
   });
 
   return (
-      <div className="mx-auto max-w-5xl space-y-4 p-4">
+      <div className={cn("mx-auto max-w-5xl space-y-4 p-4 transition-[margin] duration-300", panelOpen && "lg:mr-[400px]")}>
       <Breadcrumb
         items={[
           { label: t("testDetail.breadcrumbTests"), href: "/tests?tab=writing" },
@@ -296,9 +297,9 @@ export default function WritingPracticePage() {
 
           <div className="flex items-center gap-2">
             <AccentToolbar textareaRef={textareaRef} className="flex-1" />
-            <ExpressionsDrawer taskNumber={taskNum} textareaRef={textareaRef} />
-            {task && <WritingHintsPanel questionId={task.id} textareaRef={textareaRef} />}
-            <GrammarCheatSheet />
+            <ExpressionsDrawer taskNumber={taskNum} textareaRef={textareaRef} onPanelOpenChange={setPanelOpen} />
+            {task && <WritingHintsPanel questionId={task.id} textareaRef={textareaRef} onPanelOpenChange={setPanelOpen} />}
+            <GrammarCheatSheet onPanelOpenChange={setPanelOpen} />
           </div>
 
           {/* Word count + Grade button */}

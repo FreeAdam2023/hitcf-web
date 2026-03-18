@@ -19,6 +19,7 @@ import type { WritingHintCard } from "@/lib/api/types";
 interface WritingHintsPanelProps {
   questionId: string;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
+  onPanelOpenChange?: (open: boolean) => void;
 }
 
 const ANGLE_COLORS: Record<string, string> = {
@@ -57,7 +58,7 @@ function getAngleColor(angle: string): string {
 // In-memory cache keyed by questionId — survives re-renders and re-mounts
 const _hintsCache = new Map<string, WritingHintCard[]>();
 
-export function WritingHintsPanel({ questionId, textareaRef }: WritingHintsPanelProps) {
+export function WritingHintsPanel({ questionId, textareaRef, onPanelOpenChange }: WritingHintsPanelProps) {
   const t = useTranslations("writingHints");
   const [cards, setCards] = useState<WritingHintCard[]>(
     () => _hintsCache.get(questionId) ?? [],
@@ -83,13 +84,14 @@ export function WritingHintsPanel({ questionId, textareaRef }: WritingHintsPanel
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
+      onPanelOpenChange?.(open);
       if (open && !fetchedRef.current.has(questionId) && !_hintsCache.has(questionId) && !loading) {
         fetchHints();
       } else if (open && _hintsCache.has(questionId)) {
         setCards(_hintsCache.get(questionId)!);
       }
     },
-    [questionId, loading, fetchHints],
+    [questionId, loading, fetchHints, onPanelOpenChange],
   );
 
   const handleInsert = (phrase: string) => {
