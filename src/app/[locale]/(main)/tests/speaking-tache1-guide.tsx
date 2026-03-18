@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
-import { Copy, Check, ExternalLink, FileText, Lightbulb, MessageCircle, Mic, MoreHorizontal } from "lucide-react";
+import { Copy, Check, ExternalLink, FileText, Lightbulb, MessageCircle, Mic, MoreHorizontal, Play } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,13 +26,21 @@ Règles :
 - Parle uniquement en français.`;
 
 const THEME_FR = [
-  { fr: "Identité", key: "identite", examples: "Votre nom, nationalité, âge, ville" },
-  { fr: "Études", key: "etudes", examples: "Votre parcours, diplômes, matières" },
-  { fr: "Travail", key: "travail", examples: "Votre métier, expérience, entreprise" },
-  { fr: "Loisirs", key: "loisirs", examples: "Sports, musique, lecture, voyages" },
-  { fr: "Famille", key: "famille", examples: "Parents, enfants, frères et sœurs" },
-  { fr: "Quotidien", key: "quotidien", examples: "Routine, repas, transport, logement" },
-  { fr: "Projet Canada", key: "immigration", examples: "Pourquoi le Canada, objectifs, plans" },
+  // Core (high frequency)
+  { fr: "Identité", key: "identite", examples: "Votre nom, nationalité, âge, ville", core: true },
+  { fr: "Études", key: "etudes", examples: "Votre parcours, diplômes, matières", core: true },
+  { fr: "Travail", key: "travail", examples: "Votre métier, expérience, entreprise", core: true },
+  { fr: "Loisirs", key: "loisirs", examples: "Sports, musique, lecture, voyages", core: true },
+  { fr: "Famille", key: "famille", examples: "Parents, enfants, frères et sœurs", core: true },
+  { fr: "Quotidien", key: "quotidien", examples: "Routine, repas, transport, logement", core: true },
+  { fr: "Projet Canada", key: "immigration", examples: "Pourquoi le Canada, objectifs, plans", core: true },
+  // Supplementary
+  { fr: "Logement", key: "logement", examples: "Votre appartement, quartier, voisins", core: false },
+  { fr: "Voyages", key: "voyages", examples: "Pays visités, vacances, itinéraire", core: false },
+  { fr: "Langues", key: "langues", examples: "Langues parlées, apprentissage du français", core: false },
+  { fr: "Caractère", key: "caractere", examples: "Votre personnalité, qualités, défauts", core: false },
+  { fr: "Souhaits", key: "souhaits", examples: "Projets futurs, rêves, objectifs", core: false },
+  { fr: "Événements passés", key: "evenements_passes", examples: "Souvenirs marquants, expériences", core: false },
 ];
 
 export function SpeakingTache1Guide() {
@@ -64,15 +72,7 @@ export function SpeakingTache1Guide() {
     setTimeout(() => setCopied(false), 2000);
   }, []);
 
-  const topicLabels: string[] = [
-    t("speakingGuide.topics.0"),
-    t("speakingGuide.topics.1"),
-    t("speakingGuide.topics.2"),
-    t("speakingGuide.topics.3"),
-    t("speakingGuide.topics.4"),
-    t("speakingGuide.topics.5"),
-    t("speakingGuide.topics.6"),
-  ];
+  const topicLabels: string[] = THEME_FR.map((_, idx) => t(`speakingGuide.topics.${idx}`));
 
   const flowSteps: string[] = [
     t("speakingGuide.flowSteps.0"),
@@ -102,10 +102,10 @@ export function SpeakingTache1Guide() {
           <div>
             <p className="mb-2.5 text-sm font-medium">{t("speakingGuide.commonTopics")}</p>
             <div className="flex flex-wrap gap-2">
-              {THEME_FR.map((theme, idx) =>
+              {THEME_FR.filter(th => th.core).map((theme, idx) =>
                 hasScript ? (
                   <Link
-                    key={theme.fr}
+                    key={theme.key}
                     href={`/speaking-scripts#${theme.key}`}
                     className="group relative rounded-lg border border-emerald-200 bg-emerald-50/60 px-3 py-2 text-sm transition-colors hover:border-emerald-400 hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/30 dark:hover:border-emerald-600 dark:hover:bg-emerald-900/40"
                   >
@@ -117,7 +117,7 @@ export function SpeakingTache1Guide() {
                   </Link>
                 ) : (
                   <div
-                    key={theme.fr}
+                    key={theme.key}
                     className="group relative rounded-lg border bg-card px-3 py-2 text-sm transition-colors hover:border-amber-300 hover:bg-amber-50/50 dark:hover:border-amber-700 dark:hover:bg-amber-950/30"
                   >
                     <span className="font-medium">{topicLabels[idx]}</span>
@@ -129,7 +129,50 @@ export function SpeakingTache1Guide() {
                 ),
               )}
             </div>
+            <p className="mb-2 mt-4 text-sm font-medium text-muted-foreground">{t("speakingGuide.supplementaryTopics")}</p>
+            <div className="flex flex-wrap gap-2">
+              {THEME_FR.filter(th => !th.core).map((theme) => {
+                const idx = THEME_FR.findIndex(t => t.key === theme.key);
+                return hasScript ? (
+                  <Link
+                    key={theme.key}
+                    href={`/speaking-scripts#${theme.key}`}
+                    className="group relative rounded-lg border border-sky-200 bg-sky-50/60 px-3 py-2 text-sm transition-colors hover:border-sky-400 hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-950/30 dark:hover:border-sky-600 dark:hover:bg-sky-900/40"
+                  >
+                    <span className="font-medium text-sky-800 dark:text-sky-300">{topicLabels[idx]}</span>
+                    <span className="ml-1.5 text-xs text-sky-600 dark:text-sky-400">{theme.fr}</span>
+                    <div className="absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-popover px-3 py-1.5 text-xs text-popover-foreground shadow-md group-hover:block">
+                      {theme.examples}
+                    </div>
+                  </Link>
+                ) : (
+                  <div
+                    key={theme.key}
+                    className="group relative rounded-lg border border-dashed bg-card px-3 py-2 text-sm transition-colors hover:border-sky-300 hover:bg-sky-50/50 dark:hover:border-sky-700 dark:hover:bg-sky-950/30"
+                  >
+                    <span className="font-medium">{topicLabels[idx]}</span>
+                    <span className="ml-1.5 text-xs text-muted-foreground">{theme.fr}</span>
+                    <div className="absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-popover px-3 py-1.5 text-xs text-popover-foreground shadow-md group-hover:block">
+                      {theme.examples}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
+
+          {/* Demo video */}
+          <a
+            href="https://www.youtube.com/watch?v=Oy8X80PfLqA"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2.5 rounded-lg border border-red-200 bg-red-50/50 px-4 py-3 text-sm transition-colors hover:border-red-300 hover:bg-red-100/60 dark:border-red-900 dark:bg-red-950/20 dark:hover:border-red-700 dark:hover:bg-red-900/30"
+          >
+            <Play className="h-4 w-4 shrink-0 text-red-600 dark:text-red-400" />
+            <span className="font-medium text-red-800 dark:text-red-300">{t("speakingGuide.watchDemo")}</span>
+            <span className="text-xs text-red-600 dark:text-red-400">Tâche 1, 2, 3</span>
+            <ExternalLink className="ml-auto h-3.5 w-3.5 text-red-400" />
+          </a>
 
           {/* Tips */}
           <div className="rounded-lg bg-muted/50 p-4">

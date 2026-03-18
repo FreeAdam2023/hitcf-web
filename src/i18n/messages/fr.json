@@ -456,11 +456,19 @@
       "Loisirs",
       "Famille",
       "Vie quotidienne",
-      "Immigration"
+      "Immigration",
+      "Logement",
+      "Voyages",
+      "Langues",
+      "Caractère",
+      "Souhaits et projets",
+      "Événements passés"
     ],
     "title": "Tâche 1 · Entretien dirigé",
     "subtitle": "Entretien dirigé — L'examinateur pose des questions spontanées sur des sujets du quotidien, environ 2 minutes",
-    "commonTopics": "Sujets courants",
+    "commonTopics": "Sujets principaux",
+    "supplementaryTopics": "Sujets complémentaires",
+    "watchDemo": "Voir la vidéo de démonstration",
     "startAIConversation": "Lancer la conversation",
     "chatgptSimulation": "Simulation ChatGPT",
     "grokSimulation": "Simulation Grok",
@@ -480,7 +488,7 @@
     "subtitle": "Tâche 1 · Générez des dialogues en français adaptés à votre profil pour lire et mémoriser",
     "generating": "HiTCF génère vos scripts personnalisés...",
     "generatingStep1": "Analyse de votre profil...",
-    "generatingStep2": "Rédaction des dialogues pour 7 sujets...",
+    "generatingStep2": "Rédaction des dialogues pour 13 sujets...",
     "generatingStep3": "Ajustement du niveau et des structures...",
     "generatingStep4": "Ajout des traductions, presque fini...",
     "generateSuccess": "Scripts générés avec succès !",
@@ -2459,7 +2467,7 @@
     },
     "speakingScripts": {
       "title": "Scripts d'oral personnalisés · Générateur de dialogues Tâche 1",
-      "description": "L'IA génère des scripts de dialogue en français personnalisés pour les 7 sujets de la Tâche 1 du TCF Canada selon votre profil. Lecture TTS et export CSV Anki inclus."
+      "description": "L'IA génère des scripts de dialogue en français personnalisés pour les 13 sujets de la Tâche 1 du TCF Canada selon votre profil. Lecture TTS et export CSV Anki inclus."
     },
     "resources": {
       "title": "Guide de l'examen TCF Canada · Tableaux de scores, ressources d'étude et centres d'examen",

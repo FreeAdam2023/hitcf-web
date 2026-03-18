@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 import {
   ArrowLeft,
   ChevronRight,
@@ -56,11 +55,6 @@ function computeTextSimilarity(reference: string, spoken: string): number {
   return matched / refWords.length;
 }
 
-const ALL_THEMES = [
-  "identite", "etudes", "travail", "loisirs",
-  "famille", "quotidien", "immigration",
-] as const;
-
 interface ScriptPracticeProps {
   script: SpeakingScriptResponse;
   onBack: () => void;
@@ -68,8 +62,6 @@ interface ScriptPracticeProps {
 
 export function ScriptPractice({ script, onBack }: ScriptPracticeProps) {
   const t = useTranslations("speakingScripts");
-  const tp = useTranslations("speakingPractice");
-  const tc = useTranslations("common");
 
   const [phase, setPhase] = useState<PracticePhase>("mode_select");
   const [practiceMode, setPracticeMode] = useState<PracticeMode>("read_along");
