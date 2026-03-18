@@ -161,18 +161,29 @@ export function SpeakingTache1Guide() {
             </div>
           </div>
 
-          {/* Official FEI example */}
-          <a
-            href="https://www.france-education-international.fr/document/tcf-tp-qc-ca-exemple-epreuve-eo"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2.5 rounded-lg border border-blue-200 bg-blue-50/50 px-4 py-3 text-sm transition-colors hover:border-blue-300 hover:bg-blue-100/60 dark:border-blue-900 dark:bg-blue-950/20 dark:hover:border-blue-700 dark:hover:bg-blue-900/30"
-          >
-            <FileText className="h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400" />
-            <span className="font-medium text-blue-800 dark:text-blue-300">{t("speakingGuide.officialExample")}</span>
-            <span className="text-xs text-blue-600 dark:text-blue-400">France Éducation International — PDF</span>
-            <ExternalLink className="ml-auto h-3.5 w-3.5 text-blue-400" />
-          </a>
+          {/* Demo video + Official PDF */}
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <a
+              href="https://www.youtube.com/watch?v=Oy8X80PfLqA&t=310s"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-1 items-center gap-2.5 rounded-lg border border-red-200 bg-red-50/50 px-4 py-3 text-sm transition-colors hover:border-red-300 hover:bg-red-100/60 dark:border-red-900 dark:bg-red-950/20 dark:hover:border-red-700 dark:hover:bg-red-900/30"
+            >
+              <ExternalLink className="h-4 w-4 shrink-0 text-red-600 dark:text-red-400" />
+              <span className="font-medium text-red-800 dark:text-red-300">{t("speakingGuide.watchDemo")}</span>
+              <span className="text-xs text-red-600 dark:text-red-400">YouTube</span>
+            </a>
+            <a
+              href="https://www.france-education-international.fr/document/tcf-tp-qc-ca-exemple-epreuve-eo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-1 items-center gap-2.5 rounded-lg border border-blue-200 bg-blue-50/50 px-4 py-3 text-sm transition-colors hover:border-blue-300 hover:bg-blue-100/60 dark:border-blue-900 dark:bg-blue-950/20 dark:hover:border-blue-700 dark:hover:bg-blue-900/30"
+            >
+              <FileText className="h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400" />
+              <span className="font-medium text-blue-800 dark:text-blue-300">{t("speakingGuide.officialExample")}</span>
+              <span className="text-xs text-blue-600 dark:text-blue-400">PDF</span>
+            </a>
+          </div>
 
           {/* Tips */}
           <div className="rounded-lg bg-muted/50 p-4">
