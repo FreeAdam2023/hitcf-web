@@ -232,7 +232,7 @@
     },
     "layout": {
       "tagline": "CLB 7，练出来的",
-      "description1": "8,500+ 道 TCF Canada 真题，听力阅读口语写作四科全覆盖。",
+      "description1": "8,500+ 道 TCF Canada 练习题，听力阅读口语写作四科全覆盖。",
       "description2": "系统化备考，让通过不再靠运气。",
       "stat1": "8,500+ 道题",
       "stat2": "1,297 套试卷",
@@ -785,7 +785,7 @@
       "title": "想更快提分？",
       "description": "Pro 会员解锁全部题库、考试模式、错题本和速练，系统化备考",
       "features": [
-        "8,500+ 道真题全部解锁",
+        "8,500+ 道题全部解锁",
         "考试模式模拟真实考场",
         "错题自动收集，定向突破",
         "速练模式，碎片时间高效刷题"
@@ -887,7 +887,7 @@
       "accuracy": "正确率"
     },
     "continuePractice": "继续练习",
-    "unlockAll": "解锁全部 8,500+ 道真题 + 词汇工具",
+    "unlockAll": "解锁全部 8,500+ 道题 + 词汇工具",
     "yearlyDeal": "年付低至 ${yearlyPerMonth}/月，含 {yearlyTrialDays} 天免费试用",
     "upgradePro": "升级 Pro",
     "profile": {
@@ -1699,7 +1699,7 @@
     "range1m": "最近 1 个月",
     "range3m": "最近 3 个月",
     "rangeAll": "全部题库",
-    "rangeDesc": "选择抽题的时间范围，越新的题目越贴近真题趋势",
+    "rangeDesc": "选择抽题的时间范围，越新的题目越贴近考试趋势",
     "startExam": "开始模拟考试",
     "starting": "正在准备...",
     "startFailed": "创建考试失败",
@@ -1780,7 +1780,7 @@
     "range1m": "最近 1 个月",
     "range3m": "最近 3 个月",
     "rangeAll": "全部题库",
-    "rangeDesc": "选择抽题的时间范围，越新的题目越贴近真题趋势",
+    "rangeDesc": "选择抽题的时间范围，越新的题目越贴近考试趋势",
     "startExam": "开始模拟考试",
     "starting": "正在准备...",
     "startFailed": "创建考试失败",
@@ -1840,7 +1840,7 @@
     "joinWhatsApp": "加入 WhatsApp 群"
   },
   "pricing": {
-    "title": "8,500+ 道 TCF 真题 + 词汇工具，四科全覆盖",
+    "title": "8,500+ 道 TCF 练习题 + 词汇工具，四科全覆盖",
     "subtitle": "刷题 + 翻卡 + 听写 + Anki 导出，系统化备考 CLB 7",
     "plans": {
       "monthly": {
@@ -1881,7 +1881,7 @@
       "free": "免费",
       "pro": "Pro",
       "rows": [
-        "听力 + 阅读做题（8,500+ 道真题）",
+        "听力 + 阅读做题（8,500+ 道题）",
         "深度解析 + 逐句翻译 + 语法分析",
         "写作评分 + 逐句纠错",
         "口语对话 + 发音评估",
@@ -1924,7 +1924,7 @@
           "a": "我们不承诺任何考试成绩。HiTCF 提供与 TCF Canada 对标的高质量练习环境，帮助你针对性地找到薄弱环节并提升。最终成绩取决于多种因素。详见免责声明。"
         },
         {
-          "q": "题目和真题一样吗？",
+          "q": "题目和考试原题一样吗？",
           "a": "练习题目来源于公开资料的整理和编辑，覆盖 A1–C2 各等级，格式对标 TCF Canada。但本平台非官方出品，题目不等同于考场原题。"
         },
         {
@@ -2196,7 +2196,7 @@
     },
     "cta": {
       "title": "了解完考试，开始练题吧",
-      "subtitle": "8,500+ 道 TCF Canada 真题等你来刷",
+      "subtitle": "8,500+ 道 TCF Canada 练习题等你来刷",
       "button": "开始练习"
     },
     "disclaimer": {
@@ -2209,26 +2209,26 @@
       "badge": "TCF Canada 备考平台",
       "titleHighlight": "CLB 7",
       "titleSuffix": "，练出来的",
-      "subtitle": "8,400+ 道真题，口语对练 · 写作批改 · 发音评估 · 智能解析，一站练到 CLB 7。",
+      "subtitle": "8,400+ 道题，口语对练 · 写作批改 · 发音评估 · 智能解析，一站练到 CLB 7。",
       "startPractice": "开始练习",
       "registerCta": "免费注册，立刻做题",
       "viewPricing": "查看定价",
       "imageAlt": "加拿大国旗在蓝天下飘扬",
-      "questionsLabel": "道真题",
+      "questionsLabel": "道题",
       "clb7Target": "CLB 7 目标"
     },
     "features": [
       {
         "title": "听力理解",
-        "desc": "{listeningSets} 套听力真题，{listeningQuestions} 道题目，配原版音频 + 逐句精听"
+        "desc": "{listeningSets} 套听力练习题，{listeningQuestions} 道题目，配原版音频 + 逐句精听"
       },
       {
         "title": "阅读理解",
-        "desc": "{readingSets} 套阅读真题，{readingQuestions} 道题目，覆盖 A1-C2 全部级别"
+        "desc": "{readingSets} 套阅读练习题，{readingQuestions} 道题目，覆盖 A1-C2 全部级别"
       },
       {
         "title": "口语表达",
-        "desc": "{speakingSets} 套口语话题，{speakingQuestions} 个 Tâche 2 + Tâche 3 真题，AI 陪练"
+        "desc": "{speakingSets} 套口语话题，{speakingQuestions} 个 Tâche 2 + Tâche 3 练习题，AI 陪练"
       },
       {
         "title": "写作表达",
@@ -2236,16 +2236,16 @@
       }
     ],
     "stats": [
-      "道真题",
+      "道题",
       "套模拟题",
-      "套听力+阅读真题",
+      "套听力+阅读练习题",
       "CLB 7 门槛正确率"
     ],
     "featuresBadge": "四大科目",
     "featuresTitle": "全面覆盖 TCF 考试",
     "featuresSubtitle": "听说读写一站搞定，从 A1 到 C2 全等级覆盖",
     "contentBadge": "题库全景",
-    "contentTitle": "8,500+ 道真题，A1 到 C2 全覆盖",
+    "contentTitle": "8,500+ 道题，A1 到 C2 全覆盖",
     "contentSubtitle": "听说读写四科齐全，所有听力均配原版音频",
     "showcaseBadge": "功能亮点",
     "showcaseTitle": "不止刷题，更是完整的学习体验",
@@ -2278,7 +2278,7 @@
       },
       {
         "label": "口语话题",
-        "sub": "{speakingSets} 套 · Tâche 2 + 3 真题"
+        "sub": "{speakingSets} 套 · Tâche 2 + 3 练习题"
       },
       {
         "label": "写作任务",
@@ -2323,7 +2323,7 @@
     "pricingSubtitle": "免费题套随时练习，订阅解锁全部内容",
     "freeName": "免费版",
     "freeUnit": "/ 永久",
-    "freeFeature1": "{totalQuestions} 道真题练习",
+    "freeFeature1": "{totalQuestions} 道题练习",
     "freeFeature2": "每天 {dailyQuestions} 题 · 含深度解析",
     "freeStart": "开始使用",
     "freeRegister": "免费注册",
@@ -2391,7 +2391,7 @@
       },
       {
         "q": "口语和写作怎么练？",
-        "a": "口语和写作提供真题话题和写作任务，支持跳转到 ChatGPT 进行 AI 模拟对话和作文批改。相当于免费的 AI 外教。"
+        "a": "口语和写作提供考试话题和写作任务，支持跳转到 ChatGPT 进行 AI 模拟对话和作文批改。相当于免费的 AI 外教。"
       },
       {
         "q": "如何申请退款？",
@@ -2400,24 +2400,24 @@
     ],
     "ctaImageAlt": "渥太华国会山与渥太华河全景",
     "ctaTitle": "离 CLB 7 还差几步？",
-    "ctaSubtitle": "每天 {dailyQuestions} 道听力阅读真题免费练，最新月口语写作题目免费看",
+    "ctaSubtitle": "每天 {dailyQuestions} 道听力阅读练习题免费练，最新月口语写作题目免费看",
     "ctaContinue": "继续做题",
     "ctaRegister": "免费注册，测测你的水平"
   },
   "meta": {
     "siteTitle": "HiTCF — TCF Canada 在线练习平台",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "8,500+ 道 TCF Canada 真题 + 词汇工具，覆盖听力、阅读、口语、写作四大科目。听力逐句精听、刷题、翻卡复习、听写练习、Anki 导出，助你冲刺 CLB 7。",
+    "siteDescription": "8,500+ 道 TCF Canada 练习题 + 词汇工具，覆盖听力、阅读、口语、写作四大科目。听力逐句精听、刷题、翻卡复习、听写练习、Anki 导出，助你冲刺 CLB 7。",
     "ogTitle": "HiTCF — 打开就练，刷到 CLB 7",
-    "ogDescription": "8,500+ 道 TCF Canada 真题 + 生词本 + Anki 导出。刷题、翻卡、听写一站搞定，薄弱环节一目了然。",
+    "ogDescription": "8,500+ 道 TCF Canada 练习题 + 生词本 + Anki 导出。刷题、翻卡、听写一站搞定，薄弱环节一目了然。",
     "ogImageAlt": "HiTCF — TCF Canada 在线练习平台",
-    "keywords": "TCF Canada,CLB 7,TCF 练习,TCF 听力,TCF 阅读,TCF Canada 备考,加拿大移民法语,TCF 在线模拟,TCF 真题,TCF 词汇,法语 Anki,法语翻卡",
+    "keywords": "TCF Canada,CLB 7,TCF 练习,TCF 听力,TCF 阅读,TCF Canada 备考,加拿大移民法语,TCF 在线模拟,TCF 练习题,TCF 词汇,法语 Anki,法语翻卡",
     "home": {
       "title": "HiTCF — CLB 7，练出来的 | TCF Canada 在线练习",
-      "description": "{totalQuestions} 道 TCF Canada 真题，覆盖听力、阅读、口语、写作。练习模式 + 考试模式 + 错题本，助你系统备考冲刺 CLB 7。"
+      "description": "{totalQuestions} 道 TCF Canada 练习题，覆盖听力、阅读、口语、写作。练习模式 + 考试模式 + 错题本，助你系统备考冲刺 CLB 7。"
     },
     "tests": {
-      "title": "TCF Canada 题库 · {totalQuestions} 道听力阅读口语写作真题",
+      "title": "TCF Canada 题库 · {totalQuestions} 道听力阅读口语写作练习题",
       "description": "TCF Canada 听力、阅读、口语、写作全真模拟题库。{listeningSets} 套听力含音频 + 逐句精听，{readingSets} 套阅读，覆盖 A1-C2 全等级。"
     },
     "dashboard": {
@@ -2426,7 +2426,7 @@
     },
     "pricing": {
       "title": "订阅方案 · 年付享 14 天免费试用全部 TCF 题库 + 词汇工具",
-      "description": "HiTCF 订阅方案：免费题套直接练习，Pro 版解锁全部 8,500+ 道真题、考试模式、错题本、生词本、翻卡复习、听写练习和 Anki 导出。年付 14 天免费试用，随时取消。"
+      "description": "HiTCF 订阅方案：免费题套直接练习，Pro 版解锁全部 8,500+ 道题、考试模式、错题本、生词本、翻卡复习、听写练习和 Anki 导出。年付 14 天免费试用，随时取消。"
     },
     "speedDrill": {
       "title": "等级练习 · 按等级和题型定向刷题",
@@ -2796,7 +2796,7 @@
     }
   },
   "schema": {
-    "siteDescription": "TCF Canada 在线练习平台，8,500+ 道真题助你冲刺 CLB 7",
+    "siteDescription": "TCF Canada 在线练习平台，8,500+ 道题助你冲刺 CLB 7",
     "faq1q": "HiTCF 是官方平台吗？",
     "faq1a": "不是。HiTCF 是独立运营的第三方练习平台，与 France Éducation international 或 IRCC 无关。练习题目来源于公开资料的整理和编辑，格式对标 TCF Canada，但不等同于考场原题。",
     "faq2q": "免费版能做什么？",
@@ -2806,7 +2806,7 @@
     "faq4q": "能保证考到 CLB 7 吗？",
     "faq4a": "不能。HiTCF 提供与 TCF Canada 对标的练习环境，帮助你针对性地找到薄弱环节并提升。但实际成绩取决于多种因素，我们不承诺任何考试结果。",
     "faq5q": "口语和写作怎么练？",
-    "faq5a": "口语和写作提供真题话题和写作任务，支持跳转到 ChatGPT 进行 AI 模拟对话和作文批改。相当于免费的 AI 外教。",
+    "faq5a": "口语和写作提供考试话题和写作任务，支持跳转到 ChatGPT 进行 AI 模拟对话和作文批改。相当于免费的 AI 外教。",
     "faq6q": "如何申请退款？",
     "faq6a": "首次付款后 48 小时内可全额退款，年付用户 14 天内可按比例退款。发邮件至 support@hitcf.com 即可，3 个工作日内处理。"
   },
