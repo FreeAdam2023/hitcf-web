@@ -13,9 +13,6 @@ import {
   CheckCircle2,
   ArrowRight,
   AlertCircle,
-  MessageSquarePlus,
-  Lightbulb,
-  BookOpen,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -27,7 +24,6 @@ import { AccentToolbar } from "@/components/writing/accent-toolbar";
 import { FrenchText } from "@/components/practice/french-text";
 import { WritingGuidePanel } from "@/components/writing/writing-guide-panel";
 import { WritingSidebar } from "@/components/writing/writing-sidebar";
-import type { SidebarTab } from "@/components/writing/writing-sidebar";
 import { GrammarPointBadge } from "@/components/writing/grammar-point-badge";
 import { ConsigneTranslationToggle } from "@/components/writing/consigne-translation";
 import { getWritingAttempt } from "@/lib/api/writing-attempts";
@@ -80,7 +76,6 @@ export default function WritingPracticePage() {
   const [grading, setGrading] = useState<Record<string, boolean>>({});
   const [gradingResults, setGradingResults] = useState<Record<string, WritingFeedback>>({});
   const [gradingErrors, setGradingErrors] = useState<Record<string, string>>({});
-  const [sidebarTab, setSidebarTab] = useState<SidebarTab | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Load attempt + questions
@@ -260,78 +255,67 @@ export default function WritingPracticePage() {
         </div>
       )}
 
-      {/* Split view + sidebar */}
-      <div className="flex gap-4">
-        {/* Main content */}
-        <div className="flex-1 min-w-0 space-y-4">
-          <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
-            {/* Left: Consigne */}
-            <div className="space-y-3 rounded-lg border bg-card p-4">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-                Consigne
-              </h3>
-              <div className="prose prose-sm lg:prose-base max-w-none text-sm lg:text-base leading-relaxed whitespace-pre-line">
-                <FrenchText text={task?.question_text ?? ""} />
+      {/* Three-column layout: Consigne | Editor | Sidebar */}
+      <div className="flex gap-4 items-start">
+        {/* Left: Consigne */}
+        <div className="hidden lg:block w-[320px] xl:w-[380px] shrink-0 space-y-3 rounded-lg border bg-card p-4 sticky top-4 max-h-[calc(100vh-6rem)] overflow-y-auto">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            Consigne
+          </h3>
+          <div className="prose prose-sm max-w-none text-sm leading-relaxed whitespace-pre-line">
+            <FrenchText text={task?.question_text ?? ""} />
+          </div>
+          {task?.passage && (
+            <div className="mt-3 rounded-md bg-muted/50 p-3">
+              <p className="mb-1 text-xs font-medium text-muted-foreground">
+                {t("writingExam.referenceDocuments")}
+              </p>
+              <div className="whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
+                <FrenchText text={task.passage} />
               </div>
-              {task?.passage && (
-                <div className="mt-3 rounded-md bg-muted/50 p-3">
-                  <p className="mb-1 text-xs font-medium text-muted-foreground">
-                    {t("writingExam.referenceDocuments")}
-                  </p>
-                  <div className="whitespace-pre-line text-xs lg:text-sm leading-relaxed text-muted-foreground">
-                    <FrenchText text={task.passage} />
-                  </div>
-                </div>
-              )}
-
-              {task && <ConsigneTranslationToggle key={task.id} questionId={task.id} />}
-
-              <WritingGuidePanel taskNumber={taskNum} />
             </div>
+          )}
 
-            {/* Right: Editor + Feedback */}
-            <div className="flex flex-col gap-2 lg:sticky lg:top-4">
-              <textarea
-                ref={textareaRef}
-                className="w-full rounded-lg border bg-background px-4 py-3 text-sm lg:text-base leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[250px] resize-y disabled:opacity-50"
-                placeholder={t("writingExam.placeholder")}
-                value={essayText}
-                onChange={(e) => setEssay(String(taskNum), e.target.value)}
-                disabled={isGrading}
-              />
+          {task && <ConsigneTranslationToggle key={task.id} questionId={task.id} />}
 
-              <div className="flex items-center gap-2">
-                <AccentToolbar textareaRef={textareaRef} className="flex-1" />
-                <Button
-                  variant={sidebarTab === "expressions" ? "default" : "outline"}
-                  size="sm"
-                  className="gap-1.5 text-xs"
-                  onClick={() => setSidebarTab(prev => prev === "expressions" ? null : "expressions")}
-                >
-                  <MessageSquarePlus className="h-3.5 w-3.5" />
-                  {t("expressionsDrawer.trigger")}
-                </Button>
-                {task && (
-                  <Button
-                    variant={sidebarTab === "hints" ? "default" : "outline"}
-                    size="sm"
-                    className="gap-1.5 text-xs"
-                    onClick={() => setSidebarTab(prev => prev === "hints" ? null : "hints")}
-                  >
-                    <Lightbulb className="h-3.5 w-3.5" />
-                    {t("writingHints.trigger")}
-                  </Button>
-                )}
-                <Button
-                  variant={sidebarTab === "grammar" ? "default" : "outline"}
-                  size="sm"
-                  className="gap-1.5 text-xs"
-                  onClick={() => setSidebarTab(prev => prev === "grammar" ? null : "grammar")}
-                >
-                  <BookOpen className="h-3.5 w-3.5" />
-                  {t("grammarCheatSheet.trigger")}
-                </Button>
+          <WritingGuidePanel taskNumber={taskNum} />
+        </div>
+
+        {/* Center: Editor */}
+        <div className="flex-1 min-w-0 space-y-4">
+          {/* Mobile-only consigne (hidden on lg+) */}
+          <div className="lg:hidden space-y-3 rounded-lg border bg-card p-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+              Consigne
+            </h3>
+            <div className="prose prose-sm max-w-none text-sm leading-relaxed whitespace-pre-line">
+              <FrenchText text={task?.question_text ?? ""} />
+            </div>
+            {task?.passage && (
+              <div className="mt-3 rounded-md bg-muted/50 p-3">
+                <p className="mb-1 text-xs font-medium text-muted-foreground">
+                  {t("writingExam.referenceDocuments")}
+                </p>
+                <div className="whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
+                  <FrenchText text={task.passage} />
+                </div>
               </div>
+            )}
+            {task && <ConsigneTranslationToggle key={`m-${task.id}`} questionId={task.id} />}
+            <WritingGuidePanel taskNumber={taskNum} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <textarea
+              ref={textareaRef}
+              className="w-full rounded-lg border bg-background px-4 py-3 text-sm leading-relaxed ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[300px] resize-y disabled:opacity-50"
+              placeholder={t("writingExam.placeholder")}
+              value={essayText}
+              onChange={(e) => setEssay(String(taskNum), e.target.value)}
+              disabled={isGrading}
+            />
+
+            <AccentToolbar textareaRef={textareaRef} />
 
               {/* Word count + Grade button */}
               <div className="flex items-center justify-between">
@@ -375,10 +359,9 @@ export default function WritingPracticePage() {
                   <span>{error}</span>
                 </div>
               )}
-            </div>
           </div>
 
-          {/* Feedback panel (below split view) */}
+          {/* Feedback panel */}
           {feedback && (
             <Card>
               <CardContent className="pt-4 space-y-4">
@@ -502,15 +485,15 @@ export default function WritingPracticePage() {
           )}
         </div>
 
-        {/* Sidebar (conditional) */}
-        {sidebarTab && task && (
-          <WritingSidebar
-            taskNumber={taskNum}
-            questionId={task.id}
-            textareaRef={textareaRef}
-            defaultTab={sidebarTab}
-            onClose={() => setSidebarTab(null)}
-          />
+        {/* Right: Sidebar (always visible on lg+) */}
+        {task && (
+          <div className="hidden lg:block">
+            <WritingSidebar
+              taskNumber={taskNum}
+              questionId={task.id}
+              textareaRef={textareaRef}
+            />
+          </div>
         )}
       </div>
     </div>

@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import {
-  X,
   Search,
   ChevronDown,
   ChevronUp,
@@ -29,7 +28,6 @@ interface WritingSidebarProps {
   questionId: string;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
   defaultTab?: SidebarTab;
-  onClose: () => void;
 }
 
 // ── Expressions static data ────────────────────────────────────────
@@ -196,7 +194,6 @@ export function WritingSidebar({
   questionId,
   textareaRef,
   defaultTab = "expressions",
-  onClose,
 }: WritingSidebarProps) {
   const tExpr = useTranslations("expressionsDrawer");
   const tHints = useTranslations("writingHints");
@@ -340,14 +337,6 @@ export function WritingSidebar({
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-7 w-7 shrink-0"
-          onClick={onClose}
-        >
-          <X className="h-4 w-4" />
-        </Button>
       </div>
 
       {/* Scrollable content */}
