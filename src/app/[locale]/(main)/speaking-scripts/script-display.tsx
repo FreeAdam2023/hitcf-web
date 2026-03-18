@@ -140,19 +140,19 @@ function TopicContent({
       {topic.exchanges.map((ex, exIdx) => (
         <div key={exIdx} className="space-y-1.5">
           {/* Examiner question */}
-          <div className="rounded-lg bg-muted/50 px-3 py-2 text-sm">
-            <span className="mr-1.5 font-medium text-muted-foreground">
+          <div className="rounded-lg bg-muted/50 px-3 py-2">
+            <span className="mr-1.5 text-xs font-medium text-muted-foreground">
               {t("examiner")}:
             </span>
-            {ex.examiner_fr}
+            <span className="text-sm">{ex.examiner_fr}</span>
+            {(ex.examiner_zh || ex.examiner_en) && (
+              <p className="mt-1 text-xs text-muted-foreground">
+                {ex.examiner_zh}
+                {ex.examiner_zh && ex.examiner_en && " / "}
+                {ex.examiner_en}
+              </p>
+            )}
           </div>
-          {(ex.examiner_zh || ex.examiner_en) && (
-            <div className="px-3 text-xs text-muted-foreground">
-              {ex.examiner_zh && <span>{ex.examiner_zh}</span>}
-              {ex.examiner_zh && ex.examiner_en && <span> / </span>}
-              {ex.examiner_en && <span>{ex.examiner_en}</span>}
-            </div>
-          )}
 
           {/* Candidate answer */}
           <div className="rounded-lg bg-blue-50 px-3 py-2 text-sm dark:bg-blue-950/30">
