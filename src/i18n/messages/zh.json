@@ -1198,7 +1198,9 @@
     "title": "你有一套未完成的练习",
     "name": "练习",
     "progress": "进度: {answered} / {total} 题",
-    "continue": "继续答题"
+    "continue": "继续答题",
+    "conversation": "AI 对话",
+    "turns": "已进行 {count} 轮对话"
   },
   "recommendedBanner": {
     "title": "推荐下一步",

@@ -1198,7 +1198,9 @@
     "title": "You have an incomplete practice session",
     "name": "Practice",
     "progress": "Progress: {answered} / {total}",
-    "continue": "Continue"
+    "continue": "Continue",
+    "conversation": "AI Dialogue",
+    "turns": "{count} turns completed"
   },
   "recommendedBanner": {
     "title": "Recommended Next",

@@ -1199,7 +1199,9 @@
     "title": "Vous avez une session de pratique incomplète",
     "name": "Pratique",
     "progress": "Progression : {answered} / {total}",
-    "continue": "Continuer"
+    "continue": "Continuer",
+    "conversation": "Dialogue IA",
+    "turns": "{count} tours complétés"
   },
   "recommendedBanner": {
     "title": "Recommandé ensuite",

@@ -1199,7 +1199,9 @@
     "title": "لديك جلسة تدريب غير مكتملة",
     "name": "تدريب",
     "progress": "التقدم: {answered} / {total}",
-    "continue": "متابعة"
+    "continue": "متابعة",
+    "conversation": "حوار الذكاء الاصطناعي",
+    "turns": "تم إكمال {count} جولات"
   },
   "recommendedBanner": {
     "title": "التالي المُوصى به",
