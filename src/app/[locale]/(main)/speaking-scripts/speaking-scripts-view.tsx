@@ -98,29 +98,23 @@ export function SpeakingScriptsView() {
   // Load existing scripts on mount
   useEffect(() => {
     (async () => {
+      // Always try to restore persona from localStorage
+      try {
+        const stored = localStorage.getItem("hitcf_speaking_persona");
+        if (stored) setSavedPersona(JSON.parse(stored));
+      } catch {
+        // ignore parse errors
+      }
+
       try {
         const scripts = await listSpeakingScripts();
         if (scripts.length > 0) {
           setScript(scripts[0]);
           setMode("display");
         } else {
-          // Try loading persona from localStorage
-          try {
-            const stored = localStorage.getItem("hitcf_speaking_persona");
-            if (stored) setSavedPersona(JSON.parse(stored));
-          } catch {
-            // ignore parse errors
-          }
           setMode("form");
         }
       } catch {
-        // API failed — still try localStorage
-        try {
-          const stored = localStorage.getItem("hitcf_speaking_persona");
-          if (stored) setSavedPersona(JSON.parse(stored));
-        } catch {
-          // ignore
-        }
         setMode("form");
       }
     })();
