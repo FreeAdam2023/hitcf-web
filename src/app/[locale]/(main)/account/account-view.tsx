@@ -281,7 +281,7 @@ export function AccountView() {
 
           {/* Quick link */}
           <div className="relative mt-4 flex gap-2">
-            <Link href="/tests">
+            <Link href="/history">
               <Button
                 size="sm"
                 variant="ghost"

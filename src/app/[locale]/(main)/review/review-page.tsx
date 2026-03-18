@@ -255,11 +255,11 @@ export function ReviewPage() {
       {canAccessPaid && (
         <>
           {/* Tabs */}
-          <div className="flex items-center gap-1 rounded-lg border bg-muted/50 p-1">
+          <div className="inline-flex items-center gap-1 rounded-full border bg-muted/40 p-1">
             <button
               onClick={() => handleTabChange("wrong")}
               className={cn(
-                "flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors",
+                "flex items-center gap-2 rounded-full px-5 py-1.5 text-sm font-medium transition-all focus-visible:outline-none",
                 tab === "wrong"
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground",
@@ -268,7 +268,7 @@ export function ReviewPage() {
               {t("review.tabs.wrong")}
               {waStats && (
                 <span className={cn(
-                  "rounded-full px-2 py-0.5 text-xs tabular-nums",
+                  "rounded-full px-1.5 py-0.5 text-xs tabular-nums",
                   tab === "wrong" ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400" : "bg-muted text-muted-foreground",
                 )}>
                   {waStats.unmastered}
@@ -278,7 +278,7 @@ export function ReviewPage() {
             <button
               onClick={() => handleTabChange("bookmarks")}
               className={cn(
-                "flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors",
+                "flex items-center gap-2 rounded-full px-5 py-1.5 text-sm font-medium transition-all focus-visible:outline-none",
                 tab === "bookmarks"
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground",
@@ -288,7 +288,7 @@ export function ReviewPage() {
               {t("review.tabs.bookmarks")}
               {bmStats && (
                 <span className={cn(
-                  "rounded-full px-2 py-0.5 text-xs tabular-nums",
+                  "rounded-full px-1.5 py-0.5 text-xs tabular-nums",
                   tab === "bookmarks" ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400" : "bg-muted text-muted-foreground",
                 )}>
                   {bmStats.total}
