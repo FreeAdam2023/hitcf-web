@@ -1436,7 +1436,9 @@
     "loading": "Translating…",
     "translationLabel": "Translated Instructions",
     "passageLabel": "Translated Reference Document",
-    "fetchError": "Failed to load translation. Please try again."
+    "fetchError": "Failed to load translation. Please try again.",
+    "modeFull": "Full Text",
+    "modeSentence": "Sentence by Sentence"
   },
   "vocabulary": {
     "title": "Vocabulary",

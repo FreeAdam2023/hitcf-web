@@ -1437,7 +1437,9 @@
     "loading": "Traduction en cours…",
     "translationLabel": "Consignes traduites",
     "passageLabel": "Document de référence traduit",
-    "fetchError": "Impossible de charger la traduction. Veuillez réessayer."
+    "fetchError": "Impossible de charger la traduction. Veuillez réessayer.",
+    "modeFull": "Texte complet",
+    "modeSentence": "Phrase par phrase"
   },
   "vocabulary": {
     "title": "Vocabulaire",

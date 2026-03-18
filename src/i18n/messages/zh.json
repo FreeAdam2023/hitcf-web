@@ -1436,7 +1436,9 @@
     "loading": "翻译中…",
     "translationLabel": "题目翻译",
     "passageLabel": "参考文档翻译",
-    "fetchError": "翻译加载失败，请重试"
+    "fetchError": "翻译加载失败，请重试",
+    "modeFull": "全文翻译",
+    "modeSentence": "逐句对照"
   },
   "vocabulary": {
     "title": "生词本",
