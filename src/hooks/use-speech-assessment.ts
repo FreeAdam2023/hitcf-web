@@ -17,6 +17,7 @@ export interface WordScore {
 
 interface SpeechAssessmentState {
   isRecording: boolean;
+  isConnecting: boolean;
   transcript: string;
   interimTranscript: string;
   scores: PronunciationScores | null;
@@ -28,6 +29,7 @@ interface SpeechAssessmentState {
 export function useSpeechAssessment(referenceText?: string) {
   const [state, setState] = useState<SpeechAssessmentState>({
     isRecording: false,
+    isConnecting: false,
     transcript: "",
     interimTranscript: "",
     scores: null,
@@ -53,6 +55,7 @@ export function useSpeechAssessment(referenceText?: string) {
   const reset = useCallback(() => {
     setState({
       isRecording: false,
+      isConnecting: false,
       transcript: "",
       interimTranscript: "",
       scores: null,
@@ -68,10 +71,19 @@ export function useSpeechAssessment(referenceText?: string) {
   const startRecording = useCallback(async () => {
     try {
       reset();
-      setState((s) => ({ ...s, isRecording: true, error: null }));
+      setState((s) => ({ ...s, isConnecting: true, error: null }));
 
-      // 1. Get token
-      const { token, region } = await getSpeechToken();
+      // 1. Get token (with 8s timeout for fast feedback)
+      let token: string;
+      let region: string;
+      try {
+        const result = await getSpeechToken({ timeout: 8000 });
+        token = result.token;
+        region = result.region;
+      } catch {
+        setState((s) => ({ ...s, isConnecting: false, error: "network_error" }));
+        return;
+      }
 
       // 2. Dynamic import SDK
       const sdk = await import("microsoft-cognitiveservices-speech-sdk");
@@ -175,14 +187,16 @@ export function useSpeechAssessment(referenceText?: string) {
 
       // 10. Start continuous recognition
       recognizer.startContinuousRecognitionAsync(
-        () => {},
+        () => {
+          setState((s) => ({ ...s, isRecording: true, isConnecting: false }));
+        },
         (err: string) => {
-          setState((s) => ({ ...s, isRecording: false, error: err }));
+          setState((s) => ({ ...s, isRecording: false, isConnecting: false, error: err || "mic_error" }));
         },
       );
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      setState((s) => ({ ...s, isRecording: false, error: message }));
+      setState((s) => ({ ...s, isRecording: false, isConnecting: false, error: message }));
     }
   }, [referenceText, reset]);
 

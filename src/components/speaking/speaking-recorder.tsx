@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 interface SpeakingRecorderProps {
   isRecording: boolean;
+  isConnecting?: boolean;
   duration: number;
   transcript: string;
   interimTranscript: string;
@@ -23,6 +24,7 @@ function formatTime(seconds: number): string {
 
 export function SpeakingRecorder({
   isRecording,
+  isConnecting = false,
   duration,
   transcript,
   interimTranscript,
@@ -32,19 +34,27 @@ export function SpeakingRecorder({
 }: SpeakingRecorderProps) {
   const t = useTranslations("speakingPractice");
 
+  const errorMessage = error === "network_error"
+    ? t("networkError")
+    : error === "mic_error"
+      ? t("micError")
+      : error;
+
   return (
     <div className="space-y-4">
       {/* Mic button + timer */}
       <div className="flex flex-col items-center gap-3">
         <button
           onClick={isRecording ? onStop : onStart}
-          disabled={isRecording ? !onStop : !onStart}
+          disabled={isConnecting || (isRecording ? !onStop : !onStart)}
           className={cn(
             "relative flex h-20 w-20 items-center justify-center rounded-full transition-all",
-            isRecording
-              ? "bg-red-500 text-white shadow-lg shadow-red-500/30"
-              : "bg-amber-100 text-amber-600 hover:bg-amber-200 dark:bg-amber-950 dark:text-amber-400 dark:hover:bg-amber-900",
-            (isRecording ? !onStop : !onStart) && "opacity-50 cursor-not-allowed",
+            isConnecting
+              ? "bg-amber-200 text-amber-600 animate-pulse dark:bg-amber-900 dark:text-amber-400"
+              : isRecording
+                ? "bg-red-500 text-white shadow-lg shadow-red-500/30"
+                : "bg-amber-100 text-amber-600 hover:bg-amber-200 dark:bg-amber-950 dark:text-amber-400 dark:hover:bg-amber-900",
+            !isConnecting && (isRecording ? !onStop : !onStart) && "opacity-50 cursor-not-allowed",
           )}
         >
           {isRecording && (
@@ -57,7 +67,11 @@ export function SpeakingRecorder({
           )}
         </button>
 
-        {isRecording ? (
+        {isConnecting ? (
+          <p className="text-sm text-muted-foreground animate-pulse">
+            {t("connecting")}
+          </p>
+        ) : isRecording ? (
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
             <span className="text-sm font-medium tabular-nums">
@@ -81,7 +95,7 @@ export function SpeakingRecorder({
       {/* Error */}
       {error && (
         <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-          {error}
+          {errorMessage}
         </div>
       )}
 

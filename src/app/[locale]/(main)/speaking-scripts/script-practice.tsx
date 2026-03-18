@@ -341,6 +341,7 @@ export function ScriptPractice({ script, onBack }: ScriptPracticeProps) {
         {/* Recorder */}
         <SpeakingRecorder
           isRecording={assessment.isRecording}
+          isConnecting={assessment.isConnecting}
           duration={assessment.duration}
           transcript={assessment.transcript}
           interimTranscript={assessment.interimTranscript}

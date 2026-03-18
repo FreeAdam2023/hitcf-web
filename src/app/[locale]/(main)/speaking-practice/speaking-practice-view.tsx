@@ -112,6 +112,7 @@ export default function SpeakingPracticeView() {
 
   const {
     isRecording,
+    isConnecting,
     transcript,
     interimTranscript,
     scores,
@@ -392,6 +393,7 @@ export default function SpeakingPracticeView() {
           {showRecorder && (
             <SpeakingRecorder
               isRecording={isRecording}
+              isConnecting={isConnecting}
               duration={duration}
               transcript={transcript}
               interimTranscript={interimTranscript}
