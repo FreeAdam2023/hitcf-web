@@ -287,15 +287,20 @@ export async function downloadExportFile(
   await handleExportResponse(res, "vocabulary.apkg");
 }
 
-/** Fire-and-forget: log a word view for analytics */
-export function logWordView(
+/** Log a word view, returns auto_saved flag */
+export async function logWordView(
   word: string,
   sourceType?: string | null,
   pool: "saved" | "nihao" | "theme" = "saved",
-): void {
-  post("/api/vocab/view", {
-    word,
-    source_type: sourceType ?? null,
-    pool,
-  }).catch(() => {});
+): Promise<boolean> {
+  try {
+    const res = await post<{ ok: boolean; auto_saved: boolean }>("/api/vocab/view", {
+      word,
+      source_type: sourceType ?? null,
+      pool,
+    });
+    return res.auto_saved;
+  } catch {
+    return false;
+  }
 }

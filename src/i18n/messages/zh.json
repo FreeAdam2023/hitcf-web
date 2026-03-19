@@ -729,6 +729,8 @@
     "auxiliary": "助动词: {aux}",
     "save": "收藏",
     "saved": "已收藏",
+    "unsaved": "已取消收藏",
+    "autoSaved": "查询多次，已自动收藏",
     "unsave": "取消收藏",
     "regenerate": "重新生成卡片",
     "familyTitle": "同组词",

@@ -729,6 +729,8 @@
     "auxiliary": "Auxiliary: {aux}",
     "save": "Save",
     "saved": "Saved",
+    "unsaved": "Removed from saved",
+    "autoSaved": "Looked up multiple times, auto-saved",
     "unsave": "Unsave",
     "regenerate": "Regenerate card",
     "familyTitle": "Word Family",

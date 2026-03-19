@@ -730,6 +730,8 @@
     "auxiliary": "Auxiliaire : {aux}",
     "save": "Enregistrer",
     "saved": "Enregistré",
+    "unsaved": "Retiré des favoris",
+    "autoSaved": "Consulté plusieurs fois, enregistré automatiquement",
     "unsave": "Retirer",
     "regenerate": "Régénérer la fiche",
     "familyTitle": "Famille de mots",

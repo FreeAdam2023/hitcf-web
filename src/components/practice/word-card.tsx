@@ -6,6 +6,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Popover, PopoverContent, PopoverAnchor } from "@/components/ui/popover";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 import { getVocabularyCard, regenerateVocabularyCard, logWordView } from "@/lib/api/vocabulary";
 import { getCached, setCache, clearCache } from "@/lib/vocab-cache";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
@@ -39,6 +40,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
 
   const { isSaved, addWord, removeWord, isLoaded: vocabLoaded, fetchSavedWords } = useVocabStore();
   const wordSaved = vocabLoaded && isSaved(currentWord);
+  const [starBounce, setStarBounce] = useState(false);
 
   // Load saved words on first mount if not loaded
   useEffect(() => {
@@ -52,6 +54,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
     const normalized = currentWord.trim().toLowerCase();
     if (isSaved(currentWord)) {
       removeWord(normalized);
+      toast(t("wordCard.unsaved"), { duration: 1500 });
     } else {
       addWord(normalized, {
         word: normalized,
@@ -62,8 +65,11 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
         question_number: saveContext?.questionNumber,
         sentence,
       });
+      setStarBounce(true);
+      setTimeout(() => setStarBounce(false), 400);
+      toast(t("wordCard.saved"), { duration: 1500 });
     }
-  }, [isAuthenticated, currentWord, isSaved, addWord, removeWord, saveContext, sentence]);
+  }, [isAuthenticated, currentWord, isSaved, addWord, removeWord, saveContext, sentence, t]);
 
   const handleRegenerate = useCallback(async () => {
     if (regenerating || loading) return;
@@ -89,7 +95,14 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
       setLoading(false);
       setError(false);
       setGenerating(false);
-      logWordView(currentWord, saveContext?.sourceType ?? null);
+      logWordView(currentWord, saveContext?.sourceType ?? null).then((autoSaved) => {
+        if (autoSaved) {
+          fetchSavedWords();
+          setStarBounce(true);
+          setTimeout(() => setStarBounce(false), 400);
+          toast(t("wordCard.autoSaved"), { duration: 2000 });
+        }
+      });
       return;
     }
 
@@ -108,7 +121,14 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
           setData(res);
           setGenerating(false);
           setLoading(false);
-          logWordView(currentWord, saveContext?.sourceType ?? null);
+          logWordView(currentWord, saveContext?.sourceType ?? null).then((autoSaved) => {
+            if (autoSaved) {
+              fetchSavedWords();
+              setStarBounce(true);
+              setTimeout(() => setStarBounce(false), 400);
+              toast(t("wordCard.autoSaved"), { duration: 2000 });
+            }
+          });
         })
         .catch((err) => {
           if (cancelled) return;
@@ -242,7 +262,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
                       title={wordSaved ? t("wordCard.unsave") : t("wordCard.save")}
                     >
                       <Star
-                        className={`h-4 w-4 ${wordSaved ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"}`}
+                        className={`h-4 w-4 transition-transform ${wordSaved ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"} ${starBounce ? "scale-150" : "scale-100"}`}
                       />
                     </button>
                   )}
