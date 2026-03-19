@@ -82,6 +82,9 @@ export function ReportDialog({ questionId, open, onOpenChange }: ReportDialogPro
         </DialogHeader>
 
         <div className="space-y-4 py-2">
+          <div className="rounded-md bg-blue-50 px-3 py-2 text-xs text-blue-700 dark:bg-blue-950/50 dark:text-blue-300">
+            {t("practice.report.refreshTip")}
+          </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">{t("practice.report.typeLabel")}</label>
             <Select value={issueType} onValueChange={setIssueType}>

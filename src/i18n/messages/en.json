@@ -649,7 +649,8 @@
     },
     "report": {
       "title": "Report Issue",
-      "description": "Found a problem? Select the issue type and describe the details. If a word card or explanation is incorrect, try the refresh button to regenerate it.",
+      "description": "Found a problem? Select the issue type and describe the details.",
+      "refreshTip": "Word card or explanation incorrect? Tap the refresh button on the card to regenerate it — no need to report.",
       "types": {
         "wrong_answer": "Wrong answer",
         "audio_issue": "Audio problem",
