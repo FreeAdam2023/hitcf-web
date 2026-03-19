@@ -650,7 +650,7 @@
     },
     "report": {
       "title": "Signaler un problème",
-      "description": "Vous avez trouvé un problème ? Sélectionnez le type de problème et décrivez les détails.",
+      "description": "Vous avez trouvé un problème ? Sélectionnez le type et décrivez les détails. Si une fiche de vocabulaire ou une explication est incorrecte, essayez le bouton actualiser pour la régénérer.",
       "types": {
         "wrong_answer": "Réponse incorrecte",
         "audio_issue": "Problème audio",

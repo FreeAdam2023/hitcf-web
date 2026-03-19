@@ -649,7 +649,7 @@
     },
     "report": {
       "title": "Report Issue",
-      "description": "Found a problem? Select the issue type and describe the details.",
+      "description": "Found a problem? Select the issue type and describe the details. If a word card or explanation is incorrect, try the refresh button to regenerate it.",
       "types": {
         "wrong_answer": "Wrong answer",
         "audio_issue": "Audio problem",
