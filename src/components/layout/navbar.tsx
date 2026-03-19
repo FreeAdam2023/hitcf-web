@@ -189,10 +189,12 @@ function ImmersiveHeader() {
             {testSetName}
           </span>
         )}
-        <div className="ms-3 flex items-center gap-1.5 text-xs tabular-nums text-muted-foreground">
-          <Clock className="h-3.5 w-3.5" />
-          {formatElapsed(elapsed)}
-        </div>
+        {isExam && (
+          <div className="ms-3 flex items-center gap-1.5 text-xs tabular-nums text-muted-foreground">
+            <Clock className="h-3.5 w-3.5" />
+            {formatElapsed(elapsed)}
+          </div>
+        )}
         <div className="ms-auto flex items-center gap-1">
           <AlertDialog>
             <AlertDialogTrigger asChild>
