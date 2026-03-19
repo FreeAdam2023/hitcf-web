@@ -34,7 +34,6 @@ const NAV_KEYS = [
   { href: "/review", key: "nav.review" },
   { href: "/vocabulary", key: "nav.vocabulary" },
   { href: "/history", key: "nav.history" },
-  { href: "/pricing", key: "nav.pricing" },
   { href: "/resources", key: "nav.resources" },
 ] as const;
 
