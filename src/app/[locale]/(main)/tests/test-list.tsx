@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { ChevronDown, ChevronUp, Shuffle, Loader2, Layers, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine } from "lucide-react";
+import { ChevronDown, ChevronUp, Shuffle, Loader2, Layers, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
