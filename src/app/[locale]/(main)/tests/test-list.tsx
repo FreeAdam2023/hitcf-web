@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { Search, ChevronDown, ChevronUp, Shuffle, Loader2, Layers, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine, CalendarDays } from "lucide-react";
+import { ChevronDown, ChevronUp, Shuffle, Loader2, Layers, X, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -18,7 +18,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
 import { listAttempts, createMockExam, checkMockFreeTrialEligible, getAnsweredPerTestset } from "@/lib/api/attempts";
-import { setExamDate as apiSetExamDate } from "@/lib/api/auth";
 import { fetchAllPages } from "@/lib/api/fetch-all-pages";
 import { getLatestMonth, isLatestMonth } from "@/lib/utils";
 import { STATS_PARAMS } from "@/lib/constants";
@@ -26,9 +25,6 @@ import type { TestSetItem, WritingTopicItem, AttemptResponse } from "@/lib/api/t
 import type { TestAttemptInfo } from "./test-card";
 import { SkeletonGrid } from "@/components/shared/skeleton-card";
 import { EmptyState } from "@/components/shared/empty-state";
-import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
 import { TestCard } from "./test-card";
 import { SpeakingTopicCard } from "./speaking-topic-card";
 import { WritingLevelCard } from "./writing-level-card";
@@ -215,7 +211,6 @@ export function TestList() {
   const t = useTranslations();
   const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const userExamDate = useAuthStore((s) => s.user?.exam_date ?? null);
   const canAccessPaid = useAuthStore((s) => {
     const status = s.user?.subscription?.status;
     return status === "active" || status === "trialing" || s.user?.role === "admin";
@@ -226,29 +221,6 @@ export function TestList() {
   const [mockError, setMockError] = useState<string | null>(null);
   const [mockFreeTrialEligible, setMockFreeTrialEligible] = useState(false);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
-  const [examDateOpen, setExamDateOpen] = useState(false);
-  const [examDate, setExamDate] = useState("");
-
-  // Hydration-safe: read localStorage + backend sync after mount
-  useEffect(() => {
-    if (userExamDate) {
-      setExamDate(userExamDate);
-      localStorage.setItem("tcfExamDate", userExamDate);
-    } else {
-      const stored = localStorage.getItem("tcfExamDate");
-      if (stored) setExamDate(stored);
-    }
-  }, [userExamDate]);
-
-  const handleExamDateChange = useCallback((value: string) => {
-    setExamDate(value);
-    if (value) localStorage.setItem("tcfExamDate", value);
-    else localStorage.removeItem("tcfExamDate");
-    if (isAuthenticated) {
-      apiSetExamDate(value || null).catch(() => {});
-    }
-  }, [isAuthenticated]);
-
   const [tab, setTab] = useState<TabType>("listening");
 
   // Hydration-safe: restore tab from URL param or localStorage after mount
@@ -311,7 +283,7 @@ export function TestList() {
   const [tests, setTests] = useState<TestSetItem[]>([]);
   const [writingTopics, setWritingTopics] = useState<WritingTopicItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const search = "";
 
   // Exam type filter
   type ExamTypeFilter = "all" | "tcf_canada" | "tcf_tp" | "tcf_irn" | "tcf_quebec";
@@ -328,7 +300,6 @@ export function TestList() {
 
   // Reset filters on tab change
   useEffect(() => {
-    setSearch("");
     setSelectedYear(null);
     setStatusFilter("all");
   }, [tab]);
@@ -666,84 +637,6 @@ export function TestList() {
           </span>
         </div>
 
-        {/* ── Exam countdown strip ── */}
-        <div className="mt-4 flex items-center gap-3 rounded-xl border border-border/50 bg-muted/30 px-5 py-3">
-          <CalendarDays className="h-5 w-5 shrink-0 text-primary" />
-          {examDate ? (() => {
-            const days = Math.max(0, Math.ceil((new Date(examDate).getTime() - Date.now()) / 86400000));
-            return (
-              <>
-                {days > 0 ? (
-                  <>
-                    <span className="text-2xl font-bold tabular-nums text-primary">{days}</span>
-                    <span className="text-sm text-muted-foreground">{t("tests.daysUntilExamLabel")}</span>
-                  </>
-                ) : (
-                  <span className="text-sm font-semibold text-primary">{t("tests.examToday")}</span>
-                )}
-                <span className="text-xs text-muted-foreground">· {examDate}</span>
-                <div className="flex-1" />
-                <Popover open={examDateOpen} onOpenChange={setExamDateOpen}>
-                  <PopoverTrigger asChild>
-                    <button type="button" className="text-xs text-primary/70 hover:text-primary transition-colors">
-                      {t("tests.examCountdownChange")}
-                    </button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="end">
-                    <Calendar
-                      mode="single"
-                      selected={examDate ? new Date(examDate + "T00:00:00") : undefined}
-                      onSelect={(day: Date | undefined) => {
-                        if (day) {
-                          const iso = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
-                          handleExamDateChange(iso);
-                        }
-                        setExamDateOpen(false);
-                      }}
-                      disabled={{ before: new Date() }}
-                      defaultMonth={examDate ? new Date(examDate + "T00:00:00") : new Date()}
-                    />
-                  </PopoverContent>
-                </Popover>
-                <button
-                  onClick={() => handleExamDateChange("")}
-                  className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              </>
-            );
-          })() : (
-            <>
-              <span className="flex-1 text-sm text-muted-foreground">{t("tests.examCountdownCTA")}</span>
-              <Popover open={examDateOpen} onOpenChange={setExamDateOpen}>
-                <PopoverTrigger asChild>
-                  <button
-                    type="button"
-                    className="rounded-full bg-primary/10 px-4 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
-                  >
-                    {t("tests.setExamDate")}
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="end">
-                  <Calendar
-                    mode="single"
-                    selected={undefined}
-                    onSelect={(day: Date | undefined) => {
-                      if (day) {
-                        const iso = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
-                        handleExamDateChange(iso);
-                      }
-                      setExamDateOpen(false);
-                    }}
-                    disabled={{ before: new Date() }}
-                    defaultMonth={new Date()}
-                  />
-                </PopoverContent>
-              </Popover>
-            </>
-          )}
-        </div>
       </div>
       <ContinueBanner />
       <Tabs value={tab} onValueChange={(v) => {
@@ -755,17 +648,8 @@ export function TestList() {
         url.searchParams.set("tab", t);
         window.history.replaceState({}, "", url.pathname + url.search);
       }}>
-        {/* Search + Mock exam button in one row */}
+        {/* Mock exam button */}
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <div className="relative max-w-sm flex-1">
-            <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              placeholder={t("tests.searchPlaceholder")}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="ps-9"
-            />
-          </div>
           {isAuthenticated && (
             <Dialog open={mockDialogOpen} onOpenChange={(open) => { setMockDialogOpen(open); if (!open) setMockError(null); }}>
               <DialogTrigger asChild>
