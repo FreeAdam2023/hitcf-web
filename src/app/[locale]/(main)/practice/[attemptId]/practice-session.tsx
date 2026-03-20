@@ -78,7 +78,6 @@ function TranscriptBlock({
     isReading && question.options.length > 0;
 
   const sentences = explanation?.sentence_translation;
-  const optTrans = explanation?.option_translations;
 
   // Build sentence index → time range map from audio timestamps
   const sentenceTimeMap = useMemo(() => {
