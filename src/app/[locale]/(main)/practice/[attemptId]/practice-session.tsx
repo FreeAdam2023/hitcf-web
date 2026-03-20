@@ -363,12 +363,13 @@ export function PracticeSession() {
 
   const [openBook, setOpenBook] = useState(() => {
     if (typeof window === "undefined") return false;
-    return sessionStorage.getItem(`openBook:${attemptId}`) === "1";
+    return localStorage.getItem(`openBook:${attemptId}`) === "1";
   });
   const toggleOpenBook = useCallback(() => {
     setOpenBook((v) => {
       const next = !v;
-      sessionStorage.setItem(`openBook:${attemptId}`, next ? "1" : "0");
+      if (next) localStorage.setItem(`openBook:${attemptId}`, "1");
+      else localStorage.removeItem(`openBook:${attemptId}`);
       return next;
     });
   }, [attemptId]);
@@ -765,14 +766,17 @@ export function PracticeSession() {
           onAudioTimeUpdate={setAudioTime}
           answered={!!currentAnswer}
           autoPlayAudio={question.type === "listening" && currentIndex > 0}
+          showEn={showEn}
+          showNative={showNative}
           actions={
-            <div className="flex shrink-0 items-center gap-1">
+            <div className="flex shrink-0 items-center gap-1.5">
+              {/* 功能区 */}
               <button
                 onClick={toggleOpenBook}
                 className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
                   openBook
                     ? "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300"
-                    : "bg-muted text-muted-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-accent"
                 }`}
                 title={openBook ? t("practice.session.openBookOff") : t("practice.session.openBookOn")}
               >
@@ -786,8 +790,9 @@ export function PracticeSession() {
                     className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
                       showEn
                         ? "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300"
-                        : "bg-muted text-muted-foreground"
+                        : "bg-muted text-muted-foreground hover:bg-accent"
                     }`}
+                    title={showEn ? t("practice.session.hideEn") : t("practice.session.showEn")}
                   >
                     EN
                   </button>
@@ -796,18 +801,22 @@ export function PracticeSession() {
                     className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
                       showNative
                         ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300"
-                        : "bg-muted text-muted-foreground"
+                        : "bg-muted text-muted-foreground hover:bg-accent"
                     }`}
+                    title={showNative ? t("practice.session.hideZh") : t("practice.session.showZh")}
                   >
                     ZH
                   </button>
                 </>
               )}
+              {/* 分隔线 */}
+              <div className="h-4 w-px bg-border" />
+              {/* 操作区 */}
               <Button
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  "shrink-0",
+                  "h-7 w-7 shrink-0",
                   question && bookmarkedIds.has(question.id)
                     ? "text-yellow-500 hover:text-yellow-600"
                     : "text-muted-foreground hover:text-yellow-500",
@@ -820,11 +829,11 @@ export function PracticeSession() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="shrink-0 text-muted-foreground hover:text-orange-500"
+                className="h-7 w-7 shrink-0 text-muted-foreground hover:text-orange-500"
                 title={t("practice.session.reportTitle")}
                 onClick={() => setReportOpen(true)}
               >
-                <AlertTriangle className="h-4 w-4" />
+                <AlertTriangle className="h-3.5 w-3.5" />
               </Button>
             </div>
           }

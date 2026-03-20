@@ -647,7 +647,11 @@
       "openBook": "Ouvert",
       "answerMode": "Répondre",
       "openBookOn": "Passer en mode ouvert (voir réponses et explications)",
-      "openBookOff": "Passer en mode réponse"
+      "openBookOff": "Passer en mode réponse",
+      "showEn": "Afficher la traduction anglaise",
+      "hideEn": "Masquer la traduction anglaise",
+      "showZh": "Afficher la traduction chinoise",
+      "hideZh": "Masquer la traduction chinoise"
     },
     "optionList": {
       "ariaLabel": "Options de réponse"

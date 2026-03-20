@@ -646,7 +646,11 @@
       "openBook": "开卷",
       "answerMode": "答题",
       "openBookOn": "切换到开卷模式（查看答案和解析）",
-      "openBookOff": "切换到答题模式"
+      "openBookOff": "切换到答题模式",
+      "showEn": "显示英文翻译",
+      "hideEn": "隐藏英文翻译",
+      "showZh": "显示中文翻译",
+      "hideZh": "隐藏中文翻译"
     },
     "optionList": {
       "ariaLabel": "答案选项"

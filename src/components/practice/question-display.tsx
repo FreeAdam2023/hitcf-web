@@ -45,9 +45,13 @@ interface QuestionDisplayProps {
   autoPlayAudio?: boolean;
   /** Action buttons (bookmark, report) rendered in the header row */
   actions?: React.ReactNode;
+  /** Control EN translation visibility (Chinese locale only) */
+  showEn?: boolean;
+  /** Control native translation visibility */
+  showNative?: boolean;
 }
 
-export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate, answered, autoPlayAudio, actions }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate, answered, autoPlayAudio, actions, showEn, showNative }: QuestionDisplayProps) {
   const t = useTranslations();
   const locale = useLocale();
   const isListening = question.type === "listening";
@@ -99,29 +103,28 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="space-y-1">
+        <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">
             {t("common.questionCounter", { current: index + 1, total })}
           </h2>
-          {question.test_set_name && (
-            <p className="text-xs text-muted-foreground">
-              {question.test_set_name}
-              {question.original_question_number != null && (
-                <> · Q{question.original_question_number}</>
-              )}
-            </p>
-          )}
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="flex items-center gap-2 text-sm text-muted-foreground">
-            {isListening ? t("common.types.listening") : t("common.types.reading")}
-            {question.level && <LevelBadge level={question.level} />}
-            <span className="rounded bg-muted px-1.5 py-0.5 text-xs font-medium tabular-nums">
-              {t("common.points", { points: getTcfPoints(question.original_question_number ?? question.question_number) })}
-            </span>
-          </span>
           {actions}
+        </div>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <span>{isListening ? t("common.types.listening") : t("common.types.reading")}</span>
+          {question.level && <LevelBadge level={question.level} size="sm" />}
+          <span className="rounded bg-muted px-1.5 py-0.5 font-medium tabular-nums">
+            {t("common.points", { points: getTcfPoints(question.original_question_number ?? question.question_number) })}
+          </span>
+          {question.test_set_name && (
+            <>
+              <span className="text-border">|</span>
+              <span>
+                {question.test_set_name}
+                {question.original_question_number != null && ` · Q${question.original_question_number}`}
+              </span>
+            </>
+          )}
         </div>
       </div>
 
@@ -200,8 +203,8 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
           </p>
           {answered && hasTranslation && (
             <div className="mt-1 space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-200">
-              {locale === "zh" && qEn && <p className="text-sm lg:text-base text-blue-600 dark:text-blue-400">{qEn}</p>}
-              {qTranslations[1] && <p className="text-xs lg:text-sm text-emerald-600 dark:text-emerald-400">{qTranslations[1]}</p>}
+              {locale === "zh" && (showEn ?? true) && qEn && <p className="text-sm lg:text-base text-blue-600 dark:text-blue-400">{qEn}</p>}
+              {locale === "zh" && (showNative ?? true) && qTranslations[1] && <p className="text-xs lg:text-sm text-emerald-600 dark:text-emerald-400">{qTranslations[1]}</p>}
               {locale !== "zh" && qTranslations[0] && <p className="text-sm lg:text-base text-emerald-600 dark:text-emerald-400">{qTranslations[0]}</p>}
             </div>
           )}

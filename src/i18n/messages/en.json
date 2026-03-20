@@ -646,7 +646,11 @@
       "openBook": "Open Book",
       "answerMode": "Answer",
       "openBookOn": "Switch to open book mode (view answers and explanations)",
-      "openBookOff": "Switch to answer mode"
+      "openBookOff": "Switch to answer mode",
+      "showEn": "Show English translation",
+      "hideEn": "Hide English translation",
+      "showZh": "Show Chinese translation",
+      "hideZh": "Hide Chinese translation"
     },
     "optionList": {
       "ariaLabel": "Answer options"
