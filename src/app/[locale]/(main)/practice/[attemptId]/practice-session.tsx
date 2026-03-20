@@ -183,7 +183,7 @@ function TranscriptBlock({
               })}
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="divide-y divide-border/50">
               {sentences.map((s, i) => {
                 const nativeText = s.native || s.zh;
                 const isKey = (isReading || isListening) && s.is_key;
@@ -196,7 +196,7 @@ function TranscriptBlock({
                   <div
                     key={i}
                     className={[
-                      "space-y-0.5 rounded-md px-2 py-1 transition-colors",
+                      "space-y-0.5 rounded-md px-2 py-2.5 transition-colors",
                       isKey ? "border-l-[3px] border-amber-500 bg-amber-50 pl-3 dark:bg-amber-950/30" : "",
                       isPlaying ? "bg-primary/10" : "",
                       clickable ? "cursor-pointer hover:bg-primary/5" : "",
