@@ -501,12 +501,22 @@ export function PracticeSession() {
 
   const question = questions[currentIndex];
   const realAnswer = question ? (answers.get(question.id) ?? previousAnswers.get(question.id) ?? null) : null;
-  // Open-book mode: derive correct answer from distractors (the key NOT in distractors)
+  // Open-book mode: fetch correct_answer directly from question detail API
+  const [openBookCorrect, setOpenBookCorrect] = useState<Record<string, string>>({});
+  useEffect(() => {
+    if (!openBook || !question || openBookCorrect[question.id]) return;
+    getQuestionDetail(question.id)
+      .then((d) => {
+        if (d.correct_answer) {
+          setOpenBookCorrect((prev) => ({ ...prev, [d.id]: d.correct_answer! }));
+        }
+      })
+      .catch(() => {});
+  }, [openBook, question, openBookCorrect]);
+
   const openBookAnswer: typeof realAnswer = (() => {
-    if (!openBook || !question || !explanation?.distractors) return null;
-    const distractorKeys = new Set(Object.keys(explanation.distractors));
-    const optionKeys = question.options.map((o) => o.key);
-    const correctKey = optionKeys.find((k) => !distractorKeys.has(k));
+    if (!openBook || !question) return null;
+    const correctKey = openBookCorrect[question.id];
     if (!correctKey) return null;
     return {
       selected: correctKey,
@@ -812,7 +822,7 @@ export function PracticeSession() {
           options={question.options}
           answer={currentAnswer}
           onSelect={handleSelect}
-          disabled={submitting || openBook}
+          disabled={submitting}
           pendingSelected={selectedKey}
           submittingKey={submittingKey}
           audioOnly={question.type === "listening" && question.options.every((o) => !o.text?.trim())}
