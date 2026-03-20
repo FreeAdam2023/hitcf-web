@@ -886,6 +886,8 @@ export function PracticeSession() {
               explanation={explanation}
               questionId={question.id}
               defaultOpen={true}
+              selectedAnswer={currentAnswer?.selected}
+              correctAnswer={currentAnswer?.correct_answer}
               loading={explanationLoading}
               error={explanationError}
               onRetry={() => fetchExplanation(question.id)}
@@ -944,6 +946,8 @@ export function PracticeSession() {
               explanation={explanation}
               questionId={question.id}
               defaultOpen={true}
+              selectedAnswer={currentAnswer?.selected}
+              correctAnswer={currentAnswer?.correct_answer}
               loading={explanationLoading}
               error={explanationError}
               onRetry={() => fetchExplanation(question.id)}

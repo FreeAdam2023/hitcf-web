@@ -24,6 +24,10 @@ interface ExplanationPanelProps {
   explanation: Explanation | null | undefined;
   questionId?: string;
   defaultOpen?: boolean;
+  /** The user's selected answer key (e.g. "A") */
+  selectedAnswer?: string | null;
+  /** The correct answer key (e.g. "C") */
+  correctAnswer?: string | null;
   /** Externally managed loading state */
   loading?: boolean;
   /** Externally managed error state */
@@ -42,6 +46,8 @@ export function ExplanationPanel({
   explanation,
   questionId,
   defaultOpen = false,
+  selectedAnswer,
+  correctAnswer,
   loading = false,
   error = false,
   onRetry,
@@ -51,15 +57,17 @@ export function ExplanationPanel({
 }: ExplanationPanelProps) {
   const t = useTranslations();
   const [open, setOpen] = useState(defaultOpen);
-  const [distractorsOpen, setDistractorsOpen] = useState(false);
+  const isWrong = !!(selectedAnswer && correctAnswer && selectedAnswer !== correctAnswer);
+  const [distractorsOpen, setDistractorsOpen] = useState(isWrong);
   const onOpenRef = useRef(onOpen);
   onOpenRef.current = onOpen;
 
   // Reset when question changes
   useEffect(() => {
     setOpen(defaultOpen);
-    setDistractorsOpen(false);
-  }, [questionId, defaultOpen]);
+    const wrong = !!(selectedAnswer && correctAnswer && selectedAnswer !== correctAnswer);
+    setDistractorsOpen(wrong);
+  }, [questionId, defaultOpen, selectedAnswer, correctAnswer]);
 
   // Trigger fetch when opened and no data (use ref to avoid re-runs from callback prop changes)
   useEffect(() => {
@@ -168,11 +176,19 @@ export function ExplanationPanel({
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <div className="mt-1.5 space-y-2 pl-1">
-                        {Object.entries(explanation!.distractors).map(
-                          ([key, d]) => (
-                            <div key={key} className="flex gap-2">
-                              <span className="mt-0.5 shrink-0 rounded bg-muted px-1.5 py-0.5 font-mono text-xs font-semibold">
-                                {key}
+                        {Object.entries(explanation!.distractors)
+                        .sort(([a], [b]) => {
+                          // Show user's wrong choice first
+                          if (a === selectedAnswer) return -1;
+                          if (b === selectedAnswer) return 1;
+                          return 0;
+                        })
+                        .map(([key, d]) => {
+                          const isUserChoice = key === selectedAnswer && isWrong;
+                          return (
+                            <div key={key} className={`flex gap-2 ${isUserChoice ? "rounded-lg border-l-4 border-red-400 bg-red-50/50 p-2 dark:bg-red-950/20" : ""}`}>
+                              <span className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 font-mono text-xs font-semibold ${isUserChoice ? "bg-red-200 text-red-800 dark:bg-red-900 dark:text-red-200" : "bg-muted"}`}>
+                                {key}{isUserChoice ? ` ✗` : ""}
                               </span>
                               <div className="min-w-0">
                                 <p className="text-muted-foreground">
@@ -185,8 +201,8 @@ export function ExplanationPanel({
                                 )}
                               </div>
                             </div>
-                          ),
-                        )}
+                          );
+                        })}
                       </div>
                     </CollapsibleContent>
                   </Collapsible>
