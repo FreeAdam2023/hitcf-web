@@ -662,6 +662,7 @@
       "types": {
         "wrong_answer": "Wrong answer",
         "audio_issue": "Audio problem",
+        "audio_quality": "Poor audio quality",
         "option_error": "Option content error",
         "transcript_issue": "Transcript/subtitle error",
         "other": "Other issue"

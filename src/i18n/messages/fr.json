@@ -663,6 +663,7 @@
       "types": {
         "wrong_answer": "Réponse incorrecte",
         "audio_issue": "Problème audio",
+        "audio_quality": "Mauvaise qualité audio",
         "option_error": "Erreur dans les options",
         "transcript_issue": "Erreur dans la transcription",
         "other": "Autre problème"

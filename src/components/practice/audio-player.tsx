@@ -23,6 +23,8 @@ export interface AudioPlayerHandle {
 
 interface AudioPlayerProps {
   questionId: string;
+  /** Pre-signed audio URL (skips /api/media/audio fetch if provided) */
+  audioUrl?: string | null;
   maxPlays?: number;
   onPlaybackComplete?: () => void;
   onTimeUpdate?: (currentTime: number) => void;
@@ -33,7 +35,7 @@ interface AudioPlayerProps {
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25];
 
 export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
-  function AudioPlayer({ questionId, maxPlays, onPlaybackComplete, onTimeUpdate: onTimeUpdateProp, autoPlay }, ref) {
+  function AudioPlayer({ questionId, audioUrl: directUrl, maxPlays, onPlaybackComplete, onTimeUpdate: onTimeUpdateProp, autoPlay }, ref) {
   const t = useTranslations();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [url, setUrl] = useState<string | null>(null);
@@ -56,6 +58,12 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
   const exhausted = maxPlays !== undefined && playCount >= maxPlays;
 
   const loadUrl = useCallback(async () => {
+    // Use pre-signed URL from question data if available
+    if (directUrl) {
+      setUrl(directUrl);
+      fetchedAtRef.current = Date.now();
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -67,7 +75,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     } finally {
       setLoading(false);
     }
-  }, [questionId, t]);
+  }, [questionId, directUrl, t]);
 
   useImperativeHandle(ref, () => ({
     seekTo(seconds: number) {
@@ -104,7 +112,6 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 
   // Reset when question changes
   useEffect(() => {
-    setUrl(null);
     setPlaying(false);
     setProgress(0);
     setCurrentTime(0);
@@ -112,11 +119,18 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     setError(null);
     setSpeed(1);
     setPlayCount(0);
-    fetchedAtRef.current = 0;
     pendingPlayRef.current = false;
     pendingSeekRef.current = null;
     segmentEndRef.current = null;
-  }, [questionId]);
+    // Pre-set URL if direct URL available, otherwise clear for lazy load
+    if (directUrl) {
+      setUrl(directUrl);
+      fetchedAtRef.current = Date.now();
+    } else {
+      setUrl(null);
+      fetchedAtRef.current = 0;
+    }
+  }, [questionId, directUrl]);
 
   // Auto-play on question change (e.g. clicking "next" in listening practice)
   useEffect(() => {

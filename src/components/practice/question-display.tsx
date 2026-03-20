@@ -132,6 +132,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
         <AudioPlayer
           ref={audioRef}
           questionId={question.id}
+          audioUrl={question.audio_url}
           maxPlays={audioMaxPlays}
           onPlaybackComplete={onAudioPlaybackComplete}
           onTimeUpdate={onAudioTimeUpdate}
@@ -155,10 +156,13 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
           </p>
           {(showTranslation || answered) && locale !== "fr" && (
             <div className="mt-1 space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-200">
-              {locale === "zh" && (
+              {locale === "zh" && (showEn ?? true) && (
                 <p className="text-xs lg:text-sm text-blue-600 dark:text-blue-400">{instructionData.en}</p>
               )}
-              <p className="text-xs lg:text-sm text-emerald-600 dark:text-emerald-400">{t(instructionData.zhKey)}</p>
+              {locale === "zh" && (showNative ?? true) && (
+                <p className="text-xs lg:text-sm text-emerald-600 dark:text-emerald-400">{t(instructionData.zhKey)}</p>
+              )}
+              {locale !== "zh" && <p className="text-xs lg:text-sm text-emerald-600 dark:text-emerald-400">{t(instructionData.zhKey)}</p>}
             </div>
           )}
         </div>

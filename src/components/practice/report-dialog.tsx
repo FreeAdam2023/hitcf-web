@@ -23,11 +23,12 @@ import {
 import { reportQuestion } from "@/lib/api/reports";
 import { ApiError } from "@/lib/api/client";
 
-const ISSUE_TYPE_VALUES = ["wrong_answer", "bad_audio", "wrong_option", "bad_transcript", "other"] as const;
+const ISSUE_TYPE_VALUES = ["wrong_answer", "bad_audio", "bad_audio_quality", "wrong_option", "bad_transcript", "other"] as const;
 
 const ISSUE_TYPE_KEYS: Record<string, string> = {
   wrong_answer: "practice.report.types.wrong_answer",
   bad_audio: "practice.report.types.audio_issue",
+  bad_audio_quality: "practice.report.types.audio_quality",
   wrong_option: "practice.report.types.option_error",
   bad_transcript: "practice.report.types.transcript_issue",
   other: "practice.report.types.other",
@@ -53,7 +54,7 @@ export function ReportDialog({ questionId, open, onOpenChange }: ReportDialogPro
     setSubmitting(true);
     try {
       await reportQuestion(questionId, {
-        issue_type: issueType as "wrong_answer" | "bad_audio" | "wrong_option" | "bad_transcript" | "other",
+        issue_type: issueType as "wrong_answer" | "bad_audio" | "bad_audio_quality" | "wrong_option" | "bad_transcript" | "other",
         description: description.trim() || undefined,
       });
       toast.success(t("practice.report.success"));
