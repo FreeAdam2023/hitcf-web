@@ -1071,8 +1071,19 @@
       "added": "Ajouté aux favoris",
       "removed": "Retiré des favoris",
       "emptyTitle": "Aucune question en favoris",
-      "emptyDescription": "Appuyez sur l'étoile pendant la pratique pour ajouter des questions en favoris"
+      "emptyDescription": "Appuyez sur l'étoile pendant la pratique pour ajouter des questions en favoris",
+      "total": "{count} questions en favoris"
     },
+    "practiceDialog": {
+      "wrongTitle": "Pratique des erreurs",
+      "bookmarkTitle": "Pratique des favoris",
+      "typeLabel": "Type de question",
+      "countLabel": "Nombre de questions",
+      "all": "Toutes",
+      "description": "{count} questions disponibles",
+      "start": "Commencer ({count})"
+    },
+    "practiceBookmarks": "Pratiquer les favoris",
     "upgradeBanner": {
       "title": "Le carnet de révision est réservé aux Pro",
       "description": "Collectez automatiquement les erreurs, ajoutez des favoris et générez des exercices ciblés",

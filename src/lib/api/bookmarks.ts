@@ -1,5 +1,5 @@
 import { get, post } from "./client";
-import type { PaginatedResponse, BookmarkItem, BookmarkStats, BookmarkDetail } from "./types";
+import type { PaginatedResponse, BookmarkItem, BookmarkStats, BookmarkDetail, QuestionBrief } from "./types";
 
 export function toggleBookmark(questionId: string): Promise<{ bookmarked: boolean }> {
   return post<{ bookmarked: boolean }>(`/api/bookmarks/${questionId}`);
@@ -32,4 +32,21 @@ export function getBookmarkDetail(id: string): Promise<BookmarkDetail> {
 
 export function checkBookmarks(questionIds: string[]): Promise<{ bookmarked: string[] }> {
   return get<{ bookmarked: string[] }>(`/api/bookmarks/check?question_ids=${questionIds.join(",")}`);
+}
+
+export interface PracticeBookmarksResponse {
+  id: string;
+  test_set_id: string;
+  mode: string;
+  total: number;
+  status: string;
+  question_ids: string[];
+  questions: QuestionBrief[];
+}
+
+export function practiceBookmarks(body: {
+  type?: string;
+  limit?: number;
+}): Promise<PracticeBookmarksResponse> {
+  return post<PracticeBookmarksResponse>("/api/bookmarks/practice", body);
 }

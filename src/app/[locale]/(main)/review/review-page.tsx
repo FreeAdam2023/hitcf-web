@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { ArrowDownWideNarrow, BookOpen, Clock, Headphones, Loader2, Star } from "lucide-react";
+import { ArrowDownWideNarrow, BookOpen, Clock, Headphones, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
@@ -21,6 +21,7 @@ import {
   listBookmarks,
   getBookmarkStats,
   toggleBookmark,
+  practiceBookmarks,
 } from "@/lib/api/bookmarks";
 import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
@@ -28,6 +29,7 @@ import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { useTranslations } from "next-intl";
 import { useRouter as useI18nRouter } from "@/i18n/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
+import { PracticeStartDialog } from "@/components/review/practice-start-dialog";
 import { TYPE_COLORS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import type { PaginatedResponse, WrongAnswerItem, WrongAnswerStats, BookmarkItem, BookmarkStats } from "@/lib/api/types";
@@ -82,12 +84,15 @@ export function ReviewPage() {
   const [waLoading, setWaLoading] = useState(true);
   const [waError, setWaError] = useState<string | null>(null);
   const [startingPractice, setStartingPractice] = useState(false);
+  const [waPracticeDialogOpen, setWaPracticeDialogOpen] = useState(false);
 
   // Bookmark state
   const [bmData, setBmData] = useState<PaginatedResponse<BookmarkItem> | null>(null);
   const [bmStats, setBmStats] = useState<BookmarkStats | null>(null);
   const [bmLoading, setBmLoading] = useState(true);
   const [bmError, setBmError] = useState<string | null>(null);
+  const [startingBmPractice, setStartingBmPractice] = useState(false);
+  const [bmPracticeDialogOpen, setBmPracticeDialogOpen] = useState(false);
 
   // Shared filters
   const [type, setType] = useState("all");
@@ -210,17 +215,33 @@ export function ReviewPage() {
     }
   };
 
-  const handleStartPractice = async () => {
+  const handleStartPractice = async (practiceType: string | undefined, limit: number | undefined) => {
     setStartingPractice(true);
     try {
       const result = await practiceWrongAnswers({
-        type: type === "all" ? undefined : type,
+        type: practiceType,
+        limit,
       });
       initPractice(result.id, result.questions);
       i18nRouter.push(`/practice/${result.id}`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t("common.errors.operationFailed"));
       setStartingPractice(false);
+    }
+  };
+
+  const handleStartBookmarkPractice = async (practiceType: string | undefined, limit: number | undefined) => {
+    setStartingBmPractice(true);
+    try {
+      const result = await practiceBookmarks({
+        type: practiceType,
+        limit,
+      });
+      initPractice(result.id, result.questions);
+      i18nRouter.push(`/practice/${result.id}`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t("common.errors.operationFailed"));
+      setStartingBmPractice(false);
     }
   };
 
@@ -316,20 +337,11 @@ export function ReviewPage() {
                     </div>
                   </div>
                   <Button
-                    onClick={handleStartPractice}
-                    disabled={startingPractice || !waData?.items.length}
+                    onClick={() => setWaPracticeDialogOpen(true)}
+                    disabled={!waStats || waStats.unmastered === 0}
                   >
-                    {startingPractice ? (
-                      <>
-                        <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
-                        {t("wrongAnswers.generating")}
-                      </>
-                    ) : (
-                      <>
-                        <BookOpen className="mr-1.5 h-4 w-4" />
-                        {t("wrongAnswers.practiceFromWrong", { count: waStats.total - waStats.mastered })}
-                      </>
-                    )}
+                    <BookOpen className="mr-1.5 h-4 w-4" />
+                    {t("wrongAnswers.practiceFromWrong", { count: waStats.unmastered })}
                   </Button>
                 </div>
               )}
@@ -431,6 +443,26 @@ export function ReviewPage() {
           {/* Bookmarks tab */}
           {tab === "bookmarks" && (
             <>
+              {/* Bookmark practice button */}
+              {bmStats && bmStats.total > 0 && (
+                <div className="flex items-center justify-between rounded-xl border bg-card p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100 dark:bg-yellow-900/30">
+                      <Star className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium">{t("review.bookmarks.total", { count: bmStats.total })}</p>
+                    </div>
+                  </div>
+                  <Button
+                    onClick={() => setBmPracticeDialogOpen(true)}
+                  >
+                    <BookOpen className="mr-1.5 h-4 w-4" />
+                    {t("review.practiceBookmarks")}
+                  </Button>
+                </div>
+              )}
+
               {/* Type filter only for bookmarks */}
               <div className="flex flex-wrap gap-2">
                 {TYPE_CHIPS.map(({ key, Icon }) => {
@@ -491,6 +523,24 @@ export function ReviewPage() {
           )}
         </>
       )}
+
+      {/* Practice dialogs */}
+      <PracticeStartDialog
+        open={waPracticeDialogOpen}
+        onOpenChange={setWaPracticeDialogOpen}
+        mode="wrong"
+        totalCount={waStats?.unmastered ?? 0}
+        loading={startingPractice}
+        onStart={handleStartPractice}
+      />
+      <PracticeStartDialog
+        open={bmPracticeDialogOpen}
+        onOpenChange={setBmPracticeDialogOpen}
+        mode="bookmark"
+        totalCount={bmStats?.total ?? 0}
+        loading={startingBmPractice}
+        onStart={handleStartBookmarkPractice}
+      />
     </div>
   );
 }

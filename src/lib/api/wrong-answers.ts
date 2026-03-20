@@ -52,6 +52,7 @@ export interface PracticeWrongAnswersResponse {
 export function practiceWrongAnswers(body: {
   type?: string;
   levels?: string[];
+  limit?: number;
 }): Promise<PracticeWrongAnswersResponse> {
   return post<PracticeWrongAnswersResponse>("/api/wrong-answers/practice", body);
 }

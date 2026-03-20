@@ -1070,8 +1070,19 @@
       "added": "已收藏",
       "removed": "已取消收藏",
       "emptyTitle": "还没有收藏的题目",
-      "emptyDescription": "练习时点击星标收藏想复习的题目"
+      "emptyDescription": "练习时点击星标收藏想复习的题目",
+      "total": "共 {count} 道收藏题"
     },
+    "practiceDialog": {
+      "wrongTitle": "错题练习",
+      "bookmarkTitle": "收藏练习",
+      "typeLabel": "题目类型",
+      "countLabel": "练习数量",
+      "all": "全部",
+      "description": "共 {count} 道可练习题目",
+      "start": "开始练习 ({count} 题)"
+    },
+    "practiceBookmarks": "练习收藏题",
     "upgradeBanner": {
       "title": "复习本是 Pro 专属功能",
       "description": "自动收集错题，收藏重点题目，标记掌握状态，支持从错题直接生成练习",

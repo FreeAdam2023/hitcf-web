@@ -1071,8 +1071,19 @@
       "added": "تمت الإضافة للمفضلة",
       "removed": "تمت الإزالة من المفضلة",
       "emptyTitle": "لا توجد أسئلة محفوظة",
-      "emptyDescription": "اضغط على النجمة أثناء التدريب لحفظ الأسئلة للمراجعة"
+      "emptyDescription": "اضغط على النجمة أثناء التدريب لحفظ الأسئلة للمراجعة",
+      "total": "{count} سؤال محفوظ"
     },
+    "practiceDialog": {
+      "wrongTitle": "تدريب على الأخطاء",
+      "bookmarkTitle": "تدريب على المفضلة",
+      "typeLabel": "نوع السؤال",
+      "countLabel": "عدد الأسئلة",
+      "all": "الكل",
+      "description": "{count} سؤال متاح",
+      "start": "بدء التدريب ({count})"
+    },
+    "practiceBookmarks": "تدريب المفضلة",
     "upgradeBanner": {
       "title": "دفتر المراجعة متاح فقط لـ Pro",
       "description": "جمع تلقائي للأخطاء، حفظ الأسئلة المهمة، وإنشاء تمارين مستهدفة",

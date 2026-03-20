@@ -1070,8 +1070,19 @@
       "added": "Bookmarked",
       "removed": "Bookmark removed",
       "emptyTitle": "No bookmarked questions yet",
-      "emptyDescription": "Tap the star icon during practice to bookmark questions for review"
+      "emptyDescription": "Tap the star icon during practice to bookmark questions for review",
+      "total": "{count} bookmarked questions"
     },
+    "practiceDialog": {
+      "wrongTitle": "Wrong Answer Practice",
+      "bookmarkTitle": "Bookmark Practice",
+      "typeLabel": "Question Type",
+      "countLabel": "Number of Questions",
+      "all": "All",
+      "description": "{count} questions available",
+      "start": "Start Practice ({count})"
+    },
+    "practiceBookmarks": "Practice Bookmarks",
     "upgradeBanner": {
       "title": "Review Book is Pro-only",
       "description": "Automatically collect wrong answers, bookmark important questions, and generate targeted practice",
