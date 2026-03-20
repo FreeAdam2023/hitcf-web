@@ -692,6 +692,7 @@
     "title": "Explication",
     "distractors": "Analyse des distracteurs",
     "distractorCount": "({count} éléments)",
+    "otherDistractors": "Voir les autres distracteurs ({count})",
     "expandHint": "Cliquez pour développer",
     "vocabulary": "Vocabulaire clé",
     "studyPoints": "Points d'étude",

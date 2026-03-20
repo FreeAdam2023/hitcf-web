@@ -691,6 +691,7 @@
     "title": "Explanation",
     "distractors": "Distractor Analysis",
     "distractorCount": "({count} items)",
+    "otherDistractors": "View other distractors ({count})",
     "expandHint": "Click to expand",
     "vocabulary": "Key Vocabulary",
     "studyPoints": "Study Points",

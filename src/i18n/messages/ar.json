@@ -692,6 +692,7 @@
     "title": "الشرح",
     "distractors": "تحليل الخيارات الخاطئة",
     "distractorCount": "({count} عناصر)",
+    "otherDistractors": "عرض العوامل المشتتة الأخرى ({count})",
     "expandHint": "اضغط للتوسيع",
     "vocabulary": "المفردات",
     "studyPoints": "نقاط الدراسة",

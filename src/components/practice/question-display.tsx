@@ -43,9 +43,11 @@ interface QuestionDisplayProps {
   answered?: boolean;
   /** Auto-play audio when question changes (listening practice) */
   autoPlayAudio?: boolean;
+  /** Action buttons (bookmark, report) rendered in the header row */
+  actions?: React.ReactNode;
 }
 
-export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate, answered, autoPlayAudio }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate, answered, autoPlayAudio, actions }: QuestionDisplayProps) {
   const t = useTranslations();
   const locale = useLocale();
   const isListening = question.type === "listening";
@@ -111,13 +113,16 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
             </p>
           )}
         </div>
-        <span className="flex items-center gap-2 text-sm text-muted-foreground">
-          {isListening ? t("common.types.listening") : t("common.types.reading")}
-          {question.level && <LevelBadge level={question.level} />}
-          <span className="rounded bg-muted px-1.5 py-0.5 text-xs font-medium tabular-nums">
-            {t("common.points", { points: getTcfPoints(question.original_question_number ?? question.question_number) })}
+        <div className="flex items-center gap-2">
+          <span className="flex items-center gap-2 text-sm text-muted-foreground">
+            {isListening ? t("common.types.listening") : t("common.types.reading")}
+            {question.level && <LevelBadge level={question.level} />}
+            <span className="rounded bg-muted px-1.5 py-0.5 text-xs font-medium tabular-nums">
+              {t("common.points", { points: getTcfPoints(question.original_question_number ?? question.question_number) })}
+            </span>
           </span>
-        </span>
+          {actions}
+        </div>
       </div>
 
       {isListening && question.audio_url && (

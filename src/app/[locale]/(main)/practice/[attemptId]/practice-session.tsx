@@ -743,45 +743,43 @@ export function PracticeSession() {
 
       {/* 中间：主内容 */}
       <div className="flex flex-col gap-4 overflow-y-auto scrollbar-on-hover">
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex-1">
-            <QuestionDisplay
-              question={question}
-              index={currentIndex}
-              total={questions.length}
-              saveContext={saveContext}
-              audioRef={audioPlayerRef}
-              onAudioTimeUpdate={setAudioTime}
-              answered={!!currentAnswer}
-              autoPlayAudio={question.type === "listening" && currentIndex > 0}
-            />
-          </div>
-          <div className="flex shrink-0 items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn(
-                "shrink-0",
-                question && bookmarkedIds.has(question.id)
-                  ? "text-yellow-500 hover:text-yellow-600"
-                  : "text-muted-foreground hover:text-yellow-500",
-              )}
-              title={t("review.bookmarks.toggle")}
-              onClick={handleToggleBookmark}
-            >
-              <Star className={cn("h-4 w-4", question && bookmarkedIds.has(question.id) && "fill-current")} />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="shrink-0 text-muted-foreground hover:text-orange-500"
-              title={t("practice.session.reportTitle")}
-              onClick={() => setReportOpen(true)}
-            >
-              <AlertTriangle className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
+        <QuestionDisplay
+          question={question}
+          index={currentIndex}
+          total={questions.length}
+          saveContext={saveContext}
+          audioRef={audioPlayerRef}
+          onAudioTimeUpdate={setAudioTime}
+          answered={!!currentAnswer}
+          autoPlayAudio={question.type === "listening" && currentIndex > 0}
+          actions={
+            <div className="flex shrink-0 items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  "shrink-0",
+                  question && bookmarkedIds.has(question.id)
+                    ? "text-yellow-500 hover:text-yellow-600"
+                    : "text-muted-foreground hover:text-yellow-500",
+                )}
+                title={t("review.bookmarks.toggle")}
+                onClick={handleToggleBookmark}
+              >
+                <Star className={cn("h-4 w-4", question && bookmarkedIds.has(question.id) && "fill-current")} />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="shrink-0 text-muted-foreground hover:text-orange-500"
+                title={t("practice.session.reportTitle")}
+                onClick={() => setReportOpen(true)}
+              >
+                <AlertTriangle className="h-4 w-4" />
+              </Button>
+            </div>
+          }
+        />
 
         <OptionList
           options={question.options}
@@ -899,7 +897,7 @@ export function PracticeSession() {
         )}
 
         {/* 底部导航：解析/翻译之后再放一组，看完解析方便直接下一题 */}
-        {currentAnswer && (
+        {currentAnswer && (question.type === "listening" || question.type === "reading") && (
           <>
             <Separator />
             <div className="flex items-center justify-between">

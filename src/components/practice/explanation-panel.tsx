@@ -176,33 +176,63 @@ export function ExplanationPanel({
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <div className="mt-1.5 space-y-2 pl-1">
-                        {Object.entries(explanation!.distractors)
-                        .sort(([a], [b]) => {
-                          // Show user's wrong choice first
-                          if (a === selectedAnswer) return -1;
-                          if (b === selectedAnswer) return 1;
-                          return 0;
-                        })
-                        .map(([key, d]) => {
-                          const isUserChoice = key === selectedAnswer && isWrong;
+                        {(() => {
+                          const entries = Object.entries(explanation!.distractors);
+                          const userEntry = isWrong ? entries.find(([k]) => k === selectedAnswer) : null;
+                          const otherEntries = entries.filter(([k]) => !(isWrong && k === selectedAnswer));
                           return (
-                            <div key={key} className={`flex gap-2 ${isUserChoice ? "rounded-lg border-l-4 border-red-400 bg-red-50/50 p-2 dark:bg-red-950/20" : ""}`}>
-                              <span className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 font-mono text-xs font-semibold ${isUserChoice ? "bg-red-200 text-red-800 dark:bg-red-900 dark:text-red-200" : "bg-muted"}`}>
-                                {key}{isUserChoice ? ` ✗` : ""}
-                              </span>
-                              <div className="min-w-0">
-                                <p className="text-muted-foreground">
-                                  {d.analysis || d.text}
-                                </p>
-                                {d.trap_type && (
-                                  <span className="mt-0.5 inline-block text-xs text-muted-foreground/70">
-                                    {d.trap_type}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
+                            <>
+                              {userEntry && (
+                                <div className="rounded-lg border-l-4 border-red-400 bg-red-50/50 p-2 dark:bg-red-950/20">
+                                  <div className="flex gap-2">
+                                    <span className="mt-0.5 shrink-0 rounded bg-red-200 px-1.5 py-0.5 font-mono text-xs font-semibold text-red-800 dark:bg-red-900 dark:text-red-200">
+                                      {userEntry[0]} ✗
+                                    </span>
+                                    <div className="min-w-0">
+                                      <p className="text-muted-foreground">
+                                        {userEntry[1].analysis || userEntry[1].text}
+                                      </p>
+                                      {userEntry[1].trap_type && (
+                                        <span className="mt-0.5 inline-block text-xs text-muted-foreground/70">
+                                          {userEntry[1].trap_type}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                              {otherEntries.length > 0 && (
+                                <Collapsible>
+                                  <CollapsibleTrigger className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+                                    <ChevronDown className="h-3 w-3" />
+                                    {t("explanation.otherDistractors", { count: otherEntries.length })}
+                                  </CollapsibleTrigger>
+                                  <CollapsibleContent>
+                                    <div className="mt-1.5 space-y-2">
+                                      {otherEntries.map(([key, d]) => (
+                                        <div key={key} className="flex gap-2">
+                                          <span className="mt-0.5 shrink-0 rounded bg-muted px-1.5 py-0.5 font-mono text-xs font-semibold">
+                                            {key}
+                                          </span>
+                                          <div className="min-w-0">
+                                            <p className="text-muted-foreground">
+                                              {d.analysis || d.text}
+                                            </p>
+                                            {d.trap_type && (
+                                              <span className="mt-0.5 inline-block text-xs text-muted-foreground/70">
+                                                {d.trap_type}
+                                              </span>
+                                            )}
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </CollapsibleContent>
+                                </Collapsible>
+                              )}
+                            </>
                           );
-                        })}
+                        })()}
                       </div>
                     </CollapsibleContent>
                   </Collapsible>

@@ -691,6 +691,7 @@
     "title": "答案解析",
     "distractors": "干扰项分析",
     "distractorCount": "({count}项)",
+    "otherDistractors": "查看其他干扰项 ({count}项)",
     "expandHint": "点击展开",
     "vocabulary": "重点词汇",
     "studyPoints": "学习要点",
