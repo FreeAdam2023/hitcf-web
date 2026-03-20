@@ -305,35 +305,7 @@ function TranscriptBlock({
         </p>
       ) : null}
 
-      {/* Options: vertical with indented EN/ZH */}
-      {showTranscriptOptions && (
-        <div className={sentences || audioTimestamps || hasTranscript ? "mt-2 border-t border-border/50 pt-2" : ""}>
-          <div className="space-y-3">
-            {question.options.map((opt) => {
-              const tr = optTrans?.[opt.key];
-              const optNative = tr?.native || tr?.zh;
-              const hasRealText = opt.text && opt.text.length > 2 && !opt.text.startsWith("Proposition");
-              return (
-                <div key={opt.key} className="space-y-0.5">
-                  <p className="font-medium text-foreground">
-                    {opt.key.toUpperCase()}. {hasRealText && <FrenchText text={opt.text} saveContext={saveContext} />}
-                  </p>
-                  {locale === "zh" && showEn && tr?.en && (
-                    <p className="pl-6 text-blue-600 dark:text-blue-400">
-                      {stripKeyPrefix(tr.en, opt.key)}
-                    </p>
-                  )}
-                  {locale !== "fr" && showNative && optNative && (
-                    <p className="pl-6 text-emerald-600 dark:text-emerald-400">
-                      {stripKeyPrefix(optNative, opt.key)}
-                    </p>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {/* Option translations moved to OptionList component */}
 
     </div>
   );
@@ -847,6 +819,10 @@ export function PracticeSession() {
           audioOnly={question.type === "listening" && question.options.every((o) => !o.text?.trim())}
           horizontal={!!question.has_image}
           saveContext={saveContext}
+          optionTranslations={explanation?.option_translations}
+          showEn={showEn}
+          showNative={showNative}
+          locale={locale}
         />
 
         {/* Confirm button: visible when option selected but not yet submitted */}

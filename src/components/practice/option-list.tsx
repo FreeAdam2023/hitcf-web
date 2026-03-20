@@ -3,8 +3,17 @@
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import type { Option, AnswerResponse } from "@/lib/api/types";
+import type { Option, AnswerResponse, OptionTranslation } from "@/lib/api/types";
 import { FrenchText, type WordSaveContext } from "./french-text";
+
+function stripKeyPrefix(text: string, key: string): string {
+  const lower = key.toLowerCase();
+  const upper = key.toUpperCase();
+  for (const prefix of [`${upper}. `, `${lower}. `, `${upper} `, `${lower} `]) {
+    if (text.startsWith(prefix)) return text.slice(prefix.length);
+  }
+  return text;
+}
 
 interface OptionListProps {
   options: Option[];
@@ -32,6 +41,14 @@ interface OptionListProps {
   vocabDisabled?: boolean;
   /** Context for saving vocabulary words */
   saveContext?: WordSaveContext;
+  /** Option translations (EN/ZH) from explanation */
+  optionTranslations?: Record<string, OptionTranslation> | null;
+  /** Show English translation */
+  showEn?: boolean;
+  /** Show native (ZH) translation */
+  showNative?: boolean;
+  /** Current locale */
+  locale?: string;
 }
 
 export function OptionList({
@@ -50,6 +67,10 @@ export function OptionList({
   horizontal = false,
   vocabDisabled,
   saveContext,
+  optionTranslations,
+  showEn = false,
+  showNative = false,
+  locale = "en",
 }: OptionListProps) {
   const t = useTranslations();
   const isExam = mode === "exam";
@@ -121,9 +142,28 @@ export function OptionList({
               )}
             </span>
             {!audioOnly && opt.text && (
-              <span className="pt-0.5">
+              <div className="pt-0.5 min-w-0">
                 <FrenchText text={opt.text} disabled={vocabDisabled} saveContext={saveContext} />
-              </span>
+                {(() => {
+                  const tr = optionTranslations?.[opt.key];
+                  if (!tr) return null;
+                  const optNative = tr.native || tr.zh;
+                  return (
+                    <>
+                      {locale === "zh" && showEn && tr.en && (
+                        <p className="text-blue-600 dark:text-blue-400 text-sm mt-0.5">
+                          {stripKeyPrefix(tr.en, opt.key)}
+                        </p>
+                      )}
+                      {locale !== "fr" && showNative && optNative && (
+                        <p className="text-emerald-600 dark:text-emerald-400 text-sm mt-0.5">
+                          {stripKeyPrefix(optNative, opt.key)}
+                        </p>
+                      )}
+                    </>
+                  );
+                })()}
+              </div>
             )}
           </button>
         );
