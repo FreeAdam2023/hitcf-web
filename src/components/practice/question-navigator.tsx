@@ -197,13 +197,13 @@ export function QuestionNavigator({
     return (
       <div className="space-y-2">
         <h3 className="text-sm font-medium text-muted-foreground">{t("practice.navigator.title")}</h3>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {groups.map((group) => (
-            <div key={group.level}>
+            <div key={group.level} className="rounded-lg border border-border/40 bg-muted/30 px-3 py-2">
               <div className="mb-1.5">
                 <LevelBadge level={group.level} size="sm" />
               </div>
-              <div className="flex flex-wrap gap-1.5 p-0.5">
+              <div className="flex flex-wrap gap-1.5">
                 {group.indices.map((i) => renderButton(i))}
               </div>
             </div>
