@@ -120,21 +120,8 @@ function TranscriptBlock({
           )}
         </div>
         <div className="flex gap-1">
-          {/* EN bridge toggle — only for Chinese users (FR+EN+ZH trilingual) */}
-          {locale === "zh" && (
-            <button
-              onClick={onToggleEn}
-              className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
-                showEn
-                  ? "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300"
-                  : "bg-muted text-muted-foreground"
-              }`}
-            >
-              EN
-            </button>
-          )}
-          {/* Native toggle — hidden for French users (no translation needed) */}
-          {locale !== "fr" && (
+          {/* Non-Chinese locales keep toggles here (Chinese toggles moved to question header) */}
+          {locale !== "zh" && locale !== "fr" && (
             <button
               onClick={onToggleNative}
               className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
@@ -754,6 +741,30 @@ export function PracticeSession() {
           autoPlayAudio={question.type === "listening" && currentIndex > 0}
           actions={
             <div className="flex shrink-0 items-center gap-1">
+              {locale === "zh" && currentAnswer && (
+                <>
+                  <button
+                    onClick={toggleEn}
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
+                      showEn
+                        ? "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    EN
+                  </button>
+                  <button
+                    onClick={toggleNative}
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
+                      showNative
+                        ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    ZH
+                  </button>
+                </>
+              )}
               <Button
                 variant="ghost"
                 size="icon"
