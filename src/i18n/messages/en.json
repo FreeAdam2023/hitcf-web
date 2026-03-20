@@ -642,7 +642,11 @@
       "viewAfterAnswer": "Answer to view explanation",
       "clickToPlay": "Click a sentence to replay that part",
       "reportTitle": "Report Issue",
-      "loadError": "Failed to load practice data"
+      "loadError": "Failed to load practice data",
+      "openBook": "Open Book",
+      "answerMode": "Answer",
+      "openBookOn": "Switch to open book mode (view answers and explanations)",
+      "openBookOff": "Switch to answer mode"
     },
     "optionList": {
       "ariaLabel": "Answer options"

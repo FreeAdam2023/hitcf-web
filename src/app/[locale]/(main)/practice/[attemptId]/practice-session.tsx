@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen, Star, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -46,7 +46,6 @@ function TranscriptBlock({
   explanation,
   showEn,
   showNative,
-  onToggleEn,
   onToggleNative,
   transcriptLabel,
   locale,
@@ -60,7 +59,6 @@ function TranscriptBlock({
   explanation: Explanation | null;
   showEn: boolean;
   showNative: boolean;
-  onToggleEn: () => void;
   onToggleNative: () => void;
   transcriptLabel: string;
   locale: string;
@@ -363,6 +361,7 @@ export function PracticeSession() {
   const isSubscriber = hasActiveSub();
   const { showEn, showNative, toggleEn, toggleNative } = useTranscriptLang();
 
+  const [openBook, setOpenBook] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
@@ -519,7 +518,24 @@ export function PracticeSession() {
   }, []);
 
   const question = questions[currentIndex];
-  const currentAnswer = question ? (answers.get(question.id) ?? previousAnswers.get(question.id) ?? null) : null;
+  const realAnswer = question ? (answers.get(question.id) ?? previousAnswers.get(question.id) ?? null) : null;
+  // Open-book mode: derive correct answer from distractors (the key NOT in distractors)
+  const openBookAnswer: typeof realAnswer = (() => {
+    if (!openBook || !question || !explanation?.distractors) return null;
+    const distractorKeys = new Set(Object.keys(explanation.distractors));
+    const optionKeys = question.options.map((o) => o.key);
+    const correctKey = optionKeys.find((k) => !distractorKeys.has(k));
+    if (!correctKey) return null;
+    return {
+      selected: correctKey,
+      correct_answer: correctKey,
+      is_correct: true,
+      question_id: question.id,
+      question_number: question.question_number,
+      level: question.level,
+    };
+  })();
+  const currentAnswer = realAnswer ?? openBookAnswer;
 
   const saveContext: WordSaveContext | undefined = question
     ? {
@@ -741,6 +757,18 @@ export function PracticeSession() {
           autoPlayAudio={question.type === "listening" && currentIndex > 0}
           actions={
             <div className="flex shrink-0 items-center gap-1">
+              <button
+                onClick={() => setOpenBook((v) => !v)}
+                className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
+                  openBook
+                    ? "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300"
+                    : "bg-muted text-muted-foreground"
+                }`}
+                title={openBook ? t("practice.session.openBookOff") : t("practice.session.openBookOn")}
+              >
+                {openBook ? <EyeOff className="mr-0.5 inline h-3 w-3" /> : <Eye className="mr-0.5 inline h-3 w-3" />}
+                {openBook ? t("practice.session.answerMode") : t("practice.session.openBook")}
+              </button>
               {locale === "zh" && currentAnswer && (
                 <>
                   <button
@@ -796,7 +824,7 @@ export function PracticeSession() {
           options={question.options}
           answer={currentAnswer}
           onSelect={handleSelect}
-          disabled={submitting}
+          disabled={submitting || openBook}
           pendingSelected={selectedKey}
           submittingKey={submittingKey}
           audioOnly={question.type === "listening" && question.options.every((o) => !o.text?.trim())}
@@ -871,7 +899,6 @@ export function PracticeSession() {
               explanation={explanation}
               showEn={showEn}
               showNative={showNative}
-              onToggleEn={toggleEn}
               onToggleNative={toggleNative}
               transcriptLabel={
                 question.type === "listening"

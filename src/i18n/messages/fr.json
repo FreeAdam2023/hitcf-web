@@ -643,7 +643,11 @@
       "viewAfterAnswer": "Répondez pour voir l'explication",
       "clickToPlay": "Cliquez sur une phrase pour réécouter cette partie",
       "reportTitle": "Signaler un problème",
-      "loadError": "Échec du chargement des données d'entraînement"
+      "loadError": "Échec du chargement des données d'entraînement",
+      "openBook": "Ouvert",
+      "answerMode": "Répondre",
+      "openBookOn": "Passer en mode ouvert (voir réponses et explications)",
+      "openBookOff": "Passer en mode réponse"
     },
     "optionList": {
       "ariaLabel": "Options de réponse"
