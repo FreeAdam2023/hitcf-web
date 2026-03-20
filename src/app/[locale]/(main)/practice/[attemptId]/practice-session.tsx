@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen, Star, Eye, EyeOff } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen, Star, Eye, EyeOff, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -739,10 +739,9 @@ export function PracticeSession() {
   const allAnswered = totalAnswered >= questions.length;
 
   return (
-    <div className="grid gap-3 lg:gap-6 lg:grid-cols-[200px_1fr_360px] h-full overflow-hidden">
+    <div className="grid gap-2 lg:gap-3 lg:grid-cols-[220px_1fr_360px] h-full overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
       {/* 左侧：题号导航 (桌面) */}
-      <div className="hidden lg:block overflow-y-auto scrollbar-on-hover">
-        <div className="py-3">
+      <div className="hidden lg:block overflow-y-auto scrollbar-on-hover rounded-xl bg-card border shadow-sm p-3">
           <QuestionNavigator
             total={questions.length}
             currentIndex={currentIndex}
@@ -752,11 +751,10 @@ export function PracticeSession() {
             questions={questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
             previousAnswers={previousAnswers}
           />
-        </div>
       </div>
 
       {/* 中间：主内容 */}
-      <div className="flex flex-col gap-4 overflow-y-auto scrollbar-on-hover">
+      <div className="flex flex-col gap-4 overflow-y-auto scrollbar-on-hover lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5">
         <QuestionDisplay
           question={question}
           index={currentIndex}
@@ -994,7 +992,7 @@ export function PracticeSession() {
       </div>
 
       {/* 右侧：解析面板 (桌面) */}
-      <div className="hidden lg:block overflow-y-auto scrollbar-on-hover">
+      <div className="hidden lg:block overflow-y-auto scrollbar-on-hover rounded-xl bg-card border shadow-sm p-3">
         <div className="space-y-3">
           {currentAnswer ? (
             <ExplanationPanel
@@ -1011,7 +1009,8 @@ export function PracticeSession() {
               saveContext={saveContext}
             />
           ) : (
-            <div className="rounded-md border p-4 text-sm lg:text-base text-muted-foreground">
+            <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border/60 bg-muted/20 p-6 text-center text-sm text-muted-foreground">
+              <Lightbulb className="mb-2 h-8 w-8 text-muted-foreground/30" />
               <p>{t("practice.session.viewAfterAnswer")}</p>
             </div>
           )}

@@ -94,20 +94,20 @@ export function ExplanationPanel({
   // Force refresh is available to all users (backend enforces rate limits)
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-lg border bg-card/50">
       <Button
         variant="ghost"
-        className="w-full justify-between px-4 py-2"
+        className="w-full justify-between px-4 py-2.5 hover:bg-muted/60"
         onClick={() => setOpen(!open)}
       >
-        <span className="flex items-center gap-2 text-sm">
-          <Lightbulb className="h-4 w-4" />
+        <span className="flex items-center gap-2 text-sm font-medium">
+          <Lightbulb className="h-4 w-4 text-amber-500" />
           {t("explanation.viewExplanation")}
         </span>
         {open ? (
-          <ChevronUp className="h-4 w-4" />
+          <ChevronUp className="h-4 w-4 text-muted-foreground" />
         ) : (
-          <ChevronDown className="h-4 w-4" />
+          <ChevronDown className="h-4 w-4 text-muted-foreground" />
         )}
       </Button>
 
@@ -241,13 +241,13 @@ export function ExplanationPanel({
               {/* 5. 重点词汇 — 2 列 Grid */}
               {explanation!.vocabulary &&
                 explanation!.vocabulary.length > 0 && (
-                  <div>
-                    <h4 className="mb-2 font-medium">{t("explanation.vocabulary")}</h4>
+                  <div className="rounded-lg border bg-muted/20 p-3">
+                    <h4 className="mb-2.5 text-sm font-semibold text-foreground/80">{t("explanation.vocabulary")}</h4>
                     <div className="grid grid-cols-2 gap-2">
                       {explanation!.vocabulary.map((v, i) => (
                         <div
                           key={i}
-                          className="rounded-lg border p-2"
+                          className="rounded-lg border bg-card p-2"
                         >
                           <div className="flex items-start justify-between gap-1">
                             <span className="font-medium">

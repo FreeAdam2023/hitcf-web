@@ -262,8 +262,8 @@ export function ExamSession() {
 
   // --- Reading layout: two-column with navigator ---
   return (
-    <div className="grid gap-3 lg:gap-6 lg:grid-cols-[1fr_200px]">
-      <div className="space-y-4">
+    <div className="grid gap-2 lg:gap-3 lg:grid-cols-[1fr_220px] h-full overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
+      <div className="space-y-4 overflow-y-auto scrollbar-on-hover lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5">
         {/* Header with prominent timer */}
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">
@@ -323,7 +323,7 @@ export function ExamSession() {
       </div>
 
       {/* Desktop sidebar navigator */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block overflow-y-auto scrollbar-on-hover rounded-xl bg-card border shadow-sm p-3">
         <QuestionNavigator
           total={questions.length}
           currentIndex={currentIndex}
