@@ -361,7 +361,17 @@ export function PracticeSession() {
   const isSubscriber = hasActiveSub();
   const { showEn, showNative, toggleEn, toggleNative } = useTranscriptLang();
 
-  const [openBook, setOpenBook] = useState(false);
+  const [openBook, setOpenBook] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return sessionStorage.getItem(`openBook:${attemptId}`) === "1";
+  });
+  const toggleOpenBook = useCallback(() => {
+    setOpenBook((v) => {
+      const next = !v;
+      sessionStorage.setItem(`openBook:${attemptId}`, next ? "1" : "0");
+      return next;
+    });
+  }, [attemptId]);
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
@@ -758,7 +768,7 @@ export function PracticeSession() {
           actions={
             <div className="flex shrink-0 items-center gap-1">
               <button
-                onClick={() => setOpenBook((v) => !v)}
+                onClick={toggleOpenBook}
                 className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
                   openBook
                     ? "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300"
