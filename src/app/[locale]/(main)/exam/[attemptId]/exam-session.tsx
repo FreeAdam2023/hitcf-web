@@ -50,11 +50,14 @@ export function ExamSession() {
   const [completing, setCompleting] = useState(false);
 
   // Listening exam flow state
+  const [listeningPhase, setListeningPhase] = useState<"ready" | "playing" | "answering">("ready");
+
   // Skip splash if exam already in progress (e.g. page refresh mid-exam)
-  const [listeningPhase, setListeningPhase] = useState<"ready" | "playing" | "answering">(() => {
-    if (answers.size > 0 || currentIndex > 0) return "playing";
-    return "ready";
-  });
+  useEffect(() => {
+    if (isListening && listeningPhase === "ready" && (answers.size > 0 || currentIndex > 0)) {
+      setListeningPhase("playing");
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [answerCountdown, setAnswerCountdown] = useState(0);
   const answerTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
