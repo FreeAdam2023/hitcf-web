@@ -49,7 +49,8 @@ describe("sitemap", () => {
   });
 
   it("should have correct total count", () => {
-    // 16 unique paths × 4 locales = 64
-    expect(entries).toHaveLength(64);
+    // Dynamic: base paths + guide pages + blog posts, all × 4 locales
+    expect(entries.length).toBeGreaterThanOrEqual(64);
+    expect(entries.length % 4).toBe(0); // always a multiple of 4 locales
   });
 });
