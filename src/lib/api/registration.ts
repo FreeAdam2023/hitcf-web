@@ -56,11 +56,13 @@ export function register(
   email: string,
   password: string,
   tracking?: { referrer?: string; utm_source?: string; utm_medium?: string; utm_campaign?: string; referral_code?: string },
+  turnstileToken?: string,
 ): Promise<RegisterResponse> {
   return post<RegisterResponse>("/api/registration/register", {
     email,
     password,
     ...tracking,
+    turnstile_token: turnstileToken,
   });
 }
 

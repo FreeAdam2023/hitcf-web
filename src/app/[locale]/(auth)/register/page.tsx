@@ -1,9 +1,10 @@
 "use client";
 
-import { Suspense, useState, useMemo } from "react";
+import { Suspense, useState, useMemo, useRef, useCallback } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,8 @@ import { OtpInput } from "@/components/ui/otp-input";
 import { PasswordStrength } from "@/components/ui/password-strength";
 import { ApiError } from "@/lib/api/client";
 import { register, verifyAndComplete } from "@/lib/api/registration";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
 type Step = "create" | "verify";
 
@@ -55,6 +58,9 @@ function RegisterForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
+  const turnstileRef = useRef<TurnstileInstance>(null);
+  const handleTurnstileSuccess = useCallback((token: string) => setTurnstileToken(token), []);
 
   const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
@@ -79,7 +85,7 @@ function RegisterForm() {
     setLoading(true);
 
     try {
-      await register(email.trim().toLowerCase(), password, trackingMeta);
+      await register(email.trim().toLowerCase(), password, trackingMeta, turnstileToken);
       setStep("verify");
     } catch (err) {
       if (err instanceof ApiError) {
@@ -87,6 +93,9 @@ function RegisterForm() {
       } else {
         setError(t("auth.register.registerFailed"));
       }
+      // Reset Turnstile for retry
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     } finally {
       setLoading(false);
     }
@@ -246,12 +255,22 @@ function RegisterForm() {
               <PasswordStrength password={password} />
             </div>
 
+            {TURNSTILE_SITE_KEY && (
+              <Turnstile
+                ref={turnstileRef}
+                siteKey={TURNSTILE_SITE_KEY}
+                onSuccess={handleTurnstileSuccess}
+                onExpire={() => setTurnstileToken("")}
+                options={{ theme: "auto", size: "flexible" }}
+              />
+            )}
+
             {error && <p className="text-sm text-destructive">{error}</p>}
 
             <Button
               type="submit"
               className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
-              disabled={loading || googleLoading}
+              disabled={loading || googleLoading || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
             >
               {loading
                 ? t("auth.register.creating")

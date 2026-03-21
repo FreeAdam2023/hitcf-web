@@ -1,13 +1,16 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useRef, useCallback } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
 function GoogleIcon() {
   return (
@@ -32,6 +35,9 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
+  const turnstileRef = useRef<TurnstileInstance>(null);
+  const handleTurnstileSuccess = useCallback((token: string) => setTurnstileToken(token), []);
 
   const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
@@ -55,17 +61,23 @@ function LoginForm() {
       const result = await signIn("credentials", {
         email: email.trim().toLowerCase(),
         password,
+        turnstile_token: turnstileToken,
         redirect: false,
       });
 
       if (result?.error) {
         setError(t("auth.login.invalidCredentials"));
+        // Reset Turnstile for retry
+        turnstileRef.current?.reset();
+        setTurnstileToken("");
       } else {
         router.push(callbackUrl);
         router.refresh();
       }
     } catch {
       setError(t("auth.login.genericError"));
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     } finally {
       setLoading(false);
     }
@@ -154,6 +166,16 @@ function LoginForm() {
           </div>
         </div>
 
+        {TURNSTILE_SITE_KEY && (
+          <Turnstile
+            ref={turnstileRef}
+            siteKey={TURNSTILE_SITE_KEY}
+            onSuccess={handleTurnstileSuccess}
+            onExpire={() => setTurnstileToken("")}
+            options={{ theme: "auto", size: "flexible" }}
+          />
+        )}
+
         {error && (
           <p className="text-sm text-destructive">{error}</p>
         )}
@@ -161,7 +183,7 @@ function LoginForm() {
         <Button
           type="submit"
           className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
-          disabled={loading || googleLoading}
+          disabled={loading || googleLoading || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
         >
           {loading ? t("auth.login.submitting") : t("auth.login.submit")}
         </Button>
