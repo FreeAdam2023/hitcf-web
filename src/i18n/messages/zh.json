@@ -785,6 +785,10 @@
       "loadError": "无法加载考试数据",
       "listeningTitle": "听力理解",
       "listeningDesc": "每题音频自动播放一次，不可暂停或重播。",
+      "listeningRule1": "{questions} 道题，{minutes} 分钟",
+      "listeningRule2": "每题音频仅播放一次，不可暂停、不可重播",
+      "listeningRule3": "音频结束后 15 秒内作答",
+      "listeningRule4": "不可返回上一题",
       "startListening": "开始考试",
       "answerNow": "请作答",
       "listenCarefully": "请仔细听..."

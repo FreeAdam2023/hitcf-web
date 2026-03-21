@@ -785,6 +785,10 @@
       "loadError": "Failed to load exam data",
       "listeningTitle": "Listening Comprehension",
       "listeningDesc": "Audio will auto-play once per question. You cannot pause or replay.",
+      "listeningRule1": "{questions} questions, {minutes} minutes",
+      "listeningRule2": "Audio plays once per question — no pause, no replay",
+      "listeningRule3": "15 seconds to answer after audio ends",
+      "listeningRule4": "Cannot go back to previous questions",
       "startListening": "Start Exam",
       "answerNow": "Answer now",
       "listenCarefully": "Listen carefully..."

@@ -786,6 +786,10 @@
       "loadError": "Échec du chargement des données d'examen",
       "listeningTitle": "Compréhension orale",
       "listeningDesc": "L'audio sera joué automatiquement une seule fois. Vous ne pouvez ni mettre en pause ni réécouter.",
+      "listeningRule1": "{questions} questions, {minutes} minutes",
+      "listeningRule2": "L'audio est joué une seule fois — pas de pause, pas de réécoute",
+      "listeningRule3": "15 secondes pour répondre après la fin de l'audio",
+      "listeningRule4": "Impossible de revenir aux questions précédentes",
       "startListening": "Commencer l'examen",
       "answerNow": "Répondez maintenant",
       "listenCarefully": "Écoutez attentivement..."

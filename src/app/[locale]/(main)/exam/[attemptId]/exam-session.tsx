@@ -50,7 +50,11 @@ export function ExamSession() {
   const [completing, setCompleting] = useState(false);
 
   // Listening exam flow state
-  const [listeningPhase, setListeningPhase] = useState<"ready" | "playing" | "answering">("ready");
+  // Skip splash if exam already in progress (e.g. page refresh mid-exam)
+  const [listeningPhase, setListeningPhase] = useState<"ready" | "playing" | "answering">(() => {
+    if (answers.size > 0 || currentIndex > 0) return "playing";
+    return "ready";
+  });
   const [answerCountdown, setAnswerCountdown] = useState(0);
   const answerTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -286,10 +290,10 @@ export function ExamSession() {
             <p className="mt-2 text-muted-foreground">{t("exam.session.listeningDesc")}</p>
           </div>
           <div className="space-y-2 text-sm text-muted-foreground text-left">
-            <p>{"• 39 questions, 35 minutes"}</p>
-            <p>{"• Audio plays once per question \u2014 no pause, no replay"}</p>
-            <p>{"• 15 seconds to answer after audio ends"}</p>
-            <p>{"• Cannot go back to previous questions"}</p>
+            <p>• {t("exam.session.listeningRule1", { questions: questions.length, minutes: Math.ceil(timeLimitSeconds / 60) })}</p>
+            <p>• {t("exam.session.listeningRule2")}</p>
+            <p>• {t("exam.session.listeningRule3")}</p>
+            <p>• {t("exam.session.listeningRule4")}</p>
           </div>
           <Button size="lg" onClick={() => setListeningPhase("playing")} className="mt-4">
             {t("exam.session.startListening")}
@@ -298,64 +302,107 @@ export function ExamSession() {
       );
     }
 
-    // "Playing" and "Answering" phases — main exam flow
+    // "Playing" and "Answering" phases — two-column layout like reading
     return (
-      <div className="mx-auto max-w-2xl space-y-4">
-        {/* Header: question number + timer */}
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">
-            {t("exam.session.questionNumber", { current: currentIndex + 1, total: questions.length })}
-          </h2>
-          <ExamTimer
-            timeLimitSeconds={timeLimitSeconds}
-            startedAt={startedAt}
-            onTimeUp={handleTimeUp}
-            prominent
+      <div className="grid gap-2 lg:gap-3 lg:grid-cols-[1fr_220px] h-full overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
+        <div className="space-y-4 overflow-y-auto scrollbar-on-hover lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5">
+          {/* Header: question number + timer */}
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold">
+              {t("exam.session.questionNumber", { current: currentIndex + 1, total: questions.length })}
+            </h2>
+            <ExamTimer
+              timeLimitSeconds={timeLimitSeconds}
+              startedAt={startedAt}
+              onTimeUp={handleTimeUp}
+              prominent
+            />
+          </div>
+
+          <QuestionDisplay
+            question={question}
+            index={currentIndex}
+            total={questions.length}
+            audioMaxPlays={1}
+            autoPlayAudio
+            examMode
+            onAudioPlaybackComplete={handleAudioComplete}
+            vocabDisabled
+          />
+
+          {/* Answer countdown — only during answering phase */}
+          {listeningPhase === "answering" && (
+            <div className="flex items-center justify-center gap-2 text-sm font-medium">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-amber-500 text-amber-600 tabular-nums text-sm font-bold">
+                {answerCountdown}
+              </div>
+              <span className="text-muted-foreground">{t("exam.session.answerNow")}</span>
+            </div>
+          )}
+
+          {listeningPhase === "playing" && (
+            <p className="text-center text-sm text-muted-foreground">{t("exam.session.listenCarefully")}</p>
+          )}
+
+          <OptionList
+            options={question.options}
+            answer={null}
+            onSelect={handleSelect}
+            disabled={submitting || listeningPhase === "playing" || answers.has(question.id)}
+            mode="exam"
+            examSelected={currentAnswer?.selected ?? null}
+            audioOnly={question.options.every((o) => !o.text?.trim())}
+            horizontal={!!question.has_image}
+            vocabDisabled
           />
         </div>
 
-        <QuestionDisplay
-          question={question}
-          index={currentIndex}
-          total={questions.length}
-          audioMaxPlays={1}
-          autoPlayAudio
-          examMode
-          onAudioPlaybackComplete={handleAudioComplete}
-          vocabDisabled
-        />
-
-        {/* Answer countdown — only during answering phase */}
-        {listeningPhase === "answering" && (
-          <div className="flex items-center justify-center gap-2 text-sm font-medium">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-amber-500 text-amber-600 tabular-nums text-sm font-bold">
-              {answerCountdown}
-            </div>
-            <span className="text-muted-foreground">{t("exam.session.answerNow")}</span>
+        {/* Desktop sidebar: read-only navigator + submit on last question */}
+        <div className="hidden lg:flex lg:flex-col lg:gap-3 overflow-y-auto scrollbar-on-hover">
+          <div className="rounded-xl bg-card border shadow-sm p-3">
+            <QuestionNavigator
+              total={questions.length}
+              currentIndex={currentIndex}
+              answers={navigatorAnswers}
+              questionIds={questions.map((q) => q.id)}
+              onNavigate={() => {}}
+              mode="exam"
+              flaggedQuestions={new Set()}
+            />
           </div>
-        )}
-
-        {listeningPhase === "playing" && (
-          <p className="text-center text-sm text-muted-foreground">{t("exam.session.listenCarefully")}</p>
-        )}
-
-        <OptionList
-          options={question.options}
-          answer={null}
-          onSelect={handleSelect}
-          disabled={submitting || listeningPhase === "playing" || answers.has(question.id)}
-          mode="exam"
-          examSelected={currentAnswer?.selected ?? null}
-          audioOnly={question.options.every((o) => !o.text?.trim())}
-          horizontal={!!question.has_image}
-          vocabDisabled
-        />
-
-        <Separator />
-
-        <div className="flex items-center justify-center">
-          {submitDialog}
+          {isLast && (
+            <div className="rounded-xl bg-card border shadow-sm p-3">
+              {submitDialog}
+            </div>
+          )}
         </div>
+
+        {/* Mobile floating navigator */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className="fixed bottom-4 right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden"
+            >
+              <LayoutGrid className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
+            <div className="p-4 pb-8">
+              <QuestionNavigator
+                total={questions.length}
+                currentIndex={currentIndex}
+                answers={navigatorAnswers}
+                questionIds={questions.map((q) => q.id)}
+                onNavigate={() => {}}
+                mode="exam"
+                flaggedQuestions={new Set()}
+              />
+              {isLast && <div className="mt-4">{submitDialog}</div>}
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     );
   }
