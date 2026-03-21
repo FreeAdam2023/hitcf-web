@@ -554,7 +554,6 @@
         "family": "Sélectionner",
         "customHobby": "Tapez et appuyez sur Entrée",
         "customReason": "Tapez et appuyez sur Entrée",
-        "customReason": "Tapez et appuyez sur Entrée",
         "extra": "ex. : J'ai vécu à Pékin pendant 10 ans, j'ai déménagé à Montréal l'année dernière ; j'aime courir au Mont-Royal le week-end"
       },
       "familyOptions": {
@@ -655,7 +654,10 @@
       "showEn": "Afficher la traduction anglaise",
       "hideEn": "Masquer la traduction anglaise",
       "showZh": "Afficher la traduction chinoise",
-      "hideZh": "Masquer la traduction chinoise"
+      "hideZh": "Masquer la traduction chinoise",
+      "kbSelect": "sélectionner",
+      "kbConfirm": "confirmer",
+      "kbNavigate": "naviguer"
     },
     "optionList": {
       "ariaLabel": "Options de réponse"
@@ -1546,7 +1548,9 @@
       "showDict": "Dictionnaire",
       "hideDict": "Masquer le dictionnaire",
       "proDesc": "API phonétique, conjugaisons, exemples et audio sont inclus avec Pro",
-      "proUpgrade": "En savoir plus sur Pro"
+      "proUpgrade": "En savoir plus sur Pro",
+      "kbFlip": "retourner",
+      "kbNavigate": "naviguer"
     },
     "export": {
       "button": "Exporter",

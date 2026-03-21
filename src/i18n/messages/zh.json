@@ -654,7 +654,10 @@
       "showEn": "显示英文翻译",
       "hideEn": "隐藏英文翻译",
       "showZh": "显示中文翻译",
-      "hideZh": "隐藏中文翻译"
+      "hideZh": "隐藏中文翻译",
+      "kbSelect": "选择",
+      "kbConfirm": "确认",
+      "kbNavigate": "切换题目"
     },
     "optionList": {
       "ariaLabel": "答案选项"
@@ -1545,7 +1548,9 @@
       "showDict": "查看词典",
       "hideDict": "收起词典",
       "proDesc": "音标、变位、例句、发音等完整词典内容包含在 Pro 中",
-      "proUpgrade": "了解 Pro"
+      "proUpgrade": "了解 Pro",
+      "kbFlip": "翻转",
+      "kbNavigate": "切换卡片"
     },
     "export": {
       "button": "导出",

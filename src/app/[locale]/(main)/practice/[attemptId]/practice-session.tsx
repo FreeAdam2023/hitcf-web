@@ -893,6 +893,13 @@ export function PracticeSession() {
           </Button>
         </div>
 
+        {/* 键盘快捷键提示 (仅桌面) */}
+        <div className="hidden lg:flex items-center justify-center gap-4 text-[11px] text-muted-foreground/60">
+          <span><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">A</kbd>-<kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">D</kbd> {t("practice.session.kbSelect")}</span>
+          <span><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Enter</kbd> {t("practice.session.kbConfirm")}</span>
+          <span><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">←</kbd> <kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">→</kbd> {t("practice.session.kbNavigate")}</span>
+        </div>
+
         {/* 听力原文 / 阅读逐句翻译 — 答题后展开 */}
         {currentAnswer && (question.type === "listening" || question.type === "reading") && (
           <div className="animate-in fade-in slide-in-from-top-2 duration-300">

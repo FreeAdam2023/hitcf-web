@@ -863,6 +863,12 @@ export function FlashCardView({ loadCards, backLink, backLabel, emptyMessage, po
           <ChevronRight className="ml-1 h-4 w-4" />
         </Button>
       </div>
+
+      {/* 键盘快捷键提示 (仅桌面) */}
+      <div className="hidden lg:flex items-center justify-center gap-4 text-[11px] text-muted-foreground/60">
+        <span><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Space</kbd> {t("vocabulary.flashcard.kbFlip")}</span>
+        <span><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">←</kbd> <kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">→</kbd> {t("vocabulary.flashcard.kbNavigate")}</span>
+      </div>
     </div>
   );
 }
