@@ -38,7 +38,9 @@
       "correct": "Correct",
       "wrong": "Wrong",
       "answered": "Answered",
-      "unknown": "Unknown"
+      "unknown": "Unknown",
+      "on": "ON",
+      "off": "OFF"
     },
     "errors": {
       "generic": "Something went wrong. Please try again later.",
@@ -452,7 +454,9 @@
     "speakingModeDesc": {
       "tache2": "Role play dialogue with the examiner. Read the scenario description, then interact to complete the task.",
       "tache3": "Present your personal opinion on a social topic in a ~4 minute monologue. The examiner may ask follow-up questions."
-    }
+    },
+    "openBookLabel": "Open Book Mode",
+    "openBookDesc": "Best for quick review and memorizing key points. Shows correct answers and explanations during practice."
   },
   "speakingGuide": {
     "topics": [

@@ -38,7 +38,9 @@
       "correct": "正确",
       "wrong": "错误",
       "answered": "已答",
-      "unknown": "未知"
+      "unknown": "未知",
+      "on": "开",
+      "off": "关"
     },
     "errors": {
       "generic": "发生了错误，请稍后再试。",
@@ -452,7 +454,9 @@
     "speakingModeDesc": {
       "tache2": "考生与考官进行角色扮演对话。阅读场景描述后，与考官互动完成交际任务。",
       "tache3": "考生就一个社会话题发表个人观点，进行约 4 分钟的独白。考官可能追问。"
-    }
+    },
+    "openBookLabel": "开卷模式",
+    "openBookDesc": "适合快速过题、记考点。答题时直接显示正确答案和解析，专注理解而非测试。"
   },
   "speakingGuide": {
     "topics": [

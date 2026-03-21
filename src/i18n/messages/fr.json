@@ -38,7 +38,9 @@
       "correct": "Correct",
       "wrong": "Incorrect",
       "answered": "Répondu",
-      "unknown": "Inconnu"
+      "unknown": "Inconnu",
+      "on": "ON",
+      "off": "OFF"
     },
     "errors": {
       "generic": "Une erreur est survenue. Veuillez réessayer plus tard.",
@@ -452,7 +454,9 @@
     "speakingModeDesc": {
       "tache2": "Dialogue de jeu de rôle avec l'examinateur. Lisez la description du scénario, puis interagissez pour accomplir la tâche.",
       "tache3": "Présentez votre opinion personnelle sur un sujet de société en un monologue d'environ 4 minutes. L'examinateur peut poser des questions de suivi."
-    }
+    },
+    "openBookLabel": "Mode livre ouvert",
+    "openBookDesc": "Idéal pour une révision rapide. Affiche les réponses correctes et les explications pendant la pratique."
   },
   "speakingGuide": {
     "topics": [
