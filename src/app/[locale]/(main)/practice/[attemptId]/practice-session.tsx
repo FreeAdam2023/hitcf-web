@@ -828,9 +828,9 @@ export function PracticeSession() {
           audioOnly={question.type === "listening" && question.options.every((o) => !o.text?.trim())}
           horizontal={!!question.has_image}
           saveContext={saveContext}
-          optionTranslations={explanation?.option_translations}
-          showEn={showEn}
-          showNative={showNative}
+          optionTranslations={(currentAnswer || openBook) ? explanation?.option_translations : undefined}
+          showEn={(currentAnswer || openBook) ? showEn : false}
+          showNative={(currentAnswer || openBook) ? showNative : false}
           locale={locale}
         />
 
