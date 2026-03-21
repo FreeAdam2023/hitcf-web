@@ -606,24 +606,49 @@ function drawChildOnShoulders(ctx: CanvasRenderingContext2D, parentX: number, gr
   ctx.stroke();
 }
 
-// ─── Real audio file playback ───────────────────────────────────
+// ─── Real audio file playback (via AudioContext for mobile compat) ─
 const BOOM_FILES = ["/sounds/boom1.mp3", "/sounds/boom2.mp3", "/sounds/boom3.mp3"];
+const audioBufferCache = new Map<string, AudioBuffer>();
 
-function playRealLaunch(srcs: string[]) {
-  if (!srcs[0]) return;
-  const a = new Audio(srcs[0]);
-  a.volume = 0.25 + Math.random() * 0.15;
-  a.playbackRate = 0.9 + Math.random() * 0.3;
-  a.play().catch(() => {});
+async function fetchAudioBuffer(ctx: AudioContext, src: string): Promise<AudioBuffer | null> {
+  const cached = audioBufferCache.get(src);
+  if (cached) return cached;
+  try {
+    const res = await fetch(src);
+    const arrayBuf = await res.arrayBuffer();
+    const audioBuf = await ctx.decodeAudioData(arrayBuf);
+    audioBufferCache.set(src, audioBuf);
+    return audioBuf;
+  } catch {
+    return null;
+  }
 }
 
-function playRealBoom(srcs: string[]) {
+function playBuffered(ctx: AudioContext, buffer: AudioBuffer, volume: number, rate: number) {
+  const source = ctx.createBufferSource();
+  const gain = ctx.createGain();
+  source.buffer = buffer;
+  source.playbackRate.value = rate;
+  gain.gain.value = volume;
+  source.connect(gain);
+  gain.connect(ctx.destination);
+  source.start();
+}
+
+function playRealLaunch(ctx: AudioContext | null, srcs: string[]) {
+  if (!ctx || !srcs[0]) return;
+  fetchAudioBuffer(ctx, srcs[0]).then((buf) => {
+    if (buf) playBuffered(ctx, buf, 0.25 + Math.random() * 0.15, 0.9 + Math.random() * 0.3);
+  });
+}
+
+function playRealBoom(ctx: AudioContext | null, srcs: string[]) {
+  if (!ctx) return;
   const idx = Math.floor(Math.random() * srcs.length);
   if (!srcs[idx]) return;
-  const a = new Audio(srcs[idx]);
-  a.volume = 0.35 + Math.random() * 0.25;
-  a.playbackRate = 0.85 + Math.random() * 0.3;
-  a.play().catch(() => {});
+  fetchAudioBuffer(ctx, srcs[idx]).then((buf) => {
+    if (buf) playBuffered(ctx, buf, 0.35 + Math.random() * 0.25, 0.85 + Math.random() * 0.3);
+  });
 }
 
 type SoundMode = "realistic" | "cartoon" | "classic";
@@ -727,7 +752,7 @@ export default function ChengPage() {
 
     const mode = soundModeRef.current;
     if (mode === "realistic") {
-      playRealLaunch(launchSrcsRef.current);
+      playRealLaunch(audioCtxRef.current, launchSrcsRef.current);
     } else if (audioCtxRef.current) {
       if (mode === "classic") playClassicLaunch(audioCtxRef.current);
       else playLaunchSound(audioCtxRef.current);
@@ -782,7 +807,7 @@ export default function ChengPage() {
 
     const mode = soundModeRef.current;
     if (mode === "realistic") {
-      playRealBoom(boomSrcsRef.current);
+      playRealBoom(audioCtxRef.current, boomSrcsRef.current);
     } else if (audioCtxRef.current) {
       const intensity = 0.6 + Math.random() * 0.4;
       if (mode === "classic") playClassicExplosion(audioCtxRef.current, intensity);
