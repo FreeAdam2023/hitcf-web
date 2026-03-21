@@ -838,7 +838,8 @@
       "points": "{points} نقطة",
       "notAnswered": "لم تتم الإجابة",
       "correctAnswer": "الإجابة الصحيحة: {answer}",
-      "transcript": "نص الاستماع"
+      "transcript": "نص الاستماع",
+      "inWrongBook": "في المراجعة"
     },
     "nclc": {
       "listening": "الاستماع (CO)",

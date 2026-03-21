@@ -837,7 +837,8 @@
       "points": "{points} pts",
       "notAnswered": "Not answered",
       "correctAnswer": "Correct: {answer}",
-      "transcript": "Listening Transcript"
+      "transcript": "Listening Transcript",
+      "inWrongBook": "In review"
     },
     "nclc": {
       "listening": "Listening (CO)",

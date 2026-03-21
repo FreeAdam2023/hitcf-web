@@ -837,7 +837,8 @@
       "points": "{points}分",
       "notAnswered": "未作答",
       "correctAnswer": "正确: {answer}",
-      "transcript": "听力原文"
+      "transcript": "听力原文",
+      "inWrongBook": "已入错题本"
     },
     "nclc": {
       "listening": "听力 (CO)",

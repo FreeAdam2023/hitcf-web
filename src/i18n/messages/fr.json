@@ -838,7 +838,8 @@
       "points": "{points} pts",
       "notAnswered": "Sans réponse",
       "correctAnswer": "Bonne réponse : {answer}",
-      "transcript": "Transcription audio"
+      "transcript": "Transcription audio",
+      "inWrongBook": "En révision"
     },
     "nclc": {
       "listening": "Compréhension orale (CO)",
