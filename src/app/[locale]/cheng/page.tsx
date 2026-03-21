@@ -721,8 +721,8 @@ export default function ChengPage() {
   const trafficPosRef = useRef({ x: 0, y: 0, w: 0, h: 0 });
   const [started, setStarted] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [soundMode, setSoundMode] = useState<SoundMode>("realistic");
-  const soundModeRef = useRef<SoundMode>("realistic");
+  const [soundMode, setSoundMode] = useState<SoundMode>("cartoon");
+  const soundModeRef = useRef<SoundMode>("cartoon");
   const launchSrcsRef = useRef<string[]>([]);
   const boomSrcsRef = useRef<string[]>([]);
 
@@ -825,7 +825,7 @@ export default function ChengPage() {
 
   const toggleSoundMode = useCallback(() => {
     setSoundMode((prev) => {
-      const order: SoundMode[] = ["realistic", "cartoon", "classic"];
+      const order: SoundMode[] = ["cartoon", "classic", "realistic"];
       const next = order[(order.indexOf(prev) + 1) % order.length];
       soundModeRef.current = next;
       return next;
@@ -982,17 +982,17 @@ export default function ChengPage() {
       ctx.beginPath();
       ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
       ctx.fill();
-      // Shadow overlay for moon phase (realistic=full, cartoon=half, classic=crescent)
+      // Shadow overlay for moon phase (cartoon=full, classic=half, realistic=crescent)
       const mode = soundModeRef.current;
-      if (mode !== "realistic") {
+      if (mode !== "cartoon") {
         ctx.fillStyle = "#020210";
         ctx.beginPath();
-        if (mode === "cartoon") {
-          // Half moon: shadow covers left half
+        if (mode === "classic") {
+          // Half moon
           ctx.arc(moonX, moonY, moonR * 1.02, Math.PI * 0.5, Math.PI * 1.5);
           ctx.fill();
         } else {
-          // Crescent: large overlapping dark circle offset to the left
+          // Crescent (realistic)
           ctx.arc(moonX - moonR * 0.6, moonY, moonR * 0.85, 0, Math.PI * 2);
           ctx.fill();
         }
