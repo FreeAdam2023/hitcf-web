@@ -853,16 +853,16 @@ export default function ChengPage() {
         <div className="text-center space-y-6 relative z-10">
           <div className="text-6xl">🎆</div>
           <h1 className="text-3xl font-bold text-white/90 tracking-wide">
-            Fireworks Show
+            烟花秀
           </h1>
           <p className="text-white/50 text-sm">
-            Click anywhere to launch fireworks
+            点击屏幕任意位置发射烟花
           </p>
           <button
             onClick={handleStart}
             className="mt-4 px-8 py-3 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold text-lg shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-105 transition-all active:scale-95"
           >
-            Start Show ✨
+            开始烟花秀 ✨
           </button>
         </div>
       </div>
