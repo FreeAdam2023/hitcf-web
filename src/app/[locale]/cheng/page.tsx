@@ -883,11 +883,6 @@ export default function ChengPage() {
       const moonY = h * 0.12;
       const moonR = Math.min(w, h) * 0.03;
       moonPosRef.current = { x: moonX, y: moonY, r: moonR };
-      // Glow halo
-      ctx.fillStyle = "rgba(255, 255, 230, 0.12)";
-      ctx.beginPath();
-      ctx.arc(moonX, moonY, moonR * 3, 0, Math.PI * 2);
-      ctx.fill();
       // Full bright disc
       ctx.fillStyle = "rgba(255, 255, 230, 0.9)";
       ctx.beginPath();
