@@ -794,6 +794,8 @@
       "listeningRule2": "يتم تشغيل الصوت مرة واحدة فقط — بدون إيقاف مؤقت أو إعادة",
       "listeningRule3": "15 ثانية للإجابة بعد انتهاء الصوت",
       "listeningRule4": "لا يمكن العودة إلى الأسئلة السابقة",
+      "soundCheck": "اختبار الصوت",
+      "soundCheckDone": "الصوت يعمل ✓",
       "startListening": "بدء الامتحان",
       "answerNow": "أجب الآن",
       "listenCarefully": "استمع بعناية..."

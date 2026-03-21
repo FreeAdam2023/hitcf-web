@@ -793,6 +793,8 @@
       "listeningRule2": "Audio plays once per question — no pause, no replay",
       "listeningRule3": "15 seconds to answer after audio ends",
       "listeningRule4": "Cannot go back to previous questions",
+      "soundCheck": "Sound Check",
+      "soundCheckDone": "Sound OK ✓",
       "startListening": "Start Exam",
       "answerNow": "Answer now",
       "listenCarefully": "Listen carefully..."

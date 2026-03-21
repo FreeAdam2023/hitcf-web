@@ -794,6 +794,8 @@
       "listeningRule2": "L'audio est joué une seule fois — pas de pause, pas de réécoute",
       "listeningRule3": "15 secondes pour répondre après la fin de l'audio",
       "listeningRule4": "Impossible de revenir aux questions précédentes",
+      "soundCheck": "Test audio",
+      "soundCheckDone": "Audio OK ✓",
       "startListening": "Commencer l'examen",
       "answerNow": "Répondez maintenant",
       "listenCarefully": "Écoutez attentivement..."

@@ -152,7 +152,7 @@ export function useCelebration(scorePercent: number | undefined) {
   const firedRef = useRef(false);
 
   useEffect(() => {
-    if (scorePercent === undefined || firedRef.current) return;
+    if (scorePercent === undefined || scorePercent <= 0 || firedRef.current) return;
     firedRef.current = true;
 
     // Small delay so the page paints first

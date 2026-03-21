@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Send, LayoutGrid, Headphones } from "lucide-react";
+import { ChevronLeft, ChevronRight, Send, LayoutGrid, Headphones, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -280,8 +280,45 @@ export function ExamSession() {
   );
 
   // --- Listening layout: system-paced, no manual navigation ---
+  // Sound check: play a short beep to verify audio works + unlock browser autoplay
+  const [soundChecked, setSoundChecked] = useState(false);
+  const handleSoundCheck = useCallback(() => {
+    setSoundChecked(true);
+    try {
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = 440;
+      gain.gain.value = 0.2;
+      osc.start();
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+      osc.stop(ctx.currentTime + 0.3);
+      setTimeout(() => ctx.close(), 1000);
+    } catch { /* AudioContext unavailable */ }
+    // Also unlock HTML <audio> autoplay by playing a silent data URI
+    try {
+      const silence = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=");
+      silence.volume = 0.01;
+      silence.play().then(() => silence.pause()).catch(() => {});
+    } catch { /* ignore */ }
+  }, []);
+
+  const handleStartListening = useCallback(() => {
+    // Ensure autoplay is unlocked even if user skipped sound check
+    if (!soundChecked) {
+      try {
+        const silence = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=");
+        silence.volume = 0.01;
+        silence.play().then(() => silence.pause()).catch(() => {});
+      } catch { /* ignore */ }
+    }
+    setListeningPhase("playing");
+  }, [soundChecked]);
+
   if (isListening) {
-    // "Ready" splash screen — unlock browser autoplay
+    // "Ready" splash screen — sound check + unlock browser autoplay
     if (listeningPhase === "ready") {
       return (
         <div className="mx-auto max-w-lg flex flex-col items-center justify-center min-h-[60vh] space-y-6 text-center">
@@ -298,9 +335,15 @@ export function ExamSession() {
             <p>• {t("exam.session.listeningRule3")}</p>
             <p>• {t("exam.session.listeningRule4")}</p>
           </div>
-          <Button size="lg" onClick={() => setListeningPhase("playing")} className="mt-4">
-            {t("exam.session.startListening")}
-          </Button>
+          <div className="flex flex-col items-center gap-3 mt-4">
+            <Button variant="outline" onClick={handleSoundCheck} className="gap-2">
+              <Volume2 className="h-4 w-4" />
+              {soundChecked ? t("exam.session.soundCheckDone") : t("exam.session.soundCheck")}
+            </Button>
+            <Button size="lg" onClick={handleStartListening}>
+              {t("exam.session.startListening")}
+            </Button>
+          </div>
         </div>
       );
     }
