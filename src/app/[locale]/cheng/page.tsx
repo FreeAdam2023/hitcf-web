@@ -47,6 +47,21 @@ interface Car {
 
 const CAR_COLORS = ["#e63946", "#457b9d", "#f4a261", "#2a9d8f", "#e9c46a"];
 
+type TrafficLight = "green" | "yellow" | "red";
+const TRAFFIC_CYCLE: TrafficLight[] = ["green", "yellow", "red"];
+// Firework launch interval per light: green=fast, yellow=medium, red=slow/none
+const LAUNCH_INTERVAL: Record<TrafficLight, [number, number]> = {
+  green: [80, 100],   // ~1.3-1.7s
+  yellow: [180, 220], // ~3-3.7s
+  red: [600, 900],    // ~10-15s (nearly stopped)
+};
+// Car target speed multiplier
+const CAR_SPEED_MULT: Record<TrafficLight, number> = {
+  green: 1.2,
+  yellow: 0.4,
+  red: 0,
+};
+
 // ─── Color palettes ────────────────────────────────────────────
 const PALETTES = [
   ["#ff4444", "#ff6666", "#ff8888", "#ffaaaa", "#ff2222"],
@@ -613,6 +628,58 @@ function playRealBoom(srcs: string[]) {
 
 type SoundMode = "realistic" | "cartoon" | "classic";
 
+// ─── Traffic light drawing ──────────────────────────────────────
+function drawTrafficLight(ctx: CanvasRenderingContext2D, x: number, y: number, scale: number, active: TrafficLight) {
+  const w = 20 * scale;
+  const h = 56 * scale;
+  const r = 7 * scale;
+  const poleW = 4 * scale;
+  const poleH = 30 * scale;
+
+  // Pole
+  ctx.fillStyle = "#444";
+  ctx.fillRect(x - poleW / 2, y, poleW, poleH);
+
+  // Housing
+  ctx.fillStyle = "#222";
+  ctx.beginPath();
+  ctx.roundRect(x - w / 2, y - h, w, h, 4 * scale);
+  ctx.fill();
+  ctx.strokeStyle = "#555";
+  ctx.lineWidth = 1.5 * scale;
+  ctx.stroke();
+
+  // Lights: red (top), yellow (mid), green (bottom)
+  const lights: { color: string; cy: number; name: TrafficLight }[] = [
+    { color: "#ff3333", cy: y - h + 12 * scale, name: "red" },
+    { color: "#ffcc00", cy: y - h + 28 * scale, name: "yellow" },
+    { color: "#33cc33", cy: y - h + 44 * scale, name: "green" },
+  ];
+
+  for (const light of lights) {
+    const isOn = light.name === active;
+    // Glow
+    if (isOn) {
+      ctx.fillStyle = light.color + "40";
+      ctx.beginPath();
+      ctx.arc(x, light.cy, r * 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    // Bulb
+    ctx.fillStyle = isOn ? light.color : "#1a1a1a";
+    ctx.beginPath();
+    ctx.arc(x, light.cy, r, 0, Math.PI * 2);
+    ctx.fill();
+    // Highlight
+    if (isOn) {
+      ctx.fillStyle = "rgba(255,255,255,0.3)";
+      ctx.beginPath();
+      ctx.arc(x - r * 0.25, light.cy - r * 0.25, r * 0.4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+}
+
 // ─── Main component ────────────────────────────────────────────
 export default function ChengPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -625,6 +692,8 @@ export default function ChengPage() {
   const frameRef = useRef(0);
   const lastAutoLaunchRef = useRef(0);
   const moonPosRef = useRef({ x: 0, y: 0, r: 0 });
+  const trafficRef = useRef<TrafficLight>("green");
+  const trafficPosRef = useRef({ x: 0, y: 0, w: 0, h: 0 });
   const [started, setStarted] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [soundMode, setSoundMode] = useState<SoundMode>("realistic");
@@ -801,6 +870,14 @@ export default function ChengPage() {
         return;
       }
 
+      // Check if clicking on the traffic light
+      const tp = trafficPosRef.current;
+      if (clientX > tp.x - tp.w && clientX < tp.x + tp.w && clientY > tp.y - tp.h && clientY < tp.y + tp.h * 0.3) {
+        const idx = TRAFFIC_CYCLE.indexOf(trafficRef.current);
+        trafficRef.current = TRAFFIC_CYCLE[(idx + 1) % TRAFFIC_CYCLE.length];
+        return;
+      }
+
       // Check if clicking on a car
       const carScale = Math.min(canvas.width, canvas.height) / 800;
       let clickedCar = false;
@@ -833,13 +910,14 @@ export default function ChengPage() {
       const h = canvas.height;
       const groundY = h * 0.85;
 
-      // Auto-launch (every ~2.5–5 seconds)
-      if (frame - lastAutoLaunchRef.current > 150 + Math.random() * 150) {
+      // Auto-launch (interval controlled by traffic light)
+      const [minInterval, maxInterval] = LAUNCH_INTERVAL[trafficRef.current];
+      if (frame - lastAutoLaunchRef.current > minInterval + Math.random() * (maxInterval - minInterval)) {
         lastAutoLaunchRef.current = frame;
         launchFirework();
-        // Occasionally launch a second one
-        if (Math.random() < 0.2) {
-          setTimeout(() => launchFirework(), 500 + Math.random() * 800);
+        // Green light: occasionally launch a second one
+        if (trafficRef.current === "green" && Math.random() < 0.3) {
+          setTimeout(() => launchFirework(), 300 + Math.random() * 500);
         }
       }
 
@@ -1014,27 +1092,36 @@ export default function ChengPage() {
       // Ground & silhouettes
       drawSilhouettes(ctx, w, h, groundY, glowRef.current);
 
-      // Update & draw cars
+      // Update & draw cars (react to traffic light)
       const carScale = Math.min(w, h) / 800;
+      const targetSpeedMult = CAR_SPEED_MULT[trafficRef.current];
       for (const car of carsRef.current) {
+        // Smoothly adjust speed toward target (brake/accelerate)
+        const baseSpeed = 0.8;
+        const targetSpeed = baseSpeed * targetSpeedMult;
+        const currentSpeed = Math.abs(car.speed);
+        const newSpeed = currentSpeed + (targetSpeed - currentSpeed) * 0.03;
+        car.speed = newSpeed;
+
         car.x += car.speed * car.direction;
         if (car.honking > 0) car.honking--;
         if (car.launchCooldown > 0) car.launchCooldown--;
 
-        // Bounce at edges
+        // Brake lights glow red when stopped
+        car.honking = trafficRef.current === "red" && car.speed < 0.1 ? 1 : car.honking;
+
+        // Bounce at edges (only when moving)
         if (car.x > w + 50 * carScale) {
           car.direction = -1;
-          car.speed = 0.5 + Math.random() * 0.6;
           car.color = CAR_COLORS[Math.floor(Math.random() * CAR_COLORS.length)];
         }
         if (car.x < -50 * carScale) {
           car.direction = 1;
-          car.speed = 0.5 + Math.random() * 0.6;
           car.color = CAR_COLORS[Math.floor(Math.random() * CAR_COLORS.length)];
         }
 
-        // Occasional car-launched firework
-        if (car.launchCooldown <= 0 && Math.random() < 0.001) {
+        // Occasional car-launched firework (only on green)
+        if (trafficRef.current === "green" && car.launchCooldown <= 0 && Math.random() < 0.001) {
           car.launchCooldown = 300;
           launchFirework(car.x);
           car.honking = 20;
@@ -1043,6 +1130,13 @@ export default function ChengPage() {
 
         drawCar(ctx, car, carScale);
       }
+
+      // Draw traffic light (right side of ground)
+      const tlX = w * 0.15;
+      const tlY = groundY;
+      const tlScale = carScale;
+      trafficPosRef.current = { x: tlX, y: tlY, w: 20 * tlScale, h: 56 * tlScale };
+      drawTrafficLight(ctx, tlX, tlY, tlScale, trafficRef.current);
 
       requestAnimationFrame(animate);
     };
@@ -1083,8 +1177,11 @@ export default function ChengPage() {
           <h1 className="text-3xl font-bold text-white/90 tracking-wide">
             烟花秀
           </h1>
-          <p className="text-white/50 text-sm">
-            点击屏幕任意位置发射烟花
+          <p className="text-white/40 text-lg italic">
+            送给橙橙
+          </p>
+          <p className="text-white/30 text-xs">
+            点击屏幕发射烟花 · 点击月亮切换音效 · 点击信号灯调速
           </p>
           <button
             onClick={handleStart}
