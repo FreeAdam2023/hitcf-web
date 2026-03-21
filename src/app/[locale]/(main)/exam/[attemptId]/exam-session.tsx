@@ -61,6 +61,43 @@ export function ExamSession() {
   const [answerCountdown, setAnswerCountdown] = useState(0);
   const answerTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // Sound check state (must be before any conditional returns)
+  const [soundChecked, setSoundChecked] = useState(false);
+  const handleSoundCheck = useCallback(() => {
+    setSoundChecked(true);
+    try {
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = 440;
+      gain.gain.value = 0.2;
+      osc.start();
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+      osc.stop(ctx.currentTime + 0.3);
+      setTimeout(() => ctx.close(), 1000);
+    } catch { /* AudioContext unavailable */ }
+    // Also unlock HTML <audio> autoplay by playing a silent data URI
+    try {
+      const silence = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=");
+      silence.volume = 0.01;
+      silence.play().then(() => silence.pause()).catch(() => {});
+    } catch { /* ignore */ }
+  }, []);
+
+  const handleStartListening = useCallback(() => {
+    // Ensure autoplay is unlocked even if user skipped sound check
+    if (!soundChecked) {
+      try {
+        const silence = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=");
+        silence.volume = 0.01;
+        silence.play().then(() => silence.pause()).catch(() => {});
+      } catch { /* ignore */ }
+    }
+    setListeningPhase("playing");
+  }, [soundChecked]);
+
   // Prevent accidental back navigation (no beforeunload — exam state persists via sessionStorage)
   useEffect(() => {
     window.history.pushState(null, "", window.location.href);
@@ -280,43 +317,6 @@ export function ExamSession() {
   );
 
   // --- Listening layout: system-paced, no manual navigation ---
-  // Sound check: play a short beep to verify audio works + unlock browser autoplay
-  const [soundChecked, setSoundChecked] = useState(false);
-  const handleSoundCheck = useCallback(() => {
-    setSoundChecked(true);
-    try {
-      const ctx = new AudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.frequency.value = 440;
-      gain.gain.value = 0.2;
-      osc.start();
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-      osc.stop(ctx.currentTime + 0.3);
-      setTimeout(() => ctx.close(), 1000);
-    } catch { /* AudioContext unavailable */ }
-    // Also unlock HTML <audio> autoplay by playing a silent data URI
-    try {
-      const silence = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=");
-      silence.volume = 0.01;
-      silence.play().then(() => silence.pause()).catch(() => {});
-    } catch { /* ignore */ }
-  }, []);
-
-  const handleStartListening = useCallback(() => {
-    // Ensure autoplay is unlocked even if user skipped sound check
-    if (!soundChecked) {
-      try {
-        const silence = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=");
-        silence.volume = 0.01;
-        silence.play().then(() => silence.pause()).catch(() => {});
-      } catch { /* ignore */ }
-    }
-    setListeningPhase("playing");
-  }, [soundChecked]);
-
   if (isListening) {
     // "Ready" splash screen — sound check + unlock browser autoplay
     if (listeningPhase === "ready") {

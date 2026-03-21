@@ -53,19 +53,8 @@ export function TcfScoreGrid({ answers }: TcfScoreGridProps) {
   const answerMap = new Map(answers.map((a) => [a.original_question_number ?? a.question_number, a]));
 
   let earned = 0;
-  let correctCount = 0;
-  let wrongCount = 0;
-  let unansweredCount = 0;
   for (const a of answers) {
-    const qn = a.original_question_number ?? a.question_number;
-    if (a.is_correct) {
-      earned += getTcfPoints(qn);
-      correctCount++;
-    } else if (a.selected) {
-      wrongCount++;
-    } else {
-      unansweredCount++;
-    }
+    if (a.is_correct) earned += getTcfPoints(a.original_question_number ?? a.question_number);
   }
   const pct = Math.round((earned / TCF_MAX_SCORE) * 100);
 
@@ -87,7 +76,6 @@ export function TcfScoreGrid({ answers }: TcfScoreGridProps) {
                     const pts = getTcfPoints(n);
                     const isCorrect = a?.is_correct === true;
                     const isWrong = a?.is_correct === false && !!a?.selected;
-                    const isUnanswered = !a || (!isCorrect && !a?.selected);
                     const status = isCorrect ? "correct" : isWrong ? "wrong" : "unanswered";
                     return (
                       <div
