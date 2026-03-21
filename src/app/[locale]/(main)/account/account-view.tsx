@@ -319,7 +319,7 @@ export function AccountView() {
         </div>
       ) : (
         /* ─── Free User Hero ─── */
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 p-6 dark:from-slate-900 dark:to-slate-800">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 p-6 dark:from-[#0f1729] dark:to-[#162036] dark:border dark:border-slate-700/40 dark:shadow-2xl dark:shadow-indigo-500/5">
           <div>
             <h1 className="text-2xl font-bold">{t("account.heroGreetingFree", { name: firstName })}</h1>
             <blockquote className="mt-3 border-l-4 border-primary/40 pl-4">
@@ -357,7 +357,7 @@ export function AccountView() {
           )}
 
           {/* Upgrade CTA */}
-          <div className="mt-5 flex items-center gap-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 p-4 dark:from-amber-950/30 dark:to-orange-950/30">
+          <div className="mt-5 flex items-center gap-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 p-4 dark:from-amber-500/10 dark:to-orange-500/8 dark:border dark:border-amber-500/20 dark:shadow-lg dark:shadow-amber-500/5">
             <Sparkles className="h-8 w-8 shrink-0 text-amber-500" />
             <div className="flex-1">
               <p className="text-sm font-medium">

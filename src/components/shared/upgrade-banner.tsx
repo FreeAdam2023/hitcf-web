@@ -34,9 +34,9 @@ export function UpgradeBanner({
     return (
       <div className={cn("relative overflow-hidden rounded-2xl", className)}>
         {/* Gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-violet-500/10 to-indigo-400/10" />
-        <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-violet-500/5 blur-2xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-violet-500/10 to-indigo-400/10 dark:from-primary/15 dark:via-violet-500/12 dark:to-indigo-400/8" />
+        <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-primary/5 blur-3xl dark:bg-primary/10" />
+        <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-violet-500/5 blur-2xl dark:bg-violet-500/10" />
 
         <div className="relative space-y-5 p-6 sm:p-8">
           <div className="flex items-center gap-2">
@@ -85,7 +85,7 @@ export function UpgradeBanner({
   return (
     <div
       className={cn(
-        "flex items-center gap-4 rounded-xl border bg-gradient-to-r from-primary/5 via-violet-500/5 to-transparent p-4",
+        "flex items-center gap-4 rounded-xl border bg-gradient-to-r from-primary/5 via-violet-500/5 to-transparent p-4 dark:from-primary/10 dark:via-violet-500/8 dark:to-transparent dark:border-primary/20 dark:shadow-lg dark:shadow-primary/5",
         className,
       )}
     >
