@@ -594,27 +594,18 @@ function drawChildOnShoulders(ctx: CanvasRenderingContext2D, parentX: number, gr
 // ─── Real audio file playback ───────────────────────────────────
 const BOOM_FILES = ["/sounds/boom1.mp3", "/sounds/boom2.mp3", "/sounds/boom3.mp3"];
 
-function preloadAudio(srcs: string[]): HTMLAudioElement[] {
-  return srcs.map((src) => {
-    const a = new Audio(src);
-    a.preload = "auto";
-    a.volume = 0.5;
-    return a;
-  });
-}
-
-function playRealLaunch(pool: HTMLAudioElement[]) {
-  if (!pool[0]) return;
-  const a = pool[0].cloneNode() as HTMLAudioElement;
+function playRealLaunch(srcs: string[]) {
+  if (!srcs[0]) return;
+  const a = new Audio(srcs[0]);
   a.volume = 0.25 + Math.random() * 0.15;
   a.playbackRate = 0.9 + Math.random() * 0.3;
   a.play().catch(() => {});
 }
 
-function playRealBoom(pool: HTMLAudioElement[]) {
-  const idx = Math.floor(Math.random() * pool.length);
-  if (!pool[idx]) return;
-  const a = pool[idx].cloneNode() as HTMLAudioElement;
+function playRealBoom(srcs: string[]) {
+  const idx = Math.floor(Math.random() * srcs.length);
+  if (!srcs[idx]) return;
+  const a = new Audio(srcs[idx]);
   a.volume = 0.35 + Math.random() * 0.25;
   a.playbackRate = 0.85 + Math.random() * 0.3;
   a.play().catch(() => {});
@@ -638,8 +629,8 @@ export default function ChengPage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [soundMode, setSoundMode] = useState<SoundMode>("realistic");
   const soundModeRef = useRef<SoundMode>("realistic");
-  const launchPoolRef = useRef<HTMLAudioElement[]>([]);
-  const boomPoolRef = useRef<HTMLAudioElement[]>([]);
+  const launchSrcsRef = useRef<string[]>([]);
+  const boomSrcsRef = useRef<string[]>([]);
 
   const launchFirework = useCallback((x?: number) => {
     const canvas = canvasRef.current;
@@ -667,7 +658,7 @@ export default function ChengPage() {
 
     const mode = soundModeRef.current;
     if (mode === "realistic") {
-      playRealLaunch(launchPoolRef.current);
+      playRealLaunch(launchSrcsRef.current);
     } else if (audioCtxRef.current) {
       if (mode === "classic") playClassicLaunch(audioCtxRef.current);
       else playLaunchSound(audioCtxRef.current);
@@ -722,7 +713,7 @@ export default function ChengPage() {
 
     const mode = soundModeRef.current;
     if (mode === "realistic") {
-      playRealBoom(boomPoolRef.current);
+      playRealBoom(boomSrcsRef.current);
     } else if (audioCtxRef.current) {
       const intensity = 0.6 + Math.random() * 0.4;
       if (mode === "classic") playClassicExplosion(audioCtxRef.current, intensity);
@@ -732,9 +723,9 @@ export default function ChengPage() {
 
   const handleStart = useCallback(() => {
     audioCtxRef.current = createAudioContext();
-    // Preload real audio files
-    launchPoolRef.current = preloadAudio(["/sounds/launch.mp3"]);
-    boomPoolRef.current = preloadAudio(BOOM_FILES);
+    // Store audio file paths for realistic mode
+    launchSrcsRef.current = ["/sounds/launch.mp3"];
+    boomSrcsRef.current = BOOM_FILES;
     setStarted(true);
   }, []);
 
