@@ -782,7 +782,12 @@
       "questionNumber": "Q {current} / {total}",
       "next": "Next",
       "prev": "Previous",
-      "loadError": "Failed to load exam data"
+      "loadError": "Failed to load exam data",
+      "listeningTitle": "Listening Comprehension",
+      "listeningDesc": "Audio will auto-play once per question. You cannot pause or replay.",
+      "startListening": "Start Exam",
+      "answerNow": "Answer now",
+      "listenCarefully": "Listen carefully..."
     },
     "timer": {
       "fiveMinutes": "Warning: 5 minutes remaining",

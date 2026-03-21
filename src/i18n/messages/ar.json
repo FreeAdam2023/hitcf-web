@@ -783,7 +783,12 @@
       "questionNumber": "س {current} / {total}",
       "next": "التالي",
       "prev": "السابق",
-      "loadError": "فشل تحميل بيانات الاختبار"
+      "loadError": "فشل تحميل بيانات الاختبار",
+      "listeningTitle": "الفهم السمعي",
+      "listeningDesc": "سيتم تشغيل الصوت تلقائياً مرة واحدة لكل سؤال. لا يمكنك الإيقاف المؤقت أو إعادة التشغيل.",
+      "startListening": "بدء الامتحان",
+      "answerNow": "أجب الآن",
+      "listenCarefully": "استمع بعناية..."
     },
     "timer": {
       "fiveMinutes": "تنبيه: بقيت 5 دقائق",

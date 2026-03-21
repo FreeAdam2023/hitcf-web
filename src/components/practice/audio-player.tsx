@@ -8,6 +8,7 @@ import {
   Volume2,
   VolumeX,
   Loader2,
+  Headphones,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -30,12 +31,14 @@ interface AudioPlayerProps {
   onTimeUpdate?: (currentTime: number) => void;
   /** Automatically start playback when questionId changes */
   autoPlay?: boolean;
+  /** Exam mode: hide all controls, show minimal listening indicator */
+  examMode?: boolean;
 }
 
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25];
 
 export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
-  function AudioPlayer({ questionId, audioUrl: directUrl, maxPlays, onPlaybackComplete, onTimeUpdate: onTimeUpdateProp, autoPlay }, ref) {
+  function AudioPlayer({ questionId, audioUrl: directUrl, maxPlays, onPlaybackComplete, onTimeUpdate: onTimeUpdateProp, autoPlay, examMode }, ref) {
   const t = useTranslations();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [url, setUrl] = useState<string | null>(null);
@@ -289,6 +292,43 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     setPlaying(false);
     setError(t("audio.loadRetryError"));
   };
+
+  if (examMode) {
+    return (
+      <div className="flex items-center gap-3 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3">
+        {playing ? (
+          <Headphones className="h-5 w-5 text-primary animate-pulse" />
+        ) : loading ? (
+          <Loader2 className="h-5 w-5 animate-spin text-primary" />
+        ) : (
+          <Headphones className="h-5 w-5 text-muted-foreground" />
+        )}
+        <div className="flex flex-1 items-center gap-2">
+          <div className="relative h-1.5 flex-1 rounded-full bg-muted overflow-hidden">
+            <div
+              className="h-full rounded-full bg-primary transition-[width] duration-200"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
+            {formatTime(currentTime)} / {formatTime(duration)}
+          </span>
+        </div>
+        {url && (
+          <audio
+            ref={audioRef}
+            src={url}
+            onTimeUpdate={onTimeUpdate}
+            onLoadedMetadata={onLoadedMetadata}
+            onEnded={onEnded}
+            onError={onError}
+            preload="auto"
+          />
+        )}
+        {error && <span className="text-xs text-destructive">{error}</span>}
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center gap-2 rounded-md border bg-muted/30 p-3">

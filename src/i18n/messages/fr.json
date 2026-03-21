@@ -783,7 +783,12 @@
       "questionNumber": "Q {current} / {total}",
       "next": "Suivant",
       "prev": "Précédent",
-      "loadError": "Échec du chargement des données d'examen"
+      "loadError": "Échec du chargement des données d'examen",
+      "listeningTitle": "Compréhension orale",
+      "listeningDesc": "L'audio sera joué automatiquement une seule fois. Vous ne pouvez ni mettre en pause ni réécouter.",
+      "startListening": "Commencer l'examen",
+      "answerNow": "Répondez maintenant",
+      "listenCarefully": "Écoutez attentivement..."
     },
     "timer": {
       "fiveMinutes": "Attention : il reste 5 minutes",

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Send, LayoutGrid } from "lucide-react";
+import { ChevronLeft, ChevronRight, Send, LayoutGrid, Headphones } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -49,6 +49,11 @@ export function ExamSession() {
   const [submitting, setSubmitting] = useState(false);
   const [completing, setCompleting] = useState(false);
 
+  // Listening exam flow state
+  const [listeningPhase, setListeningPhase] = useState<"ready" | "playing" | "answering">("ready");
+  const [answerCountdown, setAnswerCountdown] = useState(0);
+  const answerTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
   // Prevent accidental back navigation (no beforeunload — exam state persists via sessionStorage)
   useEffect(() => {
     window.history.pushState(null, "", window.location.href);
@@ -83,6 +88,30 @@ export function ExamSession() {
     handleComplete();
   }, [handleComplete]);
 
+  // Listening exam: handle audio playback complete — start 15s answer countdown
+  const handleAudioComplete = useCallback(() => {
+    setListeningPhase("answering");
+    setAnswerCountdown(15);
+    if (answerTimerRef.current) clearInterval(answerTimerRef.current);
+    answerTimerRef.current = setInterval(() => {
+      setAnswerCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(answerTimerRef.current!);
+          answerTimerRef.current = null;
+          // Auto-advance (no answer)
+          if (currentIndex < questions.length - 1) {
+            goNext();
+            setListeningPhase("playing");
+          } else {
+            handleComplete();
+          }
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  }, [currentIndex, questions.length, goNext, handleComplete]);
+
   const question = questions[currentIndex];
 
   const handleSelect = useCallback(async (key: string) => {
@@ -103,11 +132,18 @@ export function ExamSession() {
         selected: key,
       });
 
-      // Listening mode: auto-advance after 800ms (except last question)
-      if (isListening && currentIndex < questions.length - 1) {
-        setTimeout(() => {
-          goNext();
-        }, 800);
+      // Listening exam mode: clear countdown and auto-advance after 800ms
+      if (isListening) {
+        if (answerTimerRef.current) {
+          clearInterval(answerTimerRef.current);
+          answerTimerRef.current = null;
+        }
+        if (currentIndex < questions.length - 1) {
+          setTimeout(() => {
+            goNext();
+            setListeningPhase("playing");
+          }, 800);
+        }
       }
     } catch (err) {
       console.error("Failed to submit answer", err);
@@ -126,6 +162,28 @@ export function ExamSession() {
   useEffect(() => { goPrevRef.current = goPrev; });
   const isListeningRef = useRef(isListening);
   useEffect(() => { isListeningRef.current = isListening; });
+  const listeningPhaseRef = useRef(listeningPhase);
+  useEffect(() => { listeningPhaseRef.current = listeningPhase; });
+
+  // Reset listening phase when question changes (except initial "ready" state)
+  useEffect(() => {
+    if (isListening && listeningPhase !== "ready") {
+      setListeningPhase("playing");
+      setAnswerCountdown(0);
+      if (answerTimerRef.current) {
+        clearInterval(answerTimerRef.current);
+        answerTimerRef.current = null;
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex]);
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (answerTimerRef.current) clearInterval(answerTimerRef.current);
+    };
+  }, []);
 
   // Keyboard shortcuts: 1-4 / A-D select, arrows navigate
   useEffect(() => {
@@ -139,6 +197,15 @@ export function ExamSession() {
       // Ignore when modifier keys are held (e.g. Ctrl+C to copy)
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
+      // Listening exam: only allow answer keys during "answering" phase, block all navigation
+      if (isListeningRef.current) {
+        if (listeningPhaseRef.current !== "answering") return;
+        if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+          e.preventDefault();
+          return;
+        }
+      }
+
       const keyMap: Record<string, number> = {
         "1": 0, "2": 1, "3": 2, "4": 3,
         a: 0, b: 1, c: 2, d: 3,
@@ -150,13 +217,15 @@ export function ExamSession() {
         return;
       }
 
-      // Listening mode: disable left arrow (no going back)
-      if (e.key === "ArrowRight" && currentIndex < questions.length - 1) {
-        e.preventDefault();
-        goNextRef.current();
-      } else if (e.key === "ArrowLeft" && !isListeningRef.current && currentIndex > 0) {
-        e.preventDefault();
-        goPrevRef.current();
+      // Reading mode: arrow navigation
+      if (!isListeningRef.current) {
+        if (e.key === "ArrowRight" && currentIndex < questions.length - 1) {
+          e.preventDefault();
+          goNextRef.current();
+        } else if (e.key === "ArrowLeft" && currentIndex > 0) {
+          e.preventDefault();
+          goPrevRef.current();
+        }
       }
     };
     window.addEventListener("keydown", handler);
@@ -203,11 +272,36 @@ export function ExamSession() {
     </AlertDialog>
   );
 
-  // --- Listening layout: single column, no navigator, no prev button ---
+  // --- Listening layout: system-paced, no manual navigation ---
   if (isListening) {
+    // "Ready" splash screen — unlock browser autoplay
+    if (listeningPhase === "ready") {
+      return (
+        <div className="mx-auto max-w-lg flex flex-col items-center justify-center min-h-[60vh] space-y-6 text-center">
+          <div className="rounded-full bg-primary/10 p-6">
+            <Headphones className="h-12 w-12 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">{t("exam.session.listeningTitle")}</h2>
+            <p className="mt-2 text-muted-foreground">{t("exam.session.listeningDesc")}</p>
+          </div>
+          <div className="space-y-2 text-sm text-muted-foreground text-left">
+            <p>{"• 39 questions, 35 minutes"}</p>
+            <p>{"• Audio plays once per question \u2014 no pause, no replay"}</p>
+            <p>{"• 15 seconds to answer after audio ends"}</p>
+            <p>{"• Cannot go back to previous questions"}</p>
+          </div>
+          <Button size="lg" onClick={() => setListeningPhase("playing")} className="mt-4">
+            {t("exam.session.startListening")}
+          </Button>
+        </div>
+      );
+    }
+
+    // "Playing" and "Answering" phases — main exam flow
     return (
       <div className="mx-auto max-w-2xl space-y-4">
-        {/* Prominent centered timer */}
+        {/* Header: question number + timer */}
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">
             {t("exam.session.questionNumber", { current: currentIndex + 1, total: questions.length })}
@@ -225,14 +319,31 @@ export function ExamSession() {
           index={currentIndex}
           total={questions.length}
           audioMaxPlays={1}
+          autoPlayAudio
+          examMode
+          onAudioPlaybackComplete={handleAudioComplete}
           vocabDisabled
         />
+
+        {/* Answer countdown — only during answering phase */}
+        {listeningPhase === "answering" && (
+          <div className="flex items-center justify-center gap-2 text-sm font-medium">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-amber-500 text-amber-600 tabular-nums text-sm font-bold">
+              {answerCountdown}
+            </div>
+            <span className="text-muted-foreground">{t("exam.session.answerNow")}</span>
+          </div>
+        )}
+
+        {listeningPhase === "playing" && (
+          <p className="text-center text-sm text-muted-foreground">{t("exam.session.listenCarefully")}</p>
+        )}
 
         <OptionList
           options={question.options}
           answer={null}
           onSelect={handleSelect}
-          disabled={submitting || answers.has(question.id)}
+          disabled={submitting || listeningPhase === "playing" || answers.has(question.id)}
           mode="exam"
           examSelected={currentAnswer?.selected ?? null}
           audioOnly={question.options.every((o) => !o.text?.trim())}
@@ -242,19 +353,8 @@ export function ExamSession() {
 
         <Separator />
 
-        <div className="flex items-center justify-between">
-          {/* No prev button in listening mode — spacer for layout */}
-          <div />
+        <div className="flex items-center justify-center">
           {submitDialog}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={goNext}
-            disabled={isLast}
-          >
-            {t("exam.session.next")}
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
         </div>
       </div>
     );

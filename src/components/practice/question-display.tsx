@@ -43,6 +43,8 @@ interface QuestionDisplayProps {
   answered?: boolean;
   /** Auto-play audio when question changes (listening practice) */
   autoPlayAudio?: boolean;
+  /** Exam mode: pass to AudioPlayer for minimal UI */
+  examMode?: boolean;
   /** Action buttons (bookmark, report) rendered in the header row */
   actions?: React.ReactNode;
   /** Control EN translation visibility (Chinese locale only) */
@@ -51,7 +53,7 @@ interface QuestionDisplayProps {
   showNative?: boolean;
 }
 
-export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate, answered, autoPlayAudio, actions, showEn, showNative }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate, answered, autoPlayAudio, examMode, actions, showEn, showNative }: QuestionDisplayProps) {
   const t = useTranslations();
   const locale = useLocale();
   const isListening = question.type === "listening";
@@ -137,6 +139,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
           onPlaybackComplete={onAudioPlaybackComplete}
           onTimeUpdate={onAudioTimeUpdate}
           autoPlay={autoPlayAudio}
+          examMode={examMode}
         />
       )}
 
