@@ -1192,7 +1192,8 @@
     "deleteCancel": "Annuler",
     "deleteConfirm": "Supprimer",
     "deleteSuccess": "Supprimé",
-    "deleteFailed": "Échec de la suppression, veuillez réessayer"
+    "deleteFailed": "Échec de la suppression, veuillez réessayer",
+    "expired": "Expiré"
   },
   "payment": {
     "success": {

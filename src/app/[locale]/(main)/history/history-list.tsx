@@ -62,6 +62,9 @@ interface HistoryItem {
   // For conversations
   tacheType?: number;
   conversationScore?: number | null;
+  // Exam time limit (for expired detection)
+  time_limit_minutes: number | null;
+  is_mock_exam: boolean;
   // Source discriminator
   _source: "attempt" | "speaking" | "conversation";
 }
@@ -80,6 +83,8 @@ function fromAttempt(a: AttemptResponse): HistoryItem {
     total: a.total,
     answered_count: a.answered_count,
     speakingOverall: null,
+    time_limit_minutes: a.time_limit_minutes ?? null,
+    is_mock_exam: a.is_mock_exam ?? false,
     _source: "attempt",
   };
 }
@@ -98,6 +103,8 @@ function fromSpeaking(s: SpeakingAttemptResponse): HistoryItem {
     total: 100,
     answered_count: 0,
     speakingOverall: s.scores?.overall ?? null,
+    time_limit_minutes: null,
+    is_mock_exam: false,
     _source: "speaking",
   };
 }
@@ -123,6 +130,8 @@ function fromConversation(c: SpeakingConversationResponse): HistoryItem {
     speakingOverall: null,
     tacheType: c.tache_type,
     conversationScore: c.evaluation?.total_score ?? null,
+    time_limit_minutes: null,
+    is_mock_exam: false,
     _source: "conversation",
   };
 }
@@ -392,7 +401,13 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
   const isConversation = item._source === "conversation";
   const isSpeedDrill = item.mode === "speed_drill";
 
-  // URL depends on source
+  // Check if an in-progress exam has expired
+  const isExpired = item.mode === "exam" && item.status === "in_progress" && !!item.time_limit_minutes && (() => {
+    const started = parseUTC(item.started_at).getTime();
+    return Date.now() - started > item.time_limit_minutes! * 60 * 1000;
+  })();
+
+  // URL depends on source — expired exams go to results (backend auto-completes on access)
   let url: string;
   if (isConversation) {
     url = isCompleted
@@ -400,7 +415,7 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
       : `/speaking-conversation?sessionId=${item.id}`;
   } else if (isSpeaking) {
     url = `/speaking-practice/results/${item.id}`;
-  } else if (isCompleted) {
+  } else if (isCompleted || isExpired) {
     url = `/results/${item.id}`;
   } else if (item.mode === "exam") {
     url = `/exam/${item.id}`;
@@ -459,12 +474,20 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
                 ? localizeTestName(t, item.test_set_type, item.test_set_name)
                 : "-"}
           </span>
-          {!isCompleted && !isSpeaking && (
+          {!isCompleted && !isSpeaking && !isExpired && (
             <Badge
               variant="outline"
               className="shrink-0 border-amber-300 bg-amber-50 text-amber-700 text-[10px] dark:border-amber-800 dark:bg-amber-950 dark:text-amber-400"
             >
               {t("history.incomplete")}
+            </Badge>
+          )}
+          {isExpired && (
+            <Badge
+              variant="outline"
+              className="shrink-0 border-red-300 bg-red-50 text-red-700 text-[10px] dark:border-red-800 dark:bg-red-950 dark:text-red-400"
+            >
+              {t("history.expired")}
             </Badge>
           )}
         </div>
@@ -510,7 +533,7 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
             </span>
           </div>
         )}
-        {!isCompleted && !isSpeaking && (
+        {!isCompleted && !isExpired && !isSpeaking && (
           <div className="mt-2 flex items-center gap-2">
             <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
               <div

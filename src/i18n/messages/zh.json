@@ -1192,7 +1192,8 @@
     "deleteCancel": "取消",
     "deleteConfirm": "删除",
     "deleteSuccess": "已删除",
-    "deleteFailed": "删除失败，请重试"
+    "deleteFailed": "删除失败，请重试",
+    "expired": "已超时"
   },
   "payment": {
     "success": {

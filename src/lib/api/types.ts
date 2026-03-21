@@ -290,6 +290,7 @@ export interface AttemptResponse {
   started_at: string;
   completed_at: string | null;
   updated_at?: string | null;
+  time_limit_minutes?: number | null;
 }
 
 export interface AttemptDetail extends AttemptResponse {

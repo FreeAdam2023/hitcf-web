@@ -1192,7 +1192,8 @@
     "deleteCancel": "إلغاء",
     "deleteConfirm": "حذف",
     "deleteSuccess": "تم الحذف",
-    "deleteFailed": "فشل الحذف، يرجى المحاولة مرة أخرى"
+    "deleteFailed": "فشل الحذف، يرجى المحاولة مرة أخرى",
+    "expired": "انتهى الوقت"
   },
   "payment": {
     "success": {
