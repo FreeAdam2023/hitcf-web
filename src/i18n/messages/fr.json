@@ -85,6 +85,10 @@
     "exitConfirmProgress": "Votre progression sera sauvegardée.",
     "exitConfirmContinue": "Continuer {label}",
     "exitConfirmExit": "Confirmer la sortie",
+    "submitExam": "Soumettre l'examen",
+    "submitExamTitle": "Soumettre l'examen ?",
+    "submitExamWarning": "Votre examen sera noté immédiatement. Vous ne pourrez plus répondre.",
+    "submitExamConfirm": "Soumettre",
     "referral": "Inviter des amis",
     "checkin": "Bilan quotidien"
   },

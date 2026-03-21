@@ -85,6 +85,10 @@
     "exitConfirmProgress": "سيتم حفظ تقدمك في {label}.",
     "exitConfirmContinue": "متابعة {label}",
     "exitConfirmExit": "خروج",
+    "submitExam": "تقديم الامتحان",
+    "submitExamTitle": "تقديم الامتحان؟",
+    "submitExamWarning": "سيتم تصحيح امتحانك فوراً. لا يمكنك متابعة الإجابة.",
+    "submitExamConfirm": "تقديم",
     "referral": "دعوة الأصدقاء",
     "checkin": "تسجيل يومي"
   },

@@ -85,6 +85,10 @@
     "exitConfirmProgress": "Your progress will be saved.",
     "exitConfirmContinue": "Continue {label}",
     "exitConfirmExit": "Confirm Exit",
+    "submitExam": "Submit Exam",
+    "submitExamTitle": "Submit Exam?",
+    "submitExamWarning": "Your exam will be graded immediately. You cannot continue answering.",
+    "submitExamConfirm": "Submit",
     "referral": "Invite Friends",
     "checkin": "Daily Check-in"
   },
