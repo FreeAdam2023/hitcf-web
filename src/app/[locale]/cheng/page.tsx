@@ -618,16 +618,13 @@ export default function ChengPage() {
       const h = canvas.height;
       const groundY = h * 0.85;
 
-      // Auto-launch
-      if (frame - lastAutoLaunchRef.current > 40 + Math.random() * 60) {
+      // Auto-launch (every ~2.5–5 seconds)
+      if (frame - lastAutoLaunchRef.current > 150 + Math.random() * 150) {
         lastAutoLaunchRef.current = frame;
         launchFirework();
-        // Occasionally launch multiples
-        if (Math.random() < 0.3) {
-          setTimeout(() => launchFirework(), 200 + Math.random() * 400);
-        }
-        if (Math.random() < 0.15) {
-          setTimeout(() => launchFirework(), 400 + Math.random() * 300);
+        // Occasionally launch a second one
+        if (Math.random() < 0.2) {
+          setTimeout(() => launchFirework(), 500 + Math.random() * 800);
         }
       }
 
@@ -809,8 +806,8 @@ export default function ChengPage() {
         }
 
         // Occasional car-launched firework
-        if (car.launchCooldown <= 0 && Math.random() < 0.003) {
-          car.launchCooldown = 120;
+        if (car.launchCooldown <= 0 && Math.random() < 0.001) {
+          car.launchCooldown = 300;
           launchFirework(car.x);
           car.honking = 20;
           if (audioCtxRef.current) playHonkSound(audioCtxRef.current);
