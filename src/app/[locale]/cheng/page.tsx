@@ -72,73 +72,163 @@ function createAudioContext(): AudioContext | null {
 
 function playLaunchSound(ctx: AudioContext) {
   const now = ctx.currentTime;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = "sine";
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.frequency.setValueAtTime(200 + Math.random() * 100, now);
-  osc.frequency.exponentialRampToValueAtTime(800 + Math.random() * 400, now + 0.8);
-  gain.gain.setValueAtTime(0.06, now);
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
-  osc.start(now);
-  osc.stop(now + 0.8);
+  const duration = 0.9 + Math.random() * 0.4;
+
+  // Whoosh: filtered noise sweeping upward (like a rocket whistle)
+  const whooshLen = Math.floor(ctx.sampleRate * duration);
+  const whooshBuf = ctx.createBuffer(1, whooshLen, ctx.sampleRate);
+  const whooshData = whooshBuf.getChannelData(0);
+  for (let i = 0; i < whooshLen; i++) {
+    const t = i / whooshLen;
+    // Noise with rising amplitude envelope then quick fade
+    whooshData[i] = (Math.random() * 2 - 1) * Math.sin(t * Math.PI) * 0.8;
+  }
+  const whoosh = ctx.createBufferSource();
+  whoosh.buffer = whooshBuf;
+  const whooshFilter = ctx.createBiquadFilter();
+  whooshFilter.type = "bandpass";
+  whooshFilter.frequency.setValueAtTime(600, now);
+  whooshFilter.frequency.exponentialRampToValueAtTime(3000 + Math.random() * 1500, now + duration);
+  whooshFilter.Q.value = 2 + Math.random() * 3;
+  const whooshGain = ctx.createGain();
+  whooshGain.gain.setValueAtTime(0.08, now);
+  whooshGain.gain.linearRampToValueAtTime(0.12, now + duration * 0.6);
+  whooshGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+  whoosh.connect(whooshFilter);
+  whooshFilter.connect(whooshGain);
+  whooshGain.connect(ctx.destination);
+  whoosh.start(now);
+
+  // Thin rising whistle tone
+  const whistle = ctx.createOscillator();
+  const whistleGain = ctx.createGain();
+  whistle.type = "sine";
+  whistle.frequency.setValueAtTime(400 + Math.random() * 200, now);
+  whistle.frequency.exponentialRampToValueAtTime(1200 + Math.random() * 800, now + duration * 0.9);
+  whistleGain.gain.setValueAtTime(0.015, now);
+  whistleGain.gain.linearRampToValueAtTime(0.04, now + duration * 0.5);
+  whistleGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+  whistle.connect(whistleGain);
+  whistleGain.connect(ctx.destination);
+  whistle.start(now);
+  whistle.stop(now + duration);
 }
 
 function playExplosionSound(ctx: AudioContext, intensity: number = 1) {
   const now = ctx.currentTime;
 
-  // Boom
-  const boom = ctx.createOscillator();
-  const boomGain = ctx.createGain();
-  boom.type = "sine";
-  boom.connect(boomGain);
-  boomGain.connect(ctx.destination);
-  boom.frequency.setValueAtTime(200 + Math.random() * 100, now);
-  boom.frequency.exponentialRampToValueAtTime(40, now + 0.3);
-  boomGain.gain.setValueAtTime(0.2 * intensity, now);
-  boomGain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-  boom.start(now);
-  boom.stop(now + 0.4);
-
-  // Crackle noise
-  const noiseDuration = 0.8 * intensity;
-  const bufferSize = Math.floor(ctx.sampleRate * noiseDuration);
-  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < bufferSize; i++) {
-    data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.06));
+  // Layer 1: Deep boom with reverb-like tail
+  const boomDuration = 0.6;
+  const boomLen = Math.floor(ctx.sampleRate * boomDuration);
+  const boomBuf = ctx.createBuffer(1, boomLen, ctx.sampleRate);
+  const boomData = boomBuf.getChannelData(0);
+  for (let i = 0; i < boomLen; i++) {
+    const t = i / ctx.sampleRate;
+    // Low-frequency thump with exponential decay
+    boomData[i] = Math.sin(2 * Math.PI * (60 + 80 * Math.exp(-t * 8)) * t)
+      * Math.exp(-t * 5) * 0.9
+      + (Math.random() * 2 - 1) * Math.exp(-t * 10) * 0.3;
   }
-  const noise = ctx.createBufferSource();
-  const noiseGain = ctx.createGain();
-  const filter = ctx.createBiquadFilter();
-  filter.type = "bandpass";
-  filter.frequency.value = 2500 + Math.random() * 2000;
-  filter.Q.value = 0.4;
-  noise.buffer = buffer;
-  noise.connect(filter);
-  filter.connect(noiseGain);
-  noiseGain.connect(ctx.destination);
-  noiseGain.gain.setValueAtTime(0.15 * intensity, now + 0.05);
-  noiseGain.gain.exponentialRampToValueAtTime(0.001, now + noiseDuration);
-  noise.start(now + 0.05);
+  const boom = ctx.createBufferSource();
+  boom.buffer = boomBuf;
+  const boomGain = ctx.createGain();
+  boomGain.gain.value = 0.25 * intensity;
+  const boomLowpass = ctx.createBiquadFilter();
+  boomLowpass.type = "lowpass";
+  boomLowpass.frequency.value = 300;
+  boom.connect(boomLowpass);
+  boomLowpass.connect(boomGain);
+  boomGain.connect(ctx.destination);
+  boom.start(now);
 
-  // Sparkle pops
-  const sparkCount = Math.floor(6 + Math.random() * 6);
-  for (let i = 0; i < sparkCount; i++) {
-    const delay = 0.1 + Math.random() * 0.6;
-    const sparkOsc = ctx.createOscillator();
-    const sparkGain = ctx.createGain();
-    sparkOsc.type = "sine";
-    sparkOsc.connect(sparkGain);
-    sparkGain.connect(ctx.destination);
-    const freq = 2000 + Math.random() * 5000;
-    sparkOsc.frequency.setValueAtTime(freq, now + delay);
-    sparkOsc.frequency.exponentialRampToValueAtTime(freq * 0.2, now + delay + 0.1);
-    sparkGain.gain.setValueAtTime(0.04 * intensity, now + delay);
-    sparkGain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.1);
-    sparkOsc.start(now + delay);
-    sparkOsc.stop(now + delay + 0.1);
+  // Layer 2: Mid-frequency burst (the "crack")
+  const crackDuration = 0.3;
+  const crackLen = Math.floor(ctx.sampleRate * crackDuration);
+  const crackBuf = ctx.createBuffer(1, crackLen, ctx.sampleRate);
+  const crackData = crackBuf.getChannelData(0);
+  for (let i = 0; i < crackLen; i++) {
+    crackData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (crackLen * 0.03));
+  }
+  const crack = ctx.createBufferSource();
+  crack.buffer = crackBuf;
+  const crackFilter = ctx.createBiquadFilter();
+  crackFilter.type = "bandpass";
+  crackFilter.frequency.value = 800 + Math.random() * 600;
+  crackFilter.Q.value = 0.8;
+  const crackGain = ctx.createGain();
+  crackGain.gain.value = 0.18 * intensity;
+  crack.connect(crackFilter);
+  crackFilter.connect(crackGain);
+  crackGain.connect(ctx.destination);
+  crack.start(now + 0.01);
+
+  // Layer 3: Extended crackle / sizzle tail (like embers falling)
+  const sizzleDuration = 1.5 + Math.random() * 0.8;
+  const sizzleLen = Math.floor(ctx.sampleRate * sizzleDuration);
+  const sizzleBuf = ctx.createBuffer(1, sizzleLen, ctx.sampleRate);
+  const sizzleData = sizzleBuf.getChannelData(0);
+  for (let i = 0; i < sizzleLen; i++) {
+    const t = i / sizzleLen;
+    // Irregular crackle: bursts of noise with random gaps
+    const burst = Math.random() < 0.15 ? 1 : 0.05;
+    sizzleData[i] = (Math.random() * 2 - 1) * burst * Math.exp(-t * 2.5);
+  }
+  const sizzle = ctx.createBufferSource();
+  sizzle.buffer = sizzleBuf;
+  const sizzleFilter = ctx.createBiquadFilter();
+  sizzleFilter.type = "highpass";
+  sizzleFilter.frequency.value = 2000 + Math.random() * 2000;
+  const sizzleGain = ctx.createGain();
+  sizzleGain.gain.setValueAtTime(0.1 * intensity, now + 0.08);
+  sizzleGain.gain.exponentialRampToValueAtTime(0.001, now + sizzleDuration);
+  sizzle.connect(sizzleFilter);
+  sizzleFilter.connect(sizzleGain);
+  sizzleGain.connect(ctx.destination);
+  sizzle.start(now + 0.08);
+
+  // Layer 4: Distant echo / reverb tail
+  const echoDuration = 1.2;
+  const echoLen = Math.floor(ctx.sampleRate * echoDuration);
+  const echoBuf = ctx.createBuffer(1, echoLen, ctx.sampleRate);
+  const echoData = echoBuf.getChannelData(0);
+  for (let i = 0; i < echoLen; i++) {
+    const t = i / ctx.sampleRate;
+    echoData[i] = (Math.random() * 2 - 1) * Math.exp(-t * 3) * 0.4;
+  }
+  const echo = ctx.createBufferSource();
+  echo.buffer = echoBuf;
+  const echoFilter = ctx.createBiquadFilter();
+  echoFilter.type = "lowpass";
+  echoFilter.frequency.value = 600;
+  const echoGain = ctx.createGain();
+  echoGain.gain.value = 0.06 * intensity;
+  echo.connect(echoFilter);
+  echoFilter.connect(echoGain);
+  echoGain.connect(ctx.destination);
+  echo.start(now + 0.15);
+
+  // Layer 5: Random pop/snap sparkles
+  const popCount = Math.floor(4 + Math.random() * 8);
+  for (let i = 0; i < popCount; i++) {
+    const delay = 0.2 + Math.random() * 1.2;
+    const popLen = Math.floor(ctx.sampleRate * 0.03);
+    const popBuf = ctx.createBuffer(1, popLen, ctx.sampleRate);
+    const popData = popBuf.getChannelData(0);
+    for (let j = 0; j < popLen; j++) {
+      popData[j] = (Math.random() * 2 - 1) * Math.exp(-j / (popLen * 0.1));
+    }
+    const pop = ctx.createBufferSource();
+    pop.buffer = popBuf;
+    const popFilter = ctx.createBiquadFilter();
+    popFilter.type = "bandpass";
+    popFilter.frequency.value = 3000 + Math.random() * 4000;
+    popFilter.Q.value = 3 + Math.random() * 5;
+    const popGain = ctx.createGain();
+    popGain.gain.value = (0.03 + Math.random() * 0.05) * intensity;
+    pop.connect(popFilter);
+    popFilter.connect(popGain);
+    popGain.connect(ctx.destination);
+    pop.start(now + delay);
   }
 }
 
@@ -275,7 +365,7 @@ function drawSilhouettes(ctx: CanvasRenderingContext2D, w: number, h: number, gr
   const personScale = Math.min(w, h) / 800;
 
   // Ground hill
-  ctx.fillStyle = `rgba(${10 + glowIntensity * 20}, ${10 + glowIntensity * 15}, ${15 + glowIntensity * 10}, 1)`;
+  ctx.fillStyle = `rgba(${10 + glowIntensity * 60}, ${10 + glowIntensity * 45}, ${15 + glowIntensity * 30}, 1)`;
   ctx.beginPath();
   ctx.moveTo(0, groundY);
   ctx.quadraticCurveTo(w * 0.25, groundY - 20 * personScale, w * 0.5, groundY - 5 * personScale);
@@ -286,7 +376,7 @@ function drawSilhouettes(ctx: CanvasRenderingContext2D, w: number, h: number, gr
   ctx.fill();
 
   // Grass tufts
-  ctx.strokeStyle = `rgba(${20 + glowIntensity * 30}, ${30 + glowIntensity * 25}, ${15 + glowIntensity * 10}, 0.6)`;
+  ctx.strokeStyle = `rgba(${20 + glowIntensity * 80}, ${30 + glowIntensity * 60}, ${15 + glowIntensity * 30}, 0.6)`;
   ctx.lineWidth = 1.5 * personScale;
   for (let i = 0; i < 30; i++) {
     const gx = Math.random() * w;
@@ -299,7 +389,7 @@ function drawSilhouettes(ctx: CanvasRenderingContext2D, w: number, h: number, gr
 
   // Family silhouettes (center of screen)
   const cx = w * 0.5;
-  const fillColor = `rgba(${5 + glowIntensity * 15}, ${5 + glowIntensity * 12}, ${8 + glowIntensity * 8}, 1)`;
+  const fillColor = `rgba(${5 + glowIntensity * 50}, ${5 + glowIntensity * 40}, ${8 + glowIntensity * 25}, 1)`;
   ctx.fillStyle = fillColor;
 
   // Adult 1 (left) - pointing up
@@ -432,6 +522,37 @@ function drawChildOnShoulders(ctx: CanvasRenderingContext2D, parentX: number, gr
   ctx.stroke();
 }
 
+// ─── Real audio file playback ───────────────────────────────────
+const BOOM_FILES = ["/sounds/boom1.mp3", "/sounds/boom2.mp3", "/sounds/boom3.mp3"];
+
+function preloadAudio(srcs: string[]): HTMLAudioElement[] {
+  return srcs.map((src) => {
+    const a = new Audio(src);
+    a.preload = "auto";
+    a.volume = 0.5;
+    return a;
+  });
+}
+
+function playRealLaunch(pool: HTMLAudioElement[]) {
+  if (!pool[0]) return;
+  const a = pool[0].cloneNode() as HTMLAudioElement;
+  a.volume = 0.25 + Math.random() * 0.15;
+  a.playbackRate = 0.9 + Math.random() * 0.3;
+  a.play().catch(() => {});
+}
+
+function playRealBoom(pool: HTMLAudioElement[]) {
+  const idx = Math.floor(Math.random() * pool.length);
+  if (!pool[idx]) return;
+  const a = pool[idx].cloneNode() as HTMLAudioElement;
+  a.volume = 0.35 + Math.random() * 0.25;
+  a.playbackRate = 0.85 + Math.random() * 0.3;
+  a.play().catch(() => {});
+}
+
+type SoundMode = "cartoon" | "realistic";
+
 // ─── Main component ────────────────────────────────────────────
 export default function ChengPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -443,7 +564,13 @@ export default function ChengPage() {
   const glowRef = useRef(0);
   const frameRef = useRef(0);
   const lastAutoLaunchRef = useRef(0);
+  const moonPosRef = useRef({ x: 0, y: 0, r: 0 });
   const [started, setStarted] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [soundMode, setSoundMode] = useState<SoundMode>("realistic");
+  const soundModeRef = useRef<SoundMode>("realistic");
+  const launchPoolRef = useRef<HTMLAudioElement[]>([]);
+  const boomPoolRef = useRef<HTMLAudioElement[]>([]);
 
   const launchFirework = useCallback((x?: number) => {
     const canvas = canvasRef.current;
@@ -469,7 +596,9 @@ export default function ChengPage() {
 
     fireworksRef.current.push(fw);
 
-    if (audioCtxRef.current) {
+    if (soundModeRef.current === "realistic") {
+      playRealLaunch(launchPoolRef.current);
+    } else if (audioCtxRef.current) {
       playLaunchSound(audioCtxRef.current);
     }
   }, []);
@@ -518,16 +647,29 @@ export default function ChengPage() {
     }
 
     // Glow flash
-    glowRef.current = Math.min(glowRef.current + 0.6, 1);
+    glowRef.current = Math.min(glowRef.current + 0.8, 1);
 
-    if (audioCtxRef.current) {
+    if (soundModeRef.current === "realistic") {
+      playRealBoom(boomPoolRef.current);
+    } else if (audioCtxRef.current) {
       playExplosionSound(audioCtxRef.current, 0.6 + Math.random() * 0.4);
     }
   }, []);
 
   const handleStart = useCallback(() => {
     audioCtxRef.current = createAudioContext();
+    // Preload real audio files
+    launchPoolRef.current = preloadAudio(["/sounds/launch.mp3"]);
+    boomPoolRef.current = preloadAudio(BOOM_FILES);
     setStarted(true);
+  }, []);
+
+  const toggleSoundMode = useCallback(() => {
+    setSoundMode((prev) => {
+      const next = prev === "cartoon" ? "realistic" : "cartoon";
+      soundModeRef.current = next;
+      return next;
+    });
   }, []);
 
   useEffect(() => {
@@ -585,6 +727,13 @@ export default function ChengPage() {
       const rect = canvas.getBoundingClientRect();
       const clientX = "touches" in e ? e.touches[0]?.clientX ?? rect.width / 2 : e.clientX;
       const clientY = "touches" in e ? e.touches[0]?.clientY ?? rect.height / 2 : e.clientY;
+
+      // Check if clicking on the moon (toggle sound mode)
+      const moon = moonPosRef.current;
+      if (Math.hypot(clientX - moon.x, clientY - moon.y) < moon.r * 4) {
+        toggleSoundMode();
+        return;
+      }
 
       // Check if clicking on a car
       const carScale = Math.min(canvas.width, canvas.height) / 800;
@@ -654,10 +803,11 @@ export default function ChengPage() {
       }
       ctx.globalAlpha = 1;
 
-      // Moon
+      // Moon (clickable — toggles sound mode)
       const moonX = w * 0.85;
       const moonY = h * 0.12;
       const moonR = Math.min(w, h) * 0.03;
+      moonPosRef.current = { x: moonX, y: moonY, r: moonR };
       ctx.fillStyle = "rgba(255, 255, 230, 0.15)";
       ctx.beginPath();
       ctx.arc(moonX, moonY, moonR * 3, 0, Math.PI * 2);
@@ -666,6 +816,11 @@ export default function ChengPage() {
       ctx.beginPath();
       ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
       ctx.fill();
+      // Sound mode label under moon
+      ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+      ctx.font = `${Math.max(10, moonR * 0.7)}px sans-serif`;
+      ctx.textAlign = "center";
+      ctx.fillText(soundModeRef.current === "cartoon" ? "🎵 卡通" : "🔊 真实", moonX, moonY + moonR * 2.5);
 
       // Update & draw fireworks (ascending rockets)
       const fws = fireworksRef.current;
@@ -775,7 +930,7 @@ export default function ChengPage() {
       // Ambient glow from explosions
       if (glowRef.current > 0) {
         const glowGrad = ctx.createRadialGradient(w / 2, h * 0.3, 0, w / 2, h * 0.3, h * 0.8);
-        glowGrad.addColorStop(0, `rgba(255, 200, 150, ${glowRef.current * 0.06})`);
+        glowGrad.addColorStop(0, `rgba(255, 200, 150, ${glowRef.current * 0.12})`);
         glowGrad.addColorStop(1, "transparent");
         ctx.fillStyle = glowGrad;
         ctx.fillRect(0, 0, w, h);
