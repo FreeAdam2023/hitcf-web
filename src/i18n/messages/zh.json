@@ -793,6 +793,8 @@
       "listeningRule2": "每题音频仅播放一次，不可暂停、不可重播",
       "listeningRule3": "音频结束后 15 秒内作答",
       "listeningRule4": "不可返回上一题",
+      "soundCheck": "试音",
+      "soundCheckDone": "试音正常 ✓",
       "startListening": "开始考试",
       "answerNow": "请作答",
       "listenCarefully": "请仔细听..."
@@ -835,7 +837,8 @@
       "points": "{points}分",
       "notAnswered": "未作答",
       "correctAnswer": "正确: {answer}",
-      "transcript": "听力原文"
+      "transcript": "听力原文",
+      "inWrongBook": "已入错题本"
     },
     "nclc": {
       "listening": "听力 (CO)",
@@ -861,11 +864,11 @@
     },
     "share": {
       "button": "分享成绩",
-      "title": "分享到小红书",
-      "subtitle": "长按保存图片，发到小红书打卡吧！",
+      "title": "分享成绩",
+      "subtitle": "保存图片，分享到社交媒体打卡吧！",
       "save": "保存图片",
       "saving": "生成中...",
-      "saved": "已保存！去小红书发帖吧 🎉"
+      "saved": "已保存！快去分享吧 🎉"
     },
     "encouragement": {
       "excellent": "卓越表现！",

@@ -162,8 +162,8 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
     const displayMax = isPointBased ? TCF_MAX_SCORE : total;
 
     // SVG circular progress
-    const size = 220;
-    const strokeWidth = 14;
+    const size = 340;
+    const strokeWidth = 20;
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (pct / 100) * circumference;
@@ -267,13 +267,13 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
                 justifyContent: "center",
               }}
             >
-              <div style={{ fontSize: 56, fontWeight: 800, lineHeight: 1, color: "#1a1a1a" }}>
+              <div style={{ fontSize: 80, fontWeight: 800, lineHeight: 1, color: "#1a1a1a" }}>
                 {displayScore}
-                <span style={{ fontSize: 24, fontWeight: 500, color: "#9ca3af" }}>
+                <span style={{ fontSize: 36, fontWeight: 500, color: "#9ca3af" }}>
                   /{displayMax}
                 </span>
               </div>
-              <div style={{ fontSize: 22, color: "#6b7280", marginTop: 6 }}>
+              <div style={{ fontSize: 30, color: "#6b7280", marginTop: 8 }}>
                 {pct}%
               </div>
             </div>
@@ -289,15 +289,15 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
                 background: "rgba(255,255,255,0.85)",
                 backdropFilter: "blur(4px)",
                 borderRadius: 50,
-                padding: "14px 36px",
+                padding: "18px 44px",
                 border: `2px solid ${tier.accentColor}33`,
               }}
             >
-              <span style={{ fontSize: 24, fontWeight: 700, color: tier.badgeText }}>
+              <span style={{ fontSize: 32, fontWeight: 700, color: tier.badgeText }}>
                 {tcfLevel.level}
               </span>
-              <span style={{ fontSize: 20, color: "#9ca3af" }}>·</span>
-              <span style={{ fontSize: 24, fontWeight: 700, color: tier.badgeText }}>
+              <span style={{ fontSize: 26, color: "#9ca3af" }}>·</span>
+              <span style={{ fontSize: 32, fontWeight: 700, color: tier.badgeText }}>
                 NCLC {nclcLevel}
               </span>
             </div>
@@ -308,13 +308,13 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 14,
-              fontSize: 28,
+              gap: 16,
+              fontSize: 36,
               fontWeight: 600,
               color: "#374151",
             }}
           >
-            <span style={{ fontSize: 40 }}>{tier.emoji}</span>
+            <span style={{ fontSize: 48 }}>{tier.emoji}</span>
             <span>{t(tier.messageKey)}</span>
           </div>
         </div>
@@ -327,14 +327,14 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
             background: "rgba(255,255,255,0.5)",
           }}
         >
-          <div style={{ fontSize: 26, fontWeight: 600, color: "#1a1a1a", marginBottom: 10 }}>
+          <div style={{ fontSize: 32, fontWeight: 600, color: "#1a1a1a", marginBottom: 12 }}>
             {typeLabel} · {testSetName}
           </div>
-          <div style={{ display: "flex", gap: 24, fontSize: 20, color: "#6b7280" }}>
+          <div style={{ display: "flex", gap: 28, fontSize: 24, color: "#6b7280" }}>
             <span>{t("correct", { score, total })}</span>
-            {timeStr && <span>{t("timeTaken", { time: timeStr })}</span>}
+            {timeStr && <span> · {t("timeTaken", { time: timeStr })}</span>}
           </div>
-          <div style={{ fontSize: 18, color: "#9ca3af", marginTop: 8 }}>
+          <div style={{ fontSize: 22, color: "#9ca3af", marginTop: 10 }}>
             {completedDate}
           </div>
         </div>

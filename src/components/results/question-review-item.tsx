@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, X, Minus, ChevronDown } from "lucide-react";
+import { Check, X, Minus, ChevronDown, BookmarkCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Collapsible,
@@ -84,6 +84,14 @@ export function QuestionReviewItem({ answer }: QuestionReviewItemProps) {
         {answer.is_correct === false && answer.correct_answer && (
           <span className="text-muted-foreground">
             {t('results.reviewItem.correctAnswer', { answer: answer.correct_answer })}
+          </span>
+        )}
+
+        {/* Wrong answer book indicator: only for actually-selected wrong answers */}
+        {answer.is_correct === false && answer.selected && (
+          <span className="hidden sm:inline-flex items-center gap-0.5 shrink-0 text-[10px] text-amber-600 dark:text-amber-400">
+            <BookmarkCheck className="h-3 w-3" />
+            {t('results.reviewItem.inWrongBook')}
           </span>
         )}
 

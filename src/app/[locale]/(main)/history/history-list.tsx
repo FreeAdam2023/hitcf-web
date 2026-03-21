@@ -424,6 +424,7 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
 
   const colors = TYPE_COLORS[item.test_set_type || ""];
   const Icon = TYPE_ICONS[item.test_set_type || ""] || Trophy;
+  const isExam = item.mode === "exam";
 
   return (
     <div
@@ -433,7 +434,10 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") router.push(url);
       }}
-      className="group flex items-center gap-4 rounded-xl border bg-card p-4 transition-all duration-200 cursor-pointer hover:bg-accent/50 hover:shadow-sm"
+      className={cn(
+        "group flex items-center gap-4 rounded-xl border bg-card p-4 transition-all duration-200 cursor-pointer hover:bg-accent/50 hover:shadow-sm",
+        isExam && "border-l-[3px] border-l-indigo-500 dark:border-l-indigo-400",
+      )}
     >
       {/* Icon */}
       <div
@@ -465,11 +469,17 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
           )}
         </div>
 
-        <div className="mt-1 flex items-center gap-3 text-xs lg:text-sm text-muted-foreground">
+        <div className="mt-1 flex items-center gap-2 text-xs lg:text-sm text-muted-foreground">
           {item.test_set_type && (
             <span>{t(`common.types.${item.test_set_type}`)}</span>
           )}
-          <span>{t(`common.modes.${item.mode}`)}</span>
+          {isExam ? (
+            <Badge className="bg-indigo-100 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-950 dark:text-indigo-300 text-[10px] px-1.5 py-0">
+              {t(`common.modes.${item.mode}`)}
+            </Badge>
+          ) : (
+            <span className="text-muted-foreground/70">{t(`common.modes.${item.mode}`)}</span>
+          )}
           <span className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
             {formatDate(latestDate(item), locale)}
