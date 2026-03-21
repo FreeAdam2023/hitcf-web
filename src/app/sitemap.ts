@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getAllSlugs } from "@/lib/blog";
 
 const SITE_URL = "https://www.hitcf.com";
 const LOCALES = ["zh", "en", "fr", "ar"];
@@ -37,6 +38,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...localizedEntries("/vocabulary/nihao-french", { changeFrequency: "monthly", priority: 0.7 }),
     // Referral
     ...localizedEntries("/referral", { changeFrequency: "monthly", priority: 0.5 }),
+    // Guide pages
+    ...localizedEntries("/guide/tcf-canada", { changeFrequency: "monthly", priority: 0.8 }),
+    ...localizedEntries("/guide/clb-7", { changeFrequency: "monthly", priority: 0.8 }),
+    ...localizedEntries("/guide/tcf-listening", { changeFrequency: "monthly", priority: 0.8 }),
+    ...localizedEntries("/guide/tcf-reading", { changeFrequency: "monthly", priority: 0.8 }),
+    ...localizedEntries("/guide/tcf-speaking", { changeFrequency: "monthly", priority: 0.8 }),
+    ...localizedEntries("/guide/tcf-writing", { changeFrequency: "monthly", priority: 0.8 }),
+    // Blog
+    ...localizedEntries("/blog", { changeFrequency: "weekly", priority: 0.7 }),
+    ...getAllSlugs().flatMap((slug) =>
+      localizedEntries(`/blog/${slug}`, { changeFrequency: "monthly", priority: 0.6 }),
+    ),
     // Resources
     ...localizedEntries("/resources", { changeFrequency: "monthly", priority: 0.6 }),
     // Legal

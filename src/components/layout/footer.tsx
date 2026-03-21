@@ -42,6 +42,12 @@ export function Footer() {
             >
               {t('footer.resources')}
             </Link>
+            <Link
+              href="/blog"
+              className="transition-colors hover:text-foreground"
+            >
+              {t('footer.blog')}
+            </Link>
             <Popover>
               <PopoverTrigger asChild>
                 <button className="cursor-pointer transition-colors hover:text-foreground">

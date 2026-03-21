@@ -90,7 +90,8 @@
     "submitExamWarning": "Your exam will be graded immediately. You cannot continue answering.",
     "submitExamConfirm": "Submit",
     "referral": "Invite Friends",
-    "checkin": "Daily Check-in"
+    "checkin": "Daily Check-in",
+    "blog": "Blog"
   },
   "userMenu": {
     "pro": "Pro Member",
@@ -144,7 +145,8 @@
     "scanWechat": "Scan to add on WeChat",
     "studyGroup": "Study Group",
     "scanGroup": "Scan to join WeChat group",
-    "allRightsReserved": "All rights reserved."
+    "allRightsReserved": "All rights reserved.",
+    "blog": "Blog"
   },
   "theme": {
     "lightMode": "Switch to light mode",
@@ -2572,6 +2574,40 @@
     "writingMockExam": {
       "title": "Mock Writing Exam | HiTCF",
       "description": "Full TCF Canada mock writing exam simulation with AI grading"
+    },
+    "guideTcfCanada": {
+      "title": "What Is TCF Canada? Exam Structure, Scoring & NCLC Levels Explained",
+      "description": "Complete guide to the TCF Canada exam: 4 sections (listening, reading, speaking, writing), scoring system, NCLC/CLB equivalence, and why it matters for Canadian immigration. Start practicing now.",
+      "keywords": "TCF Canada,what is TCF Canada,TCF exam structure,TCF scoring,NCLC levels,CLB equivalence,Canada immigration French test,TCF Canada overview"
+    },
+    "guideClb7": {
+      "title": "How to Reach CLB 7+ on TCF Canada — Study Strategies & Tips",
+      "description": "Proven strategies to achieve CLB 7+ (NCLC 7) on the TCF Canada exam. Target scores per section, study plans for listening, reading, speaking & writing, and how HiTCF can help you succeed.",
+      "keywords": "CLB 7,CLB 7 TCF Canada,how to reach CLB 7,TCF Canada study plan,TCF preparation strategies,NCLC 7,TCF Canada tips"
+    },
+    "guideTcfListening": {
+      "title": "TCF Canada Listening (CO) Guide — Format, Tips & Practice",
+      "description": "Master TCF Canada Listening Comprehension (Compréhension orale): 39 questions across 4 difficulty levels from A1 to C2. Question types, strategies, and practice tips to maximize your score.",
+      "keywords": "TCF listening,TCF Canada listening,compréhension orale TCF,TCF CO practice,TCF listening tips,TCF listening preparation,TCF Canada audio"
+    },
+    "guideTcfReading": {
+      "title": "TCF Canada Reading (CE) Guide — Format, Tips & Practice",
+      "description": "Complete guide to TCF Canada Reading Comprehension (Compréhension écrite): 39 questions across 4 levels A1-C2. Text types, reading strategies, and targeted practice to boost your score.",
+      "keywords": "TCF reading,TCF Canada reading,compréhension écrite TCF,TCF CE practice,TCF reading tips,TCF reading preparation,TCF Canada reading test"
+    },
+    "guideTcfSpeaking": {
+      "title": "TCF Canada Speaking (EO) Guide — 3 Tasks, Tips & Practice",
+      "description": "Prepare for TCF Canada Speaking (Expression orale) with this complete guide: 3 tasks (interview, role play, opinion), scoring criteria, preparation strategies, and AI-powered practice.",
+      "keywords": "TCF speaking,TCF Canada speaking,expression orale TCF,TCF EO practice,TCF speaking tips,TCF speaking tasks,TCF Canada oral exam"
+    },
+    "guideTcfWriting": {
+      "title": "TCF Canada Writing (EE) Guide — 3 Tasks, Tips & Practice",
+      "description": "Complete guide to TCF Canada Writing (Expression écrite): 3 tasks (message, article, comparative essay), scoring criteria, methodology tips, and AI-assisted writing practice.",
+      "keywords": "TCF writing,TCF Canada writing,expression écrite TCF,TCF EE practice,TCF writing tips,TCF writing tasks,TCF Canada written exam"
+    },
+    "blog": {
+      "title": "Blog — TCF Canada Study Guides & Exam Tips",
+      "description": "TCF Canada preparation blog: exam analysis, CLB 7+ strategies, and high-score tips for listening, reading, speaking, and writing."
     }
   },
   "referralPage": {
@@ -2947,5 +2983,295 @@
     "minutesAgo": "{count}m ago",
     "hoursAgo": "{count}h ago",
     "daysAgo": "{count}d ago"
+  },
+  "guide": {
+    "tcfCanada": {
+      "heading": "What Is TCF Canada? A Complete Guide",
+      "intro": "The TCF Canada (Test de connaissance du français pour le Canada) is the official French language proficiency test recognized by Immigration, Refugees and Citizenship Canada (IRCC). Whether you are applying for permanent residence or Canadian citizenship, understanding this exam is your first step toward success.",
+      "whatIs": {
+        "title": "What Is the TCF Canada Exam?",
+        "p1": "The TCF Canada is administered by France Education international (formerly CIEP) and is specifically designed for immigration purposes to Canada. Unlike the general TCF, the TCF Canada evaluates all four language skills: listening, reading, speaking, and writing. It provides results mapped to the Niveaux de compétence linguistique canadiens (NCLC), which are equivalent to the Canadian Language Benchmarks (CLB) used by IRCC.",
+        "p2": "The test is available at authorized test centers worldwide and can be taken multiple times. Results are valid for two years from the test date. Many candidates take the test more than once to improve their scores, making regular practice essential."
+      },
+      "structure": {
+        "title": "Exam Structure: 4 Sections",
+        "intro": "The TCF Canada consists of four mandatory sections. The listening and reading sections are computer-based multiple choice, while speaking and writing are evaluated by certified examiners.",
+        "co": {
+          "title": "Listening Comprehension (Compréhension orale — CO)",
+          "desc": "39 multiple-choice questions to be completed in approximately 35 minutes. Questions progress from simple everyday dialogues (A1) to complex academic lectures and debates (C2). Each audio recording is played only once during the exam, so active listening skills are critical."
+        },
+        "ce": {
+          "title": "Reading Comprehension (Compréhension écrite — CE)",
+          "desc": "39 multiple-choice questions to be completed in approximately 60 minutes. Texts range from short signs and notices (A1) to lengthy academic or literary passages (C2). You will encounter advertisements, emails, newspaper articles, essays, and research abstracts."
+        },
+        "eo": {
+          "title": "Speaking (Expression orale — EO)",
+          "desc": "3 tasks completed in approximately 12 minutes, recorded and evaluated by examiners. Task 1 is a guided interview, Task 2 is a role-play interaction, and Task 3 requires expressing and defending an opinion on a complex topic."
+        },
+        "ee": {
+          "title": "Writing (Expression écrite — EE)",
+          "desc": "3 writing tasks to be completed in approximately 60 minutes. Task 1 is a short message or email (60-120 words), Task 2 is an article or letter on a given topic (120-150 words), and Task 3 is a comparative essay analyzing two perspectives (120-180 words)."
+        }
+      },
+      "scoring": {
+        "title": "Scoring System",
+        "p1": "Each section is scored independently on a scale corresponding to NCLC levels 1 through 12+. For the listening and reading sections, a numerical score from 0 to 699 is assigned, which maps to a specific NCLC level. Speaking and writing are scored directly on the NCLC scale by trained evaluators.",
+        "p2": "Your TCF Canada attestation will show four separate scores — one for each section. IRCC uses these individual scores (not an average) to assess your French proficiency. Different immigration programs have different minimum requirements per section.",
+        "nclc": {
+          "title": "NCLC/CLB Equivalence",
+          "desc": "NCLC (Niveaux de compétence linguistique canadiens) is the French equivalent of CLB (Canadian Language Benchmarks). NCLC 7 equals CLB 7, which is the most commonly required level for Express Entry programs. For listening and reading, NCLC 7 corresponds to a score of approximately 458-502 out of 699. For speaking and writing, you need to be assessed at NCLC 7 or higher by the examiners."
+        }
+      },
+      "immigration": {
+        "title": "Why TCF Canada Matters for Immigration",
+        "p1": "French language proficiency is a significant advantage in the Canadian immigration process. Under the Express Entry Comprehensive Ranking System (CRS), strong French scores can earn you substantial additional points — up to 50 bonus points for CLB 7+ in French as a second official language, plus base language points.",
+        "p2": "For the Programme régulier des travailleurs qualifiés (PRTQ) in Quebec, the TCF Canada is one of the accepted tests for demonstrating French proficiency. Many Provincial Nominee Programs (PNPs) also accept TCF Canada results. Achieving CLB 7+ in all four skills is the key benchmark that most applicants target."
+      },
+      "cta": {
+        "title": "Start Practicing Today",
+        "desc": "HiTCF offers 8,500+ TCF Canada practice questions with sentence-by-sentence audio replay, AI-powered speaking and writing feedback, and detailed analytics to track your progress toward CLB 7+.",
+        "practiceButton": "Browse Practice Tests",
+        "pricingButton": "View Pricing Plans"
+      }
+    },
+    "clb7": {
+      "heading": "How to Reach CLB 7+ on TCF Canada",
+      "intro": "CLB 7 (NCLC 7) is the most important benchmark for Canadian immigration. Reaching this level across all four skills can significantly boost your CRS score and open doors to permanent residence. This guide breaks down exactly what you need and how to get there.",
+      "whatIsClb7": {
+        "title": "What Does CLB 7 Mean?",
+        "p1": "CLB 7 (Canadian Language Benchmark 7) represents an intermediate-to-advanced level of language proficiency. In the context of TCF Canada, it corresponds to NCLC 7. For the listening and reading sections, this typically requires a score of around 458-502 out of 699, which translates to roughly 78% accuracy across all difficulty levels.",
+        "p2": "CLB 7+ in all four skills is the threshold used by IRCC for maximum Comprehensive Ranking System (CRS) points under Express Entry. Even if you are a primarily English-speaking applicant, demonstrating CLB 7+ in French as a second official language can earn you up to 50 additional CRS points — often the difference between receiving an Invitation to Apply (ITA) and waiting another round."
+      },
+      "targetScores": {
+        "title": "Target Scores Per Section",
+        "intro": "Here are the approximate scores you need to reach NCLC 7 in each section:",
+        "co": "Listening (CO): 458-502 out of 699 — You need to correctly answer roughly 30 out of 39 questions, including most B1-B2 level questions.",
+        "ce": "Reading (CE): 458-502 out of 699 — Similar to listening, aim for about 30 correct answers with solid performance on mid-level texts.",
+        "eo": "Speaking (EO): NCLC 7 — Examiners assess fluency, vocabulary range, grammatical accuracy, pronunciation, and task completion across all 3 tasks.",
+        "ee": "Writing (EE): NCLC 7 — Your writing must demonstrate clear organization, varied vocabulary, generally accurate grammar, and appropriate register for each task type."
+      },
+      "strategies": {
+        "title": "Study Strategies by Section",
+        "listening": {
+          "title": "Listening Strategies",
+          "desc": "Build a daily listening habit with authentic French audio: podcasts (RFI Journal en français facile, France Info), news broadcasts, and TCF practice recordings. Focus on understanding the main idea and key details on first listen, since the exam plays each recording only once. Use HiTCF's sentence-by-sentence replay feature to analyze passages you found difficult. Train your ear to distinguish French phonemes, liaisons, and enchaînements. Practice under timed conditions regularly to build stamina."
+        },
+        "reading": {
+          "title": "Reading Strategies",
+          "desc": "Read French daily — newspapers (Le Monde, Le Devoir), magazines, and online articles covering various topics. For the exam, learn to identify key information quickly: scan for topic sentences, numbers, proper nouns, and logical connectors. Practice time management by allocating roughly 1.5 minutes per question. For higher-level texts (B2-C1), focus on understanding implicit meanings, author's tone, and argumentative structures. Build vocabulary systematically using flashcards and spaced repetition."
+        },
+        "speaking": {
+          "title": "Speaking Strategies",
+          "desc": "Practice speaking French every day, even if just 10 minutes of self-talk. For Task 1 (interview), prepare answers about your background, work, studies, and daily life. For Task 2 (role play), practice common scenarios: making complaints, negotiating, requesting information. For Task 3 (opinion), develop a framework: state your position, give 2-3 arguments with examples, acknowledge counterarguments, and conclude. Use HiTCF's AI conversation feature to simulate exam-like interactions and get instant feedback on pronunciation and fluency."
+        },
+        "writing": {
+          "title": "Writing Strategies",
+          "desc": "Write something in French every day — even short journal entries count. For Task 1, master email conventions (formal vs. informal register, salutations, closing formulas). For Task 2, practice structuring articles with clear introductions, developed paragraphs, and conclusions. For Task 3, learn the comparative essay format: present each viewpoint fairly before giving your own opinion. Focus on grammatical accuracy (verb conjugations, agreements, prepositions) and vary your vocabulary. Always proofread your work — allocate 5 minutes at the end for corrections."
+        }
+      },
+      "howHitcfHelps": {
+        "title": "How HiTCF Helps You Reach CLB 7+",
+        "intro": "HiTCF is designed specifically to help TCF Canada candidates achieve their target scores efficiently:",
+        "feature1": "8,500+ practice questions covering all four skills, organized by difficulty level (A1-C2) so you can target your weak areas.",
+        "feature2": "Sentence-by-sentence audio replay for listening practice — break down difficult passages and train your ear on specific phrases.",
+        "feature3": "AI-powered speaking practice with real-time pronunciation assessment and 6-dimension scoring (pronunciation, fluency, grammar, vocabulary, task completion, pragmatics).",
+        "feature4": "AI writing evaluation with detailed feedback on grammar, vocabulary, coherence, and task fulfillment for all 3 writing task types.",
+        "feature5": "Smart wrong-answer notebook that tracks your mistakes and generates targeted review sessions to systematically eliminate weak spots."
+      },
+      "cta": {
+        "title": "Start Your Journey to CLB 7+",
+        "desc": "Join thousands of TCF Canada candidates who use HiTCF to prepare efficiently. Start with free practice sets or unlock the full platform with a Pro subscription.",
+        "pricingButton": "View Plans & Pricing",
+        "practiceButton": "Try Free Practice"
+      }
+    },
+    "tcfListening": {
+      "heading": "TCF Canada Listening (CO) — Complete Practice Guide",
+      "intro": "The Listening Comprehension section (Compréhension orale, or CO) is often considered the most challenging part of TCF Canada. Audio is played only once, and questions span from basic A1 dialogues to complex C2 academic discussions. This guide covers everything you need to know to maximize your score.",
+      "format": {
+        "title": "Exam Format",
+        "p1": "The TCF Canada listening section consists of 39 multiple-choice questions with 4 answer options each (A, B, C, D). You have approximately 35 minutes to complete the section. Audio recordings are played only once — you cannot replay them during the actual exam.",
+        "p2": "Questions are presented in order of increasing difficulty. The first questions test basic comprehension of simple exchanges, while the final questions require understanding nuanced arguments in academic or professional contexts. Each question is worth a different number of points based on its difficulty level, with harder questions worth significantly more."
+      },
+      "levels": {
+        "title": "Question Types by Level",
+        "a1a2": {
+          "title": "Level 1: A1-A2 (Questions 1-10)",
+          "desc": "Short everyday dialogues and announcements. You will hear simple conversations about daily topics — greetings, directions, shopping, appointments. The speech is slow and clearly articulated. Focus on identifying basic information: who, what, where, when. These questions are worth 3-9 points each and are the easiest to score on."
+        },
+        "a2b1": {
+          "title": "Level 2: A2-B1 (Questions 11-19)",
+          "desc": "Longer dialogues and radio segments. Topics include travel arrangements, workplace conversations, phone calls, and public announcements. Speech is at a natural pace with some colloquial expressions. You need to understand the main message and specific details. These questions are worth 15 points each."
+        },
+        "b1b2": {
+          "title": "Level 3: B1-B2 (Questions 20-30)",
+          "desc": "Extended conversations, interviews, and news reports. Topics become more abstract — social issues, cultural discussions, professional debates. Speakers may express opinions, make comparisons, and use figurative language. You need to identify the speaker's attitude, implicit meaning, and logical relationships. Worth 21 points each."
+        },
+        "b2c1": {
+          "title": "Level 4: B2-C2 (Questions 31-39)",
+          "desc": "Complex academic lectures, expert panel discussions, and specialized reports. Topics include science, politics, philosophy, and economics. Speech is fast with sophisticated vocabulary and complex sentence structures. You need to follow extended arguments, understand subtle distinctions, and identify the overall thesis. Worth 27-33 points each — these questions can make or break your score."
+        }
+      },
+      "tips": {
+        "title": "Listening Tips & Strategies",
+        "tip1": "Read the question and all 4 options before the audio plays. This gives you a preview of what to listen for and helps you focus your attention during playback.",
+        "tip2": "Don't panic if you miss something. Focus on the overall meaning rather than individual words. Many correct answers can be inferred from context even if you missed specific phrases.",
+        "tip3": "Pay attention to tone, emphasis, and intonation. Speakers often stress the most important information, and their tone can reveal attitudes that the question may ask about.",
+        "tip4": "Beware of distractors — options that use words you heard in the audio but in a different context or meaning. The correct answer often paraphrases the audio rather than repeating exact words.",
+        "tip5": "Practice with real French media daily. Listen to RFI, France 24, Radio-Canada, or French podcasts to build your ear for natural speech patterns, accents, and speed."
+      },
+      "practice": {
+        "title": "How to Practice Effectively",
+        "desc": "On HiTCF, use Practice Mode to replay audio sentence by sentence — this builds deep comprehension. Once comfortable, switch to Exam Mode where audio plays once, just like the real test. Track your accuracy by level in the Dashboard to identify which difficulty bands need more work. Use the Level Practice feature to target specific levels (e.g., only B1-B2 questions) and the wrong-answer notebook to revisit your mistakes."
+      },
+      "cta": {
+        "title": "Start Listening Practice Now",
+        "desc": "HiTCF has 42 complete listening test sets with over 1,600 questions, full audio, and sentence-level timestamps for detailed replay. Start for free and track your progress.",
+        "practiceButton": "Practice Listening",
+        "overviewButton": "TCF Canada Overview"
+      }
+    },
+    "tcfReading": {
+      "heading": "TCF Canada Reading (CE) — Complete Practice Guide",
+      "intro": "The Reading Comprehension section (Compréhension écrite, or CE) tests your ability to understand written French across a wide range of text types and difficulty levels. With 39 questions and 60 minutes on the clock, time management and strategic reading are essential skills.",
+      "format": {
+        "title": "Exam Format",
+        "p1": "The TCF Canada reading section consists of 39 multiple-choice questions with 4 answer options each. You have approximately 60 minutes to complete all questions. Unlike listening, you can go back and change your answers, so use your time wisely.",
+        "p2": "Questions are arranged in order of increasing difficulty, from simple everyday texts to complex academic and literary passages. The scoring system gives more weight to harder questions, so maintaining accuracy on mid-level questions while attempting the advanced ones is the optimal strategy."
+      },
+      "levels": {
+        "title": "Question Types by Level",
+        "a1a2": {
+          "title": "Level 1: A1-A2 (Questions 1-10)",
+          "desc": "Short, practical texts: signs, labels, simple ads, brief messages, and menus. Questions ask you to identify basic information such as prices, dates, locations, and simple instructions. The vocabulary is everyday and concrete. These are quick wins — aim for 100% accuracy here."
+        },
+        "a2b1": {
+          "title": "Level 2: A2-B1 (Questions 11-19)",
+          "desc": "Medium-length texts: personal emails, blog posts, travel guides, product descriptions, and simple news articles. You need to understand the main idea, locate specific information, and follow a basic narrative or argument. Some vocabulary may be unfamiliar, but context clues are usually available."
+        },
+        "b1b2": {
+          "title": "Level 3: B1-B2 (Questions 20-30)",
+          "desc": "Longer, more complex texts: newspaper editorials, magazine features, formal correspondence, and informational brochures. Questions test your ability to understand implicit meaning, identify the author's purpose and tone, and follow logical arguments. Vocabulary is more abstract and sentences are longer with subordinate clauses."
+        },
+        "b2c1": {
+          "title": "Level 4: B2-C2 (Questions 31-39)",
+          "desc": "Sophisticated texts: academic papers, literary excerpts, legal documents, philosophical essays, and scientific reports. You need to analyze complex arguments, understand nuanced vocabulary, identify rhetorical devices, and synthesize information across paragraphs. These texts often contain specialized terminology and dense sentence structures."
+        }
+      },
+      "tips": {
+        "title": "Reading Tips & Strategies",
+        "tip1": "Read the question first, then the text. This focused reading approach saves time and helps you locate relevant information quickly instead of reading the entire passage in detail.",
+        "tip2": "For longer texts, skim first to get the overall structure and main idea, then read more carefully around the sections relevant to the questions. Pay attention to paragraph beginnings and topic sentences.",
+        "tip3": "Watch out for negation and qualifiers. Words like ne...pas, ne...jamais, seulement, rarement, and à peine can completely change the meaning of a sentence and are commonly used in distractors.",
+        "tip4": "Build your vocabulary systematically. Learn word families (e.g., emploi, employeur, employé, employer) and common prefixes/suffixes (re-, dé-, -ment, -tion) to help you deduce meanings of unfamiliar words.",
+        "tip5": "Time management is crucial. Spend about 1 minute on A1-A2 questions, 1.5 minutes on B1 questions, and up to 2 minutes on B2-C2 questions. If stuck, mark the question and move on."
+      },
+      "practice": {
+        "title": "How to Practice Effectively",
+        "desc": "On HiTCF, start with Practice Mode to read at your own pace and review explanations for each question. Progress to Exam Mode with the 60-minute timer to simulate real test conditions. Use the Dashboard to track your accuracy by difficulty level and the Level Practice feature to focus specifically on the levels where you need improvement. Review your mistakes in the wrong-answer notebook and look for patterns in the types of questions you get wrong."
+      },
+      "cta": {
+        "title": "Start Reading Practice Now",
+        "desc": "HiTCF offers 42 complete reading test sets with over 1,600 questions and detailed passage analysis. Practice by level or take full mock exams to build your confidence.",
+        "practiceButton": "Practice Reading",
+        "overviewButton": "TCF Canada Overview"
+      }
+    },
+    "tcfSpeaking": {
+      "heading": "TCF Canada Speaking (EO) — Complete Practice Guide",
+      "intro": "The Speaking section (Expression orale, or EO) is a face-to-face interview lasting approximately 12 minutes, recorded and evaluated by certified examiners. It tests your ability to communicate in French across three progressively challenging tasks. Many candidates find this the most stressful section, but structured preparation can make a huge difference.",
+      "format": {
+        "title": "Exam Structure: 3 Tasks",
+        "p1": "The speaking exam consists of three tasks of increasing difficulty. You interact with an examiner who guides the conversation. The entire session is audio-recorded for evaluation by multiple raters.",
+        "task1": {
+          "title": "Task 1: Guided Interview (2 minutes)",
+          "desc": "The examiner asks you questions about yourself — your background, daily life, interests, work, and studies. This is the most predictable section and targets A1-B1 level. You should answer in complete sentences, provide details and examples, and show you can sustain a basic conversation. Prepare answers for common topics: family, hometown, hobbies, job/studies, daily routine, and future plans."
+        },
+        "task2": {
+          "title": "Task 2: Role Play (3.5 minutes)",
+          "desc": "You receive a scenario card describing a situation where you must interact with the examiner (who plays a specific role). Common scenarios include: making a complaint at a store, negotiating with a landlord, resolving a workplace conflict, or organizing an event. This targets B1-B2 level. You need to be persuasive, handle unexpected responses, and adapt your language to the situation."
+        },
+        "task3": {
+          "title": "Task 3: Expressing a Point of View (4.5 minutes)",
+          "desc": "You are given a topic or document and must express and defend your opinion. The examiner will challenge your views with counter-arguments. This targets B2-C2 level. You need to structure your argument logically, provide concrete examples, acknowledge opposing viewpoints, and use a wide range of vocabulary and grammatical structures. Topics typically involve social, cultural, or environmental issues."
+        }
+      },
+      "scoring": {
+        "title": "How Speaking Is Scored",
+        "p1": "Examiners evaluate your performance on a grid covering: lexical range and accuracy, grammatical range and accuracy, fluency and coherence, pronunciation and intonation, and sociolinguistic appropriateness. Each criterion contributes to your overall NCLC level.",
+        "p2": "To reach NCLC 7 in speaking, you need to demonstrate: ability to discuss abstract topics with reasonable fluency, use a range of vocabulary accurately, produce complex sentences with generally correct grammar, have clear pronunciation with appropriate intonation, and adapt your register to different situations."
+      },
+      "tips": {
+        "title": "Speaking Tips & Strategies",
+        "tip1": "Speak clearly and at a natural pace. It is better to speak slowly and correctly than quickly with many errors. Examiners are trained to evaluate quality, not speed.",
+        "tip2": "Use discourse markers and connectors to structure your speech: d'abord, ensuite, en revanche, par conséquent, cependant. This makes your speech sound more organized and raises your coherence score.",
+        "tip3": "Don't be afraid to self-correct. If you realize you made a grammatical mistake, briefly correct yourself and move on. This shows awareness of accuracy and is viewed positively by examiners.",
+        "tip4": "For Task 3, always structure your response: introduce your position, give 2-3 arguments with examples, address the counterargument, and conclude. Even if your French isn't perfect, a well-structured response scores higher.",
+        "tip5": "Practice speaking aloud daily. Record yourself, listen back, and identify areas for improvement. Use HiTCF's AI conversation feature to simulate the examiner interaction and get instant feedback on pronunciation and fluency."
+      },
+      "preparation": {
+        "title": "Effective Preparation Methods",
+        "p1": "Use HiTCF's pronunciation practice to record yourself reading French texts and get real-time AI assessment of your accuracy and fluency at the phoneme level. This builds the muscle memory and confidence you need for the actual exam.",
+        "p2": "For conversational practice, HiTCF's AI Conversation feature simulates Tâche 2 and Tâche 3 with an AI examiner. You practice speaking on real exam topics, receive 6-dimension scoring, and can repeat scenarios to improve. This is the closest experience to the real exam you can get from home."
+      },
+      "cta": {
+        "title": "Start Speaking Practice Now",
+        "desc": "HiTCF offers AI-powered pronunciation assessment and examiner conversation simulation for TCF Canada speaking preparation. Practice anytime, anywhere, with instant feedback.",
+        "practiceButton": "Pronunciation Practice",
+        "conversationButton": "AI Conversation Practice"
+      }
+    },
+    "tcfWriting": {
+      "heading": "TCF Canada Writing (EE) — Complete Practice Guide",
+      "intro": "The Writing section (Expression écrite, or EE) requires you to produce three written texts of increasing complexity in 60 minutes. Unlike the multiple-choice sections, writing is evaluated holistically by trained examiners, so understanding the scoring criteria and mastering the right methodology is key to a high score.",
+      "format": {
+        "title": "Exam Structure: 3 Tasks",
+        "p1": "The writing exam consists of three tasks that test progressively more advanced writing skills. You write on paper (or on a computer at some test centers), and your responses are evaluated by multiple certified examiners.",
+        "task1": {
+          "title": "Task 1: Short Message (60-120 words, ~15 minutes)",
+          "desc": "Write a message, email, or short letter in response to a given situation. Common scenarios include: responding to an invitation, writing to a landlord about a maintenance issue, contacting a colleague about a schedule change, or replying to a job listing. This targets A1-B1 level. Focus on: using the appropriate register (tu/vous), including all required information, and following standard French letter/email conventions."
+        },
+        "task2": {
+          "title": "Task 2: Article or Formal Letter (120-150 words, ~20 minutes)",
+          "desc": "Write an article, blog post, or formal letter on a given topic. You may be asked to describe an experience, explain a phenomenon, or argue for a position. This targets B1-B2 level. You need a clear introduction, well-developed body paragraphs, and a conclusion. Demonstrate varied vocabulary, accurate grammar (past tenses, subjunctive, conditional), and logical organization with appropriate connectors."
+        },
+        "task3": {
+          "title": "Task 3: Comparative Essay (120-180 words, ~25 minutes)",
+          "desc": "Analyze and compare two perspectives on a given topic, then express your own opinion. You typically receive two short texts presenting opposing viewpoints (e.g., remote work vs. office work, technology in education). This targets B2-C2 level. You must: summarize each viewpoint fairly, identify key similarities and differences, present your own reasoned opinion with evidence, and write a balanced conclusion. This is where strong argumentation and sophisticated language use matter most."
+        }
+      },
+      "scoring": {
+        "title": "How Writing Is Scored",
+        "p1": "Examiners evaluate each task on criteria including: sociolinguistic competence (appropriate register, conventions), lexical competence (vocabulary range and precision), grammatical competence (accuracy and complexity of structures), and pragmatic/discourse competence (organization, coherence, argumentation).",
+        "p2": "To reach NCLC 7 in writing, you need to demonstrate: clear text organization with logical paragraph structure, varied vocabulary used accurately, generally correct grammar with complex structures (subjunctive, conditional, relative clauses), appropriate register for each task type, and the ability to develop and support an argument."
+      },
+      "tips": {
+        "title": "Writing Tips & Strategies",
+        "tip1": "Plan before you write. Spend 2-3 minutes outlining your main points for each task. A well-organized response with simple French scores higher than a disorganized response with complex French.",
+        "tip2": "Respect the word count. Writing significantly under or over the limit can affect your score. For Task 1, aim for 80-100 words; for Task 2, 130-140 words; for Task 3, 150-170 words.",
+        "tip3": "Use varied connectors: cependant, néanmoins, en outre, par ailleurs, en effet, de surcroît, toutefois. This shows lexical range and improves the coherence of your text.",
+        "tip4": "Show off your grammar range deliberately. Use at least one conditional (Si j'avais...), one subjunctive (Il est important que...), and relative clauses (ce qui/ce que) in your longer tasks. Examiners look for evidence of complex structures.",
+        "tip5": "Always proofread. Reserve 5 minutes at the end to check for: gender/number agreements, verb conjugation errors, missing accents, and unclear sentences. Catching 3-4 errors in proofreading can raise your score by a full NCLC level."
+      },
+      "methodology": {
+        "title": "Methodology for Each Task Type",
+        "p1": "For Task 1 (message), use a clear template: greeting appropriate to the context, state the purpose of your message, provide necessary details or requests, and close with an appropriate formula (Cordialement, Bien à vous, Amicalement). For Task 2 (article/letter), follow the introduction-body-conclusion structure: hook the reader, develop 2-3 points with examples, and wrap up with a memorable closing statement.",
+        "p2": "For Task 3 (comparative essay), use this proven structure: Introduction (present the topic and announce your plan) -> First viewpoint (summarize and comment) -> Second viewpoint (summarize and comment) -> Your opinion (with reasons and examples) -> Conclusion (synthesize and open). Master this framework and you can apply it to any topic."
+      },
+      "cta": {
+        "title": "Start Writing Practice Now",
+        "desc": "HiTCF offers TCF Canada writing practice with AI-powered evaluation that scores your writing on grammar, vocabulary, coherence, and task fulfillment — giving you the detailed feedback you need to improve.",
+        "practiceButton": "Practice Writing",
+        "overviewButton": "TCF Canada Overview"
+      }
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "TCF Canada study guides, exam tips, and preparation insights",
+    "noPosts": "No articles yet",
+    "backToBlog": "Back to Blog",
+    "ctaText": "Ready to prepare for TCF Canada? Start practicing on HiTCF!",
+    "ctaButton": "Start Practicing"
   }
 }

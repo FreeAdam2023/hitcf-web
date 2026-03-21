@@ -90,7 +90,8 @@
     "submitExamWarning": "Votre examen sera noté immédiatement. Vous ne pourrez plus répondre.",
     "submitExamConfirm": "Soumettre",
     "referral": "Inviter des amis",
-    "checkin": "Bilan quotidien"
+    "checkin": "Bilan quotidien",
+    "blog": "Blog"
   },
   "userMenu": {
     "pro": "Membre Pro",
@@ -144,7 +145,8 @@
     "scanWechat": "Scannez pour nous ajouter sur WeChat",
     "studyGroup": "Groupe d'étude",
     "scanGroup": "Scannez pour rejoindre le groupe WeChat",
-    "allRightsReserved": "Tous droits réservés."
+    "allRightsReserved": "Tous droits réservés.",
+    "blog": "Blog"
   },
   "theme": {
     "lightMode": "Passer en mode clair",
@@ -2572,6 +2574,40 @@
     "writingMockExam": {
       "title": "Examen d'écriture simulé | HiTCF",
       "description": "Simulation complète de l'examen d'écriture TCF Canada avec correction IA"
+    },
+    "guideTcfCanada": {
+      "title": "Qu'est-ce que le TCF Canada ? Structure, notation et niveaux NCLC",
+      "description": "Guide complet du TCF Canada : 4 epreuves (comprehension orale, comprehension ecrite, expression orale, expression ecrite), systeme de notation, equivalence NCLC/CLB et importance pour l'immigration canadienne.",
+      "keywords": "TCF Canada,qu'est-ce que le TCF Canada,structure TCF,notation TCF,niveaux NCLC,equivalence CLB,test de francais immigration Canada,presentation TCF Canada"
+    },
+    "guideClb7": {
+      "title": "Comment atteindre CLB 7+ au TCF Canada — Strategies et conseils",
+      "description": "Strategies eprouvees pour atteindre CLB 7+ (NCLC 7) au TCF Canada. Scores cibles par epreuve, plans d'etude pour la comprehension et l'expression orale et ecrite.",
+      "keywords": "CLB 7,CLB 7 TCF Canada,comment atteindre CLB 7,plan d'etude TCF Canada,strategies preparation TCF,NCLC 7,conseils TCF Canada"
+    },
+    "guideTcfListening": {
+      "title": "Guide TCF Canada Comprehension orale (CO) — Format, conseils et pratique",
+      "description": "Maitrisez la comprehension orale du TCF Canada : 39 questions sur 4 niveaux de difficulte de A1 a C2. Types de questions, strategies et conseils pour maximiser votre score.",
+      "keywords": "TCF comprehension orale,TCF Canada ecoute,comprehension orale TCF,TCF CO pratique,conseils TCF ecoute,preparation TCF ecoute,TCF Canada audio"
+    },
+    "guideTcfReading": {
+      "title": "Guide TCF Canada Comprehension ecrite (CE) — Format, conseils et pratique",
+      "description": "Guide complet de la comprehension ecrite du TCF Canada : 39 questions sur 4 niveaux A1-C2. Types de textes, strategies de lecture et pratique ciblee.",
+      "keywords": "TCF comprehension ecrite,TCF Canada lecture,comprehension ecrite TCF,TCF CE pratique,conseils TCF lecture,preparation TCF lecture,TCF Canada test de lecture"
+    },
+    "guideTcfSpeaking": {
+      "title": "Guide TCF Canada Expression orale (EO) — 3 taches, conseils et pratique",
+      "description": "Preparez l'expression orale du TCF Canada : 3 taches (entretien, jeu de role, expression d'opinion), criteres de notation, strategies et pratique avec l'IA.",
+      "keywords": "TCF expression orale,TCF Canada oral,expression orale TCF,TCF EO pratique,conseils TCF oral,taches TCF oral,TCF Canada examen oral"
+    },
+    "guideTcfWriting": {
+      "title": "Guide TCF Canada Expression ecrite (EE) — 3 taches, conseils et pratique",
+      "description": "Guide complet de l'expression ecrite du TCF Canada : 3 taches (message, article, essai comparatif), criteres de notation, conseils methodologiques et pratique assistee par l'IA.",
+      "keywords": "TCF expression ecrite,TCF Canada ecrit,expression ecrite TCF,TCF EE pratique,conseils TCF ecrit,taches TCF ecrit,TCF Canada examen ecrit"
+    },
+    "blog": {
+      "title": "Blog — Guides et conseils pour le TCF Canada",
+      "description": "Blog de preparation au TCF Canada : analyses de l'examen, strategies CLB 7+, et astuces pour la comprehension orale, ecrite, l'expression orale et ecrite."
     }
   },
   "referralPage": {
@@ -2947,5 +2983,295 @@
     "minutesAgo": "il y a {count} min",
     "hoursAgo": "il y a {count}h",
     "daysAgo": "il y a {count}j"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Guides de preparation, conseils et astuces pour le TCF Canada",
+    "noPosts": "Aucun article pour le moment",
+    "backToBlog": "Retour au blog",
+    "ctaText": "Pret a preparer le TCF Canada ? Commencez a vous entrainer sur HiTCF !",
+    "ctaButton": "Commencer"
+  },
+  "guide": {
+    "tcfCanada": {
+      "heading": "Qu'est-ce que le TCF Canada ? Guide complet",
+      "intro": "Le TCF Canada (Test de connaissance du français pour le Canada) est le test officiel de compétence en français reconnu par Immigration, Réfugiés et Citoyenneté Canada (IRCC). Que vous postuliez pour la résidence permanente ou la citoyenneté canadienne, comprendre cet examen est votre première étape vers la réussite.",
+      "whatIs": {
+        "title": "Qu'est-ce que l'examen TCF Canada ?",
+        "p1": "Le TCF Canada est administré par France Éducation international (anciennement CIEP) et est spécifiquement conçu pour l'immigration au Canada. Contrairement au TCF général, le TCF Canada évalue les quatre compétences linguistiques : compréhension orale, compréhension écrite, expression orale et expression écrite. Les résultats sont exprimés en Niveaux de compétence linguistique canadiens (NCLC), équivalents aux Canadian Language Benchmarks (CLB) utilisés par IRCC.",
+        "p2": "Le test est disponible dans les centres d'examen agréés dans le monde entier et peut être passé plusieurs fois. Les résultats sont valables deux ans à compter de la date du test. De nombreux candidats passent le test plusieurs fois pour améliorer leurs scores, ce qui rend la pratique régulière essentielle."
+      },
+      "structure": {
+        "title": "Structure de l'examen : 4 épreuves",
+        "intro": "Le TCF Canada se compose de quatre épreuves obligatoires. La compréhension orale et écrite sont des QCM sur ordinateur, tandis que l'expression orale et écrite sont évaluées par des examinateurs certifiés.",
+        "co": {
+          "title": "Compréhension orale (CO)",
+          "desc": "39 questions à choix multiples à compléter en environ 35 minutes. Les questions progressent de dialogues quotidiens simples (A1) à des conférences et débats académiques complexes (C2). Chaque enregistrement n'est diffusé qu'une seule fois pendant l'examen, l'écoute active est donc primordiale."
+        },
+        "ce": {
+          "title": "Compréhension écrite (CE)",
+          "desc": "39 questions à choix multiples à compléter en environ 60 minutes. Les textes vont des panneaux et avis courts (A1) aux passages académiques ou littéraires longs (C2). Vous rencontrerez des publicités, des courriels, des articles de journaux, des essais et des résumés de recherche."
+        },
+        "eo": {
+          "title": "Expression orale (EO)",
+          "desc": "3 tâches à réaliser en environ 12 minutes, enregistrées et évaluées par des examinateurs. La tâche 1 est un entretien dirigé, la tâche 2 est un jeu de rôle, et la tâche 3 exige d'exprimer et de défendre une opinion sur un sujet complexe."
+        },
+        "ee": {
+          "title": "Expression écrite (EE)",
+          "desc": "3 tâches d'écriture à compléter en environ 60 minutes. La tâche 1 est un court message ou courriel (60-120 mots), la tâche 2 est un article ou une lettre sur un sujet donné (120-150 mots), et la tâche 3 est un essai comparatif analysant deux points de vue (120-180 mots)."
+        }
+      },
+      "scoring": {
+        "title": "Système de notation",
+        "p1": "Chaque épreuve est notée indépendamment sur une échelle correspondant aux niveaux NCLC 1 à 12+. Pour la compréhension orale et écrite, un score numérique de 0 à 699 est attribué, correspondant à un niveau NCLC spécifique. L'expression orale et écrite sont notées directement sur l'échelle NCLC par des évaluateurs formés.",
+        "p2": "Votre attestation TCF Canada affichera quatre scores distincts — un par épreuve. IRCC utilise ces scores individuels (pas une moyenne) pour évaluer votre compétence en français. Différents programmes d'immigration ont des exigences minimales différentes par épreuve.",
+        "nclc": {
+          "title": "Équivalence NCLC/CLB",
+          "desc": "Les NCLC (Niveaux de compétence linguistique canadiens) sont l'équivalent francophone des CLB (Canadian Language Benchmarks). NCLC 7 équivaut à CLB 7, le niveau le plus couramment exigé pour les programmes Entrée express. Pour la compréhension orale et écrite, NCLC 7 correspond à un score d'environ 458-502 sur 699. Pour l'expression orale et écrite, vous devez être évalué à NCLC 7 ou plus par les examinateurs."
+        }
+      },
+      "immigration": {
+        "title": "Pourquoi le TCF Canada est important pour l'immigration",
+        "p1": "La maîtrise du français est un avantage significatif dans le processus d'immigration canadien. Dans le Système de classement global (SCG) d'Entrée express, de bons scores en français peuvent vous rapporter des points supplémentaires substantiels — jusqu'à 50 points bonus pour CLB 7+ en français comme seconde langue officielle, en plus des points de base pour la langue.",
+        "p2": "Pour le Programme régulier des travailleurs qualifiés (PRTQ) du Québec, le TCF Canada est l'un des tests acceptés pour démontrer la maîtrise du français. De nombreux Programmes des candidats des provinces (PCP) acceptent également les résultats du TCF Canada. Atteindre CLB 7+ dans les quatre compétences est l'objectif clé que la plupart des candidats visent."
+      },
+      "cta": {
+        "title": "Commencez à vous entraîner dès aujourd'hui",
+        "desc": "HiTCF propose plus de 8 500 questions d'entraînement TCF Canada avec réécoute phrase par phrase, retour IA pour l'oral et l'écrit, et analyses détaillées pour suivre votre progression vers CLB 7+.",
+        "practiceButton": "Parcourir les tests",
+        "pricingButton": "Voir les tarifs"
+      }
+    },
+    "clb7": {
+      "heading": "Comment atteindre CLB 7+ au TCF Canada",
+      "intro": "CLB 7 (NCLC 7) est le seuil le plus important pour l'immigration canadienne. Atteindre ce niveau dans les quatre compétences peut considérablement augmenter votre score SCG et ouvrir les portes de la résidence permanente. Ce guide détaille exactement ce dont vous avez besoin et comment y parvenir.",
+      "whatIsClb7": {
+        "title": "Que signifie CLB 7 ?",
+        "p1": "CLB 7 (Canadian Language Benchmark 7) représente un niveau de compétence linguistique intermédiaire-avancé. Dans le contexte du TCF Canada, il correspond à NCLC 7. Pour la compréhension orale et écrite, cela nécessite généralement un score d'environ 458-502 sur 699, ce qui se traduit par une précision d'environ 78 % à travers tous les niveaux de difficulté.",
+        "p2": "CLB 7+ dans les quatre compétences est le seuil utilisé par IRCC pour le maximum de points SCG sous Entrée express. Même si vous êtes principalement anglophone, démontrer CLB 7+ en français comme seconde langue officielle peut vous rapporter jusqu'à 50 points SCG supplémentaires — souvent la différence entre recevoir une Invitation à présenter une demande (IPD) et attendre un autre tour."
+      },
+      "targetScores": {
+        "title": "Scores cibles par épreuve",
+        "intro": "Voici les scores approximatifs nécessaires pour atteindre NCLC 7 dans chaque épreuve :",
+        "co": "Compréhension orale (CO) : 458-502 sur 699 — Vous devez répondre correctement à environ 30 questions sur 39, incluant la plupart des questions de niveau B1-B2.",
+        "ce": "Compréhension écrite (CE) : 458-502 sur 699 — Similaire à l'oral, visez environ 30 bonnes réponses avec une performance solide sur les textes de niveau intermédiaire.",
+        "eo": "Expression orale (EO) : NCLC 7 — Les examinateurs évaluent la fluidité, l'étendue du vocabulaire, la précision grammaticale, la prononciation et l'accomplissement des tâches.",
+        "ee": "Expression écrite (EE) : NCLC 7 — Votre écriture doit démontrer une organisation claire, un vocabulaire varié, une grammaire généralement correcte et un registre approprié pour chaque type de tâche."
+      },
+      "strategies": {
+        "title": "Stratégies d'étude par épreuve",
+        "listening": {
+          "title": "Stratégies pour la compréhension orale",
+          "desc": "Développez une habitude d'écoute quotidienne en français : podcasts (RFI Journal en français facile, France Info), journaux télévisés et enregistrements d'entraînement TCF. Concentrez-vous sur la compréhension de l'idée principale et des détails clés dès la première écoute, car l'examen ne diffuse chaque enregistrement qu'une seule fois. Utilisez la fonctionnalité de réécoute phrase par phrase de HiTCF pour analyser les passages difficiles. Entraînez votre oreille à distinguer les phonèmes, liaisons et enchaînements français. Pratiquez régulièrement en conditions chronométrées."
+        },
+        "reading": {
+          "title": "Stratégies pour la compréhension écrite",
+          "desc": "Lisez en français quotidiennement — journaux (Le Monde, Le Devoir), magazines et articles en ligne sur divers sujets. Pour l'examen, apprenez à identifier rapidement les informations clés : repérez les phrases-thèmes, les chiffres, les noms propres et les connecteurs logiques. Gérez votre temps en allouant environ 1,5 minute par question. Pour les textes avancés (B2-C1), concentrez-vous sur les significations implicites, le ton de l'auteur et les structures argumentatives. Construisez votre vocabulaire systématiquement avec des cartes mémoire et la répétition espacée."
+        },
+        "speaking": {
+          "title": "Stratégies pour l'expression orale",
+          "desc": "Pratiquez l'expression orale en français chaque jour, même 10 minutes de monologue suffisent. Pour la tâche 1 (entretien), préparez des réponses sur votre parcours, travail, études et vie quotidienne. Pour la tâche 2 (jeu de rôle), entraînez-vous sur des scénarios courants : faire une réclamation, négocier, demander des informations. Pour la tâche 3 (opinion), développez un cadre : exposez votre position, donnez 2-3 arguments avec exemples, reconnaissez les contre-arguments et concluez. Utilisez la conversation IA de HiTCF pour simuler les interactions de l'examen et obtenir un retour instantané."
+        },
+        "writing": {
+          "title": "Stratégies pour l'expression écrite",
+          "desc": "Écrivez quelque chose en français chaque jour — même de courtes entrées de journal comptent. Pour la tâche 1, maîtrisez les conventions épistolaires (registre formel/informel, formules d'appel et de politesse). Pour la tâche 2, pratiquez la structuration d'articles avec des introductions claires, des paragraphes développés et des conclusions. Pour la tâche 3, apprenez le format de l'essai comparatif : présentez chaque point de vue équitablement avant de donner votre opinion. Concentrez-vous sur la précision grammaticale (conjugaisons, accords, prépositions) et variez votre vocabulaire. Relisez toujours votre travail — réservez 5 minutes pour les corrections."
+        }
+      },
+      "howHitcfHelps": {
+        "title": "Comment HiTCF vous aide à atteindre CLB 7+",
+        "intro": "HiTCF est spécifiquement conçu pour aider les candidats au TCF Canada à atteindre leurs scores cibles efficacement :",
+        "feature1": "Plus de 8 500 questions couvrant les quatre compétences, organisées par niveau de difficulté (A1-C2) pour cibler vos points faibles.",
+        "feature2": "Réécoute phrase par phrase pour la compréhension orale — décomposez les passages difficiles et entraînez votre oreille sur des phrases spécifiques.",
+        "feature3": "Pratique orale assistée par IA avec évaluation de la prononciation en temps réel et notation sur 6 dimensions (prononciation, fluidité, grammaire, vocabulaire, accomplissement des tâches, pragmatique).",
+        "feature4": "Évaluation de l'écriture par IA avec retour détaillé sur la grammaire, le vocabulaire, la cohérence et l'accomplissement des tâches pour les 3 types de tâches.",
+        "feature5": "Carnet d'erreurs intelligent qui suit vos erreurs et génère des sessions de révision ciblées pour éliminer systématiquement vos points faibles."
+      },
+      "cta": {
+        "title": "Commencez votre parcours vers CLB 7+",
+        "desc": "Rejoignez des milliers de candidats au TCF Canada qui utilisent HiTCF pour se préparer efficacement. Commencez avec des tests gratuits ou débloquez la plateforme complète avec un abonnement Pro.",
+        "pricingButton": "Voir les tarifs",
+        "practiceButton": "Essai gratuit"
+      }
+    },
+    "tcfListening": {
+      "heading": "TCF Canada Compréhension orale (CO) — Guide complet",
+      "intro": "La compréhension orale (CO) est souvent considérée comme la partie la plus difficile du TCF Canada. L'audio n'est diffusé qu'une seule fois, et les questions couvrent des dialogues A1 basiques jusqu'aux discussions académiques C2 complexes. Ce guide couvre tout ce que vous devez savoir pour maximiser votre score.",
+      "format": {
+        "title": "Format de l'épreuve",
+        "p1": "La compréhension orale du TCF Canada comprend 39 questions à choix multiples avec 4 options de réponse chacune (A, B, C, D). Vous disposez d'environ 35 minutes. Les enregistrements audio ne sont diffusés qu'une seule fois — vous ne pouvez pas les réécouter pendant l'examen.",
+        "p2": "Les questions sont présentées par ordre de difficulté croissante. Les premières testent la compréhension basique d'échanges simples, tandis que les dernières exigent la compréhension d'arguments nuancés dans des contextes académiques ou professionnels. Chaque question vaut un nombre différent de points selon son niveau de difficulté."
+      },
+      "levels": {
+        "title": "Types de questions par niveau",
+        "a1a2": {
+          "title": "Niveau 1 : A1-A2 (Questions 1-10)",
+          "desc": "Courts dialogues et annonces du quotidien. Vous entendrez des conversations simples sur des sujets courants — salutations, directions, achats, rendez-vous. Le débit est lent et l'articulation claire. Concentrez-vous sur l'identification des informations de base : qui, quoi, où, quand. Ces questions valent 3 à 9 points chacune et sont les plus faciles à réussir."
+        },
+        "a2b1": {
+          "title": "Niveau 2 : A2-B1 (Questions 11-19)",
+          "desc": "Dialogues plus longs et émissions de radio. Les sujets incluent l'organisation de voyages, les conversations au travail, les appels téléphoniques et les annonces publiques. Le débit est naturel avec quelques expressions familières. Vous devez comprendre le message principal et les détails spécifiques. Chaque question vaut 15 points."
+        },
+        "b1b2": {
+          "title": "Niveau 3 : B1-B2 (Questions 20-30)",
+          "desc": "Conversations longues, interviews et reportages. Les sujets deviennent plus abstraits — questions sociales, discussions culturelles, débats professionnels. Les locuteurs peuvent exprimer des opinions, faire des comparaisons et utiliser un langage figuré. Vous devez identifier l'attitude du locuteur, le sens implicite et les relations logiques. Chaque question vaut 21 points."
+        },
+        "b2c1": {
+          "title": "Niveau 4 : B2-C2 (Questions 31-39)",
+          "desc": "Conférences académiques complexes, tables rondes d'experts et rapports spécialisés. Les sujets couvrent la science, la politique, la philosophie et l'économie. Le débit est rapide avec un vocabulaire sophistiqué et des structures de phrases complexes. Vous devez suivre des arguments étendus, comprendre des distinctions subtiles et identifier la thèse globale. Chaque question vaut 27 à 33 points — ces questions peuvent faire la différence."
+        }
+      },
+      "tips": {
+        "title": "Conseils et stratégies d'écoute",
+        "tip1": "Lisez la question et les 4 options avant la diffusion de l'audio. Cela vous donne un aperçu de ce qu'il faut écouter et vous aide à concentrer votre attention pendant la lecture.",
+        "tip2": "Ne paniquez pas si vous manquez quelque chose. Concentrez-vous sur le sens global plutôt que sur les mots individuels. De nombreuses bonnes réponses peuvent être déduites du contexte même si vous avez manqué des phrases spécifiques.",
+        "tip3": "Prêtez attention au ton, à l'accentuation et à l'intonation. Les locuteurs soulignent souvent les informations les plus importantes, et leur ton peut révéler des attitudes sur lesquelles la question peut porter.",
+        "tip4": "Méfiez-vous des distracteurs — des options qui utilisent des mots entendus dans l'audio mais dans un contexte ou un sens différent. La bonne réponse paraphrase souvent l'audio plutôt que de répéter les mots exacts.",
+        "tip5": "Entraînez-vous quotidiennement avec des médias français authentiques. Écoutez RFI, France 24, Radio-Canada ou des podcasts français pour habituer votre oreille aux rythmes naturels de la parole, aux accents et à la vitesse."
+      },
+      "practice": {
+        "title": "Comment s'entraîner efficacement",
+        "desc": "Sur HiTCF, utilisez le mode Entraînement pour réécouter l'audio phrase par phrase — cela construit une compréhension approfondie. Une fois à l'aise, passez au mode Examen où l'audio n'est diffusé qu'une fois, comme au vrai test. Suivez votre précision par niveau dans le Tableau de bord pour identifier les bandes de difficulté nécessitant plus de travail. Utilisez l'Entraînement par niveau pour cibler des niveaux spécifiques et le carnet d'erreurs pour revoir vos fautes."
+      },
+      "cta": {
+        "title": "Commencez la pratique d'écoute maintenant",
+        "desc": "HiTCF propose 42 séries complètes de compréhension orale avec plus de 1 600 questions, audio complet et horodatages par phrase pour une réécoute détaillée. Commencez gratuitement et suivez votre progression.",
+        "practiceButton": "Pratiquer l'écoute",
+        "overviewButton": "Aperçu TCF Canada"
+      }
+    },
+    "tcfReading": {
+      "heading": "TCF Canada Compréhension écrite (CE) — Guide complet",
+      "intro": "La compréhension écrite (CE) teste votre capacité à comprendre le français écrit à travers une grande variété de types de textes et de niveaux de difficulté. Avec 39 questions et 60 minutes au chronomètre, la gestion du temps et la lecture stratégique sont des compétences essentielles.",
+      "format": {
+        "title": "Format de l'épreuve",
+        "p1": "La compréhension écrite du TCF Canada comprend 39 questions à choix multiples avec 4 options de réponse. Vous disposez d'environ 60 minutes. Contrairement à la compréhension orale, vous pouvez revenir en arrière et modifier vos réponses, alors utilisez votre temps judicieusement.",
+        "p2": "Les questions sont classées par difficulté croissante, des textes quotidiens simples aux passages académiques et littéraires complexes. Le système de notation accorde plus de poids aux questions difficiles, donc maintenir la précision sur les questions de niveau intermédiaire tout en tentant les questions avancées est la stratégie optimale."
+      },
+      "levels": {
+        "title": "Types de questions par niveau",
+        "a1a2": {
+          "title": "Niveau 1 : A1-A2 (Questions 1-10)",
+          "desc": "Textes courts et pratiques : panneaux, étiquettes, publicités simples, messages brefs et menus. Les questions vous demandent d'identifier des informations de base comme les prix, dates, lieux et instructions simples. Le vocabulaire est quotidien et concret. Ce sont des points faciles — visez 100 % de réussite."
+        },
+        "a2b1": {
+          "title": "Niveau 2 : A2-B1 (Questions 11-19)",
+          "desc": "Textes de longueur moyenne : courriels personnels, articles de blog, guides de voyage, descriptions de produits et articles de presse simples. Vous devez comprendre l'idée principale, localiser des informations spécifiques et suivre un récit ou un argument basique. Certains mots peuvent être inconnus, mais des indices contextuels sont généralement disponibles."
+        },
+        "b1b2": {
+          "title": "Niveau 3 : B1-B2 (Questions 20-30)",
+          "desc": "Textes plus longs et complexes : éditoriaux, articles de magazines, correspondance formelle et brochures informatives. Les questions testent votre capacité à comprendre le sens implicite, identifier l'intention et le ton de l'auteur, et suivre des arguments logiques. Le vocabulaire est plus abstrait et les phrases plus longues avec des subordonnées."
+        },
+        "b2c1": {
+          "title": "Niveau 4 : B2-C2 (Questions 31-39)",
+          "desc": "Textes sophistiqués : articles académiques, extraits littéraires, documents juridiques, essais philosophiques et rapports scientifiques. Vous devez analyser des arguments complexes, comprendre un vocabulaire nuancé, identifier des procédés rhétoriques et synthétiser des informations à travers les paragraphes."
+        }
+      },
+      "tips": {
+        "title": "Conseils et stratégies de lecture",
+        "tip1": "Lisez d'abord la question, puis le texte. Cette approche de lecture ciblée fait gagner du temps et vous aide à localiser rapidement les informations pertinentes au lieu de lire tout le passage en détail.",
+        "tip2": "Pour les textes longs, survolez d'abord pour saisir la structure globale et l'idée principale, puis lisez plus attentivement les sections pertinentes aux questions. Prêtez attention aux débuts de paragraphes et aux phrases-thèmes.",
+        "tip3": "Attention aux négations et aux nuances. Les mots comme ne...pas, ne...jamais, seulement, rarement et à peine peuvent complètement changer le sens d'une phrase et sont couramment utilisés dans les distracteurs.",
+        "tip4": "Construisez votre vocabulaire systématiquement. Apprenez les familles de mots (ex. emploi, employeur, employé, employer) et les préfixes/suffixes courants (re-, dé-, -ment, -tion) pour déduire le sens des mots inconnus.",
+        "tip5": "La gestion du temps est cruciale. Passez environ 1 minute sur les questions A1-A2, 1,5 minute sur les questions B1, et jusqu'à 2 minutes sur les questions B2-C2. Si vous bloquez, marquez la question et passez à la suivante."
+      },
+      "practice": {
+        "title": "Comment s'entraîner efficacement",
+        "desc": "Sur HiTCF, commencez avec le mode Entraînement pour lire à votre rythme et consulter les explications pour chaque question. Passez ensuite au mode Examen avec le chronomètre de 60 minutes pour simuler les conditions réelles. Utilisez le Tableau de bord pour suivre votre précision par niveau et l'Entraînement par niveau pour vous concentrer sur les niveaux à améliorer. Revoyez vos erreurs dans le carnet d'erreurs et cherchez des tendances dans les types de questions que vous ratez."
+      },
+      "cta": {
+        "title": "Commencez la pratique de lecture maintenant",
+        "desc": "HiTCF propose 42 séries complètes de compréhension écrite avec plus de 1 600 questions et analyses détaillées des passages. Pratiquez par niveau ou passez des examens blancs complets pour renforcer votre confiance.",
+        "practiceButton": "Pratiquer la lecture",
+        "overviewButton": "Aperçu TCF Canada"
+      }
+    },
+    "tcfSpeaking": {
+      "heading": "TCF Canada Expression orale (EO) — Guide complet",
+      "intro": "L'expression orale (EO) est un entretien en face à face d'environ 12 minutes, enregistré et évalué par des examinateurs certifiés. Elle teste votre capacité à communiquer en français à travers trois tâches de difficulté progressive. De nombreux candidats trouvent cette épreuve la plus stressante, mais une préparation structurée peut faire toute la différence.",
+      "format": {
+        "title": "Structure de l'épreuve : 3 tâches",
+        "p1": "L'épreuve d'expression orale comprend trois tâches de difficulté croissante. Vous interagissez avec un examinateur qui guide la conversation. L'ensemble de la session est enregistré pour évaluation par plusieurs évaluateurs.",
+        "task1": {
+          "title": "Tâche 1 : Entretien dirigé (2 minutes)",
+          "desc": "L'examinateur vous pose des questions sur vous-même — votre parcours, vie quotidienne, centres d'intérêt, travail et études. C'est la partie la plus prévisible, ciblant le niveau A1-B1. Répondez en phrases complètes, donnez des détails et des exemples, et montrez que vous pouvez soutenir une conversation de base. Préparez des réponses pour les sujets courants : famille, ville d'origine, loisirs, travail/études, routine quotidienne et projets d'avenir."
+        },
+        "task2": {
+          "title": "Tâche 2 : Jeu de rôle (3,5 minutes)",
+          "desc": "Vous recevez une fiche de scénario décrivant une situation où vous devez interagir avec l'examinateur (qui joue un rôle spécifique). Les scénarios courants incluent : faire une réclamation en magasin, négocier avec un propriétaire, résoudre un conflit au travail ou organiser un événement. Cible le niveau B1-B2. Vous devez être persuasif, gérer les réponses inattendues et adapter votre langage à la situation."
+        },
+        "task3": {
+          "title": "Tâche 3 : Expression d'un point de vue (4,5 minutes)",
+          "desc": "On vous donne un sujet ou un document et vous devez exprimer et défendre votre opinion. L'examinateur contestera vos arguments avec des contre-arguments. Cible le niveau B2-C2. Vous devez structurer votre argumentation logiquement, fournir des exemples concrets, reconnaître les points de vue opposés et utiliser un large éventail de vocabulaire et de structures grammaticales. Les sujets portent généralement sur des questions sociales, culturelles ou environnementales."
+        }
+      },
+      "scoring": {
+        "title": "Comment l'oral est noté",
+        "p1": "Les examinateurs évaluent votre performance sur une grille couvrant : l'étendue et la précision lexicale, l'étendue et la précision grammaticale, la fluidité et la cohérence, la prononciation et l'intonation, et l'adéquation sociolinguistique. Chaque critère contribue à votre niveau NCLC global.",
+        "p2": "Pour atteindre NCLC 7 à l'oral, vous devez démontrer : la capacité de discuter de sujets abstraits avec une fluidité raisonnable, l'utilisation d'un vocabulaire varié avec précision, la production de phrases complexes avec une grammaire généralement correcte, une prononciation claire avec une intonation appropriée, et l'adaptation de votre registre aux différentes situations."
+      },
+      "tips": {
+        "title": "Conseils et stratégies pour l'oral",
+        "tip1": "Parlez clairement et à un rythme naturel. Il vaut mieux parler lentement et correctement que rapidement avec beaucoup d'erreurs. Les examinateurs sont formés pour évaluer la qualité, pas la vitesse.",
+        "tip2": "Utilisez des marqueurs de discours et des connecteurs pour structurer votre parole : d'abord, ensuite, en revanche, par conséquent, cependant. Cela rend votre discours plus organisé et améliore votre score de cohérence.",
+        "tip3": "N'ayez pas peur de vous auto-corriger. Si vous réalisez que vous avez fait une erreur grammaticale, corrigez-vous brièvement et continuez. Cela montre une conscience de la précision et est perçu positivement par les examinateurs.",
+        "tip4": "Pour la tâche 3, structurez toujours votre réponse : introduisez votre position, donnez 2-3 arguments avec exemples, abordez le contre-argument et concluez. Même si votre français n'est pas parfait, une réponse bien structurée obtient un meilleur score.",
+        "tip5": "Pratiquez l'expression orale à voix haute chaque jour. Enregistrez-vous, réécoutez et identifiez les domaines à améliorer. Utilisez la conversation IA de HiTCF pour simuler l'interaction avec l'examinateur et obtenir un retour instantané sur la prononciation et la fluidité."
+      },
+      "preparation": {
+        "title": "Méthodes de préparation efficaces",
+        "p1": "Utilisez la pratique de prononciation de HiTCF pour vous enregistrer en lisant des textes français et obtenir une évaluation IA en temps réel de votre précision et fluidité au niveau des phonèmes. Cela développe la mémoire musculaire et la confiance nécessaires pour l'examen.",
+        "p2": "Pour la pratique conversationnelle, la Conversation IA de HiTCF simule les tâches 2 et 3 avec un examinateur IA. Vous pratiquez l'oral sur de vrais sujets d'examen, recevez une notation sur 6 dimensions, et pouvez répéter les scénarios pour vous améliorer. C'est l'expérience la plus proche de l'examen réel que vous pouvez obtenir depuis chez vous."
+      },
+      "cta": {
+        "title": "Commencez la pratique orale maintenant",
+        "desc": "HiTCF propose l'évaluation de prononciation par IA et la simulation de conversation avec l'examinateur pour la préparation de l'oral du TCF Canada. Entraînez-vous n'importe quand, n'importe où, avec un retour instantané.",
+        "practiceButton": "Pratique de prononciation",
+        "conversationButton": "Conversation IA"
+      }
+    },
+    "tcfWriting": {
+      "heading": "TCF Canada Expression écrite (EE) — Guide complet",
+      "intro": "L'expression écrite (EE) vous demande de produire trois textes de complexité croissante en 60 minutes. Contrairement aux épreuves de QCM, l'écriture est évaluée de manière holistique par des examinateurs formés. Comprendre les critères de notation et maîtriser la bonne méthodologie est la clé d'un score élevé.",
+      "format": {
+        "title": "Structure de l'épreuve : 3 tâches",
+        "p1": "L'épreuve d'expression écrite comprend trois tâches testant des compétences rédactionnelles progressivement plus avancées. Vous écrivez sur papier (ou sur ordinateur dans certains centres), et vos réponses sont évaluées par plusieurs examinateurs certifiés.",
+        "task1": {
+          "title": "Tâche 1 : Message court (60-120 mots, ~15 minutes)",
+          "desc": "Rédigez un message, un courriel ou une courte lettre en réponse à une situation donnée. Les scénarios courants incluent : répondre à une invitation, écrire à un propriétaire pour un problème de maintenance, contacter un collègue pour un changement d'emploi du temps ou répondre à une offre d'emploi. Cible le niveau A1-B1. Concentrez-vous sur : l'utilisation du registre approprié (tu/vous), l'inclusion de toutes les informations requises, et le respect des conventions épistolaires françaises."
+        },
+        "task2": {
+          "title": "Tâche 2 : Article ou lettre formelle (120-150 mots, ~20 minutes)",
+          "desc": "Rédigez un article, un billet de blog ou une lettre formelle sur un sujet donné. On peut vous demander de décrire une expérience, d'expliquer un phénomène ou d'argumenter en faveur d'une position. Cible le niveau B1-B2. Il faut une introduction claire, des paragraphes développés et une conclusion. Démontrez un vocabulaire varié, une grammaire précise (temps du passé, subjonctif, conditionnel) et une organisation logique avec des connecteurs appropriés."
+        },
+        "task3": {
+          "title": "Tâche 3 : Essai comparatif (120-180 mots, ~25 minutes)",
+          "desc": "Analysez et comparez deux perspectives sur un sujet donné, puis exprimez votre opinion. Vous recevez généralement deux courts textes présentant des points de vue opposés (ex. télétravail vs. bureau, technologie dans l'éducation). Cible le niveau B2-C2. Vous devez : résumer chaque point de vue équitablement, identifier les similitudes et différences clés, présenter votre opinion argumentée avec des preuves, et rédiger une conclusion équilibrée."
+        }
+      },
+      "scoring": {
+        "title": "Comment l'écrit est noté",
+        "p1": "Les examinateurs évaluent chaque tâche sur des critères incluant : la compétence sociolinguistique (registre approprié, conventions), la compétence lexicale (étendue et précision du vocabulaire), la compétence grammaticale (précision et complexité des structures), et la compétence pragmatique/discursive (organisation, cohérence, argumentation).",
+        "p2": "Pour atteindre NCLC 7 à l'écrit, vous devez démontrer : une organisation claire du texte avec une structure logique des paragraphes, un vocabulaire varié utilisé avec précision, une grammaire généralement correcte avec des structures complexes (subjonctif, conditionnel, relatives), un registre approprié pour chaque type de tâche, et la capacité de développer et soutenir un argument."
+      },
+      "tips": {
+        "title": "Conseils et stratégies d'écriture",
+        "tip1": "Planifiez avant d'écrire. Passez 2-3 minutes à esquisser vos points principaux pour chaque tâche. Une réponse bien organisée en français simple obtient un meilleur score qu'une réponse désorganisée en français complexe.",
+        "tip2": "Respectez le nombre de mots. Écrire nettement en dessous ou au-dessus de la limite peut affecter votre score. Pour la tâche 1, visez 80-100 mots ; pour la tâche 2, 130-140 mots ; pour la tâche 3, 150-170 mots.",
+        "tip3": "Utilisez des connecteurs variés : cependant, néanmoins, en outre, par ailleurs, en effet, de surcroît, toutefois. Cela démontre une étendue lexicale et améliore la cohérence de votre texte.",
+        "tip4": "Montrez volontairement l'étendue de votre grammaire. Utilisez au moins un conditionnel (Si j'avais...), un subjonctif (Il est important que...) et des relatives (ce qui/ce que) dans vos tâches longues. Les examinateurs cherchent des preuves de structures complexes.",
+        "tip5": "Relisez toujours. Réservez 5 minutes à la fin pour vérifier : les accords en genre/nombre, les erreurs de conjugaison, les accents manquants et les phrases peu claires. Corriger 3-4 erreurs à la relecture peut faire monter votre score d'un niveau NCLC entier."
+      },
+      "methodology": {
+        "title": "Méthodologie pour chaque type de tâche",
+        "p1": "Pour la tâche 1 (message), utilisez un modèle clair : formule d'appel appropriée au contexte, énoncez l'objet de votre message, fournissez les détails ou demandes nécessaires, et terminez avec une formule de politesse appropriée (Cordialement, Bien à vous, Amicalement). Pour la tâche 2 (article/lettre), suivez la structure introduction-développement-conclusion : accrochez le lecteur, développez 2-3 points avec des exemples, et terminez par une phrase mémorable.",
+        "p2": "Pour la tâche 3 (essai comparatif), utilisez cette structure éprouvée : Introduction (présentez le sujet et annoncez votre plan) -> Premier point de vue (résumez et commentez) -> Deuxième point de vue (résumez et commentez) -> Votre opinion (avec raisons et exemples) -> Conclusion (synthétisez et ouvrez). Maîtrisez ce cadre et vous pourrez l'appliquer à n'importe quel sujet."
+      },
+      "cta": {
+        "title": "Commencez la pratique d'écriture maintenant",
+        "desc": "HiTCF propose l'entraînement à l'expression écrite TCF Canada avec une évaluation IA qui note votre écriture sur la grammaire, le vocabulaire, la cohérence et l'accomplissement des tâches — vous donnant le retour détaillé dont vous avez besoin pour progresser.",
+        "practiceButton": "Pratiquer l'écriture",
+        "overviewButton": "Aperçu TCF Canada"
+      }
+    }
   }
 }

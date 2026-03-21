@@ -37,6 +37,7 @@ const NAV_KEYS = [
   { href: "/vocabulary", key: "nav.vocabulary" },
   { href: "/history", key: "nav.history" },
   { href: "/resources", key: "nav.resources" },
+  { href: "/blog", key: "nav.blog" },
 ] as const;
 
 export function Navbar() {

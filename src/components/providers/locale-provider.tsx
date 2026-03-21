@@ -10,16 +10,21 @@ import zhMessages from "@/i18n/messages/zh.json";
 import enMessages from "@/i18n/messages/en.json";
 import frMessages from "@/i18n/messages/fr.json";
 
+// Locale files may have slightly different key sets (e.g. guide pages not yet
+// translated). Use a loose record type so TS doesn't require exact structural
+// match across every locale JSON file.
+type Messages = Record<string, unknown>;
+
 // ar.json loaded lazily to avoid bundling ~60KB for non-Arabic users
-let arMessagesCache: typeof zhMessages | null = null;
+let arMessagesCache: Messages | null = null;
 async function loadArMessages() {
   if (!arMessagesCache) {
-    arMessagesCache = (await import("@/i18n/messages/ar.json")).default as typeof zhMessages;
+    arMessagesCache = (await import("@/i18n/messages/ar.json")).default as Messages;
   }
   return arMessagesCache;
 }
 
-const messagesMap: Record<Locale, typeof zhMessages | null> = {
+const messagesMap: Record<Locale, Messages | null> = {
   zh: zhMessages,
   en: enMessages,
   fr: frMessages,
@@ -46,7 +51,7 @@ export function LocaleProvider({ locale, children }: { locale: string; children:
     }
   }, [userLocale, validLocale, router, pathname]);
 
-  const [arMessages, setArMessages] = useState<typeof zhMessages | null>(arMessagesCache);
+  const [arMessages, setArMessages] = useState<Messages | null>(arMessagesCache);
   const messages = validLocale === "ar" ? (arMessages || enMessages) : (messagesMap[validLocale] || enMessages);
 
   // Lazy-load Arabic messages

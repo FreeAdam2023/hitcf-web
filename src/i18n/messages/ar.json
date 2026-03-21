@@ -90,7 +90,8 @@
     "submitExamWarning": "سيتم تصحيح امتحانك فوراً. لا يمكنك متابعة الإجابة.",
     "submitExamConfirm": "تقديم",
     "referral": "دعوة الأصدقاء",
-    "checkin": "تسجيل يومي"
+    "checkin": "تسجيل يومي",
+    "blog": "مدونة"
   },
   "userMenu": {
     "pro": "Pro",
@@ -144,7 +145,8 @@
     "scanWechat": "امسح للإضافة على ويتشات",
     "studyGroup": "مجموعة الدراسة",
     "scanGroup": "امسح للانضمام إلى مجموعة ويتشات",
-    "allRightsReserved": "جميع الحقوق محفوظة."
+    "allRightsReserved": "جميع الحقوق محفوظة.",
+    "blog": "مدونة"
   },
   "theme": {
     "lightMode": "وضع فاتح",
@@ -2572,6 +2574,40 @@
     "writingMockExam": {
       "title": "اختبار الكتابة التجريبي | HiTCF",
       "description": "محاكاة كاملة لاختبار الكتابة TCF Canada مع تصحيح بالذكاء الاصطناعي"
+    },
+    "guideTcfCanada": {
+      "title": "ما هو TCF Canada؟ هيكل الامتحان والتقييم ومستويات NCLC",
+      "description": "دليل شامل لامتحان TCF Canada: 4 أقسام (الاستماع، القراءة، التحدث، الكتابة)، نظام التقييم، معادلة NCLC/CLB وأهميته للهجرة الكندية.",
+      "keywords": "TCF Canada,ما هو TCF Canada,هيكل امتحان TCF,تقييم TCF,مستويات NCLC,معادلة CLB,اختبار الفرنسية للهجرة الكندية,نظرة عامة TCF Canada"
+    },
+    "guideClb7": {
+      "title": "كيف تحقق CLB 7+ في TCF Canada — استراتيجيات ونصائح",
+      "description": "استراتيجيات مجربة لتحقيق CLB 7+ (NCLC 7) في امتحان TCF Canada. الدرجات المستهدفة لكل قسم وخطط الدراسة للاستماع والقراءة والتحدث والكتابة.",
+      "keywords": "CLB 7,CLB 7 TCF Canada,كيف تحقق CLB 7,خطة دراسة TCF Canada,استراتيجيات التحضير TCF,NCLC 7,نصائح TCF Canada"
+    },
+    "guideTcfListening": {
+      "title": "دليل الاستماع TCF Canada (CO) — الشكل والنصائح والتمرين",
+      "description": "أتقن فهم الاستماع في TCF Canada: 39 سؤالاً عبر 4 مستويات صعوبة من A1 إلى C2. أنواع الأسئلة والاستراتيجيات ونصائح لتحقيق أعلى درجة.",
+      "keywords": "TCF استماع,TCF Canada استماع,compréhension orale TCF,TCF CO تمرين,نصائح TCF استماع,تحضير TCF استماع,TCF Canada صوت"
+    },
+    "guideTcfReading": {
+      "title": "دليل القراءة TCF Canada (CE) — الشكل والنصائح والتمرين",
+      "description": "دليل شامل لفهم القراءة في TCF Canada: 39 سؤالاً عبر 4 مستويات A1-C2. أنواع النصوص واستراتيجيات القراءة والتمرين المستهدف.",
+      "keywords": "TCF قراءة,TCF Canada قراءة,compréhension écrite TCF,TCF CE تمرين,نصائح TCF قراءة,تحضير TCF قراءة,TCF Canada اختبار القراءة"
+    },
+    "guideTcfSpeaking": {
+      "title": "دليل التحدث TCF Canada (EO) — 3 مهام ونصائح وتمرين",
+      "description": "استعد للتعبير الشفهي في TCF Canada: 3 مهام (مقابلة، لعب أدوار، التعبير عن الرأي)، معايير التقييم واستراتيجيات التحضير والتمرين بالذكاء الاصطناعي.",
+      "keywords": "TCF تحدث,TCF Canada شفهي,expression orale TCF,TCF EO تمرين,نصائح TCF تحدث,مهام TCF شفهي,TCF Canada امتحان شفهي"
+    },
+    "guideTcfWriting": {
+      "title": "دليل الكتابة TCF Canada (EE) — 3 مهام ونصائح وتمرين",
+      "description": "دليل شامل للتعبير الكتابي في TCF Canada: 3 مهام (رسالة، مقال، مقال مقارن)، معايير التقييم ونصائح منهجية والتمرين بمساعدة الذكاء الاصطناعي.",
+      "keywords": "TCF كتابة,TCF Canada كتابي,expression écrite TCF,TCF EE تمرين,نصائح TCF كتابة,مهام TCF كتابي,TCF Canada امتحان كتابي"
+    },
+    "blog": {
+      "title": "المدونة — أدلة ونصائح لاختبار TCF Canada",
+      "description": "مدونة التحضير لاختبار TCF Canada: تحليل الامتحان واستراتيجيات CLB 7+ ونصائح للاستماع والقراءة والتحدث والكتابة."
     }
   },
   "referralPage": {
@@ -2947,5 +2983,13 @@
     "minutesAgo": "منذ {count} دقيقة",
     "hoursAgo": "منذ {count} ساعة",
     "daysAgo": "منذ {count} يوم"
+  },
+  "blog": {
+    "title": "المدونة",
+    "subtitle": "أدلة التحضير ونصائح وحيل لاختبار TCF Canada",
+    "noPosts": "لا توجد مقالات بعد",
+    "backToBlog": "العودة إلى المدونة",
+    "ctaText": "هل أنت مستعد للتحضير لاختبار TCF Canada؟ ابدأ التمرين على HiTCF!",
+    "ctaButton": "ابدأ التمرين"
   }
 }
