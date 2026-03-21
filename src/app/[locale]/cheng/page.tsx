@@ -70,6 +70,75 @@ function createAudioContext(): AudioContext | null {
   }
 }
 
+// Classic (original) sounds — simple oscillator + noise
+function playClassicLaunch(ctx: AudioContext) {
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = "sine";
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.frequency.setValueAtTime(200 + Math.random() * 100, now);
+  osc.frequency.exponentialRampToValueAtTime(800 + Math.random() * 400, now + 0.8);
+  gain.gain.setValueAtTime(0.06, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+  osc.start(now);
+  osc.stop(now + 0.8);
+}
+
+function playClassicExplosion(ctx: AudioContext, intensity: number = 1) {
+  const now = ctx.currentTime;
+  // Boom
+  const boom = ctx.createOscillator();
+  const boomGain = ctx.createGain();
+  boom.type = "sine";
+  boom.connect(boomGain);
+  boomGain.connect(ctx.destination);
+  boom.frequency.setValueAtTime(200 + Math.random() * 100, now);
+  boom.frequency.exponentialRampToValueAtTime(40, now + 0.3);
+  boomGain.gain.setValueAtTime(0.2 * intensity, now);
+  boomGain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+  boom.start(now);
+  boom.stop(now + 0.4);
+  // Crackle
+  const noiseDuration = 0.8 * intensity;
+  const bufferSize = Math.floor(ctx.sampleRate * noiseDuration);
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.06));
+  }
+  const noise = ctx.createBufferSource();
+  const noiseGain = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.frequency.value = 2500 + Math.random() * 2000;
+  filter.Q.value = 0.4;
+  noise.buffer = buffer;
+  noise.connect(filter);
+  filter.connect(noiseGain);
+  noiseGain.connect(ctx.destination);
+  noiseGain.gain.setValueAtTime(0.15 * intensity, now + 0.05);
+  noiseGain.gain.exponentialRampToValueAtTime(0.001, now + noiseDuration);
+  noise.start(now + 0.05);
+  // Sparkles
+  for (let i = 0; i < 8; i++) {
+    const delay = 0.1 + Math.random() * 0.6;
+    const sparkOsc = ctx.createOscillator();
+    const sparkGain = ctx.createGain();
+    sparkOsc.type = "sine";
+    sparkOsc.connect(sparkGain);
+    sparkGain.connect(ctx.destination);
+    const freq = 2000 + Math.random() * 5000;
+    sparkOsc.frequency.setValueAtTime(freq, now + delay);
+    sparkOsc.frequency.exponentialRampToValueAtTime(freq * 0.2, now + delay + 0.1);
+    sparkGain.gain.setValueAtTime(0.04 * intensity, now + delay);
+    sparkGain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.1);
+    sparkOsc.start(now + delay);
+    sparkOsc.stop(now + delay + 0.1);
+  }
+}
+
 function playLaunchSound(ctx: AudioContext) {
   const now = ctx.currentTime;
   const duration = 0.9 + Math.random() * 0.4;
@@ -551,7 +620,7 @@ function playRealBoom(pool: HTMLAudioElement[]) {
   a.play().catch(() => {});
 }
 
-type SoundMode = "cartoon" | "realistic";
+type SoundMode = "realistic" | "cartoon" | "classic";
 
 // ─── Main component ────────────────────────────────────────────
 export default function ChengPage() {
@@ -596,10 +665,12 @@ export default function ChengPage() {
 
     fireworksRef.current.push(fw);
 
-    if (soundModeRef.current === "realistic") {
+    const mode = soundModeRef.current;
+    if (mode === "realistic") {
       playRealLaunch(launchPoolRef.current);
     } else if (audioCtxRef.current) {
-      playLaunchSound(audioCtxRef.current);
+      if (mode === "classic") playClassicLaunch(audioCtxRef.current);
+      else playLaunchSound(audioCtxRef.current);
     }
   }, []);
 
@@ -649,10 +720,13 @@ export default function ChengPage() {
     // Glow flash
     glowRef.current = Math.min(glowRef.current + 0.8, 1);
 
-    if (soundModeRef.current === "realistic") {
+    const mode = soundModeRef.current;
+    if (mode === "realistic") {
       playRealBoom(boomPoolRef.current);
     } else if (audioCtxRef.current) {
-      playExplosionSound(audioCtxRef.current, 0.6 + Math.random() * 0.4);
+      const intensity = 0.6 + Math.random() * 0.4;
+      if (mode === "classic") playClassicExplosion(audioCtxRef.current, intensity);
+      else playExplosionSound(audioCtxRef.current, intensity);
     }
   }, []);
 
@@ -666,7 +740,8 @@ export default function ChengPage() {
 
   const toggleSoundMode = useCallback(() => {
     setSoundMode((prev) => {
-      const next = prev === "cartoon" ? "realistic" : "cartoon";
+      const order: SoundMode[] = ["realistic", "cartoon", "classic"];
+      const next = order[(order.indexOf(prev) + 1) % order.length];
       soundModeRef.current = next;
       return next;
     });
@@ -820,7 +895,8 @@ export default function ChengPage() {
       ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
       ctx.font = `${Math.max(10, moonR * 0.7)}px sans-serif`;
       ctx.textAlign = "center";
-      ctx.fillText(soundModeRef.current === "cartoon" ? "🎵 卡通" : "🔊 真实", moonX, moonY + moonR * 2.5);
+      const modeLabel = soundModeRef.current === "realistic" ? "🔊 真实" : soundModeRef.current === "cartoon" ? "🎵 卡通" : "🎶 经典";
+      ctx.fillText(modeLabel, moonX, moonY + moonR * 2.5);
 
       // Update & draw fireworks (ascending rockets)
       const fws = fireworksRef.current;
