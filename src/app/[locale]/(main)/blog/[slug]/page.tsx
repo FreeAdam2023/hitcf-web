@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import { getPostBySlug, getAllSlugs } from "@/lib/blog";
 import { routing } from "@/i18n/routing";
 import { BlogPostView } from "./blog-post-view";
@@ -53,7 +54,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <BlogPostView meta={post.meta}>
-      <MDXRemote source={post.content} />
+      <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
     </BlogPostView>
   );
 }
