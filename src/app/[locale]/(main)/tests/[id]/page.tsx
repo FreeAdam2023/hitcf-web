@@ -6,7 +6,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
-import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, MoreHorizontal, Bot } from "lucide-react";
+import { Clock, FileText, Headphones, BookOpenText, MessageCircle, PenLine, ExternalLink, Lock, Copy, Check, RotateCcw, Play, Mic, MoreHorizontal, Bot, Eye } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -414,6 +414,7 @@ export default function TestDetailPage() {
   const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
   const [activeExam, setActiveExam] = useState<ActiveAttemptResponse | null>(null);
   const [completion, setCompletion] = useState<{ total: number; answered: number } | null>(null);
+  const [openBookPref, setOpenBookPref] = useState(false);
 
   useEffect(() => {
     getTestSet(params.id)
@@ -446,6 +447,10 @@ export default function TestDetailPage() {
         { test_set_id: test.id, mode: "practice" },
         { forceNew },
       );
+      // Save open book preference so practice-session picks it up
+      if (openBookPref) {
+        localStorage.setItem(`openBook:${attempt.id}`, "1");
+      }
       router.push(`/practice/${attempt.id}`);
     } catch (err: unknown) {
       console.error("Failed to create attempt", err);
@@ -633,6 +638,31 @@ export default function TestDetailPage() {
           <div className="mt-3 rounded-md border border-blue-200 bg-blue-50/50 p-3 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950/20 dark:text-blue-300">
             {t("testDetail.suggestion")}
           </div>
+
+          {/* Open book toggle */}
+          <button
+            onClick={() => setOpenBookPref((v) => !v)}
+            className={`mt-3 flex w-full items-start gap-3 rounded-lg border p-3 text-left transition-colors ${
+              openBookPref
+                ? "border-purple-300 bg-purple-50/50 dark:border-purple-700 dark:bg-purple-950/20"
+                : "border-border hover:bg-accent/50"
+            }`}
+          >
+            <Eye className={`mt-0.5 h-4 w-4 shrink-0 ${openBookPref ? "text-purple-600 dark:text-purple-400" : "text-muted-foreground"}`} />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium">{t("testDetail.openBookLabel")}</span>
+                <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-medium ${
+                  openBookPref
+                    ? "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300"
+                    : "bg-muted text-muted-foreground"
+                }`}>
+                  {openBookPref ? t("common.status.on") : t("common.status.off")}
+                </span>
+              </div>
+              <p className="mt-0.5 text-xs text-muted-foreground">{t("testDetail.openBookDesc")}</p>
+            </div>
+          </button>
 
           {/* Completion progress & exclude toggle */}
           {completion && completion.answered > 0 && (

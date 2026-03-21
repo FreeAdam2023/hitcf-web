@@ -221,7 +221,7 @@ export function TestList() {
   const [mockError, setMockError] = useState<string | null>(null);
   const [mockFreeTrialEligible, setMockFreeTrialEligible] = useState(false);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
-  const [tab, setTab] = useState<TabType>("listening");
+  const [tab, setTab] = useState<TabType | null>(null);
 
   // Hydration-safe: restore tab from URL param or localStorage after mount
   useEffect(() => {
@@ -234,6 +234,8 @@ export function TestList() {
     const stored = localStorage.getItem("hitcf_tests_tab");
     if (stored && VALID_TABS.includes(stored as TabType)) {
       setTab(stored as TabType);
+    } else {
+      setTab("listening");
     }
   }, []);
   const [expanded, setExpanded] = useState(false);
@@ -276,7 +278,7 @@ export function TestList() {
 
   // Persist tab to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem("hitcf_tests_tab", tab);
+    if (tab) localStorage.setItem("hitcf_tests_tab", tab);
   }, [tab]);
 
 
@@ -306,6 +308,7 @@ export function TestList() {
 
   // ─── Data fetching ────────────────────────────────────────
   const fetchTestSets = useCallback(async () => {
+    if (!tab) return; // Wait for tab to be restored from localStorage
     setLoading(true);
     const etParam = examTypeFilter === "all" ? undefined : examTypeFilter;
     try {
@@ -639,7 +642,8 @@ export function TestList() {
 
       </div>
       <ContinueBanner />
-      <Tabs value={tab} onValueChange={(v) => {
+      {!tab ? <div className="flex justify-center py-8"><span className="text-sm text-muted-foreground">Loading...</span></div> : null}
+      <Tabs value={tab ?? "listening"} onValueChange={(v) => {
         const t = v as TabType;
         setTab(t);
         setExpanded(false);
@@ -792,7 +796,7 @@ export function TestList() {
           <TabsTrigger value="writing">{t("common.types.writing")}</TabsTrigger>
         </TabsList>
 
-        <TabsContent value={tab} className="mt-4">
+        <TabsContent value={tab ?? "listening"} className="mt-4">
           {/* ── Status filter chips (listening/reading only) ── */}
           {(tab === "listening" || tab === "reading") && statusCounts && (
             <div className="mb-4 flex flex-wrap gap-2">
@@ -831,7 +835,7 @@ export function TestList() {
             type={tab as "listening" | "reading"}
           />
 
-          <RecommendedBanner type={tab} />
+          {tab && <RecommendedBanner type={tab} />}
 
           {/* ── Speaking/Writing controls ── */}
           {isSpeakingWriting && (
