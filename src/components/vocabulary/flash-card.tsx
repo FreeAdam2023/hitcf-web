@@ -702,6 +702,27 @@ export function FlashCardView({ loadCards, backLink, backLabel, emptyMessage, po
     }
   }, [currentIndex, cards, locale, canAccessPaid]);
 
+  // Auto-play audio when a new card appears (navigation or initial load)
+  useEffect(() => {
+    if (cards.length === 0) return;
+    const c = cards[currentIndex];
+    // Delay so slide animation settles first
+    const timer = setTimeout(() => {
+      speak(c.word, c.audio_url);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [currentIndex, cards, speak]);
+
+  // Auto-play audio when card is flipped (front → back)
+  useEffect(() => {
+    if (!flipped || cards.length === 0) return;
+    const c = cards[currentIndex];
+    const timer = setTimeout(() => {
+      speak(c.word, c.audio_url);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [flipped, cards, currentIndex, speak]);
+
   const handleFlip = useCallback(() => {
     if (animatingRef.current) return;
     setFlipped((prev) => {
