@@ -878,20 +878,36 @@ export default function ChengPage() {
       }
       ctx.globalAlpha = 1;
 
-      // Moon (clickable — toggles sound mode)
+      // Moon (clickable — toggles sound mode, phase shows current mode)
       const moonX = w * 0.85;
       const moonY = h * 0.12;
       const moonR = Math.min(w, h) * 0.03;
       moonPosRef.current = { x: moonX, y: moonY, r: moonR };
-      ctx.fillStyle = "rgba(255, 255, 230, 0.15)";
+      // Glow halo
+      ctx.fillStyle = "rgba(255, 255, 230, 0.12)";
       ctx.beginPath();
       ctx.arc(moonX, moonY, moonR * 3, 0, Math.PI * 2);
       ctx.fill();
+      // Full bright disc
       ctx.fillStyle = "rgba(255, 255, 230, 0.9)";
       ctx.beginPath();
       ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
       ctx.fill();
-      // No label — just click moon to cycle sound modes
+      // Shadow overlay for moon phase (realistic=full, cartoon=half, classic=crescent)
+      const mode = soundModeRef.current;
+      if (mode !== "realistic") {
+        ctx.fillStyle = "#020210";
+        ctx.beginPath();
+        if (mode === "cartoon") {
+          // Half moon: shadow covers left half
+          ctx.arc(moonX, moonY, moonR * 1.02, Math.PI * 0.5, Math.PI * 1.5);
+          ctx.fill();
+        } else {
+          // Crescent: large overlapping dark circle offset to the left
+          ctx.arc(moonX - moonR * 0.6, moonY, moonR * 0.85, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
 
       // Update & draw fireworks (ascending rockets)
       const fws = fireworksRef.current;
