@@ -993,7 +993,7 @@
     "levelScore": "{correct}/{answered}",
     "recentRecords": "Résultats récents",
     "readiness": {
-      "title": "Préparation CLB 7",
+      "title": "Préparation CLB 7+",
       "reached": "Atteint ✓",
       "gap": "Encore {gap}%",
       "keepGoing": "Continuez",
@@ -1004,9 +1004,9 @@
       "listening": "Compréhension orale",
       "reading": "Compréhension écrite",
       "summaryBothReached": "La compréhension orale et écrite ont atteint l'objectif. Continuez ainsi !",
-      "summaryListeningReached": "La compréhension orale a atteint l'objectif. La compréhension écrite a encore besoin de {gap}% pour atteindre CLB 7 !",
-      "summaryReadingReached": "La compréhension écrite a atteint l'objectif. La compréhension orale a encore besoin de {gap}% pour atteindre CLB 7 !",
-      "summaryKeepGoing": "Continuez à pratiquer et visez CLB 7 !",
+      "summaryListeningReached": "La compréhension orale a atteint l'objectif. La compréhension écrite a encore besoin de {gap}% pour atteindre CLB 7+ !",
+      "summaryReadingReached": "La compréhension écrite a atteint l'objectif. La compréhension orale a encore besoin de {gap}% pour atteindre CLB 7+ !",
+      "summaryKeepGoing": "Continuez à pratiquer et visez CLB 7+ !",
       "streakLegend": "{days} jours ! Vous êtes une légende",
       "streakWeek": "Série de {days} jours, ne la perdez pas !",
       "streakDays": "Série de {days} jours, continuez !",
@@ -1177,7 +1177,7 @@
       "doneQuestions": "{count} faites · {pct}%",
       "done30dQuestions": "30j : {count} questions",
       "done30dSets": "30j : {count} séries",
-      "readiness": "Préparation CLB 7"
+      "readiness": "Préparation CLB 7+"
     },
     "filter": {
       "all": "Tout"
@@ -1276,7 +1276,7 @@
     "reached": "Atteint",
     "gap": "Encore {gap}%",
     "keepGoing": "Continuez",
-    "target": "Objectif CLB 7 (78%)",
+    "target": "Objectif CLB 7+ (78%)",
     "listening": "Écoute {pct}%",
     "reading": "Lecture {pct}%"
   },
@@ -1909,7 +1909,7 @@
   },
   "pricing": {
     "title": "8 500+ questions d'entraînement TCF + outils de vocabulaire, les 4 sections",
-    "subtitle": "Entraînement + flashcards + dictée + exportation Anki — préparation systématique pour le CLB 7",
+    "subtitle": "Entraînement + flashcards + dictée + exportation Anki — préparation systématique pour le CLB 7+",
     "plans": {
       "monthly": {
         "name": "Mensuel",
@@ -1988,7 +1988,7 @@
           "a": "Nous acceptons Visa, Mastercard, American Express et les autres principales cartes de crédit et de débit, traitées en toute sécurité par Stripe (certifié PCI DSS Niveau 1)."
         },
         {
-          "q": "Pouvez-vous garantir que j'atteindrai le CLB 7 ?",
+          "q": "Pouvez-vous garantir que j'atteindrai le CLB 7+ ?",
           "a": "Nous ne garantissons aucun résultat d'examen. HiTCF fournit un entraînement de haute qualité aligné sur le TCF Canada pour vous aider à identifier et améliorer vos points faibles. Les scores finaux dépendent de nombreux facteurs. Consultez notre clause de non-responsabilité pour plus de détails."
         },
         {

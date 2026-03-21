@@ -100,7 +100,7 @@ export function CLB7Readiness({
           <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
             <div className="text-center">
               <div className="text-2xl font-extrabold text-primary">{overall.pct}%</div>
-              <div className="text-[10px] font-medium text-primary/70">CLB 7</div>
+              <div className="text-[10px] font-medium text-primary/70">CLB 7+</div>
             </div>
           </div>
           <div className="flex-1 min-w-0">

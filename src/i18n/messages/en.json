@@ -235,7 +235,7 @@
       "backToLogin": "Back to Login"
     },
     "layout": {
-      "tagline": "Reach CLB 7 through practice",
+      "tagline": "Reach CLB 7+ through practice",
       "description1": "8,500+ TCF Canada questions covering listening, reading, speaking, and writing.",
       "description2": "Systematic preparation — pass with confidence, not luck.",
       "stat1": "8,500+ questions",
@@ -993,7 +993,7 @@
     "levelScore": "{correct}/{answered}",
     "recentRecords": "Recent Records",
     "readiness": {
-      "title": "CLB 7 Readiness",
+      "title": "CLB 7+ Readiness",
       "reached": "Reached ✓",
       "gap": "{gap}% to go",
       "keepGoing": "Keep going",
@@ -1004,9 +1004,9 @@
       "listening": "Listening",
       "reading": "Reading",
       "summaryBothReached": "Both listening and reading have reached the target. Keep it up!",
-      "summaryListeningReached": "Listening has reached the target. Reading needs {gap}% more to reach CLB 7!",
-      "summaryReadingReached": "Reading has reached the target. Listening needs {gap}% more to reach CLB 7!",
-      "summaryKeepGoing": "Keep practicing and push for CLB 7!",
+      "summaryListeningReached": "Listening has reached the target. Reading needs {gap}% more to reach CLB 7+!",
+      "summaryReadingReached": "Reading has reached the target. Listening needs {gap}% more to reach CLB 7+!",
+      "summaryKeepGoing": "Keep practicing and push for CLB 7+!",
       "streakLegend": "{days} days! You're a legend",
       "streakWeek": "{days}-day streak, don't let it die!",
       "streakDays": "{days}-day streak, keep going!",
@@ -1177,7 +1177,7 @@
       "doneQuestions": "{count} done · {pct}%",
       "done30dQuestions": "30d: {count} questions",
       "done30dSets": "30d: {count} sets",
-      "readiness": "CLB 7 Readiness"
+      "readiness": "CLB 7+ Readiness"
     },
     "filter": {
       "all": "All"
@@ -1276,7 +1276,7 @@
     "reached": "Reached",
     "gap": "{gap}% to go",
     "keepGoing": "Keep going",
-    "target": "CLB 7 Target (78%)",
+    "target": "CLB 7+ Target (78%)",
     "listening": "Listening {pct}%",
     "reading": "Reading {pct}%"
   },
@@ -1909,7 +1909,7 @@
   },
   "pricing": {
     "title": "8,500+ TCF Practice Questions + Vocab Tools, All 4 Sections",
-    "subtitle": "Practice + Flashcards + Dictation + Anki Export — Systematic CLB 7 Prep",
+    "subtitle": "Practice + Flashcards + Dictation + Anki Export — Systematic CLB 7+ Prep",
     "plans": {
       "monthly": {
         "name": "Monthly",
@@ -1988,7 +1988,7 @@
           "a": "We accept Visa, Mastercard, American Express, and other major credit and debit cards, securely processed through Stripe (PCI DSS Level 1 certified)."
         },
         {
-          "q": "Can you guarantee I'll reach CLB 7?",
+          "q": "Can you guarantee I'll reach CLB 7+?",
           "a": "We do not guarantee any exam results. HiTCF provides high-quality practice aligned with TCF Canada to help you identify and improve weak areas. Final scores depend on many factors. See our disclaimer for details."
         },
         {
@@ -2275,15 +2275,15 @@
   "landing": {
     "hero": {
       "badge": "TCF Canada Practice Platform",
-      "titleHighlight": "CLB 7",
+      "titleHighlight": "CLB 7+",
       "titleSuffix": " — Practice Makes Perfect",
-      "subtitle": "8,400+ real questions — speaking practice · writing feedback · pronunciation · smart analysis. All-in-one prep for CLB 7.",
+      "subtitle": "8,400+ real questions — speaking practice · writing feedback · pronunciation · smart analysis. All-in-one prep for CLB 7+.",
       "startPractice": "Start Practicing",
       "registerCta": "Sign Up Free, Start Now",
       "viewPricing": "View Pricing",
       "imageAlt": "Canadian flag flying under a blue sky",
       "questionsLabel": "questions",
-      "clb7Target": "CLB 7 Target"
+      "clb7Target": "CLB 7+ Target"
     },
     "features": [
       {
@@ -2307,7 +2307,7 @@
       "questions",
       "test sets",
       "listening + reading sets",
-      "CLB 7 threshold accuracy"
+      "CLB 7+ threshold accuracy"
     ],
     "featuresBadge": "Four Sections",
     "featuresTitle": "Complete TCF Coverage",
@@ -2372,8 +2372,8 @@
     ],
     "highlights": [
       {
-        "title": "CLB 7 Goal-Oriented",
-        "desc": "Every feature is built around CLB 7 (≈78% accuracy). The readiness dashboard tracks how close your listening and reading scores are to the target."
+        "title": "CLB 7+ Goal-Oriented",
+        "desc": "Every feature is built around CLB 7+ (≈78% accuracy). The readiness dashboard tracks how close your listening and reading scores are to the target."
       },
       {
         "title": "Wrong Answer Book + Speed Drill",
@@ -2419,7 +2419,7 @@
       "EE maximum language bonus",
       "Highest level"
     ],
-    "guideFootnote": "CLB 7 ≈ 78% accuracy · This is the minimum language requirement for most EE and PNP programs",
+    "guideFootnote": "CLB 7+ ≈ 78% accuracy · This is the minimum language requirement for most EE and PNP programs",
     "guideLink": "View Full Exam Guide",
     "trust": [
       {
@@ -2454,7 +2454,7 @@
         "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, and Anki export. Yearly plan includes 14-day free trial — cancel anytime."
       },
       {
-        "q": "Can you guarantee I'll reach CLB 7?",
+        "q": "Can you guarantee I'll reach CLB 7+?",
         "a": "No. HiTCF provides high-quality practice aligned with TCF Canada to help you identify and improve weak areas. Final scores depend on many factors — we do not guarantee any exam results."
       },
       {
@@ -2467,7 +2467,7 @@
       }
     ],
     "ctaImageAlt": "Parliament Hill and Ottawa River panorama",
-    "ctaTitle": "How Close Are You to CLB 7?",
+    "ctaTitle": "How Close Are You to CLB 7+?",
     "ctaSubtitle": "{dailyQuestions} free listening & reading questions daily — latest month's speaking & writing topics open",
     "ctaContinue": "Continue Practicing",
     "ctaRegister": "Sign Up Free, Test Your Level"
@@ -2475,22 +2475,22 @@
   "meta": {
     "siteTitle": "HiTCF — TCF Canada Online Practice Platform",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "8,500+ TCF Canada practice questions + vocabulary tools covering listening, reading, speaking & writing. Sentence-by-sentence listening, flashcards, dictation, Anki export — reach CLB 7.",
-    "ogTitle": "HiTCF — Practice Your Way to CLB 7",
+    "siteDescription": "8,500+ TCF Canada practice questions + vocabulary tools covering listening, reading, speaking & writing. Sentence-by-sentence listening, flashcards, dictation, Anki export — reach CLB 7+.",
+    "ogTitle": "HiTCF — Practice Your Way to CLB 7+",
     "ogDescription": "8,500+ TCF Canada questions + vocabulary notebook + Anki export. Practice, flashcards & dictation all in one place.",
     "ogImageAlt": "HiTCF — TCF Canada Online Practice Platform",
-    "keywords": "TCF Canada,CLB 7,TCF practice,TCF listening,TCF reading,TCF Canada prep,Canada immigration French,TCF online mock,TCF questions,TCF vocabulary,French Anki,French flashcards",
+    "keywords": "TCF Canada,CLB 7+,TCF practice,TCF listening,TCF reading,TCF Canada prep,Canada immigration French,TCF online mock,TCF questions,TCF vocabulary,French Anki,French flashcards",
     "home": {
-      "title": "HiTCF — Practice Your Way to CLB 7 | TCF Canada Online Practice",
-      "description": "{totalQuestions} TCF Canada practice questions covering listening, reading, speaking & writing. Practice mode + exam mode + wrong answer notebook — systematically prepare for CLB 7."
+      "title": "HiTCF — Practice Your Way to CLB 7+ | TCF Canada Online Practice",
+      "description": "{totalQuestions} TCF Canada practice questions covering listening, reading, speaking & writing. Practice mode + exam mode + wrong answer notebook — systematically prepare for CLB 7+."
     },
     "tests": {
       "title": "TCF Canada Question Bank · {totalQuestions} Listening, Reading, Speaking & Writing Questions",
       "description": "TCF Canada full mock question bank for listening, reading, speaking & writing. {listeningSets} listening sets with audio + sentence replay, {readingSets} reading sets, A1-C2 coverage."
     },
     "dashboard": {
-      "title": "My Dashboard · CLB 7 Readiness & Practice Stats",
-      "description": "View your CLB 7 readiness, listening & reading accuracy, practice stats, and streak days. Track your progress against the 78% target accuracy."
+      "title": "My Dashboard · CLB 7+ Readiness & Practice Stats",
+      "description": "View your CLB 7+ readiness, listening & reading accuracy, practice stats, and streak days. Track your progress against the 78% target accuracy."
     },
     "pricing": {
       "title": "Pricing · 14-Day Free Trial on Yearly Plan for All TCF Questions + Vocab Tools",
@@ -2616,7 +2616,7 @@
       "p1": "<b>Using this Platform does not guarantee that you will pass the TCF Canada exam or achieve any specific CLB level.</b>",
       "li1": "The “CLB level estimates”, “readiness assessments”, and “predicted levels” displayed are based on statistical analysis of your practice data and are <b>for reference only</b> — they do not equal or predict actual TCF exam scores.",
       "li2": "Actual TCF exam results depend on numerous factors, including but not limited to your condition on exam day, question selection, and scoring criteria, all of which are beyond this Platform’s control.",
-      "li3": "Promotional phrases such as “Practice Your Way to CLB 7” are intended to encourage consistent practice and <b>do not constitute any form of score promise or result guarantee</b>."
+      "li3": "Promotional phrases such as “Practice Your Way to CLB 7+” are intended to encourage consistent practice and <b>do not constitute any form of score promise or result guarantee</b>."
     },
     "contentSources": {
       "title": "3. Content Sources & Accuracy",
@@ -2864,14 +2864,14 @@
     }
   },
   "schema": {
-    "siteDescription": "TCF Canada online practice platform — 8,500+ questions to help you reach CLB 7",
+    "siteDescription": "TCF Canada online practice platform — 8,500+ questions to help you reach CLB 7+",
     "faq1q": "Is HiTCF an official platform?",
     "faq1a": "No. HiTCF is an independently operated third-party practice platform with no affiliation to France Éducation international or IRCC. Practice questions are compiled from publicly available materials and formatted to match TCF Canada, but are not actual exam questions.",
     "faq2q": "What can I do with the free version?",
     "faq2a": "The free version includes the first listening set and first 2 reading sets with all questions, in both practice and exam mode. Unlimited attempts, forever free.",
     "faq3q": "What are the benefits of Pro?",
     "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, and Anki export. Yearly plan includes a 14-day free trial, cancel anytime.",
-    "faq4q": "Can you guarantee I’ll reach CLB 7?",
+    "faq4q": "Can you guarantee I’ll reach CLB 7+?",
     "faq4a": "No. HiTCF provides a practice environment aligned with TCF Canada to help you identify and improve weak areas. However, actual scores depend on many factors — we do not promise any exam results.",
     "faq5q": "How do I practice speaking and writing?",
     "faq5a": "Speaking and writing sections provide real exam topics and tasks, with the option to jump to ChatGPT for AI conversation practice and essay correction — essentially a free AI tutor.",

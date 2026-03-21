@@ -569,7 +569,7 @@ export function LandingPage() {
                           <rect x="10" y="22" width="78" height="10" rx="5" fill="hsl(var(--primary))" fillOpacity="0.7" />
                           <line x1="88" y1="18" x2="88" y2="36" stroke="hsl(var(--primary))" strokeWidth="2" strokeDasharray="3 2" />
                           <text x="88" y="14" textAnchor="middle" fontSize="8" fontWeight="700" fill="hsl(var(--primary))">78%</text>
-                          <text x="10" y="50" fontSize="18" fontWeight="800" fill="hsl(var(--primary))">CLB 7</text>
+                          <text x="10" y="50" fontSize="18" fontWeight="800" fill="hsl(var(--primary))">CLB 7+</text>
                           <rect x="60" y="42" width="50" height="14" rx="7" fill="hsl(142 76% 36% / 0.12)" />
                           <text x="85" y="53" textAnchor="middle" fontSize="8" fontWeight="600" fill="hsl(142 76% 36%)">{t("landing.svgReached")}</text>
                           <rect x="10" y="64" width="100" height="6" rx="3" fill="hsl(var(--muted))" fillOpacity="0.3" />

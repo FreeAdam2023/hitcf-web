@@ -170,7 +170,7 @@ export default async function LocaleLayout({
                 operatingSystem: "Web",
                 url: SITE_URL,
                 description:
-                  "TCF Canada online practice platform with 8,500+ questions covering listening, reading, speaking and writing. Practice mode, exam simulation, wrong answer notebook, vocabulary flashcards, Anki export, and AI-powered explanations to help you reach CLB 7.",
+                  "TCF Canada online practice platform with 8,500+ questions covering listening, reading, speaking and writing. Practice mode, exam simulation, wrong answer notebook, vocabulary flashcards, Anki export, and AI-powered explanations to help you reach CLB 7+.",
                 inLanguage: ["zh-CN", "fr-FR", "en", "ar"],
                 offers: [
                   {

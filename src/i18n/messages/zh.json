@@ -235,7 +235,7 @@
       "backToLogin": "返回登录"
     },
     "layout": {
-      "tagline": "CLB 7，练出来的",
+      "tagline": "CLB 7+，练出来的",
       "description1": "8,500+ 道 TCF Canada 练习题，听力阅读口语写作四科全覆盖。",
       "description2": "系统化备考，让通过不再靠运气。",
       "stat1": "8,500+ 道题",
@@ -993,7 +993,7 @@
     "levelScore": "{correct}/{answered} 题",
     "recentRecords": "最近记录",
     "readiness": {
-      "title": "CLB 7 准备度",
+      "title": "CLB 7+ 准备度",
       "reached": "已达标 ✓",
       "gap": "还差 {gap}%",
       "keepGoing": "继续加油",
@@ -1004,9 +1004,9 @@
       "listening": "听力",
       "reading": "阅读",
       "summaryBothReached": "听力和阅读均已达标，继续保持！",
-      "summaryListeningReached": "听力已达标，阅读还差 {gap}% 就能达到 CLB 7！",
-      "summaryReadingReached": "阅读已达标，听力还差 {gap}% 就能达到 CLB 7！",
-      "summaryKeepGoing": "坚持练习，向 CLB 7 发起冲刺！",
+      "summaryListeningReached": "听力已达标，阅读还差 {gap}% 就能达到 CLB 7+！",
+      "summaryReadingReached": "阅读已达标，听力还差 {gap}% 就能达到 CLB 7+！",
+      "summaryKeepGoing": "坚持练习，向 CLB 7+ 发起冲刺！",
       "streakLegend": "{days} 天！你就是传奇",
       "streakWeek": "连续 {days} 天，别让火灭了！",
       "streakDays": "连续 {days} 天，保持住！",
@@ -1177,7 +1177,7 @@
       "doneQuestions": "已练 {count} 题 · {pct}%",
       "done30dQuestions": "近30天 {count} 题",
       "done30dSets": "近30天 {count} 套",
-      "readiness": "CLB 7 准备度"
+      "readiness": "CLB 7+ 准备度"
     },
     "filter": {
       "all": "全部"
@@ -1276,7 +1276,7 @@
     "reached": "达标",
     "gap": "差{gap}%",
     "keepGoing": "继续加油",
-    "target": "CLB 7 目标 (78%)",
+    "target": "CLB 7+ 目标 (78%)",
     "listening": "听力 {pct}%",
     "reading": "阅读 {pct}%"
   },
@@ -1909,7 +1909,7 @@
   },
   "pricing": {
     "title": "8,500+ 道 TCF 练习题 + 词汇工具，四科全覆盖",
-    "subtitle": "刷题 + 翻卡 + 听写 + Anki 导出，系统化备考 CLB 7",
+    "subtitle": "刷题 + 翻卡 + 听写 + Anki 导出，系统化备考 CLB 7+",
     "plans": {
       "monthly": {
         "name": "月付",
@@ -1988,7 +1988,7 @@
           "a": "支持 Visa、Mastercard、American Express 等主流信用卡和借记卡，通过 Stripe 安全处理（PCI DSS Level 1 认证）。"
         },
         {
-          "q": "能保证考到 CLB 7 吗？",
+          "q": "能保证考到 CLB 7+ 吗？",
           "a": "我们不承诺任何考试成绩。HiTCF 提供与 TCF Canada 对标的高质量练习环境，帮助你针对性地找到薄弱环节并提升。最终成绩取决于多种因素。详见免责声明。"
         },
         {
@@ -2093,7 +2093,7 @@
       },
       "footnote": "* NCLC 7 是大部分 Express Entry 和 PNP 项目的<b>最低语言要求</b>，也是多数考生的目标等级",
       "nclc7Title": "为什么 NCLC 7 这么重要？",
-      "nclc7Desc": "NCLC 7（即 CLB 7）是加拿大大部分经济类移民项目的<b>最低法语要求</b>。达到 NCLC 7 意味着你可以在 Express Entry（CEC、FSW）和大部分省提名项目（PNP）中满足语言门槛。更高的 NCLC 等级（8、9、10）可以为你的 CRS 综合评分系统获得<b>额外加分</b>，NCLC 9 可获得语言满分加分。",
+      "nclc7Desc": "NCLC 7（即 CLB 7+）是加拿大大部分经济类移民项目的<b>最低法语要求</b>。达到 NCLC 7 意味着你可以在 Express Entry（CEC、FSW）和大部分省提名项目（PNP）中满足语言门槛。更高的 NCLC 等级（8、9、10）可以为你的 CRS 综合评分系统获得<b>额外加分</b>，NCLC 9 可获得语言满分加分。",
       "immigrationTitle": "常见移民项目语言要求",
       "programs": [
         {
@@ -2275,15 +2275,15 @@
   "landing": {
     "hero": {
       "badge": "TCF Canada 备考平台",
-      "titleHighlight": "CLB 7",
+      "titleHighlight": "CLB 7+",
       "titleSuffix": "，练出来的",
-      "subtitle": "8,400+ 道题，口语对练 · 写作批改 · 发音评估 · 智能解析，一站练到 CLB 7。",
+      "subtitle": "8,400+ 道题，口语对练 · 写作批改 · 发音评估 · 智能解析，一站练到 CLB 7+。",
       "startPractice": "开始练习",
       "registerCta": "免费注册，立刻做题",
       "viewPricing": "查看定价",
       "imageAlt": "加拿大国旗在蓝天下飘扬",
       "questionsLabel": "道题",
-      "clb7Target": "CLB 7 目标"
+      "clb7Target": "CLB 7+ 目标"
     },
     "features": [
       {
@@ -2307,7 +2307,7 @@
       "道题",
       "套模拟题",
       "套听力+阅读练习题",
-      "CLB 7 门槛正确率"
+      "CLB 7+ 门槛正确率"
     ],
     "featuresBadge": "四大科目",
     "featuresTitle": "全面覆盖 TCF 考试",
@@ -2372,8 +2372,8 @@
     ],
     "highlights": [
       {
-        "title": "CLB 7 目标导向",
-        "desc": "所有功能围绕 CLB 7（≈78% 正确率）设计，准备度仪表盘实时追踪你的听力和阅读离目标还差多远。"
+        "title": "CLB 7+ 目标导向",
+        "desc": "所有功能围绕 CLB 7+（≈78% 正确率）设计，准备度仪表盘实时追踪你的听力和阅读离目标还差多远。"
       },
       {
         "title": "错题本 + 速练",
@@ -2419,7 +2419,7 @@
       "EE 满分语言加分",
       "最高等级"
     ],
-    "guideFootnote": "CLB 7 ≈ 78% 正确率 · 这是大部分 EE 和 PNP 项目的最低语言要求",
+    "guideFootnote": "CLB 7+ ≈ 78% 正确率 · 这是大部分 EE 和 PNP 项目的最低语言要求",
     "guideLink": "查看完整考试指南",
     "trust": [
       {
@@ -2454,7 +2454,7 @@
         "a": "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式、生词本、翻卡复习、听写练习和 Anki 导出。年付享 14 天免费试用，不满意随时取消。"
       },
       {
-        "q": "能保证考到 CLB 7 吗？",
+        "q": "能保证考到 CLB 7+ 吗？",
         "a": "不能。HiTCF 提供与 TCF Canada 对标的练习环境，帮助你针对性地找到薄弱环节并提升。但实际成绩取决于多种因素，我们不承诺任何考试结果。"
       },
       {
@@ -2467,7 +2467,7 @@
       }
     ],
     "ctaImageAlt": "渥太华国会山与渥太华河全景",
-    "ctaTitle": "离 CLB 7 还差几步？",
+    "ctaTitle": "离 CLB 7+ 还差几步？",
     "ctaSubtitle": "每天 {dailyQuestions} 道听力阅读练习题免费练，最新月口语写作题目免费看",
     "ctaContinue": "继续做题",
     "ctaRegister": "免费注册，测测你的水平"
@@ -2475,22 +2475,22 @@
   "meta": {
     "siteTitle": "HiTCF — TCF Canada 在线练习平台",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "8,500+ 道 TCF Canada 练习题 + 词汇工具，覆盖听力、阅读、口语、写作四大科目。听力逐句精听、刷题、翻卡复习、听写练习、Anki 导出，助你冲刺 CLB 7。",
-    "ogTitle": "HiTCF — 打开就练，刷到 CLB 7",
+    "siteDescription": "8,500+ 道 TCF Canada 练习题 + 词汇工具，覆盖听力、阅读、口语、写作四大科目。听力逐句精听、刷题、翻卡复习、听写练习、Anki 导出，助你冲刺 CLB 7+。",
+    "ogTitle": "HiTCF — 打开就练，刷到 CLB 7+",
     "ogDescription": "8,500+ 道 TCF Canada 练习题 + 生词本 + Anki 导出。刷题、翻卡、听写一站搞定，薄弱环节一目了然。",
     "ogImageAlt": "HiTCF — TCF Canada 在线练习平台",
-    "keywords": "TCF Canada,CLB 7,TCF 练习,TCF 听力,TCF 阅读,TCF Canada 备考,加拿大移民法语,TCF 在线模拟,TCF 练习题,TCF 词汇,法语 Anki,法语翻卡",
+    "keywords": "TCF Canada,CLB 7+,TCF 练习,TCF 听力,TCF 阅读,TCF Canada 备考,加拿大移民法语,TCF 在线模拟,TCF 练习题,TCF 词汇,法语 Anki,法语翻卡",
     "home": {
-      "title": "HiTCF — CLB 7，练出来的 | TCF Canada 在线练习",
-      "description": "{totalQuestions} 道 TCF Canada 练习题，覆盖听力、阅读、口语、写作。练习模式 + 考试模式 + 错题本，助你系统备考冲刺 CLB 7。"
+      "title": "HiTCF — CLB 7+，练出来的 | TCF Canada 在线练习",
+      "description": "{totalQuestions} 道 TCF Canada 练习题，覆盖听力、阅读、口语、写作。练习模式 + 考试模式 + 错题本，助你系统备考冲刺 CLB 7+。"
     },
     "tests": {
       "title": "TCF Canada 题库 · {totalQuestions} 道听力阅读口语写作练习题",
       "description": "TCF Canada 听力、阅读、口语、写作全真模拟题库。{listeningSets} 套听力含音频 + 逐句精听，{readingSets} 套阅读，覆盖 A1-C2 全等级。"
     },
     "dashboard": {
-      "title": "我的仪表盘 · CLB 7 准备度与练习统计",
-      "description": "查看你的 CLB 7 准备度、听力和阅读正确率、练习统计、连续打卡天数。实时追踪与 78% 目标正确率的差距。"
+      "title": "我的仪表盘 · CLB 7+ 准备度与练习统计",
+      "description": "查看你的 CLB 7+ 准备度、听力和阅读正确率、练习统计、连续打卡天数。实时追踪与 78% 目标正确率的差距。"
     },
     "pricing": {
       "title": "订阅方案 · 年付享 14 天免费试用全部 TCF 题库 + 词汇工具",
@@ -2616,7 +2616,7 @@
       "p1": "<b>使用本平台不保证您将通过 TCF Canada 考试或达到任何特定的 CLB 等级。</b>",
       "li1": "本平台展示的“CLB 等级估算”、“准备度评估”和“预计等级”均基于您在练习中的答题数据统计分析，<b>仅供参考</b>，不等于也不预示实际 TCF 考试评分。",
       "li2": "实际 TCF 考试成绩取决于众多因素，包括但不限于考试当天的状态、出题范围、评分标准等，这些均超出本平台的控制范围。",
-      "li3": "“CLB 7，练出来的”等宣传用语旨在鼓励用户坚持练习，<b>不构成任何形式的成绩承诺或结果保证</b>。"
+      "li3": "“CLB 7+，练出来的”等宣传用语旨在鼓励用户坚持练习，<b>不构成任何形式的成绩承诺或结果保证</b>。"
     },
     "contentSources": {
       "title": "3. 内容来源与准确性",
@@ -2864,14 +2864,14 @@
     }
   },
   "schema": {
-    "siteDescription": "TCF Canada 在线练习平台，8,500+ 道题助你冲刺 CLB 7",
+    "siteDescription": "TCF Canada 在线练习平台，8,500+ 道题助你冲刺 CLB 7+",
     "faq1q": "HiTCF 是官方平台吗？",
     "faq1a": "不是。HiTCF 是独立运营的第三方练习平台，与 France Éducation international 或 IRCC 无关。练习题目来源于公开资料的整理和编辑，格式对标 TCF Canada，但不等同于考场原题。",
     "faq2q": "免费版能做什么？",
     "faq2a": "免费版可使用听力前 1 套、阅读前 2 套的全部题目，包含练习模式和考试模式。不限次数，永久有效。",
     "faq3q": "Pro 会员有什么好处？",
     "faq3a": "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式、生词本、翻卡复习、听写练习和 Anki 导出。年付享 14 天免费试用，不满意随时取消。",
-    "faq4q": "能保证考到 CLB 7 吗？",
+    "faq4q": "能保证考到 CLB 7+ 吗？",
     "faq4a": "不能。HiTCF 提供与 TCF Canada 对标的练习环境，帮助你针对性地找到薄弱环节并提升。但实际成绩取决于多种因素，我们不承诺任何考试结果。",
     "faq5q": "口语和写作怎么练？",
     "faq5a": "口语和写作提供考试话题和写作任务，支持跳转到 ChatGPT 进行 AI 模拟对话和作文批改。相当于免费的 AI 外教。",
