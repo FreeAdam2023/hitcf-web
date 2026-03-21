@@ -891,12 +891,7 @@ export default function ChengPage() {
       ctx.beginPath();
       ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
       ctx.fill();
-      // Sound mode label under moon
-      ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
-      ctx.font = `${Math.max(10, moonR * 0.7)}px sans-serif`;
-      ctx.textAlign = "center";
-      const modeLabel = soundModeRef.current === "realistic" ? "🔊 真实" : soundModeRef.current === "cartoon" ? "🎵 卡通" : "🎶 经典";
-      ctx.fillText(modeLabel, moonX, moonY + moonR * 2.5);
+      // No label — just click moon to cycle sound modes
 
       // Update & draw fireworks (ascending rockets)
       const fws = fireworksRef.current;
