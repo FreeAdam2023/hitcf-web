@@ -350,7 +350,7 @@ export function ExamSession() {
 
     // "Playing" and "Answering" phases — two-column layout like reading
     return (
-      <div className="grid gap-2 lg:gap-3 lg:grid-cols-[1fr_220px] h-full overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
+      <div className="grid gap-2 lg:gap-3 lg:grid-cols-[1fr_220px] lg:h-full lg:overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
         <div className="space-y-4 overflow-y-auto scrollbar-on-hover lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5">
           {/* Header: question number + timer */}
           <div className="flex items-center justify-between">
@@ -429,7 +429,7 @@ export function ExamSession() {
             <Button
               variant="outline"
               size="icon"
-              className="fixed bottom-4 right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden"
+              className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden"
             >
               <LayoutGrid className="h-5 w-5" />
             </Button>
@@ -455,7 +455,7 @@ export function ExamSession() {
 
   // --- Reading layout: two-column with navigator ---
   return (
-    <div className="grid gap-2 lg:gap-3 lg:grid-cols-[1fr_220px] h-full overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
+    <div className="grid gap-2 lg:gap-3 lg:grid-cols-[1fr_220px] lg:h-full lg:overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
       <div className="space-y-4 overflow-y-auto scrollbar-on-hover lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5">
         {/* Header with prominent timer */}
         <div className="flex items-center justify-between">
@@ -534,7 +534,7 @@ export function ExamSession() {
           <Button
             variant="outline"
             size="icon"
-            className="fixed bottom-4 right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden"
+            className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden"
           >
             <LayoutGrid className="h-5 w-5" />
           </Button>

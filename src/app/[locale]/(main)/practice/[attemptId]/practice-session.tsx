@@ -720,7 +720,7 @@ export function PracticeSession() {
   const allAnswered = totalAnswered >= questions.length;
 
   return (
-    <div className="grid gap-2 lg:gap-3 lg:grid-cols-[220px_1fr_360px] h-full overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
+    <div className="grid gap-2 lg:gap-3 lg:grid-cols-[220px_1fr_360px] lg:h-full lg:overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
       {/* 左侧：题号导航 (桌面) */}
       <div className="hidden lg:block overflow-y-auto scrollbar-on-hover rounded-xl bg-card border shadow-sm p-3">
           <QuestionNavigator
@@ -1015,13 +1015,13 @@ export function PracticeSession() {
           <Button
             variant="outline"
             size="icon"
-            className="fixed bottom-4 right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden"
+            className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden"
           >
             <LayoutGrid className="h-5 w-5" />
           </Button>
         </SheetTrigger>
         <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
-          <div className="p-4 pb-8">
+          <div className="p-4 pb-[calc(2rem+env(safe-area-inset-bottom))]">
             <QuestionNavigator
               total={questions.length}
               currentIndex={currentIndex}

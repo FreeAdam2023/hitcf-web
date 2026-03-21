@@ -80,7 +80,7 @@ export function QuestionNavigator({
         onClick={() => onNavigate(i)}
         aria-label={t("practice.navigator.questionLabel", { n: questionNum, status: statusLabel })}
         className={cn(
-          "relative flex h-8 w-8 items-center justify-center rounded text-xs font-medium transition-colors",
+          "relative flex h-9 w-9 items-center justify-center rounded text-xs font-medium transition-colors",
           isCurrent && "ring-2 ring-primary ring-offset-1",
           !isExam && isCorrect && "bg-green-500 text-white",
           !isExam && isWrong && "bg-red-500 text-white",
