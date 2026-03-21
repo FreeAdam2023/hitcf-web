@@ -12,19 +12,60 @@ interface TcfScoreGridProps {
 
 /** 按分值区间分组的行定义 */
 const ROWS: { label: string; range: [number, number] }[] = [
-  { label: "3\u201C9 分", range: [1, 10] },
-  { label: "15\u201C21 分", range: [11, 20] },
+  { label: "3–9 分", range: [1, 10] },
+  { label: "15–21 分", range: [11, 20] },
   { label: "21 分", range: [21, 30] },
-  { label: "27\u201C33 分", range: [31, 39] },
+  { label: "27–33 分", range: [31, 39] },
 ];
+
+/**
+ * Map points to color classes with depth proportional to weight.
+ * Higher points → deeper/more saturated color.
+ */
+const CORRECT_SHADES: Record<number, string> = {
+  3:  "bg-green-200 text-green-900 dark:bg-green-900/40 dark:text-green-300",
+  9:  "bg-green-300 text-green-900 dark:bg-green-800/50 dark:text-green-200",
+  15: "bg-green-400 text-white dark:bg-green-700/60 dark:text-green-100",
+  21: "bg-green-500 text-white dark:bg-green-600/70 dark:text-green-50",
+  27: "bg-green-600 text-white dark:bg-green-600 dark:text-white",
+  33: "bg-green-700 text-white dark:bg-green-500 dark:text-white",
+};
+
+const WRONG_SHADES: Record<number, string> = {
+  3:  "bg-red-200 text-red-900 dark:bg-red-900/40 dark:text-red-300",
+  9:  "bg-red-300 text-red-900 dark:bg-red-800/50 dark:text-red-200",
+  15: "bg-red-400 text-white dark:bg-red-700/60 dark:text-red-100",
+  21: "bg-red-500 text-white dark:bg-red-600/70 dark:text-red-50",
+  27: "bg-red-600 text-white dark:bg-red-600 dark:text-white",
+  33: "bg-red-700 text-white dark:bg-red-500 dark:text-white",
+};
+
+function getShade(pts: number, status: "correct" | "wrong" | "unanswered"): string {
+  if (status === "unanswered") {
+    return "bg-muted text-muted-foreground border border-dashed border-muted-foreground/40";
+  }
+  const map = status === "correct" ? CORRECT_SHADES : WRONG_SHADES;
+  return map[pts] ?? map[21];
+}
 
 export function TcfScoreGrid({ answers }: TcfScoreGridProps) {
   const t = useTranslations();
   const answerMap = new Map(answers.map((a) => [a.original_question_number ?? a.question_number, a]));
 
   let earned = 0;
+  let correctCount = 0;
+  let wrongCount = 0;
+  let unansweredCount = 0;
   for (const a of answers) {
-    if (a.is_correct) earned += getTcfPoints(a.original_question_number ?? a.question_number);
+    const qn = a.original_question_number ?? a.question_number;
+    if (a.is_correct) {
+      earned += getTcfPoints(qn);
+      correctCount++;
+    } else if (a.selected) {
+      wrongCount++;
+    } else {
+      unansweredCount++;
+    }
   }
   const pct = Math.round((earned / TCF_MAX_SCORE) * 100);
 
@@ -45,15 +86,15 @@ export function TcfScoreGrid({ answers }: TcfScoreGridProps) {
                     const a = answerMap.get(n);
                     const pts = getTcfPoints(n);
                     const isCorrect = a?.is_correct === true;
-                    const isWrong = a?.is_correct === false;
+                    const isWrong = a?.is_correct === false && !!a?.selected;
+                    const isUnanswered = !a || (!isCorrect && !a?.selected);
+                    const status = isCorrect ? "correct" : isWrong ? "wrong" : "unanswered";
                     return (
                       <div
                         key={n}
                         className={cn(
                           "flex flex-col items-center justify-center rounded px-1 py-0.5 text-[10px] leading-tight font-medium flex-1 min-w-[32px]",
-                          isCorrect && "bg-green-500 text-white",
-                          isWrong && "bg-red-500 text-white",
-                          !isCorrect && !isWrong && "bg-muted text-muted-foreground",
+                          getShade(pts, status),
                         )}
                       >
                         <span>Q{n}</span>
@@ -77,7 +118,7 @@ export function TcfScoreGrid({ answers }: TcfScoreGridProps) {
               <span className="inline-block h-2.5 w-2.5 rounded-sm bg-red-500" /> {t('results.scoreGrid.wrong')}
             </span>
             <span className="flex items-center gap-1">
-              <span className="inline-block h-2.5 w-2.5 rounded-sm bg-muted" /> {t('results.scoreGrid.unanswered')}
+              <span className="inline-block h-2.5 w-2.5 rounded-sm border border-dashed border-muted-foreground/40 bg-muted" /> {t('results.scoreGrid.unanswered')}
             </span>
           </div>
           <span className="font-medium text-foreground">
