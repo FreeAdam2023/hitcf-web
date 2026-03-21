@@ -203,7 +203,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
         </div>
       )}
 
-      {question.question_text && (
+      {question.question_text && !(isListening && instructionData) && (
         <div>
           <p className="text-base font-medium">
             <FrenchText text={question.question_text} disabled={vocabDisabled} saveContext={saveContext} />
