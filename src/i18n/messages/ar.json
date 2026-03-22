@@ -361,9 +361,9 @@
     "tagline": "أداتك للتحضير لـ TCF Canada",
     "correct": "صحيح {score}/{total}",
     "timeTaken": "· الوقت {time}",
-    "tierExcellent": "ممتاز! مستوى NCLC 10+!",
-    "tierGreat": "رائع! وصلت إلى NCLC 7!",
-    "tierGood": "جيد! واصل للوصول إلى NCLC 7!",
+    "tierExcellent": "ممتاز! مستوى CLB 10+!",
+    "tierGreat": "رائع! وصلت إلى CLB 7!",
+    "tierGood": "جيد! واصل للوصول إلى CLB 7!",
     "tierProgress": "تقدم ملحوظ! استمر في التدريب!",
     "tierKeepGoing": "واصل! كل تمرين له قيمته!",
     "tierExcellentShort": "ممتاز!",
@@ -374,7 +374,8 @@
     "typeListening": "الاستماع",
     "typeReading": "القراءة",
     "typeSpeaking": "التحدث",
-    "typeWriting": "الكتابة"
+    "typeWriting": "الكتابة",
+    "levelLabel": "CLB"
   },
   "testDetail": {
     "breadcrumbTests": "الاختبارات",
@@ -386,7 +387,7 @@
       "timer": "توقيت صارم (الاستماع 35 دقيقة / القراءة 60 دقيقة)",
       "noGoBack": "لا يمكن الرجوع أو تعديل الإجابات",
       "autoSubmit": "تسليم تلقائي عند انتهاء الوقت",
-      "showScore": "النتيجة + مستوى NCLC التقديري يظهران بعد التسليم"
+      "showScore": "النتيجة + مستوى CLB التقديري يظهران بعد التسليم"
     },
     "listeningExamBullets": {
       "audioOnce": "يُشغَّل الصوت مرة واحدة فقط، بدون إعادة",
@@ -852,7 +853,8 @@
     "nclc": {
       "listening": "الاستماع (CO)",
       "reading": "القراءة (CE)",
-      "title": "جدول مستويات NCLC",
+      "title": "جدول مستويات CLB",
+      "columnHeader": "CLB",
       "yourPosition": "← أنت",
       "footnote": "* NCLC 7 = CLB 7، الحد الأدنى اللغوي المطلوب لـ Express Entry / PEQ"
     },
@@ -881,19 +883,19 @@
     },
     "encouragement": {
       "excellent": "أداء ممتاز!",
-      "excellentDetail": "لقد وصلت إلى مستوى NCLC 10+!",
+      "excellentDetail": "لقد وصلت إلى مستوى CLB 10+!",
       "great": "عمل رائع!",
-      "greatDetail": "لقد وصلت إلى مستوى NCLC 7!",
+      "greatDetail": "لقد وصلت إلى مستوى CLB 7!",
       "good": "جيد! واصل!",
-      "goodDetail": "مزيد من الجهد لتجاوز NCLC 7!",
+      "goodDetail": "مزيد من الجهد لتجاوز CLB 7!",
       "progress": "تقدم! واصل التدريب!",
-      "progressDetail": "وصلت إلى NCLC 4+، واصل التدريب!",
+      "progressDetail": "وصلت إلى CLB 4+، واصل التدريب!",
       "keepGoing": "لا تستسلم! كل تدريب يحسبه!",
       "keepGoingDetail": "كل جلسة تدريب هي تقدم!"
     }
   },
   "encouragement": {
-    "nclc7Requirement": "TCF {level} · يتطلب NCLC 7 درجة ≥ 458",
+    "nclc7Requirement": "TCF {level} · يتطلب CLB 7 درجة ≥ 458",
     "scoreDisplay": "{score}/{total} صحيحة"
   },
   "account": {

@@ -361,9 +361,9 @@
     "tagline": "Your TCF Canada Prep Tool",
     "correct": "Correct {score}/{total}",
     "timeTaken": "· Time {time}",
-    "tierExcellent": "Excellent! NCLC 10+ level!",
-    "tierGreat": "Amazing! Reached NCLC 7!",
-    "tierGood": "Great! Push harder to reach NCLC 7!",
+    "tierExcellent": "Excellent! CLB 10+ level!",
+    "tierGreat": "Amazing! Reached CLB 7!",
+    "tierGood": "Great! Push harder to reach CLB 7!",
     "tierProgress": "Making progress! Keep practicing!",
     "tierKeepGoing": "Keep going! Every practice counts!",
     "tierExcellentShort": "Excellent!",
@@ -374,7 +374,8 @@
     "typeListening": "Listening",
     "typeReading": "Reading",
     "typeSpeaking": "Speaking",
-    "typeWriting": "Writing"
+    "typeWriting": "Writing",
+    "levelLabel": "CLB"
   },
   "testDetail": {
     "breadcrumbTests": "Tests",
@@ -386,7 +387,7 @@
       "timer": "Strict timing (Listening 35 min / Reading 60 min)",
       "noGoBack": "Cannot go back or modify answers",
       "autoSubmit": "Auto-submit when time runs out",
-      "showScore": "Score + estimated NCLC level shown after submission"
+      "showScore": "Score + estimated CLB level shown after submission"
     },
     "listeningExamBullets": {
       "audioOnce": "Audio plays once only, no replaying",
@@ -852,7 +853,8 @@
     "nclc": {
       "listening": "Listening (CO)",
       "reading": "Reading (CE)",
-      "title": "NCLC Level Chart",
+      "title": "CLB Level Chart",
+      "columnHeader": "CLB",
       "yourPosition": "← You",
       "footnote": "* NCLC 7 = CLB 7, minimum language requirement for Express Entry / PEQ"
     },
@@ -881,19 +883,19 @@
     },
     "encouragement": {
       "excellent": "Excellent!",
-      "excellentDetail": "You've reached NCLC 10+ level!",
+      "excellentDetail": "You've reached CLB 10+ level!",
       "great": "Great job!",
-      "greatDetail": "You've reached NCLC 7 level!",
+      "greatDetail": "You've reached CLB 7 level!",
       "good": "Good work! Keep it up!",
-      "goodDetail": "A little more effort to break through NCLC 7!",
+      "goodDetail": "A little more effort to break through CLB 7!",
       "progress": "Making progress! Keep practicing!",
-      "progressDetail": "You've reached NCLC 4+, keep practicing!",
+      "progressDetail": "You've reached CLB 4+, keep practicing!",
       "keepGoing": "Keep going! Every practice counts!",
       "keepGoingDetail": "Every practice session is progress!"
     }
   },
   "encouragement": {
-    "nclc7Requirement": "TCF {level} · NCLC 7 requires ≥ 458",
+    "nclc7Requirement": "TCF {level} · CLB 7 requires ≥ 458",
     "scoreDisplay": "{score}/{total} correct"
   },
   "account": {

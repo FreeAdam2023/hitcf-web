@@ -301,7 +301,7 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
               </span>
               <span style={{ fontSize: 26, color: "#9ca3af" }}>·</span>
               <span style={{ fontSize: 32, fontWeight: 700, color: tier.badgeText }}>
-                NCLC {nclcLevel}
+                {t("levelLabel")} {nclcLevel}
               </span>
             </div>
           )}

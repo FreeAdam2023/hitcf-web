@@ -374,7 +374,8 @@
     "typeListening": "Compréhension orale",
     "typeReading": "Compréhension écrite",
     "typeSpeaking": "Expression orale",
-    "typeWriting": "Expression écrite"
+    "typeWriting": "Expression écrite",
+    "levelLabel": "NCLC"
   },
   "testDetail": {
     "breadcrumbTests": "Tests",
@@ -853,6 +854,7 @@
       "listening": "Compréhension orale (CO)",
       "reading": "Compréhension écrite (CE)",
       "title": "Tableau des niveaux NCLC",
+      "columnHeader": "NCLC",
       "yourPosition": "← Vous",
       "footnote": "* NCLC 7 = CLB 7, niveau linguistique minimum requis pour Entrée Express / PEQ"
     },

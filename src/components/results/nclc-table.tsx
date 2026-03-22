@@ -44,7 +44,7 @@ export function NclcTable({ tcfPoints, testType }: NclcTableProps) {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-left">
-                <th className="px-3 py-2 font-medium">NCLC</th>
+                <th className="px-3 py-2 font-medium">{t('results.nclc.columnHeader')}</th>
                 <th className="px-3 py-2 font-medium">{colLabel}</th>
               </tr>
             </thead>

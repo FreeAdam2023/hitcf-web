@@ -361,9 +361,9 @@
     "tagline": "TCF Canada 备考神器",
     "correct": "答对 {score}/{total}",
     "timeTaken": "· 用时 {time}",
-    "tierExcellent": "卓越表现！NCLC 10+ 水平！",
-    "tierGreat": "非常棒！已达 NCLC 7！",
-    "tierGood": "不错！再加把劲突破 NCLC 7！",
+    "tierExcellent": "卓越表现！CLB 10+ 水平！",
+    "tierGreat": "非常棒！已达 CLB 7！",
+    "tierGood": "不错！再加把劲突破 CLB 7！",
     "tierProgress": "有进步！坚持练习！",
     "tierKeepGoing": "加油！每一次练习都是进步！",
     "tierExcellentShort": "卓越表现！",
@@ -374,7 +374,8 @@
     "typeListening": "听力理解",
     "typeReading": "阅读理解",
     "typeSpeaking": "口语表达",
-    "typeWriting": "写作表达"
+    "typeWriting": "写作表达",
+    "levelLabel": "CLB"
   },
   "testDetail": {
     "breadcrumbTests": "题库",
@@ -386,7 +387,7 @@
       "timer": "严格计时（听力 35 分钟 / 阅读 60 分钟）",
       "noGoBack": "答题后不可回看、不可修改",
       "autoSubmit": "时间到自动提交",
-      "showScore": "提交后显示成绩 + 预估 NCLC 等级"
+      "showScore": "提交后显示成绩 + 预估 CLB 等级"
     },
     "listeningExamBullets": {
       "audioOnce": "听力音频仅播放一次，不可重听",
@@ -852,7 +853,8 @@
     "nclc": {
       "listening": "听力 (CO)",
       "reading": "阅读 (CE)",
-      "title": "NCLC 等级对照",
+      "title": "CLB 等级对照",
+      "columnHeader": "CLB",
       "yourPosition": "← 你的位置",
       "footnote": "* NCLC 7 = CLB 7，Express Entry / PEQ 最低语言要求"
     },
@@ -881,19 +883,19 @@
     },
     "encouragement": {
       "excellent": "卓越表现！",
-      "excellentDetail": "你已达到 NCLC 10+ 水平！",
+      "excellentDetail": "你已达到 CLB 10+ 水平！",
       "great": "非常棒！",
-      "greatDetail": "你已达到 NCLC 7 水平！",
+      "greatDetail": "你已达到 CLB 7 水平！",
       "good": "不错！再接再厉！",
-      "goodDetail": "再加把劲就能突破 NCLC 7！",
+      "goodDetail": "再加把劲就能突破 CLB 7！",
       "progress": "有进步！坚持练习！",
-      "progressDetail": "已达 NCLC 4+，坚持练习！",
+      "progressDetail": "已达 CLB 4+，坚持练习！",
       "keepGoing": "加油！每一次练习都是进步！",
       "keepGoingDetail": "每一次练习都是进步！"
     }
   },
   "encouragement": {
-    "nclc7Requirement": "TCF {level} · NCLC 7 要求 ≥ 458 分",
+    "nclc7Requirement": "TCF {level} · CLB 7 要求 ≥ 458 分",
     "scoreDisplay": "答对 {score}/{total} 题"
   },
   "account": {
