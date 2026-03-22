@@ -2025,6 +2025,8 @@
     "legalAnd": "، و",
     "legalRefund": "سياسة الاسترداد",
     "legalPeriod": ".",
+    "perMonth": "/ شهر",
+    "save": "وفّر {percent}%",
     "autoRenew": "تجديد تلقائي، إلغاء في أي وقت"
   },
   "resources": {

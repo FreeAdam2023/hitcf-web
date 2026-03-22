@@ -2025,6 +2025,8 @@
     "legalAnd": " et la ",
     "legalRefund": "Politique de remboursement",
     "legalPeriod": ".",
+    "perMonth": "/ mois",
+    "save": "Économisez {percent}%",
     "autoRenew": "Renouvellement automatique, annulation à tout moment"
   },
   "resources": {

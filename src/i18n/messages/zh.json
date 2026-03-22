@@ -2025,6 +2025,8 @@
     "legalAnd": " 和",
     "legalRefund": "退款政策",
     "legalPeriod": "。",
+    "perMonth": "/ 月",
+    "save": "省 {percent}%",
     "autoRenew": "自动续费，随时取消"
   },
   "resources": {

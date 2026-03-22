@@ -29,7 +29,8 @@ const PLANS = [
   {
     key: "monthly" as const,
     price: formatPrice(PRICING.monthly),
-    originalPrice: null as string | null,
+    perMonth: null as string | null,
+    savePercent: 0,
     trialDays: PRICING.monthlyTrialDays,
     recommended: false,
     limitedOffer: false,
@@ -37,7 +38,8 @@ const PLANS = [
   {
     key: "quarterly" as const,
     price: formatPrice(PRICING.quarterly),
-    originalPrice: formatPrice(PRICING.quarterlyOriginal),
+    perMonth: formatPrice(PRICING.quarterlyPerMonth),
+    savePercent: PRICING.quarterlySavePercent,
     trialDays: PRICING.quarterlyTrialDays,
     recommended: false,
     limitedOffer: true,
@@ -45,7 +47,8 @@ const PLANS = [
   {
     key: "yearly" as const,
     price: formatPrice(PRICING.yearly),
-    originalPrice: formatPrice(PRICING.yearlyOriginal),
+    perMonth: formatPrice(PRICING.yearlyPerMonth),
+    savePercent: PRICING.yearlySavePercent,
     trialDays: PRICING.yearlyTrialDays,
     recommended: true,
     limitedOffer: false,
@@ -142,8 +145,10 @@ export function QuotaExceededModal({
                       {t(`pricing.plans.${plan.key}.unit`)}
                     </span>
                   </div>
-                  {plan.originalPrice && (
-                    <span className="text-xs text-muted-foreground/50 line-through">{plan.originalPrice}</span>
+                  {plan.perMonth && (
+                    <p className="text-xs text-muted-foreground">
+                      ≈ {plan.perMonth} {t("pricing.perMonth")} · {t("pricing.save", { percent: plan.savePercent })}
+                    </p>
                   )}
                 </div>
 

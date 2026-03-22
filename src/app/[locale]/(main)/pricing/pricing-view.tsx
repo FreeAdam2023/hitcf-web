@@ -34,24 +34,24 @@ const PLANS = [
   {
     key: "monthly" as const,
     price: formatPrice(PRICING.monthly),
-    originalPrice: null as string | null,
-    discountPercent: 0,
+    perMonth: null as string | null,
+    savePercent: 0,
     recommended: false,
     limitedOffer: false,
   },
   {
     key: "quarterly" as const,
     price: formatPrice(PRICING.quarterly),
-    originalPrice: formatPrice(PRICING.quarterlyOriginal),
-    discountPercent: PRICING.quarterlyDiscountPercent,
+    perMonth: formatPrice(PRICING.quarterlyPerMonth),
+    savePercent: PRICING.quarterlySavePercent,
     recommended: false,
     limitedOffer: true,
   },
   {
     key: "yearly" as const,
     price: formatPrice(PRICING.yearly),
-    originalPrice: formatPrice(PRICING.yearlyOriginal),
-    discountPercent: PRICING.yearlyDiscountPercent,
+    perMonth: formatPrice(PRICING.yearlyPerMonth),
+    savePercent: PRICING.yearlySavePercent,
     recommended: true,
     limitedOffer: false,
   },
@@ -86,10 +86,10 @@ export function PricingView() {
     monthlyPrice: PRICING.monthly.toFixed(2),
     quarterlyPrice: PRICING.quarterly.toFixed(2),
     quarterlyPerMonth: PRICING.quarterlyPerMonth.toFixed(2),
-    quarterlySavingsPercent: String(PRICING.quarterlySavingsPercent),
+    quarterlySavingsPercent: String(PRICING.quarterlySavePercent),
     yearlyPrice: PRICING.yearly.toFixed(2),
     yearlyPerMonth: PRICING.yearlyPerMonth.toFixed(2),
-    savingsPercent: String(PRICING.savingsPercent),
+    savingsPercent: String(PRICING.yearlySavePercent),
     monthlyTrialDays: String(PRICING.monthlyTrialDays),
     quarterlyTrialDays: String(PRICING.quarterlyTrialDays),
     yearlyTrialDays: String(PRICING.yearlyTrialDays),
@@ -137,7 +137,6 @@ export function PricingView() {
         <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-3">
           {PLANS.map((plan) => {
             const isSelected = selectedPlan === plan.key;
-            const equiv = plan.key !== "monthly" ? t(`pricing.plans.${plan.key}.equiv`, pp) : null;
             return (
               <div
                 key={plan.key}
@@ -178,15 +177,14 @@ export function PricingView() {
                         <span className="text-3xl font-bold tracking-tight">{plan.price}</span>
                         <span className="text-sm text-muted-foreground">{t(`pricing.plans.${plan.key}.unit`)}</span>
                       </div>
-                      {plan.originalPrice && (
-                        <span className="text-xs text-muted-foreground/50 line-through">{plan.originalPrice}</span>
-                      )}
                     </div>
-                    {equiv ? (
-                      <p className="text-xs text-muted-foreground">{equiv}</p>
-                    ) : plan.key === "monthly" ? (
+                    {plan.perMonth ? (
+                      <p className="text-xs text-muted-foreground">
+                        ≈ {plan.perMonth} {t("pricing.perMonth")} · {t("pricing.save", { percent: plan.savePercent })}
+                      </p>
+                    ) : (
                       <p className="text-xs text-muted-foreground">{t("pricing.autoRenew")}</p>
-                    ) : null}
+                    )}
                   </div>
                 </Card>
               </div>
