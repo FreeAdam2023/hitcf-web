@@ -449,6 +449,13 @@ export function PracticeSession() {
             setExplanationLoading(false);
             return;
           }
+          // Any 429 (rate limit or quota) — stop immediately, don't retry
+          if (err instanceof ApiError && err.status === 429) {
+            setExplanationError(true);
+            fetchingRef.current = false;
+            setExplanationLoading(false);
+            return;
+          }
           const is409 = err instanceof ApiError && err.status === 409;
           if (is409) {
             // Backend is generating — keep loading spinner, poll every 5s (up to 12 times = 60s)
