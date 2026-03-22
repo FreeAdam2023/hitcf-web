@@ -57,23 +57,37 @@ export const CLB7_TARGET = 0.78;
 /* ------------------------------------------------------------------ */
 export const PRICING = {
   monthly: 19.9,
+  quarterly: 49.9,
+  quarterlyOriginal: 59.7, // 3 × monthly
   yearly: 99.9,
   yearlyOriginal: 159.9,
-  quarterly: 39.9, // legacy
   currency: "USD",
   monthlyTrialDays: 10,
+  quarterlyTrialDays: 7,
   yearlyTrialDays: 14,
   /** Yearly price divided by 12 */
   get yearlyPerMonth() {
     return +(this.yearly / 12).toFixed(2);
   },
+  /** Quarterly price divided by 3 */
+  get quarterlyPerMonth() {
+    return +(this.quarterly / 3).toFixed(2);
+  },
   /** Savings percentage of yearly vs monthly-×-12 */
   get savingsPercent() {
     return Math.round((1 - this.yearly / (this.monthly * 12)) * 100);
   },
-  /** Discount percentage off original price */
+  /** Savings percentage of quarterly vs monthly-×-3 */
+  get quarterlySavingsPercent() {
+    return Math.round((1 - this.quarterly / (this.monthly * 3)) * 100);
+  },
+  /** Discount percentage off original price (yearly) */
   get yearlyDiscountPercent() {
     return Math.round((1 - this.yearly / this.yearlyOriginal) * 100);
+  },
+  /** Discount percentage off original price (quarterly) */
+  get quarterlyDiscountPercent() {
+    return Math.round((1 - this.quarterly / this.quarterlyOriginal) * 100);
   },
 } as const;
 

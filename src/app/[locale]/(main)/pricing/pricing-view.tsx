@@ -11,6 +11,7 @@ import {
   RefreshCw,
   Clock,
   Sparkles,
+  Zap,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -37,6 +38,15 @@ const PLANS = [
     originalPrice: null as string | null,
     discountPercent: 0,
     recommended: false,
+    limitedOffer: false,
+  },
+  {
+    key: "quarterly" as const,
+    price: formatPrice(PRICING.quarterly),
+    originalPrice: formatPrice(PRICING.quarterlyOriginal),
+    discountPercent: PRICING.quarterlyDiscountPercent,
+    recommended: false,
+    limitedOffer: true,
   },
   {
     key: "yearly" as const,
@@ -44,6 +54,7 @@ const PLANS = [
     originalPrice: formatPrice(PRICING.yearlyOriginal),
     discountPercent: PRICING.yearlyDiscountPercent,
     recommended: true,
+    limitedOffer: true,
   },
 ];
 
@@ -62,7 +73,7 @@ export function PricingView() {
   const t = useTranslations();
   const { isAuthenticated, hasActiveSubscription } = useAuthStore();
   const isSubscribed = hasActiveSubscription();
-  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">("yearly");
+  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "quarterly" | "yearly">("yearly");
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const activePlan = PLANS.find((p) => p.key === selectedPlan)!;
 
@@ -74,14 +85,18 @@ export function PricingView() {
   // Shared interpolation params for i18n strings containing prices
   const pp = {
     monthlyPrice: PRICING.monthly.toFixed(2),
+    quarterlyPrice: PRICING.quarterly.toFixed(2),
+    quarterlyPerMonth: PRICING.quarterlyPerMonth.toFixed(2),
+    quarterlySavingsPercent: String(PRICING.quarterlySavingsPercent),
     yearlyPrice: PRICING.yearly.toFixed(2),
     yearlyPerMonth: PRICING.yearlyPerMonth.toFixed(2),
     savingsPercent: String(PRICING.savingsPercent),
     monthlyTrialDays: String(PRICING.monthlyTrialDays),
+    quarterlyTrialDays: String(PRICING.quarterlyTrialDays),
     yearlyTrialDays: String(PRICING.yearlyTrialDays),
   };
 
-  const handleSubscribe = async (plan: "monthly" | "yearly") => {
+  const handleSubscribe = async (plan: "monthly" | "quarterly" | "yearly") => {
     trackEvent("clicked_subscribe", { plan });
     setLoadingPlan(plan);
     try {
@@ -120,7 +135,7 @@ export function PricingView() {
 
       {/* ---- Plan Cards ---- */}
       <div>
-        <div className="mx-auto grid max-w-xl gap-4 sm:grid-cols-2">
+        <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-3">
           {PLANS.map((plan) => {
             const isSelected = selectedPlan === plan.key;
             const equiv = plan.key !== "monthly" ? t(`pricing.plans.${plan.key}.equiv`, pp) : null;
@@ -150,11 +165,24 @@ export function PricingView() {
                     </div>
                   </div>
                 )}
+                {plan.limitedOffer && !plan.recommended && (
+                  <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
+                    <div className="flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-1 text-xs font-semibold text-white shadow-sm">
+                      <Zap className="h-3 w-3" />
+                      {t("pricing.limitedOffer")}
+                    </div>
+                  </div>
+                )}
                 <Card className="flex h-full flex-col border-0 bg-card">
                   <div className="flex flex-1 flex-col gap-1 p-5 pb-4">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-semibold">{t(`pricing.plans.${plan.key}.name`)}</span>
-                      {badge && !plan.recommended && (
+                      {plan.limitedOffer && plan.recommended && (
+                        <span className="rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-2 py-0.5 text-[10px] font-semibold text-white">
+                          {t("pricing.limitedOffer")}
+                        </span>
+                      )}
+                      {badge && !plan.recommended && !plan.limitedOffer && (
                         <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary">
                           {badge}
                         </span>

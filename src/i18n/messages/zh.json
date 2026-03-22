@@ -904,6 +904,7 @@
     "passwordChangeFailed": "修改失败",
     "subscription": {
       "monthly": "月付",
+      "quarterly": "季付",
       "yearly": "年付",
       "tester": "体验官",
       "trialing": "试用中",
@@ -1924,6 +1925,15 @@
         "valueDesc": "每天不到 7 毛钱，刷完四科 8,500 道题",
         "savingsVsTutor": "比请家教便宜 97%"
       },
+      "quarterly": {
+        "name": "季付",
+        "unit": "/ 季",
+        "equiv": "≈ US${quarterlyPerMonth} / 月，省 {quarterlySavingsPercent}% · 不自动续费",
+        "badge": "限时优惠",
+        "trialLabel": "{quarterlyTrialDays} 天免费试用",
+        "valueDesc": "3 个月集中刷题冲刺，性价比之选",
+        "savingsVsTutor": "比请家教便宜 98%"
+      },
       "yearly": {
         "name": "年付",
         "unit": "/ 年",
@@ -1934,6 +1944,7 @@
         "savingsVsTutor": "比请家教便宜 99%"
       }
     },
+    "limitedOffer": "限时优惠",
     "mostPopular": "最受欢迎",
     "cta": {
       "redirecting": "跳转中...",
@@ -1978,12 +1989,12 @@
       "title": "常见问题",
       "items": [
         {
-          "q": "月付和年付有什么区别？",
-          "a": "月付为按月订阅，新用户享 {monthlyTrialDays} 天免费试用，到期自动续费，随时可取消。年付含 {yearlyTrialDays} 天免费试用，试用期结束后扣款 US${yearlyPrice}，有效期一年，到期不自动续费。"
+          "q": "月付、季付和年付有什么区别？",
+          "a": "月付按月订阅，新用户享 {monthlyTrialDays} 天免费试用，到期自动续费，随时可取消。季付含 {quarterlyTrialDays} 天免费试用，有效期 3 个月，到期不自动续费。年付含 {yearlyTrialDays} 天免费试用，有效期一年，到期不自动续费。"
         },
         {
           "q": "免费试用需要绑定信用卡吗？",
-          "a": "月付和年付都需要绑定信用卡，通过 Stripe 安全处理。试用期内（月付 {monthlyTrialDays} 天 / 年付 {yearlyTrialDays} 天）随时取消不扣费。"
+          "a": "所有方案都需要绑定信用卡，通过 Stripe 安全处理。试用期内（月付 {monthlyTrialDays} 天 / 季付 {quarterlyTrialDays} 天 / 年付 {yearlyTrialDays} 天）随时取消不扣费。"
         },
         {
           "q": "可以随时取消吗？",
@@ -2924,8 +2935,13 @@
       "questionMessage": "你今天已使用 {used}/{limit} 道免费题目。",
       "explanationMessage": "你今天已使用 {used}/{limit} 次免费解析。",
       "resetHint": "配额每天自动重置。升级 Pro 解锁无限使用。",
-      "continueFree": "好的",
-      "upgradePro": "升级 Pro"
+      "continueFree": "继续免费使用",
+      "upgradePro": "升级 Pro",
+      "subscribe": "开始免费试用",
+      "recommended": "推荐",
+      "trialDays": "{days} 天免费试用",
+      "unlimitedAccess": "无限题目 + 解析",
+      "cancelAnytime": "随时取消，不满意不花钱"
     },
     "badge": "今日 {used}/{limit}",
     "unlimited": "无限",

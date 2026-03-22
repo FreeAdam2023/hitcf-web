@@ -904,6 +904,7 @@
     "passwordChangeFailed": "Échec du changement de mot de passe",
     "subscription": {
       "monthly": "Mensuel",
+      "quarterly": "Trimestriel",
       "yearly": "Annuel",
       "tester": "Beta Testeur",
       "trialing": "Essai",
@@ -1924,6 +1925,15 @@
         "valueDesc": "Moins de $0.70/jour pour 8 500+ questions couvrant les 4 sections",
         "savingsVsTutor": "97 % moins cher qu'un tuteur"
       },
+      "quarterly": {
+        "name": "Trimestriel",
+        "unit": "/ trimestre",
+        "equiv": "≈ {quarterlyPerMonth} $ US / mois, économisez {quarterlySavingsPercent} % · Sans renouvellement auto",
+        "badge": "Offre limitée",
+        "trialLabel": "Essai gratuit de {quarterlyTrialDays} jours",
+        "valueDesc": "Sprint de 3 mois — le meilleur rapport qualité-prix",
+        "savingsVsTutor": "98 % moins cher qu'un tuteur"
+      },
       "yearly": {
         "name": "Annuel",
         "unit": "/ an",
@@ -1934,6 +1944,7 @@
         "savingsVsTutor": "99 % moins cher qu'un tuteur"
       }
     },
+    "limitedOffer": "Offre limitée",
     "mostPopular": "Le plus populaire",
     "cta": {
       "redirecting": "Redirection...",
@@ -1978,12 +1989,12 @@
       "title": "FAQ",
       "items": [
         {
-          "q": "Quelle est la différence entre l'abonnement mensuel et annuel ?",
-          "a": "L'abonnement mensuel est récurrent avec {monthlyTrialDays} jours d'essai gratuit pour les nouveaux utilisateurs — annulez à tout moment. L'abonnement annuel inclut {yearlyTrialDays} jours d'essai gratuit ; vous serez facturé {yearlyPrice} US$ après la période d'essai, valable un an sans renouvellement automatique."
+          "q": "Quelle est la différence entre les abonnements mensuel, trimestriel et annuel ?",
+          "a": "L'abonnement mensuel est récurrent avec {monthlyTrialDays} jours d'essai gratuit — annulez à tout moment. Le trimestriel inclut {quarterlyTrialDays} jours d'essai gratuit, valable 3 mois sans renouvellement automatique. L'annuel inclut {yearlyTrialDays} jours d'essai gratuit, valable un an sans renouvellement automatique."
         },
         {
           "q": "Ai-je besoin d'une carte de crédit pour l'essai gratuit ?",
-          "a": "Les forfaits mensuel et annuel nécessitent tous deux une carte, traitée de manière sécurisée via Stripe. Annulez pendant la période d'essai ({monthlyTrialDays} jours pour le mensuel / {yearlyTrialDays} jours pour l'annuel) et vous ne serez pas facturé."
+          "a": "Tous les forfaits nécessitent une carte, traitée de manière sécurisée via Stripe. Annulez pendant la période d'essai ({monthlyTrialDays} jours pour le mensuel / {quarterlyTrialDays} jours pour le trimestriel / {yearlyTrialDays} jours pour l'annuel) et vous ne serez pas facturé."
         },
         {
           "q": "Puis-je annuler à tout moment ?",
@@ -2924,8 +2935,13 @@
       "questionMessage": "Vous avez utilisé vos {used}/{limit} questions gratuites pour aujourd'hui.",
       "explanationMessage": "Vous avez utilisé vos {used}/{limit} explications gratuites pour aujourd'hui.",
       "resetHint": "Votre quota se réinitialise chaque jour. Passez à Pro pour un accès illimité.",
-      "continueFree": "OK",
-      "upgradePro": "Passer à Pro"
+      "continueFree": "Continuer gratuitement",
+      "upgradePro": "Passer à Pro",
+      "subscribe": "Essai gratuit",
+      "recommended": "Recommandé",
+      "trialDays": "{days} jours d'essai gratuit",
+      "unlimitedAccess": "Questions + explications illimitées",
+      "cancelAnytime": "Annulez à tout moment, sans risque"
     },
     "badge": "{used}/{limit} aujourd'hui",
     "unlimited": "Illimité",

@@ -904,6 +904,7 @@
     "passwordChangeFailed": "Failed to change password",
     "subscription": {
       "monthly": "Monthly",
+      "quarterly": "Quarterly",
       "yearly": "Yearly",
       "tester": "Beta Tester",
       "trialing": "Trial",
@@ -1924,6 +1925,15 @@
         "valueDesc": "Less than $0.70/day for 8,500+ questions across all 4 sections",
         "savingsVsTutor": "97% cheaper than a tutor"
       },
+      "quarterly": {
+        "name": "Quarterly",
+        "unit": "/ quarter",
+        "equiv": "≈ US${quarterlyPerMonth} / mo, save {quarterlySavingsPercent}% · No auto-renewal",
+        "badge": "Limited Offer",
+        "trialLabel": "{quarterlyTrialDays}-day free trial",
+        "valueDesc": "3-month sprint — best value for focused prep",
+        "savingsVsTutor": "98% cheaper than a tutor"
+      },
       "yearly": {
         "name": "Yearly",
         "unit": "/ year",
@@ -1934,6 +1944,7 @@
         "savingsVsTutor": "99% cheaper than a tutor"
       }
     },
+    "limitedOffer": "Limited Offer",
     "mostPopular": "Most Popular",
     "cta": {
       "redirecting": "Redirecting...",
@@ -1978,12 +1989,12 @@
       "title": "FAQ",
       "items": [
         {
-          "q": "What's the difference between monthly and yearly?",
-          "a": "Monthly is a recurring subscription with a {monthlyTrialDays}-day free trial for new users — cancel anytime. Yearly includes a {yearlyTrialDays}-day free trial; you'll be charged US${yearlyPrice} after the trial ends, valid for one year with no auto-renewal."
+          "q": "What's the difference between monthly, quarterly, and yearly?",
+          "a": "Monthly is a recurring subscription with a {monthlyTrialDays}-day free trial — cancel anytime. Quarterly includes a {quarterlyTrialDays}-day free trial, valid for 3 months with no auto-renewal. Yearly includes a {yearlyTrialDays}-day free trial, valid for one year with no auto-renewal."
         },
         {
           "q": "Do I need a credit card for the free trial?",
-          "a": "Both monthly and yearly plans require a card, securely processed via Stripe. Cancel during the trial period ({monthlyTrialDays} days for monthly / {yearlyTrialDays} days for yearly) and you won't be charged."
+          "a": "All plans require a card, securely processed via Stripe. Cancel during the trial period ({monthlyTrialDays} days for monthly / {quarterlyTrialDays} days for quarterly / {yearlyTrialDays} days for yearly) and you won't be charged."
         },
         {
           "q": "Can I cancel anytime?",
@@ -2924,8 +2935,13 @@
       "questionMessage": "You've used all {used}/{limit} free questions for today.",
       "explanationMessage": "You've used all {used}/{limit} free explanations for today.",
       "resetHint": "Your quota resets daily. Upgrade to Pro for unlimited access.",
-      "continueFree": "OK",
-      "upgradePro": "Upgrade to Pro"
+      "continueFree": "Continue Free",
+      "upgradePro": "Upgrade to Pro",
+      "subscribe": "Start Free Trial",
+      "recommended": "Recommended",
+      "trialDays": "{days}-day free trial",
+      "unlimitedAccess": "Unlimited questions + explanations",
+      "cancelAnytime": "Cancel anytime, risk-free"
     },
     "badge": "{used}/{limit} today",
     "unlimited": "Unlimited",
