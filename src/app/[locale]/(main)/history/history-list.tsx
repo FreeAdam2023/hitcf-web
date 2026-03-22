@@ -474,14 +474,6 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
                 ? localizeTestName(t, item.test_set_type, item.test_set_name)
                 : "-"}
           </span>
-          {!isCompleted && !isSpeaking && !isExpired && (
-            <Badge
-              variant="outline"
-              className="shrink-0 border-amber-300 bg-amber-50 text-amber-700 text-[10px] dark:border-amber-800 dark:bg-amber-950 dark:text-amber-400"
-            >
-              {t("history.incomplete")}
-            </Badge>
-          )}
           {isExpired && (
             <Badge
               variant="outline"
