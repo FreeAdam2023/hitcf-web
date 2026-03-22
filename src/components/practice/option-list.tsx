@@ -155,7 +155,12 @@ export function OptionList({
                           {stripKeyPrefix(tr.en, opt.key)}
                         </p>
                       )}
-                      {locale !== "fr" && showNative && optNative && (
+                      {locale === "zh" && showNative && optNative && (
+                        <p className="text-muted-foreground text-xs mt-0.5 pl-0.5">
+                          {stripKeyPrefix(optNative, opt.key)}
+                        </p>
+                      )}
+                      {locale !== "zh" && locale !== "fr" && showNative && optNative && (
                         <p className="text-emerald-600 dark:text-emerald-400 text-sm mt-0.5">
                           {stripKeyPrefix(optNative, opt.key)}
                         </p>

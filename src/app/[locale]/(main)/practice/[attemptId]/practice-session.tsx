@@ -158,7 +158,12 @@ function TranscriptBlock({
                         {stripKeyPrefix(s.en, key)}
                       </p>
                     )}
-                    {locale !== "fr" && showNative && nativeText && (
+                    {locale === "zh" && showNative && nativeText && (
+                      <p className="pl-7 text-xs leading-relaxed text-muted-foreground">
+                        {stripKeyPrefix(nativeText, key)}
+                      </p>
+                    )}
+                    {locale !== "zh" && locale !== "fr" && showNative && nativeText && (
                       <p className="pl-6 leading-relaxed text-emerald-600 dark:text-emerald-400">
                         {stripKeyPrefix(nativeText, key)}
                       </p>
@@ -213,7 +218,12 @@ function TranscriptBlock({
                         {s.en}
                       </p>
                     )}
-                    {locale !== "fr" && showNative && nativeText && (
+                    {locale === "zh" && showNative && nativeText && (
+                      <p className={`text-xs leading-relaxed text-muted-foreground${clickable ? " pl-5" : " pl-1"}`}>
+                        {nativeText}
+                      </p>
+                    )}
+                    {locale !== "zh" && locale !== "fr" && showNative && nativeText && (
                       <p className={`leading-relaxed text-emerald-600 dark:text-emerald-400${clickable ? " pl-4" : ""}`}>
                         {nativeText}
                       </p>
@@ -280,7 +290,12 @@ function TranscriptBlock({
                     {seg.en}
                   </p>
                 )}
-                {locale !== "fr" && showNative && segNative && (
+                {locale === "zh" && showNative && segNative && (
+                  <p className={`text-xs leading-relaxed text-muted-foreground${clickable ? " pl-5" : " pl-1"}`}>
+                    {segNative}
+                  </p>
+                )}
+                {locale !== "zh" && locale !== "fr" && showNative && segNative && (
                   <p className={`leading-relaxed text-emerald-600 dark:text-emerald-400${clickable ? " pl-4" : ""}`}>
                     {segNative}
                   </p>

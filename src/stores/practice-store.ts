@@ -19,6 +19,35 @@ interface PracticeState {
   reset: () => void;
 }
 
+function saveIndex(attemptId: string, index: number) {
+  try {
+    localStorage.setItem(`practiceIndex:${attemptId}`, String(index));
+  } catch {
+    // localStorage unavailable (SSR or quota exceeded)
+  }
+}
+
+function loadIndex(attemptId: string): number | null {
+  try {
+    const val = localStorage.getItem(`practiceIndex:${attemptId}`);
+    if (val !== null) {
+      const n = parseInt(val, 10);
+      return Number.isNaN(n) ? null : n;
+    }
+  } catch {
+    // localStorage unavailable
+  }
+  return null;
+}
+
+function clearIndex(attemptId: string) {
+  try {
+    localStorage.removeItem(`practiceIndex:${attemptId}`);
+  } catch {
+    // localStorage unavailable
+  }
+}
+
 export const usePracticeStore = create<PracticeState>((set, get) => ({
   attemptId: null,
   testSetName: null,
@@ -45,12 +74,19 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
         }
       }
     }
-    // Jump to first unanswered question (skip both current and previous answers)
-    let currentIndex = 0;
-    const allAnsweredIds = new Set([...Array.from(answers.keys()), ...Array.from(prevMap.keys())]);
-    if (allAnsweredIds.size > 0) {
-      const firstUnanswered = questions.findIndex((q) => !allAnsweredIds.has(q.id));
-      currentIndex = firstUnanswered === -1 ? 0 : firstUnanswered;
+    // Restore last-viewed question index from localStorage, or fall back to first unanswered
+    const savedIndex = loadIndex(attemptId);
+    let currentIndex: number;
+    if (savedIndex !== null && savedIndex >= 0 && savedIndex < questions.length) {
+      currentIndex = savedIndex;
+    } else {
+      currentIndex = 0;
+      const allAnsweredIds = new Set([...Array.from(answers.keys()), ...Array.from(prevMap.keys())]);
+      if (allAnsweredIds.size > 0) {
+        const firstUnanswered = questions.findIndex((q) => !allAnsweredIds.has(q.id));
+        currentIndex = firstUnanswered === -1 ? 0 : firstUnanswered;
+      }
+      saveIndex(attemptId, currentIndex);
     }
     set({
       attemptId,
@@ -72,26 +108,34 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
     }),
 
   goToQuestion: (index) => {
-    const { questions } = get();
+    const { questions, attemptId } = get();
     if (index >= 0 && index < questions.length) {
       set({ currentIndex: index });
+      if (attemptId) saveIndex(attemptId, index);
     }
   },
 
   goNext: () => {
-    const { currentIndex, questions } = get();
+    const { currentIndex, questions, attemptId } = get();
     if (currentIndex < questions.length - 1) {
-      set({ currentIndex: currentIndex + 1 });
+      const next = currentIndex + 1;
+      set({ currentIndex: next });
+      if (attemptId) saveIndex(attemptId, next);
     }
   },
 
   goPrev: () => {
-    const { currentIndex } = get();
+    const { currentIndex, attemptId } = get();
     if (currentIndex > 0) {
-      set({ currentIndex: currentIndex - 1 });
+      const prev = currentIndex - 1;
+      set({ currentIndex: prev });
+      if (attemptId) saveIndex(attemptId, prev);
     }
   },
 
-  reset: () =>
-    set({ attemptId: null, testSetName: null, testSetType: null, startedAt: null, questions: [], currentIndex: 0, answers: new Map(), previousAnswers: new Map() }),
+  reset: () => {
+    const { attemptId } = get();
+    if (attemptId) clearIndex(attemptId);
+    set({ attemptId: null, testSetName: null, testSetType: null, startedAt: null, questions: [], currentIndex: 0, answers: new Map(), previousAnswers: new Map() });
+  },
 }));
