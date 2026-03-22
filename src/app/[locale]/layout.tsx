@@ -9,8 +9,11 @@ import { LocaleProvider } from "@/components/providers/locale-provider";
 import { Toaster } from "sonner";
 import { CommunityFab } from "@/components/layout/community-fab";
 import { UtmTracker } from "@/components/shared/utm-tracker";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { routing } from "@/i18n/routing";
 import { PRICING } from "@/lib/constants";
+
+const GA_ID = "G-DTDE8V6XLH";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -250,6 +253,7 @@ export default async function LocaleLayout({
           <Toaster richColors position="top-center" />
         </ThemeProvider>
       </body>
+      <GoogleAnalytics gaId={GA_ID} />
     </html>
   );
 }
