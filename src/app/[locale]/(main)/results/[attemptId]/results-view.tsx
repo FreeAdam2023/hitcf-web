@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { ScoreCard } from "@/components/results/score-card";
 import { EncouragementCard } from "@/components/results/encouragement-card";
-import { TcfScoreGrid } from "@/components/results/tcf-score-grid";
 import { NclcTable } from "@/components/results/nclc-table";
 import { LevelBreakdown } from "@/components/results/level-breakdown";
 import { QuestionReviewItem } from "@/components/results/question-review-item";
@@ -64,9 +63,9 @@ export function ResultsView({ attempt }: ResultsViewProps) {
       ? sortedAnswers.filter((a) => a.is_correct === false)
       : sortedAnswers;
 
-  // Calculate time taken
+  // Calculate time taken (only meaningful for exam mode)
   let timeTakenSeconds: number | null = null;
-  if (attempt.started_at && attempt.completed_at) {
+  if (attempt.mode === "exam" && attempt.started_at && attempt.completed_at) {
     const start = parseUTCms(attempt.started_at);
     const end = parseUTCms(attempt.completed_at);
     timeTakenSeconds = Math.round((end - start) / 1000);
@@ -170,17 +169,15 @@ export function ResultsView({ attempt }: ResultsViewProps) {
         )}
       </div>
 
-      {/* Score card */}
+      {/* Score card (with integrated TCF grid for listening/reading) */}
       <ScoreCard
         score={score}
         total={attempt.total}
         answeredCount={attempt.answered_count}
         timeTakenSeconds={timeTakenSeconds}
         tcfPoints={tcfPoints}
+        answers={isPointBased ? sortedAnswers : undefined}
       />
-
-      {/* TCF score grid (listening/reading only) */}
-      {isPointBased && <TcfScoreGrid answers={sortedAnswers} />}
 
       {/* Encouragement card */}
       <EncouragementCard score={score} total={attempt.total} tcfPoints={tcfPoints} />

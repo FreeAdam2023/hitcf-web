@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock } from "lucide-react";
-import { getEstimatedTcfLevel, TCF_MAX_SCORE } from "@/lib/tcf-levels";
+import { getEstimatedTcfLevel, getTcfPoints, TCF_MAX_SCORE } from "@/lib/tcf-levels";
 import { cn, formatTime } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import type { ReviewAnswer } from "@/lib/api/types";
 
 interface ScoreCardProps {
   score: number;
@@ -13,6 +14,7 @@ interface ScoreCardProps {
   answeredCount?: number;
   timeTakenSeconds?: number | null;
   tcfPoints?: number;
+  answers?: ReviewAnswer[];
 }
 
 function useCountUp(target: number, duration = 1200): number {
@@ -57,12 +59,11 @@ function CircularProgress({
   }, []);
 
   const pct = Math.min(Math.max(value, 0), 100);
-  const correctLen = animated ? (pct / 100) * circumference : 0;
-  const wrongLen = animated ? ((100 - pct) / 100) * circumference : 0;
+  const progressLen = animated ? (pct / 100) * circumference : 0;
 
   return (
     <svg width={size} height={size} className="rotate-[-90deg]">
-      {/* Background ring */}
+      {/* Background track — full ring */}
       <circle
         cx={size / 2}
         cy={size / 2}
@@ -70,22 +71,9 @@ function CircularProgress({
         fill="none"
         stroke="currentColor"
         strokeWidth={strokeWidth}
-        className="text-muted/40"
+        className="text-muted-foreground/15"
       />
-      {/* Wrong (red) ring — drawn first as full background */}
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={radius}
-        fill="none"
-        stroke="#fca5a5"
-        strokeWidth={strokeWidth}
-        strokeDasharray={circumference}
-        strokeDashoffset={circumference - (correctLen + wrongLen)}
-        className="transition-all ease-out dark:stroke-red-400/60"
-        style={{ transitionDuration: "1.4s" }}
-      />
-      {/* Correct (green) ring — drawn on top */}
+      {/* Progress arc — round caps */}
       <circle
         cx={size / 2}
         cy={size / 2}
@@ -93,8 +81,9 @@ function CircularProgress({
         fill="none"
         stroke="#22c55e"
         strokeWidth={strokeWidth}
+        strokeLinecap="round"
         strokeDasharray={circumference}
-        strokeDashoffset={circumference - correctLen}
+        strokeDashoffset={circumference - progressLen}
         className="transition-all ease-out"
         style={{ transitionDuration: "1.4s" }}
       />
@@ -102,11 +91,46 @@ function CircularProgress({
   );
 }
 
+/** Score grid row definitions */
+const GRID_ROWS: { range: [number, number] }[] = [
+  { range: [1, 10] },
+  { range: [11, 20] },
+  { range: [21, 30] },
+  { range: [31, 39] },
+];
+
+const CORRECT_SHADES: Record<number, string> = {
+  3:  "bg-green-200 text-green-900 dark:bg-green-900/40 dark:text-green-300",
+  9:  "bg-green-300 text-green-900 dark:bg-green-800/50 dark:text-green-200",
+  15: "bg-green-400 text-white dark:bg-green-700/60 dark:text-green-100",
+  21: "bg-green-500 text-white dark:bg-green-600/70 dark:text-green-50",
+  26: "bg-green-600 text-white dark:bg-green-600 dark:text-white",
+  33: "bg-green-700 text-white dark:bg-green-500 dark:text-white",
+};
+
+const WRONG_SHADES: Record<number, string> = {
+  3:  "bg-red-200 text-red-900 dark:bg-red-900/40 dark:text-red-300",
+  9:  "bg-red-300 text-red-900 dark:bg-red-800/50 dark:text-red-200",
+  15: "bg-red-400 text-white dark:bg-red-700/60 dark:text-red-100",
+  21: "bg-red-500 text-white dark:bg-red-600/70 dark:text-red-50",
+  26: "bg-red-600 text-white dark:bg-red-600 dark:text-white",
+  33: "bg-red-700 text-white dark:bg-red-500 dark:text-white",
+};
+
+function getShade(pts: number, status: "correct" | "wrong" | "unanswered"): string {
+  if (status === "unanswered") {
+    return "bg-muted text-muted-foreground border border-dashed border-muted-foreground/40";
+  }
+  const map = status === "correct" ? CORRECT_SHADES : WRONG_SHADES;
+  return map[pts] ?? map[21];
+}
+
 export function ScoreCard({
   score,
   total,
   timeTakenSeconds,
   tcfPoints,
+  answers,
 }: ScoreCardProps) {
   const t = useTranslations();
   const isPointBased = tcfPoints != null;
@@ -168,6 +192,58 @@ export function ScoreCard({
             </span>
           </div>
         )}
+
+        {/* Inline TCF score grid */}
+        {isPointBased && answers && answers.length > 0 && (() => {
+          const answerMap = new Map(answers.map((a) => [a.original_question_number ?? a.question_number, a]));
+          return (
+          <div className="mt-6 w-full">
+            <div className="overflow-x-auto">
+              <div className="space-y-1.5 min-w-[360px]">
+                {GRID_ROWS.map((row) => {
+                  const nums: number[] = [];
+                  for (let i = row.range[0]; i <= row.range[1]; i++) nums.push(i);
+                  return (
+                    <div key={row.range[0]} className="flex gap-1">
+                      {nums.map((n) => {
+                        const a = answerMap.get(n);
+                        const pts = getTcfPoints(n);
+                        const isCorrect = a?.is_correct === true;
+                        const isWrong = a?.is_correct === false && !!a?.selected;
+                        const status = isCorrect ? "correct" : isWrong ? "wrong" : "unanswered";
+                        return (
+                          <div
+                            key={n}
+                            className={cn(
+                              "flex flex-col items-center justify-center rounded px-1 py-0.5 text-[10px] leading-tight font-medium flex-1 min-w-[32px]",
+                              getShade(pts, status),
+                            )}
+                          >
+                            <span>Q{n}</span>
+                            <span className="text-[9px] opacity-80">{t('results.reviewItem.points', { points: pts })}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            {/* Legend */}
+            <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2 justify-center">
+              <span className="flex items-center gap-1">
+                <span className="inline-block h-2 w-2 rounded-sm bg-green-500" /> {t('results.scoreGrid.correct')}
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="inline-block h-2 w-2 rounded-sm bg-red-500" /> {t('results.scoreGrid.wrong')}
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="inline-block h-2 w-2 rounded-sm border border-dashed border-muted-foreground/40 bg-muted" /> {t('results.scoreGrid.unanswered')}
+              </span>
+            </div>
+          </div>
+          );
+        })()}
 
         {/* Meta info */}
         <div className="mt-4 flex items-center gap-6 text-sm text-muted-foreground">

@@ -166,8 +166,12 @@ function ImmersiveHeader() {
   const testSetName = usePracticeStore((s) => s.testSetName);
   const answersSize = usePracticeStore((s) => s.answers.size);
   const totalQuestions = usePracticeStore((s) => s.questions.length);
+  const practiceAttemptId = usePracticeStore((s) => s.attemptId);
   const examAttemptId = useExamStore((s) => s.attemptId);
   const startedAt = usePracticeStore((s) => s.startedAt);
+  const isPractice = !isExam;
+  const allAnswered = isPractice && totalQuestions > 0 && answersSize >= totalQuestions;
+  const [completing, setCompleting] = useState(false);
 
   const startRef = useRef(startedAt ? parseUTCms(startedAt) : Date.now());
   const [elapsed, setElapsed] = useState(() =>
@@ -200,47 +204,68 @@ function ImmersiveHeader() {
           </div>
         )}
         <div className="ms-auto flex items-center gap-1">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="ghost" size="sm" className={isExam
-                ? "gap-1.5 text-primary hover:text-primary hover:bg-primary/10"
-                : "gap-1.5 text-destructive hover:text-destructive hover:bg-destructive/10"
-              }>
-                {isExam ? t('nav.submitExam') : t('nav.exitLabel', { label })}
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  {isExam ? t('nav.submitExamTitle') : t('nav.exitConfirmTitle', { label })}
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  {t('nav.exitConfirmAnswered', { answered: answersSize, total: totalQuestions })}
-                  {isExam
-                    ? ` ${t('nav.submitExamWarning')}`
-                    : answersSize > 0 ? ` ${t('nav.exitConfirmProgress', { label })}` : ''
-                  }
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>
-                  {isExam ? t('nav.exitConfirmContinue', { label }) : t('nav.exitConfirmContinue', { label })}
-                </AlertDialogCancel>
-                <AlertDialogAction onClick={async () => {
-                  if (isExam && examAttemptId) {
-                    try {
-                      await completeAttempt(examAttemptId);
-                    } catch { /* ignore */ }
-                    router.push(`/results/${examAttemptId}`);
-                  } else {
-                    router.push("/tests");
-                  }
-                }}>
-                  {isExam ? t('nav.submitExamConfirm') : t('nav.exitConfirmExit')}
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          {allAnswered ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-1.5 text-green-600 hover:text-green-600 hover:bg-green-600/10 dark:text-green-400 dark:hover:text-green-400"
+              disabled={completing}
+              onClick={async () => {
+                if (!practiceAttemptId) return;
+                setCompleting(true);
+                try {
+                  await completeAttempt(practiceAttemptId);
+                  router.push(`/results/${practiceAttemptId}`);
+                } catch {
+                  setCompleting(false);
+                }
+              }}
+            >
+              {completing ? t('common.actions.submitting') : t('practice.session.completePractice')}
+            </Button>
+          ) : (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" size="sm" className={isExam
+                  ? "gap-1.5 text-primary hover:text-primary hover:bg-primary/10"
+                  : "gap-1.5 text-destructive hover:text-destructive hover:bg-destructive/10"
+                }>
+                  {isExam ? t('nav.submitExam') : t('nav.exitLabel', { label })}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    {isExam ? t('nav.submitExamTitle') : t('nav.exitConfirmTitle', { label })}
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {t('nav.exitConfirmAnswered', { answered: answersSize, total: totalQuestions })}
+                    {isExam
+                      ? ` ${t('nav.submitExamWarning')}`
+                      : answersSize > 0 ? ` ${t('nav.exitConfirmProgress', { label })}` : ''
+                    }
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>
+                    {isExam ? t('nav.exitConfirmContinue', { label }) : t('nav.exitConfirmContinue', { label })}
+                  </AlertDialogCancel>
+                  <AlertDialogAction onClick={async () => {
+                    if (isExam && examAttemptId) {
+                      try {
+                        await completeAttempt(examAttemptId);
+                      } catch { /* ignore */ }
+                      router.push(`/results/${examAttemptId}`);
+                    } else {
+                      router.push("/tests");
+                    }
+                  }}>
+                    {isExam ? t('nav.submitExamConfirm') : t('nav.exitConfirmExit')}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
         </div>
       </div>
     </header>
