@@ -13,7 +13,8 @@ import { useAuthStore } from "@/stores/auth-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
 import { toggleBookmark, checkBookmarks } from "@/lib/api/bookmarks";
-import { getQuestionDetail, generateExplanation } from "@/lib/api/questions";
+import { getQuestionDetail, generateExplanation, getExplanationStatus } from "@/lib/api/questions";
+import type { ExplanationResponse } from "@/lib/api/questions";
 import { getQuotaStatus, type QuotaStatus } from "@/lib/api/subscriptions";
 import { ApiError, QuotaExceededError } from "@/lib/api/client";
 import { QuotaExceededModal } from "@/components/shared/quota-exceeded-modal";
@@ -413,8 +414,9 @@ export function PracticeSession() {
   }, [initialQuota, sessionAnswered]);
 
   // Fetch explanation — called once by parent, shared with both panels
-  // 409 = backend is generating → stay in loading state, poll every 5s
-  // Other errors → retry 2 times, then show error
+  // POST returns 202 {status:"generating"} when async generation starts → poll GET every 3s
+  // POST returns {status:"ready", ...data} when cached → use immediately
+  // Backward compat: POST may return explanation data without status field
   const fetchingRef = useRef(false);
   const expectedQuestionRef = useRef<string>("");
   const fetchExplanation = useCallback((questionId: string, force?: boolean) => {
@@ -424,60 +426,98 @@ export function PracticeSession() {
     setExplanationLoading(true);
     setExplanationError(false);
 
-    let pollCount = 0;
-    let errorCount = 0;
-    const doFetch = () => {
+    const handleResponse = (data: ExplanationResponse) => {
       if (expectedQuestionRef.current !== questionId) {
         fetchingRef.current = false;
         return;
       }
-      generateExplanation(questionId, force && pollCount === 0 && errorCount === 0, locale)
-        .then((data) => {
-          if (expectedQuestionRef.current === questionId) setExplanation(data);
+      // Async generation in progress → start polling via GET
+      if (data.status === "generating") {
+        startPolling(questionId);
+        return;
+      }
+      // Ready (explicit status or backward compat with no status field)
+      if (data.status === "ready" || !("status" in data) || data.status === undefined) {
+        const explanationData = { ...data } as Record<string, unknown>;
+        delete explanationData.status;
+        setExplanation(explanationData as unknown as Explanation);
+        fetchingRef.current = false;
+        setExplanationLoading(false);
+        return;
+      }
+      // not_started or unexpected → error
+      setExplanationError(true);
+      fetchingRef.current = false;
+      setExplanationLoading(false);
+    };
+
+    const handleError = (err: unknown) => {
+      if (expectedQuestionRef.current !== questionId) {
+        fetchingRef.current = false;
+        return;
+      }
+      if (err instanceof QuotaExceededError) {
+        setQuotaModal({ open: true, type: "explanation", used: err.used, limit: err.limit });
+        fetchingRef.current = false;
+        setExplanationLoading(false);
+        return;
+      }
+      if (err instanceof ApiError && err.status === 429) {
+        setExplanationError(true);
+        fetchingRef.current = false;
+        setExplanationLoading(false);
+        return;
+      }
+      setExplanationError(true);
+      fetchingRef.current = false;
+      setExplanationLoading(false);
+    };
+
+    // Poll GET endpoint every 3s, max 20 times (60s total)
+    const startPolling = (qId: string) => {
+      let pollCount = 0;
+      const poll = () => {
+        if (expectedQuestionRef.current !== qId) {
           fetchingRef.current = false;
-          setExplanationLoading(false);
-        })
-        .catch((err) => {
-          if (expectedQuestionRef.current !== questionId) {
-            fetchingRef.current = false;
-            return;
-          }
-          // Quota exceeded — show modal, not "load failed"
-          if (err instanceof QuotaExceededError) {
-            setQuotaModal({ open: true, type: "explanation", used: err.used, limit: err.limit });
-            fetchingRef.current = false;
-            setExplanationLoading(false);
-            return;
-          }
-          // Any 429 (rate limit or quota) — stop immediately, don't retry
-          if (err instanceof ApiError && err.status === 429) {
-            setExplanationError(true);
-            fetchingRef.current = false;
-            setExplanationLoading(false);
-            return;
-          }
-          const is409 = err instanceof ApiError && err.status === 409;
-          if (is409) {
-            // Backend is generating — keep loading spinner, poll every 5s (up to 12 times = 60s)
-            pollCount++;
-            if (pollCount <= 12) {
-              setTimeout(doFetch, 5000);
-              return;
-            }
-          } else {
-            // Real error (502, timeout, etc.) — retry up to 2 times
-            errorCount++;
-            if (errorCount <= 2) {
-              setTimeout(doFetch, 3000);
-              return;
-            }
-          }
+          return;
+        }
+        pollCount++;
+        if (pollCount > 20) {
           setExplanationError(true);
           fetchingRef.current = false;
           setExplanationLoading(false);
-        });
+          return;
+        }
+        getExplanationStatus(qId, locale)
+          .then((data) => {
+            if (expectedQuestionRef.current !== qId) {
+              fetchingRef.current = false;
+              return;
+            }
+            if (data.status === "ready") {
+              const explanationData = { ...data } as Record<string, unknown>;
+              delete explanationData.status;
+              setExplanation(explanationData as unknown as Explanation);
+              fetchingRef.current = false;
+              setExplanationLoading(false);
+            } else if (data.status === "generating") {
+              setTimeout(poll, 3000);
+            } else {
+              // not_started or unexpected after POST triggered generation → error
+              setExplanationError(true);
+              fetchingRef.current = false;
+              setExplanationLoading(false);
+            }
+          })
+          .catch(handleError);
+      };
+      setTimeout(poll, 3000);
     };
-    doFetch();
+
+    // Kick off with POST
+    generateExplanation(questionId, force, locale)
+      .then(handleResponse)
+      .catch(handleError);
   }, [locale]);
 
   // Clear pending selection and indicators when navigating

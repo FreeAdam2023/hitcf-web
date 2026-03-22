@@ -1,6 +1,12 @@
 import { get, post } from "./client";
 import type { Explanation, GrammarCard, QuestionDetail, SentenceAnalysis } from "./types";
 
+/** Response from POST/GET explanation endpoints (async generation) */
+export type ExplanationResponse =
+  | ({ status: "ready" } & Explanation)
+  | { status: "generating" }
+  | { status: "not_started" };
+
 export function getQuestionDetail(questionId: string): Promise<QuestionDetail> {
   return get<QuestionDetail>(`/api/questions/${questionId}`);
 }
@@ -9,14 +15,24 @@ export function generateExplanation(
   questionId: string,
   force?: boolean,
   locale?: string,
-): Promise<Explanation> {
+): Promise<ExplanationResponse> {
   const params = new URLSearchParams();
   if (force) params.set("force", "true");
   if (locale) params.set("locale", locale);
   const qs = params.toString();
   const url = `/api/questions/${questionId}/explanation${qs ? `?${qs}` : ""}`;
-  // LLM generation can take 30-60s on first call; use longer timeout
-  return post<Explanation>(url, undefined, { timeout: 90_000 });
+  return post<ExplanationResponse>(url, undefined, { timeout: 30_000 });
+}
+
+export function getExplanationStatus(
+  questionId: string,
+  locale?: string,
+): Promise<ExplanationResponse> {
+  const params = new URLSearchParams();
+  if (locale) params.set("locale", locale);
+  const qs = params.toString();
+  const url = `/api/questions/${questionId}/explanation${qs ? `?${qs}` : ""}`;
+  return get<ExplanationResponse>(url);
 }
 
 export function generateSentenceAnalysis(
