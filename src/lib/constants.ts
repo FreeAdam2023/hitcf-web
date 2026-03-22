@@ -62,7 +62,7 @@ export const PRICING = {
   yearly: 99.9,
   yearlyOriginal: 159.9,
   currency: "USD",
-  monthlyTrialDays: 10,
+  monthlyTrialDays: 7,
   quarterlyTrialDays: 7,
   yearlyTrialDays: 14,
   /** Yearly price divided by 12 */
