@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/collapsible";
 import { AudioPlayer } from "@/components/practice/audio-player";
 import { FrenchText } from "@/components/practice/french-text";
+import { PassageContent } from "@/components/practice/passage-content";
 import { OptionList } from "@/components/practice/option-list";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { getBookmarkDetail } from "@/lib/api/bookmarks";
@@ -170,8 +171,8 @@ export function BookmarkCard({ item, onRemove }: BookmarkCardProps) {
 
                 {!isListening && q.passage && (
                   <div className="rounded-lg bg-muted/50 p-3">
-                    <div className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
-                      <FrenchText text={q.passage} />
+                    <div className="text-sm leading-relaxed text-muted-foreground">
+                      <PassageContent text={q.passage} />
                     </div>
                   </div>
                 )}

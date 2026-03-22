@@ -22,6 +22,7 @@ import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { AccentToolbar } from "@/components/writing/accent-toolbar";
 import { FrenchText } from "@/components/practice/french-text";
+import { PassageContent } from "@/components/practice/passage-content";
 import { WritingGuidePanel } from "@/components/writing/writing-guide-panel";
 import { WritingSidebar } from "@/components/writing/writing-sidebar";
 import { GrammarPointBadge } from "@/components/writing/grammar-point-badge";
@@ -275,8 +276,8 @@ export default function WritingPracticePage() {
               <p className="mb-1 text-xs font-medium text-muted-foreground">
                 {t("writingExam.referenceDocuments")}
               </p>
-              <div className="whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
-                <FrenchText text={task.passage} />
+              <div className="text-xs leading-relaxed text-muted-foreground">
+                <PassageContent text={task.passage} />
               </div>
             </div>
           )}

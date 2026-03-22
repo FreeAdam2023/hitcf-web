@@ -13,6 +13,7 @@ import { OptionList } from "@/components/practice/option-list";
 import { AudioPlayer } from "@/components/practice/audio-player";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { FrenchText } from "@/components/practice/french-text";
+import { PassageContent } from "@/components/practice/passage-content";
 import { useTranslations } from "next-intl";
 import type { ReviewAnswer, AnswerResponse } from "@/lib/api/types";
 import { getTcfPoints } from "@/lib/tcf-levels";
@@ -108,8 +109,8 @@ export function QuestionReviewItem({ answer }: QuestionReviewItemProps) {
         <div className="space-y-4 border-t px-4 py-4 bg-muted/20">
           {/* Passage */}
           {answer.passage && (
-            <div className="rounded-md border bg-muted/50 p-4 text-sm leading-relaxed whitespace-pre-wrap">
-              <FrenchText text={answer.passage} />
+            <div className="rounded-md border bg-muted/50 p-4 text-sm leading-relaxed">
+              <PassageContent text={answer.passage} />
             </div>
           )}
 

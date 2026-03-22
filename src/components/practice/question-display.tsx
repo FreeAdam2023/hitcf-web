@@ -9,6 +9,7 @@ import { getImageUrl } from "@/lib/api/media";
 import { LevelBadge } from "@/components/shared/level-badge";
 import { getTcfPoints } from "@/lib/tcf-levels";
 import { FrenchText, type WordSaveContext } from "./french-text";
+import { PassageContent } from "./passage-content";
 
 const LISTENING_INSTRUCTIONS: Record<string, { fr: string; en: string; zhKey: string }> = {
   image: {
@@ -198,8 +199,8 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
       )}
 
       {question.passage && (
-        <div className="max-h-[40vh] md:max-h-[60vh] overflow-y-auto rounded-md border bg-muted/50 p-4 text-sm lg:text-base leading-relaxed whitespace-pre-line">
-          <FrenchText text={question.passage} disabled={vocabDisabled} saveContext={saveContext} />
+        <div className="max-h-[40vh] md:max-h-[60vh] overflow-y-auto rounded-md border bg-muted/50 p-4 text-sm lg:text-base leading-relaxed">
+          <PassageContent text={question.passage} disabled={vocabDisabled} saveContext={saveContext} />
         </div>
       )}
 

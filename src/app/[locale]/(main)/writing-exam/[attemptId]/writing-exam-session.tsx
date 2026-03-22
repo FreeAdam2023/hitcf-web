@@ -27,6 +27,7 @@ import {
 import { ExamTimer } from "@/components/exam/exam-timer";
 import { AccentToolbar } from "@/components/writing/accent-toolbar";
 import { GrammarCheatSheet } from "@/components/writing/grammar-cheat-sheet";
+import { PassageContent } from "@/components/practice/passage-content";
 import { useWritingExamStore } from "@/stores/writing-exam-store";
 import { saveWritingEssays, completeWritingAttempt } from "@/lib/api/writing-attempts";
 import { cn } from "@/lib/utils";
@@ -249,8 +250,8 @@ export function WritingExamSession({ singleTaskMode = false }: { singleTaskMode?
               <p className="mb-1 text-xs font-medium text-muted-foreground">
                 {t("writingExam.referenceDocuments")}
               </p>
-              <div className="whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
-                {task.passage}
+              <div className="text-xs leading-relaxed text-muted-foreground">
+                <PassageContent text={task.passage} disabled />
               </div>
             </div>
           )}

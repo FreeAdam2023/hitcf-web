@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
+import { PassageContent } from "@/components/practice/passage-content";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -237,8 +238,8 @@ export default function WritingExamSessionPage() {
               <Card>
                 <CardContent className="pt-4">
                   <h3 className="mb-2 text-sm font-semibold">{t("refDocs")}</h3>
-                  <div className="whitespace-pre-wrap text-sm lg:text-base leading-relaxed text-muted-foreground">
-                    {currentQuestion.passage}
+                  <div className="text-sm lg:text-base leading-relaxed text-muted-foreground">
+                    <PassageContent text={currentQuestion.passage} disabled />
                   </div>
                 </CardContent>
               </Card>

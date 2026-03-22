@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { FrenchText } from "@/components/practice/french-text";
+import { PassageContent } from "@/components/practice/passage-content";
 import { SpeakingRecorder } from "@/components/speaking/speaking-recorder";
 import { PronunciationScoreCard } from "@/components/speaking/pronunciation-score-card";
 import { WordScoreList } from "@/components/speaking/word-score-list";
@@ -349,8 +350,8 @@ export default function SpeakingPracticeView() {
               <p className="mb-1 text-xs font-medium text-muted-foreground">
                 {t("writingExam.referenceDocuments")}
               </p>
-              <div className="whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
-                <FrenchText text={question.passage} />
+              <div className="text-xs leading-relaxed text-muted-foreground">
+                <PassageContent text={question.passage} />
               </div>
             </div>
           )}
