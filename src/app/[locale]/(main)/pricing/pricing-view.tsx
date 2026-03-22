@@ -11,7 +11,6 @@ import {
   RefreshCw,
   Clock,
   Sparkles,
-  Zap,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -54,7 +53,7 @@ const PLANS = [
     originalPrice: formatPrice(PRICING.yearlyOriginal),
     discountPercent: PRICING.yearlyDiscountPercent,
     recommended: true,
-    limitedOffer: true,
+    limitedOffer: false,
   },
 ];
 
@@ -139,7 +138,6 @@ export function PricingView() {
           {PLANS.map((plan) => {
             const isSelected = selectedPlan === plan.key;
             const equiv = plan.key !== "monthly" ? t(`pricing.plans.${plan.key}.equiv`, pp) : null;
-            const badge = plan.key !== "monthly" ? t(`pricing.plans.${plan.key}.badge`) : null;
             return (
               <div
                 key={plan.key}
@@ -184,9 +182,11 @@ export function PricingView() {
                         <span className="text-xs text-muted-foreground/50 line-through">{plan.originalPrice}</span>
                       )}
                     </div>
-                    {equiv && (
+                    {equiv ? (
                       <p className="text-xs text-muted-foreground">{equiv}</p>
-                    )}
+                    ) : plan.key === "monthly" ? (
+                      <p className="text-xs text-muted-foreground">{t("pricing.autoRenew")}</p>
+                    ) : null}
                   </div>
                 </Card>
               </div>

@@ -29,26 +29,26 @@ const PLANS = [
   {
     key: "monthly" as const,
     price: formatPrice(PRICING.monthly),
+    originalPrice: null as string | null,
     trialDays: PRICING.monthlyTrialDays,
-    savingsPercent: 0,
     recommended: false,
     limitedOffer: false,
   },
   {
     key: "quarterly" as const,
     price: formatPrice(PRICING.quarterly),
+    originalPrice: formatPrice(PRICING.quarterlyOriginal),
     trialDays: PRICING.quarterlyTrialDays,
-    savingsPercent: PRICING.quarterlySavingsPercent,
     recommended: false,
     limitedOffer: true,
   },
   {
     key: "yearly" as const,
     price: formatPrice(PRICING.yearly),
+    originalPrice: formatPrice(PRICING.yearlyOriginal),
     trialDays: PRICING.yearlyTrialDays,
-    savingsPercent: PRICING.savingsPercent,
     recommended: true,
-    limitedOffer: true,
+    limitedOffer: false,
   },
 ];
 
@@ -134,20 +134,25 @@ export function QuotaExceededModal({
                   <span className="text-sm font-semibold">
                     {t(`pricing.plans.${plan.key}.name`)}
                   </span>
-                  {plan.savingsPercent > 0 && (
-                    <span className="rounded bg-red-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
-                      -{plan.savingsPercent}%
+                  {plan.limitedOffer && (
+                    <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-600 dark:text-amber-400">
+                      {t("pricing.limitedOffer")}
                     </span>
                   )}
                 </div>
 
                 <div className="mt-2">
-                  <span className="text-2xl font-bold tracking-tight">
-                    {plan.price}
-                  </span>
-                  <span className="ml-1 text-xs text-muted-foreground">
-                    {t(`pricing.plans.${plan.key}.unit`)}
-                  </span>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold tracking-tight">
+                      {plan.price}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {t(`pricing.plans.${plan.key}.unit`)}
+                    </span>
+                  </div>
+                  {plan.originalPrice && (
+                    <span className="text-xs text-muted-foreground/50 line-through">{plan.originalPrice}</span>
+                  )}
                 </div>
 
                 <div className="mt-2 space-y-1.5 text-xs text-muted-foreground">

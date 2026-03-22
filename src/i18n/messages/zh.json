@@ -2024,7 +2024,8 @@
     "legalPrivacy": "隐私政策",
     "legalAnd": " 和",
     "legalRefund": "退款政策",
-    "legalPeriod": "。"
+    "legalPeriod": "。",
+    "autoRenew": "自动续费，随时取消"
   },
   "resources": {
     "hero": {

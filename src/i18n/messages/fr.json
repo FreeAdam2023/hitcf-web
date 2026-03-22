@@ -2024,7 +2024,8 @@
     "legalPrivacy": "Politique de confidentialité",
     "legalAnd": " et la ",
     "legalRefund": "Politique de remboursement",
-    "legalPeriod": "."
+    "legalPeriod": ".",
+    "autoRenew": "Renouvellement automatique, annulation à tout moment"
   },
   "resources": {
     "hero": {

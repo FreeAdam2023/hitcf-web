@@ -2024,7 +2024,8 @@
     "legalPrivacy": "سياسة الخصوصية",
     "legalAnd": "، و",
     "legalRefund": "سياسة الاسترداد",
-    "legalPeriod": "."
+    "legalPeriod": ".",
+    "autoRenew": "تجديد تلقائي، إلغاء في أي وقت"
   },
   "resources": {
     "hero": {
