@@ -442,6 +442,13 @@ export function PracticeSession() {
             fetchingRef.current = false;
             return;
           }
+          // Quota exceeded — show modal, not "load failed"
+          if (err instanceof QuotaExceededError) {
+            setQuotaModal({ open: true, type: "explanation", used: err.used, limit: err.limit });
+            fetchingRef.current = false;
+            setExplanationLoading(false);
+            return;
+          }
           const is409 = err instanceof ApiError && err.status === 409;
           if (is409) {
             // Backend is generating — keep loading spinner, poll every 5s (up to 12 times = 60s)

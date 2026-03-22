@@ -2923,7 +2923,7 @@
       "title": "今日免费额度已用完",
       "questionMessage": "你今天已使用 {used}/{limit} 道免费题目。",
       "explanationMessage": "你今天已使用 {used}/{limit} 次免费解析。",
-      "resetHint": "配额将在 UTC 午夜重置。升级 Pro 解锁无限使用。",
+      "resetHint": "配额每天自动重置。升级 Pro 解锁无限使用。",
       "continueFree": "好的",
       "upgradePro": "升级 Pro"
     },

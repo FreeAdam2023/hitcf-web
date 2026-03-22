@@ -2923,7 +2923,7 @@
       "title": "Limite quotidienne atteinte",
       "questionMessage": "Vous avez utilisé vos {used}/{limit} questions gratuites pour aujourd'hui.",
       "explanationMessage": "Vous avez utilisé vos {used}/{limit} explications gratuites pour aujourd'hui.",
-      "resetHint": "Votre quota se réinitialise à minuit UTC. Passez à Pro pour un accès illimité.",
+      "resetHint": "Votre quota se réinitialise chaque jour. Passez à Pro pour un accès illimité.",
       "continueFree": "OK",
       "upgradePro": "Passer à Pro"
     },

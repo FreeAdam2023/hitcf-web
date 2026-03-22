@@ -2923,7 +2923,7 @@
       "title": "Daily Limit Reached",
       "questionMessage": "You've used all {used}/{limit} free questions for today.",
       "explanationMessage": "You've used all {used}/{limit} free explanations for today.",
-      "resetHint": "Your quota resets at midnight UTC. Upgrade to Pro for unlimited access.",
+      "resetHint": "Your quota resets daily. Upgrade to Pro for unlimited access.",
       "continueFree": "OK",
       "upgradePro": "Upgrade to Pro"
     },
