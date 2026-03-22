@@ -2027,7 +2027,8 @@
     "legalPeriod": "。",
     "perMonth": "/ 月",
     "save": "省 {percent}%",
-    "autoRenew": "自动续费，随时取消"
+    "autoRenew": "自动续费，随时取消",
+    "noAutoRenew": "一次付清，到期不续费"
   },
   "resources": {
     "hero": {

@@ -2,8 +2,9 @@
 
 import { forwardRef } from "react";
 import { useTranslations } from "next-intl";
-import { getEstimatedTcfLevel, TCF_MAX_SCORE } from "@/lib/tcf-levels";
+import { getEstimatedTcfLevel, getTcfPoints, TCF_MAX_SCORE } from "@/lib/tcf-levels";
 import { formatTime } from "@/lib/utils";
+import type { ReviewAnswer } from "@/lib/api/types";
 
 export interface SharePosterProps {
   testSetName: string;
@@ -13,6 +14,7 @@ export interface SharePosterProps {
   tcfPoints?: number;
   timeTakenSeconds?: number | null;
   completedDate: string;
+  answers?: ReviewAnswer[];
 }
 
 interface PosterTier {
@@ -144,7 +146,7 @@ const TYPE_LABEL_KEYS: Record<string, string> = {
 
 export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
   function SharePoster(
-    { testSetName, testSetType, score, total, tcfPoints, timeTakenSeconds, completedDate },
+    { testSetName, testSetType, score, total, tcfPoints, timeTakenSeconds, completedDate, answers },
     ref,
   ) {
     const t = useTranslations("sharePoster");
@@ -162,8 +164,8 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
     const displayMax = isPointBased ? TCF_MAX_SCORE : total;
 
     // SVG circular progress
-    const size = 340;
-    const strokeWidth = 20;
+    const size = 280;
+    const strokeWidth = 18;
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (pct / 100) * circumference;
@@ -227,7 +229,7 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
             alignItems: "center",
             justifyContent: "center",
             padding: "0 60px",
-            gap: 36,
+            gap: 24,
           }}
         >
           {/* Circular progress ring */}
@@ -237,14 +239,16 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
               height={size}
               style={{ transform: "rotate(-90deg)" }}
             >
+              {/* Wrong/remaining arc — full ring as base */}
               <circle
                 cx={size / 2}
                 cy={size / 2}
                 r={radius}
                 fill="none"
-                stroke={tier.ringTrackColor}
+                stroke="#fca5a5"
                 strokeWidth={strokeWidth}
               />
+              {/* Correct arc — overlays the score portion */}
               <circle
                 cx={size / 2}
                 cy={size / 2}
@@ -252,7 +256,6 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
                 fill="none"
                 stroke={tier.ringColor}
                 strokeWidth={strokeWidth}
-                strokeLinecap="round"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
               />
@@ -267,13 +270,13 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
                 justifyContent: "center",
               }}
             >
-              <div style={{ fontSize: 80, fontWeight: 800, lineHeight: 1, color: "#1a1a1a" }}>
+              <div style={{ fontSize: 64, fontWeight: 800, lineHeight: 1, color: "#1a1a1a" }}>
                 {displayScore}
-                <span style={{ fontSize: 36, fontWeight: 500, color: "#9ca3af" }}>
+                <span style={{ fontSize: 28, fontWeight: 500, color: "#9ca3af" }}>
                   /{displayMax}
                 </span>
               </div>
-              <div style={{ fontSize: 30, color: "#6b7280", marginTop: 8 }}>
+              <div style={{ fontSize: 24, color: "#6b7280", marginTop: 6 }}>
                 {pct}%
               </div>
             </div>
@@ -318,6 +321,57 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
             <span>{t(tier.messageKey)}</span>
           </div>
         </div>
+
+        {/* Score grid (listening/reading only) */}
+        {isPointBased && answers && answers.length > 0 && (() => {
+          const answerMap = new Map(answers.map((a) => [a.original_question_number ?? a.question_number, a]));
+          const rows = [[1,10],[11,20],[21,30],[31,39]];
+          return (
+            <div style={{ padding: "0 48px 24px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {rows.map(([start, end]) => (
+                  <div key={start} style={{ display: "flex", gap: 5 }}>
+                    {Array.from({ length: end - start + 1 }, (_, i) => {
+                      const n = start + i;
+                      const a = answerMap.get(n);
+                      const pts = getTcfPoints(n);
+                      const isCorrect = a?.is_correct === true;
+                      const isWrong = a?.is_correct === false && !!a?.selected;
+                      const bgColor = isCorrect
+                        ? (pts <= 9 ? "#bbf7d0" : pts <= 21 ? "#4ade80" : "#16a34a")
+                        : isWrong
+                          ? (pts <= 9 ? "#fecaca" : pts <= 21 ? "#f87171" : "#b91c1c")
+                          : "#e5e7eb";
+                      const textColor = (isCorrect && pts > 9) || (isWrong && pts > 9) ? "#fff" : "#374151";
+                      return (
+                        <div
+                          key={n}
+                          style={{
+                            flex: 1,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: 6,
+                            padding: "4px 2px",
+                            background: bgColor,
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: 600,
+                            lineHeight: 1.2,
+                          }}
+                        >
+                          <span>Q{n}</span>
+                          <span style={{ fontSize: 13, opacity: 0.8 }}>{pts}分</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Test info bar */}
         <div

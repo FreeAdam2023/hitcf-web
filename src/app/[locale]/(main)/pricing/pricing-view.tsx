@@ -178,13 +178,14 @@ export function PricingView() {
                         <span className="text-sm text-muted-foreground">{t(`pricing.plans.${plan.key}.unit`)}</span>
                       </div>
                     </div>
-                    {plan.perMonth ? (
+                    {plan.perMonth && (
                       <p className="text-xs text-muted-foreground">
                         ≈ {plan.perMonth} {t("pricing.perMonth")} · {t("pricing.save", { percent: plan.savePercent })}
                       </p>
-                    ) : (
-                      <p className="text-xs text-muted-foreground">{t("pricing.autoRenew")}</p>
                     )}
+                    <p className="text-xs text-muted-foreground">
+                      {plan.key === "monthly" ? t("pricing.autoRenew") : t("pricing.noAutoRenew")}
+                    </p>
                   </div>
                 </Card>
               </div>

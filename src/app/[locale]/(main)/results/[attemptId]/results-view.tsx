@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { ScoreCard } from "@/components/results/score-card";
+import { TcfScoreGrid } from "@/components/results/tcf-score-grid";
 import { EncouragementCard } from "@/components/results/encouragement-card";
 import { NclcTable } from "@/components/results/nclc-table";
 import { LevelBreakdown } from "@/components/results/level-breakdown";
@@ -169,15 +170,17 @@ export function ResultsView({ attempt }: ResultsViewProps) {
         )}
       </div>
 
-      {/* Score card (with integrated TCF grid for listening/reading) */}
+      {/* Score card */}
       <ScoreCard
         score={score}
         total={attempt.total}
         answeredCount={attempt.answered_count}
         timeTakenSeconds={timeTakenSeconds}
         tcfPoints={tcfPoints}
-        answers={isPointBased ? sortedAnswers : undefined}
       />
+
+      {/* TCF score grid (listening/reading only) */}
+      {isPointBased && <TcfScoreGrid answers={sortedAnswers} />}
 
       {/* Encouragement card */}
       <EncouragementCard score={score} total={attempt.total} tcfPoints={tcfPoints} />
@@ -280,6 +283,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
         total={attempt.total}
         tcfPoints={tcfPoints}
         timeTakenSeconds={timeTakenSeconds}
+        answers={isPointBased ? sortedAnswers : undefined}
         completedDate={
           attempt.completed_at
             ? new Date(attempt.completed_at).toLocaleDateString("zh-CN", {

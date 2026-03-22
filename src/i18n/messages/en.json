@@ -2027,7 +2027,8 @@
     "legalPeriod": ".",
     "perMonth": "/ mo",
     "save": "Save {percent}%",
-    "autoRenew": "Auto-renews, cancel anytime"
+    "autoRenew": "Auto-renews, cancel anytime",
+    "noAutoRenew": "One-time payment, no auto-renewal"
   },
   "resources": {
     "hero": {

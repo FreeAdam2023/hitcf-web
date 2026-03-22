@@ -2027,7 +2027,8 @@
     "legalPeriod": ".",
     "perMonth": "/ شهر",
     "save": "وفّر {percent}%",
-    "autoRenew": "تجديد تلقائي، إلغاء في أي وقت"
+    "autoRenew": "تجديد تلقائي، إلغاء في أي وقت",
+    "noAutoRenew": "دفعة واحدة، بدون تجديد تلقائي"
   },
   "resources": {
     "hero": {
