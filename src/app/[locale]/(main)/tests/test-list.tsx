@@ -179,25 +179,28 @@ function buildAttemptMap(attempts: AttemptResponse[]): Map<string, TestAttemptIn
   for (const a of attempts) {
     // Skip speed_drill attempts — they cross test sets and shouldn't affect per-set status
     if (a.mode === "speed_drill") continue;
+    // Best score and in-progress only track practice mode;
+    // exam results belong on the history page.
+    const isPractice = a.mode === "practice";
     const existing = map.get(a.test_set_id);
     if (!existing) {
       map.set(a.test_set_id, {
-        bestScore: a.status === "completed" ? a.score : null,
+        bestScore: isPractice && a.status === "completed" ? a.score : null,
         bestTotal: a.total,
-        hasInProgress: a.status === "in_progress",
-        inProgressAnswered: a.status === "in_progress" ? a.answered_count : undefined,
-        inProgressTotal: a.status === "in_progress" ? a.total : undefined,
+        hasInProgress: isPractice && a.status === "in_progress",
+        inProgressAnswered: isPractice && a.status === "in_progress" ? a.answered_count : undefined,
+        inProgressTotal: isPractice && a.status === "in_progress" ? a.total : undefined,
         attemptCount: 1,
       });
     } else {
       existing.attemptCount++;
-      if (a.status === "completed" && a.score !== null) {
+      if (isPractice && a.status === "completed" && a.score !== null) {
         if (existing.bestScore === null || a.score > existing.bestScore) {
           existing.bestScore = a.score;
           existing.bestTotal = a.total;
         }
       }
-      if (a.status === "in_progress") {
+      if (isPractice && a.status === "in_progress") {
         existing.hasInProgress = true;
         existing.inProgressAnswered = a.answered_count;
         existing.inProgressTotal = a.total;
