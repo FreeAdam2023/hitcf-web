@@ -31,7 +31,7 @@ export function CommunityFab() {
 
   return (
     <>
-      <div className="fixed bottom-5 end-5 z-50" data-feedback-exclude>
+      <div className="fixed bottom-5 end-5 z-50 hidden md:block" data-feedback-exclude>
         {/* Popup */}
         {open && (
           <>

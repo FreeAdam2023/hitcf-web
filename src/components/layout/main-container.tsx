@@ -36,7 +36,7 @@ export function MainContainer({ children }: { children: React.ReactNode }) {
         "mx-auto w-full px-4 animate-fade-in-up",
         isFixedLayout
           ? "max-w-7xl xl:max-w-[1400px] lg:h-[calc(100dvh-2.5rem)] lg:overflow-hidden py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))]"
-          : "max-w-6xl flex-1 py-6",
+          : "max-w-6xl flex-1 py-6 pb-24 md:pb-6",
       )}
     >
       {children}

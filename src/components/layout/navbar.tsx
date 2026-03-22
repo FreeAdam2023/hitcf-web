@@ -3,16 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import Image from "next/image";
-import { Clock, Flame, Gift, Menu } from "lucide-react";
+import { Clock, Flame } from "lucide-react";
 
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -42,8 +36,6 @@ const NAV_KEYS = [
 
 export function Navbar() {
   const t = useTranslations();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
 
   const pathname = usePathname();
   const isImmersive = pathname.startsWith("/practice/") || pathname.startsWith("/exam/");
@@ -56,58 +48,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl backdrop-saturate-150 pt-[env(safe-area-inset-top)]">
-      <div className="mx-auto flex h-16 max-w-6xl items-center px-4 sm:px-6">
-        {/* Mobile hamburger — defer Sheet until mounted to avoid Radix hydration mismatch */}
-        {mounted ? (
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="me-2 md:hidden">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">{t('nav.openMenu')}</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-64">
-              <div className="flex flex-col gap-1 pt-6">
-                {allItems.map((item) => (
-                  <SheetClose asChild key={item.href}>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        "rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                        pathname === item.href || pathname.startsWith(item.href + "/")
-                          ? "bg-accent text-accent-foreground"
-                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  </SheetClose>
-                ))}
-                <div className="my-2 border-t" />
-                <SheetClose asChild>
-                  <Link
-                    href="/referral"
-                    className={cn(
-                      "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                      pathname === "/referral"
-                        ? "bg-accent text-accent-foreground"
-                        : "text-primary hover:bg-primary/10",
-                    )}
-                  >
-                    <Gift className="h-4 w-4" />
-                    {t("nav.referral")}
-                  </Link>
-                </SheetClose>
-              </div>
-            </SheetContent>
-          </Sheet>
-        ) : (
-          <Button variant="ghost" size="icon" className="me-2 md:hidden" disabled>
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">{t('nav.openMenu')}</span>
-          </Button>
-        )}
-
+      <div className="mx-auto flex h-14 md:h-16 max-w-6xl items-center px-4 sm:px-6">
         <Link href="/" className="me-6 shrink-0">
           <Image src="/logo.png" alt="HiTCF" width={36} height={36} className="md:h-10 md:w-10" />
         </Link>
@@ -135,13 +76,13 @@ export function Navbar() {
         </nav>
 
         <div className="ms-auto flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
+          <Button variant="ghost" size="icon" className="h-8 w-8 hidden md:inline-flex" asChild>
             <Link href="/checkin" aria-label={t("nav.checkin")}>
               <Flame className="h-4 w-4" />
             </Link>
           </Button>
           <NotificationBell />
-          <UserMenu />
+          <UserMenu className="hidden md:inline-flex" />
         </div>
       </div>
     </header>

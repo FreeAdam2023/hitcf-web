@@ -17,8 +17,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
-function SubscriptionBadge({ status, plan }: { status: string | null; plan: string | null }) {
+export function SubscriptionBadge({ status, plan }: { status: string | null; plan: string | null }) {
   const t = useTranslations();
   if (plan === "tester" && status === "active") {
     return (
@@ -46,7 +47,7 @@ function SubscriptionBadge({ status, plan }: { status: string | null; plan: stri
   );
 }
 
-export function UserMenu() {
+export function UserMenu({ className }: { className?: string } = {}) {
   const t = useTranslations();
   const user = useAuthStore((s) => s.user);
   const isLoading = useAuthStore((s) => s.isLoading);
@@ -57,12 +58,12 @@ export function UserMenu() {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   if (isLoading) {
-    return <Skeleton className="h-8 w-8 rounded-full" />;
+    return <Skeleton className={cn("h-8 w-8 rounded-full", className)} />;
   }
 
   if (!isAuthenticated || !user) {
     return (
-      <Button variant="outline" size="sm" asChild>
+      <Button variant="outline" size="sm" className={className} asChild>
         <Link href="/login">{t('userMenu.login')}</Link>
       </Button>
     );
@@ -71,7 +72,7 @@ export function UserMenu() {
   const isSubscribed = hasActiveSubscription();
 
   return (
-    <>
+    <div className={className}>
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full" aria-label={t('userMenu.userMenuLabel')}>
@@ -122,6 +123,6 @@ export function UserMenu() {
       </DropdownMenuContent>
     </DropdownMenu>
     <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />
-    </>
+    </div>
   );
 }
