@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Lock, Sparkles, Check, Zap } from "lucide-react";
+import { Lock, Sparkles, Check } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -118,14 +118,6 @@ export function QuotaExceededModal({
                   <div className="flex items-center gap-1 rounded-full bg-gradient-to-r from-primary to-violet-500 px-2.5 py-0.5 text-[10px] font-semibold text-white shadow-sm">
                     <Sparkles className="h-2.5 w-2.5" />
                     {t("quota.exceeded.recommended")}
-                  </div>
-                </div>
-              )}
-              {plan.limitedOffer && !plan.recommended && (
-                <div className="absolute -top-2.5 left-1/2 z-10 -translate-x-1/2">
-                  <div className="flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-2.5 py-0.5 text-[10px] font-semibold text-white shadow-sm">
-                    <Zap className="h-2.5 w-2.5" />
-                    {t("pricing.limitedOffer")}
                   </div>
                 </div>
               )}
