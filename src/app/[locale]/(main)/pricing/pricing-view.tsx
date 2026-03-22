@@ -165,39 +165,26 @@ export function PricingView() {
                     </div>
                   </div>
                 )}
-                {plan.limitedOffer && !plan.recommended && (
-                  <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
-                    <div className="flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-1 text-xs font-semibold text-white shadow-sm">
-                      <Zap className="h-3 w-3" />
-                      {t("pricing.limitedOffer")}
-                    </div>
-                  </div>
-                )}
                 <Card className="flex h-full flex-col border-0 bg-card">
                   <div className="flex flex-1 flex-col gap-1 p-5 pb-4">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-semibold">{t(`pricing.plans.${plan.key}.name`)}</span>
-                      {plan.limitedOffer && plan.recommended && (
-                        <span className="rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-2 py-0.5 text-[10px] font-semibold text-white">
+                      {plan.limitedOffer && (
+                        <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-600 dark:text-amber-400">
                           {t("pricing.limitedOffer")}
                         </span>
                       )}
-                      {badge && !plan.recommended && !plan.limitedOffer && (
+                      {badge && !plan.limitedOffer && (
                         <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary">
                           {badge}
                         </span>
                       )}
                     </div>
-                    <div className="mt-1">
-                      {plan.originalPrice && (
-                        <span className="mr-2 text-base text-muted-foreground/60 line-through">{plan.originalPrice}</span>
-                      )}
+                    <div className="mt-1 flex items-baseline gap-2">
                       <span className="text-3xl font-bold tracking-tight">{plan.price}</span>
-                      <span className="ml-1 text-sm text-muted-foreground">{t(`pricing.plans.${plan.key}.unit`)}</span>
-                      {plan.discountPercent > 0 && (
-                        <span className="ml-2 inline-block rounded bg-red-500 px-1.5 py-0.5 text-[11px] font-bold text-white">
-                          -{plan.discountPercent}%
-                        </span>
+                      <span className="text-sm text-muted-foreground">{t(`pricing.plans.${plan.key}.unit`)}</span>
+                      {plan.originalPrice && (
+                        <span className="text-sm text-muted-foreground/50 line-through">{plan.originalPrice}</span>
                       )}
                     </div>
                     {equiv && (
