@@ -131,6 +131,7 @@ export function TestCard({
 
   // Progress display
   const hasCompleted = attemptInfo?.bestScore !== null && attemptInfo?.bestScore !== undefined;
+  const hasGoodScore = hasCompleted && attemptInfo!.bestScore! > 0;
   const hasInProgress = attemptInfo?.hasInProgress && !hasCompleted;
   const hasDrillOnly = !hasCompleted && !hasInProgress && (attemptInfo?.drillAnswered ?? 0) > 0;
   const bestPct = hasCompleted
@@ -183,11 +184,11 @@ export function TestCard({
           <div className="flex items-start gap-3">
             <div className={cn(
               "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
-              hasCompleted
+              hasGoodScore
                 ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400"
                 : colors?.iconBg,
             )}>
-              {hasCompleted ? (
+              {hasGoodScore ? (
                 <CheckCircle2 className="h-5 w-5" />
               ) : (
                 <Icon className="h-5 w-5" />

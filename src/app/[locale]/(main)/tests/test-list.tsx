@@ -221,6 +221,7 @@ export function TestList() {
   const [mockError, setMockError] = useState<string | null>(null);
   const [mockFreeTrialEligible, setMockFreeTrialEligible] = useState(false);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
+  const [hasContinueBanner, setHasContinueBanner] = useState(false);
   const [tab, setTab] = useState<TabType | null>(null);
 
   // Hydration-safe: restore tab from URL param or localStorage after mount
@@ -641,7 +642,7 @@ export function TestList() {
         </div>
 
       </div>
-      <ContinueBanner />
+      <ContinueBanner onVisibleChange={setHasContinueBanner} />
       {!tab ? <div className="flex justify-center py-8"><span className="text-sm text-muted-foreground">Loading...</span></div> : null}
       <Tabs value={tab ?? "listening"} onValueChange={(v) => {
         const t = v as TabType;
@@ -835,7 +836,7 @@ export function TestList() {
             type={tab as "listening" | "reading"}
           />
 
-          {tab && <RecommendedBanner type={tab} />}
+          {tab && !hasContinueBanner && <RecommendedBanner type={tab} />}
 
           {/* ── Speaking/Writing controls ── */}
           {isSpeakingWriting && (

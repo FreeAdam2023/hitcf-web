@@ -20,7 +20,7 @@ type ContinueItem =
   | { kind: "conversation"; data: SpeakingConversationResponse; time: number }
   | { kind: "writingExam"; data: WritingExamHistoryItem; time: number };
 
-export function ContinueBanner() {
+export function ContinueBanner({ onVisibleChange }: { onVisibleChange?: (visible: boolean) => void } = {}) {
   const t = useTranslations();
   const [item, setItem] = useState<ContinueItem | null>(null);
 
@@ -75,6 +75,10 @@ export function ContinueBanner() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    onVisibleChange?.(item !== null);
+  }, [item, onVisibleChange]);
 
   if (!item) return null;
 
