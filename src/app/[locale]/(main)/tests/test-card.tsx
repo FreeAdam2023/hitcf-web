@@ -215,11 +215,17 @@ export function TestCard({
                   {t("testCard.best", { score: attemptInfo!.bestScore!, total: attemptInfo!.bestTotal, pct: bestPct! })}
                 </span>
               </div>
-              <div className="h-1.5 w-full rounded-full bg-muted">
+              <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden flex">
                 <div
-                  className="h-full rounded-full bg-emerald-500 transition-all"
-                  style={{ width: `${Math.min(bestPct ?? 0, 100)}%` }}
+                  className="h-full bg-emerald-500 transition-all"
+                  style={{ width: `${Math.min(bestPct ?? 0, 100)}%`, borderRadius: (bestPct ?? 0) >= 100 ? "9999px" : "9999px 0 0 9999px" }}
                 />
+                {(bestPct ?? 0) < 100 && (
+                  <div
+                    className="h-full bg-red-300 dark:bg-red-400/60 transition-all"
+                    style={{ width: `${100 - Math.min(bestPct ?? 0, 100)}%`, borderRadius: "0 9999px 9999px 0" }}
+                  />
+                )}
               </div>
             </div>
           )}
