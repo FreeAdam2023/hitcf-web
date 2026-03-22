@@ -166,7 +166,7 @@ export function PricingView() {
                   </div>
                 )}
                 <Card className="flex h-full flex-col border-0 bg-card">
-                  <div className="flex flex-1 flex-col gap-1 p-5 pb-4">
+                  <div className="flex flex-1 flex-col gap-2 p-5 pb-4">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-semibold">{t(`pricing.plans.${plan.key}.name`)}</span>
                       {plan.limitedOffer && (
@@ -174,17 +174,14 @@ export function PricingView() {
                           {t("pricing.limitedOffer")}
                         </span>
                       )}
-                      {badge && !plan.limitedOffer && (
-                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary">
-                          {badge}
-                        </span>
-                      )}
                     </div>
-                    <div className="mt-1 flex items-baseline gap-2">
-                      <span className="text-3xl font-bold tracking-tight">{plan.price}</span>
-                      <span className="text-sm text-muted-foreground">{t(`pricing.plans.${plan.key}.unit`)}</span>
+                    <div className="mt-1">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-3xl font-bold tracking-tight">{plan.price}</span>
+                        <span className="text-sm text-muted-foreground">{t(`pricing.plans.${plan.key}.unit`)}</span>
+                      </div>
                       {plan.originalPrice && (
-                        <span className="text-sm text-muted-foreground/50 line-through">{plan.originalPrice}</span>
+                        <span className="text-xs text-muted-foreground/50 line-through">{plan.originalPrice}</span>
                       )}
                     </div>
                     {equiv && (
