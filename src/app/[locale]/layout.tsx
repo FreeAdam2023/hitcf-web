@@ -179,8 +179,8 @@ export default async function LocaleLayout({
                   "@type": "AggregateRating",
                   ratingValue: "5",
                   bestRating: "5",
-                  ratingCount: "1",
-                  reviewCount: "1",
+                  ratingCount: "2",
+                  reviewCount: "2",
                 },
                 review: [
                   {
@@ -198,6 +198,22 @@ export default async function LocaleLayout({
                     },
                     reviewBody:
                       "您这个听力是设计的最好的。其他的都没有您这个好用。你的设计很懂客户需求。",
+                  },
+                  {
+                    "@type": "Review",
+                    author: {
+                      "@type": "Person",
+                      name: "肉食动物不吃素",
+                      image: `${SITE_URL}/reviews/roushidongwu.webp`,
+                    },
+                    datePublished: "2026-03-19",
+                    reviewRating: {
+                      "@type": "Rating",
+                      ratingValue: "5",
+                      bestRating: "5",
+                    },
+                    reviewBody:
+                      "网站真的蛮多细节的，我在别的网站没见过。鼠标碰到单词自动有发音和解释，这个真的很好！",
                   },
                 ],
                 offers: [
