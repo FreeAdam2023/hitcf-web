@@ -185,7 +185,11 @@ export default async function LocaleLayout({
                 review: [
                   {
                     "@type": "Review",
-                    author: { "@type": "Person", name: "momo" },
+                    author: {
+                      "@type": "Person",
+                      name: "momo",
+                      image: `${SITE_URL}/reviews/momo.jpg`,
+                    },
                     datePublished: "2026-03-22",
                     reviewRating: {
                       "@type": "Rating",
