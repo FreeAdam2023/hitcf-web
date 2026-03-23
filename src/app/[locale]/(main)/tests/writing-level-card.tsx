@@ -29,6 +29,8 @@ const FRENCH_MONTHS = [
 ];
 
 function formatDialogTitle(topic: WritingTopicItem, locale: string): string {
+  // Always use French topic as primary (TCF is a French exam)
+  // Chinese users see topic_zh as primary for readability
   const topicName = locale === "zh" && topic.topic_zh ? topic.topic_zh : topic.topic;
   const parts: string[] = [];
 
@@ -38,6 +40,13 @@ function formatDialogTitle(topic: WritingTopicItem, locale: string): string {
     const m = parseInt(month, 10);
     if (locale === "zh") {
       parts.push(`${m}月`);
+    } else if (locale === "ar") {
+      // Arabic month names
+      const AR_MONTHS = ["", "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+      parts.push(AR_MONTHS[m] || month);
+    } else if (locale === "en") {
+      const EN_MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      parts.push(EN_MONTHS[m] || month);
     } else {
       parts.push(FRENCH_MONTHS[m] || month);
     }
@@ -149,6 +158,9 @@ export function WritingLevelCard({
               {(topic.topic || topic.topic_zh) && (
                 <p className="mt-1 text-sm font-semibold leading-snug line-clamp-2">
                   {locale === "zh" && topic.topic_zh ? topic.topic_zh : topic.topic}
+                  {locale === "zh" && topic.topic_zh && topic.topic && (
+                    <span className="ml-1.5 font-normal text-muted-foreground">({topic.topic})</span>
+                  )}
                 </p>
               )}
             </div>
@@ -186,7 +198,7 @@ export function WritingLevelCard({
                   {formatDialogTitle(topic, locale)}
                 </DialogTitle>
                 <DialogDescription>
-                  Tâche {tache}{topic.word_limit ? ` · ${topic.word_limit} mots` : ""}
+                  {t("tests.tacheLabel", { n: tache })}{topic.word_limit ? ` · ${t("tests.wordLimit", { range: topic.word_limit })}` : ""}
                 </DialogDescription>
               </div>
             </div>
