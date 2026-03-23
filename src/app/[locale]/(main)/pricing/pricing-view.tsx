@@ -13,6 +13,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Testimonials } from "@/components/shared/testimonials";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -347,6 +348,9 @@ export function PricingView() {
           ))}
         </div>
       </div>
+
+      {/* ---- Testimonials ---- */}
+      <Testimonials />
 
       {/* ---- FAQ ---- */}
       <div>

@@ -3310,5 +3310,11 @@
     "backToBlog": "Back to Blog",
     "ctaText": "Ready to prepare for TCF Canada? Start practicing on HiTCF!",
     "ctaButton": "Start Practicing"
+  },
+  "testimonials": {
+    "title": "What Our Users Say",
+    "subtitle": "Real feedback from TCF Canada candidates",
+    "review1": "Your listening section is the best designed. None of the other platforms are as good as yours. Your design truly understands what users need.",
+    "review2": "The website has so many thoughtful details I have never seen on other sites. Hovering over a word instantly shows pronunciation and definition — this is really great!"
   }
 }

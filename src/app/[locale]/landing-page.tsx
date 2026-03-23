@@ -21,6 +21,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Testimonials } from "@/components/shared/testimonials";
 import {
   Accordion,
   AccordionContent,
@@ -629,6 +630,13 @@ export function LandingPage() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* ── Testimonials ── */}
+      <section className="border-t border-border/40 py-4">
+        <div className="mx-auto max-w-5xl px-4">
+          <Testimonials />
         </div>
       </section>
 
