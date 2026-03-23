@@ -5,6 +5,7 @@ import { useRouter } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
+import { getLocalizedTopic } from "@/lib/test-name";
 import {
   Mic,
   MicOff,
@@ -475,9 +476,9 @@ export default function SpeakingExamSessionPage() {
                 <div className="rounded-lg border p-3">
                   <p className="text-sm lg:text-base font-medium">{t("topic")}:</p>
                   <p className="mt-1 text-sm lg:text-base">{exam.t3_question.question_text}</p>
-                  {locale === "zh" && exam.t3_question.topic_zh && (
+                  {locale !== "fr" && getLocalizedTopic(locale, null, exam.t3_question.topic_zh, exam.t3_question.topic_en, exam.t3_question.topic_ar) && (
                     <p className="mt-1 text-xs lg:text-sm text-muted-foreground">
-                      {exam.t3_question.topic_zh}
+                      {getLocalizedTopic(locale, null, exam.t3_question.topic_zh, exam.t3_question.topic_en, exam.t3_question.topic_ar)}
                     </p>
                   )}
                 </div>

@@ -51,3 +51,26 @@ export function localizeTestName(
 
   return rawName;
 }
+
+/**
+ * Get the localized topic string based on locale.
+ * Falls back: locale-specific → French original.
+ */
+export function getLocalizedTopic(
+  locale: string,
+  topic?: string | null,
+  topicZh?: string | null,
+  topicEn?: string | null,
+  topicAr?: string | null,
+): string | null {
+  switch (locale) {
+    case "zh":
+      return topicZh || topic || null;
+    case "en":
+      return topicEn || topic || null;
+    case "ar":
+      return topicAr || topic || null;
+    default:
+      return topic || null;
+  }
+}

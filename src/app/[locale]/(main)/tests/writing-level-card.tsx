@@ -21,6 +21,7 @@ import {
   getActiveWritingAttempt,
 } from "@/lib/api/writing-attempts";
 import { cn, isLatestMonth } from "@/lib/utils";
+import { getLocalizedTopic } from "@/lib/test-name";
 import type { WritingTopicItem, WritingAttemptResponse } from "@/lib/api/types";
 
 const FRENCH_MONTHS = [
@@ -29,9 +30,7 @@ const FRENCH_MONTHS = [
 ];
 
 function formatDialogTitle(topic: WritingTopicItem, locale: string): string {
-  // Always use French topic as primary (TCF is a French exam)
-  // Chinese users see topic_zh as primary for readability
-  const topicName = locale === "zh" && topic.topic_zh ? topic.topic_zh : topic.topic;
+  const topicName = getLocalizedTopic(locale, topic.topic, topic.topic_zh, topic.topic_en, topic.topic_ar);
   const parts: string[] = [];
 
   if (topic.source_date) {
@@ -157,10 +156,7 @@ export function WritingLevelCard({
               </CardTitle>
               {(topic.topic || topic.topic_zh) && (
                 <p className="mt-1 text-sm font-semibold leading-snug line-clamp-2">
-                  {locale === "zh" && topic.topic_zh ? topic.topic_zh : topic.topic}
-                  {locale === "zh" && topic.topic_zh && topic.topic && (
-                    <span className="ml-1.5 font-normal text-muted-foreground">({topic.topic})</span>
-                  )}
+                  {getLocalizedTopic(locale, topic.topic, topic.topic_zh, topic.topic_en, topic.topic_ar)}
                 </p>
               )}
             </div>

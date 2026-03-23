@@ -6,6 +6,8 @@ export interface SpeakingExamQuestion {
   question_text: string | null;
   topic: string | null;
   topic_zh: string | null;
+  topic_en: string | null;
+  topic_ar: string | null;
 }
 
 export interface PoolStats {

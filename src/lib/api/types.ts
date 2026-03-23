@@ -53,6 +53,8 @@ export interface WritingTopicItem {
   word_limit: string | null;
   topic: string | null;
   topic_zh: string | null;
+  topic_en: string | null;
+  topic_ar: string | null;
 }
 
 export interface TestSetDetail extends TestSetItem {
@@ -94,6 +96,8 @@ export interface QuestionBrief {
   options: Option[];
   topic?: string | null;
   topic_zh?: string | null;
+  topic_en?: string | null;
+  topic_ar?: string | null;
   has_image?: boolean;
   audio_timestamps?: AudioSegment[] | null;
   /** Source test set name (for cross-set practice like speed drill / mock exam) */

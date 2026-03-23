@@ -24,7 +24,7 @@ import { getTestSet, getTestSetQuestions, getTestSetCompletion } from "@/lib/api
 import { createAttempt, getActiveAttempt } from "@/lib/api/attempts";
 import type { ActiveAttemptResponse } from "@/lib/api/types";
 import type { TestSetDetail, QuestionBrief } from "@/lib/api/types";
-import { localizeTestName } from "@/lib/test-name";
+import { localizeTestName, getLocalizedTopic } from "@/lib/test-name";
 
 function buildSpeakingPrompt(topic: QuestionBrief, isTache2: boolean): string {
   return isTache2
@@ -81,7 +81,7 @@ function SpeakingTopicList({ topics, isTache2, testSetId, canAccessPaid }: { top
               <div className="flex-1 space-y-3">
                 {topic.topic && (
                   <p className="text-xs font-semibold text-amber-600 dark:text-amber-400">
-                    {locale === "zh" && topic.topic_zh ? topic.topic_zh : topic.topic}
+                    {getLocalizedTopic(locale, topic.topic, topic.topic_zh, topic.topic_en, topic.topic_ar)}
                   </p>
                 )}
                 <p className="text-sm leading-relaxed">
