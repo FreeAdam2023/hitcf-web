@@ -175,6 +175,27 @@ export default async function LocaleLayout({
                 description:
                   "TCF Canada online practice platform with 8,500+ questions covering listening, reading, speaking and writing. Practice mode, exam simulation, wrong answer notebook, vocabulary flashcards, Anki export, and AI-powered explanations to help you reach CLB 7+.",
                 inLanguage: ["zh-CN", "fr-FR", "en", "ar"],
+                aggregateRating: {
+                  "@type": "AggregateRating",
+                  ratingValue: "5",
+                  bestRating: "5",
+                  ratingCount: "1",
+                  reviewCount: "1",
+                },
+                review: [
+                  {
+                    "@type": "Review",
+                    author: { "@type": "Person", name: "momo" },
+                    datePublished: "2026-03-22",
+                    reviewRating: {
+                      "@type": "Rating",
+                      ratingValue: "5",
+                      bestRating: "5",
+                    },
+                    reviewBody:
+                      "您这个听力是设计的最好的。其他的都没有您这个好用，我试用过了就买会员。你的设计很懂客户需求。",
+                  },
+                ],
                 offers: [
                   {
                     "@type": "Offer",
