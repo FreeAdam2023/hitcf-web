@@ -171,7 +171,8 @@
       "invalidEmail": "Please enter a valid email address",
       "genericError": "Login failed. Please try again later.",
       "googleLogin": "Continue with Google",
-      "orDivider": "or"
+      "orDivider": "or",
+      "agreeHint": "By logging in, you agree to our <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>"
     },
     "register": {
       "title": "Create Account",
@@ -197,7 +198,12 @@
       "strengthMedium": "Medium",
       "strengthStrong": "Strong",
       "hasAccount": "Already have an account?",
-      "login": "Log In"
+      "login": "Log In",
+      "agreeTerms": "I have read and agree to the",
+      "termsLink": "Terms of Service",
+      "and": "and",
+      "privacyLink": "Privacy Policy",
+      "mustAgree": "Please agree to the Terms of Service and Privacy Policy"
     },
     "forgotPassword": {
       "emailStep": {
@@ -2667,7 +2673,7 @@
   },
   "disclaimerPage": {
     "heading": "Disclaimer",
-    "lastUpdated": "Last updated: February 23, 2026",
+    "lastUpdated": "Last updated: March 23, 2026",
     "notOfficial": {
       "title": "1. Not an Official Platform",
       "p1": "HiTCF is an <b>independently operated third-party practice platform</b>. The Platform has <b>no affiliation, partnership, or authorization</b> with France Éducation international (formerly CIEP), the official TCF examination body, Immigration, Refugees and Citizenship Canada (IRCC), or any government agency.",
@@ -2718,7 +2724,7 @@
   },
   "termsPage": {
     "heading": "Terms of Service",
-    "lastUpdated": "Last updated: February 23, 2026",
+    "lastUpdated": "Last updated: March 23, 2026",
     "intro": "Welcome to HiTCF (hereinafter referred to as “the Platform” or “we”). The Platform is operated by HiTCF, registered in Canada. By using the Platform, you agree to the following terms. If you do not agree, please stop using the Platform.",
     "service": {
       "title": "1. Service Description",
@@ -2786,7 +2792,7 @@
   },
   "privacyPage": {
     "heading": "Privacy Policy",
-    "lastUpdated": "Last updated: February 23, 2026",
+    "lastUpdated": "Last updated: March 23, 2026",
     "intro": "HiTCF (hereinafter referred to as “the Platform” or “we”) values your privacy. This Privacy Policy explains how we collect, use, store, and protect your personal information, in compliance with Canada’s Personal Information Protection and Electronic Documents Act (PIPEDA).",
     "infoCollect": {
       "title": "1. Information We Collect",
@@ -2876,7 +2882,7 @@
   },
   "refundPage": {
     "heading": "Refund Policy",
-    "lastUpdated": "Last updated: February 23, 2026",
+    "lastUpdated": "Last updated: March 23, 2026",
     "intro": "Thank you for choosing HiTCF. This refund policy applies to all paid subscription services purchased through the Platform.",
     "freeTrial": {
       "title": "1. Free Trial",

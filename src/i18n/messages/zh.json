@@ -171,7 +171,8 @@
       "invalidEmail": "请输入有效的邮箱地址",
       "genericError": "登录失败，请稍后重试",
       "googleLogin": "使用 Google 登录",
-      "orDivider": "或"
+      "orDivider": "或",
+      "agreeHint": "登录即表示你同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>"
     },
     "register": {
       "title": "创建账号",
@@ -197,7 +198,12 @@
       "strengthMedium": "中",
       "strengthStrong": "强",
       "hasAccount": "已有账号？",
-      "login": "登录"
+      "login": "登录",
+      "agreeTerms": "我已阅读并同意",
+      "termsLink": "服务条款",
+      "and": "和",
+      "privacyLink": "隐私政策",
+      "mustAgree": "请先同意服务条款和隐私政策"
     },
     "forgotPassword": {
       "emailStep": {
@@ -2667,7 +2673,7 @@
   },
   "disclaimerPage": {
     "heading": "免责声明",
-    "lastUpdated": "最后更新：2026 年 2 月 23 日",
+    "lastUpdated": "最后更新：2026 年 3 月 23 日",
     "notOfficial": {
       "title": "1. 非官方平台",
       "p1": "HiTCF 是一个<b>独立运营的第三方练习平台</b>。本平台与法国国际教育研究中心（France Éducation international，原 CIEP）、TCF 官方考试机构、加拿大移民局（IRCC）或任何政府机构<b>无任何关联、合作或授权关系</b>。",
@@ -2718,7 +2724,7 @@
   },
   "termsPage": {
     "heading": "服务条款",
-    "lastUpdated": "最后更新：2026 年 2 月 23 日",
+    "lastUpdated": "最后更新：2026 年 3 月 23 日",
     "intro": "欢迎使用 HiTCF（以下简称“本平台”或“我们”）。本平台由 HiTCF 运营，注册地为加拿大。使用本平台即表示您同意以下条款。如不同意，请停止使用。",
     "service": {
       "title": "1. 服务内容",
@@ -2786,7 +2792,7 @@
   },
   "privacyPage": {
     "heading": "隐私政策",
-    "lastUpdated": "最后更新：2026 年 2 月 23 日",
+    "lastUpdated": "最后更新：2026 年 3 月 23 日",
     "intro": "HiTCF（以下简称“本平台”或“我们”）重视用户隐私。本隐私政策说明我们如何收集、使用、存储和保护您的个人信息，并符合加拿大《个人信息保护和电子文件法》（PIPEDA）的要求。",
     "infoCollect": {
       "title": "1. 我们收集的信息",
@@ -2876,7 +2882,7 @@
   },
   "refundPage": {
     "heading": "退款政策",
-    "lastUpdated": "最后更新：2026 年 2 月 23 日",
+    "lastUpdated": "最后更新：2026 年 3 月 23 日",
     "intro": "感谢选择 HiTCF。本退款政策适用于通过本平台购买的所有付费订阅服务。",
     "freeTrial": {
       "title": "1. 免费试用",

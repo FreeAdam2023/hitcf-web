@@ -171,7 +171,8 @@
       "invalidEmail": "Veuillez entrer une adresse e-mail valide",
       "genericError": "Échec de la connexion. Veuillez réessayer plus tard.",
       "googleLogin": "Continuer avec Google",
-      "orDivider": "ou"
+      "orDivider": "ou",
+      "agreeHint": "En vous connectant, vous acceptez nos <terms>Conditions d'utilisation</terms> et notre <privacy>Politique de confidentialité</privacy>"
     },
     "register": {
       "title": "Créer un compte",
@@ -197,7 +198,12 @@
       "strengthMedium": "Moyen",
       "strengthStrong": "Fort",
       "hasAccount": "Vous avez déjà un compte ?",
-      "login": "Se connecter"
+      "login": "Se connecter",
+      "agreeTerms": "J'ai lu et j'accepte les",
+      "termsLink": "Conditions d'utilisation",
+      "and": "et la",
+      "privacyLink": "Politique de confidentialité",
+      "mustAgree": "Veuillez accepter les conditions d'utilisation et la politique de confidentialité"
     },
     "forgotPassword": {
       "emailStep": {
@@ -2667,7 +2673,7 @@
   },
   "disclaimerPage": {
     "heading": "Avertissement",
-    "lastUpdated": "Dernière mise à jour : 23 février 2026",
+    "lastUpdated": "Dernière mise à jour : 23 mars 2026",
     "notOfficial": {
       "title": "1. Plateforme non officielle",
       "p1": "HiTCF est une <b>plateforme d'entraînement tierce exploitée de manière indépendante</b>. La Plateforme n'a <b>aucune affiliation, partenariat ou autorisation</b> avec France Éducation international (anciennement CIEP), l'organisme officiel d'examen du TCF, Immigration, Réfugiés et Citoyenneté Canada (IRCC), ou tout autre organisme gouvernemental.",
@@ -2718,7 +2724,7 @@
   },
   "termsPage": {
     "heading": "Conditions d'utilisation",
-    "lastUpdated": "Dernière mise à jour : 23 février 2026",
+    "lastUpdated": "Dernière mise à jour : 23 mars 2026",
     "intro": "Bienvenue sur HiTCF (ci-après dénommée « la Plateforme » ou « nous »). La Plateforme est exploitée par HiTCF, enregistrée au Canada. En utilisant la Plateforme, vous acceptez les conditions suivantes. Si vous n'êtes pas d'accord, veuillez cesser d'utiliser la Plateforme.",
     "service": {
       "title": "1. Description du service",
@@ -2786,7 +2792,7 @@
   },
   "privacyPage": {
     "heading": "Politique de confidentialité",
-    "lastUpdated": "Dernière mise à jour : 23 février 2026",
+    "lastUpdated": "Dernière mise à jour : 23 mars 2026",
     "intro": "HiTCF (ci-après dénommée « la Plateforme » ou « nous ») accorde une grande importance à votre vie privée. Cette Politique de confidentialité explique comment nous collectons, utilisons, stockons et protégeons vos informations personnelles, conformément à la Loi sur la protection des renseignements personnels et les documents électroniques du Canada (PIPEDA).",
     "infoCollect": {
       "title": "1. Informations que nous collectons",
@@ -2876,7 +2882,7 @@
   },
   "refundPage": {
     "heading": "Politique de remboursement",
-    "lastUpdated": "Dernière mise à jour : 23 février 2026",
+    "lastUpdated": "Dernière mise à jour : 23 mars 2026",
     "intro": "Merci d'avoir choisi HiTCF. Cette politique de remboursement s'applique à tous les services d'abonnement payant achetés via la Plateforme.",
     "freeTrial": {
       "title": "1. Essai gratuit",

@@ -195,6 +195,21 @@ function LoginForm() {
           {t("auth.login.register")}
         </Link>
       </div>
+
+      <p className="text-center text-[11px] text-muted-foreground/70 leading-relaxed">
+        {t.rich("auth.login.agreeHint", {
+          terms: (chunks) => (
+            <Link href="/terms-of-service" className="underline underline-offset-2 hover:text-muted-foreground" target="_blank">
+              {chunks}
+            </Link>
+          ),
+          privacy: (chunks) => (
+            <Link href="/privacy-policy" className="underline underline-offset-2 hover:text-muted-foreground" target="_blank">
+              {chunks}
+            </Link>
+          ),
+        })}
+      </p>
     </div>
   );
 }

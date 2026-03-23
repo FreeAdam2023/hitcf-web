@@ -25,7 +25,6 @@ import { createAttempt, getActiveAttempt } from "@/lib/api/attempts";
 import { cn } from "@/lib/utils";
 import { TYPE_COLORS } from "@/lib/constants";
 import { localizeTestName } from "@/lib/test-name";
-import { TCF_MAX_SCORE } from "@/lib/tcf-levels";
 import type { TestSetItem, ActiveAttemptResponse } from "@/lib/api/types";
 
 export interface TestAttemptInfo {

@@ -54,6 +54,7 @@ function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [agreed, setAgreed] = useState(false);
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -73,6 +74,10 @@ function RegisterForm() {
     e.preventDefault();
     setError("");
 
+    if (!agreed) {
+      setError(t("auth.register.mustAgree"));
+      return;
+    }
     if (!isValidEmail(email.trim())) {
       setError(t("auth.register.invalidEmail"));
       return;
@@ -255,6 +260,25 @@ function RegisterForm() {
               <PasswordStrength password={password} />
             </div>
 
+            <label className="flex items-start gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                className="mt-0.5 h-4 w-4 rounded border-border accent-primary"
+              />
+              <span className="text-xs text-muted-foreground leading-relaxed">
+                {t("auth.register.agreeTerms")}{" "}
+                <Link href="/terms-of-service" className="text-primary hover:underline underline-offset-2" target="_blank">
+                  {t("auth.register.termsLink")}
+                </Link>
+                {" "}{t("auth.register.and")}{" "}
+                <Link href="/privacy-policy" className="text-primary hover:underline underline-offset-2" target="_blank">
+                  {t("auth.register.privacyLink")}
+                </Link>
+              </span>
+            </label>
+
             {TURNSTILE_SITE_KEY && (
               <Turnstile
                 ref={turnstileRef}
@@ -270,7 +294,7 @@ function RegisterForm() {
             <Button
               type="submit"
               className="h-11 w-full bg-gradient-to-r from-primary to-violet-500 hover:from-primary/90 hover:to-violet-500/90"
-              disabled={loading || googleLoading || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+              disabled={loading || googleLoading || !agreed || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
             >
               {loading
                 ? t("auth.register.creating")
