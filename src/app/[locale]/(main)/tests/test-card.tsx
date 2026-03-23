@@ -25,6 +25,7 @@ import { createAttempt, getActiveAttempt } from "@/lib/api/attempts";
 import { cn } from "@/lib/utils";
 import { TYPE_COLORS } from "@/lib/constants";
 import { localizeTestName } from "@/lib/test-name";
+import { TCF_MAX_SCORE } from "@/lib/tcf-levels";
 import type { TestSetItem, ActiveAttemptResponse } from "@/lib/api/types";
 
 export interface TestAttemptInfo {
@@ -134,8 +135,10 @@ export function TestCard({
   const hasGoodScore = hasCompleted && attemptInfo!.bestScore! > 0;
   const hasInProgress = attemptInfo?.hasInProgress && !hasCompleted;
   const hasDrillOnly = !hasCompleted && !hasInProgress && (attemptInfo?.drillAnswered ?? 0) > 0;
+  const isTcfScored = test.type === "listening" || test.type === "reading";
+  const bestDenominator = isTcfScored ? TCF_MAX_SCORE : attemptInfo?.bestTotal ?? 1;
   const bestPct = hasCompleted
-    ? Math.round((attemptInfo!.bestScore! / attemptInfo!.bestTotal) * 100)
+    ? Math.round((attemptInfo!.bestScore! / bestDenominator) * 100)
     : null;
 
   const displayName = localizeTestName(t, test.type, test.name);
@@ -213,7 +216,7 @@ export function TestCard({
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                  {t("testCard.best", { score: attemptInfo!.bestScore!, total: attemptInfo!.bestTotal, pct: bestPct! })}
+                  {t("testCard.best", { score: attemptInfo!.bestScore!, total: bestDenominator, pct: bestPct! })}
                 </span>
               </div>
               <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden flex">
