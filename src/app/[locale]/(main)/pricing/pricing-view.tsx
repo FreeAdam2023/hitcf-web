@@ -266,6 +266,9 @@ export function PricingView() {
       {/*  BELOW THE FOLD: details for skeptics                        */}
       {/* ============================================================ */}
 
+      {/* ---- Testimonials ---- */}
+      <Testimonials />
+
       {/* ---- Free vs Pro ---- */}
       <div>
         <h2 className="mb-6 text-center text-lg font-bold tracking-tight">
@@ -348,9 +351,6 @@ export function PricingView() {
           ))}
         </div>
       </div>
-
-      {/* ---- Testimonials ---- */}
-      <Testimonials />
 
       {/* ---- FAQ ---- */}
       <div>
