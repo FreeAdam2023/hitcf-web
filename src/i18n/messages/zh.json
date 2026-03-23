@@ -345,6 +345,7 @@
   },
   "testCard": {
     "best": "最高 {score}/{total} ({pct}%)",
+    "bestTcf": "最高 {score} 分",
     "practiceMode": "练习模式",
     "practiceDesc": "无时间限制，每题作答后立即显示答案和解析",
     "examMode": "考试模式",

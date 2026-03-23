@@ -345,6 +345,7 @@
   },
   "testCard": {
     "best": "Meilleur {score}/{total} ({pct}%)",
+    "bestTcf": "Meilleur {score} pts",
     "practiceMode": "Mode entraînement",
     "practiceDesc": "Pas de limite de temps. Réponses et explications affichées après chaque question.",
     "examMode": "Mode examen",

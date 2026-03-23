@@ -345,6 +345,7 @@
   },
   "testCard": {
     "best": "الأفضل {score}/{total} ({pct}%)",
+    "bestTcf": "الأفضل {score} نقطة",
     "practiceMode": "وضع التدريب",
     "practiceDesc": "بدون حد زمني. تُعرض الإجابات والشروحات بعد كل سؤال.",
     "examMode": "وضع الاختبار",
