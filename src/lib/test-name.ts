@@ -53,6 +53,29 @@ export function localizeTestName(
 }
 
 /**
+ * Get a localized string from zh/en/ar variants.
+ * Falls back: locale-specific → fallback.
+ */
+export function getLocalizedField(
+  locale: string,
+  zh?: string | null,
+  en?: string | null,
+  ar?: string | null,
+  fallback?: string | null,
+): string | null {
+  switch (locale) {
+    case "zh":
+      return zh || fallback || null;
+    case "en":
+      return en || fallback || null;
+    case "ar":
+      return ar || fallback || null;
+    default:
+      return fallback || null;
+  }
+}
+
+/**
  * Get the localized topic string based on locale.
  * Falls back: locale-specific → French original.
  */
@@ -63,14 +86,5 @@ export function getLocalizedTopic(
   topicEn?: string | null,
   topicAr?: string | null,
 ): string | null {
-  switch (locale) {
-    case "zh":
-      return topicZh || topic || null;
-    case "en":
-      return topicEn || topic || null;
-    case "ar":
-      return topicAr || topic || null;
-    default:
-      return topic || null;
-  }
+  return getLocalizedField(locale, topicZh, topicEn, topicAr, topic);
 }

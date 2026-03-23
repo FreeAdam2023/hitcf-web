@@ -15,7 +15,8 @@ import {
   Mic,
   PenLine,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { getLocalizedField } from "@/lib/test-name";
 import { useSession } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { getSavedWordStats, listSavedWords, getNihaoStats, getThemeStats } from "@/lib/api/vocabulary";
@@ -47,6 +48,7 @@ const LEVEL_COLOR: Record<string, string> = {
 
 export function VocabularyView() {
   const t = useTranslations();
+  const locale = useLocale();
   const { data: session } = useSession();
   const [stats, setStats] = useState<SavedWordStats | null>(null);
   const [nihaoStats, setNihaoStats] = useState<NihaoStats | null>(null);
@@ -146,8 +148,8 @@ export function VocabularyView() {
                           {item.ipa && (
                             <span className="ml-2 text-xs text-muted-foreground font-mono">[{item.ipa}]</span>
                           )}
-                          {item.meaning_zh && (
-                            <span className="ml-2 text-sm text-muted-foreground">{item.meaning_zh}</span>
+                          {getLocalizedField(locale, item.meaning_zh, item.meaning_en, item.meaning_ar) && (
+                            <span className="ml-2 text-sm text-muted-foreground">{getLocalizedField(locale, item.meaning_zh, item.meaning_en, item.meaning_ar)}</span>
                           )}
                         </div>
                         {item.cefr_level && (

@@ -657,6 +657,7 @@ export interface SavedWordItem {
   // Joined from vocabulary_cards:
   meaning_zh: string | null;
   meaning_en: string | null;
+  meaning_ar?: string | null;
   meaning_native: string | null;
   ipa: string | null;
   cefr_level: string | null;
@@ -710,9 +711,12 @@ export interface ThemeWordItem {
   display_form: string;
   tag: string;
   tag_zh: string;
+  tag_en?: string;
+  tag_ar?: string;
   tag_category: string;
   meaning_zh: string | null;
   meaning_en: string | null;
+  meaning_ar?: string | null;
   example_fr: string | null;
   example_zh: string | null;
   part_of_speech: string | null;
@@ -725,6 +729,8 @@ export interface ThemeWordItem {
 export interface ThemeTagInfo {
   tag: string;
   tag_zh: string;
+  tag_en?: string;
+  tag_ar?: string;
   tag_category: string;
   count: number;
 }

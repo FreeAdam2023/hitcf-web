@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { Layers, Loader2, PenLine, Volume2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -11,10 +11,12 @@ import { WordCard } from "@/components/practice/word-card";
 import { ExportDialog } from "@/components/vocabulary/export-dialog";
 import { listThemeWords, getThemeFilters, getThemeStats } from "@/lib/api/vocabulary";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
+import { getLocalizedField } from "@/lib/test-name";
 import type { PaginatedResponse, ThemeWordItem, ThemeFilters, ThemeStats, ThemeTagInfo } from "@/lib/api/types";
 
 export function ThemeWordsView() {
   const t = useTranslations();
+  const locale = useLocale();
   const [data, setData] = useState<PaginatedResponse<ThemeWordItem> | null>(null);
   const [filters, setFilters] = useState<ThemeFilters | null>(null);
   const [stats, setStats] = useState<ThemeStats | null>(null);
@@ -171,7 +173,7 @@ export function ThemeWordsView() {
               <SelectItem value="all">{t("vocabulary.themeWords.filterAll")}</SelectItem>
               {filteredTags.map((t) => (
                 <SelectItem key={t.tag} value={t.tag}>
-                  {t.tag_zh} ({t.tag}) · {t.count}
+                  {getLocalizedField(locale, t.tag_zh, t.tag_en, t.tag_ar, t.tag)} ({t.tag}) · {t.count}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -210,6 +212,7 @@ export function ThemeWordsView() {
                 onWordClick={handleWordClick}
                 playingWord={playingWord}
                 showTag={!tag}
+                locale={locale}
               />
             ))}
 
@@ -258,12 +261,14 @@ function ThemeWordRow({
   onWordClick,
   playingWord,
   showTag,
+  locale,
 }: {
   item: ThemeWordItem;
   onSpeak: (word: string, url: string | null) => void;
   onWordClick: (word: string, el: HTMLElement) => void;
   playingWord: string | null;
   showTag: boolean;
+  locale: string;
 }) {
   return (
     <div className="flex items-center gap-3 rounded-lg border px-4 py-2.5 transition-colors hover:bg-accent/30">
@@ -276,7 +281,9 @@ function ThemeWordRow({
           >
             {item.display_form}
           </button>
-          {item.meaning_zh && <span className="text-sm">{item.meaning_zh}</span>}
+          {getLocalizedField(locale, item.meaning_zh, item.meaning_en, item.meaning_ar) && (
+            <span className="text-sm">{getLocalizedField(locale, item.meaning_zh, item.meaning_en, item.meaning_ar)}</span>
+          )}
         </div>
         {/* Row 2: IPA + audio + badges */}
         <div className="flex items-center gap-2">
@@ -298,7 +305,7 @@ function ThemeWordRow({
       {/* Right side: tag badge */}
       {showTag && (
         <span className="shrink-0 rounded-full bg-violet-100 dark:bg-violet-900/30 px-2 py-0.5 text-[10px] text-violet-700 dark:text-violet-300">
-          {item.tag_zh}
+          {getLocalizedField(locale, item.tag_zh, item.tag_en, item.tag_ar, item.tag)}
         </span>
       )}
     </div>

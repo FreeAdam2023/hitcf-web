@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { Loader2, Trash2, Volume2, Layers, PenLine, Hand, Sparkles } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { getLocalizedField } from "@/lib/test-name";
 import { useSession } from "next-auth/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ function isSourceType(v: string | null): v is SourceType {
 
 export function SavedWordsView() {
   const t = useTranslations();
+  const locale = useLocale();
   const { data: session } = useSession();
   const [data, setData] = useState<PaginatedResponse<SavedWordItem> | null>(null);
   const [loading, setLoading] = useState(true);
@@ -206,6 +208,7 @@ export function SavedWordsView() {
                 onSpeak={(word, url) => speak(word, url)}
                 playingWord={playingWord}
                 t={t}
+                locale={locale}
               />
             ))}
           </div>
@@ -246,12 +249,14 @@ function SavedWordRow({
   onSpeak,
   playingWord,
   t,
+  locale,
 }: {
   item: SavedWordItem;
   onDelete: (word: string) => void;
   onSpeak: (word: string, url: string | null) => void;
   playingWord: string | null;
   t: ReturnType<typeof useTranslations>;
+  locale: string;
 }) {
   return (
     <div className="flex items-start gap-3 rounded-lg border px-4 py-3 transition-colors hover:bg-accent/30">
@@ -277,9 +282,17 @@ function SavedWordRow({
         </div>
         {/* Meanings */}
         <div className="text-sm">
-          {item.meaning_zh && <span>{item.meaning_zh}</span>}
-          {item.meaning_en && item.meaning_zh && <span className="mx-1.5 text-muted-foreground">·</span>}
-          {item.meaning_en && <span className="text-muted-foreground">{item.meaning_en}</span>}
+          {(() => {
+            const primary = getLocalizedField(locale, item.meaning_zh, item.meaning_en, item.meaning_ar);
+            const secondary = locale === "zh" ? item.meaning_en : item.meaning_zh;
+            return (
+              <>
+                {primary && <span>{primary}</span>}
+                {primary && secondary && <span className="mx-1.5 text-muted-foreground">·</span>}
+                {secondary && <span className="text-muted-foreground">{secondary}</span>}
+              </>
+            );
+          })()}
         </div>
         {/* Source tag */}
         {item.source_type && isSourceType(item.source_type) && (
