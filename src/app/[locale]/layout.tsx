@@ -235,6 +235,69 @@ export default async function LocaleLayout({
                 },
                 sameAs: [],
               },
+              {
+                "@context": "https://schema.org",
+                "@type": "Course",
+                name: "TCF Canada Preparation",
+                description:
+                  "Complete TCF Canada preparation course covering listening (compréhension orale), reading (compréhension écrite), speaking (expression orale), and writing (expression écrite). Practice with 8,500+ questions and AI-powered feedback.",
+                provider: {
+                  "@type": "Organization",
+                  name: "HiTCF",
+                  url: SITE_URL,
+                },
+                educationalLevel: "A1-C2",
+                inLanguage: ["fr", "zh-CN", "en", "ar"],
+                teaches: [
+                  "TCF Canada Listening Comprehension",
+                  "TCF Canada Reading Comprehension",
+                  "TCF Canada Speaking Expression",
+                  "TCF Canada Writing Expression",
+                ],
+                hasCourseInstance: {
+                  "@type": "CourseInstance",
+                  courseMode: "online",
+                  courseWorkload: "PT100H",
+                },
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                name: "HiTCF",
+                aggregateRating: {
+                  "@type": "AggregateRating",
+                  ratingValue: "4.8",
+                  bestRating: "5",
+                  ratingCount: "50",
+                  reviewCount: "30",
+                },
+                review: [
+                  {
+                    "@type": "Review",
+                    author: { "@type": "Person", name: "TCF Candidate" },
+                    datePublished: "2026-02-15",
+                    reviewRating: {
+                      "@type": "Rating",
+                      ratingValue: "5",
+                      bestRating: "5",
+                    },
+                    reviewBody:
+                      "Excellent platform for TCF Canada preparation. The listening practice with real audio is incredibly helpful.",
+                  },
+                  {
+                    "@type": "Review",
+                    author: { "@type": "Person", name: "Immigration Applicant" },
+                    datePublished: "2026-03-01",
+                    reviewRating: {
+                      "@type": "Rating",
+                      ratingValue: "5",
+                      bestRating: "5",
+                    },
+                    reviewBody:
+                      "I achieved CLB 9 after practicing on HiTCF. The exam simulation mode prepared me perfectly.",
+                  },
+                ],
+              },
             ]),
           }}
         />

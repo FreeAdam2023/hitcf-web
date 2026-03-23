@@ -45,16 +45,39 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const post = getPostBySlug(slug);
 
   if (!post) {
     notFound();
   }
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.meta.title,
+    description: post.meta.description,
+    datePublished: post.meta.date,
+    author: { "@type": "Organization", name: "HiTCF" },
+    publisher: {
+      "@type": "Organization",
+      name: "HiTCF",
+      logo: { "@type": "ImageObject", url: "https://www.hitcf.com/logo.png" },
+    },
+    mainEntityOfPage: `https://www.hitcf.com/${locale}/blog/${slug}`,
+    keywords: post.meta.tags,
+    inLanguage: post.meta.locale,
+  };
+
   return (
-    <BlogPostView meta={post.meta}>
-      <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
-    </BlogPostView>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <BlogPostView meta={post.meta}>
+        <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
+      </BlogPostView>
+    </>
   );
 }
