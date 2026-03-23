@@ -24,6 +24,7 @@ import { getTestSet, getTestSetQuestions, getTestSetCompletion } from "@/lib/api
 import { createAttempt, getActiveAttempt } from "@/lib/api/attempts";
 import type { ActiveAttemptResponse } from "@/lib/api/types";
 import type { TestSetDetail, QuestionBrief } from "@/lib/api/types";
+import { localizeTestName } from "@/lib/test-name";
 
 function buildSpeakingPrompt(topic: QuestionBrief, isTache2: boolean): string {
   return isTache2
@@ -221,7 +222,7 @@ function WritingTestView({
           <div className="flex items-start gap-3">
             <PenLine className="mt-0.5 h-6 w-6 shrink-0 text-muted-foreground" />
             <div className="flex-1">
-              <CardTitle className="text-xl">{test.name}</CardTitle>
+              <CardTitle className="text-xl">{localizeTestName(t, test.type, test.name)}</CardTitle>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <Badge variant="outline">{t("testDetail.writingBadge")}</Badge>
                 {test.is_free && <Badge variant="secondary">{t("common.status.free")}</Badge>}
@@ -485,7 +486,7 @@ export default function TestDetailPage() {
   }
 
   const backLink = (
-    <Breadcrumb items={[{ label: t("testDetail.breadcrumbTests"), href: `/tests?tab=${test.type}` }, { label: test.name }]} />
+    <Breadcrumb items={[{ label: t("testDetail.breadcrumbTests"), href: `/tests?tab=${test.type}` }, { label: localizeTestName(t, test.type, test.name) }]} />
   );
 
   // Speaking type: show topics with ChatGPT buttons
@@ -499,7 +500,7 @@ export default function TestDetailPage() {
             <div className="flex items-start gap-3">
               <MessageCircle className="mt-0.5 h-6 w-6 shrink-0 text-muted-foreground" />
               <div className="flex-1">
-                <CardTitle className="text-xl">{test.name}</CardTitle>
+                <CardTitle className="text-xl">{localizeTestName(t, test.type, test.name)}</CardTitle>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
                   <Badge variant="outline">{t("testDetail.speakingBadge")}</Badge>
                   <Badge variant="outline">
@@ -576,7 +577,7 @@ export default function TestDetailPage() {
           <div className="flex items-start gap-3">
             <TypeIcon className="mt-0.5 h-6 w-6 shrink-0 text-muted-foreground" />
             <div className="flex-1">
-              <CardTitle className="text-xl">{test.name}</CardTitle>
+              <CardTitle className="text-xl">{localizeTestName(t, test.type, test.name)}</CardTitle>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <Badge variant="outline">
                   {test.type === "listening" ? t("common.types.listening") : t("common.types.reading")}

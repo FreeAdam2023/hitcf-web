@@ -21,6 +21,7 @@ import { getImageUrl } from "@/lib/api/media";
 import { useTranslations } from "next-intl";
 import type { WrongAnswerItem, WrongAnswerDetail } from "@/lib/api/types";
 import { TYPE_COLORS } from "@/lib/constants";
+import { localizeTestName } from "@/lib/test-name";
 
 const TYPE_ICONS: Record<string, React.ElementType> = {
   listening: Headphones,
@@ -121,7 +122,7 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
             <div className="min-w-0 flex-1 space-y-1.5">
               <div className="flex flex-wrap items-center gap-2">
                 {item.test_set_name && (
-                  <span className="text-xs text-muted-foreground">{item.test_set_name}</span>
+                  <span className="text-xs text-muted-foreground">{localizeTestName(t, item.question_type || "", item.test_set_name)}</span>
                 )}
                 {item.question_number && (
                   <span className="text-sm font-medium">#{item.question_number}</span>

@@ -15,6 +15,7 @@ import { WordScoreList } from "@/components/speaking/word-score-list";
 import { getSpeakingAttempt } from "@/lib/api/speaking-attempts";
 import type { SpeakingAttemptResponse } from "@/lib/api/types";
 import type { PronunciationScores } from "@/hooks/use-speech-assessment";
+import { localizeTestName } from "@/lib/test-name";
 import type { WordScore } from "@/hooks/use-speech-assessment";
 
 function formatDuration(seconds: number): string {
@@ -102,7 +103,7 @@ export default function SpeakingResultsPage() {
           <div>
             <h2 className="text-lg font-semibold">{t("speakingPractice.results.title")}</h2>
             <p className="text-sm lg:text-base text-muted-foreground">
-              {attempt.test_set_name}
+              {attempt.test_set_name ? localizeTestName(t, "speaking", attempt.test_set_name) : ""}
             </p>
           </div>
         </div>

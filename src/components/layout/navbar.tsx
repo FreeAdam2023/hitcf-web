@@ -24,6 +24,7 @@ import { completeAttempt } from "@/lib/api/attempts";
 import { UserMenu } from "./user-menu";
 import { NotificationBell } from "./notification-bell";
 import { cn, parseUTCms } from "@/lib/utils";
+import { localizeTestName } from "@/lib/test-name";
 
 const NAV_KEYS = [
   { href: "/tests", key: "nav.tests" },
@@ -104,7 +105,11 @@ function ImmersiveHeader() {
   const pathname = usePathname();
   const isExam = pathname.startsWith("/exam/");
   const label = isExam ? t('common.modes.exam') : t('common.modes.practice');
-  const testSetName = usePracticeStore((s) => s.testSetName);
+  const rawTestSetName = usePracticeStore((s) => s.testSetName);
+  const testSetType = usePracticeStore((s) => s.testSetType);
+  const testSetName = rawTestSetName && testSetType
+    ? localizeTestName(t, testSetType, rawTestSetName)
+    : rawTestSetName;
   const answersSize = usePracticeStore((s) => s.answers.size);
   const totalQuestions = usePracticeStore((s) => s.questions.length);
   const practiceAttemptId = usePracticeStore((s) => s.attemptId);

@@ -10,6 +10,7 @@ import { LevelBadge } from "@/components/shared/level-badge";
 import { getTcfPoints } from "@/lib/tcf-levels";
 import { FrenchText, type WordSaveContext } from "./french-text";
 import { PassageContent } from "./passage-content";
+import { localizeTestName } from "@/lib/test-name";
 
 const LISTENING_INSTRUCTIONS: Record<string, { fr: string; en: string; zhKey: string }> = {
   image: {
@@ -123,7 +124,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
             <>
               <span className="text-border">|</span>
               <span>
-                {question.test_set_name}
+                {localizeTestName(t, isListening ? "listening" : "reading", question.test_set_name!)}
                 {question.original_question_number != null && ` · Q${question.original_question_number}`}
               </span>
             </>

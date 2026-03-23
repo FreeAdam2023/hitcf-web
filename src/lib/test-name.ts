@@ -12,8 +12,7 @@ export function localizeTestName(
   type: string,
   rawName: string,
 ): string {
-  // Only localize standard names like "阅读测试 1" / "Compréhension Écrite test 01"
-  // Non-standard names (补充测试, 免费测试, etc.) are returned as-is
+  // Standard names: "听力测试 1" / "Compréhension Écrite test 01"
   const standardPattern = /^(?:听力测试|阅读测试|口语测试|写作测试|Compréhension\s+(?:Orale|Écrite)\s+test|Expression\s+(?:Orale|Écrite)\s+test)\s*(\d+)$/i;
   const match = rawName.match(standardPattern);
   if (match) {
@@ -29,5 +28,26 @@ export function localizeTestName(
       return t(key, { num });
     }
   }
+
+  // Supplementary tests: "听力补充测试 1" / "阅读补充测试 2"
+  const suppPattern = /^(?:听力补充测试|阅读补充测试|Supplementary\s+(?:Listening|Reading)\s+Test)\s*(\d+)$/i;
+  const suppMatch = rawName.match(suppPattern);
+  if (suppMatch) {
+    const num = suppMatch[1];
+    const suppKeyMap: Record<string, string> = {
+      listening: "tests.listeningSupplementaryName",
+      reading: "tests.readingSupplementaryName",
+    };
+    const key = suppKeyMap[type];
+    if (key) {
+      return t(key, { num });
+    }
+  }
+
+  // Random mock exam: "随机模考"
+  if (rawName === "随机模考" || rawName === "Random Mock Exam") {
+    return t("tests.randomMockExam");
+  }
+
   return rawName;
 }
