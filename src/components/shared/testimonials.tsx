@@ -57,12 +57,7 @@ export function Testimonials() {
                   height={40}
                   className="rounded-full object-cover"
                 />
-                <div>
-                  <div className="text-sm font-medium">{review.name}</div>
-                  <div className="text-xs text-muted-foreground">
-                    TCF Canada Candidate
-                  </div>
-                </div>
+                <div className="text-sm font-medium">{review.name}</div>
               </div>
             </div>
           ))}
