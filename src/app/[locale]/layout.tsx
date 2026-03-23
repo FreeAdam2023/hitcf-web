@@ -197,7 +197,7 @@ export default async function LocaleLayout({
                       bestRating: "5",
                     },
                     reviewBody:
-                      "您这个听力是设计的最好的。其他的都没有您这个好用。你的设计很懂客户需求。",
+                      "您这个听力是设计的最好的。其他的都没有您这个好用，我试用过了就买会员。你的设计很懂客户需求。",
                   },
                   {
                     "@type": "Review",
