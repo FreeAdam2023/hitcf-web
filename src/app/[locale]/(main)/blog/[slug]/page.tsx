@@ -62,9 +62,9 @@ export default async function BlogPostPage({ params }: PageProps) {
     publisher: {
       "@type": "Organization",
       name: "HiTCF",
-      logo: { "@type": "ImageObject", url: "https://www.hitcf.com/logo.png" },
+      logo: { "@type": "ImageObject", url: "https://hitcf.com/logo.png" },
     },
-    mainEntityOfPage: `https://www.hitcf.com/${locale}/blog/${slug}`,
+    mainEntityOfPage: `https://hitcf.com/${locale}/blog/${slug}`,
     keywords: post.meta.tags,
     inLanguage: post.meta.locale,
   };

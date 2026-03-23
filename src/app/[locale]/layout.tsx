@@ -26,7 +26,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-const SITE_URL = "https://www.hitcf.com";
+const SITE_URL = "https://hitcf.com";
 
 export const viewport: Viewport = {
   width: "device-width",

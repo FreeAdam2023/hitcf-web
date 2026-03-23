@@ -19,7 +19,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
   const pathname = usePathname();
 
   // Build BreadcrumbList JSON-LD for SEO
-  const origin = "https://www.hitcf.com";
+  const origin = "https://hitcf.com";
   const locale = pathname.split("/")[1] || "zh";
   const jsonLd = {
     "@context": "https://schema.org",

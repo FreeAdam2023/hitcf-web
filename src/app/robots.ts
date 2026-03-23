@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/*/practice/", "/*/exam/", "/*/results/"],
       },
     ],
-    sitemap: "https://www.hitcf.com/sitemap.xml",
+    sitemap: "https://hitcf.com/sitemap.xml",
   };
 }

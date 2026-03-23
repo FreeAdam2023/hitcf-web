@@ -25,6 +25,6 @@ describe("robots", () => {
   });
 
   it("should include sitemap URL", () => {
-    expect(config.sitemap).toBe("https://www.hitcf.com/sitemap.xml");
+    expect(config.sitemap).toBe("https://hitcf.com/sitemap.xml");
   });
 });

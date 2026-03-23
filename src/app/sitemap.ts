@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllSlugs } from "@/lib/blog";
 
-const SITE_URL = "https://www.hitcf.com";
+const SITE_URL = "https://hitcf.com";
 const LOCALES = ["zh", "en", "fr", "ar"];
 
 function localizedEntries(

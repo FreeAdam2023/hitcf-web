@@ -60,7 +60,7 @@ export function ReferralView() {
   }, [isAuthenticated, fetchData]);
 
   const referralLink = stats?.referral_code
-    ? `${typeof window !== "undefined" ? window.location.origin : "https://www.hitcf.com"}/en/register?ref=${stats.referral_code}`
+    ? `${typeof window !== "undefined" ? window.location.origin : "https://hitcf.com"}/en/register?ref=${stats.referral_code}`
     : "";
 
   const copyCode = useCallback(async () => {
