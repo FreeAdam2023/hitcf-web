@@ -48,8 +48,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   hasActiveSubscription: () => {
     const { user } = get();
-    const status = user?.subscription?.status;
-    return status === "active" || status === "trialing";
+    const sub = user?.subscription;
+    if (!sub) return false;
+    if (sub.status === "active") return true;
+    if (sub.status === "trialing") {
+      if (sub.trial_end && new Date(sub.trial_end) < new Date()) return false;
+      return true;
+    }
+    return false;
   },
 
   isAdmin: () => {
