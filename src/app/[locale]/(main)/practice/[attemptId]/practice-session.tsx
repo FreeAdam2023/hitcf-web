@@ -789,6 +789,7 @@ export function PracticeSession() {
   const allAnswered = totalAnswered >= questions.length;
 
   return (
+    <>
     <div className="grid gap-2 lg:gap-3 lg:grid-cols-[220px_1fr_360px] lg:h-full lg:overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
       {/* 左侧：题号导航 (桌面) */}
       <div className="hidden lg:block overflow-y-auto scrollbar-on-hover rounded-xl bg-card border shadow-sm p-3">
@@ -962,11 +963,12 @@ export function PracticeSession() {
           </Button>
         </div>
 
-        {/* 键盘快捷键提示 (仅桌面) */}
-        <div className="hidden lg:flex items-center justify-center gap-4 text-[11px] text-muted-foreground/60">
-          <span><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">A</kbd>-<kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">D</kbd> {t("practice.session.kbSelect")}</span>
-          <span><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Enter</kbd> {t("practice.session.kbConfirm")}</span>
-          <span><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">←</kbd> <kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">→</kbd> {t("practice.session.kbNavigate")}</span>
+        {/* 提示栏 */}
+        <div className="flex items-center justify-center gap-4 text-[11px] text-muted-foreground/60 flex-wrap">
+          <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">A</kbd>-<kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">D</kbd> {t("practice.session.kbSelect")}</span>
+          <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Enter</kbd> {t("practice.session.kbConfirm")}</span>
+          <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">←</kbd> <kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">→</kbd> {t("practice.session.kbNavigate")}</span>
+          <span>💡 {t("practice.wordCardHint")}</span>
         </div>
 
         {/* 听力原文 / 阅读逐句翻译 — 答题后展开 */}
@@ -1078,7 +1080,9 @@ export function PracticeSession() {
         </div>
       </div>
 
-      {/* Mobile bottom navigation bar */}
+    </div>
+
+      {/* Mobile bottom navigation bar — outside grid to ensure fixed works on iOS */}
       <div className="fixed bottom-0 left-0 right-0 z-30 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-[env(safe-area-inset-bottom)] lg:hidden">
         <div className="flex items-center justify-between px-4 py-2">
           <Button
@@ -1158,6 +1162,6 @@ export function PracticeSession() {
         used={quotaModal.used}
         limit={quotaModal.limit}
       />
-    </div>
+    </>
   );
 }
