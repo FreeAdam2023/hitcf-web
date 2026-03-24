@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { Toaster } from "sonner";
 import { CommunityFab } from "@/components/layout/community-fab";
+import { MobileTabBar } from "@/components/layout/mobile-tab-bar";
 import { UtmTracker } from "@/components/shared/utm-tracker";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { routing } from "@/i18n/routing";
@@ -312,6 +313,7 @@ export default async function LocaleLayout({
           <AuthProvider>
             <LocaleProvider locale={locale}>
               {children}
+              <MobileTabBar />
               <CommunityFab />
               <UtmTracker />
             </LocaleProvider>

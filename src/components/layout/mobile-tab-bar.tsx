@@ -1,11 +1,12 @@
 "use client";
 
-import { BookOpen, RotateCcw, Languages, Clock, User } from "lucide-react";
+import { BookOpen, RotateCcw, Languages, Clock, User, Home } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { useAuthStore } from "@/stores/auth-store";
 import { cn } from "@/lib/utils";
 
-const TABS = [
+const TABS_LOGGED_IN = [
   { href: "/tests", icon: BookOpen, labelKey: "nav.tests" },
   { href: "/review", icon: RotateCcw, labelKey: "nav.review" },
   { href: "/vocabulary", icon: Languages, labelKey: "nav.vocabulary" },
@@ -13,14 +14,24 @@ const TABS = [
   { href: "/profile", icon: User, labelKey: "nav.profile" },
 ] as const;
 
+const TABS_GUEST = [
+  { href: "/", icon: Home, labelKey: "nav.home" },
+  { href: "/tests", icon: BookOpen, labelKey: "nav.tests" },
+  { href: "/pricing", icon: Languages, labelKey: "nav.pricing" },
+  { href: "/login", icon: User, labelKey: "nav.profile" },
+] as const;
+
 export function MobileTabBar() {
   const t = useTranslations();
   const pathname = usePathname();
+  const user = useAuthStore((s) => s.user);
 
   // Hide on immersive pages
   if (pathname.startsWith("/practice/") || pathname.startsWith("/exam/")) {
     return null;
   }
+
+  const TABS = user ? TABS_LOGGED_IN : TABS_GUEST;
 
   return (
     <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border/50 bg-background/95 backdrop-blur-xl md:hidden pb-[env(safe-area-inset-bottom)]">

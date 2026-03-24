@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
@@ -1082,8 +1083,9 @@ export function PracticeSession() {
 
     </div>
 
-      {/* Mobile bottom navigation bar — outside grid to ensure fixed works on iOS */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-[env(safe-area-inset-bottom)] lg:hidden">
+      {/* Mobile bottom navigation bar — portal to body to avoid transform breaking fixed on iOS */}
+      {typeof document !== "undefined" && createPortal(
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/50 bg-background/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)] lg:hidden">
         <div className="flex items-center justify-between px-4 py-2">
           <Button
             variant="ghost"
@@ -1120,7 +1122,8 @@ export function PracticeSession() {
             </Button>
           )}
         </div>
-      </div>
+      </div>,
+      document.body)}
 
       {/* Mobile floating navigator (question grid) */}
       <Sheet>
