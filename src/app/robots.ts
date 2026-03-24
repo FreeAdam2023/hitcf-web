@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/*/practice/", "/*/exam/", "/*/results/"],
+        disallow: ["/api/", "/*/practice/", "/*/exam/", "/*/results/", "/*/shan", "/*/cheng"],
       },
       // AI crawlers — explicitly allow for GEO visibility
       { userAgent: "GPTBot", allow: "/" },

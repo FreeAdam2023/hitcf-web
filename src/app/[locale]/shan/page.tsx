@@ -63,19 +63,7 @@ const FISH_COLORS = ["#ff9966", "#ffcc66", "#66cccc", "#99cc99", "#cc99cc"];
 // ─── Main Component ─────────────────────────────────────────────
 export default function ShanPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [message, setMessage] = useState(0);
   const animRef = useRef<number>(0);
-
-  const messages = [
-    "For Shan 💚",
-    "像百合一样纯净",
-    "像大海一样辽阔",
-    "像绿色一样生机勃勃",
-    "想和你去武汉吃热干面 🍜",
-    "也想和你吃一碗麻辣烫 🌶️",
-    "黄鹤楼上看长江 🏯",
-    "你是我生命中最美的风景 🌊🌿",
-  ];
 
   const initLilies = useCallback((w: number, h: number): Lily[] => {
     const lilies: Lily[] = [];
@@ -107,10 +95,7 @@ export default function ShanPage() {
     let w = (canvas.width = window.innerWidth);
     let h = (canvas.height = window.innerHeight);
 
-    // Message rotation
-    const msgInterval = setInterval(() => {
-      setMessage((prev) => (prev + 1) % messages.length);
-    }, 4000);
+    const msgInterval: ReturnType<typeof setInterval> | null = null;
 
     // Initialize waves
     const waves: Wave[] = OCEAN_GREENS.map((color, i) => ({
@@ -359,23 +344,14 @@ export default function ShanPage() {
 
     return () => {
       cancelAnimationFrame(animRef.current);
-      clearInterval(msgInterval);
+      if (msgInterval) clearInterval(msgInterval);
       window.removeEventListener("resize", handleResize);
     };
-  }, [initLilies, messages.length]);
+  }, [initLilies]);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-[#0a2e1a]">
       <canvas ref={canvasRef} className="absolute inset-0" />
-      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        <p
-          key={message}
-          className="text-2xl sm:text-4xl font-light text-green-100/90 tracking-wide animate-in fade-in zoom-in duration-1000"
-          style={{ textShadow: "0 0 30px rgba(100, 255, 150, 0.4)" }}
-        >
-          {messages[message]}
-        </p>
-      </div>
     </div>
   );
 }
