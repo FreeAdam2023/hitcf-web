@@ -1084,7 +1084,10 @@ export function PracticeSession() {
           <Button
             variant="outline"
             size="icon"
-            className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden"
+            className={cn(
+              "fixed right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden transition-all",
+              currentAnswer ? "bottom-[calc(4rem+env(safe-area-inset-bottom))]" : "bottom-[calc(1rem+env(safe-area-inset-bottom))]"
+            )}
           >
             <LayoutGrid className="h-5 w-5" />
           </Button>

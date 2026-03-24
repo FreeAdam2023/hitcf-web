@@ -701,7 +701,8 @@
       "duplicate": "Vous avez déjà signalé ce type de problème",
       "cancel": "Annuler",
       "submit": "Envoyer le signalement"
-    }
+    },
+    "wordCardHint": "Cliquez sur un mot pour sa définition et prononciation"
   },
   "audio": {
     "loadError": "Échec du chargement audio",
@@ -2515,20 +2516,20 @@
     "ogImageAlt": "HiTCF — Plateforme d'entraînement en ligne TCF Canada",
     "keywords": "TCF Canada,NCLC 7,entraînement TCF,compréhension orale TCF,compréhension écrite TCF,préparation TCF Canada,français immigration Canada,simulation TCF en ligne,questions TCF,vocabulaire TCF,Anki français,cartes mémoire français",
     "home": {
-      "title": "HiTCF — Entraînez-vous pour atteindre le NCLC 7 | Entraînement en ligne TCF Canada",
-      "description": "Plus de {totalQuestions} questions d'entraînement TCF Canada couvrant compréhension orale, compréhension écrite, expression orale et écrite. Mode entraînement + mode examen + cahier d'erreurs — préparez-vous systématiquement au NCLC 7."
+      "title": "HiTCF — Entraînement TCF Canada | NCLC 7+",
+      "description": "{totalQuestions}+ questions TCF Canada : écoute, lecture, expression orale et écrite. Entraînement, examen simulé et cahier d'erreurs pour le NCLC 7+."
     },
     "tests": {
-      "title": "Banque de questions TCF Canada · Plus de {totalQuestions} questions de compréhension orale, écrite, expression orale et écrite",
-      "description": "Banque complète de questions simulées TCF Canada pour la compréhension orale, écrite, l'expression orale et écrite. {listeningSets} séries d'écoute avec audio + réécoute par phrase, {readingSets} séries de lecture, niveaux A1-C2."
+      "title": "Banque de questions TCF Canada · {totalQuestions}+",
+      "description": "Banque TCF Canada : {listeningSets} séries d'écoute avec audio phrase par phrase, {readingSets} séries de lecture, oral et écrit. Niveaux A1 à C2."
     },
     "dashboard": {
       "title": "Mon tableau de bord · Préparation NCLC 7 et statistiques d'entraînement",
       "description": "Consultez votre préparation au NCLC 7, la précision en compréhension orale et écrite, les statistiques d'entraînement et les jours consécutifs. Suivez votre progression par rapport à l'objectif de 78 % de précision."
     },
     "pricing": {
-      "title": "Tarifs · 14 jours d'essai gratuit sur le plan annuel pour toutes les questions TCF + outils de vocabulaire",
-      "description": "Tarifs HiTCF : séries gratuites pour commencer, Pro débloque les plus de 8 500+ questions, le mode examen, le cahier d'erreurs, les cartes mémoire de vocabulaire, la dictée et l'export Anki. 14 jours d'essai gratuit sur le plan annuel, annulation à tout moment."
+      "title": "Tarifs HiTCF · Essai gratuit disponible",
+      "description": "Tarifs HiTCF : séries gratuites pour débuter, Pro débloque 8 500+ questions, mode examen et cahier d'erreurs. Essai gratuit 14 jours, annulation à tout moment."
     },
     "speedDrill": {
       "title": "Pratique par niveau · Entraînement ciblé par niveau et type de question",

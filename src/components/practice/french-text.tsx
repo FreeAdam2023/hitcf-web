@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { WordCard } from "./word-card";
 
 /** Regex to tokenize French text preserving words with accents, apostrophes, hyphens, and numbers */
@@ -73,11 +74,34 @@ function extractSentence(text: string, word: string): string | undefined {
  * Wraps French text, making each word clickable for vocabulary lookup.
  * Skips single-letter tokens (l', d', n', etc.).
  */
+const HINT_STORAGE_KEY = "hitcf-word-card-hint-dismissed";
+
 export function FrenchText({ text, disabled, className, saveContext, sentenceTranslations }: FrenchTextProps) {
+  const t = useTranslations("practice");
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [selectedSentence, setSelectedSentence] = useState<string | undefined>(undefined);
   const [selectedSentenceTranslation, setSelectedSentenceTranslation] = useState<string | undefined>(undefined);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [showHint, setShowHint] = useState(false);
+
+  // Show hint only once per user
+  useEffect(() => {
+    if (disabled) return;
+    const dismissed = localStorage.getItem(HINT_STORAGE_KEY);
+    if (!dismissed) {
+      setShowHint(true);
+      const timer = setTimeout(() => {
+        setShowHint(false);
+        localStorage.setItem(HINT_STORAGE_KEY, "1");
+      }, 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [disabled]);
+
+  const dismissHint = useCallback(() => {
+    setShowHint(false);
+    localStorage.setItem(HINT_STORAGE_KEY, "1");
+  }, []);
 
   const handleWordClick = useCallback(
     (e: React.MouseEvent<HTMLSpanElement>, word: string) => {
@@ -140,12 +164,20 @@ export function FrenchText({ text, disabled, className, saveContext, sentenceTra
 
   return (
     <span className={className}>
+      {showHint && (
+        <span
+          className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-[11px] text-blue-500 dark:bg-blue-950/40 dark:text-blue-400 animate-in fade-in duration-500 cursor-pointer mr-1"
+          onClick={dismissHint}
+        >
+          💡 {t("wordCardHint")}
+        </span>
+      )}
       {parts.map((part, i) =>
         part.isWord && (part.text.replace(/^['-]+|['-]+$/g, "").length > 1 || /^\d+$/.test(part.text)) ? (
           <span
             key={i}
             className="cursor-pointer rounded-sm transition-colors hover:bg-blue-100/70 hover:text-blue-700 dark:hover:bg-blue-900/30 dark:hover:text-blue-300"
-            onClick={(e) => handleWordClick(e, part.text)}
+            onClick={(e) => { dismissHint(); handleWordClick(e, part.text); }}
           >
             {part.text}
           </span>

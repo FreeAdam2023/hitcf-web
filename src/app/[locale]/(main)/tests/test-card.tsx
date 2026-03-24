@@ -134,9 +134,6 @@ export function TestCard({
   const hasGoodScore = hasCompleted && attemptInfo!.bestScore! > 0;
   const hasInProgress = attemptInfo?.hasInProgress && !hasCompleted;
   const hasDrillOnly = !hasCompleted && !hasInProgress && (attemptInfo?.drillAnswered ?? 0) > 0;
-  const isTcfScored = test.type === "listening" || test.type === "reading";
-  // Progress bar: for TCF scored tests, score/total can exceed 100% (score is TCF points, not correct count)
-  // Cap at 100% for the bar, but use TCF format for the label
   const bestPct = hasCompleted
     ? Math.min(Math.round((attemptInfo!.bestScore! / attemptInfo!.bestTotal) * 100), 100)
     : null;
@@ -216,9 +213,7 @@ export function TestCard({
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                  {isTcfScored
-                    ? t("testCard.bestTcf", { score: attemptInfo!.bestScore! })
-                    : t("testCard.best", { score: attemptInfo!.bestScore!, total: attemptInfo!.bestTotal, pct: bestPct! })}
+                  {t("testCard.best", { score: attemptInfo!.bestScore!, total: attemptInfo!.bestTotal, pct: bestPct! })}
                 </span>
               </div>
               <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden flex">

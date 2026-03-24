@@ -701,7 +701,8 @@
       "duplicate": "You have already reported this issue type",
       "cancel": "Cancel",
       "submit": "Submit Feedback"
-    }
+    },
+    "wordCardHint": "Click any word for definition & pronunciation"
   },
   "audio": {
     "loadError": "Failed to load audio",
@@ -2515,20 +2516,20 @@
     "ogImageAlt": "HiTCF — TCF Canada Online Practice Platform",
     "keywords": "TCF Canada,CLB 7+,TCF practice,TCF listening,TCF reading,TCF Canada prep,Canada immigration French,TCF online mock,TCF questions,TCF vocabulary,French Anki,French flashcards",
     "home": {
-      "title": "HiTCF — Practice Your Way to CLB 7+ | TCF Canada Online Practice",
-      "description": "{totalQuestions} TCF Canada practice questions covering listening, reading, speaking & writing. Practice mode + exam mode + wrong answer notebook — systematically prepare for CLB 7+."
+      "title": "HiTCF — TCF Canada Practice | CLB 7+",
+      "description": "{totalQuestions}+ TCF Canada questions for listening, reading, speaking & writing. Practice mode, exam mode & wrong answer notebook to reach CLB 7+."
     },
     "tests": {
-      "title": "TCF Canada Question Bank · {totalQuestions} Listening, Reading, Speaking & Writing Questions",
-      "description": "TCF Canada full mock question bank for listening, reading, speaking & writing. {listeningSets} listening sets with audio + sentence replay, {readingSets} reading sets, A1-C2 coverage."
+      "title": "TCF Canada Question Bank · {totalQuestions}+",
+      "description": "Full TCF Canada mock question bank: {listeningSets} listening sets with audio + sentence replay, {readingSets} reading sets, speaking & writing. A1-C2 coverage."
     },
     "dashboard": {
       "title": "My Dashboard · CLB 7+ Readiness & Practice Stats",
       "description": "View your CLB 7+ readiness, listening & reading accuracy, practice stats, and streak days. Track your progress against the 78% target accuracy."
     },
     "pricing": {
-      "title": "Pricing · 14-Day Free Trial on Yearly Plan for All TCF Questions + Vocab Tools",
-      "description": "HiTCF pricing: free sets to start, Pro unlocks all 8,500+ questions, exam mode, wrong answer notebook, vocabulary flashcards, dictation & Anki export. 14-day free trial on yearly plan, cancel anytime."
+      "title": "HiTCF Pricing · Free Trial Available",
+      "description": "HiTCF pricing: free sets to start, Pro unlocks 8,500+ questions, exam mode, wrong answer notebook & vocabulary tools. Yearly plan includes 14-day free trial."
     },
     "speedDrill": {
       "title": "Level Practice · Targeted Practice by Level & Question Type",

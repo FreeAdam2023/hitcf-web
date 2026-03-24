@@ -701,7 +701,8 @@
       "duplicate": "您已反馈过该问题类型",
       "cancel": "取消",
       "submit": "提交反馈"
-    }
+    },
+    "wordCardHint": "点击单词可查看释义和发音"
   },
   "audio": {
     "loadError": "无法加载音频",
@@ -2515,20 +2516,20 @@
     "ogImageAlt": "HiTCF — TCF Canada 在线练习平台",
     "keywords": "TCF Canada,CLB 7+,TCF 练习,TCF 听力,TCF 阅读,TCF Canada 备考,加拿大移民法语,TCF 在线模拟,TCF 练习题,TCF 词汇,法语 Anki,法语翻卡",
     "home": {
-      "title": "HiTCF — CLB 7+，练出来的 | TCF Canada 在线练习",
-      "description": "{totalQuestions} 道 TCF Canada 练习题，覆盖听力、阅读、口语、写作。练习模式 + 考试模式 + 错题本，助你系统备考冲刺 CLB 7+。"
+      "title": "HiTCF — TCF Canada 在线练习 | CLB 7+",
+      "description": "{totalQuestions} 道 TCF Canada 练习题，覆盖听力、阅读、口语、写作四大科目。练习模式 + 考试模式 + 错题本 + 生词本 + Anki 导出，助你系统备考冲刺 CLB 7+。"
     },
     "tests": {
-      "title": "TCF Canada 题库 · {totalQuestions} 道听力阅读口语写作练习题",
-      "description": "TCF Canada 听力、阅读、口语、写作全真模拟题库。{listeningSets} 套听力含音频 + 逐句精听，{readingSets} 套阅读，覆盖 A1-C2 全等级。"
+      "title": "TCF Canada 题库 · {totalQuestions}+ 道练习题",
+      "description": "TCF Canada 听力、阅读、口语、写作全真模拟题库。{listeningSets} 套听力含音频逐句精听，{readingSets} 套阅读，口语 AI 对话练习，写作 AI 批改，A1-C2 全等级覆盖。"
     },
     "dashboard": {
       "title": "我的仪表盘 · CLB 7+ 准备度与练习统计",
       "description": "查看你的 CLB 7+ 准备度、听力和阅读正确率、练习统计、连续打卡天数。实时追踪与 78% 目标正确率的差距。"
     },
     "pricing": {
-      "title": "订阅方案 · 年付享 14 天免费试用全部 TCF 题库 + 词汇工具",
-      "description": "HiTCF 订阅方案：免费题套直接练习，Pro 版解锁全部 8,500+ 道题、考试模式、错题本、生词本、翻卡复习、听写练习和 Anki 导出。年付 14 天免费试用，随时取消。"
+      "title": "HiTCF 订阅方案 · 年付享 14 天免费试用",
+      "description": "HiTCF 订阅方案：免费题套直接练习，Pro 版解锁全部 8,500+ 道题、考试模式、错题本、生词本和 Anki 导出。年付享 14 天免费试用，随时可取消。"
     },
     "speedDrill": {
       "title": "等级练习 · 按等级和题型定向刷题",
