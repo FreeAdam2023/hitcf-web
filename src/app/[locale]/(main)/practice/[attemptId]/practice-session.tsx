@@ -804,7 +804,7 @@ export function PracticeSession() {
       </div>
 
       {/* 中间：主内容 */}
-      <div className="flex flex-col gap-4 overflow-y-auto scrollbar-on-hover lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5">
+      <div className="flex flex-col gap-4 overflow-y-auto scrollbar-on-hover pb-20 lg:pb-0 lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5">
         <QuestionDisplay
           question={question}
           index={currentIndex}
@@ -928,8 +928,8 @@ export function PracticeSession() {
           </div>
         )}
 
-        {/* 快捷导航：选项下方，方便不看解析直接切题 */}
-        <div className="flex items-center justify-between">
+        {/* 快捷导航：选项下方，桌面端显示 */}
+        <div className="hidden lg:flex items-center justify-between">
           <Button
             variant="outline"
             size="sm"
@@ -1012,9 +1012,9 @@ export function PracticeSession() {
           </div>
         )}
 
-        {/* 底部导航：解析/翻译之后再放一组，看完解析方便直接下一题 */}
+        {/* 底部导航：解析/翻译之后再放一组，桌面端显示 */}
         {currentAnswer && (question.type === "listening" || question.type === "reading") && (
-          <>
+          <div className="hidden lg:block">
             <Separator />
             <div className="flex items-center justify-between">
               <Button
@@ -1048,7 +1048,7 @@ export function PracticeSession() {
                 <ChevronRight className="ml-1 h-4 w-4" />
               </Button>
             </div>
-          </>
+          </div>
         )}
       </div>
 
@@ -1078,18 +1078,55 @@ export function PracticeSession() {
         </div>
       </div>
 
-      {/* Mobile floating navigator */}
+      {/* Mobile bottom navigation bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-30 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-[env(safe-area-inset-bottom)] lg:hidden">
+        <div className="flex items-center justify-between px-4 py-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
+          >
+            <ChevronLeft className="mr-1 h-4 w-4" />
+            {t("practice.session.prev")}
+          </Button>
+
+          <span className="text-xs text-muted-foreground">
+            {currentIndex + 1} / {questions.length}
+          </span>
+
+          {allAnswered ? (
+            <Button
+              size="sm"
+              onClick={handleComplete}
+              disabled={completing}
+            >
+              <CheckCircle className="mr-1 h-4 w-4" />
+              {completing ? t("common.actions.submitting") : t("practice.session.completePractice")}
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleNext}
+              disabled={isLast}
+            >
+              {t("practice.session.next")}
+              <ChevronRight className="ml-1 h-4 w-4" />
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile floating navigator (question grid) */}
       <Sheet>
         <SheetTrigger asChild>
           <Button
             variant="outline"
             size="icon"
-            className={cn(
-              "fixed right-4 z-40 h-12 w-12 rounded-full shadow-lg lg:hidden transition-all",
-              currentAnswer ? "bottom-[calc(4rem+env(safe-area-inset-bottom))]" : "bottom-[calc(1rem+env(safe-area-inset-bottom))]"
-            )}
+            className="fixed right-4 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-40 h-10 w-10 rounded-full shadow-lg lg:hidden"
           >
-            <LayoutGrid className="h-5 w-5" />
+            <LayoutGrid className="h-4 w-4" />
           </Button>
         </SheetTrigger>
         <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
