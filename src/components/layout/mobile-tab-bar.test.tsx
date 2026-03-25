@@ -32,6 +32,7 @@ vi.mock("next-intl", () => ({
       "nav.history": "History",
       "nav.profile": "Me",
       "nav.pricing": "Pricing",
+      "nav.login": "Log in",
     };
     return map[key] || key;
   },
@@ -91,15 +92,15 @@ describe("MobileTabBar", () => {
   });
 
   describe("guest", () => {
-    it("renders guest tabs", () => {
+    it("renders guest tabs without pricing", () => {
       mockUser = null;
       mockPathname = "/";
       render(<MobileTabBar />);
 
       expect(screen.getByText("Home")).toBeInTheDocument();
       expect(screen.getByText("Tests")).toBeInTheDocument();
-      expect(screen.getByText("Pricing")).toBeInTheDocument();
-      expect(screen.getByText("Me")).toBeInTheDocument();
+      expect(screen.getByText("Log in")).toBeInTheDocument();
+      expect(screen.queryByText("Pricing")).not.toBeInTheDocument();
       expect(screen.queryByText("Review")).not.toBeInTheDocument();
     });
 

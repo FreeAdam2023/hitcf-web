@@ -17,8 +17,7 @@ const TABS_LOGGED_IN = [
 const TABS_GUEST = [
   { href: "/", icon: Home, labelKey: "nav.home" },
   { href: "/tests", icon: BookOpen, labelKey: "nav.tests" },
-  { href: "/pricing", icon: Languages, labelKey: "nav.pricing" },
-  { href: "/login", icon: User, labelKey: "nav.profile" },
+  { href: "/login", icon: User, labelKey: "nav.login" },
 ] as const;
 
 export function MobileTabBar() {

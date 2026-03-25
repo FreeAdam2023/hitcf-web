@@ -81,6 +81,7 @@
     "pricing": "定价",
     "resources": "资源",
     "profile": "我的",
+    "login": "登录",
     "openMenu": "打开菜单",
     "exitLabel": "退出{label}",
     "exitConfirmTitle": "确认退出{label}？",
