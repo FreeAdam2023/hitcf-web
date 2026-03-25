@@ -61,7 +61,7 @@ describe("QuestionNavigator", () => {
   });
 
   it("applies green background for correct answers", () => {
-    const answers = new Map([["q1", { is_correct: true }]]);
+    const answers = new Map([["q1", { question_id: "q1", question_number: 1, selected: "A", is_correct: true }]]);
     render(<QuestionNavigator {...baseProps} answers={answers} />);
     const btn = screen.getByLabelText("Q1 correct");
     expect(btn.className).toContain("bg-green-500");
@@ -99,8 +99,8 @@ describe("QuestionNavigator", () => {
   });
 
   it("shows answered progress with previousAnswers merged", () => {
-    const answers = new Map([["q1", { is_correct: true }]]);
-    const previousAnswers = new Map([["q3", { is_correct: false }]]);
+    const answers = new Map([["q1", { question_id: "q1", question_number: 1, selected: "A", is_correct: true }]]);
+    const previousAnswers = new Map([["q3", { question_id: "q3", question_number: 3, selected: "B", is_correct: false }]]);
     render(
       <QuestionNavigator
         {...baseProps}
@@ -112,7 +112,7 @@ describe("QuestionNavigator", () => {
   });
 
   it("exam mode shows primary background for answered questions", () => {
-    const answers = new Map([["q1", { is_correct: true }]]);
+    const answers = new Map([["q1", { question_id: "q1", question_number: 1, selected: "A", is_correct: true }]]);
     render(<QuestionNavigator {...baseProps} answers={answers} mode="exam" />);
     const btn = screen.getByLabelText("Q1 answered");
     expect(btn.className).toContain("bg-primary");
