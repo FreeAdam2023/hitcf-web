@@ -61,12 +61,14 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
   const exhausted = maxPlays !== undefined && playCount >= maxPlays;
 
   const loadUrl = useCallback(async () => {
-    // Use pre-signed URL from question data if available
-    if (directUrl) {
+    // Use pre-signed URL from question data if fresh (< 12 min old)
+    const sasExpired = fetchedAtRef.current > 0 && Date.now() - fetchedAtRef.current > SAS_REFRESH_MS;
+    if (directUrl && !sasExpired) {
       setUrl(directUrl);
-      fetchedAtRef.current = Date.now();
+      fetchedAtRef.current = fetchedAtRef.current || Date.now();
       return;
     }
+    // Fetch fresh SAS URL from API (directUrl may have expired)
     setLoading(true);
     setError(null);
     try {
