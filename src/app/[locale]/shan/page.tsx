@@ -1,67 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 
 // ─── Types ──────────────────────────────────────────────────────
-interface Wave {
-  offset: number;
-  amplitude: number;
-  frequency: number;
-  speed: number;
-  color: string;
-}
-
-interface Lily {
+interface WaveRipple {
   x: number;
   y: number;
-  size: number;
-  rotation: number;
-  rotationSpeed: number;
-  bobOffset: number;
-  bobSpeed: number;
-  petalCount: number;
-  color: string;
-  stemColor: string;
-  bloom: number;
-}
-
-interface Bubble {
-  x: number;
-  y: number;
-  size: number;
-  speed: number;
-  opacity: number;
-  wobble: number;
-}
-
-interface Fish {
-  x: number;
-  y: number;
-  speed: number;
-  size: number;
-  color: string;
-  tailPhase: number;
-  depth: number;
-}
-
-interface Whale {
-  x: number;
-  y: number;
-  speed: number;
-  phase: "swimming" | "surfacing" | "spouting" | "diving";
-  timer: number;
-  spoutParticles: SpoutDrop[];
-  surfaceY: number;
-  direction: number; // 1 = right, -1 = left
-}
-
-interface SpoutDrop {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  life: number;
-  maxLife: number;
+  age: number;
+  maxAge: number;
   size: number;
 }
 
@@ -73,48 +19,19 @@ interface Seagull {
   size: number;
 }
 
-// ─── Color palettes ─────────────────────────────────────────────
-const LILY_COLORS = [
-  "#ffffff", "#fff5f5", "#ffe8ec", "#ffd6e0",
-  "#f0fff0", "#e8ffe8", "#d4f5d4",
-];
-
-const OCEAN_BLUES = [
-  "rgba(20, 80, 160, 0.5)",
-  "rgba(30, 100, 180, 0.4)",
-  "rgba(40, 120, 200, 0.35)",
-  "rgba(50, 140, 210, 0.3)",
-  "rgba(60, 160, 220, 0.2)",
-];
-
-const FISH_COLORS = ["#ff9966", "#ffcc66", "#66cccc", "#99cc99", "#cc99cc"];
+interface WhaleState {
+  x: number;
+  baseY: number;
+  phase: "hidden" | "rising" | "spouting" | "diving";
+  timer: number;
+  cooldown: number;
+  spouts: { x: number; y: number; vx: number; vy: number; life: number; size: number }[];
+}
 
 // ─── Main Component ─────────────────────────────────────────────
 export default function ShanPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
-
-  const initLilies = useCallback((w: number, h: number): Lily[] => {
-    const lilies: Lily[] = [];
-    const waterTop = h * 0.5;
-    const count = Math.floor(w / 150);
-    for (let i = 0; i < count; i++) {
-      lilies.push({
-        x: (w / (count + 1)) * (i + 1) + (Math.random() - 0.5) * 80,
-        y: waterTop + 10 + Math.random() * 25,
-        size: 18 + Math.random() * 14,
-        rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.003,
-        bobOffset: Math.random() * Math.PI * 2,
-        bobSpeed: 0.01 + Math.random() * 0.008,
-        petalCount: 6 + Math.floor(Math.random() * 3),
-        color: LILY_COLORS[Math.floor(Math.random() * LILY_COLORS.length)],
-        stemColor: `hsl(${130 + Math.random() * 20}, ${60 + Math.random() * 20}%, ${35 + Math.random() * 15}%)`,
-        bloom: 0,
-      });
-    }
-    return lilies;
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -125,471 +42,354 @@ export default function ShanPage() {
     let w = (canvas.width = window.innerWidth);
     let h = (canvas.height = window.innerHeight);
 
-    // Initialize waves
-    const waves: Wave[] = OCEAN_BLUES.map((color, i) => ({
-      offset: 0,
-      amplitude: 6 + i * 2.5,
-      frequency: 0.006 + i * 0.002,
-      speed: 0.012 + i * 0.004,
-      color,
+    // Layout constants (30-degree bird's eye)
+    const HORIZON = 0.28;
+    const OCEAN_END = 0.55;
+    const BEACH_START = 0.55;
+
+    const seagulls: Seagull[] = Array.from({ length: 5 }, () => ({
+      x: Math.random() * w * 1.2 - w * 0.1,
+      y: h * HORIZON * 0.3 + Math.random() * h * HORIZON * 0.5,
+      speed: 0.3 + Math.random() * 0.5,
+      wingPhase: Math.random() * Math.PI * 2,
+      size: 4 + Math.random() * 4,
     }));
 
-    // Initialize lilies
-    let lilies = initLilies(w, h);
+    const ripples: WaveRipple[] = [];
 
-    // Initialize bubbles
-    const bubbles: Bubble[] = [];
-    for (let i = 0; i < 15; i++) {
-      bubbles.push({
-        x: Math.random() * w,
-        y: h * 0.55 + Math.random() * h * 0.45,
-        size: 2 + Math.random() * 5,
-        speed: 0.3 + Math.random() * 0.5,
-        opacity: 0.1 + Math.random() * 0.2,
-        wobble: Math.random() * Math.PI * 2,
-      });
-    }
-
-    // Initialize fish
-    const fishes: Fish[] = [];
-    for (let i = 0; i < 6; i++) {
-      fishes.push({
-        x: Math.random() * w,
-        y: h * 0.6 + Math.random() * h * 0.3,
-        speed: 0.4 + Math.random() * 1.2,
-        size: 8 + Math.random() * 14,
-        color: FISH_COLORS[Math.floor(Math.random() * FISH_COLORS.length)],
-        tailPhase: Math.random() * Math.PI * 2,
-        depth: 0.3 + Math.random() * 0.7,
-      });
-    }
-
-    // Initialize whale
-    const whale: Whale = {
-      x: -100,
-      y: h * 0.52,
-      speed: 0.4,
-      phase: "swimming",
+    const whale: WhaleState = {
+      x: w * 0.35,
+      baseY: h * (HORIZON + (OCEAN_END - HORIZON) * 0.4),
+      phase: "hidden",
       timer: 0,
-      spoutParticles: [],
-      surfaceY: h * 0.48,
-      direction: 1,
+      cooldown: 200 + Math.random() * 300,
+      spouts: [],
     };
-
-    // Initialize seagulls
-    const seagulls: Seagull[] = [];
-    for (let i = 0; i < 3; i++) {
-      seagulls.push({
-        x: Math.random() * w,
-        y: h * 0.08 + Math.random() * h * 0.15,
-        speed: 0.8 + Math.random() * 0.6,
-        wingPhase: Math.random() * Math.PI * 2,
-        size: 6 + Math.random() * 4,
-      });
-    }
 
     let frame = 0;
 
     function drawSky() {
-      // Sky gradient — warm beach sky
-      const gradient = ctx.createLinearGradient(0, 0, 0, h * 0.5);
-      gradient.addColorStop(0, "#1a3a6e");
-      gradient.addColorStop(0.3, "#2e5f9e");
-      gradient.addColorStop(0.6, "#5a9fd4");
-      gradient.addColorStop(0.85, "#87ceeb");
-      gradient.addColorStop(1, "#b5e4f7");
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, w, h * 0.52);
-
-      // Clouds
-      ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
-      const drawCloud = (cx: number, cy: number, s: number) => {
-        ctx.beginPath();
-        ctx.arc(cx, cy, s * 1.2, 0, Math.PI * 2);
-        ctx.arc(cx - s, cy + s * 0.3, s * 0.8, 0, Math.PI * 2);
-        ctx.arc(cx + s, cy + s * 0.2, s * 0.9, 0, Math.PI * 2);
-        ctx.arc(cx - s * 0.5, cy - s * 0.3, s * 0.7, 0, Math.PI * 2);
-        ctx.arc(cx + s * 0.6, cy - s * 0.4, s * 0.6, 0, Math.PI * 2);
-        ctx.fill();
-      };
-      const cloudX1 = ((frame * 0.15) % (w + 200)) - 100;
-      const cloudX2 = ((frame * 0.1 + 500) % (w + 200)) - 100;
-      drawCloud(cloudX1, h * 0.12, 25);
-      ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
-      drawCloud(cloudX2, h * 0.2, 18);
+      const grad = ctx.createLinearGradient(0, 0, 0, h * HORIZON);
+      grad.addColorStop(0, "#4a90d9");
+      grad.addColorStop(0.4, "#6ab0e8");
+      grad.addColorStop(0.7, "#89c4f0");
+      grad.addColorStop(1, "#a8d8f8");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h * HORIZON + 10);
 
       // Sun
-      const sunX = w * 0.15;
-      const sunY = h * 0.1;
-      const sunGlow = ctx.createRadialGradient(sunX, sunY, 10, sunX, sunY, 100);
-      sunGlow.addColorStop(0, "rgba(255, 240, 180, 0.8)");
-      sunGlow.addColorStop(0.3, "rgba(255, 220, 150, 0.3)");
-      sunGlow.addColorStop(1, "rgba(255, 200, 100, 0)");
-      ctx.fillStyle = sunGlow;
-      ctx.fillRect(sunX - 100, sunY - 100, 200, 200);
-      ctx.fillStyle = "#fff8dc";
+      const sunX = w * 0.75;
+      const sunY = h * 0.08;
+      const glow = ctx.createRadialGradient(sunX, sunY, 15, sunX, sunY, 120);
+      glow.addColorStop(0, "rgba(255, 250, 220, 0.9)");
+      glow.addColorStop(0.2, "rgba(255, 240, 180, 0.4)");
+      glow.addColorStop(1, "rgba(255, 220, 150, 0)");
+      ctx.fillStyle = glow;
       ctx.beginPath();
-      ctx.arc(sunX, sunY, 22, 0, Math.PI * 2);
+      ctx.arc(sunX, sunY, 120, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#fffbe6";
+      ctx.beginPath();
+      ctx.arc(sunX, sunY, 20, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Clouds
+      ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+      const drawCloud = (cx: number, cy: number, s: number) => {
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, s * 2, s * 0.6, 0, 0, Math.PI * 2);
+        ctx.ellipse(cx - s, cy + 2, s * 1.2, s * 0.5, 0, 0, Math.PI * 2);
+        ctx.ellipse(cx + s * 0.8, cy - 1, s * 1.4, s * 0.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+      };
+      drawCloud(((frame * 0.12 + 100) % (w + 300)) - 150, h * 0.06, 30);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
+      drawCloud(((frame * 0.08 + 600) % (w + 300)) - 150, h * 0.14, 22);
+      drawCloud(((frame * 0.1 + 300) % (w + 300)) - 150, h * 0.1, 18);
+    }
+
+    function drawMountains() {
+      const mY = h * HORIZON;
+      ctx.fillStyle = "rgba(140, 170, 210, 0.6)";
+      ctx.beginPath();
+      ctx.moveTo(0, mY);
+      const px = [0, 0.08, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95, 1];
+      const py = [0.03, 0.06, 0.09, 0.12, 0.08, 0.11, 0.14, 0.1, 0.07, 0.13, 0.06, 0.04];
+      for (let i = 0; i < px.length; i++) ctx.lineTo(w * px[i], mY - h * py[i]);
+      ctx.lineTo(w, mY);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = "rgba(110, 150, 195, 0.5)";
+      ctx.beginPath();
+      ctx.moveTo(0, mY);
+      const px2 = [0, 0.1, 0.2, 0.3, 0.42, 0.55, 0.68, 0.8, 0.9, 1];
+      const py2 = [0.02, 0.05, 0.03, 0.07, 0.04, 0.06, 0.08, 0.05, 0.03, 0.02];
+      for (let i = 0; i < px2.length; i++) ctx.lineTo(w * px2[i], mY - h * py2[i]);
+      ctx.lineTo(w, mY);
+      ctx.closePath();
       ctx.fill();
     }
 
+    function drawOcean() {
+      const oTop = h * HORIZON;
+      const oH = h * (OCEAN_END - HORIZON);
+      const grad = ctx.createLinearGradient(0, oTop, 0, oTop + oH);
+      grad.addColorStop(0, "#5ba3d9");
+      grad.addColorStop(0.3, "#3d8ec9");
+      grad.addColorStop(0.6, "#2a7ab8");
+      grad.addColorStop(1, "#1e6ca8");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, oTop, w, oH);
+
+      // Perspective wave lines
+      for (let i = 0; i < 12; i++) {
+        const t = i / 12;
+        const y = oTop + t * t * oH;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${0.08 + t * 0.12})`;
+        ctx.lineWidth = 0.5 + t * 1.5;
+        ctx.beginPath();
+        for (let x = 0; x <= w; x += 4) {
+          const wy = y + Math.sin(x * (0.015 - t * 0.005) + frame * 0.02 + i) * (1 + t * 3);
+          if (x === 0) ctx.moveTo(x, wy); else ctx.lineTo(x, wy);
+        }
+        ctx.stroke();
+      }
+
+      // Sun reflection
+      const sunX = w * 0.75;
+      const rg = ctx.createLinearGradient(sunX, oTop, sunX, oTop + oH * 0.6);
+      rg.addColorStop(0, "rgba(255, 250, 220, 0.15)");
+      rg.addColorStop(1, "rgba(255, 250, 220, 0)");
+      ctx.fillStyle = rg;
+      ctx.beginPath();
+      ctx.moveTo(sunX - 40, oTop);
+      ctx.lineTo(sunX + 40, oTop);
+      ctx.lineTo(sunX + 80, oTop + oH * 0.6);
+      ctx.lineTo(sunX - 80, oTop + oH * 0.6);
+      ctx.closePath();
+      ctx.fill();
+
+      // Sparkles
+      for (let i = 0; i < 15; i++) {
+        const sx = (i * 97 + frame * 0.5) % w;
+        const sy = oTop + ((i * 137) % oH) * 0.8;
+        const sp = Math.sin(frame * 0.05 + i * 2) * 0.5 + 0.5;
+        if (sp > 0.7) {
+          ctx.fillStyle = `rgba(255, 255, 255, ${(sp - 0.7) * 2})`;
+          ctx.fillRect(sx, sy, 2, 1);
+        }
+      }
+    }
+
     function drawBeach() {
-      // Sandy beach at bottom-right (bay shape)
-      const beachStart = w * 0.6;
-      const waterLine = h * 0.5;
+      const bTop = h * BEACH_START;
+      const grad = ctx.createLinearGradient(0, bTop, 0, h);
+      grad.addColorStop(0, "#e8d5a3");
+      grad.addColorStop(0.2, "#f0deb0");
+      grad.addColorStop(0.5, "#f5e6c0");
+      grad.addColorStop(1, "#e8d098");
+      ctx.fillStyle = grad;
 
-      // Beach sand gradient
-      const sandGrad = ctx.createLinearGradient(0, waterLine, 0, h);
-      sandGrad.addColorStop(0, "#f5deb3");
-      sandGrad.addColorStop(0.3, "#e8cc8c");
-      sandGrad.addColorStop(1, "#d4a960");
-
+      // Bay-shaped beach
       ctx.beginPath();
-      ctx.moveTo(w, waterLine - 15);
-      // Curved beach shoreline
-      for (let x = w; x >= beachStart - 50; x -= 3) {
-        const t = (w - x) / (w - beachStart + 50);
-        const beachY = waterLine - 15 + t * t * 60 + Math.sin(x * 0.02 + frame * 0.01) * 3;
-        ctx.lineTo(x, beachY);
+      ctx.moveTo(0, bTop + h * 0.08);
+      ctx.quadraticCurveTo(w * 0.15, bTop - h * 0.02, w * 0.35, bTop);
+      for (let x = w * 0.35; x <= w * 0.65; x += 3) {
+        const t = (x - w * 0.35) / (w * 0.3);
+        ctx.lineTo(x, bTop + Math.sin(t * Math.PI) * 5 + Math.sin(x * 0.03 + frame * 0.02) * 2);
       }
-      ctx.lineTo(beachStart - 50, h);
+      ctx.quadraticCurveTo(w * 0.85, bTop - h * 0.02, w, bTop + h * 0.08);
       ctx.lineTo(w, h);
+      ctx.lineTo(0, h);
       ctx.closePath();
-      ctx.fillStyle = sandGrad;
       ctx.fill();
 
-      // Wet sand (darker strip near water)
+      // Wet sand
+      ctx.fillStyle = "rgba(190, 170, 130, 0.4)";
       ctx.beginPath();
-      ctx.moveTo(w, waterLine - 10);
-      for (let x = w; x >= beachStart; x -= 3) {
-        const t = (w - x) / (w - beachStart);
-        const wetY = waterLine - 10 + t * t * 40 + Math.sin(x * 0.025 + frame * 0.015) * 2;
-        ctx.lineTo(x, wetY);
+      ctx.moveTo(0, bTop + h * 0.08);
+      ctx.quadraticCurveTo(w * 0.15, bTop, w * 0.35, bTop + 3);
+      for (let x = w * 0.35; x <= w * 0.65; x += 3) {
+        const t = (x - w * 0.35) / (w * 0.3);
+        ctx.lineTo(x, bTop + 3 + Math.sin(t * Math.PI) * 5 + Math.sin(x * 0.03 + frame * 0.02) * 2);
       }
-      for (let x = beachStart; x <= w; x += 3) {
-        const t = (w - x) / (w - beachStart);
-        const wetY = waterLine - 5 + t * t * 50 + Math.sin(x * 0.025 + frame * 0.015) * 2;
-        ctx.lineTo(x, wetY);
-      }
+      ctx.quadraticCurveTo(w * 0.85, bTop, w, bTop + h * 0.08);
+      ctx.lineTo(w, bTop + h * 0.12);
+      ctx.lineTo(0, bTop + h * 0.12);
       ctx.closePath();
-      ctx.fillStyle = "rgba(180, 155, 110, 0.5)";
       ctx.fill();
 
-      // Foam at water's edge
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
-      ctx.lineWidth = 2;
+      // Foam
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
-      for (let x = beachStart; x <= w; x += 3) {
-        const t = (w - x) / (w - beachStart);
-        const foamY = waterLine - 8 + t * t * 45 + Math.sin(x * 0.03 + frame * 0.03) * 4;
-        if (x === beachStart) ctx.moveTo(x, foamY);
-        else ctx.lineTo(x, foamY);
+      for (let x = w * 0.2; x <= w * 0.8; x += 3) {
+        const t = (x - w * 0.2) / (w * 0.6);
+        const fy = bTop + Math.sin(t * Math.PI) * 4 + Math.sin(x * 0.04 + frame * 0.03) * 3 + 2;
+        if (x === w * 0.2) ctx.moveTo(x, fy); else ctx.lineTo(x, fy);
       }
       ctx.stroke();
     }
 
-    function drawOcean() {
-      // Ocean base
-      const waterTop = h * 0.5;
-      const oceanGrad = ctx.createLinearGradient(0, waterTop, 0, h);
-      oceanGrad.addColorStop(0, "rgba(20, 90, 160, 0.85)");
-      oceanGrad.addColorStop(0.3, "rgba(15, 70, 140, 0.9)");
-      oceanGrad.addColorStop(0.7, "rgba(10, 50, 110, 0.92)");
-      oceanGrad.addColorStop(1, "rgba(5, 30, 70, 0.95)");
-      ctx.fillStyle = oceanGrad;
-      ctx.fillRect(0, waterTop, w, h * 0.5);
+    function drawFlowerField(side: "left" | "right") {
+      const bTop = h * BEACH_START;
+      const fieldW = w * 0.22;
+      const startX = side === "left" ? 0 : w - fieldW;
+      const isLavender = side === "left";
 
-      // Waves
-      for (const wave of waves) {
-        wave.offset += wave.speed;
-        ctx.beginPath();
-        ctx.moveTo(0, h);
-        for (let x = 0; x <= w; x += 3) {
-          const y = waterTop + Math.sin(x * wave.frequency + wave.offset) * wave.amplitude;
-          ctx.lineTo(x, y);
+      for (let row = 0; row < 8; row++) {
+        const rowT = row / 8;
+        const y = bTop + h * 0.06 + rowT * (h * 0.38);
+        const flowerSize = 3 + rowT * 6;
+        const spacing = 15 + rowT * 20;
+        const rowOffset = (row % 2) * spacing * 0.5;
+
+        for (let x = startX + rowOffset; x < startX + fieldW; x += spacing) {
+          const jx = x + Math.sin(x * 0.1 + row) * 3;
+          const jy = y + Math.cos(x * 0.13 + row * 2) * 2;
+
+          if (isLavender) {
+            const sway = Math.sin(frame * 0.015 + jx * 0.05) * 2;
+            ctx.strokeStyle = `rgba(80, 120, 60, ${0.4 + rowT * 0.3})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(jx, jy + flowerSize * 1.5);
+            ctx.lineTo(jx + sway, jy);
+            ctx.stroke();
+            for (let p = 0; p < 4; p++) {
+              const ps = flowerSize * 0.3 * (1 - p * 0.15);
+              ctx.fillStyle = `rgba(${140 + (x % 30)}, ${80 + (x % 20)}, ${180 + (x % 40)}, ${0.5 + rowT * 0.3})`;
+              ctx.beginPath();
+              ctx.ellipse(jx + sway * (1 - p * 0.2), jy - p * flowerSize * 0.3, ps, ps * 0.7, 0, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          } else {
+            const sway = Math.sin(frame * 0.012 + jx * 0.04) * 1.5;
+            ctx.strokeStyle = `rgba(70, 130, 50, ${0.4 + rowT * 0.3})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(jx, jy + flowerSize * 1.2);
+            ctx.lineTo(jx + sway, jy);
+            ctx.stroke();
+            for (let p = 0; p < 5; p++) {
+              const angle = (p / 5) * Math.PI * 2 + frame * 0.002;
+              const ps = flowerSize * 0.4;
+              ctx.fillStyle = `rgba(255, ${240 - (row % 3) * 20}, ${240 - (row % 2) * 30}, ${0.5 + rowT * 0.35})`;
+              ctx.beginPath();
+              ctx.ellipse(jx + sway + Math.cos(angle) * ps * 0.6, jy + Math.sin(angle) * ps * 0.6, ps * 0.5, ps * 0.25, angle, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.fillStyle = `rgba(255, 230, 100, ${0.5 + rowT * 0.3})`;
+            ctx.beginPath();
+            ctx.arc(jx + sway, jy, flowerSize * 0.12, 0, Math.PI * 2);
+            ctx.fill();
+          }
         }
-        ctx.lineTo(w, h);
-        ctx.closePath();
-        ctx.fillStyle = wave.color;
-        ctx.fill();
       }
-
-      // Horizon shimmer
-      ctx.fillStyle = `rgba(255, 255, 255, ${0.05 + Math.sin(frame * 0.02) * 0.03})`;
-      ctx.fillRect(0, waterTop - 2, w * 0.6, 4);
     }
 
     function drawWhale() {
       whale.timer++;
-
-      // State machine
-      if (whale.phase === "swimming") {
-        whale.x += whale.speed * whale.direction;
-        whale.y = whale.surfaceY + 30 + Math.sin(frame * 0.01) * 8;
-        // Surface every ~600 frames
-        if (whale.timer > 400 + Math.random() * 300) {
-          whale.phase = "surfacing";
+      if (whale.phase === "hidden") {
+        whale.cooldown--;
+        if (whale.cooldown <= 0) {
+          whale.phase = "rising";
           whale.timer = 0;
+          whale.x = w * 0.2 + Math.random() * w * 0.5;
         }
-        if (whale.x > w + 150) { whale.direction = -1; }
-        if (whale.x < -150) { whale.direction = 1; }
-      } else if (whale.phase === "surfacing") {
-        whale.y -= 0.5;
-        if (whale.y <= whale.surfaceY - 10) {
-          whale.phase = "spouting";
-          whale.timer = 0;
-        }
+      } else if (whale.phase === "rising" && whale.timer > 40) {
+        whale.phase = "spouting";
+        whale.timer = 0;
       } else if (whale.phase === "spouting") {
-        // Create spout particles
-        if (whale.timer < 30 && whale.timer % 3 === 0) {
-          for (let i = 0; i < 4; i++) {
-            whale.spoutParticles.push({
-              x: whale.x + 25 * whale.direction,
-              y: whale.y - 20,
-              vx: (Math.random() - 0.5) * 2,
-              vy: -(3 + Math.random() * 4),
-              life: 50 + Math.random() * 30,
-              maxLife: 80,
-              size: 2 + Math.random() * 3,
+        if (whale.timer < 25 && whale.timer % 2 === 0) {
+          for (let i = 0; i < 3; i++) {
+            whale.spouts.push({
+              x: whale.x, y: whale.baseY - 15,
+              vx: (Math.random() - 0.5) * 2.5, vy: -(2.5 + Math.random() * 3.5),
+              life: 40 + Math.random() * 25, size: 2 + Math.random() * 3,
             });
           }
         }
-        if (whale.timer > 80) {
-          whale.phase = "diving";
-          whale.timer = 0;
-        }
-      } else if (whale.phase === "diving") {
-        whale.y += 0.6;
-        whale.x += whale.speed * 0.3 * whale.direction;
-        if (whale.y > whale.surfaceY + 40) {
-          whale.phase = "swimming";
-          whale.timer = 0;
-        }
+        if (whale.timer > 70) { whale.phase = "diving"; whale.timer = 0; }
+      } else if (whale.phase === "diving" && whale.timer > 50) {
+        whale.phase = "hidden";
+        whale.cooldown = 300 + Math.random() * 400;
+        whale.timer = 0;
       }
 
-      // Update spout particles
-      whale.spoutParticles = whale.spoutParticles.filter((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.08; // gravity
-        p.life--;
+      whale.spouts = whale.spouts.filter((p) => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.1; p.life--;
         return p.life > 0;
       });
-
-      // Draw spout particles
-      for (const p of whale.spoutParticles) {
-        const alpha = (p.life / p.maxLife) * 0.7;
+      for (const p of whale.spouts) {
+        ctx.fillStyle = `rgba(200, 230, 255, ${(p.life / 65) * 0.6})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(200, 230, 255, ${alpha})`;
         ctx.fill();
       }
 
-      // Draw whale body
-      const wDir = whale.direction;
-      ctx.save();
-      ctx.translate(whale.x, whale.y);
-      if (wDir < 0) ctx.scale(-1, 1);
-
-      // Only draw if partially visible
-      const bodyAlpha = whale.phase === "diving" ? Math.max(0, 1 - whale.timer / 60) : whale.phase === "swimming" ? 0.4 : 0.8;
-      ctx.globalAlpha = bodyAlpha;
-
-      // Body
-      ctx.beginPath();
-      ctx.ellipse(0, 0, 45, 18, 0, 0, Math.PI * 2);
-      ctx.fillStyle = "#2c4a6e";
-      ctx.fill();
-
-      // Belly (lighter)
-      ctx.beginPath();
-      ctx.ellipse(5, 5, 35, 10, 0, 0, Math.PI);
-      ctx.fillStyle = "#5a8ab5";
-      ctx.fill();
-
-      // Head
-      ctx.beginPath();
-      ctx.ellipse(35, -2, 18, 14, 0.1, 0, Math.PI * 2);
-      ctx.fillStyle = "#34567a";
-      ctx.fill();
-
-      // Eye
-      ctx.beginPath();
-      ctx.arc(40, -4, 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = "#1a1a2e";
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(40.5, -4.5, 1, 0, Math.PI * 2);
-      ctx.fillStyle = "#fff";
-      ctx.fill();
-
-      // Tail
-      const tailWag = Math.sin(frame * 0.06) * 8;
-      ctx.beginPath();
-      ctx.moveTo(-40, 0);
-      ctx.quadraticCurveTo(-55, -5 + tailWag, -65, -15 + tailWag);
-      ctx.quadraticCurveTo(-55, 0 + tailWag, -65, 15 + tailWag);
-      ctx.quadraticCurveTo(-55, 5 + tailWag, -40, 0);
-      ctx.fillStyle = "#2c4a6e";
-      ctx.fill();
-
-      // Dorsal fin
-      ctx.beginPath();
-      ctx.moveTo(-5, -17);
-      ctx.quadraticCurveTo(5, -30, 12, -17);
-      ctx.fillStyle = "#2c4a6e";
-      ctx.fill();
-
-      ctx.globalAlpha = 1;
-      ctx.restore();
+      if (whale.phase !== "hidden") {
+        let yOff = 0, alpha = 1;
+        if (whale.phase === "rising") { yOff = 15 - whale.timer * 0.375; alpha = whale.timer / 40; }
+        else if (whale.phase === "diving") { yOff = whale.timer * 0.3; alpha = 1 - whale.timer / 50; }
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, alpha);
+        ctx.font = "40px serif";
+        ctx.textAlign = "center";
+        ctx.fillText("\uD83D\uDC0B", whale.x, whale.baseY + yOff);
+        ctx.globalAlpha = 1;
+        ctx.restore();
+      }
     }
 
     function drawSeagulls() {
-      for (const gull of seagulls) {
-        gull.x += gull.speed;
-        gull.wingPhase += 0.06;
-        if (gull.x > w + 20) {
-          gull.x = -20;
-          gull.y = h * 0.06 + Math.random() * h * 0.18;
-        }
-
-        const wingUp = Math.sin(gull.wingPhase) * gull.size * 0.8;
-        ctx.save();
-        ctx.translate(gull.x, gull.y);
-        ctx.strokeStyle = "#333";
+      for (const g of seagulls) {
+        g.x += g.speed;
+        g.wingPhase += 0.07;
+        if (g.x > w + 30) { g.x = -30; g.y = h * HORIZON * 0.2 + Math.random() * h * HORIZON * 0.6; }
+        const wing = Math.sin(g.wingPhase) * g.size;
+        ctx.strokeStyle = "rgba(40, 40, 40, 0.7)";
         ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.moveTo(-gull.size, wingUp);
-        ctx.quadraticCurveTo(-gull.size * 0.3, wingUp * 0.3, 0, 0);
-        ctx.quadraticCurveTo(gull.size * 0.3, wingUp * 0.3, gull.size, wingUp);
-        ctx.stroke();
-        ctx.restore();
-      }
-    }
-
-    function drawLily(lily: Lily) {
-      const bob = Math.sin(frame * lily.bobSpeed + lily.bobOffset) * 4;
-      const lx = lily.x + Math.sin(frame * 0.005 + lily.bobOffset) * 3;
-      const ly = lily.y + bob;
-
-      if (lily.bloom < 1) lily.bloom = Math.min(1, lily.bloom + 0.005);
-      const bloomScale = lily.bloom;
-
-      ctx.save();
-      ctx.translate(lx, ly);
-      ctx.rotate(lily.rotation + Math.sin(frame * 0.008) * 0.05);
-
-      // Lily pad
-      ctx.beginPath();
-      ctx.ellipse(0, 0, lily.size * 1.5, lily.size * 0.8, 0, 0, Math.PI * 2);
-      ctx.fillStyle = lily.stemColor;
-      ctx.globalAlpha = 0.7;
-      ctx.fill();
-      ctx.globalAlpha = 1;
-
-      // Petals
-      const petalSize = lily.size * bloomScale;
-      for (let p = 0; p < lily.petalCount; p++) {
-        const angle = (p / lily.petalCount) * Math.PI * 2;
-        ctx.save();
-        ctx.rotate(angle);
-        ctx.beginPath();
-        ctx.ellipse(petalSize * 0.5, 0, petalSize * 0.6, petalSize * 0.25, 0, 0, Math.PI * 2);
-        ctx.fillStyle = lily.color;
-        ctx.fill();
-        ctx.strokeStyle = "rgba(200, 220, 255, 0.3)";
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      // Center
-      ctx.beginPath();
-      ctx.arc(0, 0, petalSize * 0.2, 0, Math.PI * 2);
-      ctx.fillStyle = "#ffffaa";
-      ctx.fill();
-
-      const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, petalSize * 0.3);
-      glow.addColorStop(0, "rgba(255, 255, 200, 0.4)");
-      glow.addColorStop(1, "rgba(255, 255, 200, 0)");
-      ctx.fillStyle = glow;
-      ctx.fillRect(-petalSize, -petalSize, petalSize * 2, petalSize * 2);
-
-      ctx.restore();
-      lily.rotation += lily.rotationSpeed;
-    }
-
-    function drawBubbles() {
-      for (const b of bubbles) {
-        b.y -= b.speed;
-        b.wobble += 0.03;
-        b.x += Math.sin(b.wobble) * 0.5;
-        if (b.y < h * 0.5) {
-          b.y = h;
-          b.x = Math.random() * w;
-        }
-        ctx.beginPath();
-        ctx.arc(b.x, b.y, b.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(150, 210, 255, ${b.opacity})`;
-        ctx.fill();
-        ctx.strokeStyle = `rgba(180, 230, 255, ${b.opacity * 0.5})`;
-        ctx.lineWidth = 0.5;
+        ctx.moveTo(g.x - g.size, g.y + wing);
+        ctx.quadraticCurveTo(g.x - g.size * 0.3, g.y + wing * 0.2, g.x, g.y);
+        ctx.quadraticCurveTo(g.x + g.size * 0.3, g.y + wing * 0.2, g.x + g.size, g.y + wing);
         ctx.stroke();
       }
     }
 
-    function drawFish() {
-      for (const fish of fishes) {
-        fish.x += fish.speed;
-        fish.tailPhase += 0.1;
-        if (fish.x > w + 30) {
-          fish.x = -30;
-          fish.y = h * 0.6 + Math.random() * h * 0.3;
-        }
-        ctx.save();
-        ctx.translate(fish.x, fish.y);
-        ctx.globalAlpha = fish.depth * 0.5;
-
+    function drawRipples() {
+      if (frame % 60 === 0) {
+        const oTop = h * HORIZON;
+        const oH = h * (OCEAN_END - HORIZON);
+        ripples.push({ x: Math.random() * w, y: oTop + Math.random() * oH * 0.8, age: 0, maxAge: 80 + Math.random() * 40, size: 5 + Math.random() * 15 });
+      }
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const r = ripples[i];
+        r.age++;
+        if (r.age > r.maxAge) { ripples.splice(i, 1); continue; }
+        const p = r.age / r.maxAge;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - p) * 0.3})`;
+        ctx.lineWidth = 0.8;
         ctx.beginPath();
-        ctx.ellipse(0, 0, fish.size, fish.size * 0.4, 0, 0, Math.PI * 2);
-        ctx.fillStyle = fish.color;
-        ctx.fill();
-
-        const tailWag = Math.sin(fish.tailPhase) * 4;
-        ctx.beginPath();
-        ctx.moveTo(-fish.size, 0);
-        ctx.lineTo(-fish.size * 1.6, -fish.size * 0.4 + tailWag);
-        ctx.lineTo(-fish.size * 1.6, fish.size * 0.4 + tailWag);
-        ctx.closePath();
-        ctx.fillStyle = fish.color;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(fish.size * 0.5, -fish.size * 0.1, 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = "#fff";
-        ctx.fill();
-
-        ctx.globalAlpha = 1;
-        ctx.restore();
+        ctx.ellipse(r.x, r.y, r.size * (0.5 + p * 1.5), r.size * (0.5 + p * 1.5) * 0.3, 0, 0, Math.PI * 2);
+        ctx.stroke();
       }
     }
 
     function animate() {
       frame++;
       ctx.clearRect(0, 0, w, h);
-
       drawSky();
+      drawMountains();
       drawOcean();
-      drawBeach();
-      drawFish();
-      drawBubbles();
+      drawRipples();
       drawWhale();
+      drawBeach();
+      drawFlowerField("left");
+      drawFlowerField("right");
       drawSeagulls();
-
-      for (const lily of lilies) {
-        drawLily(lily);
-      }
-
       animRef.current = requestAnimationFrame(animate);
     }
 
@@ -598,19 +398,14 @@ export default function ShanPage() {
     const handleResize = () => {
       w = canvas.width = window.innerWidth;
       h = canvas.height = window.innerHeight;
-      lilies = initLilies(w, h);
-      whale.surfaceY = h * 0.48;
+      whale.baseY = h * (HORIZON + (OCEAN_END - HORIZON) * 0.4);
     };
     window.addEventListener("resize", handleResize);
-
-    return () => {
-      cancelAnimationFrame(animRef.current);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [initLilies]);
+    return () => { cancelAnimationFrame(animRef.current); window.removeEventListener("resize", handleResize); };
+  }, []);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#1a3a6e]">
+    <div className="relative w-screen h-screen overflow-hidden bg-[#4a90d9]">
       <canvas ref={canvasRef} className="absolute inset-0" />
     </div>
   );
