@@ -679,7 +679,8 @@
       "hideZh": "Masquer la traduction chinoise",
       "kbSelect": "sélectionner",
       "kbConfirm": "confirmer",
-      "kbNavigate": "naviguer"
+      "kbNavigate": "naviguer",
+      "kbReplay": "rejouer"
     },
     "optionList": {
       "ariaLabel": "Options de réponse"

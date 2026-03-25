@@ -867,6 +867,13 @@ export function PracticeSession() {
       if (!q) return;
       const answered = answersRef.current.has(q.id) || previousAnswers.has(q.id);
 
+      // Enter in open-book mode = toggle reviewed (before confirm check)
+      if (e.key === "Enter" && openBook) {
+        e.preventDefault();
+        toggleReviewed();
+        return;
+      }
+
       // Enter = confirm pending selection
       if (e.key === "Enter" && !answered) {
         e.preventDefault();
@@ -888,10 +895,10 @@ export function PracticeSession() {
         return;
       }
 
-      // Enter in open-book mode = toggle reviewed
-      if (e.key === "Enter" && openBook) {
+      // Space = replay audio (listening questions)
+      if (e.key === " ") {
         e.preventDefault();
-        toggleReviewed();
+        audioPlayerRef.current?.replay();
         return;
       }
 
@@ -1079,7 +1086,7 @@ export function PracticeSession() {
               variant={question && reviewedIds.has(question.id) ? "default" : "outline"}
               size="sm"
               onClick={toggleReviewed}
-              className={question && reviewedIds.has(question.id) ? "bg-purple-600 hover:bg-purple-700 text-white" : ""}
+              className={question && reviewedIds.has(question.id) ? "bg-purple-600 hover:bg-purple-700 text-white" : "border-purple-400 text-purple-600 hover:bg-purple-50 dark:border-purple-500 dark:text-purple-400 dark:hover:bg-purple-950"}
             >
               <BookCheck className="mr-1 h-4 w-4" />
               {t("practice.session.reviewed")}
@@ -1111,6 +1118,7 @@ export function PracticeSession() {
           <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">A</kbd>-<kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">D</kbd> {t("practice.session.kbSelect")}</span>
           <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Enter</kbd> {openBook ? t("practice.session.reviewed") : t("practice.session.kbConfirm")}</span>
           <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">←</kbd> <kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">→</kbd> {t("practice.session.kbNavigate")}</span>
+          {question.type === "listening" && <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Space</kbd> {t("practice.session.kbReplay")}</span>}
           <span>💡 {t("practice.wordCardHint")}</span>
         </div>
 
@@ -1177,7 +1185,7 @@ export function PracticeSession() {
                   variant={question && reviewedIds.has(question.id) ? "default" : "outline"}
                   size="sm"
                   onClick={toggleReviewed}
-                  className={question && reviewedIds.has(question.id) ? "bg-purple-600 hover:bg-purple-700 text-white" : ""}
+                  className={question && reviewedIds.has(question.id) ? "bg-purple-600 hover:bg-purple-700 text-white" : "border-purple-400 text-purple-600 hover:bg-purple-50 dark:border-purple-500 dark:text-purple-400 dark:hover:bg-purple-950"}
                 >
                   <BookCheck className="mr-1 h-4 w-4" />
                   {t("practice.session.reviewed")}
@@ -1254,7 +1262,7 @@ export function PracticeSession() {
               variant={question && reviewedIds.has(question.id) ? "default" : "ghost"}
               size="sm"
               onClick={toggleReviewed}
-              className={question && reviewedIds.has(question.id) ? "bg-purple-600 hover:bg-purple-700 text-white" : ""}
+              className={question && reviewedIds.has(question.id) ? "bg-purple-600 hover:bg-purple-700 text-white" : "text-purple-600 hover:bg-purple-50 dark:text-purple-400 dark:hover:bg-purple-950"}
             >
               <BookCheck className="mr-1 h-4 w-4" />
               {t("practice.session.reviewed")}

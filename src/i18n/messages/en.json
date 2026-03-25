@@ -679,7 +679,8 @@
       "hideZh": "Hide Chinese translation",
       "kbSelect": "select",
       "kbConfirm": "confirm",
-      "kbNavigate": "navigate"
+      "kbNavigate": "navigate",
+      "kbReplay": "replay"
     },
     "optionList": {
       "ariaLabel": "Answer options"

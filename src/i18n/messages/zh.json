@@ -679,7 +679,8 @@
       "hideZh": "隐藏中文翻译",
       "kbSelect": "选择",
       "kbConfirm": "确认",
-      "kbNavigate": "切换题目"
+      "kbNavigate": "切换题目",
+      "kbReplay": "重新播放"
     },
     "optionList": {
       "ariaLabel": "答案选项"

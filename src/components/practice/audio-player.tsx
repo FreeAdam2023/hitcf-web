@@ -20,6 +20,7 @@ const SAS_REFRESH_MS = 12 * 60 * 1000; // refresh after 12 minutes
 export interface AudioPlayerHandle {
   seekTo: (seconds: number) => void;
   playSegment: (start: number, end: number) => void;
+  replay: () => void;
 }
 
 interface AudioPlayerProps {
@@ -57,6 +58,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
   const fetchedAtRef = useRef(0);
   const pendingPlayRef = useRef(false);
   const segmentEndRef = useRef<number | null>(null);
+  const restartRef = useRef<() => void>(() => {});
 
   const exhausted = maxPlays !== undefined && playCount >= maxPlays;
 
@@ -105,6 +107,9 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
       segmentEndRef.current = end;
       audio.currentTime = start;
       audio.play().then(() => setPlaying(true)).catch(() => {});
+    },
+    replay() {
+      restartRef.current();
     },
   }), [url, loadUrl]);
 
@@ -247,6 +252,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
       setError(t("audio.playError"));
     }
   };
+  restartRef.current = restart;
 
   const toggleMute = () => {
     const audio = audioRef.current;
