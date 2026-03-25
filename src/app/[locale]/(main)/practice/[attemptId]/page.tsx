@@ -39,6 +39,10 @@ export default function PracticePage() {
           const saved = localStorage.getItem(`practiceIndex:${params.attemptId}`);
           if (saved) { const idx = parseInt(saved, 10); if (!isNaN(idx) && idx >= 50) startPage = Math.floor(idx / 50) + 1; }
         } catch {}
+        // Cross-device fallback: use answered_count from backend
+        if (startPage === 1 && attempt.answered_count >= 50) {
+          startPage = Math.floor(attempt.answered_count / 50) + 1;
+        }
 
         const nav = await fetchDrillNav(params.attemptId, startPage);
         if (signal?.aborted) return;
