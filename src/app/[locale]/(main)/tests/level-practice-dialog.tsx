@@ -89,7 +89,7 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
     setError(null);
     try {
       const levels = allSelected ? undefined : Array.from(selectedLevels);
-      const result = await startSpeedDrill({ type, levels, count, dedup: !includeDone });
+      const result = await startSpeedDrill({ type, levels, count, dedup: !includeDone, include_done: includeDone });
 
       if (!result.questions.length) {
         setError(t("speedDrill.noMoreQuestions"));
