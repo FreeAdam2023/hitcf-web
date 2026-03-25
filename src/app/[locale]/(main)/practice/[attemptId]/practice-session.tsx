@@ -649,7 +649,12 @@ export function PracticeSession() {
     };
   }, []);
 
-  const question = questions[currentIndex];
+  const rawQuestion = questions[currentIndex];
+  // Keep showing the last loaded question during drill transitions to avoid flash
+  const lastQuestionRef = useRef<QuestionBrief | null>(null);
+  if (rawQuestion) lastQuestionRef.current = rawQuestion;
+  const question = rawQuestion ?? (drillMode ? lastQuestionRef.current : null);
+  const isStaleQuestion = drillMode && !rawQuestion && !!lastQuestionRef.current;
   const realAnswer = question ? (answers.get(question.id) ?? previousAnswers.get(question.id) ?? null) : null;
   // Open-book mode: fetch correct_answer directly from question detail API
   const [openBookCorrect, setOpenBookCorrect] = useState<Record<string, string>>({});
@@ -878,7 +883,7 @@ export function PracticeSession() {
     return () => window.removeEventListener("keydown", handler);
   }, [questions, currentIndex, previousAnswers, totalQuestions]);
 
-  if (!question || !attemptId || (drillMode && drillLoading && !questions[currentIndex])) return <LoadingSpinner />;
+  if (!question || !attemptId) return <LoadingSpinner />;
 
   const isLast = currentIndex === totalQuestions - 1;
   const totalAnswered = drillMode
@@ -905,7 +910,10 @@ export function PracticeSession() {
       </div>
 
       {/* 中间：主内容 */}
-      <div className="flex flex-col gap-4 overflow-y-auto scrollbar-on-hover pb-20 lg:pb-0 lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5">
+      <div className={cn(
+        "flex flex-col gap-4 overflow-y-auto scrollbar-on-hover pb-20 lg:pb-0 lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5 transition-opacity duration-150",
+        isStaleQuestion && "opacity-40 pointer-events-none",
+      )}>
         <QuestionDisplay
           question={question}
           index={currentIndex}
