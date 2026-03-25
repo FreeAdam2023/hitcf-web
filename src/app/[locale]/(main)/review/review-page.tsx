@@ -220,6 +220,7 @@ export function ReviewPage() {
         type: practiceType,
         limit,
       });
+      sessionStorage.setItem("practiceReturnUrl", "/review");
       i18nRouter.push(`/practice/${result.attempt_id}`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t("common.errors.operationFailed"));
@@ -234,6 +235,7 @@ export function ReviewPage() {
         type: practiceType,
         limit,
       });
+      sessionStorage.setItem("practiceReturnUrl", "/review?tab=bookmarks");
       i18nRouter.push(`/practice/${result.attempt_id}`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t("common.errors.operationFailed"));

@@ -203,7 +203,9 @@ function ImmersiveHeader() {
                       } catch { /* ignore */ }
                       router.push(`/results/${examAttemptId}`);
                     } else {
-                      router.push("/tests");
+                      const returnUrl = sessionStorage.getItem("practiceReturnUrl") || "/tests";
+                      sessionStorage.removeItem("practiceReturnUrl");
+                      router.push(returnUrl);
                     }
                   }}>
                     {isExam ? t('nav.submitExamConfirm') : t('nav.exitConfirmExit')}

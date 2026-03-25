@@ -138,6 +138,7 @@ export function WrongAnswerList() {
         type: type === "all" ? undefined : type,
       });
 
+      sessionStorage.setItem("practiceReturnUrl", "/wrong-answers");
       router.push(`/practice/${result.attempt_id}`);
     } catch (err) {
       console.error("Failed to start practice", err);
