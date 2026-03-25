@@ -649,6 +649,7 @@
       "correct": "Correct",
       "wrong": "Incorrect",
       "answered": "Répondu",
+      "reviewed": "Lu",
       "questionLabel": "Question {n}, {status}",
       "showMixed": "Ordre chronologique",
       "showGrouped": "Grouper par type"
@@ -669,6 +670,7 @@
       "loadError": "Échec du chargement des données d'entraînement",
       "openBook": "Ouvert",
       "answerMode": "Répondre",
+      "reviewed": "Lu",
       "openBookOn": "Passer en mode ouvert (voir réponses et explications)",
       "openBookOff": "Passer en mode réponse",
       "showEn": "Afficher la traduction anglaise",

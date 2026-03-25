@@ -649,6 +649,7 @@
       "correct": "Correct",
       "wrong": "Wrong",
       "answered": "Answered",
+      "reviewed": "Reviewed",
       "questionLabel": "Question {n}, {status}",
       "showMixed": "Time order",
       "showGrouped": "Group by type"
@@ -669,6 +670,7 @@
       "loadError": "Failed to load practice data",
       "openBook": "Open Book",
       "answerMode": "Answer",
+      "reviewed": "Reviewed",
       "openBookOn": "Switch to open book mode (view answers and explanations)",
       "openBookOff": "Switch to answer mode",
       "showEn": "Show English translation",

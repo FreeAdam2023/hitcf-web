@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen, Star, Eye, EyeOff, Lightbulb } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen, Star, Eye, EyeOff, Lightbulb, BookCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -373,6 +373,26 @@ export function PracticeSession() {
       return next;
     });
   }, [attemptId]);
+
+  // ── Open-book reviewed tracking ──
+  const [reviewedIds, setReviewedIds] = useState<Set<string>>(() => {
+    if (typeof window === "undefined") return new Set();
+    try {
+      const stored = localStorage.getItem(`reviewed:${attemptId}`);
+      return stored ? new Set(JSON.parse(stored)) : new Set();
+    } catch { return new Set(); }
+  });
+  const toggleReviewed = useCallback(() => {
+    const q = questions[currentIndex];
+    if (!q) return;
+    setReviewedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(q.id)) next.delete(q.id); else next.add(q.id);
+      try { localStorage.setItem(`reviewed:${attemptId}`, JSON.stringify(Array.from(next))); } catch { /* quota */ }
+      return next;
+    });
+  }, [attemptId, questions, currentIndex]);
+
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
@@ -868,6 +888,13 @@ export function PracticeSession() {
         return;
       }
 
+      // Enter in open-book mode = toggle reviewed
+      if (e.key === "Enter" && openBook) {
+        e.preventDefault();
+        toggleReviewed();
+        return;
+      }
+
       if (e.key === "ArrowRight" && currentIndex < totalQuestions - 1) {
         e.preventDefault();
         handleNextRef.current();
@@ -878,7 +905,7 @@ export function PracticeSession() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [questions, currentIndex, previousAnswers, totalQuestions]);
+  }, [questions, currentIndex, previousAnswers, totalQuestions, openBook, toggleReviewed]);
 
   if (!question || !attemptId) return <LoadingSpinner />;
 
@@ -903,6 +930,7 @@ export function PracticeSession() {
             previousAnswers={previousAnswers}
             drillAnsweredIds={drillMode ? drillAnsweredIds : undefined}
             onNavPageChange={drillMode ? handleNavPageChange : undefined}
+            reviewedIds={openBook ? reviewedIds : undefined}
           />
       </div>
 
@@ -1046,7 +1074,17 @@ export function PracticeSession() {
             {t("practice.session.prev")}
           </Button>
 
-          {allAnswered && (
+          {openBook ? (
+            <Button
+              variant={question && reviewedIds.has(question.id) ? "default" : "outline"}
+              size="sm"
+              onClick={toggleReviewed}
+              className={question && reviewedIds.has(question.id) ? "bg-purple-600 hover:bg-purple-700 text-white" : ""}
+            >
+              <BookCheck className="mr-1 h-4 w-4" />
+              {t("practice.session.reviewed")}
+            </Button>
+          ) : allAnswered ? (
             <Button
               size="sm"
               onClick={handleComplete}
@@ -1055,7 +1093,7 @@ export function PracticeSession() {
               <CheckCircle className="mr-1 h-4 w-4" />
               {completing ? t("common.actions.submitting") : t("practice.session.completePractice")}
             </Button>
-          )}
+          ) : null}
 
           <Button
             variant="outline"
@@ -1071,7 +1109,7 @@ export function PracticeSession() {
         {/* 提示栏 */}
         <div className="flex items-center justify-center gap-4 text-[11px] text-muted-foreground/60 flex-wrap">
           <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">A</kbd>-<kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">D</kbd> {t("practice.session.kbSelect")}</span>
-          <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Enter</kbd> {t("practice.session.kbConfirm")}</span>
+          <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Enter</kbd> {openBook ? t("practice.session.reviewed") : t("practice.session.kbConfirm")}</span>
           <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">←</kbd> <kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">→</kbd> {t("practice.session.kbNavigate")}</span>
           <span>💡 {t("practice.wordCardHint")}</span>
         </div>
@@ -1134,7 +1172,17 @@ export function PracticeSession() {
                 {t("practice.session.prev")}
               </Button>
 
-              {allAnswered && (
+              {openBook ? (
+                <Button
+                  variant={question && reviewedIds.has(question.id) ? "default" : "outline"}
+                  size="sm"
+                  onClick={toggleReviewed}
+                  className={question && reviewedIds.has(question.id) ? "bg-purple-600 hover:bg-purple-700 text-white" : ""}
+                >
+                  <BookCheck className="mr-1 h-4 w-4" />
+                  {t("practice.session.reviewed")}
+                </Button>
+              ) : allAnswered ? (
                 <Button
                   size="sm"
                   onClick={handleComplete}
@@ -1143,7 +1191,7 @@ export function PracticeSession() {
                   <CheckCircle className="mr-1 h-4 w-4" />
                   {completing ? t("common.actions.submitting") : t("practice.session.completePractice")}
                 </Button>
-              )}
+              ) : null}
 
               <Button
                 variant="outline"
@@ -1201,11 +1249,17 @@ export function PracticeSession() {
             {t("practice.session.prev")}
           </Button>
 
-          <span className="text-xs text-muted-foreground">
-            {currentIndex + 1} / {totalQuestions}
-          </span>
-
-          {allAnswered ? (
+          {openBook ? (
+            <Button
+              variant={question && reviewedIds.has(question.id) ? "default" : "ghost"}
+              size="sm"
+              onClick={toggleReviewed}
+              className={question && reviewedIds.has(question.id) ? "bg-purple-600 hover:bg-purple-700 text-white" : ""}
+            >
+              <BookCheck className="mr-1 h-4 w-4" />
+              {t("practice.session.reviewed")}
+            </Button>
+          ) : allAnswered ? (
             <Button
               size="sm"
               onClick={handleComplete}
@@ -1251,6 +1305,7 @@ export function PracticeSession() {
               questions={drillMode ? undefined : questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
               drillAnsweredIds={drillMode ? drillAnsweredIds : undefined}
               onNavPageChange={drillMode ? handleNavPageChange : undefined}
+              reviewedIds={openBook ? reviewedIds : undefined}
             />
           </div>
         </SheetContent>

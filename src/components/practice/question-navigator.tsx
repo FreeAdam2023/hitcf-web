@@ -28,6 +28,8 @@ interface QuestionNavigatorProps {
   drillAnsweredIds?: Set<string>;
   /** Called when paginated grid page changes (0-based display page) */
   onNavPageChange?: (displayPage: number) => void;
+  /** Open-book mode: set of question IDs marked as reviewed */
+  reviewedIds?: Set<string>;
 }
 
 const LEVEL_ORDER = ["A1", "A2", "B1", "B2", "C1", "C2"];
@@ -48,6 +50,7 @@ export function QuestionNavigator({
   previousAnswers,
   drillAnsweredIds,
   onNavPageChange,
+  reviewedIds,
 }: QuestionNavigatorProps) {
   const t = useTranslations();
   const isExam = mode === "exam";
@@ -80,11 +83,13 @@ export function QuestionNavigator({
 
     const isCorrect = !isExam && !!effectiveAnswer && effectiveAnswer.is_correct === true;
     const isWrong = !isExam && !!effectiveAnswer && effectiveAnswer.is_correct === false;
+    const isReviewed = !!(qid && reviewedIds?.has(qid));
 
     let statusLabel = t("practice.navigator.unanswered");
     if (isCorrect) statusLabel = t("practice.navigator.correct");
     else if (isWrong) statusLabel = t("practice.navigator.wrong");
     else if (isAnswered) statusLabel = t("practice.navigator.answered");
+    else if (isReviewed) statusLabel = t("practice.navigator.reviewed");
 
     return (
       <button
@@ -98,8 +103,9 @@ export function QuestionNavigator({
           !isExam && isWrong && "bg-red-500 text-white",
           isExam && isAnswered && "bg-primary text-primary-foreground",
           !isExam && isAnswered && !isCorrect && !isWrong && "bg-primary text-primary-foreground",
-          !isAnswered && !isCurrent && "bg-muted hover:bg-accent",
-          !isAnswered && isCurrent && "bg-primary/20",
+          !isAnswered && !isReviewed && !isCurrent && "bg-muted hover:bg-accent",
+          !isAnswered && !isReviewed && isCurrent && "bg-primary/20",
+          isReviewed && !isAnswered && "bg-purple-500 text-white",
         )}
       >
         {questionNum}

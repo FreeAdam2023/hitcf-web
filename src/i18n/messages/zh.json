@@ -649,6 +649,7 @@
       "correct": "正确",
       "wrong": "错误",
       "answered": "已答",
+      "reviewed": "已阅",
       "questionLabel": "第{n}题，{status}",
       "showMixed": "时间顺序",
       "showGrouped": "按类型分组"
@@ -669,6 +670,7 @@
       "loadError": "无法加载练习数据",
       "openBook": "开卷",
       "answerMode": "答题",
+      "reviewed": "已阅",
       "openBookOn": "切换到开卷模式（查看答案和解析）",
       "openBookOff": "切换到答题模式",
       "showEn": "显示英文翻译",
