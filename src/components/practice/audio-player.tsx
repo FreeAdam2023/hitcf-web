@@ -292,16 +292,22 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 
   const retryCountRef = useRef(0);
 
+  /** Append cache-busting param to bypass browser cache on retry. */
+  const bustCache = (rawUrl: string) => {
+    const sep = rawUrl.includes("?") ? "&" : "?";
+    return `${rawUrl}${sep}_t=${Date.now()}`;
+  };
+
   const onError = () => {
     setPlaying(false);
-    // Auto-retry once: fetch fresh URL from API
+    // Auto-retry once: fetch fresh URL with cache bust
     if (retryCountRef.current < 1) {
       retryCountRef.current += 1;
       setUrl(null);
       fetchedAtRef.current = 0;
       getAudioUrl(questionId)
         .then((res) => {
-          setUrl(res.url);
+          setUrl(bustCache(res.url));
           fetchedAtRef.current = Date.now();
         })
         .catch(() => setError(t("audio.loadRetryError")));
@@ -425,7 +431,13 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
             setUrl(null);
             fetchedAtRef.current = 0;
             pendingPlayRef.current = true;
-            loadUrl();
+            // Fetch fresh URL with cache bust
+            getAudioUrl(questionId)
+              .then((res) => {
+                setUrl(bustCache(res.url));
+                fetchedAtRef.current = Date.now();
+              })
+              .catch(() => setError(t("audio.loadRetryError")));
           } else {
             togglePlay();
           }
