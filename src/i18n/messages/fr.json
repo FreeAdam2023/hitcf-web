@@ -151,7 +151,9 @@
     "studyGroup": "Groupe d'étude",
     "scanGroup": "Scannez pour rejoindre le groupe WeChat",
     "allRightsReserved": "Tous droits réservés.",
-    "blog": "Blog"
+    "blog": "Blog",
+    "guide": "Guide",
+    "changelog": "Mises à jour"
   },
   "theme": {
     "lightMode": "Passer en mode clair",
@@ -2646,6 +2648,10 @@
     "blog": {
       "title": "Blog — Guides et conseils pour le TCF Canada",
       "description": "Blog de preparation au TCF Canada : analyses de l'examen, strategies CLB 7+, et astuces pour la comprehension orale, ecrite, l'expression orale et ecrite."
+    },
+    "guide": {
+      "title": "Guide — HiTCF",
+      "description": "Guide des fonctionnalités de la plateforme HiTCF."
     }
   },
   "referralPage": {
@@ -3315,6 +3321,94 @@
         "practiceButton": "Pratiquer l'écriture",
         "overviewButton": "Aperçu TCF Canada"
       }
+    },
+    "platform": {
+      "heading": "Guide de la plateforme HiTCF",
+      "intro": "Bienvenue sur HiTCF ! Une plateforme de pratique en ligne pour le TCF Canada, couvrant la compréhension orale, la compréhension écrite, l'expression orale et l'expression écrite.",
+      "features": {
+        "title": "Fonctionnalités principales",
+        "listening": {
+          "title": "Compréhension orale",
+          "desc": "42 séries + suppléments, 1600+ questions couvrant les niveaux A1-C2."
+        },
+        "listening.d1": "Transcription phrase par phrase + traductions chinois/anglais/arabe",
+        "listening.d2": "Cliquez sur une phrase pour accéder à la position audio",
+        "listening.d3": "Explications des réponses + analyse des distracteurs",
+        "listening.d4": "Mise en évidence des phrases clés",
+        "reading": {
+          "title": "Compréhension écrite",
+          "desc": "42 séries + suppléments, 1600+ questions avec explications détaillées."
+        },
+        "reading.d1": "Traduction phrase par phrase (français/chinois/anglais)",
+        "reading.d2": "Cliquez sur un mot pour voir sa définition et sa prononciation",
+        "reading.d3": "Explication par question + analyse des pièges",
+        "reading.d4": "Mise en évidence des phrases clés",
+        "speaking": {
+          "title": "Expression orale",
+          "desc": "Examinateur IA simulant des conversations réelles avec évaluation vocale Azure."
+        },
+        "speaking.d1": "Mode conversation IA : simulation d'entretien Tâche 2/3",
+        "speaking.d2": "Évaluation de la prononciation : scores de précision et de fluidité",
+        "speaking.d3": "Notation sur 6 dimensions",
+        "writing": {
+          "title": "Expression écrite",
+          "desc": "Correction IA avec notation sur 4 dimensions + corrections phrase par phrase."
+        },
+        "writing.d1": "Prise en charge de tous les types de tâches",
+        "writing.d2": "Notation sur 4 dimensions",
+        "writing.d3": "Corrections phrase par phrase + suggestions",
+        "vocabulary": {
+          "title": "Vocabulaire",
+          "desc": "Sauvegardez des mots, révisez avec des flashcards, pratiquez la dictée."
+        },
+        "vocabulary.d1": "Cliquez sur un mot pour le sauvegarder",
+        "vocabulary.d2": "Mode flashcard + mode dictée",
+        "vocabulary.d3": "Export vers Anki/CSV"
+      },
+      "modes": {
+        "title": "Modes de pratique",
+        "practice": {
+          "title": "Pratique par série",
+          "desc": "Pratiquez par série, voyez les explications immédiatement."
+        },
+        "speedDrill": {
+          "title": "Exercice par niveau",
+          "desc": "Filtrez par niveau A1-C2, concentrez-vous sur vos faiblesses."
+        },
+        "openBook": {
+          "title": "Mode livre ouvert",
+          "desc": "Voyez les réponses avant de répondre. Marquez comme « Lu » pour suivre votre progression."
+        },
+        "exam": {
+          "title": "Examen blanc",
+          "desc": "Examen chronométré, résultats après soumission avec évaluation du niveau TCF."
+        }
+      },
+      "highlights": {
+        "title": "Points forts"
+      },
+      "highlight": {
+        "translation": "Traduction phrase par phrase en 4 langues",
+        "wordLookup": "Cliquez sur un mot pour sa définition et prononciation",
+        "wrongNote": "Révision des erreurs : collecte automatique pour pratique ciblée",
+        "progress": "Statistiques d'apprentissage personnelles",
+        "multilang": "Interface multilingue : chinois, anglais, français, arabe",
+        "referral": "Programme de parrainage : invitez des amis, recevez 30 jours Pro"
+      },
+      "cta": {
+        "title": "Commencer",
+        "desc": "5 questions gratuites par jour. Abonnez-vous à Pro pour un accès complet.",
+        "start": "Commencer la pratique",
+        "pricing": "Voir les prix"
+      },
+      "moreGuides": {
+        "title": "Plus de guides",
+        "tcf": "Présentation du TCF Canada",
+        "listening": "Guide de préparation CO",
+        "reading": "Guide de préparation CE",
+        "speaking": "Guide de préparation EO",
+        "writing": "Guide de préparation EE"
+      }
     }
   },
   "testimonials": {
@@ -3322,5 +3416,9 @@
     "subtitle": "Retours authentiques de candidats au TCF Canada",
     "review1": "Votre section d'écoute est la mieux conçue. Aucune autre plateforme n'est aussi bonne — j'ai acheté l'abonnement juste après l'avoir essayé. Votre design comprend vraiment les besoins des utilisateurs.",
     "review2": "Le site regorge de détails que je n'ai jamais vus ailleurs. Survoler un mot affiche instantanément la prononciation et la définition — c'est vraiment génial !"
+  },
+  "changelog": {
+    "title": "Journal des mises à jour",
+    "subtitle": "Découvrez les nouveautés de HiTCF"
   }
 }

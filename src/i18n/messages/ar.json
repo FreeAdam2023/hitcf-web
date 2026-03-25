@@ -150,7 +150,9 @@
     "studyGroup": "مجموعة الدراسة",
     "scanGroup": "امسح للانضمام إلى مجموعة ويتشات",
     "allRightsReserved": "جميع الحقوق محفوظة.",
-    "blog": "مدونة"
+    "blog": "مدونة",
+    "guide": "Guide",
+    "changelog": "Changelog"
   },
   "theme": {
     "lightMode": "وضع فاتح",
@@ -2642,6 +2644,10 @@
     "blog": {
       "title": "المدونة — أدلة ونصائح لاختبار TCF Canada",
       "description": "مدونة التحضير لاختبار TCF Canada: تحليل الامتحان واستراتيجيات CLB 7+ ونصائح للاستماع والقراءة والتحدث والكتابة."
+    },
+    "guide": {
+      "title": "Platform Guide — HiTCF",
+      "description": "HiTCF platform features and usage guide. Learn about Listening, Reading, Speaking, and Writing practice modules."
     }
   },
   "referralPage": {
@@ -3311,6 +3317,94 @@
         "practiceButton": "تمرين الكتابة",
         "overviewButton": "نظرة عامة على TCF Canada"
       }
+    },
+    "platform": {
+      "heading": "HiTCF Platform Guide",
+      "intro": "Welcome to HiTCF! An online practice platform designed for the TCF Canada exam, covering Listening, Reading, Speaking, and Writing. Here is a detailed guide to all features.",
+      "features": {
+        "title": "Core Features",
+        "listening": {
+          "title": "Listening Practice",
+          "desc": "42 test sets + supplements, 1600+ questions covering A1-C2 levels."
+        },
+        "listening.d1": "Sentence-by-sentence French transcript + Chinese/English/Arabic translations",
+        "listening.d2": "Click any sentence to jump to that audio position",
+        "listening.d3": "Answer explanations + distractor analysis",
+        "listening.d4": "Key sentence highlighting",
+        "reading": {
+          "title": "Reading Practice",
+          "desc": "42 test sets + supplements, 1600+ questions with detailed explanations."
+        },
+        "reading.d1": "Sentence-by-sentence translation (French/Chinese/English)",
+        "reading.d2": "Click any French word to see definition and pronunciation",
+        "reading.d3": "Per-question explanation + common pitfall analysis",
+        "reading.d4": "Key sentence highlighting",
+        "speaking": {
+          "title": "Speaking Practice",
+          "desc": "AI examiner simulates real conversations with Azure speech assessment."
+        },
+        "speaking.d1": "AI Conversation: simulates Tache 2/3 real interview",
+        "speaking.d2": "Pronunciation assessment: accuracy and fluency scoring",
+        "speaking.d3": "6-dimension scoring: pronunciation, fluency, grammar, vocabulary, task completion, pragmatics",
+        "writing": {
+          "title": "Writing Practice",
+          "desc": "AI grading with 4-dimension scoring + sentence-level corrections."
+        },
+        "writing.d1": "Supports all task types: Tache 1/2/3",
+        "writing.d2": "4-dimension scoring: content, structure, vocabulary & grammar, coherence",
+        "writing.d3": "Sentence-by-sentence corrections + improvement suggestions",
+        "vocabulary": {
+          "title": "Vocabulary Learning",
+          "desc": "Save words, flashcard review, dictation practice, export to Anki."
+        },
+        "vocabulary.d1": "Click any French word during practice to save it",
+        "vocabulary.d2": "Flashcard mode + dictation mode",
+        "vocabulary.d3": "Export to Anki/CSV"
+      },
+      "modes": {
+        "title": "Practice Modes",
+        "practice": {
+          "title": "Test Set Practice",
+          "desc": "Practice by test set, see explanations immediately after answering."
+        },
+        "speedDrill": {
+          "title": "Level Drill",
+          "desc": "Filter by A1-C2 level, focus on weak areas, auto-skip completed questions."
+        },
+        "openBook": {
+          "title": "Open Book Mode",
+          "desc": "View answers and explanations before answering. Mark as \"Reviewed\" to track progress."
+        },
+        "exam": {
+          "title": "Mock Exam",
+          "desc": "Timed exam, no answers shown until submission. TCF level assessment included."
+        }
+      },
+      "highlights": {
+        "title": "Key Highlights"
+      },
+      "highlight": {
+        "translation": "Sentence Translation: French/Chinese/English/Arabic translations for every sentence",
+        "wordLookup": "Word Lookup: Click any French word to see meaning, part of speech, and pronunciation",
+        "wrongNote": "Wrong Answer Review: Auto-collect mistakes for targeted practice",
+        "progress": "Learning Stats: Personal dashboard with progress, accuracy, level distribution",
+        "multilang": "Multi-language UI: Chinese, English, French, Arabic",
+        "referral": "Referral Rewards: Invite friends, both get 30 days Pro when they subscribe"
+      },
+      "cta": {
+        "title": "Start Practicing",
+        "desc": "5 free listening/reading questions per day + 5 explanation views. Subscribe to Pro for full access.",
+        "start": "Start Practice",
+        "pricing": "View Pricing"
+      },
+      "moreGuides": {
+        "title": "More Exam Guides",
+        "tcf": "TCF Canada Exam Overview",
+        "listening": "TCF Listening Preparation Guide",
+        "reading": "TCF Reading Preparation Guide",
+        "speaking": "TCF Speaking Preparation Guide",
+        "writing": "TCF Writing Preparation Guide"
+      }
     }
   },
   "testimonials": {
@@ -3318,5 +3412,9 @@
     "subtitle": "تعليقات حقيقية من مرشحي TCF Canada",
     "review1": "قسم الاستماع لديكم هو الأفضل تصميماً. لا توجد منصة أخرى بنفس الجودة — اشتريت العضوية فوراً بعد التجربة. تصميمكم يفهم حقاً ما يحتاجه المستخدمون.",
     "review2": "الموقع مليء بالتفاصيل المدروسة التي لم أرها في أي موقع آخر. تمرير المؤشر فوق كلمة يعرض فوراً النطق والتعريف — هذا رائع حقاً!"
+  },
+  "changelog": {
+    "title": "Changelog",
+    "subtitle": "See what's new and improved on HiTCF"
   }
 }

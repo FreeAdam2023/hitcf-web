@@ -48,6 +48,18 @@ export function Footer() {
             >
               {t('footer.blog')}
             </Link>
+            <Link
+              href="/guide"
+              className="transition-colors hover:text-foreground"
+            >
+              {t('footer.guide')}
+            </Link>
+            <Link
+              href="/changelog"
+              className="transition-colors hover:text-foreground"
+            >
+              {t('footer.changelog')}
+            </Link>
             <Popover>
               <PopoverTrigger asChild>
                 <button className="cursor-pointer transition-colors hover:text-foreground">
