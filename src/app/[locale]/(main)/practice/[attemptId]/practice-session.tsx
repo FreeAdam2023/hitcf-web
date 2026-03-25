@@ -868,8 +868,10 @@ export function PracticeSession() {
       const answered = answersRef.current.has(q.id) || previousAnswers.has(q.id);
 
       // Enter in open-book mode = toggle reviewed (before confirm check)
+      // Blur active button first to prevent native click from double-toggling
       if (e.key === "Enter" && openBook) {
         e.preventDefault();
+        (document.activeElement as HTMLElement)?.blur();
         toggleReviewed();
         return;
       }
