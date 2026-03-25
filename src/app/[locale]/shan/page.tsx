@@ -22,7 +22,7 @@ interface Lily {
   petalCount: number;
   color: string;
   stemColor: string;
-  bloom: number; // 0-1 bloom animation
+  bloom: number;
 }
 
 interface Bubble {
@@ -44,18 +44,47 @@ interface Fish {
   depth: number;
 }
 
+interface Whale {
+  x: number;
+  y: number;
+  speed: number;
+  phase: "swimming" | "surfacing" | "spouting" | "diving";
+  timer: number;
+  spoutParticles: SpoutDrop[];
+  surfaceY: number;
+  direction: number; // 1 = right, -1 = left
+}
+
+interface SpoutDrop {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  life: number;
+  maxLife: number;
+  size: number;
+}
+
+interface Seagull {
+  x: number;
+  y: number;
+  speed: number;
+  wingPhase: number;
+  size: number;
+}
+
 // ─── Color palettes ─────────────────────────────────────────────
 const LILY_COLORS = [
   "#ffffff", "#fff5f5", "#ffe8ec", "#ffd6e0",
   "#f0fff0", "#e8ffe8", "#d4f5d4",
 ];
 
-const OCEAN_GREENS = [
-  "rgba(16, 85, 81, 0.6)",
-  "rgba(20, 100, 90, 0.5)",
-  "rgba(25, 120, 100, 0.4)",
-  "rgba(30, 140, 110, 0.3)",
-  "rgba(40, 160, 120, 0.2)",
+const OCEAN_BLUES = [
+  "rgba(20, 80, 160, 0.5)",
+  "rgba(30, 100, 180, 0.4)",
+  "rgba(40, 120, 200, 0.35)",
+  "rgba(50, 140, 210, 0.3)",
+  "rgba(60, 160, 220, 0.2)",
 ];
 
 const FISH_COLORS = ["#ff9966", "#ffcc66", "#66cccc", "#99cc99", "#cc99cc"];
@@ -67,16 +96,17 @@ export default function ShanPage() {
 
   const initLilies = useCallback((w: number, h: number): Lily[] => {
     const lilies: Lily[] = [];
-    const count = Math.floor(w / 120);
+    const waterTop = h * 0.5;
+    const count = Math.floor(w / 150);
     for (let i = 0; i < count; i++) {
       lilies.push({
-        x: (w / (count + 1)) * (i + 1) + (Math.random() - 0.5) * 60,
-        y: h * 0.45 + (Math.random() - 0.5) * 30,
-        size: 20 + Math.random() * 15,
+        x: (w / (count + 1)) * (i + 1) + (Math.random() - 0.5) * 80,
+        y: waterTop + 10 + Math.random() * 25,
+        size: 18 + Math.random() * 14,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.003,
         bobOffset: Math.random() * Math.PI * 2,
-        bobSpeed: 0.01 + Math.random() * 0.01,
+        bobSpeed: 0.01 + Math.random() * 0.008,
         petalCount: 6 + Math.floor(Math.random() * 3),
         color: LILY_COLORS[Math.floor(Math.random() * LILY_COLORS.length)],
         stemColor: `hsl(${130 + Math.random() * 20}, ${60 + Math.random() * 20}%, ${35 + Math.random() * 15}%)`,
@@ -95,14 +125,12 @@ export default function ShanPage() {
     let w = (canvas.width = window.innerWidth);
     let h = (canvas.height = window.innerHeight);
 
-    const msgInterval: ReturnType<typeof setInterval> | null = null;
-
     // Initialize waves
-    const waves: Wave[] = OCEAN_GREENS.map((color, i) => ({
+    const waves: Wave[] = OCEAN_BLUES.map((color, i) => ({
       offset: 0,
-      amplitude: 8 + i * 3,
-      frequency: 0.008 + i * 0.002,
-      speed: 0.015 + i * 0.005,
+      amplitude: 6 + i * 2.5,
+      frequency: 0.006 + i * 0.002,
+      speed: 0.012 + i * 0.004,
       color,
     }));
 
@@ -111,78 +139,165 @@ export default function ShanPage() {
 
     // Initialize bubbles
     const bubbles: Bubble[] = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 15; i++) {
       bubbles.push({
         x: Math.random() * w,
-        y: h * 0.5 + Math.random() * h * 0.5,
-        size: 2 + Math.random() * 6,
-        speed: 0.3 + Math.random() * 0.7,
-        opacity: 0.1 + Math.random() * 0.3,
+        y: h * 0.55 + Math.random() * h * 0.45,
+        size: 2 + Math.random() * 5,
+        speed: 0.3 + Math.random() * 0.5,
+        opacity: 0.1 + Math.random() * 0.2,
         wobble: Math.random() * Math.PI * 2,
       });
     }
 
     // Initialize fish
     const fishes: Fish[] = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       fishes.push({
         x: Math.random() * w,
-        y: h * 0.55 + Math.random() * h * 0.35,
-        speed: 0.5 + Math.random() * 1.5,
-        size: 8 + Math.random() * 12,
+        y: h * 0.6 + Math.random() * h * 0.3,
+        speed: 0.4 + Math.random() * 1.2,
+        size: 8 + Math.random() * 14,
         color: FISH_COLORS[Math.floor(Math.random() * FISH_COLORS.length)],
         tailPhase: Math.random() * Math.PI * 2,
         depth: 0.3 + Math.random() * 0.7,
       });
     }
 
+    // Initialize whale
+    const whale: Whale = {
+      x: -100,
+      y: h * 0.52,
+      speed: 0.4,
+      phase: "swimming",
+      timer: 0,
+      spoutParticles: [],
+      surfaceY: h * 0.48,
+      direction: 1,
+    };
+
+    // Initialize seagulls
+    const seagulls: Seagull[] = [];
+    for (let i = 0; i < 3; i++) {
+      seagulls.push({
+        x: Math.random() * w,
+        y: h * 0.08 + Math.random() * h * 0.15,
+        speed: 0.8 + Math.random() * 0.6,
+        wingPhase: Math.random() * Math.PI * 2,
+        size: 6 + Math.random() * 4,
+      });
+    }
+
     let frame = 0;
 
-    function drawSky(ctx: CanvasRenderingContext2D) {
+    function drawSky() {
+      // Sky gradient — warm beach sky
       const gradient = ctx.createLinearGradient(0, 0, 0, h * 0.5);
-      gradient.addColorStop(0, "#0a2e1a");
-      gradient.addColorStop(0.3, "#134e2a");
-      gradient.addColorStop(0.6, "#1a6b3a");
-      gradient.addColorStop(1, "#2d8f5e");
+      gradient.addColorStop(0, "#1a3a6e");
+      gradient.addColorStop(0.3, "#2e5f9e");
+      gradient.addColorStop(0.6, "#5a9fd4");
+      gradient.addColorStop(0.85, "#87ceeb");
+      gradient.addColorStop(1, "#b5e4f7");
       ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, w, h * 0.5);
+      ctx.fillRect(0, 0, w, h * 0.52);
 
-      // Stars
+      // Clouds
       ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
-      for (let i = 0; i < 60; i++) {
-        const sx = ((i * 137.5) % w);
-        const sy = ((i * 97.3) % (h * 0.4));
-        const twinkle = Math.sin(frame * 0.02 + i) * 0.5 + 0.5;
-        ctx.globalAlpha = twinkle * 0.8;
+      const drawCloud = (cx: number, cy: number, s: number) => {
         ctx.beginPath();
-        ctx.arc(sx, sy, 1 + twinkle, 0, Math.PI * 2);
+        ctx.arc(cx, cy, s * 1.2, 0, Math.PI * 2);
+        ctx.arc(cx - s, cy + s * 0.3, s * 0.8, 0, Math.PI * 2);
+        ctx.arc(cx + s, cy + s * 0.2, s * 0.9, 0, Math.PI * 2);
+        ctx.arc(cx - s * 0.5, cy - s * 0.3, s * 0.7, 0, Math.PI * 2);
+        ctx.arc(cx + s * 0.6, cy - s * 0.4, s * 0.6, 0, Math.PI * 2);
         ctx.fill();
-      }
-      ctx.globalAlpha = 1;
+      };
+      const cloudX1 = ((frame * 0.15) % (w + 200)) - 100;
+      const cloudX2 = ((frame * 0.1 + 500) % (w + 200)) - 100;
+      drawCloud(cloudX1, h * 0.12, 25);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+      drawCloud(cloudX2, h * 0.2, 18);
 
-      // Moon
-      const moonX = w * 0.8;
-      const moonY = h * 0.12;
-      const moonGlow = ctx.createRadialGradient(moonX, moonY, 15, moonX, moonY, 80);
-      moonGlow.addColorStop(0, "rgba(200, 255, 200, 0.3)");
-      moonGlow.addColorStop(1, "rgba(200, 255, 200, 0)");
-      ctx.fillStyle = moonGlow;
-      ctx.fillRect(moonX - 80, moonY - 80, 160, 160);
-
-      ctx.fillStyle = "#e8ffe8";
+      // Sun
+      const sunX = w * 0.15;
+      const sunY = h * 0.1;
+      const sunGlow = ctx.createRadialGradient(sunX, sunY, 10, sunX, sunY, 100);
+      sunGlow.addColorStop(0, "rgba(255, 240, 180, 0.8)");
+      sunGlow.addColorStop(0.3, "rgba(255, 220, 150, 0.3)");
+      sunGlow.addColorStop(1, "rgba(255, 200, 100, 0)");
+      ctx.fillStyle = sunGlow;
+      ctx.fillRect(sunX - 100, sunY - 100, 200, 200);
+      ctx.fillStyle = "#fff8dc";
       ctx.beginPath();
-      ctx.arc(moonX, moonY, 20, 0, Math.PI * 2);
+      ctx.arc(sunX, sunY, 22, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    function drawOcean(ctx: CanvasRenderingContext2D) {
+    function drawBeach() {
+      // Sandy beach at bottom-right (bay shape)
+      const beachStart = w * 0.6;
+      const waterLine = h * 0.5;
+
+      // Beach sand gradient
+      const sandGrad = ctx.createLinearGradient(0, waterLine, 0, h);
+      sandGrad.addColorStop(0, "#f5deb3");
+      sandGrad.addColorStop(0.3, "#e8cc8c");
+      sandGrad.addColorStop(1, "#d4a960");
+
+      ctx.beginPath();
+      ctx.moveTo(w, waterLine - 15);
+      // Curved beach shoreline
+      for (let x = w; x >= beachStart - 50; x -= 3) {
+        const t = (w - x) / (w - beachStart + 50);
+        const beachY = waterLine - 15 + t * t * 60 + Math.sin(x * 0.02 + frame * 0.01) * 3;
+        ctx.lineTo(x, beachY);
+      }
+      ctx.lineTo(beachStart - 50, h);
+      ctx.lineTo(w, h);
+      ctx.closePath();
+      ctx.fillStyle = sandGrad;
+      ctx.fill();
+
+      // Wet sand (darker strip near water)
+      ctx.beginPath();
+      ctx.moveTo(w, waterLine - 10);
+      for (let x = w; x >= beachStart; x -= 3) {
+        const t = (w - x) / (w - beachStart);
+        const wetY = waterLine - 10 + t * t * 40 + Math.sin(x * 0.025 + frame * 0.015) * 2;
+        ctx.lineTo(x, wetY);
+      }
+      for (let x = beachStart; x <= w; x += 3) {
+        const t = (w - x) / (w - beachStart);
+        const wetY = waterLine - 5 + t * t * 50 + Math.sin(x * 0.025 + frame * 0.015) * 2;
+        ctx.lineTo(x, wetY);
+      }
+      ctx.closePath();
+      ctx.fillStyle = "rgba(180, 155, 110, 0.5)";
+      ctx.fill();
+
+      // Foam at water's edge
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let x = beachStart; x <= w; x += 3) {
+        const t = (w - x) / (w - beachStart);
+        const foamY = waterLine - 8 + t * t * 45 + Math.sin(x * 0.03 + frame * 0.03) * 4;
+        if (x === beachStart) ctx.moveTo(x, foamY);
+        else ctx.lineTo(x, foamY);
+      }
+      ctx.stroke();
+    }
+
+    function drawOcean() {
       // Ocean base
-      const oceanGrad = ctx.createLinearGradient(0, h * 0.45, 0, h);
-      oceanGrad.addColorStop(0, "rgba(15, 80, 70, 0.85)");
-      oceanGrad.addColorStop(0.5, "rgba(10, 60, 55, 0.9)");
-      oceanGrad.addColorStop(1, "rgba(5, 30, 25, 0.95)");
+      const waterTop = h * 0.5;
+      const oceanGrad = ctx.createLinearGradient(0, waterTop, 0, h);
+      oceanGrad.addColorStop(0, "rgba(20, 90, 160, 0.85)");
+      oceanGrad.addColorStop(0.3, "rgba(15, 70, 140, 0.9)");
+      oceanGrad.addColorStop(0.7, "rgba(10, 50, 110, 0.92)");
+      oceanGrad.addColorStop(1, "rgba(5, 30, 70, 0.95)");
       ctx.fillStyle = oceanGrad;
-      ctx.fillRect(0, h * 0.45, w, h * 0.55);
+      ctx.fillRect(0, waterTop, w, h * 0.5);
 
       // Waves
       for (const wave of waves) {
@@ -190,7 +305,7 @@ export default function ShanPage() {
         ctx.beginPath();
         ctx.moveTo(0, h);
         for (let x = 0; x <= w; x += 3) {
-          const y = h * 0.45 + Math.sin(x * wave.frequency + wave.offset) * wave.amplitude;
+          const y = waterTop + Math.sin(x * wave.frequency + wave.offset) * wave.amplitude;
           ctx.lineTo(x, y);
         }
         ctx.lineTo(w, h);
@@ -198,14 +313,165 @@ export default function ShanPage() {
         ctx.fillStyle = wave.color;
         ctx.fill();
       }
+
+      // Horizon shimmer
+      ctx.fillStyle = `rgba(255, 255, 255, ${0.05 + Math.sin(frame * 0.02) * 0.03})`;
+      ctx.fillRect(0, waterTop - 2, w * 0.6, 4);
     }
 
-    function drawLily(ctx: CanvasRenderingContext2D, lily: Lily) {
-      const bob = Math.sin(frame * lily.bobSpeed + lily.bobOffset) * 5;
+    function drawWhale() {
+      whale.timer++;
+
+      // State machine
+      if (whale.phase === "swimming") {
+        whale.x += whale.speed * whale.direction;
+        whale.y = whale.surfaceY + 30 + Math.sin(frame * 0.01) * 8;
+        // Surface every ~600 frames
+        if (whale.timer > 400 + Math.random() * 300) {
+          whale.phase = "surfacing";
+          whale.timer = 0;
+        }
+        if (whale.x > w + 150) { whale.direction = -1; }
+        if (whale.x < -150) { whale.direction = 1; }
+      } else if (whale.phase === "surfacing") {
+        whale.y -= 0.5;
+        if (whale.y <= whale.surfaceY - 10) {
+          whale.phase = "spouting";
+          whale.timer = 0;
+        }
+      } else if (whale.phase === "spouting") {
+        // Create spout particles
+        if (whale.timer < 30 && whale.timer % 3 === 0) {
+          for (let i = 0; i < 4; i++) {
+            whale.spoutParticles.push({
+              x: whale.x + 25 * whale.direction,
+              y: whale.y - 20,
+              vx: (Math.random() - 0.5) * 2,
+              vy: -(3 + Math.random() * 4),
+              life: 50 + Math.random() * 30,
+              maxLife: 80,
+              size: 2 + Math.random() * 3,
+            });
+          }
+        }
+        if (whale.timer > 80) {
+          whale.phase = "diving";
+          whale.timer = 0;
+        }
+      } else if (whale.phase === "diving") {
+        whale.y += 0.6;
+        whale.x += whale.speed * 0.3 * whale.direction;
+        if (whale.y > whale.surfaceY + 40) {
+          whale.phase = "swimming";
+          whale.timer = 0;
+        }
+      }
+
+      // Update spout particles
+      whale.spoutParticles = whale.spoutParticles.filter((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.08; // gravity
+        p.life--;
+        return p.life > 0;
+      });
+
+      // Draw spout particles
+      for (const p of whale.spoutParticles) {
+        const alpha = (p.life / p.maxLife) * 0.7;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200, 230, 255, ${alpha})`;
+        ctx.fill();
+      }
+
+      // Draw whale body
+      const wDir = whale.direction;
+      ctx.save();
+      ctx.translate(whale.x, whale.y);
+      if (wDir < 0) ctx.scale(-1, 1);
+
+      // Only draw if partially visible
+      const bodyAlpha = whale.phase === "diving" ? Math.max(0, 1 - whale.timer / 60) : whale.phase === "swimming" ? 0.4 : 0.8;
+      ctx.globalAlpha = bodyAlpha;
+
+      // Body
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 45, 18, 0, 0, Math.PI * 2);
+      ctx.fillStyle = "#2c4a6e";
+      ctx.fill();
+
+      // Belly (lighter)
+      ctx.beginPath();
+      ctx.ellipse(5, 5, 35, 10, 0, 0, Math.PI);
+      ctx.fillStyle = "#5a8ab5";
+      ctx.fill();
+
+      // Head
+      ctx.beginPath();
+      ctx.ellipse(35, -2, 18, 14, 0.1, 0, Math.PI * 2);
+      ctx.fillStyle = "#34567a";
+      ctx.fill();
+
+      // Eye
+      ctx.beginPath();
+      ctx.arc(40, -4, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = "#1a1a2e";
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(40.5, -4.5, 1, 0, Math.PI * 2);
+      ctx.fillStyle = "#fff";
+      ctx.fill();
+
+      // Tail
+      const tailWag = Math.sin(frame * 0.06) * 8;
+      ctx.beginPath();
+      ctx.moveTo(-40, 0);
+      ctx.quadraticCurveTo(-55, -5 + tailWag, -65, -15 + tailWag);
+      ctx.quadraticCurveTo(-55, 0 + tailWag, -65, 15 + tailWag);
+      ctx.quadraticCurveTo(-55, 5 + tailWag, -40, 0);
+      ctx.fillStyle = "#2c4a6e";
+      ctx.fill();
+
+      // Dorsal fin
+      ctx.beginPath();
+      ctx.moveTo(-5, -17);
+      ctx.quadraticCurveTo(5, -30, 12, -17);
+      ctx.fillStyle = "#2c4a6e";
+      ctx.fill();
+
+      ctx.globalAlpha = 1;
+      ctx.restore();
+    }
+
+    function drawSeagulls() {
+      for (const gull of seagulls) {
+        gull.x += gull.speed;
+        gull.wingPhase += 0.06;
+        if (gull.x > w + 20) {
+          gull.x = -20;
+          gull.y = h * 0.06 + Math.random() * h * 0.18;
+        }
+
+        const wingUp = Math.sin(gull.wingPhase) * gull.size * 0.8;
+        ctx.save();
+        ctx.translate(gull.x, gull.y);
+        ctx.strokeStyle = "#333";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(-gull.size, wingUp);
+        ctx.quadraticCurveTo(-gull.size * 0.3, wingUp * 0.3, 0, 0);
+        ctx.quadraticCurveTo(gull.size * 0.3, wingUp * 0.3, gull.size, wingUp);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    function drawLily(lily: Lily) {
+      const bob = Math.sin(frame * lily.bobSpeed + lily.bobOffset) * 4;
       const lx = lily.x + Math.sin(frame * 0.005 + lily.bobOffset) * 3;
       const ly = lily.y + bob;
 
-      // Bloom animation
       if (lily.bloom < 1) lily.bloom = Math.min(1, lily.bloom + 0.005);
       const bloomScale = lily.bloom;
 
@@ -213,7 +479,7 @@ export default function ShanPage() {
       ctx.translate(lx, ly);
       ctx.rotate(lily.rotation + Math.sin(frame * 0.008) * 0.05);
 
-      // Lily pad (leaf)
+      // Lily pad
       ctx.beginPath();
       ctx.ellipse(0, 0, lily.size * 1.5, lily.size * 0.8, 0, 0, Math.PI * 2);
       ctx.fillStyle = lily.stemColor;
@@ -231,7 +497,7 @@ export default function ShanPage() {
         ctx.ellipse(petalSize * 0.5, 0, petalSize * 0.6, petalSize * 0.25, 0, 0, Math.PI * 2);
         ctx.fillStyle = lily.color;
         ctx.fill();
-        ctx.strokeStyle = "rgba(200, 255, 200, 0.3)";
+        ctx.strokeStyle = "rgba(200, 220, 255, 0.3)";
         ctx.lineWidth = 0.5;
         ctx.stroke();
         ctx.restore();
@@ -243,7 +509,6 @@ export default function ShanPage() {
       ctx.fillStyle = "#ffffaa";
       ctx.fill();
 
-      // Inner glow
       const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, petalSize * 0.3);
       glow.addColorStop(0, "rgba(255, 255, 200, 0.4)");
       glow.addColorStop(1, "rgba(255, 255, 200, 0)");
@@ -251,52 +516,45 @@ export default function ShanPage() {
       ctx.fillRect(-petalSize, -petalSize, petalSize * 2, petalSize * 2);
 
       ctx.restore();
-
       lily.rotation += lily.rotationSpeed;
     }
 
-    function drawBubbles(ctx: CanvasRenderingContext2D) {
+    function drawBubbles() {
       for (const b of bubbles) {
         b.y -= b.speed;
         b.wobble += 0.03;
         b.x += Math.sin(b.wobble) * 0.5;
-
-        if (b.y < h * 0.45) {
+        if (b.y < h * 0.5) {
           b.y = h;
           b.x = Math.random() * w;
         }
-
         ctx.beginPath();
         ctx.arc(b.x, b.y, b.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(180, 255, 220, ${b.opacity})`;
+        ctx.fillStyle = `rgba(150, 210, 255, ${b.opacity})`;
         ctx.fill();
-        ctx.strokeStyle = `rgba(200, 255, 230, ${b.opacity * 0.5})`;
+        ctx.strokeStyle = `rgba(180, 230, 255, ${b.opacity * 0.5})`;
         ctx.lineWidth = 0.5;
         ctx.stroke();
       }
     }
 
-    function drawFish(ctx: CanvasRenderingContext2D) {
+    function drawFish() {
       for (const fish of fishes) {
         fish.x += fish.speed;
         fish.tailPhase += 0.1;
-
         if (fish.x > w + 30) {
           fish.x = -30;
-          fish.y = h * 0.55 + Math.random() * h * 0.35;
+          fish.y = h * 0.6 + Math.random() * h * 0.3;
         }
-
         ctx.save();
         ctx.translate(fish.x, fish.y);
-        ctx.globalAlpha = fish.depth * 0.6;
+        ctx.globalAlpha = fish.depth * 0.5;
 
-        // Body
         ctx.beginPath();
         ctx.ellipse(0, 0, fish.size, fish.size * 0.4, 0, 0, Math.PI * 2);
         ctx.fillStyle = fish.color;
         ctx.fill();
 
-        // Tail
         const tailWag = Math.sin(fish.tailPhase) * 4;
         ctx.beginPath();
         ctx.moveTo(-fish.size, 0);
@@ -306,7 +564,6 @@ export default function ShanPage() {
         ctx.fillStyle = fish.color;
         ctx.fill();
 
-        // Eye
         ctx.beginPath();
         ctx.arc(fish.size * 0.5, -fish.size * 0.1, 1.5, 0, Math.PI * 2);
         ctx.fillStyle = "#fff";
@@ -321,13 +578,16 @@ export default function ShanPage() {
       frame++;
       ctx.clearRect(0, 0, w, h);
 
-      drawSky(ctx);
-      drawOcean(ctx);
-      drawFish(ctx);
-      drawBubbles(ctx);
+      drawSky();
+      drawOcean();
+      drawBeach();
+      drawFish();
+      drawBubbles();
+      drawWhale();
+      drawSeagulls();
 
       for (const lily of lilies) {
-        drawLily(ctx, lily);
+        drawLily(lily);
       }
 
       animRef.current = requestAnimationFrame(animate);
@@ -339,18 +599,18 @@ export default function ShanPage() {
       w = canvas.width = window.innerWidth;
       h = canvas.height = window.innerHeight;
       lilies = initLilies(w, h);
+      whale.surfaceY = h * 0.48;
     };
     window.addEventListener("resize", handleResize);
 
     return () => {
       cancelAnimationFrame(animRef.current);
-      if (msgInterval) clearInterval(msgInterval);
       window.removeEventListener("resize", handleResize);
     };
   }, [initLilies]);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#0a2e1a]">
+    <div className="relative w-screen h-screen overflow-hidden bg-[#1a3a6e]">
       <canvas ref={canvasRef} className="absolute inset-0" />
     </div>
   );

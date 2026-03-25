@@ -1276,22 +1276,23 @@ export function PracticeSession() {
               <CheckCircle className="mr-1 h-4 w-4" />
               {completing ? t("common.actions.submitting") : t("practice.session.completePractice")}
             </Button>
-          ) : (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleNext}
-              disabled={isLast}
-            >
-              {t("practice.session.next")}
-              <ChevronRight className="ml-1 h-4 w-4" />
-            </Button>
-          )}
+          ) : null}
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleNext}
+            disabled={isLast}
+          >
+            {t("practice.session.next")}
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
         </div>
       </div>,
       document.body)}
 
-      {/* Mobile floating navigator (question grid) */}
+      {/* Mobile floating navigator (question grid) — portal to body to avoid transform breaking fixed */}
+      {typeof document !== "undefined" && createPortal(
       <Sheet>
         <SheetTrigger asChild>
           <Button
@@ -1317,7 +1318,8 @@ export function PracticeSession() {
             />
           </div>
         </SheetContent>
-      </Sheet>
+      </Sheet>,
+      document.body)}
 
       {question && (
         <ReportDialog
