@@ -406,7 +406,6 @@ export function PracticeSession() {
   }, [questions, drillMode]);
 
   // ── Drill mode: on-demand question loading ──
-  const [drillLoading, setDrillLoading] = useState(false);
   const drillLoadingRef = useRef<string | null>(null); // question ID being loaded
 
   useEffect(() => {
@@ -415,7 +414,6 @@ export function PracticeSession() {
     // 1. Ensure nav page is loaded (contains question IDs for this index)
     const navPage = Math.floor(currentIndex / NAV_PAGE_SIZE) + 1;
     if (!drillNavLoadedPages.has(navPage)) {
-      setDrillLoading(true);
       fetchDrillNav(attemptId, navPage)
         .then((nav) => setDrillNavPage(navPage, nav.question_ids, nav.answered_ids))
         .catch((err) => console.error("Failed to load nav page", err));
@@ -433,7 +431,6 @@ export function PracticeSession() {
 
     if (drillLoadingRef.current === qid) return;
     drillLoadingRef.current = qid;
-    setDrillLoading(true);
 
     const applyQuestion = (q: QuestionBrief & { bookmarked?: boolean; answered?: boolean; selected?: string; is_correct?: boolean; correct_answer?: string }) => {
       if (q.bookmarked) setBookmarkedIds((prev) => new Set(prev).add(q.id));
@@ -453,7 +450,7 @@ export function PracticeSession() {
       .then(applyQuestion)
       .catch((err) => console.error("Failed to load drill question", err))
       .finally(() => {
-        if (drillLoadingRef.current === qid) { drillLoadingRef.current = null; setDrillLoading(false); }
+        if (drillLoadingRef.current === qid) { drillLoadingRef.current = null; }
       });
 
     // 3. Prefetch next question
