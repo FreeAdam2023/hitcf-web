@@ -107,11 +107,11 @@ export function ResultsView({ attempt }: ResultsViewProps) {
     setPracticingWrong(true);
     try {
       const res = await practiceWrongAnswers({ type: attempt.test_set_type });
-      if (!res?.id) {
+      if (!res?.attempt_id) {
         setPracticingWrong(false);
         return;
       }
-      router.push(`/practice/${res.id}`);
+      router.push(`/practice/${res.attempt_id}`);
     } catch {
       setPracticingWrong(false);
     }

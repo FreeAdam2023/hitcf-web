@@ -32,7 +32,7 @@ export default function PracticePage() {
         return;
       }
 
-      if (attempt.mode === "speed_drill") {
+      if (attempt.lazy_load) {
         // Lazy loading: fetch all question IDs (lightweight) + first question on demand
         const nav = await fetchDrillNav(params.attemptId, 1, 2000);
         if (signal?.aborted) return;

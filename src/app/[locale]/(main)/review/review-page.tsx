@@ -23,7 +23,6 @@ import {
   toggleBookmark,
   practiceBookmarks,
 } from "@/lib/api/bookmarks";
-import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { useTranslations } from "next-intl";
@@ -68,7 +67,6 @@ export function ReviewPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const i18nRouter = useI18nRouter();
-  const initPractice = usePracticeStore((s) => s.init);
   const canAccessPaid = useAuthStore((s) => {
     if (s.isLoading) return true;
     const status = s.user?.subscription?.status;
@@ -222,8 +220,7 @@ export function ReviewPage() {
         type: practiceType,
         limit,
       });
-      initPractice(result.id, result.questions);
-      i18nRouter.push(`/practice/${result.id}`);
+      i18nRouter.push(`/practice/${result.attempt_id}`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t("common.errors.operationFailed"));
       setStartingPractice(false);
@@ -237,8 +234,7 @@ export function ReviewPage() {
         type: practiceType,
         limit,
       });
-      initPractice(result.id, result.questions);
-      i18nRouter.push(`/practice/${result.id}`);
+      i18nRouter.push(`/practice/${result.attempt_id}`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t("common.errors.operationFailed"));
       setStartingBmPractice(false);

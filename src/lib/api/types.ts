@@ -303,6 +303,7 @@ export interface AttemptDetail extends AttemptResponse {
   answers: AnswerResponse[];
   filtered_question_ids?: string[];
   previously_answered?: AnswerResponse[];
+  lazy_load?: boolean;
 }
 
 // Attempt creation response

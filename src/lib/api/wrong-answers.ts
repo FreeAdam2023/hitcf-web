@@ -40,13 +40,8 @@ export function toggleMastered(
 }
 
 export interface PracticeWrongAnswersResponse {
-  id: string;
-  test_set_id: string;
-  mode: string;
+  attempt_id: string;
   total: number;
-  status: string;
-  question_ids: string[];
-  questions: import("./types").QuestionBrief[];
 }
 
 export function practiceWrongAnswers(body: {

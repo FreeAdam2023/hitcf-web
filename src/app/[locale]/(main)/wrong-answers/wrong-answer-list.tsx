@@ -16,7 +16,6 @@ import {
   practiceWrongAnswers,
   getWrongAnswerStats,
 } from "@/lib/api/wrong-answers";
-import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { useTranslations } from "next-intl";
@@ -55,7 +54,6 @@ function MasteryRing({ mastered, total }: { mastered: number; total: number }) {
 export function WrongAnswerList() {
   const t = useTranslations();
   const router = useRouter();
-  const initPractice = usePracticeStore((s) => s.init);
   const canAccessPaid = useAuthStore((s) => {
     if (s.isLoading) return true;
     const status = s.user?.subscription?.status;
@@ -140,8 +138,7 @@ export function WrongAnswerList() {
         type: type === "all" ? undefined : type,
       });
 
-      initPractice(result.id, result.questions);
-      router.push(`/practice/${result.id}`);
+      router.push(`/practice/${result.attempt_id}`);
     } catch (err) {
       console.error("Failed to start practice", err);
       toast.error(

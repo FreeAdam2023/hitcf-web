@@ -1,5 +1,5 @@
 import { get, post } from "./client";
-import type { PaginatedResponse, BookmarkItem, BookmarkStats, BookmarkDetail, QuestionBrief } from "./types";
+import type { PaginatedResponse, BookmarkItem, BookmarkStats, BookmarkDetail } from "./types";
 
 export function toggleBookmark(questionId: string): Promise<{ bookmarked: boolean }> {
   return post<{ bookmarked: boolean }>(`/api/bookmarks/${questionId}`);
@@ -35,13 +35,8 @@ export function checkBookmarks(questionIds: string[]): Promise<{ bookmarked: str
 }
 
 export interface PracticeBookmarksResponse {
-  id: string;
-  test_set_id: string;
-  mode: string;
+  attempt_id: string;
   total: number;
-  status: string;
-  question_ids: string[];
-  questions: QuestionBrief[];
 }
 
 export function practiceBookmarks(body: {
