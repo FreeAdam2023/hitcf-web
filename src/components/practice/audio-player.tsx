@@ -290,10 +290,28 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     }
   };
 
+  const retryCountRef = useRef(0);
+
   const onError = () => {
     setPlaying(false);
-    setError(t("audio.loadRetryError"));
+    // Auto-retry once: fetch fresh URL from API
+    if (retryCountRef.current < 1) {
+      retryCountRef.current += 1;
+      setUrl(null);
+      fetchedAtRef.current = 0;
+      getAudioUrl(questionId)
+        .then((res) => {
+          setUrl(res.url);
+          fetchedAtRef.current = Date.now();
+        })
+        .catch(() => setError(t("audio.loadRetryError")));
+    } else {
+      setError(t("audio.loadRetryError"));
+    }
   };
+
+  // Reset retry counter when question changes
+  useEffect(() => { retryCountRef.current = 0; }, [questionId]);
 
   if (examMode) {
     return (
@@ -395,16 +413,29 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         )}
       </div>
 
-      {/* Play/Pause */}
+      {/* Play/Pause/Retry */}
       <Button
-        variant="outline"
+        variant={error ? "destructive" : "outline"}
         size="icon"
         className="h-8 w-8 shrink-0"
-        onClick={togglePlay}
+        onClick={() => {
+          if (error) {
+            setError(null);
+            retryCountRef.current = 0;
+            setUrl(null);
+            fetchedAtRef.current = 0;
+            pendingPlayRef.current = true;
+            loadUrl();
+          } else {
+            togglePlay();
+          }
+        }}
         disabled={loading || exhausted}
       >
         {loading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
+        ) : error ? (
+          <RotateCcw className="h-4 w-4" />
         ) : playing ? (
           <Pause className="h-4 w-4" />
         ) : (
