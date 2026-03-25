@@ -97,12 +97,19 @@ export function PricingView() {
   };
 
   const handleSubscribe = async (plan: "monthly" | "quarterly" | "yearly") => {
+    // Prevent rapid re-clicks (e.g. user goes to Stripe, comes back, clicks again)
+    const lastCheckout = sessionStorage.getItem("lastCheckoutAt");
+    if (lastCheckout && Date.now() - Number(lastCheckout) < 30_000) {
+      return; // 30s cooldown
+    }
     trackEvent("clicked_subscribe", { plan });
     setLoadingPlan(plan);
+    sessionStorage.setItem("lastCheckoutAt", String(Date.now()));
     try {
       const { url } = await createCheckout(plan);
       window.location.href = url;
     } catch {
+      sessionStorage.removeItem("lastCheckoutAt");
       window.location.href = "/payment/error";
     }
   };
