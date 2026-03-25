@@ -37,7 +37,7 @@ interface LevelPracticeDialogProps {
 export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeDialogProps) {
   const t = useTranslations();
   const router = useRouter();
-  const initPractice = usePracticeStore((s) => s.init);
+  // initPractice removed — practice page now loads questions on-demand
 
   const [selectedLevels, setSelectedLevels] = useState<Set<string>>(new Set(LEVELS));
   const [count, setCount] = useState(0);
@@ -91,13 +91,12 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
       const levels = allSelected ? undefined : Array.from(selectedLevels);
       const result = await startSpeedDrill({ type, levels, count, dedup: !includeDone, include_done: includeDone });
 
-      if (!result.questions.length) {
+      if (!result.total) {
         setError(t("speedDrill.noMoreQuestions"));
         setLoading(false);
         return;
       }
 
-      initPractice(result.attempt_id, result.questions);
       onOpenChange(false);
       router.push(`/practice/${result.attempt_id}`);
     } catch {

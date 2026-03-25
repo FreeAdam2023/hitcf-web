@@ -14,6 +14,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
 import { toggleBookmark, checkBookmarks } from "@/lib/api/bookmarks";
+import { loadDrillQuestion } from "@/lib/api/speed-drill";
 import { getQuestionDetail, generateExplanation, getExplanationStatus } from "@/lib/api/questions";
 import type { ExplanationResponse } from "@/lib/api/questions";
 import { getQuotaStatus, type QuotaStatus } from "@/lib/api/subscriptions";
@@ -342,7 +343,15 @@ export function PracticeSession() {
     goNext,
     goPrev,
     goToQuestion,
+    drillMode,
+    drillTotal,
+    drillQuestionIds,
+    drillAnsweredIds,
+    loadedQuestions,
+    setDrillQuestion,
   } = usePracticeStore();
+
+  const totalQuestions = drillMode ? drillTotal : questions.length;
 
   const locale = useLocale();
   const hasActiveSub = useAuthStore((s) => s.hasActiveSubscription);
@@ -385,12 +394,96 @@ export function PracticeSession() {
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    if (questions.length === 0) return;
+    // In drill mode, bookmark status comes per-question via loadDrillQuestion
+    if (drillMode || questions.length === 0) return;
     const ids = questions.map((q) => q.id);
     checkBookmarks(ids)
       .then((res) => setBookmarkedIds(new Set(res.bookmarked)))
       .catch(() => {});
-  }, [questions]);
+  }, [questions, drillMode]);
+
+  // ── Drill mode: on-demand question loading ──
+  const [drillLoading, setDrillLoading] = useState(false);
+  const drillLoadingRef = useRef<string | null>(null); // question ID being loaded
+
+  useEffect(() => {
+    if (!drillMode || !attemptId) return;
+    const qid = drillQuestionIds[currentIndex];
+    if (!qid) return;
+
+    // Already loaded?
+    if (loadedQuestions.has(qid)) {
+      // Ensure questions array is populated at this index
+      if (!questions[currentIndex]) {
+        setDrillQuestion(loadedQuestions.get(qid)!);
+      }
+      return;
+    }
+
+    // Load on demand
+    if (drillLoadingRef.current === qid) return; // already loading this one
+    drillLoadingRef.current = qid;
+    setDrillLoading(true);
+
+    loadDrillQuestion(qid, attemptId)
+      .then((q) => {
+        // Update bookmark status from question response
+        if (q.bookmarked) {
+          setBookmarkedIds((prev) => new Set(prev).add(q.id));
+        }
+        // If already answered, put it into answers map
+        if (q.answered && q.selected && q.correct_answer !== undefined) {
+          const existing = answers.get(q.id);
+          if (!existing) {
+            setAnswer(q.id, {
+              question_id: q.id,
+              question_number: q.question_number,
+              selected: q.selected,
+              is_correct: q.is_correct ?? false,
+              correct_answer: q.correct_answer ?? null,
+              level: q.level,
+            });
+          }
+        }
+        setDrillQuestion(q);
+      })
+      .catch((err) => {
+        console.error("Failed to load drill question", err);
+      })
+      .finally(() => {
+        if (drillLoadingRef.current === qid) {
+          drillLoadingRef.current = null;
+          setDrillLoading(false);
+        }
+      });
+
+    // Prefetch next question in background
+    const nextIdx = currentIndex + 1;
+    const nextQid = drillQuestionIds[nextIdx];
+    if (nextQid && !loadedQuestions.has(nextQid)) {
+      loadDrillQuestion(nextQid, attemptId)
+        .then((q) => {
+          if (q.bookmarked) {
+            setBookmarkedIds((prev) => new Set(prev).add(q.id));
+          }
+          if (q.answered && q.selected && q.correct_answer !== undefined) {
+            const existing = answers.get(q.id);
+            if (!existing) {
+              setAnswer(q.id, {
+                question_id: q.id,
+                question_number: q.question_number,
+                selected: q.selected,
+                is_correct: q.is_correct ?? false,
+                correct_answer: q.correct_answer ?? null,
+                level: q.level,
+              });
+            }
+          }
+          setDrillQuestion(q);
+        })
+        .catch(() => {}); // prefetch failure is non-critical
+    }
+  }, [drillMode, attemptId, currentIndex, drillQuestionIds, loadedQuestions, questions, setDrillQuestion, answers, setAnswer]);
 
   // ── Quota tracking (free users) ──
   const [initialQuota, setInitialQuota] = useState<QuotaStatus | null>(null);
@@ -708,23 +801,27 @@ export function PracticeSession() {
 
   const handleGoToQuestion = (index: number) => {
     // Block navigation to unanswered questions when quota is reached
-    const target = questions[index];
-    if (quotaReached && target && !answers.has(target.id)) {
-      showQuotaModal();
-      return;
+    if (quotaReached) {
+      const targetId = drillMode ? drillQuestionIds[index] : questions[index]?.id;
+      if (targetId && !answers.has(targetId)) {
+        showQuotaModal();
+        return;
+      }
     }
     goToQuestion(index);
   };
 
   const handleNext = useCallback(() => {
     // Block navigation to next unanswered question when quota is reached
-    const next = questions[currentIndex + 1];
-    if (quotaReached && next && !answers.has(next.id)) {
-      showQuotaModal();
-      return;
+    if (quotaReached) {
+      const nextId = drillMode ? drillQuestionIds[currentIndex + 1] : questions[currentIndex + 1]?.id;
+      if (nextId && !answers.has(nextId)) {
+        showQuotaModal();
+        return;
+      }
     }
     goNext();
-  }, [goNext, questions, currentIndex, answers, quotaReached, showQuotaModal]);
+  }, [goNext, questions, currentIndex, answers, quotaReached, showQuotaModal, drillMode, drillQuestionIds]);
 
   const handlePrev = useCallback(() => {
     goPrev();
@@ -771,7 +868,7 @@ export function PracticeSession() {
         return;
       }
 
-      if (e.key === "ArrowRight" && currentIndex < questions.length - 1) {
+      if (e.key === "ArrowRight" && currentIndex < totalQuestions - 1) {
         e.preventDefault();
         handleNextRef.current();
       } else if (e.key === "ArrowLeft" && currentIndex > 0) {
@@ -781,13 +878,15 @@ export function PracticeSession() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [questions, currentIndex, previousAnswers]);
+  }, [questions, currentIndex, previousAnswers, totalQuestions]);
 
-  if (!question || !attemptId) return <LoadingSpinner />;
+  if (!question || !attemptId || (drillMode && drillLoading && !questions[currentIndex])) return <LoadingSpinner />;
 
-  const isLast = currentIndex === questions.length - 1;
-  const totalAnswered = new Set([...Array.from(answers.keys()), ...Array.from(previousAnswers.keys())]).size;
-  const allAnswered = totalAnswered >= questions.length;
+  const isLast = currentIndex === totalQuestions - 1;
+  const totalAnswered = drillMode
+    ? drillAnsweredIds.size
+    : new Set([...Array.from(answers.keys()), ...Array.from(previousAnswers.keys())]).size;
+  const allAnswered = totalAnswered >= totalQuestions;
 
   return (
     <>
@@ -795,13 +894,14 @@ export function PracticeSession() {
       {/* 左侧：题号导航 (桌面) */}
       <div className="hidden lg:block overflow-y-auto scrollbar-on-hover rounded-xl bg-card border shadow-sm p-3">
           <QuestionNavigator
-            total={questions.length}
+            total={totalQuestions}
             currentIndex={currentIndex}
             answers={answers}
-            questionIds={questions.map((q) => q.id)}
+            questionIds={drillMode ? drillQuestionIds : questions.map((q) => q.id)}
             onNavigate={handleGoToQuestion}
-            questions={questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
+            questions={drillMode ? undefined : questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
             previousAnswers={previousAnswers}
+            drillAnsweredIds={drillMode ? drillAnsweredIds : undefined}
           />
       </div>
 
@@ -810,7 +910,7 @@ export function PracticeSession() {
         <QuestionDisplay
           question={question}
           index={currentIndex}
-          total={questions.length}
+          total={totalQuestions}
           saveContext={saveContext}
           audioRef={audioPlayerRef}
           onAudioTimeUpdate={setAudioTime}
@@ -1098,7 +1198,7 @@ export function PracticeSession() {
           </Button>
 
           <span className="text-xs text-muted-foreground">
-            {currentIndex + 1} / {questions.length}
+            {currentIndex + 1} / {totalQuestions}
           </span>
 
           {allAnswered ? (
@@ -1139,12 +1239,13 @@ export function PracticeSession() {
         <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
           <div className="p-4 pb-[calc(2rem+env(safe-area-inset-bottom))]">
             <QuestionNavigator
-              total={questions.length}
+              total={totalQuestions}
               currentIndex={currentIndex}
               answers={answers}
-              questionIds={questions.map((q) => q.id)}
+              questionIds={drillMode ? drillQuestionIds : questions.map((q) => q.id)}
               onNavigate={handleGoToQuestion}
-              questions={questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
+              questions={drillMode ? undefined : questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
+              drillAnsweredIds={drillMode ? drillAnsweredIds : undefined}
             />
           </div>
         </SheetContent>

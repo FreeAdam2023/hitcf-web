@@ -24,6 +24,8 @@ interface QuestionNavigatorProps {
   flaggedQuestions?: Set<number>;
   questions?: QuestionMeta[];
   previousAnswers?: Map<string, AnswerResponse>;
+  /** Drill mode: set of answered question IDs from nav endpoint */
+  drillAnsweredIds?: Set<string>;
 }
 
 const LEVEL_ORDER = ["A1", "A2", "B1", "B2", "C1", "C2"];
@@ -42,14 +44,18 @@ export function QuestionNavigator({
   flaggedQuestions,
   questions,
   previousAnswers,
+  drillAnsweredIds,
 }: QuestionNavigatorProps) {
   const t = useTranslations();
   const isExam = mode === "exam";
+  const isDrill = !!drillAnsweredIds;
   const isListeningOrReading = questions?.[0]?.type === "listening" || questions?.[0]?.type === "reading";
-  const useGrouped = !isExam && isListeningOrReading && questions && questions.length > 0;
-  const totalAnswered = previousAnswers
-    ? new Set([...Array.from(answers.keys()), ...Array.from(previousAnswers.keys())]).size
-    : answers.size;
+  const useGrouped = !isExam && !isDrill && isListeningOrReading && questions && questions.length > 0;
+  const totalAnswered = isDrill
+    ? drillAnsweredIds.size
+    : previousAnswers
+      ? new Set([...Array.from(answers.keys()), ...Array.from(previousAnswers.keys())]).size
+      : answers.size;
 
   // Detect mixed types (wrong answer practice with both listening + reading)
   const types = questions ? new Set(questions.map((q) => q.type)) : new Set<string>();
@@ -62,7 +68,10 @@ export function QuestionNavigator({
     const prevAnswer = !answer && qid ? previousAnswers?.get(qid) : undefined;
     const effectiveAnswer = (answer ?? prevAnswer) as AnswerResponse | undefined;
     const isCurrent = i === currentIndex;
-    const isAnswered = !!effectiveAnswer;
+    // In drill mode, use drillAnsweredIds for questions not yet loaded into answers map
+    const isAnswered = isDrill
+      ? !!(effectiveAnswer || (qid && drillAnsweredIds.has(qid)))
+      : !!effectiveAnswer;
     const questionNum = i + 1;
     const isFlagged = isExam && flaggedQuestions?.has(questionNum);
 
