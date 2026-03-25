@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { MobileTabBar } from "./mobile-tab-bar";
 
 let mockPathname = "/tests";
+let mockUser: { email: string } | null = { email: "test@hitcf.com" };
 
 vi.mock("@/i18n/navigation", () => ({
   Link: ({
@@ -24,67 +25,106 @@ vi.mock("@/i18n/navigation", () => ({
 vi.mock("next-intl", () => ({
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {
+      "nav.home": "Home",
       "nav.tests": "Tests",
       "nav.review": "Review",
       "nav.vocabulary": "Vocabulary",
       "nav.history": "History",
       "nav.profile": "Me",
+      "nav.pricing": "Pricing",
     };
     return map[key] || key;
   },
 }));
 
+vi.mock("@/stores/auth-store", () => ({
+  useAuthStore: (selector: (s: { user: typeof mockUser }) => unknown) =>
+    selector({ user: mockUser }),
+}));
+
 describe("MobileTabBar", () => {
-  it("renders all 5 tabs", () => {
-    mockPathname = "/tests";
-    render(<MobileTabBar />);
+  describe("logged in", () => {
+    it("renders all 5 tabs", () => {
+      mockUser = { email: "test@hitcf.com" };
+      mockPathname = "/tests";
+      render(<MobileTabBar />);
 
-    expect(screen.getByText("Tests")).toBeInTheDocument();
-    expect(screen.getByText("Review")).toBeInTheDocument();
-    expect(screen.getByText("Vocabulary")).toBeInTheDocument();
-    expect(screen.getByText("History")).toBeInTheDocument();
-    expect(screen.getByText("Me")).toBeInTheDocument();
+      expect(screen.getByText("Tests")).toBeInTheDocument();
+      expect(screen.getByText("Review")).toBeInTheDocument();
+      expect(screen.getByText("Vocabulary")).toBeInTheDocument();
+      expect(screen.getByText("History")).toBeInTheDocument();
+      expect(screen.getByText("Me")).toBeInTheDocument();
+    });
+
+    it("highlights the active tab", () => {
+      mockUser = { email: "test@hitcf.com" };
+      mockPathname = "/vocabulary";
+      render(<MobileTabBar />);
+
+      const vocabTab = screen.getByTestId("tab-/vocabulary");
+      const testsTab = screen.getByTestId("tab-/tests");
+
+      expect(vocabTab.className).toContain("text-primary");
+      expect(testsTab.className).not.toContain("text-primary");
+    });
+
+    it("highlights tab for nested routes", () => {
+      mockUser = { email: "test@hitcf.com" };
+      mockPathname = "/review/bookmarks";
+      render(<MobileTabBar />);
+
+      const reviewTab = screen.getByTestId("tab-/review");
+      expect(reviewTab.className).toContain("text-primary");
+    });
+
+    it("renders correct hrefs for all tabs", () => {
+      mockUser = { email: "test@hitcf.com" };
+      mockPathname = "/tests";
+      render(<MobileTabBar />);
+
+      expect(screen.getByTestId("tab-/tests")).toHaveAttribute("href", "/tests");
+      expect(screen.getByTestId("tab-/review")).toHaveAttribute("href", "/review");
+      expect(screen.getByTestId("tab-/vocabulary")).toHaveAttribute("href", "/vocabulary");
+      expect(screen.getByTestId("tab-/history")).toHaveAttribute("href", "/history");
+      expect(screen.getByTestId("tab-/profile")).toHaveAttribute("href", "/profile");
+    });
   });
 
-  it("highlights the active tab", () => {
-    mockPathname = "/vocabulary";
-    render(<MobileTabBar />);
+  describe("guest", () => {
+    it("renders guest tabs", () => {
+      mockUser = null;
+      mockPathname = "/";
+      render(<MobileTabBar />);
 
-    const vocabTab = screen.getByTestId("tab-/vocabulary");
-    const testsTab = screen.getByTestId("tab-/tests");
+      expect(screen.getByText("Home")).toBeInTheDocument();
+      expect(screen.getByText("Tests")).toBeInTheDocument();
+      expect(screen.getByText("Pricing")).toBeInTheDocument();
+      expect(screen.getByText("Me")).toBeInTheDocument();
+      expect(screen.queryByText("Review")).not.toBeInTheDocument();
+    });
 
-    expect(vocabTab.className).toContain("text-primary");
-    expect(testsTab.className).not.toContain("text-primary");
+    it("guest login tab links to /login", () => {
+      mockUser = null;
+      mockPathname = "/tests";
+      render(<MobileTabBar />);
+
+      expect(screen.getByTestId("tab-/login")).toHaveAttribute("href", "/login");
+    });
   });
 
-  it("highlights tab for nested routes", () => {
-    mockPathname = "/review/bookmarks";
-    render(<MobileTabBar />);
+  describe("hidden pages", () => {
+    it("returns null on practice pages", () => {
+      mockUser = { email: "test@hitcf.com" };
+      mockPathname = "/practice/abc123";
+      const { container } = render(<MobileTabBar />);
+      expect(container.innerHTML).toBe("");
+    });
 
-    const reviewTab = screen.getByTestId("tab-/review");
-    expect(reviewTab.className).toContain("text-primary");
-  });
-
-  it("returns null on practice pages", () => {
-    mockPathname = "/practice/abc123";
-    const { container } = render(<MobileTabBar />);
-    expect(container.innerHTML).toBe("");
-  });
-
-  it("returns null on exam pages", () => {
-    mockPathname = "/exam/abc123";
-    const { container } = render(<MobileTabBar />);
-    expect(container.innerHTML).toBe("");
-  });
-
-  it("renders correct hrefs for all tabs", () => {
-    mockPathname = "/tests";
-    render(<MobileTabBar />);
-
-    expect(screen.getByTestId("tab-/tests")).toHaveAttribute("href", "/tests");
-    expect(screen.getByTestId("tab-/review")).toHaveAttribute("href", "/review");
-    expect(screen.getByTestId("tab-/vocabulary")).toHaveAttribute("href", "/vocabulary");
-    expect(screen.getByTestId("tab-/history")).toHaveAttribute("href", "/history");
-    expect(screen.getByTestId("tab-/profile")).toHaveAttribute("href", "/profile");
+    it("returns null on exam pages", () => {
+      mockUser = { email: "test@hitcf.com" };
+      mockPathname = "/exam/abc123";
+      const { container } = render(<MobileTabBar />);
+      expect(container.innerHTML).toBe("");
+    });
   });
 });
