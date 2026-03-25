@@ -10,7 +10,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { usePracticeStore } from "@/stores/practice-store";
 import { startSpeedDrill, fetchLevelStats } from "@/lib/api/speed-drill";
 import type { LevelStats } from "@/lib/api/speed-drill";
 import { useTranslations } from "next-intl";

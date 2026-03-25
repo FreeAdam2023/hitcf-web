@@ -33,8 +33,14 @@ export default function PracticePage() {
       }
 
       if (attempt.lazy_load) {
-        // Lazy loading: fetch all question IDs (lightweight) + first question on demand
-        const nav = await fetchDrillNav(params.attemptId, 1, 2000);
+        // Determine which nav page to fetch (resume may be on a later page)
+        let startPage = 1;
+        try {
+          const saved = localStorage.getItem(`practiceIndex:${params.attemptId}`);
+          if (saved) { const idx = parseInt(saved, 10); if (!isNaN(idx) && idx >= 50) startPage = Math.floor(idx / 50) + 1; }
+        } catch {}
+
+        const nav = await fetchDrillNav(params.attemptId, startPage);
         if (signal?.aborted) return;
 
         const firstId = nav.question_ids[0];
@@ -43,7 +49,7 @@ export default function PracticePage() {
         const firstQ = await loadDrillQuestion(firstId, params.attemptId);
         if (signal?.aborted) return;
 
-        initDrill(params.attemptId, nav.total, nav.question_ids, nav.answered_ids, firstQ);
+        initDrill(params.attemptId, nav.total, nav.page, nav.question_ids, nav.answered_ids, firstQ);
       } else {
         const questions = await getTestSetQuestions(
           attempt.test_set_id,

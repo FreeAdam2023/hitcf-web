@@ -14,7 +14,8 @@ import { useAuthStore } from "@/stores/auth-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
 import { toggleBookmark, checkBookmarks } from "@/lib/api/bookmarks";
-import { loadDrillQuestion } from "@/lib/api/speed-drill";
+import { fetchDrillNav, loadDrillQuestion } from "@/lib/api/speed-drill";
+import { NAV_PAGE_SIZE } from "@/stores/practice-store";
 import { getQuestionDetail, generateExplanation, getExplanationStatus } from "@/lib/api/questions";
 import type { ExplanationResponse } from "@/lib/api/questions";
 import { getQuotaStatus, type QuotaStatus } from "@/lib/api/subscriptions";
@@ -347,8 +348,10 @@ export function PracticeSession() {
     drillTotal,
     drillQuestionIds,
     drillAnsweredIds,
+    drillNavLoadedPages,
     loadedQuestions,
     setDrillQuestion,
+    setDrillNavPage,
   } = usePracticeStore();
 
   const totalQuestions = drillMode ? drillTotal : questions.length;
@@ -408,82 +411,66 @@ export function PracticeSession() {
 
   useEffect(() => {
     if (!drillMode || !attemptId) return;
+
+    // 1. Ensure nav page is loaded (contains question IDs for this index)
+    const navPage = Math.floor(currentIndex / NAV_PAGE_SIZE) + 1;
+    if (!drillNavLoadedPages.has(navPage)) {
+      setDrillLoading(true);
+      fetchDrillNav(attemptId, navPage)
+        .then((nav) => setDrillNavPage(navPage, nav.question_ids, nav.answered_ids))
+        .catch((err) => console.error("Failed to load nav page", err));
+      return; // effect re-runs after store updates
+    }
+
+    // 2. Load question on demand
     const qid = drillQuestionIds[currentIndex];
     if (!qid) return;
 
-    // Already loaded?
     if (loadedQuestions.has(qid)) {
-      // Ensure questions array is populated at this index
-      if (!questions[currentIndex]) {
-        setDrillQuestion(loadedQuestions.get(qid)!);
-      }
+      if (!questions[currentIndex]) setDrillQuestion(loadedQuestions.get(qid)!);
       return;
     }
 
-    // Load on demand
-    if (drillLoadingRef.current === qid) return; // already loading this one
+    if (drillLoadingRef.current === qid) return;
     drillLoadingRef.current = qid;
     setDrillLoading(true);
 
+    const applyQuestion = (q: QuestionBrief & { bookmarked?: boolean; answered?: boolean; selected?: string; is_correct?: boolean; correct_answer?: string }) => {
+      if (q.bookmarked) setBookmarkedIds((prev) => new Set(prev).add(q.id));
+      if (q.answered && q.selected && q.correct_answer !== undefined) {
+        if (!answers.get(q.id)) {
+          setAnswer(q.id, {
+            question_id: q.id, question_number: q.question_number,
+            selected: q.selected, is_correct: q.is_correct ?? false,
+            correct_answer: q.correct_answer ?? null, level: q.level,
+          });
+        }
+      }
+      setDrillQuestion(q);
+    };
+
     loadDrillQuestion(qid, attemptId)
-      .then((q) => {
-        // Update bookmark status from question response
-        if (q.bookmarked) {
-          setBookmarkedIds((prev) => new Set(prev).add(q.id));
-        }
-        // If already answered, put it into answers map
-        if (q.answered && q.selected && q.correct_answer !== undefined) {
-          const existing = answers.get(q.id);
-          if (!existing) {
-            setAnswer(q.id, {
-              question_id: q.id,
-              question_number: q.question_number,
-              selected: q.selected,
-              is_correct: q.is_correct ?? false,
-              correct_answer: q.correct_answer ?? null,
-              level: q.level,
-            });
-          }
-        }
-        setDrillQuestion(q);
-      })
-      .catch((err) => {
-        console.error("Failed to load drill question", err);
-      })
+      .then(applyQuestion)
+      .catch((err) => console.error("Failed to load drill question", err))
       .finally(() => {
-        if (drillLoadingRef.current === qid) {
-          drillLoadingRef.current = null;
-          setDrillLoading(false);
-        }
+        if (drillLoadingRef.current === qid) { drillLoadingRef.current = null; setDrillLoading(false); }
       });
 
-    // Prefetch next question in background
-    const nextIdx = currentIndex + 1;
-    const nextQid = drillQuestionIds[nextIdx];
+    // 3. Prefetch next question
+    const nextQid = drillQuestionIds[currentIndex + 1];
     if (nextQid && !loadedQuestions.has(nextQid)) {
-      loadDrillQuestion(nextQid, attemptId)
-        .then((q) => {
-          if (q.bookmarked) {
-            setBookmarkedIds((prev) => new Set(prev).add(q.id));
-          }
-          if (q.answered && q.selected && q.correct_answer !== undefined) {
-            const existing = answers.get(q.id);
-            if (!existing) {
-              setAnswer(q.id, {
-                question_id: q.id,
-                question_number: q.question_number,
-                selected: q.selected,
-                is_correct: q.is_correct ?? false,
-                correct_answer: q.correct_answer ?? null,
-                level: q.level,
-              });
-            }
-          }
-          setDrillQuestion(q);
-        })
-        .catch(() => {}); // prefetch failure is non-critical
+      loadDrillQuestion(nextQid, attemptId).then(applyQuestion).catch(() => {});
     }
-  }, [drillMode, attemptId, currentIndex, drillQuestionIds, loadedQuestions, questions, setDrillQuestion, answers, setAnswer]);
+
+    // 4. Prefetch next nav page if approaching boundary
+    const posInPage = currentIndex % NAV_PAGE_SIZE;
+    if (posInPage >= NAV_PAGE_SIZE - 2) {
+      const nextNavPage = navPage + 1;
+      if (!drillNavLoadedPages.has(nextNavPage) && (nextNavPage - 1) * NAV_PAGE_SIZE < drillTotal) {
+        fetchDrillNav(attemptId, nextNavPage).then((nav) => setDrillNavPage(nextNavPage, nav.question_ids, nav.answered_ids)).catch(() => {});
+      }
+    }
+  }, [drillMode, attemptId, currentIndex, drillQuestionIds, drillNavLoadedPages, loadedQuestions, questions, setDrillQuestion, setDrillNavPage, answers, setAnswer, drillTotal]);
 
   // ── Quota tracking (free users) ──
   const [initialQuota, setInitialQuota] = useState<QuotaStatus | null>(null);
@@ -823,6 +810,17 @@ export function PracticeSession() {
     goNext();
   }, [goNext, questions, currentIndex, answers, quotaReached, showQuotaModal, drillMode, drillQuestionIds]);
 
+  // Fetch nav page IDs when navigator display page changes (drill mode)
+  const handleNavPageChange = useCallback((displayPage: number) => {
+    if (!drillMode || !attemptId) return;
+    const backendPage = displayPage + 1; // 0-based display → 1-based backend
+    if (!drillNavLoadedPages.has(backendPage)) {
+      fetchDrillNav(attemptId, backendPage)
+        .then((nav) => setDrillNavPage(backendPage, nav.question_ids, nav.answered_ids))
+        .catch(() => {});
+    }
+  }, [drillMode, attemptId, drillNavLoadedPages, setDrillNavPage]);
+
   const handlePrev = useCallback(() => {
     goPrev();
   }, [goPrev]);
@@ -902,6 +900,7 @@ export function PracticeSession() {
             questions={drillMode ? undefined : questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
             previousAnswers={previousAnswers}
             drillAnsweredIds={drillMode ? drillAnsweredIds : undefined}
+            onNavPageChange={drillMode ? handleNavPageChange : undefined}
           />
       </div>
 
@@ -1246,6 +1245,7 @@ export function PracticeSession() {
               onNavigate={handleGoToQuestion}
               questions={drillMode ? undefined : questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
               drillAnsweredIds={drillMode ? drillAnsweredIds : undefined}
+              onNavPageChange={drillMode ? handleNavPageChange : undefined}
             />
           </div>
         </SheetContent>

@@ -26,6 +26,8 @@ interface QuestionNavigatorProps {
   previousAnswers?: Map<string, AnswerResponse>;
   /** Drill mode: set of answered question IDs from nav endpoint */
   drillAnsweredIds?: Set<string>;
+  /** Called when paginated grid page changes (0-based display page) */
+  onNavPageChange?: (displayPage: number) => void;
 }
 
 const LEVEL_ORDER = ["A1", "A2", "B1", "B2", "C1", "C2"];
@@ -45,6 +47,7 @@ export function QuestionNavigator({
   questions,
   previousAnswers,
   drillAnsweredIds,
+  onNavPageChange,
 }: QuestionNavigatorProps) {
   const t = useTranslations();
   const isExam = mode === "exam";
@@ -199,6 +202,7 @@ export function QuestionNavigator({
           totalAnswered={totalAnswered}
           renderButton={renderButton}
           t={t}
+          onPageChange={onNavPageChange}
         />
       );
     }
@@ -245,6 +249,7 @@ function PaginatedGrid({
   totalAnswered,
   renderButton,
   t,
+  onPageChange,
 }: {
   total: number;
   currentIndex: number;
@@ -252,6 +257,7 @@ function PaginatedGrid({
   renderButton: (i: number) => React.ReactNode;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: any;
+  onPageChange?: (page: number) => void;
 }) {
   const needsPaging = total > PAGE_SIZE;
   const totalPages = Math.ceil(total / PAGE_SIZE);
@@ -264,6 +270,11 @@ function PaginatedGrid({
     const targetPage = Math.floor(currentIndex / PAGE_SIZE);
     if (targetPage !== page) setPage(targetPage);
   }, [currentIndex]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Notify parent when page changes (e.g. for fetching nav data)
+  useEffect(() => {
+    onPageChange?.(page);
+  }, [page, onPageChange]);
 
   const start = needsPaging ? page * PAGE_SIZE : 0;
   const end = needsPaging ? Math.min(start + PAGE_SIZE, total) : total;

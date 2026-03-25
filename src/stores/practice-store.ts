@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import type { QuestionBrief, AnswerResponse } from "@/lib/api/types";
 
+export const NAV_PAGE_SIZE = 50;
+
 interface PracticeState {
   attemptId: string | null;
   testSetName: string | null;
@@ -14,14 +16,15 @@ interface PracticeState {
   /* ── Drill-mode lazy loading fields ── */
   drillMode: boolean;
   drillTotal: number;
-  drillQuestionIds: string[];          // all known IDs (in order)
-  drillAnsweredIds: Set<string>;       // IDs answered (from nav)
+  drillQuestionIds: string[];               // sparse array — populated page-by-page
+  drillAnsweredIds: Set<string>;            // accumulated across nav pages
+  drillNavLoadedPages: Set<number>;         // 1-based backend page numbers loaded
   loadedQuestions: Map<string, QuestionBrief>; // cache: id → full question
 
   init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null, startedAt?: string | null, existingAnswers?: AnswerResponse[], previousAnswers?: AnswerResponse[]) => void;
-  initDrill: (attemptId: string, total: number, questionIds: string[], answeredIds: string[], firstQuestion: QuestionBrief) => void;
+  initDrill: (attemptId: string, total: number, navPage: number, questionIds: string[], answeredIds: string[], firstQuestion: QuestionBrief) => void;
+  setDrillNavPage: (page: number, questionIds: string[], answeredIds: string[]) => void;
   setDrillQuestion: (question: QuestionBrief) => void;
-  setDrillAnsweredIds: (ids: string[]) => void;
   setAnswer: (questionId: string, answer: AnswerResponse) => void;
   goToQuestion: (index: number) => void;
   goNext: () => void;
@@ -73,6 +76,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   drillTotal: 0,
   drillQuestionIds: [],
   drillAnsweredIds: new Set(),
+  drillNavLoadedPages: new Set(),
   loadedQuestions: new Map(),
 
   init: (attemptId, questions, testSetName, testSetType, startedAt, existingAnswers, previousAnswers) => {
@@ -118,54 +122,67 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
       drillTotal: 0,
       drillQuestionIds: [],
       drillAnsweredIds: new Set(),
+      drillNavLoadedPages: new Set(),
       loadedQuestions: new Map(),
     });
   },
 
-  initDrill: (attemptId, total, questionIds, answeredIds, firstQuestion) => {
+  initDrill: (attemptId, total, navPage, questionIds, answeredIds, firstQuestion) => {
     const cache = new Map<string, QuestionBrief>();
     cache.set(firstQuestion.id, firstQuestion);
 
-    // Build sparse questions array: first question populated, rest are placeholders
+    // Sparse arrays: only populate the fetched page
+    const allIds: string[] = new Array(total);
     const questions: QuestionBrief[] = new Array(total);
-    const firstIdx = questionIds.indexOf(firstQuestion.id);
-    if (firstIdx >= 0) {
-      questions[firstIdx] = firstQuestion;
-    } else {
-      questions[0] = firstQuestion;
+    const offset = (navPage - 1) * NAV_PAGE_SIZE;
+    for (let i = 0; i < questionIds.length; i++) {
+      allIds[offset + i] = questionIds[i];
     }
+    const firstIdx = offset + questionIds.indexOf(firstQuestion.id);
+    questions[firstIdx >= 0 ? firstIdx : 0] = firstQuestion;
 
     const answeredSet = new Set(answeredIds);
 
-    // Restore saved index or start at first unanswered
+    // Restore saved index or start at first unanswered on this page
     const savedIndex = loadIndex(attemptId);
     let currentIndex: number;
     if (savedIndex !== null && savedIndex >= 0 && savedIndex < total) {
       currentIndex = savedIndex;
     } else {
-      // Find first unanswered
-      currentIndex = 0;
+      currentIndex = offset;
       if (answeredSet.size > 0) {
         const firstUnanswered = questionIds.findIndex((id) => !answeredSet.has(id));
-        currentIndex = firstUnanswered === -1 ? 0 : firstUnanswered;
+        currentIndex = firstUnanswered === -1 ? offset : offset + firstUnanswered;
       }
       saveIndex(attemptId, currentIndex);
     }
 
     set({
-      attemptId,
-      questions,
-      testSetName: null,
-      testSetType: null,
-      startedAt: null,
-      currentIndex,
-      answers: new Map(),
-      previousAnswers: new Map(),
-      drillMode: true,
-      drillTotal: total,
-      drillQuestionIds: questionIds,
-      drillAnsweredIds: answeredSet,
-      loadedQuestions: cache,
+      attemptId, questions,
+      testSetName: null, testSetType: null, startedAt: null,
+      currentIndex, answers: new Map(), previousAnswers: new Map(),
+      drillMode: true, drillTotal: total, drillQuestionIds: allIds,
+      drillAnsweredIds: answeredSet, loadedQuestions: cache,
+      drillNavLoadedPages: new Set([navPage]),
+    });
+  },
+
+  setDrillNavPage: (page, questionIds, answeredIds) => {
+    set((state) => {
+      const nextIds = [...state.drillQuestionIds];
+      const offset = (page - 1) * NAV_PAGE_SIZE;
+      for (let i = 0; i < questionIds.length; i++) {
+        nextIds[offset + i] = questionIds[i];
+      }
+      const nextLoaded = new Set(state.drillNavLoadedPages);
+      nextLoaded.add(page);
+      const nextAnswered = new Set(state.drillAnsweredIds);
+      for (const id of answeredIds) nextAnswered.add(id);
+      return {
+        drillQuestionIds: nextIds,
+        drillNavLoadedPages: nextLoaded,
+        drillAnsweredIds: nextAnswered,
+      };
     });
   },
 
@@ -182,10 +199,6 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
       nextQuestions[idx] = question;
       return { questions: nextQuestions, loadedQuestions: nextCache };
     });
-  },
-
-  setDrillAnsweredIds: (ids) => {
-    set({ drillAnsweredIds: new Set(ids) });
   },
 
   setAnswer: (questionId, answer) =>
@@ -235,7 +248,8 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
     set({
       attemptId: null, testSetName: null, testSetType: null, startedAt: null,
       questions: [], currentIndex: 0, answers: new Map(), previousAnswers: new Map(),
-      drillMode: false, drillTotal: 0, drillQuestionIds: [], drillAnsweredIds: new Set(), loadedQuestions: new Map(),
+      drillMode: false, drillTotal: 0, drillQuestionIds: [], drillAnsweredIds: new Set(),
+      drillNavLoadedPages: new Set(), loadedQuestions: new Map(),
     });
   },
 }));
