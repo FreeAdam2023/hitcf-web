@@ -31,9 +31,9 @@ describe("PRICING constants", () => {
   });
 
   it("should have correct trial days", () => {
-    expect(PRICING.monthlyTrialDays).toBe(7);
-    expect(PRICING.quarterlyTrialDays).toBe(7);
-    expect(PRICING.yearlyTrialDays).toBe(14);
+    expect(PRICING.monthlyTrialDays).toBe(3);
+    expect(PRICING.quarterlyTrialDays).toBe(3);
+    expect(PRICING.yearlyTrialDays).toBe(7);
   });
 
   it("should have USD currency", () => {
