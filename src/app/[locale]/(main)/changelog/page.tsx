@@ -42,45 +42,6 @@ const changelog: ChangelogEntry[] = [
     title: "功能介绍页面",
     details: ["新增 /guide 平台使用指南", "新增更新日志页面"],
   },
-  {
-    date: "2026-03-16",
-    type: "improvement",
-    title: "听力转录体验优化",
-    details: [
-      "逐句法语原文配中英阿三语翻译",
-      "点击句子跳转对应音频位置",
-      "关键定位句高亮标注",
-    ],
-  },
-  {
-    date: "2026-03-11",
-    type: "feature",
-    title: "等级练习（Speed Drill）",
-    details: [
-      "按 A1-C2 等级筛选听力/阅读题目",
-      "支持 10/30/全部题三种模式",
-      "自动去重已做过的题目",
-    ],
-  },
-  {
-    date: "2026-03-08",
-    type: "feature",
-    title: "推荐奖励系统",
-    details: [
-      "邀请朋友注册并付费，双方各得 30 天 Pro",
-      "专属推荐码 + 推荐统计页面",
-    ],
-  },
-  {
-    date: "2026-03-02",
-    type: "feature",
-    title: "AI 口语对话",
-    details: [
-      "AI 考官模拟 Tâche 2 和 Tâche 3 面试对话",
-      "实时语音识别 + 发音评估",
-      "六维度评分反馈",
-    ],
-  },
 ];
 
 export default function ChangelogPage() {
