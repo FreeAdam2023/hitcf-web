@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Bell, Sparkles, Wrench, Bug, Megaphone } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { useAuthStore } from "@/stores/auth-store";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +16,12 @@ import {
   markAnnouncementsRead,
   type AnnouncementItem,
 } from "@/lib/api/announcements";
+import {
+  getUnreadChangelogEntries,
+  markChangelogRead,
+} from "@/lib/changelog";
+
+type DisplayItem = AnnouncementItem & { _href?: string };
 
 const TYPE_ICONS: Record<string, typeof Sparkles> = {
   feature: Sparkles,
@@ -44,11 +51,15 @@ function timeAgo(isoStr: string): string {
 export function NotificationBell() {
   const t = useTranslations();
   const locale = useLocale();
+  const router = useRouter();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const [items, setItems] = useState<AnnouncementItem[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [changelogItems, setChangelogItems] = useState<DisplayItem[]>([]);
+  const [changelogUnread, setChangelogUnread] = useState(0);
   const [open, setOpen] = useState(false);
 
+  // Load backend announcements
   const load = useCallback(() => {
     if (!isAuthenticated) return;
     fetchAnnouncements(10)
@@ -61,28 +72,61 @@ export function NotificationBell() {
 
   useEffect(() => {
     load();
-    const timer = setInterval(load, 120_000); // refresh every 2 min
+    const timer = setInterval(load, 120_000);
     return () => clearInterval(timer);
   }, [load]);
+
+  // Load virtual changelog notifications from localStorage
+  useEffect(() => {
+    const check = () => {
+      const entries = getUnreadChangelogEntries();
+      setChangelogUnread(entries.length);
+      setChangelogItems(
+        entries.slice(0, 3).map((e, i) => ({
+          id: `changelog-${i}`,
+          title: { zh: e.title, en: e.title },
+          content: {
+            zh: e.details?.[0] || "",
+            en: e.details?.[0] || "",
+          },
+          type: e.type,
+          published_at: `${e.date}T00:00:00Z`,
+          is_unread: true,
+          _href: "/changelog",
+        })),
+      );
+    };
+    check();
+    window.addEventListener("changelog-read", check);
+    return () => window.removeEventListener("changelog-read", check);
+  }, []);
 
   const handleOpen = useCallback(
     (isOpen: boolean) => {
       setOpen(isOpen);
-      if (isOpen && unreadCount > 0) {
-        markAnnouncementsRead()
-          .then(() => {
-            setUnreadCount(0);
-            setItems((prev) =>
-              prev.map((item) => ({ ...item, is_unread: false })),
-            );
-          })
-          .catch(() => {});
+      if (isOpen) {
+        if (unreadCount > 0) {
+          markAnnouncementsRead()
+            .then(() => {
+              setUnreadCount(0);
+              setItems((prev) =>
+                prev.map((item) => ({ ...item, is_unread: false })),
+              );
+            })
+            .catch(() => {});
+        }
+        if (changelogUnread > 0) {
+          markChangelogRead();
+        }
       }
     },
-    [unreadCount],
+    [unreadCount, changelogUnread],
   );
 
   if (!isAuthenticated) return null;
+
+  const totalUnread = unreadCount + changelogUnread;
+  const allItems: DisplayItem[] = [...changelogItems, ...items];
 
   const getLocaleText = (obj: Record<string, string>) =>
     obj[locale] || obj["en"] || obj["zh"] || Object.values(obj)[0] || "";
@@ -92,9 +136,9 @@ export function NotificationBell() {
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-4 w-4" />
-          {unreadCount > 0 && (
+          {totalUnread > 0 && (
             <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground">
-              {unreadCount > 9 ? "9+" : unreadCount}
+              {totalUnread > 9 ? "9+" : totalUnread}
             </span>
           )}
           <span className="sr-only">{t("notifications.label")}</span>
@@ -107,27 +151,38 @@ export function NotificationBell() {
           </p>
         </div>
         <div className="max-h-80 overflow-y-auto">
-          {items.length === 0 ? (
+          {allItems.length === 0 ? (
             <div className="px-4 py-8 text-center text-sm text-muted-foreground">
               {t("notifications.empty")}
             </div>
           ) : (
-            items.map((item) => {
+            allItems.map((item) => {
               const Icon = TYPE_ICONS[item.type] || Megaphone;
               const color = TYPE_COLORS[item.type] || "text-muted-foreground";
+              const isClickable = !!item._href;
               return (
                 <div
                   key={item.id}
-                  className={`flex gap-3 border-b px-4 py-3 last:border-b-0 ${item.is_unread ? "bg-accent/40" : ""}`}
+                  className={`flex gap-3 border-b px-4 py-3 last:border-b-0 ${item.is_unread ? "bg-accent/40" : ""} ${isClickable ? "cursor-pointer transition-colors hover:bg-accent/60" : ""}`}
+                  onClick={
+                    isClickable
+                      ? () => {
+                          setOpen(false);
+                          router.push(item._href!);
+                        }
+                      : undefined
+                  }
                 >
                   <Icon className={`mt-0.5 h-4 w-4 shrink-0 ${color}`} />
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium leading-tight">
                       {getLocaleText(item.title)}
                     </p>
-                    <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
-                      {getLocaleText(item.content)}
-                    </p>
+                    {getLocaleText(item.content) && (
+                      <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
+                        {getLocaleText(item.content)}
+                      </p>
+                    )}
                     <p className="mt-1 text-[11px] text-muted-foreground/70">
                       {timeAgo(item.published_at)}
                     </p>

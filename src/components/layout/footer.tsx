@@ -1,15 +1,26 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { hasUnreadChangelog } from "@/lib/changelog";
 
 const WHATSAPP_LINK = "https://chat.whatsapp.com/Fvbx6XR8EQPDSvx4VW2yn7";
 
 export function Footer() {
   const t = useTranslations();
   const locale = useLocale();
+  const [hasNew, setHasNew] = useState(false);
+
+  useEffect(() => {
+    const check = () => setHasNew(hasUnreadChangelog());
+    check();
+    window.addEventListener("changelog-read", check);
+    return () => window.removeEventListener("changelog-read", check);
+  }, []);
+
   return (
     <footer className="border-t bg-card py-10">
       <div className="mx-auto max-w-5xl px-4">
@@ -56,9 +67,12 @@ export function Footer() {
             </Link>
             <Link
               href="/changelog"
-              className="transition-colors hover:text-foreground"
+              className="inline-flex items-center gap-1 transition-colors hover:text-foreground"
             >
               {t('footer.changelog')}
+              {hasNew && (
+                <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
+              )}
             </Link>
             <Popover>
               <PopoverTrigger asChild>

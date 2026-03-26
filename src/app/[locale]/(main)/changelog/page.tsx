@@ -1,16 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, Wrench, Zap } from "lucide-react";
-
-interface ChangelogEntry {
-  date: string;
-  version?: string;
-  type: "feature" | "improvement" | "fix";
-  title: string;
-  details?: string[];
-}
+import { changelog, markChangelogRead } from "@/lib/changelog";
 
 const TYPE_CONFIG = {
   feature: { label: "新功能", icon: Sparkles, color: "bg-emerald-600 text-white" },
@@ -18,48 +12,12 @@ const TYPE_CONFIG = {
   fix: { label: "修复", icon: Wrench, color: "bg-orange-600 text-white" },
 };
 
-// Only user-facing changes — no admin/backend internals
-const changelog: ChangelogEntry[] = [
-  {
-    date: "2026-03-26",
-    type: "fix",
-    title: "阅读题数据校准",
-  },
-  {
-    date: "2026-03-26",
-    type: "feature",
-    title: "词汇卡片变位发音",
-    details: [
-      "动词变位表每个形式支持点击发音（je parle, tu parles...）",
-      "形容词变形表同样支持发音（petit → petite, petits...）",
-    ],
-  },
-  {
-    date: "2026-03-25",
-    type: "fix",
-    title: "开卷模式移动端修复",
-    details: [
-      "移动端底部恢复「下一题」按钮（之前被「已阅」替换）",
-      "修复悬浮题目导航按钮在移动端不可见的问题",
-      "修复 Enter 键无法触发「已阅」按钮的问题",
-    ],
-  },
-  {
-    date: "2026-03-25",
-    type: "fix",
-    title: "等级练习加载错误修复",
-    details: ["修复等级练习中已答题目加载时的 500 错误"],
-  },
-  {
-    date: "2026-03-24",
-    type: "feature",
-    title: "功能介绍页面",
-    details: ["新增 /guide 平台使用指南", "新增更新日志页面"],
-  },
-];
-
 export default function ChangelogPage() {
   const t = useTranslations();
+
+  useEffect(() => {
+    markChangelogRead();
+  }, []);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
