@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { ArrowDownWideNarrow, BookOpen, Clock, Headphones, Star } from "lucide-react";
+import { ArrowDownWideNarrow, BookOpen, Clock, Headphones, Star, Trash2, CheckSquare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
@@ -16,6 +16,9 @@ import {
   toggleMastered,
   practiceWrongAnswers,
   getWrongAnswerStats,
+  deleteWrongAnswer,
+  batchDeleteWrongAnswers,
+  clearMasteredWrongAnswers,
 } from "@/lib/api/wrong-answers";
 import {
   listBookmarks,
@@ -91,6 +94,10 @@ export function ReviewPage() {
   const [bmError, setBmError] = useState<string | null>(null);
   const [startingBmPractice, setStartingBmPractice] = useState(false);
   const [bmPracticeDialogOpen, setBmPracticeDialogOpen] = useState(false);
+
+  // Selection mode for batch delete
+  const [selectionMode, setSelectionMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   // Shared filters
   const [type, setType] = useState("all");
@@ -190,6 +197,69 @@ export function ReviewPage() {
       );
     } catch {
       toast.error(t("common.errors.operationFailed"));
+    }
+  };
+
+  const handleDeleteWrongAnswer = async (id: string) => {
+    try {
+      await deleteWrongAnswer(id);
+      setWaData((prev) => {
+        if (!prev) return prev;
+        return { ...prev, items: prev.items.filter((i) => i.id !== id), total: prev.total - 1 };
+      });
+      getWrongAnswerStats().then(setWaStats).catch(() => {});
+      toast.success(t("wrongAnswers.deleted"));
+    } catch {
+      toast.error(t("common.errors.operationFailed"));
+    }
+  };
+
+  const handleBatchDelete = async () => {
+    if (selectedIds.size === 0) return;
+    try {
+      await batchDeleteWrongAnswers(Array.from(selectedIds));
+      setWaData((prev) => {
+        if (!prev) return prev;
+        return { ...prev, items: prev.items.filter((i) => !selectedIds.has(i.id)), total: prev.total - selectedIds.size };
+      });
+      getWrongAnswerStats().then(setWaStats).catch(() => {});
+      toast.success(t("wrongAnswers.batchDeleted", { count: selectedIds.size }));
+      setSelectedIds(new Set());
+      setSelectionMode(false);
+    } catch {
+      toast.error(t("common.errors.operationFailed"));
+    }
+  };
+
+  const handleClearMastered = async () => {
+    try {
+      const result = await clearMasteredWrongAnswers();
+      if (result.deleted > 0) {
+        fetchWaData();
+        getWrongAnswerStats().then(setWaStats).catch(() => {});
+        toast.success(t("wrongAnswers.clearedMastered", { count: result.deleted }));
+      }
+    } catch {
+      toast.error(t("common.errors.operationFailed"));
+    }
+  };
+
+  const handleSelectItem = (id: string, checked: boolean) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (checked) next.add(id); else next.delete(id);
+      return next;
+    });
+  };
+
+  const handleSelectAll = () => {
+    if (!waData) return;
+    const allIds = waData.items.map((i) => i.id);
+    const allSelected = allIds.every((id) => selectedIds.has(id));
+    if (allSelected) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(allIds));
     }
   };
 
@@ -344,9 +414,9 @@ export function ReviewPage() {
                 </div>
               )}
 
-              {/* Filters */}
+              {/* Filters + Actions */}
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   {TYPE_CHIPS.map(({ key, Icon }) => {
                     const colors = TYPE_COLORS[key];
                     const isActive = type === key;
@@ -370,6 +440,35 @@ export function ReviewPage() {
                       </button>
                     );
                   })}
+
+                  <span className="mx-1 h-4 w-px bg-border" />
+
+                  {/* Batch select toggle */}
+                  <Button
+                    variant={selectionMode ? "secondary" : "ghost"}
+                    size="sm"
+                    className="h-7 text-xs"
+                    onClick={() => {
+                      setSelectionMode(!selectionMode);
+                      setSelectedIds(new Set());
+                    }}
+                  >
+                    {selectionMode ? <X className="mr-1 h-3 w-3" /> : <CheckSquare className="mr-1 h-3 w-3" />}
+                    {selectionMode ? t("wrongAnswers.cancelSelect") : t("wrongAnswers.batchSelect")}
+                  </Button>
+
+                  {/* Clear mastered */}
+                  {waStats && waStats.mastered > 0 && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 text-xs text-muted-foreground hover:text-destructive"
+                      onClick={handleClearMastered}
+                    >
+                      <Trash2 className="mr-1 h-3 w-3" />
+                      {t("wrongAnswers.clearMastered", { count: waStats.mastered })}
+                    </Button>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -406,6 +505,31 @@ export function ReviewPage() {
                 </div>
               </div>
 
+              {/* Batch action bar */}
+              {selectionMode && waData && waData.items.length > 0 && (
+                <div className="flex items-center gap-3 rounded-lg border bg-muted/50 px-4 py-2">
+                  <Checkbox
+                    checked={waData.items.length > 0 && waData.items.every((i) => selectedIds.has(i.id))}
+                    onCheckedChange={handleSelectAll}
+                  />
+                  <span className="text-sm text-muted-foreground">
+                    {selectedIds.size > 0
+                      ? t("wrongAnswers.selectedCount", { count: selectedIds.size })
+                      : t("wrongAnswers.selectAll")}
+                  </span>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="ml-auto h-7 text-xs"
+                    disabled={selectedIds.size === 0}
+                    onClick={handleBatchDelete}
+                  >
+                    <Trash2 className="mr-1 h-3 w-3" />
+                    {t("wrongAnswers.deleteSelected")}
+                  </Button>
+                </div>
+              )}
+
               {/* List */}
               {waLoading ? (
                 <LoadingSpinner />
@@ -429,6 +553,10 @@ export function ReviewPage() {
                         key={item.id}
                         item={item}
                         onToggleMastered={handleToggleMastered}
+                        onDelete={handleDeleteWrongAnswer}
+                        selectionMode={selectionMode}
+                        selected={selectedIds.has(item.id)}
+                        onSelect={handleSelectItem}
                       />
                     ))}
                   </div>

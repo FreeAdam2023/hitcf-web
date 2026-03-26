@@ -1,4 +1,4 @@
-import { get, post, put } from "./client";
+import { get, post, put, del } from "./client";
 import type { PaginatedResponse, WrongAnswerItem, WrongAnswerStats, WrongAnswerDetail } from "./types";
 
 export function listWrongAnswers(params?: {
@@ -42,6 +42,18 @@ export function toggleMastered(
 export interface PracticeWrongAnswersResponse {
   attempt_id: string;
   total: number;
+}
+
+export function deleteWrongAnswer(id: string): Promise<{ ok: boolean }> {
+  return del(`/api/wrong-answers/${id}`);
+}
+
+export function batchDeleteWrongAnswers(ids: string[]): Promise<{ deleted: number }> {
+  return post("/api/wrong-answers/batch-delete", { ids });
+}
+
+export function clearMasteredWrongAnswers(): Promise<{ deleted: number }> {
+  return post("/api/wrong-answers/clear-mastered", {});
 }
 
 export function practiceWrongAnswers(body: {

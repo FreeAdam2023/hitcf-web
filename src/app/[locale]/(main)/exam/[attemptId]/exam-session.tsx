@@ -49,6 +49,11 @@ export function ExamSession() {
   const [submitting, setSubmitting] = useState(false);
   const [completing, setCompleting] = useState(false);
 
+  // Scroll to top when navigating between questions
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [currentIndex]);
+
   // Listening exam flow state
   const [listeningPhase, setListeningPhase] = useState<"ready" | "playing" | "answering">("ready");
 

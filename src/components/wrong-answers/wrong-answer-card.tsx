@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { ChevronDown, CheckCircle, AlertCircle, Headphones, BookOpen, Clock, Loader2 } from "lucide-react";
+import { ChevronDown, CheckCircle, AlertCircle, Headphones, BookOpen, Clock, Loader2, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Collapsible,
   CollapsibleContent,
@@ -53,9 +54,13 @@ function wrongCountBorder(item: WrongAnswerItem): string {
 interface WrongAnswerCardProps {
   item: WrongAnswerItem;
   onToggleMastered: (id: string) => void;
+  onDelete?: (id: string) => void;
+  selected?: boolean;
+  onSelect?: (id: string, checked: boolean) => void;
+  selectionMode?: boolean;
 }
 
-export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps) {
+export function WrongAnswerCard({ item, onToggleMastered, onDelete, selected, onSelect, selectionMode }: WrongAnswerCardProps) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
   const [detail, setDetail] = useState<WrongAnswerDetail | null>(null);
@@ -109,6 +114,16 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
       <Collapsible open={open} onOpenChange={handleOpenChange}>
         <CollapsibleTrigger asChild>
           <CardContent className="flex cursor-pointer items-start gap-3 pt-4">
+            {/* Selection checkbox */}
+            {selectionMode && (
+              <Checkbox
+                checked={selected}
+                onCheckedChange={(checked) => onSelect?.(item.id, !!checked)}
+                onClick={(e) => e.stopPropagation()}
+                className="mt-1.5 shrink-0"
+              />
+            )}
+
             {/* Type icon */}
             <div
               className={cn(
@@ -153,7 +168,7 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
               )}
             </div>
 
-            <div className="flex shrink-0 items-center gap-2">
+            <div className="flex shrink-0 items-center gap-1.5">
               <Button
                 variant={item.is_mastered ? "secondary" : "outline"}
                 size="sm"
@@ -167,6 +182,19 @@ export function WrongAnswerCard({ item, onToggleMastered }: WrongAnswerCardProps
                   ? t("wrongAnswers.card.mastered")
                   : t("wrongAnswers.card.markMastered")}
               </Button>
+              {onDelete && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(item.id);
+                  }}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </Button>
+              )}
               <ChevronDown
                 className={cn(
                   "h-4 w-4 text-muted-foreground transition-transform",

@@ -438,6 +438,11 @@ export function PracticeSession() {
     if (willAdd) goNext();
   }, [attemptId, questions, currentIndex, reviewedIds, goNext]);
 
+  // Scroll to top when navigating between questions
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [currentIndex]);
+
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);

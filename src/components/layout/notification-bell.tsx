@@ -17,6 +17,7 @@ import {
   type AnnouncementItem,
 } from "@/lib/api/announcements";
 import {
+  changelog,
   getUnreadChangelogEntries,
   markChangelogRead,
 } from "@/lib/changelog";
@@ -77,12 +78,19 @@ export function NotificationBell() {
   }, [load]);
 
   // Load virtual changelog notifications from localStorage
+  // Always show recent entries (last 7 days); only toggle is_unread on read
   useEffect(() => {
-    const check = () => {
-      const entries = getUnreadChangelogEntries();
-      setChangelogUnread(entries.length);
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 7);
+    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    const recentEntries = changelog.filter((e) => e.date > cutoffStr).slice(0, 3);
+
+    const refresh = () => {
+      const unread = getUnreadChangelogEntries();
+      const unreadKeys = new Set(unread.map((e) => `${e.date}|${e.title}`));
+      setChangelogUnread(unread.length);
       setChangelogItems(
-        entries.slice(0, 3).map((e, i) => ({
+        recentEntries.map((e, i) => ({
           id: `changelog-${i}`,
           title: { zh: e.title, en: e.title },
           content: {
@@ -91,14 +99,14 @@ export function NotificationBell() {
           },
           type: e.type,
           published_at: `${e.date}T00:00:00Z`,
-          is_unread: true,
+          is_unread: unreadKeys.has(`${e.date}|${e.title}`),
           _href: "/changelog",
         })),
       );
     };
-    check();
-    window.addEventListener("changelog-read", check);
-    return () => window.removeEventListener("changelog-read", check);
+    refresh();
+    window.addEventListener("changelog-read", refresh);
+    return () => window.removeEventListener("changelog-read", refresh);
   }, []);
 
   const handleOpen = useCallback(
