@@ -21,6 +21,15 @@ const TYPE_CONFIG = {
 // Only user-facing changes — no admin/backend internals
 const changelog: ChangelogEntry[] = [
   {
+    date: "2026-03-26",
+    type: "feature",
+    title: "词汇卡片变位发音",
+    details: [
+      "动词变位表每个形式支持点击发音（je parle, tu parles...）",
+      "形容词变形表同样支持发音（petit → petite, petits...）",
+    ],
+  },
+  {
     date: "2026-03-25",
     type: "fix",
     title: "开卷模式移动端修复",
