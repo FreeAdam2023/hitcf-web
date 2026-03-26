@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen, Star, Eye, EyeOff, Lightbulb, BookCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
@@ -1345,8 +1345,8 @@ export function PracticeSession() {
 
       {/* Mobile floating navigator (question grid) — portal to body to avoid transform breaking fixed */}
       {typeof document !== "undefined" && createPortal(
-      <Sheet>
-        <SheetTrigger asChild>
+      <Drawer>
+        <DrawerTrigger asChild>
           <Button
             variant="outline"
             size="icon"
@@ -1354,9 +1354,9 @@ export function PracticeSession() {
           >
             <LayoutGrid className="h-4 w-4" />
           </Button>
-        </SheetTrigger>
-        <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
-          <div className="p-4 pb-[calc(2rem+env(safe-area-inset-bottom))]">
+        </DrawerTrigger>
+        <DrawerContent className="max-h-[70vh]">
+          <div className="overflow-y-auto p-4 pb-[calc(2rem+env(safe-area-inset-bottom))]">
             <QuestionNavigator
               total={totalQuestions}
               currentIndex={currentIndex}
@@ -1369,8 +1369,8 @@ export function PracticeSession() {
               reviewedIds={openBook ? reviewedIds : undefined}
             />
           </div>
-        </SheetContent>
-      </Sheet>,
+        </DrawerContent>
+      </Drawer>,
       document.body)}
 
       {question && (

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Send, LayoutGrid, Headphones, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -429,8 +429,8 @@ export function ExamSession() {
         </div>
 
         {/* Mobile floating navigator */}
-        <Sheet>
-          <SheetTrigger asChild>
+        <Drawer>
+          <DrawerTrigger asChild>
             <Button
               variant="outline"
               size="icon"
@@ -438,9 +438,9 @@ export function ExamSession() {
             >
               <LayoutGrid className="h-5 w-5" />
             </Button>
-          </SheetTrigger>
-          <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
-            <div className="p-4 pb-8">
+          </DrawerTrigger>
+          <DrawerContent className="max-h-[70vh]">
+            <div className="overflow-y-auto p-4 pb-8">
               <QuestionNavigator
                 total={questions.length}
                 currentIndex={currentIndex}
@@ -452,8 +452,8 @@ export function ExamSession() {
               />
               {isLast && <div className="mt-4">{submitDialog}</div>}
             </div>
-          </SheetContent>
-        </Sheet>
+          </DrawerContent>
+        </Drawer>
       </div>
     );
   }
@@ -534,8 +534,8 @@ export function ExamSession() {
       </div>
 
       {/* Mobile floating navigator */}
-      <Sheet>
-        <SheetTrigger asChild>
+      <Drawer>
+        <DrawerTrigger asChild>
           <Button
             variant="outline"
             size="icon"
@@ -543,9 +543,9 @@ export function ExamSession() {
           >
             <LayoutGrid className="h-5 w-5" />
           </Button>
-        </SheetTrigger>
-        <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
-          <div className="p-4 pb-8">
+        </DrawerTrigger>
+        <DrawerContent className="max-h-[70vh]">
+          <div className="overflow-y-auto p-4 pb-8">
             <QuestionNavigator
               total={questions.length}
               currentIndex={currentIndex}
@@ -556,8 +556,8 @@ export function ExamSession() {
               flaggedQuestions={new Set()}
             />
           </div>
-        </SheetContent>
-      </Sheet>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 }
