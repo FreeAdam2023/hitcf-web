@@ -22,6 +22,18 @@ export function getVocabularyCard(word: string, locale?: string): Promise<Vocabu
   });
 }
 
+export interface PronounceResult {
+  form: string;
+  audio_url: string;
+  lemma: string;
+}
+
+export function pronounceForm(form: string, lemma?: string): Promise<PronounceResult> {
+  const params = new URLSearchParams({ form });
+  if (lemma) params.set("lemma", lemma);
+  return post<PronounceResult>(`/api/vocabulary/pronounce?${params.toString()}`, {});
+}
+
 export function regenerateVocabularyCard(word: string, locale?: string): Promise<VocabularyCardData> {
   const params = locale ? `?locale=${encodeURIComponent(locale)}` : "";
   return post<VocabularyCardData>(`/api/vocabulary/${encodeURIComponent(word)}/regenerate${params}`, {}, {

@@ -9,9 +9,70 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { useFrenchSpeech } from "@/hooks/use-french-speech";
-import { getVocabularyCard, logWordView } from "@/lib/api/vocabulary";
+import { getVocabularyCard, logWordView, pronounceForm } from "@/lib/api/vocabulary";
 import { getCached, setCache } from "@/lib/vocab-cache";
 import type { VocabularyCardData, ConjugationTable } from "@/lib/api/types";
+
+/* ------------------------------------------------------------------ */
+/*  Tiny speaker button for conjugation / adjective form cells          */
+/* ------------------------------------------------------------------ */
+
+const formAudioCache = new Map<string, string>();  // form → audio_url
+
+function FormSpeaker({ form, lemma }: { form: string; lemma?: string }) {
+  const [playing, setPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const play = useCallback(async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (playing) return;
+
+    let url = formAudioCache.get(form);
+    if (!url) {
+      try {
+        setPlaying(true);
+        const res = await pronounceForm(form, lemma);
+        url = res.audio_url;
+        formAudioCache.set(form, url);
+      } catch {
+        setPlaying(false);
+        return;
+      }
+    }
+
+    if (!url) { setPlaying(false); return; }
+
+    try {
+      setPlaying(true);
+      if (!audioRef.current) audioRef.current = new Audio();
+      audioRef.current.src = url;
+      audioRef.current.onended = () => setPlaying(false);
+      audioRef.current.onerror = () => setPlaying(false);
+      await audioRef.current.play();
+    } catch {
+      setPlaying(false);
+    }
+  }, [form, lemma, playing]);
+
+  return (
+    <button
+      onClick={play}
+      style={{
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        padding: "0 2px",
+        opacity: playing ? 0.8 : 0.35,
+        transition: "opacity 0.15s",
+        verticalAlign: "middle",
+        flexShrink: 0,
+      }}
+      title={form}
+    >
+      <Volume2 size={12} style={{ color: playing ? "var(--fc-masc)" : "var(--fc-article)" }} />
+    </button>
+  );
+}
 
 export interface FlashCardWord {
   word: string;
@@ -110,7 +171,7 @@ function PillBadge({ children, bg, color }: { children: React.ReactNode; bg: str
 /*  Dictionary detail sub-components                                     */
 /* ------------------------------------------------------------------ */
 
-function ConjugationTable({ label, table }: { label: string; table: ConjugationTable }) {
+function ConjugationTableView({ label, table, lemma }: { label: string; table: ConjugationTable; lemma?: string }) {
   const rows: [string, string][] = [["je", "nous"], ["tu", "vous"], ["il", "ils"]];
   return (
     <table style={{ borderCollapse: "collapse", width: "100%", fontSize: "12px" }}>
@@ -120,18 +181,28 @@ function ConjugationTable({ label, table }: { label: string; table: ConjugationT
         </tr>
       </thead>
       <tbody>
-        {rows.map(([left, right]) => (
-          <tr key={left}>
-            <td style={CONJ_TD_STYLE}>
-              <span style={{ color: "var(--fc-ipa)", marginRight: 4 }}>{left}</span>
-              {table[left as keyof ConjugationTable] || "\u2014"}
-            </td>
-            <td style={CONJ_TD_STYLE}>
-              <span style={{ color: "var(--fc-ipa)", marginRight: 4 }}>{right}</span>
-              {table[right as keyof ConjugationTable] || "\u2014"}
-            </td>
-          </tr>
-        ))}
+        {rows.map(([left, right]) => {
+          const leftForm = table[left as keyof ConjugationTable] || "";
+          const rightForm = table[right as keyof ConjugationTable] || "";
+          return (
+            <tr key={left}>
+              <td style={CONJ_TD_STYLE}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
+                  <span style={{ color: "var(--fc-ipa)" }}>{left}</span>
+                  {leftForm || "\u2014"}
+                  {leftForm && <FormSpeaker form={leftForm} lemma={lemma} />}
+                </span>
+              </td>
+              <td style={CONJ_TD_STYLE}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
+                  <span style={{ color: "var(--fc-ipa)" }}>{right}</span>
+                  {rightForm || "\u2014"}
+                  {rightForm && <FormSpeaker form={rightForm} lemma={lemma} />}
+                </span>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
@@ -188,7 +259,7 @@ function VerbConjugation({ data }: { data: VocabularyCardData }) {
           }}
         >
           {tenses.map((tn) => (
-            <ConjugationTable key={tn.key} label={tn.label} table={tn.table!} />
+            <ConjugationTableView key={tn.key} label={tn.label} table={tn.table!} lemma={data.word} />
           ))}
         </div>
         {(data.past_participle || data.auxiliary) && (
@@ -255,8 +326,11 @@ function AdjFormSection({ data }: { data: VocabularyCardData }) {
                   const item = rows[rowIdx * 2 + colIdx];
                   return (
                     <td key={colIdx} style={CONJ_TD_STYLE}>
-                      <span style={{ color: "var(--fc-ipa)", marginRight: 4 }}>{item.label}</span>
-                      {item.value || "\u2014"}
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
+                        <span style={{ color: "var(--fc-ipa)" }}>{item.label}</span>
+                        {item.value || "\u2014"}
+                        {item.value && <FormSpeaker form={item.value} lemma={data.word} />}
+                      </span>
                     </td>
                   );
                 })}

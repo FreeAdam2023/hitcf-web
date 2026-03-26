@@ -800,6 +800,12 @@ export interface VocabularyCardData {
   examples: { fr: string; en: string; zh?: string; native?: string }[];
   cefr_level: string | null;
   audio_url: string | null;
+  /** Cached TTS audio for specific conjugated/inflected forms */
+  form_audio?: Record<string, string>;
+  /** When the lookup was redirected to a lemma, the originally queried form */
+  queried_form?: string | null;
+  /** TTS audio URL for the queried form (if cached) */
+  queried_form_audio?: string | null;
   // Word family (if the word belongs to a curated group)
   word_family?: {
     group_key: string;
