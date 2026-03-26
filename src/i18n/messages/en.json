@@ -3321,41 +3321,41 @@
         "title": "Core Features",
         "listening": {
           "title": "Listening Practice",
-          "desc": "42 test sets + supplements, 1600+ questions covering A1-C2 levels."
+          "desc": "42 test sets + supplements, 1600+ questions covering A1-C2 levels.",
+          "d1": "Sentence-by-sentence French transcript + Chinese/English/Arabic translations",
+          "d2": "Click any sentence to jump to that audio position",
+          "d3": "Answer explanations + distractor analysis",
+          "d4": "Key sentence highlighting"
         },
-        "listening.d1": "Sentence-by-sentence French transcript + Chinese/English/Arabic translations",
-        "listening.d2": "Click any sentence to jump to that audio position",
-        "listening.d3": "Answer explanations + distractor analysis",
-        "listening.d4": "Key sentence highlighting",
         "reading": {
           "title": "Reading Practice",
-          "desc": "42 test sets + supplements, 1600+ questions with detailed explanations."
+          "desc": "42 test sets + supplements, 1600+ questions with detailed explanations.",
+          "d1": "Sentence-by-sentence translation (French/Chinese/English)",
+          "d2": "Click any French word to see definition and pronunciation",
+          "d3": "Per-question explanation + common pitfall analysis",
+          "d4": "Key sentence highlighting"
         },
-        "reading.d1": "Sentence-by-sentence translation (French/Chinese/English)",
-        "reading.d2": "Click any French word to see definition and pronunciation",
-        "reading.d3": "Per-question explanation + common pitfall analysis",
-        "reading.d4": "Key sentence highlighting",
         "speaking": {
           "title": "Speaking Practice",
-          "desc": "AI examiner simulates real conversations with Azure speech assessment."
+          "desc": "AI examiner simulates real conversations with Azure speech assessment.",
+          "d1": "AI Conversation: simulates Tache 2/3 real interview",
+          "d2": "Pronunciation assessment: accuracy and fluency scoring",
+          "d3": "6-dimension scoring: pronunciation, fluency, grammar, vocabulary, task completion, pragmatics"
         },
-        "speaking.d1": "AI Conversation: simulates Tache 2/3 real interview",
-        "speaking.d2": "Pronunciation assessment: accuracy and fluency scoring",
-        "speaking.d3": "6-dimension scoring: pronunciation, fluency, grammar, vocabulary, task completion, pragmatics",
         "writing": {
           "title": "Writing Practice",
-          "desc": "AI grading with 4-dimension scoring + sentence-level corrections."
+          "desc": "AI grading with 4-dimension scoring + sentence-level corrections.",
+          "d1": "Supports all task types: Tache 1/2/3",
+          "d2": "4-dimension scoring: content, structure, vocabulary & grammar, coherence",
+          "d3": "Sentence-by-sentence corrections + improvement suggestions"
         },
-        "writing.d1": "Supports all task types: Tache 1/2/3",
-        "writing.d2": "4-dimension scoring: content, structure, vocabulary & grammar, coherence",
-        "writing.d3": "Sentence-by-sentence corrections + improvement suggestions",
         "vocabulary": {
           "title": "Vocabulary Learning",
-          "desc": "Save words, flashcard review, dictation practice, export to Anki."
-        },
-        "vocabulary.d1": "Click any French word during practice to save it",
-        "vocabulary.d2": "Flashcard mode + dictation mode",
-        "vocabulary.d3": "Export to Anki/CSV"
+          "desc": "Save words, flashcard review, dictation practice, export to Anki.",
+          "d1": "Click any French word during practice to save it",
+          "d2": "Flashcard mode + dictation mode",
+          "d3": "Export to Anki/CSV"
+        }
       },
       "modes": {
         "title": "Practice Modes",
