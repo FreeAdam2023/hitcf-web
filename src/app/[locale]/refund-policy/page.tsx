@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { STATS_PARAMS } from "@/lib/constants";
 
 export async function generateMetadata({
   params,
@@ -11,7 +12,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "meta.refund" });
   return {
     title: t("title"),
-    description: t("description"),
+    description: t("description", STATS_PARAMS),
     alternates: {
       canonical: `/${locale}/refund-policy`,
       languages: { zh: "/zh/refund-policy", en: "/en/refund-policy", fr: "/fr/refund-policy", ar: "/ar/refund-policy" },
@@ -36,7 +37,7 @@ export default async function RefundPolicyPage() {
 
       <h2>{t("freeTrial.title")}</h2>
       <ul>
-        <li>{t.rich("freeTrial.li1", { b: bold })}</li>
+        <li>{t.rich("freeTrial.li1", { b: bold, ...STATS_PARAMS })}</li>
         <li>{t("freeTrial.li2")}</li>
         <li>{t("freeTrial.li3")}</li>
         <li>{t("freeTrial.li4")}</li>
@@ -61,13 +62,13 @@ export default async function RefundPolicyPage() {
 
       <h3>{t("conditions.proTitle")}</h3>
       <ul>
-        <li>{t.rich("conditions.proLi1", { b: bold })}</li>
+        <li>{t.rich("conditions.proLi1", { b: bold, ...STATS_PARAMS })}</li>
       </ul>
 
       <h3>{t("conditions.noTitle")}</h3>
       <ul>
         <li>{t("conditions.noLi1")}</li>
-        <li>{t("conditions.noLi2")}</li>
+        <li>{t("conditions.noLi2", STATS_PARAMS)}</li>
         <li>{t("conditions.noLi3")}</li>
         <li>{t.rich("conditions.noLi4", { disclaimerLink: (chunks) => <Link href="/disclaimer">{chunks}</Link> })}</li>
         <li>{t.rich("conditions.noLi5", { termsLink: (chunks) => <Link href="/terms-of-service">{chunks}</Link> })}</li>

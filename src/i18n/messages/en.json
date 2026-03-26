@@ -1264,7 +1264,7 @@
     "defaultTitle": "Unlock the Full Experience",
     "defaultDescription": "Upgrade to Pro for all 8,500+ questions and advanced features",
     "viewPlans": "View Plans",
-    "yearlyTrial": "14 days free with yearly plan",
+    "yearlyTrial": "{yearlyTrialDays} days free with yearly plan",
     "upgradePro": "Upgrade to Pro"
   },
   "cancelSubscription": {
@@ -2438,7 +2438,7 @@
     "freeStart": "Get Started",
     "freeRegister": "Sign Up Free",
     "proBadge": "Recommended",
-    "proTrial": "14 Days Free",
+    "proTrial": "{yearlyTrialDays} Days Free",
     "proTrialUnit": "trial (yearly)",
     "proFeatures": [
       "Full listening + reading library (sentence replay)",
@@ -2466,7 +2466,7 @@
     "trust": [
       {
         "label": "Extended Free Trial",
-        "desc": "14 days (yearly) · 7 days (monthly)"
+        "desc": "{yearlyTrialDays} days (yearly) · {monthlyTrialDays} days (monthly)"
       },
       {
         "label": "Secure Payment",
@@ -2493,7 +2493,7 @@
       },
       {
         "q": "What are the benefits of Pro?",
-        "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, and Anki export. Yearly plan includes 14-day free trial — cancel anytime."
+        "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, and Anki export. Yearly plan includes {yearlyTrialDays}-day free trial — cancel anytime."
       },
       {
         "q": "Can you guarantee I'll reach CLB 7+?",
@@ -2505,7 +2505,7 @@
       },
       {
         "q": "How do I request a refund?",
-        "a": "Full refund within 48 hours of first payment. Yearly subscribers can get a prorated refund within 14 days. Email support@hitcf.com — processed within 3 business days."
+        "a": "Full refund within 48 hours of first payment. Yearly subscribers can get a prorated refund within {yearlyTrialDays} days. Email support@hitcf.com — processed within 3 business days."
       }
     ],
     "ctaImageAlt": "Parliament Hill and Ottawa River panorama",
@@ -2536,7 +2536,7 @@
     },
     "pricing": {
       "title": "HiTCF Pricing · Free Trial Available",
-      "description": "HiTCF pricing: free sets to start, Pro unlocks 8,500+ questions, exam mode, wrong answer notebook & vocabulary tools. Yearly plan includes 14-day free trial."
+      "description": "HiTCF pricing: free sets to start, Pro unlocks 8,500+ questions, exam mode, wrong answer notebook & vocabulary tools. Yearly plan includes {yearlyTrialDays}-day free trial."
     },
     "speedDrill": {
       "title": "Level Practice · Targeted Practice by Level & Question Type",
@@ -2601,7 +2601,7 @@
     },
     "refund": {
       "title": "Refund Policy · Free Trial & Refund Process",
-      "description": "HiTCF Refund Policy: free trial (14 days on yearly, 7 days on monthly) cancel anytime. Full refund within 48 hours of first payment, prorated refund within 14 days for yearly. Refunded via Stripe."
+      "description": "HiTCF Refund Policy: free trial ({yearlyTrialDays} days on yearly, {monthlyTrialDays} days on monthly) cancel anytime. Full refund within 48 hours of first payment, prorated refund within {yearlyTrialDays} days for yearly. Refunded via Stripe."
     },
     "disclaimer": {
       "title": "Disclaimer · Content Sources & Exam Result Notice",
@@ -2898,7 +2898,7 @@
     "intro": "Thank you for choosing HiTCF. This refund policy applies to all paid subscription services purchased through the Platform.",
     "freeTrial": {
       "title": "1. Free Trial",
-      "li1": "All new users are eligible for a free trial (<b>14 days for the yearly plan</b>, 7 days for the monthly plan). No charges during the trial period.",
+      "li1": "All new users are eligible for a free trial (<b>{yearlyTrialDays} days for the yearly plan</b>, {monthlyTrialDays} days for the monthly plan). No charges during the trial period.",
       "li2": "You may cancel at any time during the trial at no cost.",
       "li3": "After the trial ends, if not cancelled, you will be automatically charged according to your selected plan.",
       "li4": "Each user (per email address) is eligible for one free trial only."
@@ -2917,10 +2917,10 @@
       "fullLi2": "If a Platform technical issue (such as prolonged login failures or widespread feature outages) prevents you from using the service, and we fail to resolve it within 72 hours.",
       "fullLi3": "Duplicate or erroneous charges.",
       "proTitle": "3.2 Prorated Refund",
-      "proLi1": "Yearly subscribers who request a refund within <b>14 days</b> of payment may receive a prorated refund for unused days.",
+      "proLi1": "Yearly subscribers who request a refund within <b>{yearlyTrialDays} days</b> of payment may receive a prorated refund for unused days.",
       "noTitle": "3.3 Non-Refundable",
       "noLi1": "Monthly subscribers requesting a refund after the initial 48 hours.",
-      "noLi2": "Yearly subscribers requesting a refund after 14 days.",
+      "noLi2": "Yearly subscribers requesting a refund after {yearlyTrialDays} days.",
       "noLi3": "Non-use due to personal reasons (e.g., forgetting to cancel auto-renewal, personal scheduling).",
       "noLi4": "Refund requests based on unsatisfactory exam results (the Platform does not guarantee exam outcomes — see our <disclaimerLink>Disclaimer</disclaimerLink>).",
       "noLi5": "Account suspension or termination due to violation of <termsLink>Terms of Service</termsLink>."
@@ -2950,13 +2950,13 @@
     "faq2q": "What can I do with the free version?",
     "faq2a": "The free version includes the first listening set and first 2 reading sets with all questions, in both practice and exam mode. Unlimited attempts, forever free.",
     "faq3q": "What are the benefits of Pro?",
-    "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, and Anki export. Yearly plan includes a 14-day free trial, cancel anytime.",
+    "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, and Anki export. Yearly plan includes a {yearlyTrialDays}-day free trial, cancel anytime.",
     "faq4q": "Can you guarantee I’ll reach CLB 7+?",
     "faq4a": "No. HiTCF provides a practice environment aligned with TCF Canada to help you identify and improve weak areas. However, actual scores depend on many factors — we do not promise any exam results.",
     "faq5q": "How do I practice speaking and writing?",
     "faq5a": "Speaking and writing sections provide real exam topics and tasks, with the option to jump to ChatGPT for AI conversation practice and essay correction — essentially a free AI tutor.",
     "faq6q": "How do I request a refund?",
-    "faq6a": "Full refund within 48 hours of first payment. Yearly subscribers can get a prorated refund within 14 days. Simply email support@hitcf.com — processed within 3 business days."
+    "faq6a": "Full refund within 48 hours of first payment. Yearly subscribers can get a prorated refund within {yearlyTrialDays} days. Simply email support@hitcf.com — processed within 3 business days."
   },
   "quota": {
     "exceeded": {

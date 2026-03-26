@@ -516,8 +516,8 @@ export function LandingPage() {
               <CardContent className="pt-6">
                 <h3 className="text-lg font-bold">Pro</h3>
                 <div className="mt-3">
-                  <span className="text-4xl font-extrabold">{t("landing.proTrial")}</span>
-                  <span className="ml-1 text-muted-foreground">{t("landing.proTrialUnit")}</span>
+                  <span className="text-4xl font-extrabold">{t("landing.proTrial", STATS_PARAMS)}</span>
+                  <span className="ml-1 text-muted-foreground">{t("landing.proTrialUnit", STATS_PARAMS)}</span>
                 </div>
                 <ul className="mt-6 space-y-3 text-sm">
                   {[0, 1, 2, 3, 4].map((i) => (
@@ -704,7 +704,7 @@ export function LandingPage() {
                   <TrustIcon className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <p className="mt-2 text-xs font-medium">{t(`landing.trust.${i}.label`)}</p>
-                <p className="text-[10px] text-muted-foreground">{t(`landing.trust.${i}.desc`)}</p>
+                <p className="text-[10px] text-muted-foreground">{t(`landing.trust.${i}.desc`, STATS_PARAMS)}</p>
               </div>
             ))}
           </div>
@@ -729,7 +729,7 @@ export function LandingPage() {
                   {t(`landing.faq.${i}.q`)}
                 </AccordionTrigger>
                 <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
-                  {t(`landing.faq.${i}.a`)}
+                  {t(`landing.faq.${i}.a`, STATS_PARAMS)}
                 </AccordionContent>
               </AccordionItem>
             ))}

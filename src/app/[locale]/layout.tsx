@@ -12,7 +12,7 @@ import { MobileTabBar } from "@/components/layout/mobile-tab-bar";
 import { UtmTracker } from "@/components/shared/utm-tracker";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { routing } from "@/i18n/routing";
-import { PRICING } from "@/lib/constants";
+import { PRICING, STATS_PARAMS } from "@/lib/constants";
 
 const GA_ID = "G-DTDE8V6XLH";
 
@@ -127,7 +127,7 @@ export default async function LocaleLayout({
   const faqEntries = [1, 2, 3, 4, 5, 6].map((i) => ({
     "@type": "Question" as const,
     name: s(`faq${i}q`),
-    acceptedAnswer: { "@type": "Answer" as const, text: s(`faq${i}a`) },
+    acceptedAnswer: { "@type": "Answer" as const, text: s(`faq${i}a`, STATS_PARAMS) },
   }));
 
   return (
