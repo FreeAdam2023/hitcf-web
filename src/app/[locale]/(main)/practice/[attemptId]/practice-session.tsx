@@ -421,6 +421,7 @@ export function PracticeSession() {
   const toggleReviewed = useCallback(() => {
     const q = questions[currentIndex];
     if (!q) return;
+    const willAdd = !reviewedIds.has(q.id);
     setReviewedIds((prev) => {
       const next = new Set(prev);
       if (next.has(q.id)) next.delete(q.id); else next.add(q.id);
@@ -433,7 +434,9 @@ export function PracticeSession() {
       }, 500);
       return next;
     });
-  }, [attemptId, questions, currentIndex]);
+    // Auto-advance to next question after marking as reviewed
+    if (willAdd) goNext();
+  }, [attemptId, questions, currentIndex, reviewedIds, goNext]);
 
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
