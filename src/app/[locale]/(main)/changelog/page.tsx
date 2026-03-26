@@ -43,16 +43,6 @@ const changelog: ChangelogEntry[] = [
     details: ["新增 /guide 平台使用指南", "新增更新日志页面"],
   },
   {
-    date: "2026-03-21",
-    type: "feature",
-    title: "SEO 考试指南",
-    details: [
-      "TCF Canada 考试介绍",
-      "听力/阅读/口语/写作备考指南",
-      "CLB 7 移民语言要求说明",
-    ],
-  },
-  {
     date: "2026-03-16",
     type: "improvement",
     title: "听力转录体验优化",
@@ -82,26 +72,6 @@ const changelog: ChangelogEntry[] = [
     ],
   },
   {
-    date: "2026-03-07",
-    type: "feature",
-    title: "免费用户限额机制",
-    details: [
-      "每天 5 道听力/阅读题 + 5 次解析查看",
-      "所有套题对免费用户开放（不锁套题）",
-      "口语和写作需要订阅",
-    ],
-  },
-  {
-    date: "2026-03-05",
-    type: "feature",
-    title: "Stripe 订阅付费",
-    details: [
-      "三档订阅：月付 $19.90 / 季付 $49.90 / 年付 $99.90",
-      "支持信用卡和 Stripe 支付",
-      "客户门户管理订阅",
-    ],
-  },
-  {
     date: "2026-03-02",
     type: "feature",
     title: "AI 口语对话",
@@ -109,19 +79,6 @@ const changelog: ChangelogEntry[] = [
       "AI 考官模拟 Tâche 2 和 Tâche 3 面试对话",
       "实时语音识别 + 发音评估",
       "六维度评分反馈",
-    ],
-  },
-  {
-    date: "2026-03-01",
-    type: "feature",
-    title: "平台正式上线",
-    details: [
-      "听力练习：42 套题 1600+ 道题",
-      "阅读练习：42 套题 1600+ 道题",
-      "写作练习：AI 批改 + 四维度评分",
-      "词汇学习：收藏、翻卡、听写",
-      "邮箱注册 + Google 登录",
-      "多语言界面（中/英/法/阿）",
     ],
   },
 ];
