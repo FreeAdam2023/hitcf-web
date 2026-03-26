@@ -22,6 +22,11 @@ const TYPE_CONFIG = {
 const changelog: ChangelogEntry[] = [
   {
     date: "2026-03-26",
+    type: "fix",
+    title: "阅读题数据校准",
+  },
+  {
+    date: "2026-03-26",
     type: "feature",
     title: "词汇卡片变位发音",
     details: [
