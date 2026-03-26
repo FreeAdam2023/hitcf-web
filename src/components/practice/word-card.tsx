@@ -54,7 +54,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
     const normalized = currentWord.trim().toLowerCase();
     if (isSaved(currentWord)) {
       removeWord(normalized);
-      toast(t("wordCard.unsaved"), { duration: 1500 });
+      toast.success(t("wordCard.unsaved"), { duration: 1500 });
     } else {
       addWord(normalized, {
         word: normalized,
@@ -67,7 +67,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
       });
       setStarBounce(true);
       setTimeout(() => setStarBounce(false), 400);
-      toast(t("wordCard.saved"), { duration: 1500 });
+      toast.success(t("wordCard.saved"), { duration: 1500 });
     }
   }, [isAuthenticated, currentWord, isSaved, addWord, removeWord, saveContext, sentence, t]);
 
@@ -100,7 +100,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
           fetchSavedWords();
           setStarBounce(true);
           setTimeout(() => setStarBounce(false), 400);
-          toast(t("wordCard.autoSaved"), { duration: 2000 });
+          toast.success(t("wordCard.autoSaved"), { duration: 2000 });
         }
       });
       return;
@@ -126,7 +126,7 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
               fetchSavedWords();
               setStarBounce(true);
               setTimeout(() => setStarBounce(false), 400);
-              toast(t("wordCard.autoSaved"), { duration: 2000 });
+              toast.success(t("wordCard.autoSaved"), { duration: 2000 });
             }
           });
         })
