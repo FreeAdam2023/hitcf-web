@@ -186,6 +186,17 @@ export function PassageContent({ text, disabled, className, saveContext, sentenc
             <blockquote className="border-l-2 border-muted-foreground/30 pl-3 italic mb-2">{children}</blockquote>
           ),
           hr: () => <hr className="my-3 border-muted" />,
+          table: ({ children }) => (
+            <table className="my-2 w-full border-collapse border border-border text-sm">{children}</table>
+          ),
+          th: ({ children }) => (
+            <th className="border border-border px-2 py-1.5 text-left font-semibold bg-muted/50">
+              {processChildren(children)}
+            </th>
+          ),
+          td: ({ children }) => (
+            <td className="border border-border px-2 py-1.5">{processChildren(children)}</td>
+          ),
         }}
       >
         {text}
