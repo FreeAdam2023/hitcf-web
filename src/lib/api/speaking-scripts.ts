@@ -1,4 +1,4 @@
-import { get, post, patch, del as del_ } from "./client";
+import { get, post, put, patch, del as del_ } from "./client";
 
 export interface ScriptExchange {
   examiner_fr: string;
@@ -59,6 +59,17 @@ export function updateScriptExchange(
 
 export function deleteSpeakingScript(id: string): Promise<{ ok: boolean }> {
   return del_<{ ok: boolean }>(`/api/speaking-scripts/${id}`);
+}
+
+// Speaking persona (server-synced, replaces localStorage)
+export function getSpeakingPersona(): Promise<{ persona: Record<string, string> | null }> {
+  return get("/api/user/speaking-persona");
+}
+
+export function saveSpeakingPersona(
+  persona: Record<string, string> | null,
+): Promise<{ persona: Record<string, string> | null }> {
+  return put("/api/user/speaking-persona", { persona });
 }
 
 export async function exportScriptCSV(id: string): Promise<void> {

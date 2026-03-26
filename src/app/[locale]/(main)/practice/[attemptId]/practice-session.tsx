@@ -12,7 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
-import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
+import { submitAnswer, completeAttempt, updateAttemptProgress } from "@/lib/api/attempts";
 import { toggleBookmark, checkBookmarks } from "@/lib/api/bookmarks";
 import { fetchDrillNav, loadDrillQuestion } from "@/lib/api/speed-drill";
 import { NAV_PAGE_SIZE } from "@/stores/practice-store";
@@ -365,14 +365,6 @@ export function PracticeSession() {
     if (typeof window === "undefined") return false;
     return localStorage.getItem(`openBook:${attemptId}`) === "1";
   });
-  const toggleOpenBook = useCallback(() => {
-    setOpenBook((v) => {
-      const next = !v;
-      if (next) localStorage.setItem(`openBook:${attemptId}`, "1");
-      else localStorage.removeItem(`openBook:${attemptId}`);
-      return next;
-    });
-  }, [attemptId]);
 
   // ── Open-book reviewed tracking ──
   const [reviewedIds, setReviewedIds] = useState<Set<string>>(() => {
@@ -382,13 +374,63 @@ export function PracticeSession() {
       return stored ? new Set(JSON.parse(stored)) : new Set();
     } catch { return new Set(); }
   });
+
+  // Cross-device: load server state on mount and merge
+  const serverLoadedRef = useRef(false);
+  useEffect(() => {
+    if (!attemptId || serverLoadedRef.current) return;
+    serverLoadedRef.current = true;
+    import("@/lib/api/attempts").then(({ getAttempt }) =>
+      getAttempt(attemptId).then((att) => {
+        // If localStorage had no open_book but server does, use server
+        if (att.open_book != null) {
+          const localOb = localStorage.getItem(`openBook:${attemptId}`);
+          if (localOb === null) setOpenBook(att.open_book);
+        }
+        // If localStorage had no reviewed but server does, use server
+        if (att.reviewed_questions?.length) {
+          const localRev = localStorage.getItem(`reviewed:${attemptId}`);
+          if (!localRev) {
+            const serverSet = new Set(att.reviewed_questions);
+            setReviewedIds(serverSet);
+            try { localStorage.setItem(`reviewed:${attemptId}`, JSON.stringify(att.reviewed_questions)); } catch {}
+          }
+        }
+      }).catch(() => {})
+    );
+  }, [attemptId]);
+
+  // Debounced server sync for open_book
+  const openBookSyncRef = useRef<ReturnType<typeof setTimeout>>();
+  const toggleOpenBook = useCallback(() => {
+    setOpenBook((v) => {
+      const next = !v;
+      if (next) localStorage.setItem(`openBook:${attemptId}`, "1");
+      else localStorage.removeItem(`openBook:${attemptId}`);
+      // Sync to server (debounced)
+      if (openBookSyncRef.current) clearTimeout(openBookSyncRef.current);
+      openBookSyncRef.current = setTimeout(() => {
+        if (attemptId) updateAttemptProgress(attemptId, { open_book: next }).catch(() => {});
+      }, 500);
+      return next;
+    });
+  }, [attemptId]);
+
+  // Debounced server sync for reviewed
+  const reviewedSyncRef = useRef<ReturnType<typeof setTimeout>>();
   const toggleReviewed = useCallback(() => {
     const q = questions[currentIndex];
     if (!q) return;
     setReviewedIds((prev) => {
       const next = new Set(prev);
       if (next.has(q.id)) next.delete(q.id); else next.add(q.id);
-      try { localStorage.setItem(`reviewed:${attemptId}`, JSON.stringify(Array.from(next))); } catch { /* quota */ }
+      const arr = Array.from(next);
+      try { localStorage.setItem(`reviewed:${attemptId}`, JSON.stringify(arr)); } catch { /* quota */ }
+      // Sync to server (debounced)
+      if (reviewedSyncRef.current) clearTimeout(reviewedSyncRef.current);
+      reviewedSyncRef.current = setTimeout(() => {
+        if (attemptId) updateAttemptProgress(attemptId, { reviewed_questions: arr }).catch(() => {});
+      }, 500);
       return next;
     });
   }, [attemptId, questions, currentIndex]);

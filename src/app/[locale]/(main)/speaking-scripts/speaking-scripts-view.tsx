@@ -10,6 +10,8 @@ import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import {
   listSpeakingScripts,
   generateSpeakingScript,
+  getSpeakingPersona,
+  saveSpeakingPersona,
   type SpeakingScriptResponse,
   type GenerateScriptRequest,
 } from "@/lib/api/speaking-scripts";
@@ -98,12 +100,29 @@ export function SpeakingScriptsView() {
   // Load existing scripts on mount
   useEffect(() => {
     (async () => {
-      // Always try to restore persona from localStorage
+      // Restore persona: try server first, fallback to localStorage
       try {
-        const stored = localStorage.getItem("hitcf_speaking_persona");
-        if (stored) setSavedPersona(JSON.parse(stored));
+        const { persona } = await getSpeakingPersona();
+        if (persona) {
+          setSavedPersona(persona as unknown as PersonaFormData);
+          // Backfill localStorage
+          try { localStorage.setItem("hitcf_speaking_persona", JSON.stringify(persona)); } catch {}
+        } else {
+          // Server empty — try localStorage
+          const stored = localStorage.getItem("hitcf_speaking_persona");
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            setSavedPersona(parsed);
+            // Backfill to server
+            saveSpeakingPersona(parsed).catch(() => {});
+          }
+        }
       } catch {
-        // ignore parse errors
+        // API failed — fallback to localStorage
+        try {
+          const stored = localStorage.getItem("hitcf_speaking_persona");
+          if (stored) setSavedPersona(JSON.parse(stored));
+        } catch {}
       }
 
       try {
@@ -123,12 +142,13 @@ export function SpeakingScriptsView() {
   const handleGenerate = useCallback(
     async (data: PersonaFormData) => {
       setMode("generating");
-      // Save persona to localStorage
+      // Save persona to both localStorage and server
       try {
         localStorage.setItem("hitcf_speaking_persona", JSON.stringify(data));
       } catch {
         // ignore
       }
+      saveSpeakingPersona(data as unknown as Record<string, string>).catch(() => {});
       setSavedPersona(data);
 
       const req: GenerateScriptRequest = {

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { updateAttemptProgress } from "@/lib/api/attempts";
 import type { QuestionBrief, AnswerResponse } from "@/lib/api/types";
 
 export const NAV_PAGE_SIZE = 50;
@@ -21,8 +22,8 @@ interface PracticeState {
   drillNavLoadedPages: Set<number>;         // 1-based backend page numbers loaded
   loadedQuestions: Map<string, QuestionBrief>; // cache: id → full question
 
-  init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null, startedAt?: string | null, existingAnswers?: AnswerResponse[], previousAnswers?: AnswerResponse[]) => void;
-  initDrill: (attemptId: string, total: number, navPage: number, questionIds: string[], answeredIds: string[], firstQuestion: QuestionBrief) => void;
+  init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null, startedAt?: string | null, existingAnswers?: AnswerResponse[], previousAnswers?: AnswerResponse[], serverIndex?: number | null) => void;
+  initDrill: (attemptId: string, total: number, navPage: number, questionIds: string[], answeredIds: string[], firstQuestion: QuestionBrief, serverIndex?: number | null) => void;
   setDrillNavPage: (page: number, questionIds: string[], answeredIds: string[]) => void;
   setDrillQuestion: (question: QuestionBrief) => void;
   setAnswer: (questionId: string, answer: AnswerResponse) => void;
@@ -31,6 +32,8 @@ interface PracticeState {
   goPrev: () => void;
   reset: () => void;
 }
+
+// ── localStorage helpers (instant cache) ──
 
 function saveIndex(attemptId: string, index: number) {
   try {
@@ -61,6 +64,17 @@ function clearIndex(attemptId: string) {
   }
 }
 
+// ── Server sync (debounced, fire-and-forget) ──
+
+let _syncTimer: ReturnType<typeof setTimeout> | null = null;
+
+function syncIndexToServer(attemptId: string, index: number) {
+  if (_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(() => {
+    updateAttemptProgress(attemptId, { current_index: index }).catch(() => {});
+  }, 1000);
+}
+
 export const usePracticeStore = create<PracticeState>((set, get) => ({
   attemptId: null,
   testSetName: null,
@@ -79,7 +93,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   drillNavLoadedPages: new Set(),
   loadedQuestions: new Map(),
 
-  init: (attemptId, questions, testSetName, testSetType, startedAt, existingAnswers, previousAnswers) => {
+  init: (attemptId, questions, testSetName, testSetType, startedAt, existingAnswers, previousAnswers, serverIndex) => {
     const answers = new Map<string, AnswerResponse>();
     if (existingAnswers?.length) {
       for (const a of existingAnswers) {
@@ -95,11 +109,13 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
         }
       }
     }
-    // Restore last-viewed question index from localStorage, or fall back to first unanswered
-    const savedIndex = loadIndex(attemptId);
+    // Priority: localStorage (same device) > server (cross-device) > first unanswered
+    const localIndex = loadIndex(attemptId);
     let currentIndex: number;
-    if (savedIndex !== null && savedIndex >= 0 && savedIndex < questions.length) {
-      currentIndex = savedIndex;
+    if (localIndex !== null && localIndex >= 0 && localIndex < questions.length) {
+      currentIndex = localIndex;
+    } else if (serverIndex != null && serverIndex >= 0 && serverIndex < questions.length) {
+      currentIndex = serverIndex;
     } else {
       currentIndex = 0;
       const allAnsweredIds = new Set([...Array.from(answers.keys()), ...Array.from(prevMap.keys())]);
@@ -107,8 +123,8 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
         const firstUnanswered = questions.findIndex((q) => !allAnsweredIds.has(q.id));
         currentIndex = firstUnanswered === -1 ? 0 : firstUnanswered;
       }
-      saveIndex(attemptId, currentIndex);
     }
+    saveIndex(attemptId, currentIndex);
     set({
       attemptId,
       questions,
@@ -127,7 +143,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
     });
   },
 
-  initDrill: (attemptId, total, navPage, questionIds, answeredIds, firstQuestion) => {
+  initDrill: (attemptId, total, navPage, questionIds, answeredIds, firstQuestion, serverIndex) => {
     const cache = new Map<string, QuestionBrief>();
     cache.set(firstQuestion.id, firstQuestion);
 
@@ -143,19 +159,21 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
 
     const answeredSet = new Set(answeredIds);
 
-    // Restore saved index or start at first unanswered on this page
-    const savedIndex = loadIndex(attemptId);
+    // Priority: localStorage > server > first unanswered
+    const localIndex = loadIndex(attemptId);
     let currentIndex: number;
-    if (savedIndex !== null && savedIndex >= 0 && savedIndex < total) {
-      currentIndex = savedIndex;
+    if (localIndex !== null && localIndex >= 0 && localIndex < total) {
+      currentIndex = localIndex;
+    } else if (serverIndex != null && serverIndex >= 0 && serverIndex < total) {
+      currentIndex = serverIndex;
     } else {
       currentIndex = offset;
       if (answeredSet.size > 0) {
         const firstUnanswered = questionIds.findIndex((id) => !answeredSet.has(id));
         currentIndex = firstUnanswered === -1 ? offset : offset + firstUnanswered;
       }
-      saveIndex(attemptId, currentIndex);
     }
+    saveIndex(attemptId, currentIndex);
 
     set({
       attemptId, questions,
@@ -219,7 +237,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
     const max = drillMode ? drillTotal : questions.length;
     if (index >= 0 && index < max) {
       set({ currentIndex: index });
-      if (attemptId) saveIndex(attemptId, index);
+      if (attemptId) { saveIndex(attemptId, index); syncIndexToServer(attemptId, index); }
     }
   },
 
@@ -229,7 +247,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
     if (currentIndex < max - 1) {
       const next = currentIndex + 1;
       set({ currentIndex: next });
-      if (attemptId) saveIndex(attemptId, next);
+      if (attemptId) { saveIndex(attemptId, next); syncIndexToServer(attemptId, next); }
     }
   },
 
@@ -238,7 +256,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
     if (currentIndex > 0) {
       const prev = currentIndex - 1;
       set({ currentIndex: prev });
-      if (attemptId) saveIndex(attemptId, prev);
+      if (attemptId) { saveIndex(attemptId, prev); syncIndexToServer(attemptId, prev); }
     }
   },
 

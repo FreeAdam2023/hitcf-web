@@ -304,6 +304,9 @@ export interface AttemptDetail extends AttemptResponse {
   filtered_question_ids?: string[];
   previously_answered?: AnswerResponse[];
   lazy_load?: boolean;
+  current_index?: number | null;
+  open_book?: boolean | null;
+  reviewed_questions?: string[];
 }
 
 // Attempt creation response

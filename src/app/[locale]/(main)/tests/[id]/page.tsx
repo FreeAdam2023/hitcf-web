@@ -21,7 +21,7 @@ import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import { useAuthStore } from "@/stores/auth-store";
 import { getTestSet, getTestSetQuestions, getTestSetCompletion } from "@/lib/api/test-sets";
-import { createAttempt, getActiveAttempt } from "@/lib/api/attempts";
+import { createAttempt, getActiveAttempt, updateAttemptProgress } from "@/lib/api/attempts";
 import type { ActiveAttemptResponse } from "@/lib/api/types";
 import type { TestSetDetail, QuestionBrief } from "@/lib/api/types";
 import { localizeTestName, getLocalizedTopic } from "@/lib/test-name";
@@ -451,6 +451,7 @@ export default function TestDetailPage() {
       // Save open book preference so practice-session picks it up
       if (openBookPref) {
         localStorage.setItem(`openBook:${attempt.id}`, "1");
+        updateAttemptProgress(attempt.id, { open_book: true }).catch(() => {});
       }
       router.push(`/practice/${attempt.id}`);
     } catch (err: unknown) {

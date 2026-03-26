@@ -38,6 +38,7 @@ import {
   deleteSpeakingScript,
   getSpeakingScript,
   updateScriptExchange,
+  saveSpeakingPersona,
 } from "@/lib/api/speaking-scripts";
 
 const ALL_THEMES = [
@@ -318,6 +319,7 @@ export function ScriptDisplay({
       } catch {
         // ignore
       }
+      saveSpeakingPersona(null).catch(() => {});
       toast.success(t("destroySuccess"));
       onRegenerate();
     } catch {

@@ -1,4 +1,4 @@
-import { del, get, post, put } from "./client";
+import { del, get, patch, post, put } from "./client";
 import type { RequestOptions } from "./client";
 import type {
   ActiveAttemptResponse,
@@ -117,6 +117,19 @@ export function deleteAttempt(
   options?: RequestOptions,
 ): Promise<{ ok: boolean }> {
   return del<{ ok: boolean }>(`/api/attempts/${attemptId}`, options);
+}
+
+export interface UpdateProgressBody {
+  current_index?: number;
+  open_book?: boolean;
+  reviewed_questions?: string[];
+}
+
+export function updateAttemptProgress(
+  attemptId: string,
+  body: UpdateProgressBody,
+): Promise<{ current_index: number | null; open_book: boolean | null; reviewed_questions: string[] }> {
+  return patch(`/api/attempts/${attemptId}/progress`, body);
 }
 
 export function listAttempts(params?: {

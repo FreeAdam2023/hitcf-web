@@ -39,8 +39,10 @@ export default function PracticePage() {
           const saved = localStorage.getItem(`practiceIndex:${params.attemptId}`);
           if (saved) { const idx = parseInt(saved, 10); if (!isNaN(idx) && idx >= 50) startPage = Math.floor(idx / 50) + 1; }
         } catch {}
-        // Cross-device fallback: use answered_count from backend
-        if (startPage === 1 && attempt.answered_count >= 50) {
+        // Cross-device fallback: use server-stored index, then answered_count
+        if (startPage === 1 && attempt.current_index != null && attempt.current_index >= 50) {
+          startPage = Math.floor(attempt.current_index / 50) + 1;
+        } else if (startPage === 1 && attempt.answered_count >= 50) {
           startPage = Math.floor(attempt.answered_count / 50) + 1;
         }
 
@@ -53,7 +55,7 @@ export default function PracticePage() {
         const firstQ = await loadDrillQuestion(firstId, params.attemptId);
         if (signal?.aborted) return;
 
-        initDrill(params.attemptId, nav.total, nav.page, nav.question_ids, nav.answered_ids, firstQ);
+        initDrill(params.attemptId, nav.total, nav.page, nav.question_ids, nav.answered_ids, firstQ, attempt.current_index);
       } else {
         const questions = await getTestSetQuestions(
           attempt.test_set_id,
@@ -65,7 +67,7 @@ export default function PracticePage() {
         );
 
         if (signal?.aborted) return;
-        init(params.attemptId, questions, attempt.test_set_name, attempt.test_set_type, attempt.started_at, attempt.answers, attempt.previously_answered);
+        init(params.attemptId, questions, attempt.test_set_name, attempt.test_set_type, attempt.started_at, attempt.answers, attempt.previously_answered, attempt.current_index);
       }
       setLoading(false);
     } catch (err) {
