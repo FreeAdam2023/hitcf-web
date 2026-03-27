@@ -17,7 +17,6 @@ import {
   type AnnouncementItem,
 } from "@/lib/api/announcements";
 import {
-  changelog,
   getLocalizedChangelog,
   getUnreadChangelogEntries,
   markChangelogRead,
@@ -109,7 +108,7 @@ export function NotificationBell() {
     refresh();
     window.addEventListener("changelog-read", refresh);
     return () => window.removeEventListener("changelog-read", refresh);
-  }, []);
+  }, [locale]);
 
   const handleOpen = useCallback(
     (isOpen: boolean) => {
