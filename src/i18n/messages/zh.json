@@ -102,6 +102,8 @@
   "userMenu": {
     "pro": "Pro 会员",
     "tester": "体验官",
+    "proTrial": "Pro 体验中",
+    "proGift": "Pro 奖励",
     "trial": "试用中",
     "free": "免费用户",
     "login": "登录",

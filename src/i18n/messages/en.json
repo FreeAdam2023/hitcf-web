@@ -102,6 +102,8 @@
   "userMenu": {
     "pro": "Pro Member",
     "tester": "Beta Tester",
+    "proTrial": "Pro Trial",
+    "proGift": "Pro Gift",
     "trial": "Trial",
     "free": "Free User",
     "login": "Log In",

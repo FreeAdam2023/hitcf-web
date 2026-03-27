@@ -101,6 +101,8 @@
   "userMenu": {
     "pro": "Pro",
     "tester": "مختبر بيتا",
+    "proTrial": "تجربة Pro",
+    "proGift": "هدية Pro",
     "trial": "تجريبي",
     "free": "مجاني",
     "login": "تسجيل الدخول",
