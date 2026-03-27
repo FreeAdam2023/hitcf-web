@@ -111,7 +111,10 @@
     "feedback": "إرسال ملاحظات",
     "referral": "دعوة الأصدقاء",
     "checkin": "تسجيل يومي",
-    "logout": "تسجيل الخروج"
+    "logout": "تسجيل الخروج",
+    "logoutConfirmTitle": "تسجيل الخروج؟",
+    "logoutConfirmDesc": "ستحتاج إلى تسجيل الدخول مرة أخرى للمتابعة.",
+    "logoutConfirm": "تسجيل الخروج"
   },
   "feedback": {
     "title": "ملاحظات",

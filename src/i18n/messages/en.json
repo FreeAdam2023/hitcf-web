@@ -112,7 +112,10 @@
     "feedback": "Feedback",
     "referral": "Invite Friends",
     "checkin": "Daily Check-in",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "logoutConfirmTitle": "Log out?",
+    "logoutConfirmDesc": "You will need to log in again to continue.",
+    "logoutConfirm": "Log out"
   },
   "feedback": {
     "title": "Feedback",

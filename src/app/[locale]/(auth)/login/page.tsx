@@ -43,6 +43,15 @@ function LoginForm() {
 
   const handleGoogleLogin = () => {
     setGoogleLoading(true);
+    // Persist tracking params in cookies so NextAuth server-side callback can read them
+    const ref = searchParams.get("ref");
+    const utmSource = searchParams.get("utm_source");
+    const utmMedium = searchParams.get("utm_medium");
+    const utmCampaign = searchParams.get("utm_campaign");
+    if (ref) document.cookie = `ref=${encodeURIComponent(ref)};path=/;max-age=3600`;
+    if (utmSource) document.cookie = `utm_source=${encodeURIComponent(utmSource)};path=/;max-age=3600`;
+    if (utmMedium) document.cookie = `utm_medium=${encodeURIComponent(utmMedium)};path=/;max-age=3600`;
+    if (utmCampaign) document.cookie = `utm_campaign=${encodeURIComponent(utmCampaign)};path=/;max-age=3600`;
     signIn("google", { callbackUrl });
   };
 

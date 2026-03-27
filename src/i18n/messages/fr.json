@@ -112,7 +112,10 @@
     "feedback": "Commentaires",
     "referral": "Inviter des amis",
     "checkin": "Bilan du jour",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "logoutConfirmTitle": "Se déconnecter ?",
+    "logoutConfirmDesc": "Vous devrez vous reconnecter pour continuer.",
+    "logoutConfirm": "Se déconnecter"
   },
   "feedback": {
     "title": "Commentaires",

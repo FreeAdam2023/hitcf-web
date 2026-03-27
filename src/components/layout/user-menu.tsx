@@ -10,6 +10,16 @@ import { FeedbackDialog } from "@/components/feedback/feedback-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -56,6 +66,7 @@ export function UserMenu({ className }: { className?: string } = {}) {
   const hasActiveSubscription = useAuthStore((s) => s.hasActiveSubscription);
   const router = useRouter();
   const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
 
   if (isLoading) {
     return <Skeleton className={cn("h-8 w-8 rounded-full", className)} />;
@@ -116,13 +127,25 @@ export function UserMenu({ className }: { className?: string } = {}) {
           <MessageSquarePlus className="me-2 h-4 w-4" />
           {t('userMenu.feedback')}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => logout()}>
+        <DropdownMenuItem onClick={() => setLogoutOpen(true)}>
           <LogOut className="me-2 h-4 w-4" />
           {t('userMenu.logout')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
     <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />
+    <AlertDialog open={logoutOpen} onOpenChange={setLogoutOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t('userMenu.logoutConfirmTitle')}</AlertDialogTitle>
+          <AlertDialogDescription>{t('userMenu.logoutConfirmDesc')}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>{t('common.actions.cancel')}</AlertDialogCancel>
+          <AlertDialogAction onClick={() => logout()}>{t('userMenu.logoutConfirm')}</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
     </div>
   );
 }

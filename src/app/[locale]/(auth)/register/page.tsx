@@ -67,6 +67,12 @@ function RegisterForm() {
 
   const handleGoogleRegister = () => {
     setGoogleLoading(true);
+    // Persist tracking data in cookies so NextAuth server-side callback can read them
+    const { referral_code, utm_source, utm_medium, utm_campaign } = trackingMeta;
+    if (referral_code) document.cookie = `ref=${encodeURIComponent(referral_code)};path=/;max-age=3600`;
+    if (utm_source) document.cookie = `utm_source=${encodeURIComponent(utm_source)};path=/;max-age=3600`;
+    if (utm_medium) document.cookie = `utm_medium=${encodeURIComponent(utm_medium)};path=/;max-age=3600`;
+    if (utm_campaign) document.cookie = `utm_campaign=${encodeURIComponent(utm_campaign)};path=/;max-age=3600`;
     signIn("google", { callbackUrl: "/tests" });
   };
 

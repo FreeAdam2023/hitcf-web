@@ -61,8 +61,8 @@ export const authOptions: NextAuthOptions = {
           // Extract tracking data from request context
           let trackingData: Record<string, string> = {};
           try {
-            const h = getHeaders();
-            const c = getCookies();
+            const h = await getHeaders();
+            const c = await getCookies();
             trackingData = {
               signup_ip: h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "",
               signup_user_agent: h.get("user-agent") || "",
@@ -70,6 +70,7 @@ export const authOptions: NextAuthOptions = {
               signup_utm_source: c.get("utm_source")?.value || "",
               signup_utm_medium: c.get("utm_medium")?.value || "",
               signup_utm_campaign: c.get("utm_campaign")?.value || "",
+              referral_code: c.get("ref")?.value || "",
             };
           } catch {
             // headers()/cookies() may fail outside route handler context
