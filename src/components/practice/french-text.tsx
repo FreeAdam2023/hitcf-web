@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { WordCard } from "./word-card";
 
 /** Regex to tokenize French text preserving words with accents, apostrophes, hyphens, and numbers */
@@ -78,6 +78,12 @@ export function FrenchText({ text, disabled, className, saveContext, sentenceTra
   const [selectedSentence, setSelectedSentence] = useState<string | undefined>(undefined);
   const [selectedSentenceTranslation, setSelectedSentenceTranslation] = useState<string | undefined>(undefined);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  // Close word card when text changes (e.g. switching questions)
+  useEffect(() => {
+    setSelectedWord(null);
+    setAnchorEl(null);
+  }, [text]);
 
   const handleWordClick = useCallback(
     (e: React.MouseEvent<HTMLSpanElement>, word: string) => {
