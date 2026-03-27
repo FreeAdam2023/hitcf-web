@@ -3466,5 +3466,13 @@
     "feature": "新功能",
     "improvement": "优化",
     "fix": "修复"
+  },
+  "onboarding": {
+    "title": "欢迎来到 HiTCF！",
+    "subtitle": "TCF Canada 备考，从这里开始",
+    "description": "先做一道听力题试试？只需 30 秒，感受一下。",
+    "cta": "开始第一道题",
+    "starting": "正在准备...",
+    "skip": "稍后再说"
   }
 }

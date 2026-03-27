@@ -3457,5 +3457,13 @@
     "feature": "Nouveauté",
     "improvement": "Amélioration",
     "fix": "Correction"
+  },
+  "onboarding": {
+    "title": "Bienvenue sur HiTCF !",
+    "subtitle": "Votre préparation au TCF Canada commence ici",
+    "description": "Essayez une question d'écoute ? Cela ne prend que 30 secondes.",
+    "cta": "Commencer la première question",
+    "starting": "Préparation...",
+    "skip": "Plus tard"
   }
 }

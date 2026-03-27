@@ -3466,5 +3466,13 @@
     "feature": "New Feature",
     "improvement": "Improvement",
     "fix": "Fix"
+  },
+  "onboarding": {
+    "title": "Welcome to HiTCF!",
+    "subtitle": "Your TCF Canada prep starts here",
+    "description": "Try a listening question first? It only takes 30 seconds.",
+    "cta": "Start Your First Question",
+    "starting": "Getting ready...",
+    "skip": "Maybe later"
   }
 }

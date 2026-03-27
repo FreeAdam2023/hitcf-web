@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { STATS_PARAMS } from "@/lib/constants";
 import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-jsonld";
+import { WelcomeModal } from "@/components/onboarding/welcome-modal";
 import { TestList } from "./test-list";
 
 export async function generateMetadata({
@@ -26,6 +27,7 @@ export default async function TestsPage({ params }: { params: Promise<{ locale: 
   return (
     <div>
       <BreadcrumbJsonLd locale={locale} items={[{ name: "HiTCF", href: "/" }, { name: "TCF Canada Tests" }]} />
+      <WelcomeModal />
       <TestList />
     </div>
   );
