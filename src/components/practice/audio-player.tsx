@@ -220,7 +220,8 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (playing) {
+    // Use audio element's actual state, not React state (avoids stale closure)
+    if (!audio.paused) {
       audio.pause();
       setPlaying(false);
       segmentEndRef.current = null;
