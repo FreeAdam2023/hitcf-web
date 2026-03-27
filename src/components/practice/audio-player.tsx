@@ -223,6 +223,8 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
       setPlaying(false);
       segmentEndRef.current = null;
     } else {
+      // If audio ended (at the end), don't replay — use R for that
+      if (audio.duration && audio.currentTime >= audio.duration - 0.1) return;
       try {
         await audio.play();
         setPlaying(true);
