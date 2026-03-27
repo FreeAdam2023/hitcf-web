@@ -2542,18 +2542,18 @@
   "meta": {
     "siteTitle": "HiTCF — منصة التدريب على اختبار TCF Canada عبر الإنترنت",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "أكثر من 8,500 سؤال تدريبي على TCF Canada + أدوات مفردات تشمل الاستماع والقراءة والتحدث والكتابة. استماع جملة بجملة، بطاقات تعليمية، إملاء، تصدير Anki — حقق CLB 7+.",
+    "siteDescription": "أكثر من 8,500 سؤال TCF Canada في الاستماع والقراءة والتحدث والكتابة. حقق CLB 7+.",
     "ogTitle": "HiTCF — تدرّب لتصل إلى CLB 7+",
     "ogDescription": "أكثر من 8,500 سؤال TCF Canada + دفتر مفردات + تصدير Anki. تدريب وبطاقات تعليمية وإملاء في مكان واحد.",
     "ogImageAlt": "HiTCF — منصة التدريب على اختبار TCF Canada عبر الإنترنت",
     "keywords": "TCF Canada,CLB 7+,تدريب TCF,استماع TCF,قراءة TCF,تحضير TCF Canada,فرنسية الهجرة الكندية,اختبار TCF تجريبي,أسئلة TCF,مفردات TCF,Anki فرنسي,بطاقات فرنسية",
     "home": {
       "title": "HiTCF — تدريب TCF Canada | CLB 7+",
-      "description": "أكثر من {totalQuestions} سؤال تدريبي TCF Canada في الاستماع والقراءة والتحدث والكتابة. وضع التدريب ووضع الامتحان ودفتر الأخطاء للتحضير المنهجي لـ CLB 7+."
+      "description": "أكثر من {totalQuestions} سؤال TCF Canada — استماع وقراءة وتحدث وكتابة. حقق CLB 7+."
     },
     "tests": {
       "title": "بنك أسئلة TCF Canada · {totalQuestions}+ سؤال",
-      "description": "بنك أسئلة TCF Canada: {listeningSets} مجموعة استماع بالصوت وإعادة جملة بجملة، {readingSets} مجموعة قراءة، تحدث وكتابة. مستويات A1-C2."
+      "description": "بنك أسئلة TCF Canada: {listeningSets} مجموعة استماع + {readingSets} قراءة + تحدث وكتابة بالذكاء الاصطناعي. A1-C2."
     },
     "dashboard": {
       "title": "لوحة التحكم · جاهزية CLB 7+ وإحصائيات التدريب",
@@ -2561,7 +2561,7 @@
     },
     "pricing": {
       "title": "أسعار HiTCF · تجربة مجانية متاحة",
-      "description": "أسعار HiTCF: مجموعات مجانية للبدء، Pro يفتح 8,500+ سؤال ووضع الامتحان ودفتر الأخطاء وأدوات المفردات. {yearlyTrialDays} أيام مجاناً في الاشتراك السنوي."
+      "description": "ابدأ مجاناً. Pro يفتح 8,500+ سؤال ووضع الامتحان. تجربة مجانية {yearlyTrialDays} أيام."
     },
     "speedDrill": {
       "title": "تدريب حسب المستوى · تدريب مستهدف حسب المستوى ونوع السؤال",

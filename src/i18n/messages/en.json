@@ -2554,18 +2554,18 @@
   "meta": {
     "siteTitle": "HiTCF — TCF Canada Online Practice Platform",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "8,500+ TCF Canada practice questions + vocabulary tools covering listening, reading, speaking & writing. Sentence-by-sentence listening, flashcards, dictation, Anki export — reach CLB 7+.",
+    "siteDescription": "8,500+ TCF Canada practice questions covering listening, reading, speaking & writing. Reach CLB 7+.",
     "ogTitle": "HiTCF — Practice Your Way to CLB 7+",
     "ogDescription": "8,500+ TCF Canada questions + vocabulary notebook + Anki export. Practice, flashcards & dictation all in one place.",
     "ogImageAlt": "HiTCF — TCF Canada Online Practice Platform",
     "keywords": "TCF Canada,CLB 7+,TCF practice,TCF listening,TCF reading,TCF Canada prep,Canada immigration French,TCF online mock,TCF questions,TCF vocabulary,French Anki,French flashcards",
     "home": {
       "title": "HiTCF — TCF Canada Practice | CLB 7+",
-      "description": "{totalQuestions}+ TCF Canada questions for listening, reading, speaking & writing. Practice mode, exam mode & wrong answer notebook to reach CLB 7+."
+      "description": "{totalQuestions}+ TCF Canada questions — listening, reading, speaking & writing. Reach CLB 7+."
     },
     "tests": {
       "title": "TCF Canada Question Bank · {totalQuestions}+",
-      "description": "Full TCF Canada mock question bank: {listeningSets} listening sets with audio + sentence replay, {readingSets} reading sets, speaking & writing. A1-C2 coverage."
+      "description": "TCF Canada question bank: {listeningSets} listening + {readingSets} reading sets + AI speaking & writing. A1-C2."
     },
     "dashboard": {
       "title": "My Dashboard · CLB 7+ Readiness & Practice Stats",
@@ -2573,7 +2573,7 @@
     },
     "pricing": {
       "title": "HiTCF Pricing · Free Trial Available",
-      "description": "HiTCF pricing: free sets to start, Pro unlocks 8,500+ questions, exam mode, wrong answer notebook & vocabulary tools. Yearly plan includes {yearlyTrialDays}-day free trial."
+      "description": "Free to start. Pro unlocks all 8,500+ questions, exam mode & study tools. {yearlyTrialDays}-day free trial."
     },
     "speedDrill": {
       "title": "Level Practice · Targeted Practice by Level & Question Type",

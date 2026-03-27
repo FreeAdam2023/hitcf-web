@@ -2545,18 +2545,18 @@
   "meta": {
     "siteTitle": "HiTCF — Plateforme d'entraînement en ligne TCF Canada",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "Plus de 8 500+ questions d'entraînement TCF Canada + outils de vocabulaire couvrant écoute, lecture, expression orale et écrite. Écoute phrase par phrase, flashcards, dictée, export Anki — atteignez le NCLC 7.",
+    "siteDescription": "8 500+ questions TCF Canada : écoute, lecture, oral et écrit. Atteignez le NCLC 7+.",
     "ogTitle": "HiTCF — Entraînez-vous pour atteindre le NCLC 7",
     "ogDescription": "Plus de 8 500+ questions TCF Canada + carnet de vocabulaire + export Anki. Entraînement, cartes mémoire et dictée en un seul endroit.",
     "ogImageAlt": "HiTCF — Plateforme d'entraînement en ligne TCF Canada",
     "keywords": "TCF Canada,NCLC 7,entraînement TCF,compréhension orale TCF,compréhension écrite TCF,préparation TCF Canada,français immigration Canada,simulation TCF en ligne,questions TCF,vocabulaire TCF,Anki français,cartes mémoire français",
     "home": {
       "title": "HiTCF — Entraînement TCF Canada | NCLC 7+",
-      "description": "{totalQuestions}+ questions TCF Canada : écoute, lecture, expression orale et écrite. Entraînement, examen simulé et cahier d'erreurs pour le NCLC 7+."
+      "description": "{totalQuestions}+ questions TCF Canada — écoute, lecture, oral et écrit. Visez le NCLC 7+."
     },
     "tests": {
       "title": "Banque de questions TCF Canada · {totalQuestions}+",
-      "description": "Banque TCF Canada : {listeningSets} séries d'écoute avec audio phrase par phrase, {readingSets} séries de lecture, oral et écrit. Niveaux A1 à C2."
+      "description": "Banque TCF Canada : {listeningSets} séries d'écoute + {readingSets} de lecture + oral et écrit IA. A1-C2."
     },
     "dashboard": {
       "title": "Mon tableau de bord · Préparation NCLC 7 et statistiques d'entraînement",
@@ -2564,7 +2564,7 @@
     },
     "pricing": {
       "title": "Tarifs HiTCF · Essai gratuit disponible",
-      "description": "Tarifs HiTCF : séries gratuites pour débuter, Pro débloque 8 500+ questions, mode examen et cahier d'erreurs. Essai gratuit {yearlyTrialDays} jours, annulation à tout moment."
+      "description": "Gratuit pour commencer. Pro débloque 8 500+ questions et mode examen. Essai {yearlyTrialDays} jours."
     },
     "speedDrill": {
       "title": "Pratique par niveau · Entraînement ciblé par niveau et type de question",

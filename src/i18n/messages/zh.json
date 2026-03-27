@@ -2554,18 +2554,18 @@
   "meta": {
     "siteTitle": "HiTCF — TCF Canada 在线练习平台",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "8,500+ 道 TCF Canada 练习题 + 词汇工具，覆盖听力、阅读、口语、写作四大科目。听力逐句精听、刷题、翻卡复习、听写练习、Anki 导出，助你冲刺 CLB 7+。",
+    "siteDescription": "8,500+ 道 TCF Canada 练习题，覆盖听力阅读口语写作，助你冲刺 CLB 7+。",
     "ogTitle": "HiTCF — 打开就练，刷到 CLB 7+",
     "ogDescription": "8,500+ 道 TCF Canada 练习题 + 生词本 + Anki 导出。刷题、翻卡、听写一站搞定，薄弱环节一目了然。",
     "ogImageAlt": "HiTCF — TCF Canada 在线练习平台",
     "keywords": "TCF Canada,CLB 7+,TCF 练习,TCF 听力,TCF 阅读,TCF Canada 备考,加拿大移民法语,TCF 在线模拟,TCF 练习题,TCF 词汇,法语 Anki,法语翻卡",
     "home": {
       "title": "HiTCF — TCF Canada 在线练习 | CLB 7+",
-      "description": "{totalQuestions} 道 TCF Canada 练习题，覆盖听力、阅读、口语、写作四大科目。练习模式 + 考试模式 + 错题本 + 生词本 + Anki 导出，助你系统备考冲刺 CLB 7+。"
+      "description": "{totalQuestions} 道 TCF Canada 练习题，听说读写全覆盖，练习+考试+错题本，冲刺 CLB 7+。"
     },
     "tests": {
       "title": "TCF Canada 题库 · {totalQuestions}+ 道练习题",
-      "description": "TCF Canada 听力、阅读、口语、写作全真模拟题库。{listeningSets} 套听力含音频逐句精听，{readingSets} 套阅读，口语 AI 对话练习，写作 AI 批改，A1-C2 全等级覆盖。"
+      "description": "TCF Canada 听力阅读口语写作全真题库，{listeningSets} 套听力 + {readingSets} 套阅读 + AI 口语写作。"
     },
     "dashboard": {
       "title": "我的仪表盘 · CLB 7+ 准备度与练习统计",
@@ -2573,7 +2573,7 @@
     },
     "pricing": {
       "title": "HiTCF 订阅方案 · 年付享 {yearlyTrialDays} 天免费试用",
-      "description": "HiTCF 订阅方案：免费题套直接练习，Pro 版解锁全部 8,500+ 道题、考试模式、错题本、生词本和 Anki 导出。年付享 {yearlyTrialDays} 天免费试用，随时可取消。"
+      "description": "免费直接练习，Pro 解锁全部题库+考试模式+错题本。年付享 {yearlyTrialDays} 天免费试用。"
     },
     "speedDrill": {
       "title": "等级练习 · 按等级和题型定向刷题",

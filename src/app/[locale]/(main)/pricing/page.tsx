@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { STATS_PARAMS } from "@/lib/constants";
+import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-jsonld";
 import { PricingView } from "./pricing-view";
 
 export async function generateMetadata({
@@ -20,6 +21,12 @@ export async function generateMetadata({
   };
 }
 
-export default function PricingPage() {
-  return <PricingView />;
+export default async function PricingPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  return (
+    <>
+      <BreadcrumbJsonLd locale={locale} items={[{ name: "HiTCF", href: "/" }, { name: "Pricing" }]} />
+      <PricingView />
+    </>
+  );
 }

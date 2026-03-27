@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-jsonld";
 import {
   Headphones,
   BookOpen,
@@ -81,11 +82,13 @@ const highlights = [
   "highlight.referral",
 ];
 
-export default async function GuidePage() {
+export default async function GuidePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const t = await getTranslations("guide.platform");
 
   return (
     <>
+      <BreadcrumbJsonLd locale={locale} items={[{ name: "HiTCF", href: "/" }, { name: "Guide" }]} />
       <h1>{t("heading")}</h1>
       <p className="lead">{t("intro")}</p>
 
