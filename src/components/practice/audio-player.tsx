@@ -58,6 +58,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
   const fetchedAtRef = useRef(0);
   const pendingPlayRef = useRef(false);
   const segmentEndRef = useRef<number | null>(null);
+  const segmentPausedRef = useRef(false); // true when paused by segment end
   const restartRef = useRef<() => void>(() => {});
 
   const exhausted = maxPlays !== undefined && playCount >= maxPlays;
@@ -105,6 +106,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         return;
       }
       segmentEndRef.current = end;
+      segmentPausedRef.current = false;
       audio.currentTime = start;
       audio.play().then(() => setPlaying(true)).catch(() => {});
     },
@@ -223,8 +225,9 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
       setPlaying(false);
       segmentEndRef.current = null;
     } else {
-      // If audio ended (at the end), don't replay — use R for that
+      // If audio ended or segment finished, don't auto-resume — use R to restart
       if (audio.duration && audio.currentTime >= audio.duration - 0.1) return;
+      if (segmentPausedRef.current) return;
       try {
         await audio.play();
         setPlaying(true);
@@ -247,6 +250,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     setProgress(0);
     setCurrentTime(0);
     segmentEndRef.current = null;
+    segmentPausedRef.current = false;
     try {
       await audio.play();
       setPlaying(true);
@@ -295,6 +299,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
       audio.pause();
       setPlaying(false);
       segmentEndRef.current = null;
+      segmentPausedRef.current = true;
     }
   };
 
