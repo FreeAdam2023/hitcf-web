@@ -1276,23 +1276,12 @@
   },
   "cancelSubscription": {
     "title": "Annuler l'abonnement",
-    "description": "Nous sommes désolés de vous voir partir. Dites-nous pourquoi pour nous aider à nous améliorer.",
-    "reasons": {
-      "too_expensive": "Trop cher",
-      "not_using": "Utilisation insuffisante",
-      "found_alternative": "Trouvé une autre plateforme",
-      "exam_done": "TCF déjà passé",
-      "other": "Autre raison"
-    },
-    "feedbackLabel": "Commentaire supplémentaire (facultatif)",
-    "feedbackPlaceholder": "Dites-nous comment nous améliorer...",
-    "next": "Suivant",
+    "description": "Nous sommes désolés de vous voir partir. Vos commentaires sont très importants pour nous.",
+    "feedbackLabel": "Pourquoi souhaitez-vous annuler ?",
+    "feedbackPlaceholder": "ex : prix, fonctionnalités, examen terminé... tout commentaire est utile",
     "keepSubscription": "Garder l'abonnement",
-    "confirmTitle": "Confirmer l'annulation ?",
-    "confirmWarning": "Veuillez confirmer que vous souhaitez annuler votre abonnement.",
-    "confirmDetail": "Vous serez redirigé vers Stripe pour finaliser l'annulation. Vous conserverez l'accès Pro jusqu'à la fin de votre période de facturation en cours.",
+    "confirmDetail": "Après l'annulation, l'accès Pro reste actif jusqu'à la fin de votre période de facturation en cours.",
     "confirmCancel": "Confirmer l'annulation",
-    "goBack": "Retour",
     "error": "Une erreur s'est produite. Veuillez réessayer plus tard."
   },
   "continueBanner": {

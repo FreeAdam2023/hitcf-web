@@ -27,7 +27,6 @@ export function getCustomerPortal(): Promise<{ url: string }> {
 
 export function submitCancelReason(body: {
   reason: string;
-  feedback?: string;
 }): Promise<{ portal_url: string }> {
   return post<{ portal_url: string }>("/api/subscriptions/cancel-reason", body);
 }

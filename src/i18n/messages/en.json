@@ -1285,23 +1285,12 @@
   },
   "cancelSubscription": {
     "title": "Cancel Subscription",
-    "description": "We're sorry to see you go. Please tell us why so we can improve.",
-    "reasons": {
-      "too_expensive": "Too expensive",
-      "not_using": "Not using it enough",
-      "found_alternative": "Found another platform",
-      "exam_done": "Already passed TCF",
-      "other": "Other reason"
-    },
-    "feedbackLabel": "Additional feedback (optional)",
-    "feedbackPlaceholder": "Tell us how we can improve...",
-    "next": "Next",
+    "description": "We're sorry to see you go. Your feedback means a lot to us.",
+    "feedbackLabel": "Can you tell us why you're cancelling?",
+    "feedbackPlaceholder": "e.g. price, features, finished exam... anything helps",
     "keepSubscription": "Keep Subscription",
-    "confirmTitle": "Confirm Cancellation?",
-    "confirmWarning": "Please confirm you want to cancel your subscription.",
-    "confirmDetail": "You will be redirected to Stripe to complete the cancellation. You'll keep Pro access until the end of your current billing period.",
+    "confirmDetail": "After cancelling, Pro access continues until the end of your current billing period.",
     "confirmCancel": "Confirm Cancel",
-    "goBack": "Go Back",
     "error": "Something went wrong. Please try again later."
   },
   "continueBanner": {
