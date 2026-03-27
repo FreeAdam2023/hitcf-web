@@ -63,14 +63,19 @@ export const authOptions: NextAuthOptions = {
           try {
             const h = await getHeaders();
             const c = await getCookies();
+            // Detect locale from referer URL path (e.g. /fr/login → "fr")
+            const referer = h.get("referer") || "";
+            const localeMatch = referer.match(/\/(?:zh|en|fr|ar)\//);
+            const locale = localeMatch ? localeMatch[0].replace(/\//g, "") : (c.get("locale")?.value || "");
             trackingData = {
               signup_ip: h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "",
               signup_user_agent: h.get("user-agent") || "",
-              signup_referer: h.get("referer") || "",
+              signup_referer: referer,
               signup_utm_source: c.get("utm_source")?.value || "",
               signup_utm_medium: c.get("utm_medium")?.value || "",
               signup_utm_campaign: c.get("utm_campaign")?.value || "",
               referral_code: c.get("ref")?.value || "",
+              locale,
             };
           } catch {
             // headers()/cookies() may fail outside route handler context
