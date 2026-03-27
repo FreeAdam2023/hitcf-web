@@ -78,6 +78,7 @@
     "vocabulary": "Vocabulary",
     "history": "History",
     "speedDrill": "Level Practice",
+    "reference": "Reference",
     "pricing": "Pricing",
     "resources": "Resources",
     "profile": "Me",
@@ -1545,6 +1546,29 @@
     "modeFull": "Full Text",
     "modeSentence": "Sentence by Sentence"
   },
+  "reference": {
+    "hero": {
+      "badge": "Free & Open",
+      "title": "French Quick Reference",
+      "subtitle": "Essential French grammar, numbers, time, and verb conjugation at your fingertips"
+    },
+    "search": {
+      "placeholder": "Search topics..."
+    },
+    "cat": {
+      "basics": "Basics",
+      "determiners": "Articles & Prepositions",
+      "pronouns": "Pronouns",
+      "verbs": "Verb Tenses",
+      "structures": "Sentence Structures",
+      "exam": "Exam Tips"
+    },
+    "backToReference": "Back to Reference",
+    "toc": "Contents",
+    "prevTopic": "Previous",
+    "nextTopic": "Next",
+    "noResults": "No matching topics"
+  },
   "vocabulary": {
     "title": "Vocabulary",
     "subtitle": "Click words while practicing, save them, and review with flashcards",
@@ -2567,6 +2591,10 @@
       "title": "Account Settings",
       "description": "Manage your profile, password, and subscription."
     },
+    "reference": {
+      "title": "French Quick Reference - Grammar, Numbers, Verb Conjugation",
+      "description": "TCF Canada French quick reference: numbers, time, dates, articles, pronouns, verb conjugation, subjunctive and more."
+    },
     "vocabulary": {
       "title": "Vocabulary Notebook · TCF Canada French Vocabulary Tools",
       "description": "TCF Canada French vocabulary tools: save words from practice, review with flashcards, dictation exercises & Anki export. Organized by skill and level."
@@ -3428,6 +3456,9 @@
   },
   "changelog": {
     "title": "Changelog",
-    "subtitle": "See what's new and improved on HiTCF"
+    "subtitle": "See what's new and improved on HiTCF",
+    "feature": "New Feature",
+    "improvement": "Improvement",
+    "fix": "Fix"
   }
 }

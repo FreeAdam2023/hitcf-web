@@ -78,6 +78,7 @@
     "vocabulary": "المفردات",
     "history": "السجل",
     "speedDrill": "تدريب حسب المستوى",
+    "reference": "مرجع",
     "pricing": "الأسعار",
     "resources": "الموارد",
     "profile": "حسابي",
@@ -1532,6 +1533,29 @@
     "modeFull": "النص الكامل",
     "modeSentence": "جملة بجملة"
   },
+  "reference": {
+    "hero": {
+      "badge": "مجاني",
+      "title": "مرجع سريع للفرنسية",
+      "subtitle": "القواعد والأرقام والأوقات وتصريف الأفعال الأساسية للاستعداد لـ TCF Canada"
+    },
+    "search": {
+      "placeholder": "البحث عن موضوع..."
+    },
+    "cat": {
+      "basics": "الأساسيات",
+      "determiners": "أدوات التعريف وحروف الجر",
+      "pronouns": "الضمائر",
+      "verbs": "أزمنة الأفعال",
+      "structures": "تراكيب الجمل",
+      "exam": "نصائح الامتحان"
+    },
+    "backToReference": "العودة إلى المرجع",
+    "toc": "الفهرس",
+    "prevTopic": "السابق",
+    "nextTopic": "التالي",
+    "noResults": "لا توجد مواضيع مطابقة"
+  },
   "vocabulary": {
     "title": "المفردات",
     "subtitle": "انقر على الكلمات أثناء التدريب واحفظها وراجعها بالبطاقات التعليمية",
@@ -2554,6 +2578,10 @@
       "title": "إعدادات الحساب",
       "description": "إدارة ملفك الشخصي وكلمة المرور واشتراكك."
     },
+    "reference": {
+      "title": "مرجع سريع للفرنسية - قواعد، أرقام، تصريف الأفعال",
+      "description": "مرجع سريع TCF Canada: أرقام، وقت، تواريخ، أدوات، ضمائر، تصريف الأفعال والمزيد."
+    },
     "vocabulary": {
       "title": "دفتر المفردات · أدوات مفردات اللغة الفرنسية لـ TCF Canada",
       "description": "أدوات مفردات اللغة الفرنسية لـ TCF Canada: احفظ الكلمات من التدريب، راجعها بالبطاقات التعليمية وتمارين الإملاء وتصدير Anki. مرتبة حسب المهارة والمستوى."
@@ -3415,6 +3443,9 @@
   },
   "changelog": {
     "title": "Changelog",
-    "subtitle": "See what's new and improved on HiTCF"
+    "subtitle": "See what's new and improved on HiTCF",
+    "feature": "ميزة جديدة",
+    "improvement": "تحسين",
+    "fix": "إصلاح"
   }
 }

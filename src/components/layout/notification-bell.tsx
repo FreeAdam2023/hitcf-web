@@ -18,6 +18,7 @@ import {
 } from "@/lib/api/announcements";
 import {
   changelog,
+  getLocalizedChangelog,
   getUnreadChangelogEntries,
   markChangelogRead,
 } from "@/lib/changelog";
@@ -83,11 +84,12 @@ export function NotificationBell() {
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - 7);
     const cutoffStr = cutoff.toISOString().slice(0, 10);
-    const recentEntries = changelog.filter((e) => e.date > cutoffStr).slice(0, 3);
+    const localized = getLocalizedChangelog(locale);
+    const recentEntries = localized.filter((e) => e.date > cutoffStr).slice(0, 1);
 
     const refresh = () => {
       const unread = getUnreadChangelogEntries();
-      const unreadKeys = new Set(unread.map((e) => `${e.date}|${e.title}`));
+      const unreadDates = new Set(unread.map((e) => e.date));
       setChangelogUnread(unread.length);
       setChangelogItems(
         recentEntries.map((e, i) => ({
@@ -99,7 +101,7 @@ export function NotificationBell() {
           },
           type: e.type,
           published_at: `${e.date}T00:00:00Z`,
-          is_unread: unreadKeys.has(`${e.date}|${e.title}`),
+          is_unread: unreadDates.has(e.date),
           _href: "/changelog",
         })),
       );

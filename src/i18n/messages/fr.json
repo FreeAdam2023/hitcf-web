@@ -78,6 +78,7 @@
     "vocabulary": "Vocabulaire",
     "history": "Historique",
     "speedDrill": "Pratique par niveau",
+    "reference": "Référence",
     "pricing": "Tarifs",
     "resources": "Ressources",
     "profile": "Profil",
@@ -1536,6 +1537,29 @@
     "modeFull": "Texte complet",
     "modeSentence": "Phrase par phrase"
   },
+  "reference": {
+    "hero": {
+      "badge": "Gratuit",
+      "title": "Aide-mémoire français",
+      "subtitle": "Grammaire, nombres, heure et conjugaison essentiels pour le TCF Canada"
+    },
+    "search": {
+      "placeholder": "Rechercher un sujet..."
+    },
+    "cat": {
+      "basics": "Bases",
+      "determiners": "Articles et prépositions",
+      "pronouns": "Pronoms",
+      "verbs": "Temps verbaux",
+      "structures": "Structures de phrases",
+      "exam": "Astuces d'examen"
+    },
+    "backToReference": "Retour à l'aide-mémoire",
+    "toc": "Sommaire",
+    "prevTopic": "Précédent",
+    "nextTopic": "Suivant",
+    "noResults": "Aucun sujet correspondant"
+  },
   "vocabulary": {
     "title": "Vocabulaire",
     "subtitle": "Cliquez sur les mots pendant vos exercices, enregistrez-les et révisez avec des flashcards",
@@ -2558,6 +2582,10 @@
       "title": "Paramètres du compte",
       "description": "Gérez votre profil, votre mot de passe et votre abonnement."
     },
+    "reference": {
+      "title": "Aide-mémoire français - Grammaire, nombres, conjugaison",
+      "description": "Aide-mémoire TCF Canada : nombres, heure, dates, articles, pronoms, conjugaison, subjonctif et plus."
+    },
     "vocabulary": {
       "title": "Carnet de vocabulaire · Outils de vocabulaire français TCF Canada",
       "description": "Outils de vocabulaire français TCF Canada : enregistrez les mots de vos entraînements, révisez avec des cartes mémoire, des exercices de dictée et l'export Anki. Organisé par compétence et niveau."
@@ -3419,6 +3447,9 @@
   },
   "changelog": {
     "title": "Journal des mises à jour",
-    "subtitle": "Découvrez les nouveautés de HiTCF"
+    "subtitle": "Découvrez les nouveautés de HiTCF",
+    "feature": "Nouveauté",
+    "improvement": "Amélioration",
+    "fix": "Correction"
   }
 }

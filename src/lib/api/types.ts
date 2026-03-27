@@ -198,6 +198,22 @@ export interface GrammarCard {
   tags: string[];
 }
 
+// Grammar Reference
+export interface GrammarReferenceItem {
+  slug: string;
+  category: string;
+  icon: string;
+  order: number;
+  level: string;
+  title: string;
+  description: string;
+  tags: string[];
+}
+
+export interface GrammarReferenceDetail extends GrammarReferenceItem {
+  content: string; // Markdown
+}
+
 export interface QuestionDetail extends QuestionBrief {
   correct_answer: string | null;
   explanation: Explanation | null;
@@ -580,7 +596,7 @@ export interface SpeakingEvaluationResponse {
   estimated_nclc: string;
   estimated_level: string;
   overall_comment: string;
-  corrections: Array<{ original: string; corrected: string; explanation: string }>;
+  corrections: Array<{ original: string; corrected: string; explanation: string; grammar_point?: string }>;
   vocab_suggestions: Array<{ original: string; suggestion: string; reason: string }>;
 }
 

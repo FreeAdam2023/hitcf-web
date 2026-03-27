@@ -78,6 +78,7 @@
     "vocabulary": "生词本",
     "history": "记录",
     "speedDrill": "等级练习",
+    "reference": "速查",
     "pricing": "定价",
     "resources": "资源",
     "profile": "我的",
@@ -1545,6 +1546,29 @@
     "modeFull": "全文翻译",
     "modeSentence": "逐句对照"
   },
+  "reference": {
+    "hero": {
+      "badge": "免费开放",
+      "title": "法语速查手册",
+      "subtitle": "TCF Canada 备考必备 — 数字、时间、冠词、动词变位等知识点速查"
+    },
+    "search": {
+      "placeholder": "搜索语法主题..."
+    },
+    "cat": {
+      "basics": "基础",
+      "determiners": "冠词与介词",
+      "pronouns": "代词",
+      "verbs": "动词时态",
+      "structures": "句型结构",
+      "exam": "考试技巧"
+    },
+    "backToReference": "返回速查手册",
+    "toc": "目录",
+    "prevTopic": "上一个",
+    "nextTopic": "下一个",
+    "noResults": "没有匹配的主题"
+  },
   "vocabulary": {
     "title": "生词本",
     "subtitle": "做题时点词查义，收藏生词，翻卡复习",
@@ -2571,6 +2595,10 @@
       "title": "生词本 · TCF Canada 法语词汇学习工具",
       "description": "TCF Canada 法语生词本：收藏练习中的生单词，翻卡复习、听写练习、Anki 导出。按技能和等级分类，系统提升词汇量。"
     },
+    "reference": {
+      "title": "法语速查手册 · 语法数字时间动词变位速查",
+      "description": "TCF Canada 法语速查手册：数字、时间、日期、冠词、代词、动词变位、虚拟式等知识点速查参考。"
+    },
     "vocabularyMySaved": {
       "title": "我的收藏 · 练习中收藏的法语生词",
       "description": "查看你在 TCF Canada 听力、阅读、口语、写作练习中收藏的法语生词。支持按技能筛选、翻卡复习、听写练习和 Anki 导出。"
@@ -3428,6 +3456,9 @@
   },
   "changelog": {
     "title": "更新日志",
-    "subtitle": "了解 HiTCF 的最新功能和改进"
+    "subtitle": "了解 HiTCF 的最新功能和改进",
+    "feature": "新功能",
+    "improvement": "优化",
+    "fix": "修复"
   }
 }

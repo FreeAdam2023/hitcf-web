@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useTranslations } from "next-intl";
 import type { SpeakingEvaluationResponse } from "@/lib/api/types";
+import { GrammarPointBadge } from "@/components/writing/grammar-point-badge";
 
 interface SpeakingEvaluationCardProps {
   evaluation: SpeakingEvaluationResponse;
@@ -100,6 +101,7 @@ export function SpeakingEvaluationCard({
                   <p className="mt-1 text-xs lg:text-sm text-muted-foreground">
                     {c.explanation}
                   </p>
+                  {c.grammar_point && <GrammarPointBadge slug={c.grammar_point} />}
                 </div>
               ))}
             </div>

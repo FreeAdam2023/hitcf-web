@@ -25,23 +25,28 @@ import { UserMenu } from "./user-menu";
 import { NotificationBell } from "./notification-bell";
 import { cn, parseUTCms } from "@/lib/utils";
 import { localizeTestName } from "@/lib/test-name";
+import { useAuthStore } from "@/stores/auth-store";
 
 const NAV_KEYS = [
   { href: "/tests", key: "nav.tests" },
   { href: "/review", key: "nav.review" },
   { href: "/vocabulary", key: "nav.vocabulary" },
   { href: "/history", key: "nav.history" },
-  { href: "/pricing", key: "nav.pricing" },
+  { href: "/reference", key: "nav.reference" },
+  { href: "/pricing", key: "nav.pricing", hideWhenSubscribed: true },
   { href: "/resources", key: "nav.resources" },
 ] as const;
 
 export function Navbar() {
   const t = useTranslations();
+  const hasActiveSub = useAuthStore((s) => s.hasActiveSubscription);
 
   const pathname = usePathname();
   const isImmersive = pathname.startsWith("/practice/") || pathname.startsWith("/exam/");
 
-  const allItems = NAV_KEYS.map((item) => ({ href: item.href, label: t(item.key) }));
+  const allItems = NAV_KEYS
+    .filter((item) => !("hideWhenSubscribed" in item && item.hideWhenSubscribed && hasActiveSub()))
+    .map((item) => ({ href: item.href, label: t(item.key) }));
 
   if (isImmersive) {
     return <ImmersiveHeader />;

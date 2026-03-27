@@ -262,6 +262,26 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     audio.muted = newMuted;
   };
 
+  // Keyboard shortcuts: Space = play/pause, R = restart
+  useEffect(() => {
+    if (examMode) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Skip if user is typing in an input/textarea
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+
+      if (e.code === "Space") {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.code === "KeyR" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        restart();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }); // intentionally no deps — togglePlay/restart use refs internally
+
   const onTimeUpdate = () => {
     const audio = audioRef.current;
     if (!audio || !audio.duration) return;
