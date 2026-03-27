@@ -1248,14 +1248,14 @@
       "viewSubscription": "View Subscription"
     },
     "cancel": {
-      "title": "Like the Canada goose, take your time",
-      "description": "Payment was not completed — no charges were made. The Canada goose flies south in winter but always returns — we'll be here when you're ready.",
+      "title": "No worries, take your time",
+      "description": "Payment was not completed — no charges were made. Come back whenever you're ready, the question bank is always here for you.",
       "choosePlan": "Choose a Plan",
       "backToTests": "Back to Tests"
     },
     "unsubscribed": {
-      "title": "Until we meet again",
-      "description": "Your Pro access continues until the end of your current billing period. Like the Canada goose, we always welcome you back.",
+      "title": "Cancellation confirmed",
+      "description": "Your Pro access continues until the end of your current billing period — all features remain available. Good luck on your TCF exam!",
       "continuePractice": "Continue Practicing",
       "resubscribe": "Resubscribe"
     },

@@ -13,8 +13,8 @@ export default function PaymentCancelPage() {
     <div className="relative flex min-h-[70vh] items-center justify-center overflow-hidden rounded-2xl">
       {/* Full background image */}
       <Image
-        src="/hero-geese-fly.jpg"
-        alt="Canada geese"
+        src="/hero-lake-boat.jpg"
+        alt="Peaceful lake"
         fill
         className="object-cover"
         priority

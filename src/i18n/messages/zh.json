@@ -1248,14 +1248,14 @@
       "viewSubscription": "查看订阅详情"
     },
     "cancel": {
-      "title": "像加拿大雁一样，先飞一会儿",
-      "description": "本次支付未完成，没有产生任何费用。加拿大雁冬天飞走，春天还会回来——我们也在这里等你。",
+      "title": "没关系，不着急",
+      "description": "本次支付未完成，没有产生任何费用。准备好了随时回来，题库一直在这里等你。",
       "choosePlan": "重新选择方案",
       "backToTests": "返回题库"
     },
     "unsubscribed": {
-      "title": "雁过留痕，后会有期",
-      "description": "Pro 权限保留至当前付费周期结束。加拿大雁每年都会飞回来，我们也随时欢迎你归队。",
+      "title": "取消成功，祝考试顺利",
+      "description": "Pro 权限保留至当前付费周期结束，期间所有功能照常使用。备考加油！",
       "continuePractice": "继续刷题",
       "resubscribe": "重新订阅"
     },

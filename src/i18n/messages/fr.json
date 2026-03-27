@@ -1239,14 +1239,14 @@
       "viewSubscription": "Voir l'abonnement"
     },
     "cancel": {
-      "title": "Comme la bernache du Canada, prenez votre temps",
-      "description": "Le paiement n'a pas été finalisé — aucun frais n'a été prélevé. La bernache du Canada migre vers le sud en hiver mais revient toujours — nous serons là quand vous serez prêt.",
+      "title": "Pas de souci, prenez votre temps",
+      "description": "Le paiement n'a pas été finalisé — aucun frais n'a été prélevé. Revenez quand vous êtes prêt, la banque de questions vous attend.",
       "choosePlan": "Choisir un forfait",
       "backToTests": "Retour aux tests"
     },
     "unsubscribed": {
-      "title": "À bientôt",
-      "description": "Votre accès Pro continue jusqu'à la fin de votre période de facturation en cours. Comme la bernache du Canada, nous vous accueillons toujours à bras ouverts.",
+      "title": "Annulation confirmée",
+      "description": "Votre accès Pro reste actif jusqu'à la fin de votre période en cours — toutes les fonctionnalités restent disponibles. Bonne chance pour votre examen TCF !",
       "continuePractice": "Continuer la pratique",
       "resubscribe": "Se réabonner"
     },
