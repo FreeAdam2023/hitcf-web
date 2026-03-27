@@ -2,9 +2,11 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { usePracticeStore } from "@/stores/practice-store";
 import { getAttempt } from "@/lib/api/attempts";
+import { ApiError } from "@/lib/api/client";
 import { getTestSetQuestions } from "@/lib/api/test-sets";
 import { fetchDrillNav, loadDrillQuestion } from "@/lib/api/speed-drill";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
@@ -13,6 +15,7 @@ import { PracticeSession } from "./practice-session";
 
 export default function PracticePage() {
   const t = useTranslations();
+  const router = useRouter();
   const params = useParams<{ attemptId: string }>()!;
   const init = usePracticeStore((s) => s.init);
   const initDrill = usePracticeStore((s) => s.initDrill);
@@ -72,6 +75,11 @@ export default function PracticePage() {
       setLoading(false);
     } catch (err) {
       if (err instanceof DOMException && err.name === "AbortError") return;
+      // 404 = attempt doesn't exist or belongs to another user → go to tests
+      if (err instanceof ApiError && err.status === 404) {
+        router.replace("/tests");
+        return;
+      }
       setError(t("practice.session.loadError"));
       setLoading(false);
     }

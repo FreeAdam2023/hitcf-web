@@ -2,9 +2,11 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useExamStore } from "@/stores/exam-store";
 import { getAttempt, getMockExamQuestions } from "@/lib/api/attempts";
+import { ApiError } from "@/lib/api/client";
 import { getTestSet, getTestSetQuestions } from "@/lib/api/test-sets";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
@@ -12,6 +14,7 @@ import { ExamSession } from "./exam-session";
 
 export default function ExamPage() {
   const t = useTranslations();
+  const router = useRouter();
   const params = useParams<{ attemptId: string }>()!;
   const init = useExamStore((s) => s.init);
   const storeAttemptId = useExamStore((s) => s.attemptId);
@@ -66,6 +69,10 @@ export default function ExamPage() {
       setLoading(false);
     } catch (err) {
       if (err instanceof DOMException && err.name === "AbortError") return;
+      if (err instanceof ApiError && err.status === 404) {
+        router.replace("/tests");
+        return;
+      }
       setError(t("exam.session.loadError"));
       setLoading(false);
     }
