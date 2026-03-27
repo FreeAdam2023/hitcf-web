@@ -686,7 +686,8 @@
       "kbSelect": "选择",
       "kbConfirm": "确认",
       "kbNavigate": "切换题目",
-      "kbReplay": "重新播放"
+      "kbPlayPause": "播放/暂停",
+      "kbReplay": "重播"
     },
     "optionList": {
       "ariaLabel": "答案选项"

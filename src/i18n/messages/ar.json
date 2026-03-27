@@ -682,7 +682,9 @@
       "hideZh": "إخفاء الترجمة الصينية",
       "kbSelect": "اختيار",
       "kbConfirm": "تأكيد",
-      "kbNavigate": "التنقل"
+      "kbNavigate": "التنقل",
+      "kbPlayPause": "تشغيل/إيقاف",
+      "kbReplay": "إعادة التشغيل"
     },
     "optionList": {
       "ariaLabel": "خيارات الإجابة"

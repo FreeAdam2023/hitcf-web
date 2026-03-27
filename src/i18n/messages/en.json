@@ -686,6 +686,7 @@
       "kbSelect": "select",
       "kbConfirm": "confirm",
       "kbNavigate": "navigate",
+      "kbPlayPause": "play/pause",
       "kbReplay": "replay"
     },
     "optionList": {
