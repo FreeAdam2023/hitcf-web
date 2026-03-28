@@ -126,12 +126,6 @@ export function ReferenceView() {
     <div className="mx-auto max-w-4xl px-4 py-8 space-y-8">
       {/* Hero */}
       <div>
-        <Badge
-          variant="secondary"
-          className="mb-3 text-xs bg-primary/10 text-primary border-0"
-        >
-          {t("hero.badge")}
-        </Badge>
         <h1 className="text-3xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
             {t("hero.title")}
