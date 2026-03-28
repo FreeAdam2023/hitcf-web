@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Loader2, RefreshCw, Star, Volume2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { createPortal } from "react-dom";
