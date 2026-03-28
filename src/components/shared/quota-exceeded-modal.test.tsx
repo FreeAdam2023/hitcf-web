@@ -8,7 +8,7 @@ vi.mock("next-intl", () => ({
     // Return a predictable string so we can assert on plan names
     if (key === "pricing.plans.monthly.name") return "Monthly";
     if (key === "pricing.plans.quarterly.name") return "Quarterly";
-    if (key === "pricing.plans.yearly.name") return "Yearly";
+    if (key === "pricing.plans.semiannual.name") return "Semi-Annual";
     if (key === "pricing.limitedOffer") return "Limited Offer";
     if (key === "quota.exceeded.subscribe") return "Subscribe";
     if (key === "quota.exceeded.title") return "Quota Exceeded";
@@ -46,7 +46,7 @@ vi.mock("@/lib/analytics/track", () => ({
 }));
 
 describe("QuotaExceededModal", () => {
-  it("renders all three plan names (monthly, quarterly, yearly)", () => {
+  it("renders all three plan names (monthly, quarterly, semiannual)", () => {
     render(
       <QuotaExceededModal
         open={true}
@@ -59,7 +59,7 @@ describe("QuotaExceededModal", () => {
 
     expect(screen.getByText("Monthly")).toBeInTheDocument();
     expect(screen.getByText("Quarterly")).toBeInTheDocument();
-    expect(screen.getByText("Yearly")).toBeInTheDocument();
+    expect(screen.getByText("Semi-Annual")).toBeInTheDocument();
   });
 
   it("shows 'Limited Offer' badge for quarterly only", () => {
@@ -78,7 +78,7 @@ describe("QuotaExceededModal", () => {
     expect(limitedOfferBadges).toHaveLength(1);
   });
 
-  it("shows 'Best Value' badge for yearly (recommended)", () => {
+  it("shows 'Best Value' badge for semiannual (recommended)", () => {
     render(
       <QuotaExceededModal
         open={true}
@@ -134,6 +134,6 @@ describe("QuotaExceededModal", () => {
 
     expect(screen.getByText("US$19.90")).toBeInTheDocument();
     expect(screen.getByText("US$49.90")).toBeInTheDocument();
-    expect(screen.getByText("US$99.90")).toBeInTheDocument();
+    expect(screen.getByText("US$69.90")).toBeInTheDocument();
   });
 });

@@ -45,11 +45,11 @@ const PLANS = [
     limitedOffer: true,
   },
   {
-    key: "yearly" as const,
-    price: formatPrice(PRICING.yearly),
-    perMonth: formatPrice(PRICING.yearlyPerMonth),
-    savePercent: PRICING.yearlySavePercent,
-    trialDays: PRICING.yearlyTrialDays,
+    key: "semiannual" as const,
+    price: formatPrice(PRICING.semiannual),
+    perMonth: formatPrice(PRICING.semiannualPerMonth),
+    savePercent: PRICING.semiannualSavePercent,
+    trialDays: PRICING.semiannualTrialDays,
     recommended: true,
     limitedOffer: false,
   },
@@ -66,7 +66,7 @@ export function QuotaExceededModal({
   const { isAuthenticated } = useAuthStore();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
-  const handleSubscribe = async (plan: "monthly" | "quarterly" | "yearly") => {
+  const handleSubscribe = async (plan: "monthly" | "quarterly" | "semiannual") => {
     trackEvent("quota_modal_subscribe", { plan });
     setLoadingPlan(plan);
     try {
@@ -77,7 +77,7 @@ export function QuotaExceededModal({
     }
   };
 
-  const handleRegister = (plan: "monthly" | "quarterly" | "yearly") => {
+  const handleRegister = (plan: "monthly" | "quarterly" | "semiannual") => {
     trackEvent("quota_modal_register", { plan });
     window.location.href = `/register?redirect=/pricing&plan=${plan}`;
   };

@@ -150,8 +150,8 @@ export function AccountView() {
         ? t("account.subscription.monthly")
         : subPlan === "quarterly"
           ? t("account.subscription.quarterly")
-          : subPlan === "yearly"
-            ? t("account.subscription.yearly")
+          : subPlan === "semiannual"
+            ? t("account.subscription.semiannual")
             : subPlan || "";
 
   const firstName = user.name?.split(/\s/)[0] || t("account.defaultName");
@@ -364,10 +364,10 @@ export function AccountView() {
                 {t("account.unlockAll")}
               </p>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                {t("account.yearlyDeal", {
-                  yearlyPrice: PRICING.yearly.toFixed(2),
-                  yearlyPerMonth: PRICING.yearlyPerMonth.toFixed(2),
-                  yearlyTrialDays: String(PRICING.yearlyTrialDays),
+                {t("account.semiannualDeal", {
+                  semiannualPrice: PRICING.semiannual.toFixed(2),
+                  semiannualPerMonth: PRICING.semiannualPerMonth.toFixed(2),
+                  semiannualTrialDays: String(PRICING.semiannualTrialDays),
                 })}
               </p>
             </div>

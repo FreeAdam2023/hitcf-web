@@ -933,7 +933,7 @@
     "subscription": {
       "monthly": "Monthly",
       "quarterly": "Quarterly",
-      "yearly": "Yearly",
+      "semiannual": "Semi-Annual",
       "tester": "Beta Tester",
       "trialing": "Trial",
       "member": "Member",
@@ -956,7 +956,7 @@
     },
     "continuePractice": "Continue Practice",
     "unlockAll": "Unlock all 8,500+ questions + vocabulary tools",
-    "yearlyDeal": "Yearly plan from ${yearlyPerMonth}/mo with {yearlyTrialDays}-day free trial",
+    "semiannualDeal": "Semi-annual plan from ${semiannualPerMonth}/mo with {semiannualTrialDays}-day free trial",
     "upgradePro": "Upgrade to Pro",
     "profile": {
       "title": "Profile",
@@ -1280,7 +1280,7 @@
     "defaultTitle": "Unlock the Full Experience",
     "defaultDescription": "Upgrade to Pro for all 8,500+ questions and advanced features",
     "viewPlans": "View Plans",
-    "yearlyTrial": "{yearlyTrialDays} days free with yearly plan",
+    "semiannualTrial": "{semiannualTrialDays} days free with semi-annual plan",
     "upgradePro": "Upgrade to Pro"
   },
   "cancelSubscription": {
@@ -1983,12 +1983,12 @@
         "valueDesc": "3-month sprint — best value for focused prep",
         "savingsVsTutor": "98% cheaper than a tutor"
       },
-      "yearly": {
-        "name": "Yearly",
-        "unit": "/ year",
-        "equiv": "≈ US${yearlyPerMonth} / mo, save {savingsPercent}% · No auto-renewal",
+      "semiannual": {
+        "name": "Semi-Annual",
+        "unit": "/ 6 months",
+        "equiv": "≈ US${semiannualPerMonth} / mo, save {savingsPercent}% · No auto-renewal",
         "badge": "Most Popular",
-        "trialLabel": "{yearlyTrialDays}-day free trial",
+        "trialLabel": "{semiannualTrialDays}-day free trial",
         "valueDesc": "One coffee per month for practice + flashcards + dictation + Anki export",
         "savingsVsTutor": "99% cheaper than a tutor"
       }
@@ -2038,16 +2038,16 @@
       "title": "FAQ",
       "items": [
         {
-          "q": "What's the difference between monthly, quarterly, and yearly?",
-          "a": "Monthly is a recurring subscription with a {monthlyTrialDays}-day free trial — cancel anytime. Quarterly includes a {quarterlyTrialDays}-day free trial, valid for 3 months with no auto-renewal. Yearly includes a {yearlyTrialDays}-day free trial, valid for one year with no auto-renewal."
+          "q": "What's the difference between monthly, quarterly, and semi-annual?",
+          "a": "Monthly is a recurring subscription with a {monthlyTrialDays}-day free trial — cancel anytime. Quarterly includes a {quarterlyTrialDays}-day free trial, valid for 3 months with no auto-renewal. Semi-annual includes a {semiannualTrialDays}-day free trial, valid for 6 months with no auto-renewal."
         },
         {
           "q": "Do I need a credit card for the free trial?",
-          "a": "All plans require a card, securely processed via Stripe. Cancel during the trial period ({monthlyTrialDays} days for monthly / {quarterlyTrialDays} days for quarterly / {yearlyTrialDays} days for yearly) and you won't be charged."
+          "a": "All plans require a card, securely processed via Stripe. Cancel during the trial period ({monthlyTrialDays} days for monthly / {quarterlyTrialDays} days for quarterly / {semiannualTrialDays} days for semi-annual) and you won't be charged."
         },
         {
           "q": "Can I cancel anytime?",
-          "a": "Cancel anytime via the Stripe customer portal (click \"Manage Subscription\" on the pricing page). Cancel during the trial and you won't be charged. Paid users keep Pro access until the end of the billing cycle. Yearly plans do not auto-renew."
+          "a": "Cancel anytime via the Stripe customer portal (click \"Manage Subscription\" on the pricing page). Cancel during the trial and you won't be charged. Paid users keep Pro access until the end of the billing cycle. Semi-annual plans do not auto-renew."
         },
         {
           "q": "What payment methods are supported?",
@@ -2466,8 +2466,8 @@
     "freeStart": "Get Started",
     "freeRegister": "Sign Up Free",
     "proBadge": "Recommended",
-    "proTrial": "{yearlyTrialDays} Days Free",
-    "proTrialUnit": "trial (yearly)",
+    "proTrial": "{semiannualTrialDays} Days Free",
+    "proTrialUnit": "trial",
     "proFeatures": [
       "Full listening + reading library (sentence replay)",
       "Exam mode (timed + scored)",
@@ -2494,7 +2494,7 @@
     "trust": [
       {
         "label": "Extended Free Trial",
-        "desc": "{yearlyTrialDays} days (yearly) · {monthlyTrialDays} days (monthly)"
+        "desc": "{semiannualTrialDays} days (semi-annual) · {monthlyTrialDays} days (monthly)"
       },
       {
         "label": "Secure Payment",
@@ -2521,7 +2521,7 @@
       },
       {
         "q": "What are the benefits of Pro?",
-        "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, and Anki export. Yearly plan includes {yearlyTrialDays}-day free trial — cancel anytime."
+        "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, and Anki export. Semi-annual plan includes {semiannualTrialDays}-day free trial — cancel anytime."
       },
       {
         "q": "Can you guarantee I'll reach CLB 7+?",
@@ -2533,7 +2533,7 @@
       },
       {
         "q": "How do I request a refund?",
-        "a": "Full refund within 48 hours of first payment. Yearly subscribers can get a prorated refund within {yearlyTrialDays} days. Email support@hitcf.com — processed within 3 business days."
+        "a": "Full refund within 48 hours of first payment. Semi-annual subscribers can get a prorated refund within {semiannualTrialDays} days. Email support@hitcf.com — processed within 3 business days."
       }
     ],
     "ctaImageAlt": "Parliament Hill and Ottawa River panorama",
@@ -2564,7 +2564,7 @@
     },
     "pricing": {
       "title": "HiTCF Pricing · Free Trial Available",
-      "description": "Free to start. Pro unlocks all 8,500+ questions, exam mode & study tools. {yearlyTrialDays}-day free trial."
+      "description": "Free to start. Pro unlocks all 8,500+ questions, exam mode & study tools. {semiannualTrialDays}-day free trial."
     },
     "speedDrill": {
       "title": "Level Practice · Targeted Practice by Level & Question Type",
@@ -2633,7 +2633,7 @@
     },
     "refund": {
       "title": "Refund Policy · Free Trial & Refund Process",
-      "description": "HiTCF Refund Policy: free trial ({yearlyTrialDays} days on yearly, {monthlyTrialDays} days on monthly) cancel anytime. Full refund within 48 hours of first payment, prorated refund within {yearlyTrialDays} days for yearly. Refunded via Stripe."
+      "description": "HiTCF Refund Policy: free trial ({semiannualTrialDays} days on semi-annual, {monthlyTrialDays} days on monthly) cancel anytime. Full refund within 48 hours of first payment, prorated refund within {semiannualTrialDays} days for semi-annual. Refunded via Stripe."
     },
     "disclaimer": {
       "title": "Disclaimer · Content Sources & Exam Result Notice",
@@ -2930,7 +2930,7 @@
     "intro": "Thank you for choosing HiTCF. This refund policy applies to all paid subscription services purchased through the Platform.",
     "freeTrial": {
       "title": "1. Free Trial",
-      "li1": "All new users are eligible for a free trial (<b>{yearlyTrialDays} days for the yearly plan</b>, {monthlyTrialDays} days for the monthly plan). No charges during the trial period.",
+      "li1": "All new users are eligible for a free trial (<b>{semiannualTrialDays} days for the semi-annual plan</b>, {monthlyTrialDays} days for the monthly plan). No charges during the trial period.",
       "li2": "You may cancel at any time during the trial at no cost.",
       "li3": "After the trial ends, if not cancelled, you will be automatically charged according to your selected plan.",
       "li4": "Each user (per email address) is eligible for one free trial only."
@@ -2949,10 +2949,10 @@
       "fullLi2": "If a Platform technical issue (such as prolonged login failures or widespread feature outages) prevents you from using the service, and we fail to resolve it within 72 hours.",
       "fullLi3": "Duplicate or erroneous charges.",
       "proTitle": "3.2 Prorated Refund",
-      "proLi1": "Yearly subscribers who request a refund within <b>{yearlyTrialDays} days</b> of payment may receive a prorated refund for unused days.",
+      "proLi1": "Semi-annual subscribers who request a refund within <b>{semiannualTrialDays} days</b> of payment may receive a prorated refund for unused days.",
       "noTitle": "3.3 Non-Refundable",
       "noLi1": "Monthly subscribers requesting a refund after the initial 48 hours.",
-      "noLi2": "Yearly subscribers requesting a refund after {yearlyTrialDays} days.",
+      "noLi2": "Semi-annual subscribers requesting a refund after {semiannualTrialDays} days.",
       "noLi3": "Non-use due to personal reasons (e.g., forgetting to cancel auto-renewal, personal scheduling).",
       "noLi4": "Refund requests based on unsatisfactory exam results (the Platform does not guarantee exam outcomes — see our <disclaimerLink>Disclaimer</disclaimerLink>).",
       "noLi5": "Account suspension or termination due to violation of <termsLink>Terms of Service</termsLink>."
@@ -2982,13 +2982,13 @@
     "faq2q": "What can I do with the free version?",
     "faq2a": "The free version includes the first listening set and first 2 reading sets with all questions, in both practice and exam mode. Unlimited attempts, forever free.",
     "faq3q": "What are the benefits of Pro?",
-    "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, and Anki export. Yearly plan includes a {yearlyTrialDays}-day free trial, cancel anytime.",
+    "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, and Anki export. Semi-annual plan includes a {semiannualTrialDays}-day free trial, cancel anytime.",
     "faq4q": "Can you guarantee I’ll reach CLB 7+?",
     "faq4a": "No. HiTCF provides a practice environment aligned with TCF Canada to help you identify and improve weak areas. However, actual scores depend on many factors — we do not promise any exam results.",
     "faq5q": "How do I practice speaking and writing?",
     "faq5a": "Speaking and writing sections provide real exam topics and tasks, with the option to jump to ChatGPT for AI conversation practice and essay correction — essentially a free AI tutor.",
     "faq6q": "How do I request a refund?",
-    "faq6a": "Full refund within 48 hours of first payment. Yearly subscribers can get a prorated refund within {yearlyTrialDays} days. Simply email support@hitcf.com — processed within 3 business days."
+    "faq6a": "Full refund within 48 hours of first payment. Semi-annual subscribers can get a prorated refund within {semiannualTrialDays} days. Simply email support@hitcf.com — processed within 3 business days."
   },
   "quota": {
     "exceeded": {

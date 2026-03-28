@@ -49,10 +49,10 @@ const PLANS = [
     limitedOffer: true,
   },
   {
-    key: "yearly" as const,
-    price: formatPrice(PRICING.yearly),
-    perMonth: formatPrice(PRICING.yearlyPerMonth),
-    savePercent: PRICING.yearlySavePercent,
+    key: "semiannual" as const,
+    price: formatPrice(PRICING.semiannual),
+    perMonth: formatPrice(PRICING.semiannualPerMonth),
+    savePercent: PRICING.semiannualSavePercent,
     recommended: true,
     limitedOffer: false,
   },
@@ -73,7 +73,7 @@ export function PricingView() {
   const t = useTranslations();
   const { isAuthenticated, hasActiveSubscription } = useAuthStore();
   const isSubscribed = hasActiveSubscription();
-  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "quarterly" | "yearly">("yearly");
+  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "quarterly" | "semiannual">("semiannual");
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const activePlan = PLANS.find((p) => p.key === selectedPlan)!;
 
@@ -88,28 +88,22 @@ export function PricingView() {
     quarterlyPrice: PRICING.quarterly.toFixed(2),
     quarterlyPerMonth: PRICING.quarterlyPerMonth.toFixed(2),
     quarterlySavingsPercent: String(PRICING.quarterlySavePercent),
-    yearlyPrice: PRICING.yearly.toFixed(2),
-    yearlyPerMonth: PRICING.yearlyPerMonth.toFixed(2),
-    savingsPercent: String(PRICING.yearlySavePercent),
+    semiannualPrice: PRICING.semiannual.toFixed(2),
+    semiannualPerMonth: PRICING.semiannualPerMonth.toFixed(2),
+    savingsPercent: String(PRICING.semiannualSavePercent),
     monthlyTrialDays: String(PRICING.monthlyTrialDays),
     quarterlyTrialDays: String(PRICING.quarterlyTrialDays),
-    yearlyTrialDays: String(PRICING.yearlyTrialDays),
+    semiannualTrialDays: String(PRICING.semiannualTrialDays),
   };
 
-  const handleSubscribe = async (plan: "monthly" | "quarterly" | "yearly") => {
-    // Prevent rapid re-clicks (e.g. user goes to Stripe, comes back, clicks again)
-    const lastCheckout = sessionStorage.getItem("lastCheckoutAt");
-    if (lastCheckout && Date.now() - Number(lastCheckout) < 30_000) {
-      return; // 30s cooldown
-    }
+  const handleSubscribe = async (plan: "monthly" | "quarterly" | "semiannual") => {
     trackEvent("clicked_subscribe", { plan });
     setLoadingPlan(plan);
-    sessionStorage.setItem("lastCheckoutAt", String(Date.now()));
     try {
       const { url } = await createCheckout(plan);
       window.location.href = url;
     } catch {
-      sessionStorage.removeItem("lastCheckoutAt");
+      setLoadingPlan(null);
       window.location.href = "/payment/error";
     }
   };

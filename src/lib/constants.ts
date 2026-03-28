@@ -58,20 +58,21 @@ export const CLB7_TARGET = 0.78;
 export const PRICING = {
   monthly: 19.9,
   quarterly: 49.9,
-  yearly: 99.9,
+  semiannual: 69.9,
   currency: "USD",
   monthlyTrialDays: 3,
   quarterlyTrialDays: 3,
-  yearlyTrialDays: 7,
+  semiannualTrialDays: 3,
   get quarterlyPerMonth() { return +(this.quarterly / 3).toFixed(2); },
-  get yearlyPerMonth() { return +(this.yearly / 12).toFixed(2); },
+  get semiannualPerMonth() { return +(this.semiannual / 6).toFixed(2); },
   get quarterlySavePercent() { return Math.round((1 - this.quarterly / (this.monthly * 3)) * 100); },
-  get yearlySavePercent() { return Math.round((1 - this.yearly / (this.monthly * 12)) * 100); },
+  get semiannualSavePercent() { return Math.round((1 - this.semiannual / (this.monthly * 6)) * 100); },
 } as const;
 
 /** Format a price for display, e.g. "US$19.90" */
 export function formatPrice(amount: number, prefix = "US$"): string {
-  return `${prefix}${amount.toFixed(2)}`;
+  const str = amount % 1 === 0 ? String(amount) : String(parseFloat(amount.toFixed(2)));
+  return `${prefix}${str}`;
 }
 
 /* ------------------------------------------------------------------ */
@@ -134,10 +135,10 @@ export const STATS_PARAMS: Record<string, string> = {
   exportWordLimit: "2,000",
   monthlyTrialDays: String(PRICING.monthlyTrialDays),
   quarterlyTrialDays: String(PRICING.quarterlyTrialDays),
-  yearlyTrialDays: String(PRICING.yearlyTrialDays),
+  semiannualTrialDays: String(PRICING.semiannualTrialDays),
   monthlyPrice: PRICING.monthly.toFixed(2),
   quarterlyPrice: PRICING.quarterly.toFixed(2),
-  yearlyPrice: PRICING.yearly.toFixed(2),
-  yearlyPerMonth: PRICING.yearlyPerMonth.toFixed(2),
+  semiannualPrice: PRICING.semiannual.toFixed(2),
+  semiannualPerMonth: PRICING.semiannualPerMonth.toFixed(2),
   quarterlyPerMonth: PRICING.quarterlyPerMonth.toFixed(2),
 };

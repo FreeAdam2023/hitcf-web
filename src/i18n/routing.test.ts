@@ -15,7 +15,7 @@ describe("i18n routing config", () => {
   });
 
   it("should use NEXT_LOCALE cookie", () => {
-    expect(routing.localeCookie).toEqual({ name: "NEXT_LOCALE" });
+    expect(routing.localeCookie).toEqual({ name: "NEXT_LOCALE", maxAge: 365 * 24 * 60 * 60 });
   });
 
   it("should enable locale detection", () => {

@@ -72,7 +72,7 @@ export function UpgradeBanner({
             </Button>
             <Button asChild variant="ghost" className="text-muted-foreground">
               <Link href="/pricing">
-                {t('upgradeBanner.yearlyTrial', STATS_PARAMS)}
+                {t('upgradeBanner.semiannualTrial', STATS_PARAMS)}
                 <ArrowRight className="ml-1 h-3.5 w-3.5" />
               </Link>
             </Button>

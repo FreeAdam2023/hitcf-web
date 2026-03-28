@@ -5,7 +5,7 @@ describe("PRICING constants", () => {
   it("should have correct base prices", () => {
     expect(PRICING.monthly).toBe(19.9);
     expect(PRICING.quarterly).toBe(49.9);
-    expect(PRICING.yearly).toBe(99.9);
+    expect(PRICING.semiannual).toBe(69.9);
   });
 
   it("should compute quarterlyPerMonth correctly", () => {
@@ -13,9 +13,9 @@ describe("PRICING constants", () => {
     expect(PRICING.quarterlyPerMonth).toBe(16.63);
   });
 
-  it("should compute yearlyPerMonth correctly", () => {
-    // 99.9 / 12 = 8.325 → 8.33
-    expect(PRICING.yearlyPerMonth).toBe(8.33);
+  it("should compute semiannualPerMonth correctly", () => {
+    // 69.9 / 6 = 11.65
+    expect(PRICING.semiannualPerMonth).toBe(11.65);
   });
 
   it("should compute quarterlySavePercent correctly", () => {
@@ -24,16 +24,16 @@ describe("PRICING constants", () => {
     expect(PRICING.quarterlySavePercent).toBe(16);
   });
 
-  it("should compute yearlySavePercent correctly", () => {
-    // round((1 - 99.9 / (19.9 * 12)) * 100) = round((1 - 99.9/238.8) * 100)
-    // = round(58.163...) = 58
-    expect(PRICING.yearlySavePercent).toBe(58);
+  it("should compute semiannualSavePercent correctly", () => {
+    // round((1 - 69.9 / (19.9 * 6)) * 100) = round((1 - 69.9/119.4) * 100)
+    // = round(41.458...) = 41
+    expect(PRICING.semiannualSavePercent).toBe(41);
   });
 
   it("should have correct trial days", () => {
     expect(PRICING.monthlyTrialDays).toBe(3);
     expect(PRICING.quarterlyTrialDays).toBe(3);
-    expect(PRICING.yearlyTrialDays).toBe(7);
+    expect(PRICING.semiannualTrialDays).toBe(3);
   });
 
   it("should have USD currency", () => {
