@@ -75,6 +75,7 @@ export function PassageContent({ text, disabled, className, saveContext, sentenc
   const [selectedSentence, setSelectedSentence] = useState<string | undefined>(undefined);
   const [selectedSentenceTranslation, setSelectedSentenceTranslation] = useState<string | undefined>(undefined);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [clickPos, setClickPos] = useState<{ x: number; y: number } | undefined>(undefined);
 
   const handleWordClick = useCallback(
     (e: React.MouseEvent<HTMLSpanElement>, word: string) => {
@@ -96,6 +97,7 @@ export function PassageContent({ text, disabled, className, saveContext, sentenc
         setSelectedSentenceTranslation(undefined);
       }
       setAnchorEl(e.currentTarget);
+      setClickPos({ x: e.clientX, y: e.clientY });
     },
     [disabled, text, sentenceTranslations],
   );
@@ -205,6 +207,7 @@ export function PassageContent({ text, disabled, className, saveContext, sentenc
         <WordCard
           word={selectedWord}
           anchorEl={anchorEl}
+          clickPos={clickPos}
           onClose={handleClose}
           saveContext={saveContext}
           sentence={selectedSentence}

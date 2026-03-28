@@ -200,7 +200,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
       )}
 
       {question.passage && (
-        <div className="max-h-[40vh] md:max-h-[60vh] overflow-y-auto rounded-md border bg-muted/50 p-4 text-sm lg:text-base leading-relaxed">
+        <div className="rounded-md border bg-muted/50 p-4 text-sm lg:text-base leading-relaxed">
           <PassageContent text={question.passage} disabled={vocabDisabled} saveContext={saveContext} />
         </div>
       )}

@@ -78,6 +78,7 @@ export function FrenchText({ text, disabled, className, saveContext, sentenceTra
   const [selectedSentence, setSelectedSentence] = useState<string | undefined>(undefined);
   const [selectedSentenceTranslation, setSelectedSentenceTranslation] = useState<string | undefined>(undefined);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [clickPos, setClickPos] = useState<{ x: number; y: number } | undefined>(undefined);
 
   // Close word card when text changes (e.g. switching questions)
   useEffect(() => {
@@ -108,6 +109,7 @@ export function FrenchText({ text, disabled, className, saveContext, sentenceTra
         setSelectedSentenceTranslation(undefined);
       }
       setAnchorEl(e.currentTarget);
+      setClickPos({ x: e.clientX, y: e.clientY });
     },
     [disabled, text, sentenceTranslations],
   );
@@ -163,6 +165,7 @@ export function FrenchText({ text, disabled, className, saveContext, sentenceTra
         <WordCard
           word={selectedWord}
           anchorEl={anchorEl}
+          clickPos={clickPos}
           onClose={handleClose}
           saveContext={saveContext}
           sentence={selectedSentence}

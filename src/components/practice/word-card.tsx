@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Loader2, RefreshCw, Star, Volume2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
-import { Popover, PopoverContent, PopoverAnchor } from "@/components/ui/popover";
+import { createPortal } from "react-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
@@ -18,13 +18,15 @@ import type { WordSaveContext } from "./french-text";
 interface WordCardProps {
   word: string;
   anchorEl: HTMLElement;
+  /** Click coordinates for positioning (viewport px) */
+  clickPos?: { x: number; y: number };
   onClose: () => void;
   saveContext?: WordSaveContext;
   sentence?: string;
   sentenceTranslation?: string;
 }
 
-export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, sentence, sentenceTranslation }: WordCardProps) {
+export function WordCard({ word: initialWord, anchorEl, clickPos, onClose, saveContext, sentence, sentenceTranslation }: WordCardProps) {
   const t = useTranslations();
   const locale = useLocale();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -197,6 +199,20 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
   const isVerb = !!(data?.present || data?.passe_compose);
   const isAdj = !!data?.adjective_forms;
 
+  // Position using click coordinates (reliable) with anchorEl as fallback.
+  const cardWidth = isVerb ? 420 : 384;
+  const cardPos = useMemo(() => {
+    const cx = clickPos?.x ?? anchorEl.getBoundingClientRect().left;
+    const cy = clickPos?.y ?? anchorEl.getBoundingClientRect().bottom;
+    let left = cx - cardWidth / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - cardWidth - 8));
+    let top = cy + 8;
+    if (top + 300 > window.innerHeight) {
+      top = Math.max(8, cy - 300 - 8);
+    }
+    return { top, left };
+  }, [clickPos, anchorEl, cardWidth]);
+
   // Clean up null-like values from backend
   const article = data?.article && data.article !== "null" ? data.article : null;
   const pluralForm = data?.plural_form && data.plural_form !== "null" ? data.plural_form : null;
@@ -212,18 +228,32 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
     ? (locale === "zh" ? data.word_family.label_zh : data.word_family.label_en)
     : null;
 
-  return (
-    <Popover open onOpenChange={(open) => !open && onClose()}>
-      <PopoverAnchor virtualRef={{ current: anchorEl }} />
-      <PopoverContent
-        className={`max-h-[min(70vh,480px)] overflow-y-auto p-0 ${isVerb ? "w-[420px]" : "w-96"}`}
-        side="bottom"
-        align="start"
-        collisionPadding={16}
-        avoidCollisions
-        onOpenAutoFocus={(e) => e.preventDefault()}
-        onClick={(e) => e.stopPropagation()}
-      >
+  // Close on outside click
+  const cardRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [onClose]);
+
+  // Close on Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  return createPortal(
+    <div
+      ref={cardRef}
+      className={`fixed z-50 max-h-[min(70vh,480px)] overflow-y-auto rounded-lg border bg-popover shadow-lg ${isVerb ? "w-[420px]" : "w-96"}`}
+      style={{ top: cardPos.top, left: cardPos.left }}
+      onClick={(e) => e.stopPropagation()}
+    >
         <div className="p-4 space-y-3">
           {loading ? (
             <WordCardLoading generating={generating} />
@@ -437,8 +467,8 @@ export function WordCard({ word: initialWord, anchorEl, onClose, saveContext, se
             </>
           ) : null}
         </div>
-      </PopoverContent>
-    </Popover>
+    </div>,
+    document.body,
   );
 }
 
