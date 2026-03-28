@@ -132,8 +132,8 @@ describe("QuotaExceededModal", () => {
       />,
     );
 
-    expect(screen.getByText("US$19.90")).toBeInTheDocument();
-    expect(screen.getByText("US$49.90")).toBeInTheDocument();
-    expect(screen.getByText("US$69.90")).toBeInTheDocument();
+    expect(screen.getByText("US$19.9")).toBeInTheDocument();
+    expect(screen.getByText("US$49.9")).toBeInTheDocument();
+    expect(screen.getByText("US$69.9")).toBeInTheDocument();
   });
 });

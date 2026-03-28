@@ -42,15 +42,23 @@ describe("PRICING constants", () => {
 });
 
 describe("formatPrice", () => {
-  it("should format with default prefix", () => {
-    expect(formatPrice(19.9)).toBe("US$19.90");
+  it("should format without trailing zero", () => {
+    expect(formatPrice(19.9)).toBe("US$19.9");
   });
 
   it("should format with custom prefix", () => {
-    expect(formatPrice(49.9, "$")).toBe("$49.90");
+    expect(formatPrice(49.9, "$")).toBe("$49.9");
   });
 
-  it("should format whole numbers with .00", () => {
-    expect(formatPrice(100)).toBe("US$100.00");
+  it("should format whole numbers without decimals", () => {
+    expect(formatPrice(100)).toBe("US$100");
+  });
+
+  it("should keep meaningful decimals", () => {
+    expect(formatPrice(11.65)).toBe("US$11.65");
+  });
+
+  it("should strip trailing zero from .X0", () => {
+    expect(formatPrice(16.30)).toBe("US$16.3");
   });
 });
