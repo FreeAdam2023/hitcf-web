@@ -938,7 +938,9 @@
       "trialing": "试用中",
       "member": "会员",
       "trialUntil": "试用至 {date}",
+      "reverseTrial": "7天体验",
       "renewalDate": "续费日 {date}",
+      "expiresDate": "体验至 {date}",
       "manageSubscription": "管理订阅",
       "cancelSubscription": "取消订阅"
     },

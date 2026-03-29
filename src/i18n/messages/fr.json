@@ -938,7 +938,9 @@
       "trialing": "Essai",
       "member": "Membre",
       "trialUntil": "Essai jusqu'au {date}",
+      "reverseTrial": "Essai 7 jours",
       "renewalDate": "Renouvellement le {date}",
+      "expiresDate": "Expire le {date}",
       "manageSubscription": "Gérer l'abonnement",
       "cancelSubscription": "Annuler l'abonnement"
     },

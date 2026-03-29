@@ -146,13 +146,15 @@ export function AccountView() {
   const planLabel =
     subPlan === "tester"
       ? t("account.subscription.tester")
-      : subPlan === "monthly"
-        ? t("account.subscription.monthly")
-        : subPlan === "quarterly"
-          ? t("account.subscription.quarterly")
-          : subPlan === "semiannual"
-            ? t("account.subscription.semiannual")
-            : subPlan || "";
+      : subPlan === "reverse_trial"
+        ? t("account.subscription.reverseTrial")
+        : subPlan === "monthly"
+          ? t("account.subscription.monthly")
+          : subPlan === "quarterly"
+            ? t("account.subscription.quarterly")
+            : subPlan === "semiannual"
+              ? t("account.subscription.semiannual")
+              : subPlan || "";
 
   const firstName = user.name?.split(/\s/)[0] || t("account.defaultName");
 
@@ -251,7 +253,9 @@ export function AccountView() {
               {subStatus === "active" &&
                 user.subscription?.current_period_end && (
                   <p className="mt-1 text-xs text-white/50">
-                    {t("account.subscription.renewalDate", { date: formatDate(user.subscription.current_period_end, locale) })}
+                    {subPlan === "reverse_trial"
+                      ? t("account.subscription.expiresDate", { date: formatDate(user.subscription.current_period_end, locale) })
+                      : t("account.subscription.renewalDate", { date: formatDate(user.subscription.current_period_end, locale) })}
                   </p>
                 )}
             </div>

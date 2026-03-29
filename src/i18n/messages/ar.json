@@ -935,7 +935,9 @@
       "trialing": "تجريبي",
       "member": "عضو",
       "trialUntil": "تجريبي حتى {date}",
+      "reverseTrial": "تجربة 7 أيام",
       "renewalDate": "يُجدَّد في {date}",
+      "expiresDate": "ينتهي في {date}",
       "manageSubscription": "إدارة الاشتراك",
       "cancelSubscription": "إلغاء الاشتراك"
     },

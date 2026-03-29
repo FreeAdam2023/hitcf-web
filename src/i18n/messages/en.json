@@ -938,7 +938,9 @@
       "trialing": "Trial",
       "member": "Member",
       "trialUntil": "Trial until {date}",
+      "reverseTrial": "7-Day Trial",
       "renewalDate": "Renews {date}",
+      "expiresDate": "Expires {date}",
       "manageSubscription": "Manage Subscription",
       "cancelSubscription": "Cancel Subscription"
     },

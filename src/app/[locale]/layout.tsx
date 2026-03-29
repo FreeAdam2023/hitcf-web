@@ -10,6 +10,7 @@ import { Toaster } from "sonner";
 import { CommunityFab } from "@/components/layout/community-fab";
 import { MobileTabBar } from "@/components/layout/mobile-tab-bar";
 import { UtmTracker } from "@/components/shared/utm-tracker";
+import { TrialBanner } from "@/components/shared/trial-banner";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { routing } from "@/i18n/routing";
 import { PRICING, STATS_PARAMS } from "@/lib/constants";
@@ -312,6 +313,7 @@ export default async function LocaleLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <AuthProvider>
             <LocaleProvider locale={locale}>
+              <TrialBanner />
               {children}
               <MobileTabBar />
               <CommunityFab />
