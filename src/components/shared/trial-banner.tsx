@@ -36,6 +36,12 @@ export function TrialBanner() {
         <>
           <Clock className="h-3.5 w-3.5" />
           <span>{t("urgent", { daysLeft })}</span>
+          <Link
+            href="/pricing"
+            className="ml-1 underline underline-offset-2 text-amber-900 hover:text-amber-700 dark:text-amber-100"
+          >
+            {t("upgrade")}
+          </Link>
         </>
       ) : (
         <>
@@ -43,16 +49,6 @@ export function TrialBanner() {
           <span>{t("normal", { currentDay, totalDays })}</span>
         </>
       )}
-      <Link
-        href="/pricing"
-        className={`ml-1 underline underline-offset-2 ${
-          urgent
-            ? "text-amber-900 hover:text-amber-700 dark:text-amber-100"
-            : "text-indigo-800 hover:text-indigo-600 dark:text-indigo-100"
-        }`}
-      >
-        {urgent ? t("upgrade") : t("learnMore")}
-      </Link>
     </div>
   );
 }
