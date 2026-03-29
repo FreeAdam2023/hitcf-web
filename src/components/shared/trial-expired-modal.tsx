@@ -19,9 +19,9 @@ export function TrialExpiredModal() {
   useEffect(() => {
     if (!sub || sub.plan !== "reverse_trial") return;
     if (sub.status === "active") return; // still active, don't show
-    // Trial expired — check if already dismissed this session
+    // Trial expired — show only once ever (localStorage)
     const key = `trial_expired_dismissed_${user?.id}`;
-    if (sessionStorage.getItem(key)) return;
+    if (localStorage.getItem(key)) return;
     setShown(true);
   }, [sub, user?.id]);
 
@@ -30,7 +30,7 @@ export function TrialExpiredModal() {
   const handleDismiss = () => {
     setDismissed(true);
     if (user?.id) {
-      sessionStorage.setItem(`trial_expired_dismissed_${user.id}`, "1");
+      localStorage.setItem(`trial_expired_dismissed_${user.id}`, "1");
     }
   };
 
