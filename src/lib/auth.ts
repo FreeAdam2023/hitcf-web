@@ -63,10 +63,11 @@ export const authOptions: NextAuthOptions = {
           try {
             const h = await getHeaders();
             const c = await getCookies();
-            // Detect locale from referer URL path (e.g. /fr/login → "fr")
+            // Detect locale: NEXT_LOCALE cookie (most reliable) → referer path → fallback
             const referer = h.get("referer") || "";
-            const localeMatch = referer.match(/\/(?:zh|en|fr|ar)\//);
-            const locale = localeMatch ? localeMatch[0].replace(/\//g, "") : (c.get("locale")?.value || "");
+            const cookieLocale = c.get("NEXT_LOCALE")?.value || "";
+            const refererMatch = referer.match(/\/(?:zh|en|fr|ar)\//);
+            const locale = cookieLocale || (refererMatch ? refererMatch[0].replace(/\//g, "") : "");
             trackingData = {
               signup_ip: h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "",
               signup_user_agent: h.get("user-agent") || "",
