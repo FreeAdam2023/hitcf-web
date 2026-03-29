@@ -61,7 +61,7 @@ export function SubscriptionBadge({ status, plan }: { status: string | null; pla
   }
   if (status === "active") {
     return (
-      <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
+      <Badge className="bg-gradient-to-r from-amber-100 to-yellow-50 text-amber-700 border border-amber-200 hover:from-amber-100 hover:to-yellow-50">
         {t('userMenu.pro')}
       </Badge>
     );
