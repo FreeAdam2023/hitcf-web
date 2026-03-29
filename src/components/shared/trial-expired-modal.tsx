@@ -86,15 +86,12 @@ export function TrialExpiredModal() {
           {/* Direct checkout buttons */}
           <div className="grid grid-cols-3 gap-2">
             {([
-              { plan: "monthly" as const, price: formatPrice(PRICING.monthly), label: t("monthly") },
-              { plan: "quarterly" as const, price: formatPrice(PRICING.quarterly), label: t("quarterly") },
-              { plan: "semiannual" as const, price: formatPrice(PRICING.semiannual), label: t("semiannual") },
-            ]).map(({ plan, price, label }) => (
-              <Button
+              { plan: "monthly" as const, price: formatPrice(PRICING.monthly), label: t("monthly"), perMonth: null, popular: false },
+              { plan: "quarterly" as const, price: formatPrice(PRICING.quarterly), label: t("quarterly"), perMonth: formatPrice(PRICING.quarterlyPerMonth), popular: false },
+              { plan: "semiannual" as const, price: formatPrice(PRICING.semiannual), label: t("semiannual"), perMonth: formatPrice(PRICING.semiannualPerMonth), popular: true },
+            ]).map(({ plan, price, label, perMonth, popular }) => (
+              <button
                 key={plan}
-                variant={plan === "semiannual" ? "default" : "outline"}
-                size="sm"
-                className={plan === "semiannual" ? "bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600" : ""}
                 disabled={loadingPlan !== null}
                 onClick={async () => {
                   setLoadingPlan(plan);
@@ -105,14 +102,31 @@ export function TrialExpiredModal() {
                     window.location.href = "/pricing";
                   }
                 }}
+                className={`relative rounded-xl p-3 text-center transition-all ${
+                  popular
+                    ? "bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-200 dark:shadow-indigo-900/30 ring-2 ring-indigo-500"
+                    : "border bg-card hover:border-indigo-300 hover:shadow-sm"
+                } ${loadingPlan !== null ? "opacity-60" : ""}`}
               >
-                {loadingPlan === plan ? <Loader2 className="h-3 w-3 animate-spin" /> : (
-                  <div className="text-center">
-                    <div className="text-xs font-semibold">{label}</div>
-                    <div className="text-[10px] opacity-80">{price}</div>
+                {popular && (
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 px-2 py-0.5 text-[9px] font-bold text-amber-900">
+                    {t("bestValue")}
                   </div>
                 )}
-              </Button>
+                {loadingPlan === plan ? (
+                  <Loader2 className="mx-auto h-5 w-5 animate-spin" />
+                ) : (
+                  <>
+                    <div className={`text-sm font-bold ${popular ? "" : "text-foreground"}`}>{label}</div>
+                    <div className={`text-lg font-black tracking-tight ${popular ? "" : "text-foreground"}`}>{price}</div>
+                    {perMonth && (
+                      <div className={`text-[10px] ${popular ? "text-white/70" : "text-muted-foreground"}`}>
+                        ≈ {perMonth}/mo
+                      </div>
+                    )}
+                  </>
+                )}
+              </button>
             ))}
           </div>
 

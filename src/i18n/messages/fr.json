@@ -934,6 +934,7 @@
       "monthly": "Mensuel",
       "quarterly": "Trimestriel",
       "semiannual": "Semestriel",
+    "bestValue": "Meilleur prix",
       "tester": "Beta Testeur",
       "trialing": "Essai",
       "member": "Membre",
@@ -3034,6 +3035,7 @@
     "monthly": "Mensuel",
     "quarterly": "Trimestriel",
     "semiannual": "Semestriel",
+    "bestValue": "Meilleur prix",
     "continueFree": "Continuer en version gratuite"
   },
   "trialBanner": {
