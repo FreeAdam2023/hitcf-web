@@ -91,13 +91,12 @@ export function TrialExpiredModal() {
                   <div className="mt-2 flex items-baseline gap-1">
                     <span className="text-2xl font-bold tracking-tight">{price}</span>
                   </div>
-                  {perMonth ? (
+                  {perMonth && (
                     <p className="text-xs text-muted-foreground">
                       ≈ {perMonth}/mo · {t("save", { percent: save })}
                     </p>
-                  ) : (
-                    <p className="text-xs text-muted-foreground">{renewal}</p>
                   )}
+                  <p className="text-xs text-muted-foreground">{renewal}</p>
                   <div className="mt-2 space-y-1 text-xs text-muted-foreground">
                     {["feature1", "feature2", "feature3"].map((k) => (
                       <div key={k} className="flex items-center gap-1.5">
