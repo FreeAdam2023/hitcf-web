@@ -1,16 +1,63 @@
 "use client";
 
+import { useState } from "react";
 import { useAuthStore } from "@/stores/auth-store";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Sparkles, Clock } from "lucide-react";
+import { Sparkles, Clock, Gift, X, Loader2 } from "lucide-react";
 import { PRICING } from "@/lib/constants";
+import { activateTrial } from "@/lib/api/trial";
+import { toast } from "sonner";
 
 export function TrialBanner() {
   const t = useTranslations("trialBanner");
-  const user = useAuthStore((s) => s.user);
+  const { user, fetchUser } = useAuthStore();
   const sub = user?.subscription;
+  const trialEligible = user?.trial_eligible ?? false;
+  const [dismissed, setDismissed] = useState(false);
+  const [activating, setActivating] = useState(false);
 
+  // Mode 1: Pending activation (eligible but not activated)
+  if (trialEligible && !dismissed) {
+    const handleActivate = async () => {
+      setActivating(true);
+      try {
+        await activateTrial();
+        await fetchUser();
+        toast.success(t("activatedToast"), { duration: 4000 });
+      } catch {
+        // ignore
+      } finally {
+        setActivating(false);
+      }
+    };
+
+    const handleDismiss = () => {
+      setDismissed(true);
+    };
+
+    return (
+      <div className="flex items-center justify-center gap-2 px-4 py-1.5 text-sm font-medium bg-violet-50 text-violet-700 dark:bg-violet-950/50 dark:text-violet-200 animate-in slide-in-from-top duration-500">
+        <Gift className="h-3.5 w-3.5" />
+        <span>{t("pending", { days: PRICING.reverseTrialDays })}</span>
+        <button
+          onClick={handleActivate}
+          disabled={activating}
+          className="ml-1 rounded-full bg-violet-600 px-3 py-0.5 text-xs font-semibold text-white hover:bg-violet-700 disabled:opacity-50 transition-colors"
+        >
+          {activating ? <Loader2 className="h-3 w-3 animate-spin" /> : t("activateBtn")}
+        </button>
+        <button
+          onClick={handleDismiss}
+          className="ml-1 rounded-full p-0.5 text-violet-400 hover:text-violet-600 hover:bg-violet-100 dark:hover:bg-violet-900 transition-colors"
+        >
+          <X className="h-3 w-3" />
+        </button>
+      </div>
+    );
+  }
+
+  // Mode 2: Active trial countdown
   if (!sub || sub.plan !== "reverse_trial" || sub.status !== "active") return null;
   if (!sub.current_period_end) return null;
 

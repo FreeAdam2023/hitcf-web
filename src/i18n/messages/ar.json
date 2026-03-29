@@ -3028,9 +3028,11 @@
     "continueFree": "الاستمرار بالنسخة المجانية"
   },
   "trialBanner": {
+    "pending": "لديك تجربة Pro لمدة {days} أيام بانتظار التفعيل",
+    "activateBtn": "تفعيل",
+    "activatedToast": "تم تفعيل تجربة Pro — بالتوفيق!",
     "normal": "تجربة Pro · اليوم {currentDay} من {totalDays}",
     "urgent": "تنتهي تجربة Pro خلال {daysLeft} أيام · سيتم قفل بعض الميزات",
-    "learnMore": "اعرف المزيد",
     "upgrade": "ترقية"
   },
   "quota": {

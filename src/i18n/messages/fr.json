@@ -3031,9 +3031,11 @@
     "continueFree": "Continuer en version gratuite"
   },
   "trialBanner": {
+    "pending": "Un essai Pro de {days} jours vous attend",
+    "activateBtn": "Activer",
+    "activatedToast": "Essai Pro activé — bon courage !",
     "normal": "Essai Pro · Jour {currentDay} sur {totalDays}",
     "urgent": "Essai Pro expire dans {daysLeft} jours · Certaines fonctions seront verrouillées",
-    "learnMore": "En savoir plus",
     "upgrade": "Passer à Pro"
   },
   "quota": {

@@ -3040,9 +3040,11 @@
     "continueFree": "继续使用免费版"
   },
   "trialBanner": {
+    "pending": "你有一份 {days} 天 Pro 体验待激活",
+    "activateBtn": "立即激活",
+    "activatedToast": "Pro 体验已激活，尽情备考吧",
     "normal": "Pro 体验 · 第 {currentDay} 天 / 共 {totalDays} 天",
     "urgent": "Pro 体验还剩 {daysLeft} 天 · 到期后部分功能将锁定",
-    "learnMore": "了解更多",
     "upgrade": "升级"
   },
   "quota": {

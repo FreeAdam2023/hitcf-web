@@ -3040,9 +3040,11 @@
     "continueFree": "Continue with free version"
   },
   "trialBanner": {
+    "pending": "You have a {days}-day Pro trial waiting",
+    "activateBtn": "Activate",
+    "activatedToast": "Pro trial activated — happy studying!",
     "normal": "Pro Trial · Day {currentDay} of {totalDays}",
     "urgent": "Pro trial ends in {daysLeft} days · Some features will be locked",
-    "learnMore": "Learn more",
     "upgrade": "Upgrade"
   },
   "quota": {
