@@ -4,21 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Send, LayoutGrid, Headphones, Volume2, BookOpen, Flag } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutGrid, Headphones, Volume2, BookOpen, Flag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { useExamStore } from "@/stores/exam-store";
 import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
 import { QuestionDisplay } from "@/components/practice/question-display";
@@ -47,7 +36,6 @@ export function ExamSession() {
   const isListening = testType === "listening";
 
   const [submitting, setSubmitting] = useState(false);
-  const [completing, setCompleting] = useState(false);
   const [flagged, setFlagged] = useState<Set<string>>(new Set());
 
   // Scroll to top when navigating between questions
@@ -132,14 +120,12 @@ export function ExamSession() {
   const handleComplete = useCallback(async () => {
     if (completingRef.current) return;
     completingRef.current = true;
-    setCompleting(true);
     try {
       await completeAttempt(attemptId!);
       router.push(`/results/${attemptId}`);
     } catch (err) {
       console.error("Failed to complete exam", err);
       completingRef.current = false;
-      setCompleting(false);
     }
   }, [attemptId, router]);
 
@@ -329,39 +315,6 @@ export function ExamSession() {
     if (idx >= 0) flaggedNumbers.add(idx + 1);
   });
 
-  // Submit dialog shared by both modes
-  const submitDialog = (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button
-          size="sm"
-          disabled={completing}
-          className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-semibold shadow-md hover:from-indigo-600 hover:to-violet-600 hover:shadow-lg transition-all"
-        >
-          <Send className="mr-1.5 h-4 w-4" />
-          {completing ? t("common.actions.submitting") : t("exam.session.submitExam")}
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{t("exam.session.confirmTitle")}</AlertDialogTitle>
-          <AlertDialogDescription>
-            {t("exam.session.answeredCount", { answered: answers.size, total: questions.length })}
-            {answers.size < questions.length &&
-              ` ${t("exam.session.unansweredCount", { count: questions.length - answers.size })}`}
-            {t("exam.session.submitWarning")}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>{t("exam.session.continueExam")}</AlertDialogCancel>
-          <AlertDialogAction onClick={handleComplete}>
-            {t("exam.session.confirmSubmit")}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-
   // --- Listening layout: system-paced, no manual navigation ---
   if (isListening) {
     // "Ready" splash screen — sound check + unlock browser autoplay
@@ -462,11 +415,6 @@ export function ExamSession() {
               flaggedQuestions={flaggedNumbers}
             />
           </div>
-          {isLast && (
-            <div className="rounded-xl bg-card border shadow-sm p-3">
-              {submitDialog}
-            </div>
-          )}
         </div>
 
         {/* Mobile floating navigator */}
@@ -491,7 +439,6 @@ export function ExamSession() {
                 mode="exam"
                 flaggedQuestions={flaggedNumbers}
               />
-              {isLast && <div className="mt-4">{submitDialog}</div>}
             </div>
           </DrawerContent>
         </Drawer>
@@ -570,18 +517,15 @@ export function ExamSession() {
             {t("exam.session.prev")}
           </Button>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={toggleFlag}
-              className={isFlagged ? "border-amber-400 bg-amber-50 text-amber-600 hover:bg-amber-100 dark:bg-amber-950/30 dark:text-amber-400 dark:hover:bg-amber-950/50" : ""}
-            >
-              <Flag className="mr-1.5 h-4 w-4" />
-              {isFlagged ? t("exam.session.flagged") : t("exam.session.flag")}
-            </Button>
-            {submitDialog}
-          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleFlag}
+            className={isFlagged ? "border-amber-400 bg-amber-50 text-amber-600 hover:bg-amber-100 dark:bg-amber-950/30 dark:text-amber-400 dark:hover:bg-amber-950/50" : ""}
+          >
+            <Flag className="mr-1.5 h-4 w-4" />
+            {isFlagged ? t("exam.session.flagged") : t("exam.session.flag")}
+          </Button>
 
           <Button
             variant="outline"

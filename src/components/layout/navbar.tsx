@@ -190,7 +190,7 @@ function ImmersiveHeader() {
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="ghost" size="sm" className={isExam
-                  ? "gap-1.5 text-primary hover:text-primary hover:bg-primary/10"
+                  ? "gap-1.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-semibold shadow-sm hover:from-indigo-600 hover:to-violet-600 hover:shadow-md transition-all"
                   : "gap-1.5 text-destructive hover:text-destructive hover:bg-destructive/10"
                 }>
                   {isExam ? t('nav.submitExam') : t('nav.exitLabel', { label })}
