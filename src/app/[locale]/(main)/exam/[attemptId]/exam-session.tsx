@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Send, LayoutGrid, Headphones, Volume2, BookOpen } from "lucide-react";
+import { ChevronLeft, ChevronRight, Send, LayoutGrid, Headphones, Volume2, BookOpen, Flag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
@@ -48,6 +48,7 @@ export function ExamSession() {
 
   const [submitting, setSubmitting] = useState(false);
   const [completing, setCompleting] = useState(false);
+  const [flagged, setFlagged] = useState<Set<string>>(new Set());
 
   // Scroll to top when navigating between questions
   useEffect(() => {
@@ -304,6 +305,16 @@ export function ExamSession() {
 
   const currentAnswer = answers.get(question.id);
   const isLast = currentIndex === questions.length - 1;
+  const isFlagged = flagged.has(question.id);
+
+  const toggleFlag = () => {
+    setFlagged((prev) => {
+      const next = new Set(prev);
+      if (next.has(question.id)) next.delete(question.id);
+      else next.add(question.id);
+      return next;
+    });
+  };
 
   // Build a compatible answers map for QuestionNavigator (reading only)
   const navigatorAnswers = new Map<string, { is_correct?: boolean | null }>();
@@ -311,12 +322,23 @@ export function ExamSession() {
     navigatorAnswers.set(qid, { is_correct: null });
   });
 
+  // Convert flagged question IDs → 1-based question numbers for navigator
+  const flaggedNumbers = new Set<number>();
+  flagged.forEach((qid) => {
+    const idx = questions.findIndex((q) => q.id === qid);
+    if (idx >= 0) flaggedNumbers.add(idx + 1);
+  });
+
   // Submit dialog shared by both modes
   const submitDialog = (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button size="sm" disabled={completing}>
-          <Send className="mr-1 h-4 w-4" />
+        <Button
+          size="sm"
+          disabled={completing}
+          className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-semibold shadow-md hover:from-indigo-600 hover:to-violet-600 hover:shadow-lg transition-all"
+        >
+          <Send className="mr-1.5 h-4 w-4" />
           {completing ? t("common.actions.submitting") : t("exam.session.submitExam")}
         </Button>
       </AlertDialogTrigger>
@@ -437,7 +459,7 @@ export function ExamSession() {
               questionIds={questions.map((q) => q.id)}
               onNavigate={() => {}}
               mode="exam"
-              flaggedQuestions={new Set()}
+              flaggedQuestions={flaggedNumbers}
             />
           </div>
           {isLast && (
@@ -467,7 +489,7 @@ export function ExamSession() {
                 questionIds={questions.map((q) => q.id)}
                 onNavigate={() => {}}
                 mode="exam"
-                flaggedQuestions={new Set()}
+                flaggedQuestions={flaggedNumbers}
               />
               {isLast && <div className="mt-4">{submitDialog}</div>}
             </div>
@@ -548,7 +570,18 @@ export function ExamSession() {
             {t("exam.session.prev")}
           </Button>
 
-          {submitDialog}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleFlag}
+              className={isFlagged ? "border-amber-400 bg-amber-50 text-amber-600 hover:bg-amber-100 dark:bg-amber-950/30 dark:text-amber-400 dark:hover:bg-amber-950/50" : ""}
+            >
+              <Flag className="mr-1.5 h-4 w-4" />
+              {isFlagged ? t("exam.session.flagged") : t("exam.session.flag")}
+            </Button>
+            {submitDialog}
+          </div>
 
           <Button
             variant="outline"
@@ -571,7 +604,7 @@ export function ExamSession() {
           questionIds={questions.map((q) => q.id)}
           onNavigate={goToQuestion}
           mode="exam"
-          flaggedQuestions={new Set()}
+          flaggedQuestions={flaggedNumbers}
         />
       </div>
 
@@ -595,7 +628,7 @@ export function ExamSession() {
               questionIds={questions.map((q) => q.id)}
               onNavigate={goToQuestion}
               mode="exam"
-              flaggedQuestions={new Set()}
+              flaggedQuestions={flaggedNumbers}
             />
           </div>
         </DrawerContent>

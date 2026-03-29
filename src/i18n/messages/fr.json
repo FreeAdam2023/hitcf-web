@@ -826,6 +826,8 @@
       "questionNumber": "Q {current} / {total}",
       "next": "Suivant",
       "prev": "Précédent",
+      "flag": "Marquer",
+      "flagged": "Marqué",
       "loadError": "Échec du chargement des données d'examen",
       "listeningTitle": "Compréhension orale",
       "listeningDesc": "L'audio sera joué automatiquement une seule fois. Vous ne pouvez ni mettre en pause ni réécouter.",
