@@ -259,7 +259,7 @@ export function AccountView() {
                   </p>
                 )}
             </div>
-            {subPlan !== "tester" && (
+            {subPlan !== "tester" && subPlan !== "reverse_trial" && subPlan !== "recall" && subPlan !== "referral" && (
               <div className="flex items-center gap-1">
                 <Button
                   variant="ghost"
