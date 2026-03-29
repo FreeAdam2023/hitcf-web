@@ -832,6 +832,12 @@
       "soundCheck": "Sound Check",
       "soundCheckDone": "Sound OK ✓",
       "startListening": "Start Exam",
+      "readingTitle": "Reading Comprehension",
+      "readingDesc": "Read the passages carefully and choose the best answer.",
+      "readingRule1": "{questions} questions, {minutes} minutes",
+      "readingRule2": "You can go back to previous questions and skip ahead",
+      "readingRule3": "Auto-submit when time is up",
+      "startReading": "Start Exam",
       "answerNow": "Answer now",
       "listenCarefully": "Listen carefully..."
     },

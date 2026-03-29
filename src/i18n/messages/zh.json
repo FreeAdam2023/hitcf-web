@@ -833,7 +833,13 @@
       "soundCheckDone": "试音正常 ✓",
       "startListening": "开始考试",
       "answerNow": "请作答",
-      "listenCarefully": "请仔细听..."
+      "listenCarefully": "请仔细听...",
+      "readingTitle": "阅读理解",
+      "readingDesc": "仔细阅读文章，选择最佳答案。",
+      "readingRule1": "{questions} 道题，{minutes} 分钟",
+      "readingRule2": "可以回看上一题，可以跳题",
+      "readingRule3": "计时结束后自动提交",
+      "startReading": "开始考试"
     },
     "timer": {
       "fiveMinutes": "注意：剩余 5 分钟",

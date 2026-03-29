@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Send, LayoutGrid, Headphones, Volume2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Send, LayoutGrid, Headphones, Volume2, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
@@ -56,11 +56,16 @@ export function ExamSession() {
 
   // Listening exam flow state
   const [listeningPhase, setListeningPhase] = useState<"ready" | "playing" | "answering">("ready");
+  // Reading exam intro state
+  const [readingStarted, setReadingStarted] = useState(false);
 
   // Skip splash if exam already in progress (e.g. page refresh mid-exam)
   useEffect(() => {
     if (isListening && listeningPhase === "ready" && (answers.size > 0 || currentIndex > 0)) {
       setListeningPhase("playing");
+    }
+    if (!isListening && !readingStarted && (answers.size > 0 || currentIndex > 0)) {
+      setReadingStarted(true);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [answerCountdown, setAnswerCountdown] = useState(0);
@@ -464,6 +469,29 @@ export function ExamSession() {
             </div>
           </DrawerContent>
         </Drawer>
+      </div>
+    );
+  }
+
+  // --- Reading intro ---
+  if (!isListening && !readingStarted) {
+    return (
+      <div className="mx-auto max-w-lg flex flex-col items-center justify-center min-h-[60vh] space-y-6 text-center">
+        <div className="rounded-full bg-primary/10 p-6">
+          <BookOpen className="h-12 w-12 text-primary" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold">{t("exam.session.readingTitle")}</h2>
+          <p className="mt-2 text-muted-foreground">{t("exam.session.readingDesc")}</p>
+        </div>
+        <div className="space-y-2 text-sm text-muted-foreground text-left">
+          <p>• {t("exam.session.readingRule1", { questions: questions.length, minutes: Math.ceil(timeLimitSeconds / 60) })}</p>
+          <p>• {t("exam.session.readingRule2")}</p>
+          <p>• {t("exam.session.readingRule3")}</p>
+        </div>
+        <Button size="lg" onClick={() => setReadingStarted(true)}>
+          {t("exam.session.startReading")}
+        </Button>
       </div>
     );
   }

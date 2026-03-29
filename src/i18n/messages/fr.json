@@ -832,6 +832,12 @@
       "soundCheck": "Test audio",
       "soundCheckDone": "Audio OK ✓",
       "startListening": "Commencer l'examen",
+      "readingTitle": "Compréhension écrite",
+      "readingDesc": "Lisez attentivement les textes et choisissez la meilleure réponse.",
+      "readingRule1": "{questions} questions, {minutes} minutes",
+      "readingRule2": "Vous pouvez revenir aux questions précédentes",
+      "readingRule3": "Soumission automatique à la fin du temps",
+      "startReading": "Commencer l'examen",
       "answerNow": "Répondez maintenant",
       "listenCarefully": "Écoutez attentivement..."
     },

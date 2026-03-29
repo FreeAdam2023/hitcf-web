@@ -126,6 +126,8 @@ function ImmersiveHeader() {
   const totalQuestions = usePracticeStore((s) => s.questions.length);
   const practiceAttemptId = usePracticeStore((s) => s.attemptId);
   const examAttemptId = useExamStore((s) => s.attemptId);
+  const examAnswersSize = useExamStore((s) => s.answers.size);
+  const examCurrentIndex = useExamStore((s) => s.currentIndex);
   const startedAt = usePracticeStore((s) => s.startedAt);
   const isPractice = !isExam;
   const allAnswered = isPractice && totalQuestions > 0 && answersSize >= totalQuestions;
@@ -181,6 +183,9 @@ function ImmersiveHeader() {
             >
               {completing ? t('common.actions.submitting') : t('practice.session.completePractice')}
             </Button>
+          ) : isExam && examAnswersSize === 0 && examCurrentIndex === 0 ? (
+            /* Hide submit during exam intro (no answers yet) */
+            null
           ) : (
             <AlertDialog>
               <AlertDialogTrigger asChild>

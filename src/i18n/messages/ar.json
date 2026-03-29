@@ -829,6 +829,12 @@
       "soundCheck": "اختبار الصوت",
       "soundCheckDone": "الصوت يعمل ✓",
       "startListening": "بدء الامتحان",
+      "readingTitle": "فهم المقروء",
+      "readingDesc": "اقرأ النصوص بعناية واختر الإجابة الأفضل.",
+      "readingRule1": "{questions} سؤال، {minutes} دقيقة",
+      "readingRule2": "يمكنك العودة للأسئلة السابقة والتخطي",
+      "readingRule3": "تقديم تلقائي عند انتهاء الوقت",
+      "startReading": "بدء الامتحان",
       "answerNow": "أجب الآن",
       "listenCarefully": "استمع بعناية..."
     },
