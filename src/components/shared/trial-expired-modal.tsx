@@ -60,10 +60,10 @@ export function TrialExpiredModal() {
           {/* Pricing cards — same style as quota modal */}
           <div className="grid gap-3 sm:grid-cols-3">
             {([
-              { plan: "monthly" as const, price: formatPrice(PRICING.monthly), unit: t("monthly"), perMonth: null, save: 0, recommended: false, renewal: t("autoRenew") },
-              { plan: "quarterly" as const, price: formatPrice(PRICING.quarterly), unit: t("quarterly"), perMonth: formatPrice(PRICING.quarterlyPerMonth), save: PRICING.quarterlySavePercent, recommended: false, renewal: t("noRenew") },
-              { plan: "semiannual" as const, price: formatPrice(PRICING.semiannual), unit: t("semiannual"), perMonth: formatPrice(PRICING.semiannualPerMonth), save: PRICING.semiannualSavePercent, recommended: true, renewal: t("noRenew") },
-            ]).map(({ plan, price, unit, perMonth, save, recommended, renewal }) => (
+              { plan: "monthly" as const, price: formatPrice(PRICING.monthly), unit: t("monthly"), perMonth: null, save: 0, recommended: false, badge: null, renewal: t("autoRenew") },
+              { plan: "quarterly" as const, price: formatPrice(PRICING.quarterly), unit: t("quarterly"), perMonth: formatPrice(PRICING.quarterlyPerMonth), save: PRICING.quarterlySavePercent, recommended: false, badge: t("limitedOffer"), renewal: t("noRenew") },
+              { plan: "semiannual" as const, price: formatPrice(PRICING.semiannual), unit: t("semiannual"), perMonth: formatPrice(PRICING.semiannualPerMonth), save: PRICING.semiannualSavePercent, recommended: true, badge: null, renewal: t("noRenew") },
+            ]).map(({ plan, price, unit, perMonth, save, recommended, badge, renewal }) => (
               <div
                 key={plan}
                 className={`relative rounded-xl p-[1px] ${
@@ -80,7 +80,14 @@ export function TrialExpiredModal() {
                   </div>
                 )}
                 <div className="flex h-full flex-col rounded-[11px] bg-card p-4">
-                  <span className="text-sm font-semibold">{unit}</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-semibold">{unit}</span>
+                    {badge && (
+                      <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-600 dark:text-amber-400">
+                        {badge}
+                      </span>
+                    )}
+                  </div>
                   <div className="mt-2 flex items-baseline gap-1">
                     <span className="text-2xl font-bold tracking-tight">{price}</span>
                   </div>
