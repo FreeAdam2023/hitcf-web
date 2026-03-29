@@ -262,7 +262,7 @@
       "stat1": "8,500+ 道题",
       "stat2": "1,297 套试卷",
       "stat3": "听说读写四科",
-      "trustLine": "免费试用"
+      "trustLine": "注册即享 7 天体验"
     }
   },
   "tests": {
@@ -958,7 +958,7 @@
     },
     "continuePractice": "继续练习",
     "unlockAll": "解锁全部 8,500+ 道题 + 词汇工具",
-    "semiannualDeal": "半年付低至 ${semiannualPerMonth}/月，含 {semiannualTrialDays} 天免费试用",
+    "semiannualDeal": "半年付低至 ${semiannualPerMonth}/月，注册即享 7 天全功能体验",
     "upgradePro": "升级 Pro",
     "profile": {
       "title": "个人信息",
@@ -1282,7 +1282,7 @@
     "defaultTitle": "解锁完整备考体验",
     "defaultDescription": "升级 Pro 会员，获取全部 8,500+ 道题目和高级功能",
     "viewPlans": "查看方案",
-    "semiannualTrial": "半年付享 {semiannualTrialDays} 天免费试用",
+    "semiannualTrial": "注册即享 7 天全功能体验",
     "viewPlans": "查看方案",
     "upgradePro": "升级 Pro"
   },
@@ -1978,7 +1978,7 @@
       "monthly": {
         "name": "月付",
         "unit": "/ 月",
-        "trialLabel": "{monthlyTrialDays} 天免费试用",
+        "trialLabel": "按月订阅",
         "valueDesc": "每天不到 7 毛钱，刷完四科 8,500 道题",
         "savingsVsTutor": "比请家教便宜 97%"
       },
@@ -1987,7 +1987,7 @@
         "unit": "/ 季",
         "equiv": "≈ US${quarterlyPerMonth} / 月，省 {quarterlySavingsPercent}% · 不自动续费",
         "badge": "限时优惠",
-        "trialLabel": "{quarterlyTrialDays} 天免费试用",
+        "trialLabel": "一次性付费 · 不自动续费",
         "valueDesc": "3 个月集中刷题冲刺，性价比之选",
         "savingsVsTutor": "比请家教便宜 98%"
       },
@@ -1996,7 +1996,7 @@
         "unit": "/ 6 个月",
         "equiv": "≈ US${semiannualPerMonth} / 月，省 {savingsPercent}% · 不自动续费",
         "badge": "最受欢迎",
-        "trialLabel": "{semiannualTrialDays} 天免费试用",
+        "trialLabel": "一次性付费 · 不自动续费",
         "valueDesc": "每月一杯咖啡的钱，刷题 + 翻卡 + 听写 + 导出 Anki",
         "savingsVsTutor": "比请家教便宜 99%"
       }
@@ -2005,7 +2005,7 @@
     "mostPopular": "最受欢迎",
     "cta": {
       "redirecting": "跳转中...",
-      "trialSuffix": "，不满意不花钱",
+      "trialSuffix": "，48 小时无理由退款",
       "subscribe": "立即订阅",
       "subscribeDirect": "立即订阅",
       "registerFirst": "注册后订阅",
@@ -2014,7 +2014,7 @@
     "usdNote": "所有价格均以美元（USD）计价",
     "referralNudge": "或者邀请好友，双方各得 30 天 Pro",
     "trust": {
-      "trial": "{monthlyTrialDays} 天免费试用",
+      "trial": "注册即享 7 天体验",
       "stripe": "Stripe 安全支付",
       "refund": "48h 无理由退款",
       "cancel": "随时一键取消"
@@ -2050,15 +2050,15 @@
       "items": [
         {
           "q": "月付、季付和半年付有什么区别？",
-          "a": "月付按月订阅，新用户享 {monthlyTrialDays} 天免费试用，到期自动续费，随时可取消。季付含 {quarterlyTrialDays} 天免费试用，有效期 3 个月，到期不自动续费。半年付含 {semiannualTrialDays} 天免费试用，有效期半年，到期不自动续费。"
+          "a": "月付按月订阅，到期自动续费，随时可取消。季付一次性付费，有效期 3 个月，到期不自动续费。半年付一次性付费，有效期半年，到期不自动续费。所有新用户注册即享 7 天全功能体验，到期后按方案付费。"
         },
         {
-          "q": "免费试用需要绑定信用卡吗？",
-          "a": "所有方案都需要绑定信用卡，通过 Stripe 安全处理。试用期内（月付 {monthlyTrialDays} 天 / 季付 {quarterlyTrialDays} 天 / 半年付 {semiannualTrialDays} 天）随时取消不扣费。"
+          "q": "需要绑定信用卡吗？",
+          "a": "注册时不需要信用卡，7 天体验期完全免费。付费订阅时通过 Stripe 安全处理信用卡信息。"
         },
         {
           "q": "可以随时取消吗？",
-          "a": "在定价页点击「管理订阅」进入 Stripe 客户门户一键取消。试用期内取消不扣费，已扣费用户 Pro 权限保留至当前付费周期结束。季付和半年付到期不自动续费，无需手动取消。"
+          "a": "在定价页点击「管理订阅」进入 Stripe 客户门户一键取消。已扣费用户 Pro 权限保留至当前付费周期结束。季付和半年付到期不自动续费，无需手动取消。首次付款后 48 小时内可全额退款。"
         },
         {
           "q": "支持哪些支付方式？",
@@ -2477,8 +2477,8 @@
     "freeStart": "开始使用",
     "freeRegister": "免费注册",
     "proBadge": "推荐",
-    "proTrial": "{semiannualTrialDays} 天免费",
-    "proTrialUnit": "试用",
+    "proTrial": "7 天免费",
+    "proTrialUnit": "体验",
     "proFeatures": [
       "全部听力 + 阅读题库（逐句精听）",
       "考试模式（计时 + 评分）",
@@ -2487,7 +2487,7 @@
       "生词本 + 翻卡 + 听写 + Anki 导出"
     ],
     "proGoToTests": "进入题库",
-    "proStartTrial": "开始免费试用",
+    "proStartTrial": "立即订阅",
     "whyBadge": "为什么选 HiTCF",
     "whyTitle": "不只是题库，是完整的备考系统",
     "whySubtitle": "刷题 → 错题本 → 生词本 → 翻卡复习 → 再做题，循环直到达标",
@@ -2504,8 +2504,8 @@
     "guideLink": "查看完整考试指南",
     "trust": [
       {
-        "label": "超长免费试用",
-        "desc": "半年付 {semiannualTrialDays} 天 · 月付 {monthlyTrialDays} 天"
+        "label": "注册即享 7 天体验",
+        "desc": "无需信用卡 · 全功能免费体验"
       },
       {
         "label": "安全支付",
@@ -2517,7 +2517,7 @@
       },
       {
         "label": "不自动扣费",
-        "desc": "试用期内取消 = 零费用"
+        "desc": "季付/半年付到期不续费"
       }
     ],
     "faqTitle": "常见问题",
@@ -2532,7 +2532,7 @@
       },
       {
         "q": "Pro 会员有什么好处？",
-        "a": "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式、生词本、翻卡复习、听写练习和 Anki 导出。半年付享 {semiannualTrialDays} 天免费试用，不满意随时取消。"
+        "a": "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式、生词本、翻卡复习、听写练习和 Anki 导出。注册即享 7 天全功能体验，到期后按方案付费。"
       },
       {
         "q": "能保证考到 CLB 7+ 吗？",
@@ -2544,7 +2544,7 @@
       },
       {
         "q": "如何申请退款？",
-        "a": "首次付款后 48 小时内可全额退款，半年付用户 {semiannualTrialDays} 天内可按比例退款。发邮件至 support@hitcf.com 即可，3 个工作日内处理。"
+        "a": "首次付款后 48 小时内可全额退款，半年付用户 30 天内可按比例退款。发邮件至 support@hitcf.com 即可，3 个工作日内处理。"
       }
     ],
     "ctaImageAlt": "渥太华国会山与渥太华河全景",
@@ -2574,8 +2574,8 @@
       "description": "查看你的 CLB 7+ 准备度、听力和阅读正确率、练习统计、连续打卡天数。实时追踪与 78% 目标正确率的差距。"
     },
     "pricing": {
-      "title": "HiTCF 订阅方案 · 半年付享 {semiannualTrialDays} 天免费试用",
-      "description": "免费直接练习，Pro 解锁全部题库+考试模式+错题本。半年付享 {semiannualTrialDays} 天免费试用。"
+      "title": "HiTCF 订阅方案 · 注册即享 7 天全功能体验",
+      "description": "免费直接练习，Pro 解锁全部题库+考试模式+错题本。注册即享 7 天全功能体验，无需信用卡。"
     },
     "speedDrill": {
       "title": "等级练习 · 按等级和题型定向刷题",
@@ -2643,8 +2643,8 @@
       "description": "HiTCF 隐私政策：了解我们如何通过 Cloudflare Access 验证身份、通过 Stripe 处理支付，以及数据存储、Cookie 使用和您的 PIPEDA 权利。"
     },
     "refund": {
-      "title": "退款政策 · 免费试用与退款申请流程",
-      "description": "HiTCF 退款政策：免费试用（半年付 {semiannualTrialDays} 天，月付 {monthlyTrialDays} 天）随时取消不扣费，首次付款 48 小时内全额退款，半年付 {semiannualTrialDays} 天内按比例退款。通过 Stripe 原路返回。"
+      "title": "退款政策 · 退款申请流程",
+      "description": "HiTCF 退款政策：注册即享 7 天免费体验，无需信用卡。首次付款 48 小时内全额退款，半年付 30 天内按比例退款。通过 Stripe 原路返回。"
     },
     "disclaimer": {
       "title": "免责声明 · 内容来源与考试结果声明",
@@ -2800,8 +2800,8 @@
       "li5": "具体退款政策请参阅 <refund>退款政策</refund>。"
     },
     "trial": {
-      "title": "4. 免费试用",
-      "p1": "我们可能提供免费试用期。试用期结束后，若未取消订阅，将自动按所选方案收费。每个用户仅可享受一次免费试用。"
+      "title": "4. 免费体验",
+      "p1": "新用户注册后可获得 7 天免费全功能体验，无需绑定信用卡。体验期结束后将自动降级为免费用户，如需继续使用 Pro 功能请选择付费方案。每个用户仅可享受一次免费体验。"
     },
     "acceptableUse": {
       "title": "5. 使用规范",
@@ -2940,11 +2940,11 @@
     "lastUpdated": "最后更新：2026 年 3 月 23 日",
     "intro": "感谢选择 HiTCF。本退款政策适用于通过本平台购买的所有付费订阅服务。",
     "freeTrial": {
-      "title": "1. 免费试用",
-      "li1": "所有新用户可享受免费试用（<b>半年付方案 {semiannualTrialDays} 天</b>，月付方案 {monthlyTrialDays} 天），试用期间不收取任何费用。",
-      "li2": "试用期内随时可以取消，不会产生任何费用。",
-      "li3": "试用期结束后，如未取消，将自动按所选方案收费。",
-      "li4": "每个用户（每个邮箱地址）仅可享受一次免费试用。"
+      "title": "1. 免费体验",
+      "li1": "所有新用户注册后可获得 <b>7 天</b>免费全功能体验，无需绑定信用卡。",
+      "li2": "体验期内可使用全部 Pro 功能，不收取任何费用。",
+      "li3": "体验期结束后自动降级为免费用户，如需继续使用 Pro 功能请选择付费方案。",
+      "li4": "每个用户（每个邮箱地址）仅可享受一次免费体验。"
     },
     "cancellation": {
       "title": "2. 订阅取消",
@@ -2960,10 +2960,10 @@
       "fullLi2": "因平台技术故障（如长时间无法登录、大范围功能失效）导致无法使用服务，且我们未能在 72 小时内解决的情况。",
       "fullLi3": "重复扣费或错误扣费。",
       "proTitle": "3.2 按比例退款",
-      "proLi1": "半年付用户在付款后 <b>{semiannualTrialDays} 天内</b> 申请退款，可获得未使用天数的按比例退款。",
+      "proLi1": "半年付用户在付款后 <b>30 天内</b> 申请退款，可获得未使用天数的按比例退款。",
       "noTitle": "3.3 不予退款",
       "noLi1": "月付用户在首次 48 小时后申请退款。",
-      "noLi2": "半年付用户在 {semiannualTrialDays} 天后申请退款。",
+      "noLi2": "半年付用户在 30 天后申请退款。",
       "noLi3": "因用户自身原因导致的未使用（如忘记取消自动续订、个人时间安排等）。",
       "noLi4": "因考试成绩不理想而要求退款（本平台不保证考试结果，详见 <disclaimerLink>免责声明</disclaimerLink>）。",
       "noLi5": "违反 <termsLink>服务条款</termsLink> 导致账户被暂停或终止。"
@@ -2993,13 +2993,13 @@
     "faq2q": "免费版能做什么？",
     "faq2a": "免费版可使用全部听力 + 阅读题库，每天 {dailyQuestions} 道题 + {dailyExplanations} 次深度解析，包含练习模式。永久有效。",
     "faq3q": "Pro 会员有什么好处？",
-    "faq3a": "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式、生词本、翻卡复习、听写练习和 Anki 导出。半年付享 {semiannualTrialDays} 天免费试用，不满意随时取消。",
+    "faq3a": "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式、生词本、翻卡复习、听写练习和 Anki 导出。注册即享 7 天全功能体验，到期后按方案付费。",
     "faq4q": "能保证考到 CLB 7+ 吗？",
     "faq4a": "不能。HiTCF 提供与 TCF Canada 对标的练习环境，帮助你针对性地找到薄弱环节并提升。但实际成绩取决于多种因素，我们不承诺任何考试结果。",
     "faq5q": "口语和写作怎么练？",
     "faq5a": "口语：内置 AI 考官对话（发音评估 + 评分），支持 Tâche 2 和 Tâche 3 完整模拟。写作：AI 四维评分 + 逐句纠错。Pro 会员专享。",
     "faq6q": "如何申请退款？",
-    "faq6a": "首次付款后 48 小时内可全额退款，半年付用户 {semiannualTrialDays} 天内可按比例退款。发邮件至 support@hitcf.com 即可，3 个工作日内处理。"
+    "faq6a": "首次付款后 48 小时内可全额退款，半年付用户 30 天内可按比例退款。发邮件至 support@hitcf.com 即可，3 个工作日内处理。"
   },
   "welcome": {
     "title": "欢迎，{name}",
@@ -3069,7 +3069,7 @@
       "resetHint": "配额每天自动重置。升级 Pro 解锁无限使用。",
       "continueFree": "继续免费使用",
       "upgradePro": "升级 Pro",
-      "subscribe": "开始免费试用",
+      "subscribe": "立即订阅",
       "recommended": "推荐",
       "refundGuarantee": "48 小时无理由退款",
       "unlimitedAccess": "无限题目 + 解析",
@@ -3242,7 +3242,7 @@
         "title": "开启 CLB 7+ 之旅",
         "desc": "加入数千名使用 HiTCF 高效备考的 TCF Canada 考生。从免费练习开始，或开通 Pro 解锁完整平台。",
         "pricingButton": "查看订阅方案",
-        "practiceButton": "免费试用"
+        "practiceButton": "免费练习"
       }
     },
     "tcfListening": {

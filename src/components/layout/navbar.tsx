@@ -40,12 +40,19 @@ const NAV_KEYS = [
 export function Navbar() {
   const t = useTranslations();
   const hasActiveSub = useAuthStore((s) => s.hasActiveSubscription);
+  const user = useAuthStore((s) => s.user);
 
   const pathname = usePathname();
   const isImmersive = pathname.startsWith("/practice/") || pathname.startsWith("/exam/");
 
   const allItems = NAV_KEYS
-    .filter((item) => !("hideWhenSubscribed" in item && item.hideWhenSubscribed && hasActiveSub()))
+    .filter((item) => {
+      if (!("hideWhenSubscribed" in item && item.hideWhenSubscribed)) return true;
+      // Only hide for real paid subscribers, not reverse_trial/recall/referral
+      const plan = user?.subscription?.plan;
+      const nonPaidPlans = ["reverse_trial", "recall", "referral", "tester"];
+      return !(hasActiveSub() && plan && !nonPaidPlans.includes(plan));
+    })
     .map((item) => ({ href: item.href, label: t(item.key) }));
 
   if (isImmersive) {

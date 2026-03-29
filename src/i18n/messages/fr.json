@@ -262,7 +262,7 @@
       "stat1": "8 500+ questions",
       "stat2": "1 297 séries de tests",
       "stat3": "Les 4 épreuves",
-      "trustLine": "Essai gratuit"
+      "trustLine": "7 jours d'essai gratuit"
     }
   },
   "tests": {
@@ -958,7 +958,7 @@
     },
     "continuePractice": "Continuer la pratique",
     "unlockAll": "Débloquez les 8 500+ questions + outils de vocabulaire",
-    "semiannualDeal": "Forfait semestriel à {semiannualPrice} $ pour 6 mois avec {semiannualTrialDays} jours d'essai gratuit",
+    "semiannualDeal": "Forfait semestriel à {semiannualPrice} $ pour 6 mois — 7 jours d'essai gratuit à l'inscription",
     "upgradePro": "Passer à Pro",
     "profile": {
       "title": "Profil",
@@ -1273,7 +1273,7 @@
     "defaultTitle": "Débloquez l'expérience complète",
     "defaultDescription": "Passez à Pro pour accéder aux 8 500+ questions et aux fonctionnalités avancées",
     "viewPlans": "Voir les forfaits",
-    "semiannualTrial": "{semiannualTrialDays} jours gratuits avec le forfait semestriel",
+    "semiannualTrial": "7 jours d'essai gratuit à l'inscription",
     "upgradePro": "Passer à Pro"
   },
   "cancelSubscription": {
@@ -1968,7 +1968,7 @@
       "monthly": {
         "name": "Mensuel",
         "unit": "/ mois",
-        "trialLabel": "Essai gratuit de {monthlyTrialDays} jours",
+        "trialLabel": "Abonnement mensuel",
         "valueDesc": "Moins de $0.70/jour pour 8 500+ questions couvrant les 4 sections",
         "savingsVsTutor": "97 % moins cher qu'un tuteur"
       },
@@ -1977,7 +1977,7 @@
         "unit": "/ trimestre",
         "equiv": "≈ {quarterlyPerMonth} $ US / mois, économisez {quarterlySavingsPercent} % · Sans renouvellement auto",
         "badge": "Offre limitée",
-        "trialLabel": "Essai gratuit de {quarterlyTrialDays} jours",
+        "trialLabel": "Paiement unique · Sans renouvellement",
         "valueDesc": "Sprint de 3 mois — le meilleur rapport qualité-prix",
         "savingsVsTutor": "98 % moins cher qu'un tuteur"
       },
@@ -1986,7 +1986,7 @@
         "unit": "/ 6 mois",
         "equiv": "≈ {semiannualPerMonth} $ US / mois, économisez {savingsPercent} % · Sans renouvellement auto",
         "badge": "Le plus populaire",
-        "trialLabel": "Essai gratuit de {semiannualTrialDays} jours",
+        "trialLabel": "Paiement unique · Sans renouvellement",
         "valueDesc": "Un café par mois pour l'entraînement + flashcards + dictée + exportation Anki",
         "savingsVsTutor": "99 % moins cher qu'un tuteur"
       }
@@ -1995,7 +1995,7 @@
     "mostPopular": "Le plus populaire",
     "cta": {
       "redirecting": "Redirection...",
-      "trialSuffix": " — annulez à tout moment, sans risque",
+      "trialSuffix": " — remboursement sous 48 h",
       "subscribe": "S'abonner maintenant",
       "subscribeDirect": "S'abonner maintenant",
       "registerFirst": "Inscription pour s'abonner",
@@ -2004,7 +2004,7 @@
     "usdNote": "Tous les prix sont en USD",
     "referralNudge": "Ou invitez un ami — 30 jours Pro gratuits pour chacun",
     "trust": {
-      "trial": "Essai gratuit de {monthlyTrialDays} jours",
+      "trial": "7 jours d'essai à l'inscription",
       "stripe": "Paiements sécurisés via Stripe",
       "refund": "Garantie de remboursement sous 48 h",
       "cancel": "Annulez à tout moment en un clic"
@@ -2040,15 +2040,15 @@
       "items": [
         {
           "q": "Quelle est la différence entre les abonnements mensuel, trimestriel et semestriel ?",
-          "a": "L'abonnement mensuel est récurrent avec {monthlyTrialDays} jours d'essai gratuit — annulez à tout moment. Le trimestriel inclut {quarterlyTrialDays} jours d'essai gratuit, valable 3 mois sans renouvellement automatique. Le semestriel inclut {semiannualTrialDays} jours d'essai gratuit, valable 6 mois sans renouvellement automatique."
+          "a": "L'abonnement mensuel est récurrent — annulez à tout moment. Le trimestriel est un paiement unique, valable 3 mois sans renouvellement automatique. Le semestriel est un paiement unique, valable 6 mois sans renouvellement automatique. Tous les nouveaux utilisateurs bénéficient de 7 jours d'essai gratuit à l'inscription, sans carte bancaire."
         },
         {
-          "q": "Ai-je besoin d'une carte de crédit pour l'essai gratuit ?",
-          "a": "Tous les forfaits nécessitent une carte, traitée de manière sécurisée via Stripe. Annulez pendant la période d'essai ({monthlyTrialDays} jours pour le mensuel / {quarterlyTrialDays} jours pour le trimestriel / {semiannualTrialDays} jours pour le semestriel) et vous ne serez pas facturé."
+          "q": "Ai-je besoin d'une carte de crédit ?",
+          "a": "Aucune carte de crédit n'est requise à l'inscription — l'essai de 7 jours est entièrement gratuit. Lors de l'abonnement, les paiements sont traités de manière sécurisée via Stripe."
         },
         {
           "q": "Puis-je annuler à tout moment ?",
-          "a": "Annulez à tout moment via le portail client Stripe (cliquez sur « Gérer l'abonnement » sur la page de tarification). Annulez pendant la période d'essai et vous ne serez pas facturé. Les utilisateurs payants conservent l'accès Pro jusqu'à la fin du cycle de facturation. Les abonnements trimestriel et semestriel ne se renouvellent pas automatiquement — aucune action requise."
+          "a": "Annulez à tout moment via le portail client Stripe (cliquez sur « Gérer l'abonnement » sur la page de tarification). Les utilisateurs payants conservent l'accès Pro jusqu'à la fin du cycle de facturation. Les abonnements trimestriel et semestriel ne se renouvellent pas automatiquement — aucune action requise. Remboursement intégral dans les 48 heures suivant le premier paiement."
         },
         {
           "q": "Quels modes de paiement sont acceptés ?",
@@ -2467,7 +2467,7 @@
     "freeStart": "Commencer",
     "freeRegister": "Inscription gratuite",
     "proBadge": "Recommandé",
-    "proTrial": "{semiannualTrialDays} jours gratuits",
+    "proTrial": "7 jours gratuits",
     "proTrialUnit": "d'essai",
     "proFeatures": [
       "Bibliothèque complète écoute + lecture (réécoute par phrase)",
@@ -2477,7 +2477,7 @@
       "Vocabulaire + cartes mémoire + dictée + export Anki"
     ],
     "proGoToTests": "Voir les tests",
-    "proStartTrial": "Commencer l'essai gratuit",
+    "proStartTrial": "S'abonner maintenant",
     "whyBadge": "Pourquoi HiTCF",
     "whyTitle": "Plus qu'une banque de questions — un système de préparation complet",
     "whySubtitle": "Entraînement → erreurs → vocabulaire → cartes mémoire → entraînement, répétez jusqu'à être prêt",
@@ -2494,8 +2494,8 @@
     "guideLink": "Voir le guide complet de l'examen",
     "trust": [
       {
-        "label": "Essai gratuit prolongé",
-        "desc": "{semiannualTrialDays} jours (semestriel) · {monthlyTrialDays} jours (mensuel)"
+        "label": "7 jours d'essai gratuit",
+        "desc": "Sans carte bancaire · Accès complet à l'inscription"
       },
       {
         "label": "Paiement sécurisé",
@@ -2507,7 +2507,7 @@
       },
       {
         "label": "Aucun frais surprise",
-        "desc": "Annulation pendant l'essai = aucun coût"
+        "desc": "Trimestriel/semestriel sans renouvellement auto"
       }
     ],
     "faqTitle": "FAQ",
@@ -2522,7 +2522,7 @@
       },
       {
         "q": "Quels sont les avantages de Pro ?",
-        "a": "Débloquez les plus de 8 500+ questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, le carnet de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Le plan semestriel comprend {semiannualTrialDays} jours d'essai gratuit — annulation possible à tout moment."
+        "a": "Débloquez les plus de 8 500+ questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, le carnet de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Inscrivez-vous pour 7 jours d'essai gratuit, puis abonnez-vous quand vous êtes prêt."
       },
       {
         "q": "Pouvez-vous garantir que j'atteindrai le NCLC 7 ?",
@@ -2534,7 +2534,7 @@
       },
       {
         "q": "Comment demander un remboursement ?",
-        "a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés semestriels peuvent obtenir un remboursement proportionnel dans les {semiannualTrialDays} jours. Envoyez un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
+        "a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés semestriels peuvent obtenir un remboursement proportionnel dans les 30 jours. Envoyez un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
       }
     ],
     "ctaImageAlt": "Panorama de la Colline du Parlement et de la rivière des Outaouais",
@@ -2564,8 +2564,8 @@
       "description": "Consultez votre préparation au NCLC 7, la précision en compréhension orale et écrite, les statistiques d'entraînement et les jours consécutifs. Suivez votre progression par rapport à l'objectif de 78 % de précision."
     },
     "pricing": {
-      "title": "Tarifs HiTCF · Essai gratuit disponible",
-      "description": "Gratuit pour commencer. Pro débloque 8 500+ questions et mode examen. Essai {semiannualTrialDays} jours."
+      "title": "Tarifs HiTCF · 7 jours d'essai gratuit à l'inscription",
+      "description": "Gratuit pour commencer. Pro débloque 8 500+ questions et mode examen. 7 jours d'essai gratuit à l'inscription, sans carte bancaire."
     },
     "speedDrill": {
       "title": "Pratique par niveau · Entraînement ciblé par niveau et type de question",
@@ -2633,8 +2633,8 @@
       "description": "Politique de confidentialité de HiTCF : comment nous vérifions l'identité via Cloudflare Access, traitons les paiements via Stripe, et gérons le stockage des données, les cookies et vos droits PIPEDA."
     },
     "refund": {
-      "title": "Politique de remboursement · Essai gratuit et procédure de remboursement",
-      "description": "Politique de remboursement de HiTCF : essai gratuit ({semiannualTrialDays} jours pour le plan semestriel, {monthlyTrialDays} jours pour le mensuel) annulation à tout moment. Remboursement intégral dans les 48 heures suivant le premier paiement, remboursement proportionnel dans les {semiannualTrialDays} jours pour le semestriel. Remboursement via Stripe."
+      "title": "Politique de remboursement · Procédure de remboursement",
+      "description": "Politique de remboursement de HiTCF : 7 jours d'essai gratuit à l'inscription, sans carte bancaire. Remboursement intégral dans les 48 heures suivant le premier paiement, remboursement proportionnel dans les 30 jours pour le semestriel. Remboursement via Stripe."
     },
     "disclaimer": {
       "title": "Avertissement · Sources du contenu et avis sur les résultats d'examen",
@@ -2791,7 +2791,7 @@
     },
     "trial": {
       "title": "4. Essai gratuit",
-      "p1": "Nous pouvons offrir une période d'essai gratuit. À la fin de l'essai, si vous n'avez pas annulé, vous serez automatiquement facturé selon le plan choisi. Chaque utilisateur n'a droit qu'à un seul essai gratuit."
+      "p1": "Les nouveaux utilisateurs bénéficient de 7 jours d'essai gratuit avec accès complet à Pro lors de l'inscription, sans carte bancaire. À la fin de l'essai, vous serez rétrogradé en utilisateur gratuit. Pour continuer à utiliser les fonctionnalités Pro, veuillez choisir un forfait payant. Chaque utilisateur n'a droit qu'à un seul essai gratuit."
     },
     "acceptableUse": {
       "title": "5. Utilisation acceptable",
@@ -2931,9 +2931,9 @@
     "intro": "Merci d'avoir choisi HiTCF. Cette politique de remboursement s'applique à tous les services d'abonnement payant achetés via la Plateforme.",
     "freeTrial": {
       "title": "1. Essai gratuit",
-      "li1": "Tous les nouveaux utilisateurs ont droit à un essai gratuit (<b>{semiannualTrialDays} jours pour le plan semestriel</b>, {monthlyTrialDays} jours pour le plan mensuel). Aucun frais pendant la période d'essai.",
-      "li2": "Vous pouvez annuler à tout moment pendant l'essai sans frais.",
-      "li3": "À la fin de l'essai, si vous n'avez pas annulé, vous serez automatiquement facturé selon le plan choisi.",
+      "li1": "Tous les nouveaux utilisateurs bénéficient de <b>7 jours</b> d'essai gratuit avec accès complet à Pro lors de l'inscription, sans carte bancaire.",
+      "li2": "Vous pouvez utiliser toutes les fonctionnalités Pro pendant l'essai sans frais.",
+      "li3": "À la fin de l'essai, vous serez rétrogradé en utilisateur gratuit. Pour continuer à utiliser les fonctionnalités Pro, veuillez choisir un forfait payant.",
       "li4": "Chaque utilisateur (par adresse e-mail) n'a droit qu'à un seul essai gratuit."
     },
     "cancellation": {
@@ -2950,10 +2950,10 @@
       "fullLi2": "Si un problème technique de la Plateforme (tel que des échecs de connexion prolongés ou des pannes généralisées de fonctionnalités) vous empêche d'utiliser le service, et que nous ne parvenons pas à le résoudre dans les 72 heures.",
       "fullLi3": "Charges en double ou erronées.",
       "proTitle": "3.2 Remboursement proportionnel",
-      "proLi1": "Les abonnés semestriels qui demandent un remboursement dans les <b>{semiannualTrialDays} jours</b> suivant le paiement peuvent recevoir un remboursement proportionnel pour les jours non utilisés.",
+      "proLi1": "Les abonnés semestriels qui demandent un remboursement dans les <b>30 jours</b> suivant le paiement peuvent recevoir un remboursement proportionnel pour les jours non utilisés.",
       "noTitle": "3.3 Non remboursable",
       "noLi1": "Abonnés mensuels demandant un remboursement après les 48 premières heures.",
-      "noLi2": "Abonnés semestriels demandant un remboursement après {semiannualTrialDays} jours.",
+      "noLi2": "Abonnés semestriels demandant un remboursement après 30 jours.",
       "noLi3": "Non-utilisation pour des raisons personnelles (par ex., oubli d'annuler le renouvellement automatique, emploi du temps personnel).",
       "noLi4": "Demandes de remboursement basées sur des résultats d'examen insatisfaisants (la Plateforme ne garantit pas les résultats d'examen — voir notre <disclaimerLink>Avertissement</disclaimerLink>).",
       "noLi5": "Suspension ou résiliation de compte pour violation des <termsLink>Conditions d'utilisation</termsLink>."
@@ -2983,13 +2983,13 @@
     "faq2q": "Que puis-je faire avec la version gratuite ?",
     "faq2a": "La version gratuite donne accès à toutes les séries d'écoute et de lecture, avec {dailyQuestions} questions et {dailyExplanations} explications détaillées par jour en mode entraînement. Gratuit pour toujours.",
     "faq3q": "Quels sont les avantages de Pro ?",
-    "faq3a": "Débloquez les plus de 8 500+ questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, les outils de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Le plan semestriel comprend {semiannualTrialDays} jours d'essai gratuit, annulation à tout moment.",
+    "faq3a": "Débloquez les plus de 8 500+ questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, les outils de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Inscrivez-vous pour 7 jours d'essai gratuit, puis abonnez-vous quand vous êtes prêt.",
     "faq4q": "Pouvez-vous garantir que j'atteindrai le NCLC 7 ?",
     "faq4a": "Non. HiTCF fournit un environnement d'entraînement aligné sur le TCF Canada pour vous aider à identifier et améliorer vos points faibles. Cependant, les scores réels dépendent de nombreux facteurs — nous ne promettons aucun résultat d'examen.",
     "faq5q": "Comment puis-je m'entraîner à l'expression orale et écrite ?",
     "faq5a": "Oral : conversation avec un examinateur IA intégré avec score de prononciation, simulation complète des Tâches 2 et 3. Écrit : notation IA sur 4 dimensions + corrections phrase par phrase. Réservé aux membres Pro.",
     "faq6q": "Comment demander un remboursement ?",
-    "faq6a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés semestriels peuvent obtenir un remboursement proportionnel dans les {semiannualTrialDays} jours. Envoyez simplement un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
+    "faq6a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés semestriels peuvent obtenir un remboursement proportionnel dans les 30 jours. Envoyez simplement un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
   },
   "welcome": {
     "title": "Bienvenue, {name}",
@@ -3059,7 +3059,7 @@
       "resetHint": "Votre quota se réinitialise chaque jour. Passez à Pro pour un accès illimité.",
       "continueFree": "Continuer gratuitement",
       "upgradePro": "Passer à Pro",
-      "subscribe": "Essai gratuit",
+      "subscribe": "S'abonner maintenant",
       "recommended": "Recommandé",
       "refundGuarantee": "Remboursement sous 48h",
       "unlimitedAccess": "Questions + explications illimitées",
@@ -3232,7 +3232,7 @@
         "title": "Commencez votre parcours vers CLB 7+",
         "desc": "Rejoignez des milliers de candidats au TCF Canada qui utilisent HiTCF pour se préparer efficacement. Commencez avec des tests gratuits ou débloquez la plateforme complète avec un abonnement Pro.",
         "pricingButton": "Voir les tarifs",
-        "practiceButton": "Essai gratuit"
+        "practiceButton": "Pratique gratuite"
       }
     },
     "tcfListening": {
