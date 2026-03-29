@@ -3070,9 +3070,9 @@
       "upgradePro": "Upgrade to Pro",
       "subscribe": "Start Free Trial",
       "recommended": "Recommended",
-      "trialDays": "{days}-day free trial",
+      "refundGuarantee": "48-hour refund guarantee",
       "unlimitedAccess": "Unlimited questions + explanations",
-      "cancelAnytime": "Cancel anytime, risk-free"
+      "cancelAnytime": "Cancel anytime"
     },
     "badge": "{used}/{limit} today",
     "unlimited": "Unlimited",

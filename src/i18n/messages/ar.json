@@ -3058,9 +3058,9 @@
       "upgradePro": "الترقية إلى Pro",
       "subscribe": "ابدأ التجربة المجانية",
       "recommended": "موصى به",
-      "trialDays": "{days} يوم تجربة مجانية",
+      "refundGuarantee": "ضمان استرداد خلال 48 ساعة",
       "unlimitedAccess": "أسئلة + شروحات غير محدودة",
-      "cancelAnytime": "إلغاء في أي وقت، بدون مخاطر"
+      "cancelAnytime": "إلغاء في أي وقت"
     },
     "badge": "{used}/{limit} اليوم",
     "unlimited": "غير محدود",

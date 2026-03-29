@@ -197,13 +197,7 @@ export function getLatestChangelogDate(): string {
   return changelog[0]?.date || "";
 }
 
-function getDateNDaysAgo(n: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() - n);
-  return d.toISOString().slice(0, 10);
-}
-
-/** Entries newer than the user's last read. First visit: 7-day window. */
+/** Entries newer than the user's last read. First visit: empty (all read). */
 export function getUnreadChangelogEntries(): ChangelogEntry[] {
   if (typeof window === "undefined") return [];
   try {

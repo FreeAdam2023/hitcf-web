@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Crown, Sparkles, ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { STATS_PARAMS } from "@/lib/constants";
+// STATS_PARAMS removed — no longer used after trial text cleanup
 import { useTranslations } from "next-intl";
 
 interface UpgradeBannerProps {
@@ -72,7 +72,7 @@ export function UpgradeBanner({
             </Button>
             <Button asChild variant="ghost" className="text-muted-foreground">
               <Link href="/pricing">
-                {t('upgradeBanner.semiannualTrial', STATS_PARAMS)}
+                {t('upgradeBanner.viewPlans')}
                 <ArrowRight className="ml-1 h-3.5 w-3.5" />
               </Link>
             </Button>

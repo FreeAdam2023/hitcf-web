@@ -3061,9 +3061,9 @@
       "upgradePro": "Passer à Pro",
       "subscribe": "Essai gratuit",
       "recommended": "Recommandé",
-      "trialDays": "{days} jours d'essai gratuit",
+      "refundGuarantee": "Remboursement sous 48h",
       "unlimitedAccess": "Questions + explications illimitées",
-      "cancelAnytime": "Annulez à tout moment, sans risque"
+      "cancelAnytime": "Annulez à tout moment"
     },
     "badge": "{used}/{limit} aujourd'hui",
     "unlimited": "Illimité",

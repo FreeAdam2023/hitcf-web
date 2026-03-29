@@ -220,9 +220,7 @@ export function QuotaExceededModal({
                 <div className="mt-2 space-y-1.5 text-xs text-muted-foreground">
                   <div className="flex items-center gap-1.5">
                     <Check className="h-3 w-3 shrink-0 text-green-500" />
-                    <span>
-                      {t("quota.exceeded.trialDays", { days: plan.trialDays })}
-                    </span>
+                    <span>{t("quota.exceeded.refundGuarantee")}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Check className="h-3 w-3 shrink-0 text-green-500" />

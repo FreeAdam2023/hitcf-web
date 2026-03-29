@@ -1283,6 +1283,7 @@
     "defaultDescription": "升级 Pro 会员，获取全部 8,500+ 道题目和高级功能",
     "viewPlans": "查看方案",
     "semiannualTrial": "半年付享 {semiannualTrialDays} 天免费试用",
+    "viewPlans": "查看方案",
     "upgradePro": "升级 Pro"
   },
   "cancelSubscription": {
@@ -3070,9 +3071,9 @@
       "upgradePro": "升级 Pro",
       "subscribe": "开始免费试用",
       "recommended": "推荐",
-      "trialDays": "{days} 天免费试用",
+      "refundGuarantee": "48 小时无理由退款",
       "unlimitedAccess": "无限题目 + 解析",
-      "cancelAnytime": "随时取消，不满意不花钱"
+      "cancelAnytime": "随时取消"
     },
     "badge": "今日 {used}/{limit}",
     "unlimited": "无限",

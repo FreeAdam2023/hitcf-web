@@ -234,7 +234,7 @@ export default async function LocaleLayout({
                     price: PRICING.monthly.toFixed(2),
                     priceCurrency: PRICING.currency,
                     billingIncrement: "P1M",
-                    description: `Full access to 8,500+ questions, exam mode, wrong answer notebook, vocabulary tools, Anki export. ${PRICING.monthlyTrialDays}-day free trial.`,
+                    description: "Full access to 8,500+ questions, exam mode, wrong answer notebook, vocabulary tools, Anki export.",
                   },
                   {
                     "@type": "Offer",
@@ -242,7 +242,7 @@ export default async function LocaleLayout({
                     price: PRICING.semiannual.toFixed(2),
                     priceCurrency: PRICING.currency,
                     billingIncrement: "P6M",
-                    description: `Full access to all features including vocabulary flashcards, dictation, and Anki export. ${PRICING.semiannualTrialDays}-day free trial.`,
+                    description: "Full access to all features including vocabulary flashcards, dictation, and Anki export.",
                   },
                 ],
                 screenshot: `${SITE_URL}/opengraph-image`,
