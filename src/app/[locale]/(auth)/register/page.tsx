@@ -79,7 +79,7 @@ function RegisterForm() {
     if (utm_source) document.cookie = `utm_source=${encodeURIComponent(utm_source)};path=/;max-age=3600`;
     if (utm_medium) document.cookie = `utm_medium=${encodeURIComponent(utm_medium)};path=/;max-age=3600`;
     if (utm_campaign) document.cookie = `utm_campaign=${encodeURIComponent(utm_campaign)};path=/;max-age=3600`;
-    signIn("google", { callbackUrl: `/${locale}/welcome` });
+    signIn("google", { callbackUrl: `/${locale}/tests` });
   };
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -136,8 +136,7 @@ function RegisterForm() {
       if (result?.error) {
         window.location.href = `/${locale}/login`;
       } else {
-        window.location.href = `/${locale}/welcome`;
-        router.refresh();
+        window.location.href = `/${locale}/tests`;
       }
     } catch (err) {
       if (err instanceof ApiError) {
