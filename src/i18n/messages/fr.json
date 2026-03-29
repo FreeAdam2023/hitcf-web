@@ -2038,11 +2038,11 @@
         },
         {
           "q": "Puis-je annuler à tout moment ?",
-          "a": "Annulez à tout moment via le portail client Stripe (cliquez sur « Gérer l'abonnement » sur la page de tarification). Annulez pendant la période d'essai et vous ne serez pas facturé. Les utilisateurs payants conservent l'accès Pro jusqu'à la fin du cycle de facturation. L'abonnement semestriel ne se renouvelle pas automatiquement."
+          "a": "Annulez à tout moment via le portail client Stripe (cliquez sur « Gérer l'abonnement » sur la page de tarification). Annulez pendant la période d'essai et vous ne serez pas facturé. Les utilisateurs payants conservent l'accès Pro jusqu'à la fin du cycle de facturation. Les abonnements trimestriel et semestriel ne se renouvellent pas automatiquement — aucune action requise."
         },
         {
           "q": "Quels modes de paiement sont acceptés ?",
-          "a": "Nous acceptons Visa, Mastercard, American Express et les autres principales cartes de crédit et de débit, traitées en toute sécurité par Stripe (certifié PCI DSS Niveau 1)."
+          "a": "Nous acceptons Visa, Mastercard, American Express et autres cartes de crédit/débit, ainsi qu'Apple Pay, Klarna et Affirm — le tout traité en toute sécurité par Stripe (certifié PCI DSS Niveau 1)."
         },
         {
           "q": "Pouvez-vous garantir que j'atteindrai le CLB 7+ ?",
@@ -2420,7 +2420,7 @@
     "steps": [
       {
         "title": "Inscrivez-vous",
-        "desc": "Inscription rapide par e-mail, sans complications"
+        "desc": "Inscription par e-mail avec vérification — en 30 secondes"
       },
       {
         "title": "Choisissez un test",
@@ -2449,7 +2449,7 @@
     "svgRemaining": "restant",
     "pricingBadge": "Tarifs",
     "pricingTitle": "Des tarifs simples et transparents",
-    "pricingSubtitle": "Séries gratuites à tout moment, abonnez-vous pour tout débloquer",
+    "pricingSubtitle": "Entraînez-vous gratuitement chaque jour, abonnez-vous pour toutes les fonctionnalités",
     "freeName": "Gratuit",
     "freeUnit": "/ pour toujours",
     "freeFeature1": "{totalQuestions} questions réelles",
@@ -2508,7 +2508,7 @@
       },
       {
         "q": "Que puis-je faire avec la version gratuite ?",
-        "a": "La version gratuite inclut l'accès complet à la première série d'écoute et aux 2 premières séries de lecture, en modes entraînement et examen. Tentatives illimitées, pour toujours."
+        "a": "La version gratuite donne accès à toutes les séries d'écoute et de lecture, avec {dailyQuestions} questions et {dailyExplanations} explications détaillées par jour en mode entraînement. Gratuit pour toujours."
       },
       {
         "q": "Quels sont les avantages de Pro ?",
@@ -2520,7 +2520,7 @@
       },
       {
         "q": "Comment puis-je m'entraîner à l'expression orale et écrite ?",
-        "a": "Les sections d'expression orale et écrite proposent des sujets et tâches d'examen réels, avec la possibilité d'accéder à ChatGPT pour la pratique de conversation IA et la correction de rédactions. C'est comme avoir un tuteur IA gratuit."
+        "a": "Oral : conversation avec un examinateur IA intégré (évaluation vocale Azure + score de prononciation), simulation complète des Tâches 2 et 3. Écrit : notation IA sur 4 dimensions + corrections phrase par phrase. Réservé aux membres Pro."
       },
       {
         "q": "Comment demander un remboursement ?",
@@ -2971,15 +2971,59 @@
     "faq1q": "HiTCF est-elle une plateforme officielle ?",
     "faq1a": "Non. HiTCF est une plateforme d'entraînement tierce exploitée de manière indépendante, sans affiliation avec France Éducation international ni IRCC. Les questions d'entraînement sont compilées à partir de documents publiquement accessibles et formatées selon le TCF Canada, mais ne sont pas des questions d'examen réelles.",
     "faq2q": "Que puis-je faire avec la version gratuite ?",
-    "faq2a": "La version gratuite comprend la première série d'écoute et les 2 premières séries de lecture avec toutes les questions, en modes entraînement et examen. Tentatives illimitées, gratuit pour toujours.",
+    "faq2a": "La version gratuite donne accès à toutes les séries d'écoute et de lecture, avec {dailyQuestions} questions et {dailyExplanations} explications détaillées par jour en mode entraînement. Gratuit pour toujours.",
     "faq3q": "Quels sont les avantages de Pro ?",
     "faq3a": "Débloquez les plus de 8 500+ questions (plus de 1 200 séries), y compris le mode examen, le cahier d'erreurs, l'exercice rapide, les outils de vocabulaire, la révision par cartes mémoire, la dictée et l'export Anki. Le plan semestriel comprend {semiannualTrialDays} jours d'essai gratuit, annulation à tout moment.",
     "faq4q": "Pouvez-vous garantir que j'atteindrai le NCLC 7 ?",
     "faq4a": "Non. HiTCF fournit un environnement d'entraînement aligné sur le TCF Canada pour vous aider à identifier et améliorer vos points faibles. Cependant, les scores réels dépendent de nombreux facteurs — nous ne promettons aucun résultat d'examen.",
     "faq5q": "Comment puis-je m'entraîner à l'expression orale et écrite ?",
-    "faq5a": "Les sections d'expression orale et écrite proposent des sujets et tâches d'examen réels, avec la possibilité d'accéder à ChatGPT pour la pratique de conversation IA et la correction de rédactions — essentiellement un tuteur IA gratuit.",
+    "faq5a": "Oral : conversation avec un examinateur IA intégré avec score de prononciation, simulation complète des Tâches 2 et 3. Écrit : notation IA sur 4 dimensions + corrections phrase par phrase. Réservé aux membres Pro.",
     "faq6q": "Comment demander un remboursement ?",
     "faq6a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés semestriels peuvent obtenir un remboursement proportionnel dans les {semiannualTrialDays} jours. Envoyez simplement un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
+  },
+  "welcome": {
+    "title": "Bienvenue, {name}",
+    "subtitle": "Votre essai Pro de {days} jours est maintenant actif",
+    "features": {
+      "listening": "Compréhension orale illimitée",
+      "reading": "Compréhension écrite illimitée",
+      "speaking": "Conversation IA",
+      "writing": "Correction IA",
+      "vocabulary": "Vocabulaire + Flashcards",
+      "analytics": "Suivi NCLC 7+"
+    },
+    "featuresDesc": {
+      "listening": "42 séries avec écoute phrase par phrase",
+      "reading": "42 séries avec définition au clic",
+      "speaking": "Examinateur IA avec évaluation de prononciation",
+      "writing": "Notation sur 4 dimensions + corrections",
+      "vocabulary": "Export Anki + vocabulaire de manuels",
+      "analytics": "Radar de niveaux + analyse des erreurs"
+    },
+    "cta": "Commencer la première série d'écoute",
+    "hint": "Essai de {days} jours — accès gratuit de base après expiration"
+  },
+  "trialExpired": {
+    "title": "Votre essai Pro est terminé",
+    "subtitle": "Merci d'avoir essayé Pro ! Ces fonctions restent disponibles :",
+    "keepTitle": "Vous gardez",
+    "lockedTitle": "À débloquer",
+    "freeListening": "5 questions d'écoute/jour",
+    "freeReading": "5 questions de lecture/jour",
+    "freeVocab": "Recherche vocabulaire de base",
+    "lockedSpeaking": "Conversation IA orale",
+    "lockedWriting": "Correction IA écrite",
+    "lockedExam": "Mode examen",
+    "lockedWrongBook": "Cahier d'erreurs",
+    "lockedSpeedDrill": "Exercice rapide",
+    "upgrade": "Passer à Pro",
+    "continueFree": "Continuer en version gratuite"
+  },
+  "trialBanner": {
+    "normal": "Essai Pro · Jour {currentDay} sur {totalDays}",
+    "urgent": "Essai Pro expire dans {daysLeft} jours · Certaines fonctions seront verrouillées",
+    "learnMore": "En savoir plus",
+    "upgrade": "Passer à Pro"
   },
   "quota": {
     "exceeded": {

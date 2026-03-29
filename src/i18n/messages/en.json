@@ -2047,11 +2047,11 @@
         },
         {
           "q": "Can I cancel anytime?",
-          "a": "Cancel anytime via the Stripe customer portal (click \"Manage Subscription\" on the pricing page). Cancel during the trial and you won't be charged. Paid users keep Pro access until the end of the billing cycle. Semi-annual plans do not auto-renew."
+          "a": "Cancel anytime via the Stripe customer portal (click \"Manage Subscription\" on the pricing page). Cancel during the trial and you won't be charged. Paid users keep Pro access until the end of the billing cycle. Quarterly and semi-annual plans do not auto-renew — no need to cancel manually."
         },
         {
           "q": "What payment methods are supported?",
-          "a": "We accept Visa, Mastercard, American Express, and other major credit and debit cards, securely processed through Stripe (PCI DSS Level 1 certified)."
+          "a": "We accept Visa, Mastercard, American Express, and other major credit/debit cards, as well as Apple Pay, Klarna, and Affirm — all securely processed through Stripe (PCI DSS Level 1 certified)."
         },
         {
           "q": "Can you guarantee I'll reach CLB 7+?",
@@ -2429,7 +2429,7 @@
     "steps": [
       {
         "title": "Sign Up",
-        "desc": "Quick email registration, no hassle"
+        "desc": "Email registration with verification — done in 30 seconds"
       },
       {
         "title": "Choose a Test",
@@ -2458,7 +2458,7 @@
     "svgRemaining": "left",
     "pricingBadge": "Pricing",
     "pricingTitle": "Simple, Transparent Pricing",
-    "pricingSubtitle": "Free sets anytime, subscribe to unlock everything",
+    "pricingSubtitle": "Practice daily for free, subscribe to unlock all features",
     "freeName": "Free",
     "freeUnit": "/ forever",
     "freeFeature1": "{totalQuestions} real questions",
@@ -2517,7 +2517,7 @@
       },
       {
         "q": "What can I do with the free version?",
-        "a": "The free version includes full access to the first listening set and first 2 reading sets, with both practice and exam modes. Unlimited attempts, forever."
+        "a": "The free version gives you access to all listening + reading test sets, with {dailyQuestions} questions and {dailyExplanations} detailed explanations per day in practice mode. Free forever."
       },
       {
         "q": "What are the benefits of Pro?",
@@ -2529,7 +2529,7 @@
       },
       {
         "q": "How do I practice speaking and writing?",
-        "a": "Speaking and writing sections provide real exam topics and tasks, with the option to jump to ChatGPT for AI conversation practice and essay grading. It's like having a free AI tutor."
+        "a": "Speaking: built-in AI examiner conversation with Azure speech assessment and pronunciation scoring, supporting full Tâche 2 and Tâche 3 simulations. Writing: submit your essay for AI 4-dimension scoring and sentence-by-sentence corrections. Pro members only."
       },
       {
         "q": "How do I request a refund?",
@@ -2980,15 +2980,59 @@
     "faq1q": "Is HiTCF an official platform?",
     "faq1a": "No. HiTCF is an independently operated third-party practice platform with no affiliation to France Éducation international or IRCC. Practice questions are compiled from publicly available materials and formatted to match TCF Canada, but are not actual exam questions.",
     "faq2q": "What can I do with the free version?",
-    "faq2a": "The free version includes the first listening set and first 2 reading sets with all questions, in both practice and exam mode. Unlimited attempts, forever free.",
+    "faq2a": "The free version gives you access to all listening + reading test sets, with {dailyQuestions} questions and {dailyExplanations} detailed explanations per day in practice mode. Free forever.",
     "faq3q": "What are the benefits of Pro?",
     "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, and Anki export. Semi-annual plan includes a {semiannualTrialDays}-day free trial, cancel anytime.",
     "faq4q": "Can you guarantee I’ll reach CLB 7+?",
     "faq4a": "No. HiTCF provides a practice environment aligned with TCF Canada to help you identify and improve weak areas. However, actual scores depend on many factors — we do not promise any exam results.",
     "faq5q": "How do I practice speaking and writing?",
-    "faq5a": "Speaking and writing sections provide real exam topics and tasks, with the option to jump to ChatGPT for AI conversation practice and essay correction — essentially a free AI tutor.",
+    "faq5a": "Speaking: built-in AI examiner conversation with pronunciation scoring, supporting full Tâche 2 and Tâche 3 simulations. Writing: AI 4-dimension scoring with sentence-by-sentence corrections. Pro members only.",
     "faq6q": "How do I request a refund?",
     "faq6a": "Full refund within 48 hours of first payment. Semi-annual subscribers can get a prorated refund within {semiannualTrialDays} days. Simply email support@hitcf.com — processed within 3 business days."
+  },
+  "welcome": {
+    "title": "Welcome, {name}",
+    "subtitle": "Your {days}-day Pro trial is now active",
+    "features": {
+      "listening": "Unlimited Listening",
+      "reading": "Unlimited Reading",
+      "speaking": "AI Speaking Practice",
+      "writing": "AI Writing Grading",
+      "vocabulary": "Vocab + Flashcards + Dictation",
+      "analytics": "CLB 7+ Readiness Tracking"
+    },
+    "featuresDesc": {
+      "listening": "42 sets with sentence-by-sentence audio",
+      "reading": "42 sets with tap-to-define vocab",
+      "speaking": "AI examiner with pronunciation scoring",
+      "writing": "4-dimension scoring + corrections",
+      "vocabulary": "Anki export + textbook vocab",
+      "analytics": "Level radar + wrong answer analysis"
+    },
+    "cta": "Start Your First Listening Set",
+    "hint": "{days}-day trial — free basic access continues after expiry"
+  },
+  "trialExpired": {
+    "title": "Your Pro Trial Has Ended",
+    "subtitle": "Thanks for trying Pro! These features are still available:",
+    "keepTitle": "You keep",
+    "lockedTitle": "Upgrade to unlock",
+    "freeListening": "5 listening questions/day",
+    "freeReading": "5 reading questions/day",
+    "freeVocab": "Basic vocabulary lookup",
+    "lockedSpeaking": "AI speaking conversation",
+    "lockedWriting": "AI writing grading",
+    "lockedExam": "Exam mode",
+    "lockedWrongBook": "Wrong answer book",
+    "lockedSpeedDrill": "Speed drill",
+    "upgrade": "Upgrade to Pro",
+    "continueFree": "Continue with free version"
+  },
+  "trialBanner": {
+    "normal": "Pro Trial · Day {currentDay} of {totalDays}",
+    "urgent": "Pro trial ends in {daysLeft} days · Some features will be locked",
+    "learnMore": "Learn more",
+    "upgrade": "Upgrade"
   },
   "quota": {
     "exceeded": {

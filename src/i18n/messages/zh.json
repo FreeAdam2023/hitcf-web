@@ -2047,11 +2047,11 @@
         },
         {
           "q": "可以随时取消吗？",
-          "a": "在定价页点击「管理订阅」进入 Stripe 客户门户一键取消。试用期内取消不扣费，已扣费用户 Pro 权限保留至当前付费周期结束。半年付到期不自动续费。"
+          "a": "在定价页点击「管理订阅」进入 Stripe 客户门户一键取消。试用期内取消不扣费，已扣费用户 Pro 权限保留至当前付费周期结束。季付和半年付到期不自动续费，无需手动取消。"
         },
         {
           "q": "支持哪些支付方式？",
-          "a": "支持 Visa、Mastercard、American Express 等主流信用卡和借记卡，通过 Stripe 安全处理（PCI DSS Level 1 认证）。"
+          "a": "支持 Visa、Mastercard、American Express 等信用卡/借记卡，以及 Apple Pay、Klarna、Affirm 等，通过 Stripe 安全处理（PCI DSS Level 1 认证）。"
         },
         {
           "q": "能保证考到 CLB 7+ 吗？",
@@ -2429,7 +2429,7 @@
     "steps": [
       {
         "title": "注册账号",
-        "desc": "邮箱一键登录，无需复杂注册"
+        "desc": "邮箱注册，验证码验证，30 秒搞定"
       },
       {
         "title": "选择题套",
@@ -2458,7 +2458,7 @@
     "svgRemaining": "剩余",
     "pricingBadge": "定价",
     "pricingTitle": "简单透明的定价",
-    "pricingSubtitle": "免费题套随时练习，订阅解锁全部内容",
+    "pricingSubtitle": "免费每天刷题，订阅解锁全部功能",
     "freeName": "免费版",
     "freeUnit": "/ 永久",
     "freeFeature1": "{totalQuestions} 道题练习",
@@ -2517,7 +2517,7 @@
       },
       {
         "q": "免费版能做什么？",
-        "a": "免费版可使用听力前 1 套、阅读前 2 套的全部题目，包含练习模式和考试模式。不限次数，永久有效。"
+        "a": "免费版可使用全部听力 + 阅读题库，每天 {dailyQuestions} 道题 + {dailyExplanations} 次深度解析，包含练习模式。永久有效。"
       },
       {
         "q": "Pro 会员有什么好处？",
@@ -2529,7 +2529,7 @@
       },
       {
         "q": "口语和写作怎么练？",
-        "a": "口语和写作提供考试话题和写作任务，支持跳转到 ChatGPT 进行 AI 模拟对话和作文批改。相当于免费的 AI 外教。"
+        "a": "口语：内置 AI 考官对话（Azure 语音评估 + 发音评分），支持 Tâche 2 和 Tâche 3 完整模拟。写作：提交作文后 AI 四维评分 + 逐句纠错。Pro 会员专享。"
       },
       {
         "q": "如何申请退款？",
@@ -2980,15 +2980,59 @@
     "faq1q": "HiTCF 是官方平台吗？",
     "faq1a": "不是。HiTCF 是独立运营的第三方练习平台，与 France Éducation international 或 IRCC 无关。练习题目来源于公开资料的整理和编辑，格式对标 TCF Canada，但不等同于考场原题。",
     "faq2q": "免费版能做什么？",
-    "faq2a": "免费版可使用听力前 1 套、阅读前 2 套的全部题目，包含练习模式和考试模式。不限次数，永久有效。",
+    "faq2a": "免费版可使用全部听力 + 阅读题库，每天 {dailyQuestions} 道题 + {dailyExplanations} 次深度解析，包含练习模式。永久有效。",
     "faq3q": "Pro 会员有什么好处？",
     "faq3a": "解锁全部 8,500+ 道题目（1,200+ 套），包含考试模式、错题本、速练模式、生词本、翻卡复习、听写练习和 Anki 导出。半年付享 {semiannualTrialDays} 天免费试用，不满意随时取消。",
     "faq4q": "能保证考到 CLB 7+ 吗？",
     "faq4a": "不能。HiTCF 提供与 TCF Canada 对标的练习环境，帮助你针对性地找到薄弱环节并提升。但实际成绩取决于多种因素，我们不承诺任何考试结果。",
     "faq5q": "口语和写作怎么练？",
-    "faq5a": "口语和写作提供考试话题和写作任务，支持跳转到 ChatGPT 进行 AI 模拟对话和作文批改。相当于免费的 AI 外教。",
+    "faq5a": "口语：内置 AI 考官对话（发音评估 + 评分），支持 Tâche 2 和 Tâche 3 完整模拟。写作：AI 四维评分 + 逐句纠错。Pro 会员专享。",
     "faq6q": "如何申请退款？",
     "faq6a": "首次付款后 48 小时内可全额退款，半年付用户 {semiannualTrialDays} 天内可按比例退款。发邮件至 support@hitcf.com 即可，3 个工作日内处理。"
+  },
+  "welcome": {
+    "title": "欢迎，{name}",
+    "subtitle": "{days} 天 Pro 全功能体验已激活",
+    "features": {
+      "listening": "无限听力练习",
+      "reading": "无限阅读练习",
+      "speaking": "AI 口语对话",
+      "writing": "AI 写作评分",
+      "vocabulary": "生词本 + 翻卡 + 听写",
+      "analytics": "CLB 7+ 准备度追踪"
+    },
+    "featuresDesc": {
+      "listening": "42 套真题 · 逐句精听",
+      "reading": "42 套真题 · 点词查义",
+      "speaking": "AI 考官 · 发音评估",
+      "writing": "四维评分 · 逐句纠错",
+      "vocabulary": "Anki 导出 · 教材词库",
+      "analytics": "等级雷达图 · 错题分析"
+    },
+    "cta": "开始第一套听力",
+    "hint": "试用期 {days} 天，到期后可继续免费使用基础功能"
+  },
+  "trialExpired": {
+    "title": "Pro 体验已结束",
+    "subtitle": "感谢你的试用！以下功能仍然可用：",
+    "keepTitle": "保留",
+    "lockedTitle": "需升级",
+    "freeListening": "每天 5 道听力",
+    "freeReading": "每天 5 道阅读",
+    "freeVocab": "基础词汇查询",
+    "lockedSpeaking": "AI 口语对话",
+    "lockedWriting": "AI 写作评分",
+    "lockedExam": "考试模式",
+    "lockedWrongBook": "错题本",
+    "lockedSpeedDrill": "速练模式",
+    "upgrade": "升级 Pro",
+    "continueFree": "继续使用免费版"
+  },
+  "trialBanner": {
+    "normal": "Pro 体验 · 第 {currentDay} 天 / 共 {totalDays} 天",
+    "urgent": "Pro 体验还剩 {daysLeft} 天 · 到期后部分功能将锁定",
+    "learnMore": "了解更多",
+    "upgrade": "升级"
   },
   "quota": {
     "exceeded": {
