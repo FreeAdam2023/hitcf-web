@@ -127,6 +127,7 @@ function ImmersiveHeader() {
   const practiceAttemptId = usePracticeStore((s) => s.attemptId);
   const examAttemptId = useExamStore((s) => s.attemptId);
   const examAnswersSize = useExamStore((s) => s.answers.size);
+  const examTotalQuestions = useExamStore((s) => s.questions.length);
   const examCurrentIndex = useExamStore((s) => s.currentIndex);
   const startedAt = usePracticeStore((s) => s.startedAt);
   const isPractice = !isExam;
@@ -202,7 +203,10 @@ function ImmersiveHeader() {
                     {isExam ? t('nav.submitExamTitle') : t('nav.exitConfirmTitle', { label })}
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                    {t('nav.exitConfirmAnswered', { answered: answersSize, total: totalQuestions })}
+                    {t('nav.exitConfirmAnswered', {
+                      answered: isExam ? examAnswersSize : answersSize,
+                      total: isExam ? examTotalQuestions : totalQuestions,
+                    })}
                     {isExam
                       ? ` ${t('nav.submitExamWarning')}`
                       : answersSize > 0 ? ` ${t('nav.exitConfirmProgress', { label })}` : ''
