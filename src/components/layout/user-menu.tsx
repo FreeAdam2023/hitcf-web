@@ -38,6 +38,13 @@ export function SubscriptionBadge({ status, plan }: { status: string | null; pla
       </Badge>
     );
   }
+  if (plan === "reverse_trial" && status === "active") {
+    return (
+      <Badge className="bg-indigo-100 text-indigo-700 hover:bg-indigo-100">
+        {t('userMenu.proTrial')}
+      </Badge>
+    );
+  }
   if (plan === "recall" && status === "active") {
     return (
       <Badge className="bg-indigo-100 text-indigo-700 hover:bg-indigo-100">
