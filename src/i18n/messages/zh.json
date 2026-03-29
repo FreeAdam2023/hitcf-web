@@ -1964,6 +1964,11 @@
     "joinWhatsApp": "加入 WhatsApp 群"
   },
   "pricing": {
+    "trial": {
+      "title": "{days} 天 Pro 全功能体验待激活",
+      "subtitle": "免费体验全部功能，无需信用卡。到期后回到免费版。",
+      "cta": "立即激活 {days} 天体验"
+    },
     "title": "8,500+ 道 TCF 练习题 + 词汇工具，四科全覆盖",
     "subtitle": "刷题 + 翻卡 + 听写 + Anki 导出，系统化备考 CLB 7+",
     "plans": {
@@ -3009,8 +3014,11 @@
       "vocabulary": "Anki 导出 · 教材词库",
       "analytics": "等级雷达图 · 错题分析"
     },
-    "cta": "开始第一套听力",
-    "hint": "试用期 {days} 天，到期后可继续免费使用基础功能"
+    "subtitleChoice": "你有一份 {days} 天 Pro 全功能体验等待激活",
+    "cta": "激活体验，开始第一套听力",
+    "activating": "激活中...",
+    "skip": "先逛逛 →",
+    "hint": "免费，无需信用卡。到期后可继续使用基础功能"
   },
   "trialExpired": {
     "title": "Pro 体验已结束",
@@ -3035,6 +3043,16 @@
     "upgrade": "升级"
   },
   "quota": {
+    "trial": {
+      "title": "你有一份 Pro 体验待激活",
+      "subtitle": "激活 {days} 天全功能体验，无需信用卡",
+      "trialFeature1": "无限听力 + 阅读刷题",
+      "trialFeature2": "AI 口语对话 + 写作评分",
+      "trialFeature3": "考试模式 + 错题本 + 速练",
+      "activate": "激活 {days} 天全功能体验",
+      "activating": "激活中...",
+      "hint": "免费体验，到期后回到每天 5 题"
+    },
     "exceeded": {
       "title": "今日免费额度已用完",
       "questionMessage": "你今天已使用 {used}/{limit} 道免费题目。",

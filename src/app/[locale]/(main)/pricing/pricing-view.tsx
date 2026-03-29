@@ -23,9 +23,11 @@ import {
 } from "@/components/ui/accordion";
 import { useAuthStore } from "@/stores/auth-store";
 import { createCheckout, getCustomerPortal } from "@/lib/api/subscriptions";
+import { activateTrial } from "@/lib/api/trial";
 import { cn } from "@/lib/utils";
 import { PRICING, formatPrice, STATS_PARAMS } from "@/lib/constants";
 import { trackEvent } from "@/lib/analytics/track";
+import { Loader2 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -69,10 +71,52 @@ const FAQ_COUNT = 7;
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
+function TrialActivationCard({ onActivated }: { onActivated: () => void }) {
+  const t = useTranslations("pricing.trial");
+  const [loading, setLoading] = useState(false);
+
+  const handleActivate = async () => {
+    setLoading(true);
+    trackEvent("pricing_activate_trial");
+    try {
+      await activateTrial();
+      onActivated();
+    } catch {
+      // ignore
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mx-auto max-w-xl rounded-xl border-2 border-indigo-200 bg-gradient-to-r from-indigo-50 to-violet-50 p-5 dark:border-indigo-800 dark:from-indigo-950/30 dark:to-violet-950/30">
+      <div className="flex items-start gap-4">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900/50">
+          <Gift className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+        </div>
+        <div className="flex-1 space-y-2">
+          <h3 className="font-semibold">{t("title", { days: PRICING.reverseTrialDays })}</h3>
+          <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
+          <Button
+            onClick={handleActivate}
+            disabled={loading}
+            size="sm"
+            className="bg-gradient-to-r from-indigo-500 to-violet-500 font-semibold hover:from-indigo-600 hover:to-violet-600"
+          >
+            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+            {t("cta", { days: PRICING.reverseTrialDays })}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function PricingView() {
   const t = useTranslations();
-  const { isAuthenticated, hasActiveSubscription } = useAuthStore();
+  const { isAuthenticated, hasActiveSubscription, user, fetchUser } = useAuthStore();
   const isSubscribed = hasActiveSubscription();
+  const trialEligible = user?.trial_eligible ?? false;
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "quarterly" | "semiannual">("semiannual");
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const activePlan = PLANS.find((p) => p.key === selectedPlan)!;
@@ -133,6 +177,11 @@ export function PricingView() {
           {t("pricing.subtitle")}
         </p>
       </div>
+
+      {/* ---- Trial activation banner (eligible users only) ---- */}
+      {trialEligible && isAuthenticated && (
+        <TrialActivationCard onActivated={fetchUser} />
+      )}
 
       {/* ---- Plan Cards ---- */}
       <div>

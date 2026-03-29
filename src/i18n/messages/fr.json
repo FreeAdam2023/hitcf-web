@@ -1955,6 +1955,11 @@
     "joinWhatsApp": "Rejoindre le groupe WhatsApp"
   },
   "pricing": {
+    "trial": {
+      "title": "Essai Pro de {days} jours en attente d'activation",
+      "subtitle": "Essayez toutes les fonctionnalités gratuitement, sans carte bancaire.",
+      "cta": "Activer l'essai de {days} jours"
+    },
     "title": "8 500+ questions d'entraînement TCF + outils de vocabulaire, les 4 sections",
     "subtitle": "Entraînement + flashcards + dictée + exportation Anki — préparation systématique pour le CLB 7+",
     "plans": {
@@ -3000,8 +3005,11 @@
       "vocabulary": "Export Anki + vocabulaire de manuels",
       "analytics": "Radar de niveaux + analyse des erreurs"
     },
-    "cta": "Commencer la première série d'écoute",
-    "hint": "Essai de {days} jours — accès gratuit de base après expiration"
+    "subtitleChoice": "Un essai Pro de {days} jours vous attend",
+    "cta": "Activer et commencer la première série",
+    "activating": "Activation...",
+    "skip": "Parcourir d'abord →",
+    "hint": "Gratuit, sans carte bancaire. Accès de base après expiration"
   },
   "trialExpired": {
     "title": "Votre essai Pro est terminé",
@@ -3026,6 +3034,16 @@
     "upgrade": "Passer à Pro"
   },
   "quota": {
+    "trial": {
+      "title": "Essai Pro en attente",
+      "subtitle": "Activez votre essai de {days} jours — sans carte bancaire",
+      "trialFeature1": "Écoute + lecture illimitées",
+      "trialFeature2": "Conversation IA + correction écrite",
+      "trialFeature3": "Mode examen + cahier d'erreurs + exercice rapide",
+      "activate": "Activer l'essai Pro de {days} jours",
+      "activating": "Activation...",
+      "hint": "Essai gratuit — retour à 5 questions/jour après"
+    },
     "exceeded": {
       "title": "Limite quotidienne atteinte",
       "questionMessage": "Vous avez utilisé vos {used}/{limit} questions gratuites pour aujourd'hui.",

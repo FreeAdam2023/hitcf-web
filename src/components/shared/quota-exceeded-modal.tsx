@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Lock, Sparkles, Check } from "lucide-react";
+import { Lock, Sparkles, Check, Loader2, Gift } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores/auth-store";
 import { createCheckout } from "@/lib/api/subscriptions";
+import { activateTrial } from "@/lib/api/trial";
 import { PRICING, formatPrice } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics/track";
@@ -63,8 +64,24 @@ export function QuotaExceededModal({
   limit,
 }: QuotaExceededModalProps) {
   const t = useTranslations();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user, fetchUser } = useAuthStore();
+  const trialEligible = user?.trial_eligible ?? false;
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [activatingTrial, setActivatingTrial] = useState(false);
+
+  const handleActivateTrial = async () => {
+    setActivatingTrial(true);
+    trackEvent("quota_modal_activate_trial");
+    try {
+      await activateTrial();
+      await fetchUser();
+      onOpenChange(false);
+    } catch {
+      // fallback
+    } finally {
+      setActivatingTrial(false);
+    }
+  };
 
   const handleSubscribe = async (plan: "monthly" | "quarterly" | "semiannual") => {
     trackEvent("quota_modal_subscribe", { plan });
@@ -87,8 +104,11 @@ export function QuotaExceededModal({
       <AlertDialogContent className="max-w-lg sm:max-w-2xl">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
-            <Lock className="h-5 w-5 text-amber-500" />
-            {t("quota.exceeded.title")}
+            {trialEligible ? (
+              <><Gift className="h-5 w-5 text-indigo-500" />{t("quota.trial.title")}</>
+            ) : (
+              <><Lock className="h-5 w-5 text-amber-500" />{t("quota.exceeded.title")}</>
+            )}
           </AlertDialogTitle>
           <AlertDialogDescription asChild>
             <div className="space-y-2">
@@ -97,13 +117,47 @@ export function QuotaExceededModal({
                   ? t("quota.exceeded.questionMessage", { used, limit })
                   : t("quota.exceeded.explanationMessage", { used, limit })}
               </span>
-              <span className="block text-xs text-muted-foreground">
-                {t("quota.exceeded.resetHint")}
-              </span>
+              {trialEligible ? (
+                <span className="block text-sm font-medium text-indigo-600 dark:text-indigo-400">
+                  {t("quota.trial.subtitle", { days: PRICING.reverseTrialDays })}
+                </span>
+              ) : (
+                <span className="block text-xs text-muted-foreground">
+                  {t("quota.exceeded.resetHint")}
+                </span>
+              )}
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
 
+        {trialEligible ? (
+          /* Trial activation CTA */
+          <div className="mt-4 space-y-4">
+            <div className="space-y-2 text-sm text-muted-foreground">
+              {["trialFeature1", "trialFeature2", "trialFeature3"] .map((key) => (
+                <div key={key} className="flex items-center gap-2">
+                  <Check className="h-4 w-4 text-indigo-500" />
+                  <span>{t(`quota.trial.${key}`)}</span>
+                </div>
+              ))}
+            </div>
+            <Button
+              onClick={handleActivateTrial}
+              disabled={activatingTrial}
+              className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 font-semibold hover:from-indigo-600 hover:to-violet-600"
+            >
+              {activatingTrial ? (
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{t("quota.trial.activating")}</>
+              ) : (
+                t("quota.trial.activate", { days: PRICING.reverseTrialDays })
+              )}
+            </Button>
+            <p className="text-center text-xs text-muted-foreground">
+              {t("quota.trial.hint")}
+            </p>
+          </div>
+        ) : (
+        <>
         {/* Pricing cards */}
         <div className="mt-2 grid gap-3 sm:grid-cols-3">
           {PLANS.map((plan) => (
@@ -208,6 +262,8 @@ export function QuotaExceededModal({
             {t("quota.exceeded.continueFree")}
           </Button>
         </div>
+        </>
+        )}
       </AlertDialogContent>
     </AlertDialog>
   );

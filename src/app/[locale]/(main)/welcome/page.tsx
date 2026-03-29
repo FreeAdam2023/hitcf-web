@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useAuthStore } from "@/stores/auth-store";
-import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { Headphones, BookOpen, Mic, PenTool, BookMarked, BarChart3, Sparkles } from "lucide-react";
+import { Headphones, BookOpen, Mic, PenTool, BookMarked, BarChart3, Sparkles, Loader2 } from "lucide-react";
 import { PRICING } from "@/lib/constants";
+import { activateTrial } from "@/lib/api/trial";
 
 const FEATURES = [
   { icon: Headphones, key: "listening" },
@@ -21,22 +21,34 @@ const FEATURES = [
 export default function WelcomePage() {
   const t = useTranslations("welcome");
   const router = useRouter();
-  const { user, isAuthenticated, fetchUser } = useAuthStore();
+  const { user, isAuthenticated, isLoading, fetchUser } = useAuthStore();
+  const [activating, setActivating] = useState(false);
 
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
 
-  // Redirect non-authenticated users to login
   useEffect(() => {
-    if (!isAuthenticated && !useAuthStore.getState().isLoading) {
+    if (!isLoading && !isAuthenticated) {
       router.push("/login");
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, isLoading, router]);
 
   if (!user) return null;
 
   const name = user.name || user.email.split("@")[0];
+
+  const handleActivate = async () => {
+    setActivating(true);
+    try {
+      await activateTrial();
+      await fetchUser(); // refresh subscription state
+      router.push("/tests");
+    } catch {
+      // Fallback: go to tests even if activation fails
+      router.push("/tests");
+    }
+  };
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
@@ -50,7 +62,7 @@ export default function WelcomePage() {
             {t("title", { name })}
           </h1>
           <p className="text-lg text-muted-foreground">
-            {t("subtitle", { days: PRICING.reverseTrialDays })}
+            {t("subtitleChoice", { days: PRICING.reverseTrialDays })}
           </p>
         </div>
 
@@ -72,14 +84,27 @@ export default function WelcomePage() {
 
         {/* CTA */}
         <div className="space-y-3">
-          <Link href="/tests">
-            <Button size="lg" className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 text-base font-semibold shadow-lg hover:from-indigo-600 hover:to-violet-600">
-              {t("cta")}
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            onClick={handleActivate}
+            disabled={activating}
+            className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 text-base font-semibold shadow-lg hover:from-indigo-600 hover:to-violet-600"
+          >
+            {activating ? (
+              <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{t("activating")}</>
+            ) : (
+              t("cta")
+            )}
+          </Button>
           <p className="text-xs text-muted-foreground">
             {t("hint", { days: PRICING.reverseTrialDays })}
           </p>
+          <Link
+            href="/tests"
+            className="inline-block text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {t("skip")}
+          </Link>
         </div>
       </div>
     </div>

@@ -1964,6 +1964,11 @@
     "joinWhatsApp": "Join WhatsApp Group"
   },
   "pricing": {
+    "trial": {
+      "title": "{days}-Day Pro Trial Waiting to Be Activated",
+      "subtitle": "Try all features free, no credit card needed. Returns to free plan after expiry.",
+      "cta": "Activate {days}-Day Trial"
+    },
     "title": "8,500+ TCF Practice Questions + Vocab Tools, All 4 Sections",
     "subtitle": "Practice + Flashcards + Dictation + Anki Export — Systematic CLB 7+ Prep",
     "plans": {
@@ -3009,8 +3014,11 @@
       "vocabulary": "Anki export + textbook vocab",
       "analytics": "Level radar + wrong answer analysis"
     },
-    "cta": "Start Your First Listening Set",
-    "hint": "{days}-day trial — free basic access continues after expiry"
+    "subtitleChoice": "You have a {days}-day Pro trial waiting to be activated",
+    "cta": "Activate & Start Your First Listening Set",
+    "activating": "Activating...",
+    "skip": "Browse first →",
+    "hint": "Free, no credit card required. Basic access continues after expiry"
   },
   "trialExpired": {
     "title": "Your Pro Trial Has Ended",
@@ -3035,6 +3043,16 @@
     "upgrade": "Upgrade"
   },
   "quota": {
+    "trial": {
+      "title": "You have a Pro trial waiting",
+      "subtitle": "Activate your {days}-day full-access trial — no credit card needed",
+      "trialFeature1": "Unlimited listening + reading practice",
+      "trialFeature2": "AI speaking conversation + writing grading",
+      "trialFeature3": "Exam mode + wrong answer book + speed drill",
+      "activate": "Activate {days}-Day Pro Trial",
+      "activating": "Activating...",
+      "hint": "Free trial — back to 5 questions/day after expiry"
+    },
     "exceeded": {
       "title": "Daily Limit Reached",
       "questionMessage": "You've used all {used}/{limit} free questions for today.",
