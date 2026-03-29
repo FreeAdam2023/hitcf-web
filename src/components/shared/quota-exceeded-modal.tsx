@@ -155,6 +155,14 @@ export function QuotaExceededModal({
             <p className="text-center text-xs text-muted-foreground">
               {t("quota.trial.hint")}
             </p>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full text-xs text-muted-foreground"
+              onClick={() => onOpenChange(false)}
+            >
+              {t("quota.exceeded.continueFree")}
+            </Button>
           </div>
         ) : (
         <>
