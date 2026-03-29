@@ -3031,6 +3031,9 @@
     "lockedWrongBook": "Cahier d'erreurs",
     "lockedSpeedDrill": "Exercice rapide",
     "upgrade": "Passer à Pro",
+    "monthly": "Mensuel",
+    "quarterly": "Trimestriel",
+    "semiannual": "Semestriel",
     "continueFree": "Continuer en version gratuite"
   },
   "trialBanner": {

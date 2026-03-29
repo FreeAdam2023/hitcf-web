@@ -2,28 +2,32 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/stores/auth-store";
 import { Button } from "@/components/ui/button";
-import { Lock, Check, X } from "lucide-react";
+import { Lock, Check, X, Loader2 } from "lucide-react";
 import { PRICING, formatPrice } from "@/lib/constants";
+import { createCheckout } from "@/lib/api/subscriptions";
 
 /** Show once when reverse_trial has expired. Dismissible. */
 export function TrialExpiredModal() {
   const t = useTranslations("trialExpired");
   const user = useAuthStore((s) => s.user);
   const sub = user?.subscription;
+  const pathname = usePathname();
   const [dismissed, setDismissed] = useState(false);
   const [shown, setShown] = useState(false);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
   useEffect(() => {
     if (!sub || sub.plan !== "reverse_trial") return;
-    if (sub.status === "active") return; // still active, don't show
-    // Trial expired — show only once ever (localStorage)
+    if (sub.status === "active") return;
+    // Don't show on pricing page (redundant)
+    if (pathname.includes("/pricing")) return;
     const key = `trial_expired_dismissed_${user?.id}`;
     if (localStorage.getItem(key)) return;
     setShown(true);
-  }, [sub, user?.id]);
+  }, [sub, user?.id, pathname]);
 
   if (!shown || dismissed) return null;
 
@@ -79,22 +83,41 @@ export function TrialExpiredModal() {
             </div>
           </div>
 
-          {/* Pricing quick view */}
-          <div className="flex justify-center gap-2 text-xs text-muted-foreground">
-            <span>{formatPrice(PRICING.monthly)}/mo</span>
-            <span>|</span>
-            <span>{formatPrice(PRICING.quarterly)}/3mo</span>
-            <span>|</span>
-            <span>{formatPrice(PRICING.semiannual)}/6mo</span>
+          {/* Direct checkout buttons */}
+          <div className="grid grid-cols-3 gap-2">
+            {([
+              { plan: "monthly" as const, price: formatPrice(PRICING.monthly), label: t("monthly") },
+              { plan: "quarterly" as const, price: formatPrice(PRICING.quarterly), label: t("quarterly") },
+              { plan: "semiannual" as const, price: formatPrice(PRICING.semiannual), label: t("semiannual") },
+            ]).map(({ plan, price, label }) => (
+              <Button
+                key={plan}
+                variant={plan === "semiannual" ? "default" : "outline"}
+                size="sm"
+                className={plan === "semiannual" ? "bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600" : ""}
+                disabled={loadingPlan !== null}
+                onClick={async () => {
+                  setLoadingPlan(plan);
+                  try {
+                    const { url } = await createCheckout(plan);
+                    window.location.href = url;
+                  } catch {
+                    window.location.href = "/pricing";
+                  }
+                }}
+              >
+                {loadingPlan === plan ? <Loader2 className="h-3 w-3 animate-spin" /> : (
+                  <div className="text-center">
+                    <div className="text-xs font-semibold">{label}</div>
+                    <div className="text-[10px] opacity-80">{price}</div>
+                  </div>
+                )}
+              </Button>
+            ))}
           </div>
 
-          {/* CTA */}
+          {/* Dismiss */}
           <div className="space-y-2">
-            <Link href="/pricing" onClick={handleDismiss}>
-              <Button className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 font-semibold hover:from-indigo-600 hover:to-violet-600">
-                {t("upgrade")}
-              </Button>
-            </Link>
             <button
               onClick={handleDismiss}
               className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"

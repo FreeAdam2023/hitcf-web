@@ -3028,6 +3028,9 @@
     "lockedWrongBook": "دفتر الأخطاء",
     "lockedSpeedDrill": "تمرين سريع",
     "upgrade": "ترقية إلى Pro",
+    "monthly": "شهري",
+    "quarterly": "فصلي",
+    "semiannual": "نصف سنوي",
     "continueFree": "الاستمرار بالنسخة المجانية"
   },
   "trialBanner": {

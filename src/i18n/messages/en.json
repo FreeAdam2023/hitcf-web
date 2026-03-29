@@ -3040,6 +3040,9 @@
     "lockedWrongBook": "Wrong answer book",
     "lockedSpeedDrill": "Speed drill",
     "upgrade": "Upgrade to Pro",
+    "monthly": "Monthly",
+    "quarterly": "Quarterly",
+    "semiannual": "Semi-annual",
     "continueFree": "Continue with free version"
   },
   "trialBanner": {
