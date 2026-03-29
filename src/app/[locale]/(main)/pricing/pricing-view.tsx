@@ -274,7 +274,9 @@ export function PricingView() {
             >
               {loadingPlan === selectedPlan
                 ? t("pricing.cta.redirecting")
-                : `${t(`pricing.plans.${activePlan.key}.trialLabel`, pp)}${t("pricing.cta.trialSuffix")}`}
+                : trialEligible
+                  ? t("pricing.cta.subscribe")
+                  : t("pricing.cta.subscribeDirect")}
             </Button>
           ) : (
             <Button
@@ -283,7 +285,7 @@ export function PricingView() {
               asChild
             >
               <Link href="/register">
-                {`${t(`pricing.plans.${activePlan.key}.trialLabel`, pp)}${t("pricing.cta.trialSuffix")}`}
+                {t("pricing.cta.registerFirst")}
               </Link>
             </Button>
           )}

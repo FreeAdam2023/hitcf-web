@@ -1993,9 +1993,12 @@
     "cta": {
       "redirecting": "جارٍ التحويل...",
       "trialSuffix": " — إلغاء في أي وقت، بدون مخاطر",
+      "subscribe": "اشترك الآن",
+      "subscribeDirect": "اشترك الآن",
+      "registerFirst": "سجّل للاشتراك",
       "manageSubscription": "إدارة الاشتراك"
     },
-    "usdNote": "جميع الأسعار بالدولار الأمريكي · الإلغاء أثناء التجربة بدون رسوم",
+    "usdNote": "جميع الأسعار بالدولار الأمريكي",
     "referralNudge": "أو ادعُ صديقًا — 30 يومًا Pro مجانًا لكلاكما",
     "trust": {
       "trial": "تجربة مجانية {monthlyTrialDays} أيام",

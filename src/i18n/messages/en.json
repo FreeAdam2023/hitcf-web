@@ -2005,9 +2005,12 @@
     "cta": {
       "redirecting": "Redirecting...",
       "trialSuffix": " — cancel anytime, risk-free",
+      "subscribe": "Subscribe Now",
+      "subscribeDirect": "Subscribe Now",
+      "registerFirst": "Sign Up to Subscribe",
       "manageSubscription": "Manage Subscription"
     },
-    "usdNote": "All prices in USD · Cancel during trial at no charge",
+    "usdNote": "All prices in USD",
     "referralNudge": "Or invite friends — both get 30 free days",
     "trust": {
       "trial": "{monthlyTrialDays}-day free trial",

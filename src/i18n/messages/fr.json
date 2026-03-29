@@ -1996,9 +1996,12 @@
     "cta": {
       "redirecting": "Redirection...",
       "trialSuffix": " — annulez à tout moment, sans risque",
+      "subscribe": "S'abonner maintenant",
+      "subscribeDirect": "S'abonner maintenant",
+      "registerFirst": "Inscription pour s'abonner",
       "manageSubscription": "Gérer l'abonnement"
     },
-    "usdNote": "Tous les prix sont en USD · Annulez pendant l'essai sans frais",
+    "usdNote": "Tous les prix sont en USD",
     "referralNudge": "Ou invitez un ami — 30 jours Pro gratuits pour chacun",
     "trust": {
       "trial": "Essai gratuit de {monthlyTrialDays} jours",
