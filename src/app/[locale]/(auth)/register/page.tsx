@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
@@ -38,7 +38,6 @@ export default function RegisterPage() {
 }
 
 function RegisterForm() {
-  const router = useRouter();
   const searchParams = useSearchParams()!;
   const t = useTranslations();
   const locale = useLocale();
