@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Headphones, BookOpen, Mic, PenTool, BookMarked, BarChart3, Sparkles, Loader2, X } from "lucide-react";
 import { PRICING } from "@/lib/constants";
 import { activateTrial } from "@/lib/api/trial";
-import { createAttempt } from "@/lib/api/attempts";
-import { listTestSets } from "@/lib/api/test-sets";
 
 const FEATURES = [
   { icon: Headphones, key: "listening" },
@@ -44,15 +42,6 @@ export function TrialWelcomeModal() {
       await activateTrial();
       await fetchUser();
       handleDismiss();
-
-      // Start first listening practice
-      const res = await listTestSets({ type: "listening", page: 1, page_size: 1 });
-      const firstTest = res.items?.[0];
-      if (firstTest) {
-        const attempt = await createAttempt({ test_set_id: firstTest.id, mode: "practice" });
-        window.location.href = `/${user?.ui_language || "zh"}/practice/${attempt.id}`;
-        return;
-      }
     } catch (err) {
       console.error("Trial activation failed:", err);
       handleDismiss();
