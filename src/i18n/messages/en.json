@@ -3564,5 +3564,59 @@
     "cta": "Start Your First Question",
     "starting": "Getting ready...",
     "skip": "Maybe later"
+  },
+  "subscriptionManage": {
+    "title": "Manage Subscription",
+    "currentPlan": "Current Plan",
+    "nextBilling": "Next billing",
+    "changePlan": "Change Plan",
+    "updatePayment": "Update Payment Method",
+    "cancelSubscription": "Cancel Subscription",
+    "planLabels": {
+      "monthly": "month",
+      "quarterly": "quarter",
+      "semiannual": "6 months"
+    },
+    "cancel": {
+      "step1": {
+        "title": "Are you sure you want to cancel?",
+        "usageStats": "You've completed {questions} questions with {accuracy}% accuracy",
+        "loseTitle": "After cancelling, you'll lose:",
+        "loseUnlimited": "Unlimited listening + reading (5/day limit)",
+        "loseSpeaking": "AI speaking conversation + pronunciation",
+        "loseWriting": "AI writing grading + corrections",
+        "loseExam": "Exam mode + wrong answer book + speed drill",
+        "loseVocab": "Full vocabulary tools",
+        "accessUntil": "Pro features remain available until {date}",
+        "keep": "Keep Subscription",
+        "continue": "Continue"
+      },
+      "step2": {
+        "title": "How about a better deal?",
+        "offer": "Semi-annual $69.90 (save 41%) = $11.65/mo",
+        "switch": "Switch to Semi-annual",
+        "noThanks": "No thanks, continue cancelling"
+      },
+      "step3": {
+        "title": "Final Confirmation",
+        "reasonLabel": "Could you tell us why?",
+        "reasons": {
+          "too_expensive": "Too expensive",
+          "not_using": "Not using it enough",
+          "found_alternative": "Found an alternative",
+          "exam_done": "Exam is done",
+          "other": "Other"
+        },
+        "detailPlaceholder": "Additional details (optional)...",
+        "warning": "After cancelling, Pro features remain available until {date}, then you'll switch to the free plan.",
+        "keep": "Keep Subscription",
+        "confirm": "Confirm Cancel"
+      },
+      "success": "Subscription cancelled. Pro features remain available until the end of your billing period."
+    },
+    "reactivate": "Reactivate",
+    "reactivated": "Subscription reactivated!",
+    "resubscribe": "Resubscribe",
+    "cancelsOn": "Cancels on {date}"
   }
 }

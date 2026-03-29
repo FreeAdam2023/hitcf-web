@@ -13,6 +13,8 @@ export interface SubscriptionInfo {
   status: string | null;
   current_period_end: string | null;
   trial_end: string | null;
+  cancel_at_period_end?: boolean;
+  user_cancelled?: boolean;
 }
 
 export interface UserResponse {

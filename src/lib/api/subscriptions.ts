@@ -27,6 +27,23 @@ export function getCustomerPortal(): Promise<{ url: string }> {
 
 export function submitCancelReason(body: {
   reason: string;
-}): Promise<{ portal_url: string }> {
-  return post<{ portal_url: string }>("/api/subscriptions/cancel-reason", body);
+}): Promise<{ status: string; current_period_end: string | null }> {
+  return post<{ status: string; current_period_end: string | null }>("/api/subscriptions/cancel-reason", body);
+}
+
+export function reactivateSubscription() {
+  return post<{ status: string }>("/api/subscriptions/reactivate");
+}
+
+export interface UsageSummary {
+  total_questions: number;
+  accuracy: number;
+  streak_days: number;
+  writing_count: number;
+  speaking_count: number;
+  vocab_count: number;
+}
+
+export function getUsageSummary() {
+  return get<UsageSummary>("/api/subscriptions/usage-summary");
 }

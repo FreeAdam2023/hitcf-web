@@ -22,7 +22,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useAuthStore } from "@/stores/auth-store";
-import { createCheckout, getCustomerPortal } from "@/lib/api/subscriptions";
+import { createCheckout } from "@/lib/api/subscriptions";
+import { SubscriptionManageModal } from "@/components/subscription/subscription-manage-modal";
 import { activateTrial } from "@/lib/api/trial";
 import { cn } from "@/lib/utils";
 import { PRICING, formatPrice, STATS_PARAMS } from "@/lib/constants";
@@ -119,6 +120,7 @@ export function PricingView() {
   const trialEligible = user?.trial_eligible ?? false;
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "quarterly" | "semiannual">("semiannual");
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [manageModalOpen, setManageModalOpen] = useState(false);
   const activePlan = PLANS.find((p) => p.key === selectedPlan)!;
 
   // Track pricing page view
@@ -152,14 +154,8 @@ export function PricingView() {
     }
   };
 
-  const handleManage = async () => {
-    setLoadingPlan("manage");
-    try {
-      const { url } = await getCustomerPortal();
-      window.location.href = url;
-    } catch {
-      setLoadingPlan(null);
-    }
+  const handleManage = () => {
+    setManageModalOpen(true);
   };
 
   return (
@@ -261,9 +257,8 @@ export function PricingView() {
               variant="outline"
               className="px-10"
               onClick={handleManage}
-              disabled={loadingPlan !== null}
             >
-              {loadingPlan === "manage" ? t("pricing.cta.redirecting") : t("pricing.cta.manageSubscription")}
+              {t("pricing.cta.manageSubscription")}
             </Button>
           ) : isAuthenticated ? (
             <Button
@@ -435,6 +430,11 @@ export function PricingView() {
         <Link href="/refund-policy" className="underline hover:text-foreground">{t("pricing.legalRefund")}</Link>
         {t("pricing.legalPeriod")}
       </p>
+
+      <SubscriptionManageModal
+        open={manageModalOpen}
+        onOpenChange={setManageModalOpen}
+      />
     </div>
   );
 }

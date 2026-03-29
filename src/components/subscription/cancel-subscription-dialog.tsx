@@ -38,10 +38,11 @@ export function CancelSubscriptionDialog({ open, onOpenChange }: Props) {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      const res = await submitCancelReason({
+      await submitCancelReason({
         reason: feedback.trim() || "未填写",
       });
-      window.location.href = res.portal_url;
+      toast.success(t("title"));
+      handleOpenChange(false);
     } catch {
       toast.error(t("error"));
       setSubmitting(false);

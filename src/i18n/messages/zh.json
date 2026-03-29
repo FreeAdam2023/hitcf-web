@@ -3559,5 +3559,59 @@
     "cta": "开始第一道题",
     "starting": "正在准备...",
     "skip": "稍后再说"
+  },
+  "subscriptionManage": {
+    "title": "管理订阅",
+    "currentPlan": "当前方案",
+    "nextBilling": "下次扣款",
+    "changePlan": "换档",
+    "updatePayment": "更新支付方式",
+    "cancelSubscription": "取消订阅",
+    "planLabels": {
+      "monthly": "月",
+      "quarterly": "季",
+      "semiannual": "半年"
+    },
+    "cancel": {
+      "step1": {
+        "title": "确定要取消吗？",
+        "usageStats": "你已做了 {questions} 道题，正确率 {accuracy}%",
+        "loseTitle": "取消后你将失去：",
+        "loseUnlimited": "无限听力 + 阅读 → 每天5题",
+        "loseSpeaking": "AI 口语对话 + 发音评估",
+        "loseWriting": "AI 写作评分 + 逐句纠错",
+        "loseExam": "考试模式 + 错题本 + 速练",
+        "loseVocab": "完整词汇工具",
+        "accessUntil": "Pro 功能在 {date} 前仍可使用",
+        "keep": "保留订阅",
+        "continue": "继续"
+      },
+      "step2": {
+        "title": "换个更实惠的方案？",
+        "offer": "半年付 $69.90（省41%）≈ $11.65/月",
+        "switch": "切换到半年付",
+        "noThanks": "不了，继续取消"
+      },
+      "step3": {
+        "title": "最后确认",
+        "reasonLabel": "可以告诉我们原因吗？",
+        "reasons": {
+          "too_expensive": "太贵了",
+          "not_using": "用得不多",
+          "found_alternative": "找到了替代品",
+          "exam_done": "考试已结束",
+          "other": "其他"
+        },
+        "detailPlaceholder": "补充说明（可选）...",
+        "warning": "取消后 Pro 功能在 {date} 前仍可使用，之后降为免费版。",
+        "keep": "保留订阅",
+        "confirm": "确认取消"
+      },
+      "success": "订阅已取消，Pro 功能在到期前仍可使用。"
+    },
+    "reactivate": "恢复订阅",
+    "reactivated": "订阅已恢复！",
+    "resubscribe": "重新订阅",
+    "cancelsOn": "将于 {date} 到期取消"
   }
 }

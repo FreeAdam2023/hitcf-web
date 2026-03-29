@@ -3564,5 +3564,59 @@
     "cta": "Commencer la première question",
     "starting": "Préparation...",
     "skip": "Plus tard"
+  },
+  "subscriptionManage": {
+    "title": "Gérer l'abonnement",
+    "currentPlan": "Forfait actuel",
+    "nextBilling": "Prochaine facturation",
+    "changePlan": "Changer de forfait",
+    "updatePayment": "Mettre à jour le paiement",
+    "cancelSubscription": "Annuler l'abonnement",
+    "planLabels": {
+      "monthly": "mois",
+      "quarterly": "trimestre",
+      "semiannual": "6 mois"
+    },
+    "cancel": {
+      "step1": {
+        "title": "Êtes-vous sûr de vouloir annuler ?",
+        "usageStats": "Vous avez complété {questions} questions avec {accuracy}% de précision",
+        "loseTitle": "Après annulation, vous perdrez :",
+        "loseUnlimited": "Écoute + lecture illimitées (limite 5/jour)",
+        "loseSpeaking": "Conversation IA + prononciation",
+        "loseWriting": "Correction IA + notes d'écriture",
+        "loseExam": "Mode examen + cahier d'erreurs + exercices rapides",
+        "loseVocab": "Outils de vocabulaire complets",
+        "accessUntil": "Les fonctionnalités Pro restent disponibles jusqu'au {date}",
+        "keep": "Garder l'abonnement",
+        "continue": "Continuer"
+      },
+      "step2": {
+        "title": "Un meilleur forfait ?",
+        "offer": "Semestriel 69,90 $ (économisez 41 %) ≈ 11,65 $/mois",
+        "switch": "Passer au semestriel",
+        "noThanks": "Non merci, continuer l'annulation"
+      },
+      "step3": {
+        "title": "Confirmation finale",
+        "reasonLabel": "Pourriez-vous nous dire pourquoi ?",
+        "reasons": {
+          "too_expensive": "Trop cher",
+          "not_using": "Je ne l'utilise pas assez",
+          "found_alternative": "J'ai trouvé une alternative",
+          "exam_done": "L'examen est terminé",
+          "other": "Autre"
+        },
+        "detailPlaceholder": "Détails supplémentaires (optionnel)...",
+        "warning": "Après annulation, les fonctionnalités Pro restent disponibles jusqu'au {date}, puis vous passerez au forfait gratuit.",
+        "keep": "Garder l'abonnement",
+        "confirm": "Confirmer l'annulation"
+      },
+      "success": "Abonnement annulé. Les fonctionnalités Pro restent disponibles jusqu'à la fin de votre période de facturation."
+    },
+    "reactivate": "Réactiver",
+    "reactivated": "Abonnement réactivé !",
+    "resubscribe": "Se réabonner",
+    "cancelsOn": "Annulation prévue le {date}"
   }
 }
