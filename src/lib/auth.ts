@@ -111,11 +111,33 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async redirect({ url, baseUrl }) {
-      // Preserve locale prefix in callback URLs
-      // If url is relative or same origin, allow it
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-      if (url.startsWith(baseUrl)) return url;
-      return baseUrl;
+      // Read locale from NEXT_LOCALE cookie (set by next-intl middleware + login/register pages)
+      let locale = "en";
+      try {
+        const c = await getCookies();
+        locale = c.get("NEXT_LOCALE")?.value || "en";
+      } catch {
+        // cookies() may fail outside route handler
+      }
+      const LOCALES = ["zh", "en", "fr", "ar"];
+      if (!LOCALES.includes(locale)) locale = "en";
+
+      // Relative URL → prepend locale if not already present
+      if (url.startsWith("/")) {
+        const hasLocale = LOCALES.some((l) => url.startsWith(`/${l}/`) || url === `/${l}`);
+        const localized = hasLocale ? url : `/${locale}${url}`;
+        return `${baseUrl}${localized}`;
+      }
+
+      // Absolute URL on same domain → ensure locale prefix
+      if (url.startsWith(baseUrl)) {
+        const path = url.slice(baseUrl.length);
+        const hasLocale = LOCALES.some((l) => path.startsWith(`/${l}/`) || path === `/${l}`);
+        if (!hasLocale) return `${baseUrl}/${locale}${path || "/tests"}`;
+        return url;
+      }
+
+      return `${baseUrl}/${locale}/tests`;
     },
     async jwt({ token, user }) {
       if (user) {
