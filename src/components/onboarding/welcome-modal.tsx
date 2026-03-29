@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Headphones, ArrowRight, Sparkles } from "lucide-react";
@@ -75,7 +76,7 @@ export function WelcomeModal() {
 
   if (!show) return null;
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="w-full max-w-md animate-in fade-in zoom-in-95 duration-300 rounded-2xl bg-background shadow-2xl overflow-hidden">
         {/* Header gradient */}
@@ -110,6 +111,7 @@ export function WelcomeModal() {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

@@ -1,7 +1,7 @@
 const DEFAULT_TIMEOUT_MS = 30_000;
 
 /** Debounced error reporter — sends client errors to backend for monitoring */
-let _errorQueue: Array<{ path: string; method: string; status: number; message: string; ts: number }> = [];
+const _errorQueue: Array<{ path: string; method: string; status: number; message: string; ts: number }> = [];
 let _flushTimer: ReturnType<typeof setTimeout> | null = null;
 
 function _reportError(path: string, method: string, status: number, message: string) {
