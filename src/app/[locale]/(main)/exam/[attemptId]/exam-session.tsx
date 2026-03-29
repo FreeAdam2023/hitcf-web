@@ -76,18 +76,22 @@ export function ExamSession() {
   const handleSoundCheck = useCallback(() => {
     setSoundChecked(true);
     try {
-      const ctx = new AudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.frequency.value = 440;
-      gain.gain.value = 0.2;
-      osc.start();
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-      osc.stop(ctx.currentTime + 0.3);
-      setTimeout(() => ctx.close(), 1000);
-    } catch { /* AudioContext unavailable */ }
+      const audio = new Audio("/api/media/sound-check");
+      audio.play().catch(() => {
+        // Fallback: simple beep if media fails
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = 440;
+        gain.gain.value = 0.2;
+        osc.start();
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+        osc.stop(ctx.currentTime + 0.3);
+        setTimeout(() => ctx.close(), 1000);
+      });
+    } catch { /* ignore */ }
     // Also unlock HTML <audio> autoplay by playing a silent data URI
     try {
       const silence = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=");

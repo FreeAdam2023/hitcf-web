@@ -973,6 +973,7 @@ export function PracticeSession() {
     ? drillAnsweredIds.size
     : new Set([...Array.from(answers.keys()), ...Array.from(previousAnswers.keys())]).size;
   const allAnswered = totalAnswered >= totalQuestions;
+  const allReviewed = openBook && reviewedIds.size >= totalQuestions;
 
   return (
     <>
@@ -1164,6 +1165,22 @@ export function PracticeSession() {
             <ChevronRight className="ml-1 h-4 w-4" />
           </Button>
         </div>
+
+        {/* All reviewed CTA */}
+        {allReviewed && (
+          <div className="rounded-lg border-2 border-indigo-200 bg-indigo-50/50 dark:border-indigo-800 dark:bg-indigo-950/30 p-4 text-center space-y-2">
+            <p className="text-sm font-medium">{t("practice.session.allReviewedTitle")}</p>
+            <p className="text-xs text-muted-foreground">{t("practice.session.allReviewedDesc")}</p>
+            <div className="flex justify-center gap-2">
+              <Button size="sm" variant="outline" onClick={handleComplete} disabled={completing}>
+                {completing ? t("common.actions.submitting") : t("practice.session.redoPractice")}
+              </Button>
+              <Button size="sm" onClick={handleComplete} disabled={completing}>
+                {t("practice.session.tryExamMode")}
+              </Button>
+            </div>
+          </div>
+        )}
 
         {/* 提示栏 */}
         <div className="flex items-center justify-center gap-4 text-[11px] text-muted-foreground/60 flex-wrap">
