@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OtpInput } from "@/components/ui/otp-input";
@@ -41,6 +41,7 @@ function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams()!;
   const t = useTranslations();
+  const locale = useLocale();
 
   const trackingMeta = useMemo(() => ({
     referrer: typeof document !== "undefined" ? document.referrer : "",
@@ -123,7 +124,7 @@ function RegisterForm() {
     setLoading(true);
 
     try {
-      await verifyAndComplete(email.trim().toLowerCase(), code.trim());
+      await verifyAndComplete(email.trim().toLowerCase(), code.trim(), locale);
 
       // Auto-login
       const result = await signIn("credentials", {

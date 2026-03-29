@@ -71,9 +71,10 @@ export function register(
 export function verifyAndComplete(
   email: string,
   code: string,
+  locale?: string,
 ): Promise<VerifyAndCompleteResponse> {
   return post<VerifyAndCompleteResponse>(
     "/api/registration/verify-and-complete",
-    { email, code },
+    { email, code, locale },
   );
 }
