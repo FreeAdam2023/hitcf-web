@@ -26,7 +26,7 @@ export function TrialBanner() {
 
   return (
     <div
-      className={`flex items-center justify-center gap-2 px-4 py-1.5 text-sm font-medium transition-colors ${
+      className={`flex items-center justify-center gap-2 px-4 py-1.5 text-sm font-medium transition-colors animate-in slide-in-from-top duration-500 ${
         urgent
           ? "bg-amber-50 text-amber-800 dark:bg-amber-950/50 dark:text-amber-200"
           : "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-200"

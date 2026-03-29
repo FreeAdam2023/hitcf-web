@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Headphones, BookOpen, Mic, PenTool, BookMarked, BarChart3, Sparkles, Loader2, X } from "lucide-react";
 import { PRICING } from "@/lib/constants";
 import { activateTrial } from "@/lib/api/trial";
+import { toast } from "sonner";
 
 const FEATURES = [
   { icon: Headphones, key: "listening" },
@@ -42,6 +43,7 @@ export function TrialWelcomeModal() {
       await activateTrial();
       await fetchUser();
       handleDismiss();
+      toast.success(t("activated"), { duration: 4000 });
     } catch (err) {
       console.error("Trial activation failed:", err);
       handleDismiss();
