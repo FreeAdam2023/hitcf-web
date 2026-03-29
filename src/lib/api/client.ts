@@ -1,5 +1,28 @@
 const DEFAULT_TIMEOUT_MS = 30_000;
 
+/** Debounced error reporter — sends client errors to backend for monitoring */
+let _errorQueue: Array<{ path: string; method: string; status: number; message: string; ts: number }> = [];
+let _flushTimer: ReturnType<typeof setTimeout> | null = null;
+
+function _reportError(path: string, method: string, status: number, message: string) {
+  if (typeof window === "undefined") return;
+  _errorQueue.push({ path, method, status, message, ts: Date.now() });
+  // Debounce: flush after 2 seconds of quiet
+  if (_flushTimer) clearTimeout(_flushTimer);
+  _flushTimer = setTimeout(_flushErrors, 2000);
+}
+
+function _flushErrors() {
+  if (_errorQueue.length === 0) return;
+  const errors = _errorQueue.splice(0, 20); // max 20 per batch
+  // Fire-and-forget POST to backend
+  fetch("/api/client-errors", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ errors, userAgent: navigator.userAgent }),
+  }).catch(() => {}); // ignore if this also fails
+}
+
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -112,11 +135,21 @@ async function request<T>(
 
     if (!res.ok) {
       const body = await res.json().catch(() => ({ detail: res.statusText }));
-      throw new ApiError(res.status, body.detail || res.statusText);
+      const err = new ApiError(res.status, body.detail || res.statusText);
+      // Report unexpected errors to backend (skip auth/quota which are handled)
+      if (res.status >= 500 || (res.status >= 400 && ![401, 403, 429].includes(res.status))) {
+        _reportError(path, options.method || "GET", res.status, err.message);
+      }
+      throw err;
     }
 
     if (res.status === 204) return undefined as T;
     return res.json();
+  } catch (e) {
+    // Report network/timeout errors
+    if (e instanceof ApiError) throw e;
+    _reportError(path, options.method || "GET", 0, e instanceof Error ? e.message : "Unknown error");
+    throw e;
   } finally {
     clearTimeout(timer);
   }

@@ -169,17 +169,29 @@ export function ExamSession() {
     if (isListening && answers.has(question.id)) return;
 
     setSubmitting(true);
-    try {
-      await submitAnswer(attemptId, {
-        question_id: question.id,
-        question_number: question.question_number,
-        selected: key,
-      });
-      setAnswer(question.id, {
-        question_id: question.id,
-        question_number: question.question_number,
-        selected: key,
-      });
+    const payload = {
+      question_id: question.id,
+      question_number: question.question_number,
+      selected: key,
+    };
+
+    // Retry up to 3 times with exponential backoff
+    let success = false;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        await submitAnswer(attemptId, payload);
+        success = true;
+        break;
+      } catch (err) {
+        console.error(`Submit attempt ${attempt + 1}/3 failed`, err);
+        if (attempt < 2) {
+          await new Promise((r) => setTimeout(r, 1000 * (attempt + 1)));
+        }
+      }
+    }
+
+    if (success) {
+      setAnswer(question.id, payload);
 
       // Listening exam mode: clear countdown and auto-advance after 800ms
       if (isListening) {
@@ -194,12 +206,10 @@ export function ExamSession() {
           }, 800);
         }
       }
-    } catch (err) {
-      console.error("Failed to submit answer", err);
+    } else {
       toast.error(t("common.errors.submitFailed"));
-    } finally {
-      setSubmitting(false);
     }
+    setSubmitting(false);
   }, [question, attemptId, submitting, setAnswer, isListening, answers, currentIndex, questions.length, goNext]);
 
   // Stable refs for keyboard handler to avoid listener churn
