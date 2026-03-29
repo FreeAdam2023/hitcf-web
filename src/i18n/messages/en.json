@@ -3044,6 +3044,8 @@
     "quarterly": "Quarterly",
     "semiannual": "Semi-annual",
     "bestValue": "Best Value",
+    "save": "Save {percent}%",
+    "viewAllPlans": "View all plans",
     "continueFree": "Continue with free version"
   },
   "trialBanner": {

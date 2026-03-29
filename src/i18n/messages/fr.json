@@ -935,6 +935,8 @@
       "quarterly": "Trimestriel",
       "semiannual": "Semestriel",
     "bestValue": "Meilleur prix",
+    "save": "Économisez {percent}%",
+    "viewAllPlans": "Voir tous les forfaits",
       "tester": "Beta Testeur",
       "trialing": "Essai",
       "member": "Membre",
@@ -3036,6 +3038,8 @@
     "quarterly": "Trimestriel",
     "semiannual": "Semestriel",
     "bestValue": "Meilleur prix",
+    "save": "Économisez {percent}%",
+    "viewAllPlans": "Voir tous les forfaits",
     "continueFree": "Continuer en version gratuite"
   },
   "trialBanner": {

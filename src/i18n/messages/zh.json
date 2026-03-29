@@ -3045,6 +3045,8 @@
     "quarterly": "季付",
     "semiannual": "半年付",
     "bestValue": "最划算",
+    "save": "省 {percent}%",
+    "viewAllPlans": "查看其他方案",
     "continueFree": "继续使用免费版"
   },
   "trialBanner": {

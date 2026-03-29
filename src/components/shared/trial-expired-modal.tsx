@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/stores/auth-store";
 // Button removed — using custom styled buttons for checkout cards
-import { Lock, Check, X, Loader2, Sparkles } from "lucide-react";
+import { Lock, Check, X, Loader2 } from "lucide-react";
 import { PRICING, formatPrice } from "@/lib/constants";
 import { createCheckout } from "@/lib/api/subscriptions";
 
@@ -83,62 +83,40 @@ export function TrialExpiredModal() {
             </div>
           </div>
 
-          {/* Direct checkout cards — mirrors quota modal style */}
-          <div className="grid grid-cols-3 gap-2">
-            {([
-              { plan: "monthly" as const, price: formatPrice(PRICING.monthly), unit: "/" + t("monthly"), label: t("monthly"), perMonth: null, save: null, popular: false },
-              { plan: "quarterly" as const, price: formatPrice(PRICING.quarterly), unit: "/" + t("quarterly"), label: t("quarterly"), perMonth: formatPrice(PRICING.quarterlyPerMonth), save: `${PRICING.quarterlySavePercent}%`, popular: false },
-              { plan: "semiannual" as const, price: formatPrice(PRICING.semiannual), unit: "/6mo", label: t("semiannual"), perMonth: formatPrice(PRICING.semiannualPerMonth), save: `${PRICING.semiannualSavePercent}%`, popular: true },
-            ]).map(({ plan, price, unit, label, perMonth, save, popular }) => (
+          {/* Single recommended plan — clean and focused */}
+          <div className="rounded-xl border-2 border-indigo-100 bg-gradient-to-b from-indigo-50/80 to-white p-4 dark:border-indigo-900 dark:from-indigo-950/30 dark:to-card">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-sm font-medium text-muted-foreground">{t("semiannual")}</div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl font-black tracking-tight">{formatPrice(PRICING.semiannual)}</span>
+                  <span className="text-xs text-muted-foreground">/ 6 mo</span>
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  ≈ {formatPrice(PRICING.semiannualPerMonth)}/mo · {t("save", { percent: PRICING.semiannualSavePercent })}
+                </div>
+              </div>
               <button
-                key={plan}
                 disabled={loadingPlan !== null}
                 onClick={async () => {
-                  setLoadingPlan(plan);
+                  setLoadingPlan("semiannual");
                   try {
-                    const { url } = await createCheckout(plan);
+                    const { url } = await createCheckout("semiannual");
                     window.location.href = url;
                   } catch {
                     window.location.href = "/pricing";
                   }
                 }}
-                className={`relative rounded-xl p-3 text-left transition-all ${
-                  popular
-                    ? "border-2 border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/30 shadow-sm"
-                    : "border bg-card hover:border-indigo-200 hover:shadow-sm"
-                } ${loadingPlan !== null ? "opacity-60" : ""}`}
+                className="rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:from-indigo-600 hover:to-violet-600 transition-all disabled:opacity-60"
               >
-                {popular && (
-                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-2.5 py-0.5 text-[9px] font-bold text-white shadow-sm">
-                    <Sparkles className="h-2.5 w-2.5" />
-                    {t("bestValue")}
-                  </div>
-                )}
-                {loadingPlan === plan ? (
-                  <Loader2 className="mx-auto h-5 w-5 animate-spin" />
-                ) : (
-                  <>
-                    <div className="text-xs font-semibold text-foreground">{label}</div>
-                    <div className="mt-1 flex items-baseline gap-0.5">
-                      <span className="text-xl font-black tracking-tight text-foreground">{price}</span>
-                      <span className="text-[10px] text-muted-foreground">{unit}</span>
-                    </div>
-                    {perMonth && (
-                      <div className="mt-0.5 text-[10px] text-muted-foreground">
-                        ≈ {perMonth}/mo{save && ` · ${save}`}
-                      </div>
-                    )}
-                    <div className={`mt-2 w-full rounded-md py-1.5 text-center text-xs font-semibold ${
-                      popular
-                        ? "bg-gradient-to-r from-indigo-500 to-violet-500 text-white"
-                        : "border text-foreground"
-                    }`}>
-                      {t("upgrade")}
-                    </div>
-                  </>
-                )}
+                {loadingPlan ? <Loader2 className="h-4 w-4 animate-spin" /> : t("upgrade")}
               </button>
-            ))}
+            </div>
+          </div>
+          <div className="text-center">
+            <a href="/pricing" onClick={() => handleDismiss()} className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2">
+              {t("viewAllPlans")}
+            </a>
           </div>
 
           {/* Dismiss */}

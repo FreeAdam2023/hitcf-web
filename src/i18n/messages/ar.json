@@ -932,6 +932,8 @@
       "quarterly": "ربع سنوي",
       "semiannual": "نصف سنوي",
     "bestValue": "أفضل قيمة",
+    "save": "وفّر {percent}%",
+    "viewAllPlans": "عرض جميع الخطط",
       "tester": "مختبر بيتا",
       "trialing": "تجريبي",
       "member": "عضو",
@@ -3033,6 +3035,8 @@
     "quarterly": "فصلي",
     "semiannual": "نصف سنوي",
     "bestValue": "أفضل قيمة",
+    "save": "وفّر {percent}%",
+    "viewAllPlans": "عرض جميع الخطط",
     "continueFree": "الاستمرار بالنسخة المجانية"
   },
   "trialBanner": {
