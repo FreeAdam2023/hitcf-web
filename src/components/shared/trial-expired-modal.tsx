@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/stores/auth-store";
-import { Button } from "@/components/ui/button";
+// Button removed — using custom styled buttons for checkout cards
 import { Lock, Check, X, Loader2 } from "lucide-react";
 import { PRICING, formatPrice } from "@/lib/constants";
 import { createCheckout } from "@/lib/api/subscriptions";
