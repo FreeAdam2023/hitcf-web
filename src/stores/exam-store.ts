@@ -8,6 +8,7 @@ interface ExamAnswer {
 }
 
 const SESSION_KEY = "hitcf_exam_answers";
+const INDEX_KEY = "hitcf_exam_index";
 
 function isValidAnswerEntry(entry: unknown): entry is [string, ExamAnswer] {
   if (!Array.isArray(entry) || entry.length !== 2) return false;
@@ -42,8 +43,29 @@ function loadAnswersFromSession(attemptId: string): Map<string, ExamAnswer> {
   }
 }
 
+function saveIndexToSession(attemptId: string, index: number) {
+  try {
+    sessionStorage.setItem(INDEX_KEY, JSON.stringify({ attemptId, index }));
+  } catch { /* ignore */ }
+}
+
+function loadIndexFromSession(attemptId: string): number {
+  try {
+    const raw = sessionStorage.getItem(INDEX_KEY);
+    if (!raw) return 0;
+    const data = JSON.parse(raw);
+    if (data.attemptId !== attemptId || typeof data.index !== "number") return 0;
+    return data.index;
+  } catch {
+    return 0;
+  }
+}
+
 function clearAnswersFromSession() {
-  try { sessionStorage.removeItem(SESSION_KEY); } catch { /* ignore */ }
+  try {
+    sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(INDEX_KEY);
+  } catch { /* ignore */ }
 }
 
 interface ExamState {
@@ -107,10 +129,12 @@ export const useExamStore = create<ExamState>((set, get) => ({
     const firstType = questions[0]?.type;
     const testType: "listening" | "reading" | null =
       firstType === "listening" ? "listening" : firstType === "reading" ? "reading" : null;
+    const savedIndex = loadIndexFromSession(attemptId);
+    const currentIndex = savedIndex >= 0 && savedIndex < questions.length ? savedIndex : 0;
     set({
       attemptId,
       questions,
-      currentIndex: 0,
+      currentIndex,
       answers,
       flaggedQuestions,
       timeLimitSeconds,
@@ -148,23 +172,28 @@ export const useExamStore = create<ExamState>((set, get) => ({
     }),
 
   goToQuestion: (index) => {
-    const { questions } = get();
+    const { questions, attemptId } = get();
     if (index >= 0 && index < questions.length) {
       set({ currentIndex: index });
+      if (attemptId) saveIndexToSession(attemptId, index);
     }
   },
 
   goNext: () => {
-    const { currentIndex, questions } = get();
+    const { currentIndex, questions, attemptId } = get();
     if (currentIndex < questions.length - 1) {
-      set({ currentIndex: currentIndex + 1 });
+      const next = currentIndex + 1;
+      set({ currentIndex: next });
+      if (attemptId) saveIndexToSession(attemptId, next);
     }
   },
 
   goPrev: () => {
-    const { currentIndex } = get();
+    const { currentIndex, attemptId } = get();
     if (currentIndex > 0) {
-      set({ currentIndex: currentIndex - 1 });
+      const prev = currentIndex - 1;
+      set({ currentIndex: prev });
+      if (attemptId) saveIndexToSession(attemptId, prev);
     }
   },
 
