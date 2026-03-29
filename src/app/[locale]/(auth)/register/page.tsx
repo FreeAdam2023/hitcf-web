@@ -132,6 +132,9 @@ function RegisterForm() {
         redirect: false,
       });
 
+      // Set locale cookie before redirect to prevent next-intl middleware override
+      document.cookie = `NEXT_LOCALE=${locale};path=/;max-age=31536000`;
+
       if (result?.error) {
         window.location.href = `/${locale}/login`;
       } else {
