@@ -9,6 +9,7 @@ import { Headphones, BookOpen, Mic, PenTool, BookMarked, BarChart3, Sparkles, Lo
 import { PRICING } from "@/lib/constants";
 import { activateTrial } from "@/lib/api/trial";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics/track";
 
 const FEATURES = [
   { icon: Headphones, key: "listening" },
@@ -31,6 +32,7 @@ export function TrialWelcomeModal() {
     const key = `trial_welcome_dismissed:${user.id}`;
     if (localStorage.getItem(key)) return;
     setShow(true);
+    trackEvent("trial_welcome_shown");
   }, [isLoading, isAuthenticated, user]);
 
   if (!show) return null;
@@ -42,6 +44,7 @@ export function TrialWelcomeModal() {
     try {
       await activateTrial();
       await fetchUser();
+      trackEvent("trial_welcome_activated");
       handleDismiss();
       toast.success(t("activated"), { duration: 4000 });
     } catch (err) {
@@ -53,6 +56,7 @@ export function TrialWelcomeModal() {
   };
 
   const handleDismiss = () => {
+    trackEvent("trial_welcome_skipped");
     if (user?.id) {
       localStorage.setItem(`trial_welcome_dismissed:${user.id}`, "1");
     }

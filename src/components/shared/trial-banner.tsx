@@ -8,6 +8,7 @@ import { Sparkles, Clock, Gift, X, Loader2 } from "lucide-react";
 import { PRICING } from "@/lib/constants";
 import { activateTrial } from "@/lib/api/trial";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics/track";
 
 export function TrialBanner() {
   const t = useTranslations("trialBanner");
@@ -24,6 +25,7 @@ export function TrialBanner() {
       try {
         await activateTrial();
         await fetchUser();
+        trackEvent("trial_banner_activated");
         toast.success(t("activatedToast"), { duration: 4000 });
       } catch {
         // ignore
@@ -33,6 +35,7 @@ export function TrialBanner() {
     };
 
     const handleDismiss = () => {
+      trackEvent("trial_banner_dismissed");
       setDismissed(true);
     };
 

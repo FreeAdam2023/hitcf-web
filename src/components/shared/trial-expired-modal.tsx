@@ -8,6 +8,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { Lock, X, Loader2, Check } from "lucide-react";
 import { PRICING, formatPrice } from "@/lib/constants";
 import { createCheckout } from "@/lib/api/subscriptions";
+import { trackEvent } from "@/lib/analytics/track";
 
 /** Show once when reverse_trial has expired. Dismissible. */
 export function TrialExpiredModal() {
@@ -27,11 +28,13 @@ export function TrialExpiredModal() {
     const key = `trial_expired_dismissed_${user?.id}`;
     if (localStorage.getItem(key)) return;
     setShown(true);
+    trackEvent("trial_expired_shown");
   }, [sub, user?.id, pathname]);
 
   if (!shown || dismissed) return null;
 
   const handleDismiss = () => {
+    trackEvent("trial_expired_dismissed");
     setDismissed(true);
     if (user?.id) {
       localStorage.setItem(`trial_expired_dismissed_${user.id}`, "1");
@@ -113,6 +116,7 @@ export function TrialExpiredModal() {
                     }`}
                     disabled={loadingPlan !== null}
                     onClick={async () => {
+                      trackEvent("trial_expired_checkout", { plan });
                       setLoadingPlan(plan);
                       try {
                         const { url } = await createCheckout(plan);
