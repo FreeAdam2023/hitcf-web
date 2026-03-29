@@ -255,7 +255,7 @@ export function PricingView() {
 
         {/* ---- CTA ---- */}
         <div className="mt-5 text-center">
-          {isSubscribed ? (
+          {isSubscribed && !trialEligible && !["reverse_trial", "recall", "referral", "tester"].includes(user?.subscription?.plan || "") ? (
             <Button
               size="lg"
               variant="outline"
