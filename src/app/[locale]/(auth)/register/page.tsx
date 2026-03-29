@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useMemo, useRef, useCallback } from "react";
+import { Suspense, useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -62,6 +62,11 @@ function RegisterForm() {
   const [turnstileToken, setTurnstileToken] = useState<string>("");
   const turnstileRef = useRef<TurnstileInstance>(null);
   const handleTurnstileSuccess = useCallback((token: string) => setTurnstileToken(token), []);
+  const [deviceFingerprint, setDeviceFingerprint] = useState<string>("");
+
+  useEffect(() => {
+    import("@thumbmarkjs/thumbmarkjs").then((m) => m.getFingerprint()).then(setDeviceFingerprint).catch(() => {});
+  }, []);
 
   const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
@@ -96,7 +101,7 @@ function RegisterForm() {
     setLoading(true);
 
     try {
-      await register(email.trim().toLowerCase(), password, trackingMeta, turnstileToken);
+      await register(email.trim().toLowerCase(), password, trackingMeta, turnstileToken, deviceFingerprint);
       setStep("verify");
     } catch (err) {
       if (err instanceof ApiError) {
