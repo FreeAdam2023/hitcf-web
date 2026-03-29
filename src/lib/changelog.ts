@@ -208,7 +208,9 @@ export function getUnreadChangelogEntries(): ChangelogEntry[] {
   if (typeof window === "undefined") return [];
   try {
     const lastRead = localStorage.getItem(STORAGE_KEY);
-    const cutoff = lastRead || getDateNDaysAgo(7);
+    // New users (no localStorage) → all read; only show entries after first visit
+    if (!lastRead) return [];
+    const cutoff = lastRead;
     return changelog.filter((e) => e.date > cutoff);
   } catch {
     return [];
