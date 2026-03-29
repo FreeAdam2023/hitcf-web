@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -26,8 +26,9 @@ function GoogleIcon() {
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams()!;
-  const callbackUrl = searchParams.get("callbackUrl") || "/tests";
   const t = useTranslations();
+  const locale = useLocale();
+  const callbackUrl = searchParams.get("callbackUrl") || `/${locale}/tests`;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,7 +44,8 @@ function LoginForm() {
 
   const handleGoogleLogin = () => {
     setGoogleLoading(true);
-    // Persist tracking params in cookies so NextAuth server-side callback can read them
+    // Persist locale + tracking params in cookies so they survive OAuth redirect
+    document.cookie = `NEXT_LOCALE=${locale};path=/;max-age=31536000`;
     const ref = searchParams.get("ref");
     const utmSource = searchParams.get("utm_source");
     const utmMedium = searchParams.get("utm_medium");

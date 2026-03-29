@@ -72,7 +72,8 @@ function RegisterForm() {
 
   const handleGoogleRegister = () => {
     setGoogleLoading(true);
-    // Persist tracking data in cookies so NextAuth server-side callback can read them
+    // Persist locale + tracking data in cookies so they survive OAuth redirect
+    document.cookie = `NEXT_LOCALE=${locale};path=/;max-age=31536000`;
     const { referral_code, utm_source, utm_medium, utm_campaign } = trackingMeta;
     if (referral_code) document.cookie = `ref=${encodeURIComponent(referral_code)};path=/;max-age=3600`;
     if (utm_source) document.cookie = `utm_source=${encodeURIComponent(utm_source)};path=/;max-age=3600`;
