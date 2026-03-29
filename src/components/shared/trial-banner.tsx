@@ -20,8 +20,8 @@ export function TrialBanner() {
 
   const totalDays = PRICING.reverseTrialDays;
   const msLeft = endDate.getTime() - now.getTime();
-  const daysLeft = Math.ceil(msLeft / (1000 * 60 * 60 * 24));
-  const currentDay = totalDays - daysLeft + 1;
+  const daysLeft = Math.min(totalDays, Math.ceil(msLeft / (1000 * 60 * 60 * 24)));
+  const currentDay = Math.max(1, totalDays - daysLeft + 1);
   const urgent = daysLeft <= 2;
 
   return (
