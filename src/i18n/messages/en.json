@@ -2086,6 +2086,11 @@
     "legalPeriod": ".",
     "perMonth": "/ mo",
     "save": "Save {percent}%",
+    "autoRenew": "Auto-renew, cancel anytime",
+    "noRenew": "No auto-renewal",
+    "feature1": "Unlimited listening + reading",
+    "feature2": "AI speaking + writing + exam mode",
+    "feature3": "Wrong answers + Anki export",
     "autoRenew": "Auto-renews, cancel anytime",
     "noAutoRenew": "One-time payment, no auto-renewal"
   },
@@ -3029,6 +3034,7 @@
   "trialExpired": {
     "title": "Your Pro Trial Has Ended",
     "subtitle": "Thanks for trying Pro! These features are still available:",
+    "subtitleShort": "Upgrade to Pro for unlimited access",
     "keepTitle": "You keep",
     "lockedTitle": "Upgrade to unlock",
     "freeListening": "5 listening questions/day",
@@ -3045,6 +3051,11 @@
     "semiannual": "Semi-annual",
     "bestValue": "Best Value",
     "save": "Save {percent}%",
+    "autoRenew": "Auto-renew, cancel anytime",
+    "noRenew": "No auto-renewal",
+    "feature1": "Unlimited listening + reading",
+    "feature2": "AI speaking + writing + exam mode",
+    "feature3": "Wrong answers + Anki export",
     "viewAllPlans": "View all plans",
     "continueFree": "Continue with free version"
   },

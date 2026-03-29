@@ -3030,6 +3030,7 @@
   "trialExpired": {
     "title": "Pro 体验已结束",
     "subtitle": "感谢你的试用！以下功能仍然可用：",
+    "subtitleShort": "升级 Pro 解锁全部功能，继续高效备考",
     "keepTitle": "保留",
     "lockedTitle": "需升级解锁",
     "freeListening": "每天 5 道听力",
@@ -3046,6 +3047,11 @@
     "semiannual": "半年付",
     "bestValue": "最划算",
     "save": "省 {percent}%",
+    "autoRenew": "自动续费，随时取消",
+    "noRenew": "到期不续费",
+    "feature1": "无限听力 + 阅读刷题",
+    "feature2": "AI 口语写作 + 考试模式",
+    "feature3": "错题本 + Anki 导出",
     "viewAllPlans": "查看其他方案",
     "continueFree": "继续使用免费版"
   },
