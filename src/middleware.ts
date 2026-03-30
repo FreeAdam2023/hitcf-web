@@ -92,8 +92,8 @@ export function middleware(request: NextRequest) {
       const redirectUrl = new URL(location, request.url);
       const redirectLocaleMatch = redirectUrl.pathname.match(/^\/(zh|en|fr|ar)(\/|$)/);
       if (redirectLocaleMatch && redirectLocaleMatch[1] !== urlLocaleMatch[1]) {
-        // intlMiddleware is trying to change the locale — block it
-        return NextResponse.rewrite(request.nextUrl);
+        // intlMiddleware is trying to change the locale — block it, serve the requested URL as-is
+        return NextResponse.next();
       }
     } catch {
       // invalid URL, let it through
