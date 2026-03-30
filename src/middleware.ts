@@ -83,7 +83,6 @@ export function middleware(request: NextRequest) {
   // 2. i18n routing (locale detection + prefix)
   // URL locale is authoritative — if the path already has a valid locale,
   // block any redirect that would change it (e.g. /zh/tests → /en/tests).
-  const LOCALES = ["zh", "en", "fr", "ar"];
   const urlLocaleMatch = pathname.match(/^\/(zh|en|fr|ar)(\/|$)/);
   const response = intlMiddleware(request);
 
