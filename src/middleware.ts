@@ -81,24 +81,7 @@ export function middleware(request: NextRequest) {
   }
 
   // 2. i18n routing (locale detection + prefix)
-  // URL locale is authoritative — if the path already has a valid locale,
-  // block any redirect that would change it (e.g. /zh/tests → /en/tests).
-  const urlLocaleMatch = pathname.match(/^\/(zh|en|fr|ar)(\/|$)/);
   const response = intlMiddleware(request);
-
-  if (urlLocaleMatch && response.headers.get("location")) {
-    const location = response.headers.get("location")!;
-    try {
-      const redirectUrl = new URL(location, request.url);
-      const redirectLocaleMatch = redirectUrl.pathname.match(/^\/(zh|en|fr|ar)(\/|$)/);
-      if (redirectLocaleMatch && redirectLocaleMatch[1] !== urlLocaleMatch[1]) {
-        // intlMiddleware is trying to change the locale — block it, serve the requested URL as-is
-        return NextResponse.next();
-      }
-    } catch {
-      // invalid URL, let it through
-    }
-  }
 
   // 3. Auth protection (skip in dev)
   if (process.env.NODE_ENV !== "development") {

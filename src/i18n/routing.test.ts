@@ -18,7 +18,7 @@ describe("i18n routing config", () => {
     expect(routing.localeCookie).toEqual({ name: "NEXT_LOCALE", maxAge: 365 * 24 * 60 * 60 });
   });
 
-  it("should disable locale detection (URL locale is authoritative)", () => {
-    expect(routing.localeDetection).toBe(false);
+  it("should enable locale detection", () => {
+    expect(routing.localeDetection).toBe(true);
   });
 });
