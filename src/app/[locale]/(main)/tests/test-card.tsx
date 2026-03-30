@@ -305,8 +305,8 @@ export function TestCard({
 
           <div className="rounded-lg bg-muted/50 p-3.5 text-xs leading-relaxed text-muted-foreground space-y-1">
             <ul className="list-disc pl-4 space-y-0.5">
-              <li><strong className="text-foreground">{t("testCard.practiceMode")}</strong>{t("testCard.practiceDesc")}</li>
-              <li><strong className="text-foreground">{t("testCard.examMode")}</strong>{t("testCard.examDesc")}</li>
+              <li><strong className="text-foreground">{t("testCard.practiceMode")}</strong>{" — "}{t("testCard.practiceDesc")}</li>
+              <li><strong className="text-foreground">{t("testCard.examMode")}</strong>{" — "}{t("testCard.examDesc")}</li>
             </ul>
           </div>
 
