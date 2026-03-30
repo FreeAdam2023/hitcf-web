@@ -168,10 +168,18 @@ export interface SentenceAnalysisGrammar {
   note: string;
 }
 
+export interface SentenceAnalysisPart {
+  role: string;
+  fr: string;
+  zh: string;
+  en: string;
+}
+
 export interface SentenceAnalysis {
   sentence: string;
   structure: string;
   structure_en: string;
+  parts?: SentenceAnalysisPart[];
   tense: string | null;
   tense_zh: string | null;
   tense_note: string | null;

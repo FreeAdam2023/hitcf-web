@@ -9,8 +9,71 @@ import { Separator } from "@/components/ui/separator";
 import { generateSentenceAnalysis, regenerateSentenceAnalysis, matchGrammarCard } from "@/lib/api/questions";
 import { useAuthStore } from "@/stores/auth-store";
 import { useVocabStore } from "@/stores/vocab-store";
-import type { GrammarCard, SentenceAnalysis } from "@/lib/api/types";
+import type { GrammarCard, SentenceAnalysis, SentenceAnalysisPart } from "@/lib/api/types";
 import type { WordSaveContext } from "./french-text";
+
+const ROLE_COLORS: Record<string, { bg: string; text: string }> = {
+  subject:     { bg: "bg-blue-100 dark:bg-blue-900/30",     text: "text-blue-700 dark:text-blue-300" },
+  verb:        { bg: "bg-red-100 dark:bg-red-900/30",       text: "text-red-700 dark:text-red-300" },
+  object:      { bg: "bg-green-100 dark:bg-green-900/30",   text: "text-green-700 dark:text-green-300" },
+  complement:  { bg: "bg-amber-100 dark:bg-amber-900/30",   text: "text-amber-700 dark:text-amber-300" },
+  adverbial:   { bg: "bg-purple-100 dark:bg-purple-900/30", text: "text-purple-700 dark:text-purple-300" },
+  connector:   { bg: "bg-cyan-100 dark:bg-cyan-900/30",     text: "text-cyan-700 dark:text-cyan-300" },
+  preposition: { bg: "bg-pink-100 dark:bg-pink-900/30",     text: "text-pink-700 dark:text-pink-300" },
+  negation:    { bg: "bg-orange-100 dark:bg-orange-900/30",  text: "text-orange-700 dark:text-orange-300" },
+  pronoun:     { bg: "bg-teal-100 dark:bg-teal-900/30",     text: "text-teal-700 dark:text-teal-300" },
+  auxiliary:   { bg: "bg-indigo-100 dark:bg-indigo-900/30",  text: "text-indigo-700 dark:text-indigo-300" },
+};
+const DEFAULT_COLOR = { bg: "bg-gray-100 dark:bg-gray-800", text: "text-gray-700 dark:text-gray-300" };
+
+function ColoredSentence({ parts }: { parts: SentenceAnalysisPart[] }) {
+  return (
+    <p className="flex flex-wrap items-end gap-x-1 gap-y-2 text-sm leading-loose">
+      {parts.map((p, i) => {
+        const c = ROLE_COLORS[p.role] || DEFAULT_COLOR;
+        return (
+          <span key={i} className="inline-flex flex-col items-center">
+            <span className={`rounded px-1.5 py-0.5 font-medium ${c.bg} ${c.text}`}>{p.fr}</span>
+            <span className={`text-[9px] leading-none mt-0.5 ${c.text} opacity-60`}>{p.role}</span>
+          </span>
+        );
+      })}
+    </p>
+  );
+}
+
+function PartsTable({ parts, locale }: { parts: SentenceAnalysisPart[]; locale: string }) {
+  return (
+    <div className="mt-2 overflow-hidden rounded-lg border text-xs">
+      <table className="w-full">
+        <thead>
+          <tr className="bg-muted/50 text-muted-foreground">
+            <th className="px-2 py-1.5 text-left font-medium w-16">Role</th>
+            <th className="px-2 py-1.5 text-left font-medium">French</th>
+            <th className="px-2 py-1.5 text-left font-medium">Translation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {parts.map((p, i) => {
+            const c = ROLE_COLORS[p.role] || DEFAULT_COLOR;
+            return (
+              <tr key={i} className="border-t border-border/50">
+                <td className="px-2 py-1.5">
+                  <span className={`inline-block rounded px-1.5 py-0.5 text-[10px] font-semibold ${c.bg} ${c.text}`}>{p.role}</span>
+                </td>
+                <td className={`px-2 py-1.5 font-medium ${c.text}`}>{p.fr}</td>
+                <td className="px-2 py-1.5 text-muted-foreground">
+                  {locale === "en" ? p.en : p.zh}
+                  {locale === "zh" && p.en && <span className="ml-1.5 text-muted-foreground/50">{p.en}</span>}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 /** Inline expandable grammar card */
 function GrammarCardInline({ name }: { name: string }) {
@@ -242,34 +305,48 @@ export function SentenceAnalysisInline({
         {data && !loading && (
           <div className="animate-in fade-in duration-300">
             <div className="space-y-3">
-              {/* Structure */}
+              {/* Structure: color-coded parts or fallback paragraph */}
               <section>
-                <h4 className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+                <h4 className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
                   {t("structure")}
                 </h4>
-                <p className="text-sm leading-relaxed">
-                  {locale === "en" ? data.structure_en : data.structure}
-                </p>
-                {locale === "zh" && data.structure_en && (
-                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{data.structure_en}</p>
+                {data.parts && data.parts.length > 0 ? (
+                  <>
+                    <ColoredSentence parts={data.parts} />
+                    <PartsTable parts={data.parts} locale={locale} />
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm leading-relaxed">
+                      {locale === "en" ? data.structure_en : data.structure}
+                    </p>
+                    {locale === "zh" && data.structure_en && (
+                      <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{data.structure_en}</p>
+                    )}
+                  </>
                 )}
               </section>
 
-              {/* Tense */}
-              {data.tense && (
+              {/* Tense + Grammar compact tags */}
+              {(data.tense || data.grammar.length > 0) && (
                 <>
                   <Separator className="opacity-50" />
                   <section>
-                    <h4 className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-                      {t("tense")}
-                    </h4>
-                    <div className="flex items-center gap-2">
-                      <GrammarCardInline name={data.tense} />
-                      {data.tense_zh && <span className="text-sm">{data.tense_zh}</span>}
+                    <div className="flex flex-wrap items-start gap-2">
+                      {data.tense && (
+                        <div className="flex items-center gap-1.5">
+                          <GrammarCardInline name={data.tense} />
+                          {data.tense_zh && <span className="text-xs text-muted-foreground">{data.tense_zh}</span>}
+                          {data.tense_note && <span className="text-xs text-muted-foreground/60">— {data.tense_note}</span>}
+                        </div>
+                      )}
+                      {data.grammar.map((g, i) => (
+                        <div key={i} className="flex items-center gap-1.5">
+                          <GrammarCardInline name={g.name} />
+                          {g.name_zh && <span className="text-xs text-muted-foreground">{g.name_zh}</span>}
+                        </div>
+                      ))}
                     </div>
-                    {data.tense_note && (
-                      <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{data.tense_note}</p>
-                    )}
                   </section>
                 </>
               )}
@@ -322,28 +399,17 @@ export function SentenceAnalysisInline({
                 </>
               )}
 
-              {/* Grammar points */}
-              {data.grammar.length > 0 && (
-                <>
-                  <Separator className="opacity-50" />
-                  <section>
-                    <h4 className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-                      {t("grammarPoints")}
-                    </h4>
-                    <div className="space-y-1.5">
-                      {data.grammar.map((g, i) => (
-                        <div key={i} className="rounded-lg border bg-card/50 px-3 py-2">
-                          <div className="flex items-center gap-2">
-                            <GrammarCardInline name={g.name} />
-                            {g.name_zh && <span className="text-xs text-foreground/80">{g.name_zh}</span>}
-                          </div>
-                          {g.rule && <p className="mt-1 font-mono text-xs text-primary/80">{g.rule}</p>}
-                          {g.note && <p className="mt-0.5 text-xs text-muted-foreground">{g.note}</p>}
-                        </div>
-                      ))}
+              {/* Grammar details (rule + note) — shown below tags if any grammar has details */}
+              {data.grammar.some((g) => g.rule || g.note) && (
+                <div className="space-y-1.5">
+                  {data.grammar.filter((g) => g.rule || g.note).map((g, i) => (
+                    <div key={i} className="rounded-lg border bg-card/50 px-3 py-2">
+                      <p className="text-xs font-medium text-foreground/80">{g.name} {g.name_zh && `— ${g.name_zh}`}</p>
+                      {g.rule && <p className="mt-0.5 font-mono text-xs text-primary/80">{g.rule}</p>}
+                      {g.note && <p className="mt-0.5 text-xs text-muted-foreground">{g.note}</p>}
                     </div>
-                  </section>
-                </>
+                  ))}
+                </div>
               )}
             </div>
           </div>
