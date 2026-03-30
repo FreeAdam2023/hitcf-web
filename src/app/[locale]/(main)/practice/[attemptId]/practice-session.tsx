@@ -456,7 +456,12 @@ export function PracticeSession() {
     used: number;
     limit: number;
   }>({ open: false, type: "question", used: 0, limit: 0 });
-  const [explanation, setExplanation] = useState<Explanation | null>(null);
+  const [explanation, _setExplanation] = useState<Explanation | null>(null);
+  const [explanationForId, setExplanationForId] = useState<string | null>(null);
+  const setExplanation = (exp: Explanation | null, qId?: string) => {
+    _setExplanation(exp);
+    setExplanationForId(exp ? (qId ?? null) : null);
+  };
   const [explanationLoading, setExplanationLoading] = useState(false);
   const [explanationError, setExplanationError] = useState(false);
   // hasImage state removed — horizontal layout now uses question.has_image directly
@@ -603,7 +608,7 @@ export function PracticeSession() {
       if (data.status === "ready" || !("status" in data) || data.status === undefined) {
         const explanationData = { ...data } as Record<string, unknown>;
         delete explanationData.status;
-        setExplanation(explanationData as unknown as Explanation);
+        setExplanation(explanationData as unknown as Explanation, questionId);
         fetchingRef.current = false;
         setExplanationLoading(false);
         return;
@@ -660,7 +665,7 @@ export function PracticeSession() {
             if (data.status === "ready") {
               const explanationData = { ...data } as Record<string, unknown>;
               delete explanationData.status;
-              setExplanation(explanationData as unknown as Explanation);
+              setExplanation(explanationData as unknown as Explanation, qId);
               fetchingRef.current = false;
               setExplanationLoading(false);
             } else if (data.status === "generating") {
@@ -750,6 +755,9 @@ export function PracticeSession() {
     };
   })();
   const currentAnswer = realAnswer ?? openBookAnswer;
+
+  // Guard: only use explanation if it belongs to the current question (prevents stale data flash on question switch)
+  const safeExplanation = explanationForId === question?.id ? explanation : null;
 
   const saveContext: WordSaveContext | undefined = question
     ? {
@@ -1091,7 +1099,7 @@ export function PracticeSession() {
           audioOnly={question.type === "listening" && question.options.every((o) => !o.text?.trim())}
           horizontal={!!question.has_image}
           saveContext={saveContext}
-          optionTranslations={(currentAnswer || openBook) ? explanation?.option_translations : undefined}
+          optionTranslations={(currentAnswer || openBook) ? safeExplanation?.option_translations : undefined}
           showEn={(currentAnswer || openBook) ? showEn : false}
           showNative={(currentAnswer || openBook) ? showNative : false}
           locale={locale}
@@ -1199,7 +1207,7 @@ export function PracticeSession() {
           <div className="animate-in fade-in slide-in-from-top-2 duration-300">
             <TranscriptBlock
               question={question}
-              explanation={explanation}
+              explanation={safeExplanation}
               showEn={showEn}
               showNative={showNative}
               onToggleNative={toggleNative}
@@ -1222,7 +1230,7 @@ export function PracticeSession() {
         {currentAnswer && (
           <div className="shrink-0 animate-in fade-in slide-in-from-top-2 duration-300 lg:hidden">
             <ExplanationPanel
-              explanation={explanation}
+              explanation={safeExplanation}
               questionId={question.id}
               defaultOpen={true}
               selectedAnswer={currentAnswer?.selected}
@@ -1292,7 +1300,7 @@ export function PracticeSession() {
         <div className="space-y-3">
           {currentAnswer ? (
             <ExplanationPanel
-              explanation={explanation}
+              explanation={safeExplanation}
               questionId={question.id}
               defaultOpen={true}
               selectedAnswer={currentAnswer?.selected}
