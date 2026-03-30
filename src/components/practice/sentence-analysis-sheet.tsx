@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Loader2, RefreshCw, Star, BookOpen, ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { generateSentenceAnalysis, regenerateSentenceAnalysis, matchGrammarCard } from "@/lib/api/questions";
+import { generateSentenceAnalysis, getSentenceAnalysisStatus, regenerateSentenceAnalysis, matchGrammarCard } from "@/lib/api/questions";
+import type { SentenceAnalysisResponse } from "@/lib/api/questions";
 import { useAuthStore } from "@/stores/auth-store";
 import { useVocabStore } from "@/stores/vocab-store";
 import type { GrammarCard, SentenceAnalysis } from "@/lib/api/types";
@@ -134,43 +135,68 @@ export function SentenceAnalysisSheet({
   const [data, setData] = useState<SentenceAnalysis | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const pollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => { if (pollTimerRef.current) clearTimeout(pollTimerRef.current); };
+  }, []);
+
+  const handleResponse = useCallback(
+    (resp: SentenceAnalysisResponse) => {
+      if (resp.status === "ready") {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { status: _s, ...ad } = resp;
+        setData(ad as SentenceAnalysis);
+        setLoading(false);
+        return;
+      }
+      if (resp.status === "generating") {
+        let count = 0;
+        const poll = () => {
+          count++;
+          if (count > 30) { setError(true); setLoading(false); return; }
+          pollTimerRef.current = setTimeout(async () => {
+            try {
+              const s = await getSentenceAnalysisStatus(questionId, sentenceIndex);
+              if (s.status === "ready") {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { status: _s2, ...ad } = s;
+                setData(ad as SentenceAnalysis);
+                setLoading(false);
+              } else if (s.status === "generating") { poll(); }
+              else { setError(true); setLoading(false); }
+            } catch { setError(true); setLoading(false); }
+          }, 2000);
+        };
+        poll();
+        return;
+      }
+      setError(true);
+      setLoading(false);
+    },
+    [questionId, sentenceIndex],
+  );
 
   const fetchAnalysis = useCallback(async () => {
     if (data && data.sentence === sentenceFr) return;
     setLoading(true);
     setError(false);
+    if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
     try {
-      const result = await generateSentenceAnalysis(
-        questionId,
-        sentenceIndex,
-        sentenceFr,
-        locale,
-      );
-      setData(result);
-    } catch {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  }, [questionId, sentenceIndex, sentenceFr, locale, data]);
+      const resp = await generateSentenceAnalysis(questionId, sentenceIndex, sentenceFr, locale);
+      handleResponse(resp);
+    } catch { setError(true); setLoading(false); }
+  }, [questionId, sentenceIndex, sentenceFr, locale, data, handleResponse]);
 
   const handleRegenerate = useCallback(async () => {
     setLoading(true);
     setError(false);
+    if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
     try {
-      const result = await regenerateSentenceAnalysis(
-        questionId,
-        sentenceIndex,
-        sentenceFr,
-        locale,
-      );
-      setData(result);
-    } catch {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  }, [questionId, sentenceIndex, sentenceFr, locale]);
+      const resp = await regenerateSentenceAnalysis(questionId, sentenceIndex, sentenceFr, locale);
+      handleResponse(resp);
+    } catch { setError(true); setLoading(false); }
+  }, [questionId, sentenceIndex, sentenceFr, locale, handleResponse]);
 
   const handleOpenChange = useCallback(
     (nextOpen: boolean) => {

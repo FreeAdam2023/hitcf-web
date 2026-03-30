@@ -6,7 +6,8 @@ import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { generateSentenceAnalysis, regenerateSentenceAnalysis, matchGrammarCard } from "@/lib/api/questions";
+import { generateSentenceAnalysis, getSentenceAnalysisStatus, regenerateSentenceAnalysis, matchGrammarCard } from "@/lib/api/questions";
+import type { SentenceAnalysisResponse } from "@/lib/api/questions";
 import { useAuthStore } from "@/stores/auth-store";
 import { useVocabStore } from "@/stores/vocab-store";
 import type { GrammarCard, SentenceAnalysis, SentenceAnalysisPart } from "@/lib/api/types";
@@ -179,37 +180,93 @@ export function SentenceAnalysisInline({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [visible, setVisible] = useState(false);
+  const pollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clean up polling on unmount
+  useEffect(() => {
+    return () => {
+      if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
+    };
+  }, []);
+
+  const handleResponse = useCallback(
+    (resp: SentenceAnalysisResponse) => {
+      if (resp.status === "ready") {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { status: _s, ...analysisData } = resp;
+        setData(analysisData as SentenceAnalysis);
+        setLoading(false);
+        return;
+      }
+      if (resp.status === "generating") {
+        // Start polling
+        let count = 0;
+        const poll = () => {
+          count++;
+          if (count > 30) {
+            setError(true);
+            setLoading(false);
+            return;
+          }
+          pollTimerRef.current = setTimeout(async () => {
+            try {
+              const status = await getSentenceAnalysisStatus(questionId, sentenceIndex);
+              if (status.status === "ready") {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { status: _s, ...ad } = status;
+                setData(ad as SentenceAnalysis);
+                setLoading(false);
+              } else if (status.status === "generating") {
+                poll();
+              } else {
+                setError(true);
+                setLoading(false);
+              }
+            } catch {
+              setError(true);
+              setLoading(false);
+            }
+          }, 2000);
+        };
+        poll();
+        return;
+      }
+      // not_started or unexpected
+      setError(true);
+      setLoading(false);
+    },
+    [questionId, sentenceIndex],
+  );
 
   const fetchAnalysis = useCallback(async () => {
     setLoading(true);
     setError(false);
+    if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
     try {
-      const result = await generateSentenceAnalysis(questionId, sentenceIndex, sentenceFr, locale);
-      setData(result);
+      const resp = await generateSentenceAnalysis(questionId, sentenceIndex, sentenceFr, locale);
+      handleResponse(resp);
     } catch {
       setError(true);
-    } finally {
       setLoading(false);
     }
-  }, [questionId, sentenceIndex, sentenceFr, locale]);
+  }, [questionId, sentenceIndex, sentenceFr, locale, handleResponse]);
 
   const handleRegenerate = useCallback(async () => {
     setLoading(true);
     setError(false);
+    if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
     try {
-      const result = await regenerateSentenceAnalysis(questionId, sentenceIndex, sentenceFr, locale);
-      setData(result);
+      const resp = await regenerateSentenceAnalysis(questionId, sentenceIndex, sentenceFr, locale);
+      handleResponse(resp);
     } catch {
       setError(true);
-    } finally {
       setLoading(false);
     }
-  }, [questionId, sentenceIndex, sentenceFr, locale]);
+  }, [questionId, sentenceIndex, sentenceFr, locale, handleResponse]);
 
   // Fetch on mount, trigger expand animation
   useEffect(() => {
     fetchAnalysis();
-    // Small delay to trigger CSS transition
     requestAnimationFrame(() => setVisible(true));
   }, [fetchAnalysis]);
 

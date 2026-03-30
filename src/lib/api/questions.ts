@@ -35,17 +35,32 @@ export function getExplanationStatus(
   return get<ExplanationResponse>(url);
 }
 
+/** Response from sentence analysis endpoints (async generation) */
+export type SentenceAnalysisResponse =
+  | ({ status: "ready" } & SentenceAnalysis)
+  | { status: "generating" }
+  | { status: "not_started" };
+
 export function generateSentenceAnalysis(
   questionId: string,
   sentenceIndex: number,
   sentenceFr: string,
   locale?: string,
-): Promise<SentenceAnalysis> {
-  return post<SentenceAnalysis>(`/api/questions/${questionId}/sentence-analysis`, {
+): Promise<SentenceAnalysisResponse> {
+  return post<SentenceAnalysisResponse>(`/api/questions/${questionId}/sentence-analysis`, {
     sentence_index: sentenceIndex,
     sentence_fr: sentenceFr,
     locale: locale || undefined,
-  }, { timeout: 90_000 });
+  }, { timeout: 15_000 });
+}
+
+export function getSentenceAnalysisStatus(
+  questionId: string,
+  sentenceIndex: number,
+): Promise<SentenceAnalysisResponse> {
+  return get<SentenceAnalysisResponse>(
+    `/api/questions/${questionId}/sentence-analysis/${sentenceIndex}`,
+  );
 }
 
 export function regenerateSentenceAnalysis(
@@ -53,12 +68,12 @@ export function regenerateSentenceAnalysis(
   sentenceIndex: number,
   sentenceFr: string,
   locale?: string,
-): Promise<SentenceAnalysis> {
-  return post<SentenceAnalysis>(`/api/questions/${questionId}/sentence-analysis/regenerate`, {
+): Promise<SentenceAnalysisResponse> {
+  return post<SentenceAnalysisResponse>(`/api/questions/${questionId}/sentence-analysis/regenerate`, {
     sentence_index: sentenceIndex,
     sentence_fr: sentenceFr,
     locale: locale || undefined,
-  }, { timeout: 90_000 });
+  }, { timeout: 15_000 });
 }
 
 export function getGrammarCards(category?: string): Promise<GrammarCard[]> {
