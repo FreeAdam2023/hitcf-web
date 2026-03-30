@@ -6,7 +6,7 @@ const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 // Suppress window.location navigation
-const locationMock = { href: "" };
+const locationMock = { href: "", pathname: "/zh/tests" };
 Object.defineProperty(window, "location", {
   value: locationMock,
   writable: true,
@@ -117,7 +117,7 @@ describe("API client - error handling", () => {
 
     await expect(get("/api/protected")).rejects.toThrow(ApiError);
     await expect(get("/api/protected")).rejects.toThrow(); // re-mock needed
-    expect(locationMock.href).toBe("/login");
+    expect(locationMock.href).toBe("/zh/login");
   });
 
   it("should throw ApiError with noRedirect on 401 without redirecting", async () => {
@@ -142,7 +142,7 @@ describe("API client - error handling", () => {
     });
 
     await expect(get("/api/premium")).rejects.toThrow(ApiError);
-    expect(locationMock.href).toBe("/pricing");
+    expect(locationMock.href).toBe("/zh/pricing");
   });
 
   it("should throw ApiError on 500", async () => {
