@@ -308,7 +308,7 @@ export function WordCard({ word: initialWord, anchorEl, clickPos, onClose, saveC
                       />
                     </button>
                   )}
-                  {data.cefr_level && (
+                  {data.cefr_level && data.cefr_level !== "null" && (
                     <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
                       {data.cefr_level}
                     </Badge>
@@ -345,35 +345,55 @@ export function WordCard({ word: initialWord, anchorEl, clickPos, onClose, saveC
               )}
 
               {/* All senses (if multiple) */}
-              {data.senses && data.senses.length > 0 ? (
-                <div className="space-y-0.5">
-                  {data.senses.map((s, i) => {
-                    const isContext = contextSense && s.zh === contextSense.zh && s.en === contextSense.en;
-                    const native = s.native || (locale === "en" ? s.en : s.zh);
-                    return (
-                      <div key={i} className="flex items-baseline gap-1.5 text-sm">
-                        <span className="text-xs text-muted-foreground">{i + 1}.</span>
-                        <span className={isContext ? "font-medium text-primary" : ""}>
-                          {native}
-                        </span>
-                        {locale !== "en" && s.en && (
-                          <span className="text-xs text-muted-foreground">{s.en}</span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
+              {(() => {
+                // Detect cards with no meaningful definition (proper nouns, place names, etc.)
+                const hasSenses = data.senses && data.senses.length > 0;
+                const meaningIsUnknown = !nativeMeaning || nativeMeaning === "未知" || nativeMeaning === "Unknown" || nativeMeaning === "null";
+                const enIsUnknown = !data.meaning_en || data.meaning_en === "Unknown" || data.meaning_en === "null";
+                const isUnlisted = !hasSenses && meaningIsUnknown && enIsUnknown;
+
+                if (isUnlisted) {
+                  return (
+                    <div className="rounded-md bg-muted/50 px-3 py-2 text-sm text-muted-foreground">
+                      <p>{t("wordCard.unlisted")}</p>
+                    </div>
+                  );
+                }
+
+                if (hasSenses) {
+                  return (
+                    <div className="space-y-0.5">
+                      {data.senses!.map((s, i) => {
+                        const isContext = contextSense && s.zh === contextSense.zh && s.en === contextSense.en;
+                        const native = s.native || (locale === "en" ? s.en : s.zh);
+                        return (
+                          <div key={i} className="flex items-baseline gap-1.5 text-sm">
+                            <span className="text-xs text-muted-foreground">{i + 1}.</span>
+                            <span className={isContext ? "font-medium text-primary" : ""}>
+                              {native}
+                            </span>
+                            {locale !== "en" && s.en && (
+                              <span className="text-xs text-muted-foreground">{s.en}</span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                }
+
                 /* Fallback: single meaning (old cards without senses) */
-                <div className="space-y-0.5">
-                  {nativeMeaning && (
-                    <p className="text-sm font-medium">{nativeMeaning}</p>
-                  )}
-                  {locale !== "en" && data.meaning_en && (
-                    <p className="text-xs text-muted-foreground">{data.meaning_en}</p>
-                  )}
-                </div>
-              )}
+                return (
+                  <div className="space-y-0.5">
+                    {nativeMeaning && (
+                      <p className="text-sm font-medium">{nativeMeaning}</p>
+                    )}
+                    {locale !== "en" && data.meaning_en && (
+                      <p className="text-xs text-muted-foreground">{data.meaning_en}</p>
+                    )}
+                  </div>
+                );
+              })()}
 
               {/* Plural form (noun) */}
               {pluralForm && (

@@ -788,6 +788,7 @@
     "unsaved": "Removed from saved",
     "autoSaved": "Looked up multiple times, auto-saved",
     "unsave": "Unsave",
+    "unlisted": "Not in dictionary — may be a proper noun, place name, or person name.",
     "regenerate": "Regenerate card",
     "familyTitle": "Word Family",
     "loadMsg1": "You've struck an unmined word vein!",
