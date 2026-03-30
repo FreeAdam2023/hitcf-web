@@ -37,7 +37,9 @@ export function LocaleProvider({ locale, children }: { locale: string; children:
   const router = useRouter();
   const pathname = usePathname()!;
 
-  // If logged-in user's ui_language doesn't match URL locale, navigate to correct one
+  // READ-ONLY sync: redirect URL to match user's saved ui_language preference.
+  // IMPORTANT: This must NEVER write to ui_language. Only user-initiated actions
+  // (locale toggle, account settings) are allowed to change ui_language in the DB.
   const userLocale = user?.ui_language;
   useEffect(() => {
     if (
@@ -45,7 +47,6 @@ export function LocaleProvider({ locale, children }: { locale: string; children:
       SUPPORTED_LOCALES.includes(userLocale as Locale) &&
       userLocale !== validLocale
     ) {
-      // pathname includes locale prefix (e.g., /zh/tests), replace it
       const pathWithoutLocale = pathname.replace(/^\/(zh|en|fr|ar)/, "") || "/";
       router.replace(`/${userLocale}${pathWithoutLocale}`);
     }
