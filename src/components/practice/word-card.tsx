@@ -201,17 +201,19 @@ export function WordCard({ word: initialWord, anchorEl, clickPos, onClose, saveC
 
   // Position using click coordinates (reliable) with anchorEl as fallback.
   const cardWidth = isVerb ? 420 : 384;
+  const cardMaxH = isVerb ? 480 : 380;
   const cardPos = useMemo(() => {
     const cx = clickPos?.x ?? anchorEl.getBoundingClientRect().left;
     const cy = clickPos?.y ?? anchorEl.getBoundingClientRect().bottom;
     let left = cx - cardWidth / 2;
     left = Math.max(8, Math.min(left, window.innerWidth - cardWidth - 8));
-    let top = cy + 8;
-    if (top + 300 > window.innerHeight) {
-      top = Math.max(8, cy - 300 - 8);
+    // Prefer below the click; if not enough room, place above
+    let top = cy + 12;
+    if (top + cardMaxH > window.innerHeight) {
+      top = Math.max(8, cy - cardMaxH - 12);
     }
     return { top, left };
-  }, [clickPos, anchorEl, cardWidth]);
+  }, [clickPos, anchorEl, cardWidth, cardMaxH]);
 
   // Clean up null-like values from backend
   const article = data?.article && data.article !== "null" ? data.article : null;
