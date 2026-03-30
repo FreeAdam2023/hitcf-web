@@ -151,8 +151,14 @@ function GrammarCardInline({ name }: { name: string }) {
                 {card.name_zh && <span className="text-muted-foreground">{card.name_zh}</span>}
                 <Badge variant="secondary" className="ml-auto text-[10px]">{card.level}</Badge>
               </div>
-              {card.rule && <p className="mt-1 font-mono text-primary/80">{card.rule}</p>}
-              {card.rule_zh && locale !== "en" && <p className="text-muted-foreground">{card.rule_zh}</p>}
+              {locale !== "en" && card.rule_zh ? (
+                <>
+                  <p className="mt-1 text-foreground/80">{card.rule_zh}</p>
+                  {card.rule && <p className="font-mono text-[10px] text-muted-foreground/60">{card.rule}</p>}
+                </>
+              ) : (
+                card.rule && <p className="mt-1 font-mono text-primary/80">{card.rule}</p>
+              )}
               <p className="mt-1.5 leading-relaxed">{locale === "en" ? card.explanation_en : card.explanation}</p>
               {card.examples.length > 0 && (
                 <div className="mt-1.5 space-y-1 border-t border-border/50 pt-1.5">
