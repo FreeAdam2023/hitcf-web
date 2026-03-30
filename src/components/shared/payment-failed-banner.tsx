@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { useTranslations } from "next-intl";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { getCustomerPortal } from "@/lib/api/subscriptions";
+import { getLocalePath } from "@/lib/utils";
 
 export function PaymentFailedBanner() {
   const t = useTranslations("paymentFailed");
@@ -21,7 +22,7 @@ export function PaymentFailedBanner() {
       window.location.href = url;
     } catch {
       // If no stripe customer, fall back to pricing
-      window.location.href = "/pricing";
+      window.location.href = getLocalePath("/pricing");
     } finally {
       setLoading(false);
     }

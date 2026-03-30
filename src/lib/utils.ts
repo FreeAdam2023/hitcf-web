@@ -27,6 +27,14 @@ export function getLatestMonth(items: { source_date: string | null }[]): string 
   return latest;
 }
 
+/** Extract current locale prefix from window.location, e.g. "/zh". Falls back to "/en". */
+export function getLocalePath(path: string): string {
+  if (typeof window === "undefined") return `/en${path}`;
+  const match = window.location.pathname.match(/^\/(zh|en|fr|ar)/);
+  const locale = match?.[1] || "en";
+  return `/${locale}${path}`;
+}
+
 /** Check if a source_date belongs to the latest (free) month. */
 export function isLatestMonth(sourceDate: string | null, latestMonth: string | null): boolean {
   if (!sourceDate || !latestMonth) return false;

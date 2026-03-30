@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Lock, Sparkles, Check, Loader2, Gift } from "lucide-react";
+import { getLocalePath } from "@/lib/utils";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -90,13 +91,13 @@ export function QuotaExceededModal({
       const { url } = await createCheckout(plan);
       window.location.href = url;
     } catch {
-      window.location.href = "/payment/error";
+      window.location.href = getLocalePath("/payment/error");
     }
   };
 
   const handleRegister = (plan: "monthly" | "quarterly" | "semiannual") => {
     trackEvent("quota_modal_register", { plan });
-    window.location.href = `/register?redirect=/pricing&plan=${plan}`;
+    window.location.href = getLocalePath(`/register?redirect=/pricing&plan=${plan}`);
   };
 
   return (

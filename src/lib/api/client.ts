@@ -1,3 +1,5 @@
+import { getLocalePath } from "@/lib/utils";
+
 const DEFAULT_TIMEOUT_MS = 30_000;
 
 /** Debounced error reporter — sends client errors to backend for monitoring */
@@ -93,7 +95,7 @@ async function request<T>(
 
     if (res.status === 401) {
       if (!extra?.noRedirect && typeof window !== "undefined") {
-        window.location.href = "/login";
+        window.location.href = getLocalePath("/login");
       }
       throw new ApiError(401, "Unauthorized");
     }
@@ -105,7 +107,7 @@ async function request<T>(
         body.detail.includes("subscription") &&
         typeof window !== "undefined"
       ) {
-        window.location.href = "/pricing";
+        window.location.href = getLocalePath("/pricing");
       }
       throw new ApiError(403, body.detail || "Forbidden");
     }

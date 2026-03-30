@@ -8,6 +8,7 @@ import { usePracticeStore } from "@/stores/practice-store";
 import { getAttempt } from "@/lib/api/attempts";
 import { ApiError } from "@/lib/api/client";
 import { getTestSetQuestions } from "@/lib/api/test-sets";
+import { getLocalePath } from "@/lib/utils";
 import { fetchDrillNav, loadDrillQuestion } from "@/lib/api/speed-drill";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
@@ -31,7 +32,7 @@ export default function PracticePage() {
       const attempt = await getAttempt(params.attemptId, { signal });
 
       if (attempt.status !== "in_progress") {
-        window.location.href = `/results/${params.attemptId}`;
+        window.location.href = getLocalePath(`/results/${params.attemptId}`);
         return;
       }
 

@@ -29,6 +29,7 @@ import { cn } from "@/lib/utils";
 import { PRICING, formatPrice, STATS_PARAMS } from "@/lib/constants";
 import { trackEvent } from "@/lib/analytics/track";
 import { AlertTriangle, Loader2 } from "lucide-react";
+import { getLocalePath } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -150,7 +151,7 @@ export function PricingView() {
       window.location.href = url;
     } catch {
       setLoadingPlan(null);
-      window.location.href = "/payment/error";
+      window.location.href = getLocalePath("/payment/error");
     }
   };
 
@@ -268,7 +269,7 @@ export function PricingView() {
                       const { url } = await getCustomerPortal();
                       window.location.href = url;
                     } catch {
-                      window.location.href = "/payment/error";
+                      window.location.href = getLocalePath("/payment/error");
                     }
                   }}
                 >

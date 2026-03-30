@@ -9,6 +9,7 @@ import { Lock, X, Loader2, Check } from "lucide-react";
 import { PRICING, formatPrice } from "@/lib/constants";
 import { createCheckout } from "@/lib/api/subscriptions";
 import { trackEvent } from "@/lib/analytics/track";
+import { getLocalePath } from "@/lib/utils";
 
 /** Show once when reverse_trial has expired. Dismissible. */
 export function TrialExpiredModal() {
@@ -122,7 +123,7 @@ export function TrialExpiredModal() {
                         const { url } = await createCheckout(plan);
                         window.location.href = url;
                       } catch {
-                        window.location.href = "/pricing";
+                        window.location.href = getLocalePath("/pricing");
                       }
                     }}
                   >

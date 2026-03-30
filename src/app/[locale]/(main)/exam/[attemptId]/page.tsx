@@ -8,6 +8,7 @@ import { useExamStore } from "@/stores/exam-store";
 import { getAttempt, getMockExamQuestions } from "@/lib/api/attempts";
 import { ApiError } from "@/lib/api/client";
 import { getTestSet, getTestSetQuestions } from "@/lib/api/test-sets";
+import { getLocalePath } from "@/lib/utils";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
 import { ExamSession } from "./exam-session";
@@ -29,7 +30,7 @@ export default function ExamPage() {
       const attempt = await getAttempt(params.attemptId, { signal });
 
       if (attempt.status === "completed") {
-        window.location.href = `/results/${params.attemptId}`;
+        window.location.href = getLocalePath(`/results/${params.attemptId}`);
         return;
       }
 
