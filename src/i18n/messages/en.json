@@ -106,6 +106,7 @@
     "proGift": "Pro Gift",
     "trial": "Trial",
     "free": "Free User",
+    "pastDue": "Payment Failed",
     "login": "Log In",
     "userMenuLabel": "User menu",
     "defaultName": "User",
@@ -3072,6 +3073,11 @@
     "feature3": "Wrong answers + Anki export",
     "viewAllPlans": "View all plans",
     "continueFree": "Continue with free version"
+  },
+  "paymentFailed": {
+    "banner": "Your payment failed. Please update your payment method to restore access.",
+    "updatePayment": "Update Payment",
+    "pricingMessage": "Your last payment could not be processed. Update your payment method to continue using Pro features."
   },
   "trialBanner": {
     "pending": "You have a {days}-day Pro trial waiting",

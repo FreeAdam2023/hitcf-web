@@ -106,6 +106,7 @@
     "proGift": "Pro Offert",
     "trial": "Essai",
     "free": "Utilisateur gratuit",
+    "pastDue": "Paiement échoué",
     "login": "Se connecter",
     "userMenuLabel": "Menu utilisateur",
     "defaultName": "Utilisateur",
@@ -3072,6 +3073,11 @@
     "feature3": "Cahier erreurs + export Anki",
     "viewAllPlans": "Voir tous les forfaits",
     "continueFree": "Continuer en version gratuite"
+  },
+  "paymentFailed": {
+    "banner": "Votre paiement a échoué. Veuillez mettre à jour votre moyen de paiement.",
+    "updatePayment": "Mettre à jour le paiement",
+    "pricingMessage": "Votre dernier paiement n'a pas pu être traité. Mettez à jour votre moyen de paiement pour continuer à utiliser les fonctionnalités Pro."
   },
   "trialBanner": {
     "pending": "Un essai Pro de {days} jours vous attend",

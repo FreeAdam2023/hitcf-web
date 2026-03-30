@@ -106,6 +106,7 @@
     "proGift": "Pro 奖励",
     "trial": "试用中",
     "free": "免费用户",
+    "pastDue": "支付失败",
     "login": "登录",
     "userMenuLabel": "用户菜单",
     "defaultName": "用户",
@@ -3067,6 +3068,11 @@
     "feature3": "错题本 + Anki 导出",
     "viewAllPlans": "查看其他方案",
     "continueFree": "继续使用免费版"
+  },
+  "paymentFailed": {
+    "banner": "您的付款失败，请更新支付方式以恢复 Pro 功能。",
+    "updatePayment": "更新支付方式",
+    "pricingMessage": "上次扣款未成功，请更新支付方式以继续使用 Pro 功能。"
   },
   "trialBanner": {
     "pending": "你有一份 {days} 天 Pro 体验待激活",

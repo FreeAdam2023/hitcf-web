@@ -22,13 +22,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useAuthStore } from "@/stores/auth-store";
-import { createCheckout } from "@/lib/api/subscriptions";
+import { createCheckout, getCustomerPortal } from "@/lib/api/subscriptions";
 import { SubscriptionManageModal } from "@/components/subscription/subscription-manage-modal";
 import { activateTrial } from "@/lib/api/trial";
 import { cn } from "@/lib/utils";
 import { PRICING, formatPrice, STATS_PARAMS } from "@/lib/constants";
 import { trackEvent } from "@/lib/analytics/track";
-import { Loader2 } from "lucide-react";
+import { AlertTriangle, Loader2 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -251,7 +251,32 @@ export function PricingView() {
 
         {/* ---- CTA ---- */}
         <div className="mt-5 text-center">
-          {isSubscribed && !trialEligible && !["reverse_trial", "recall", "referral", "tester"].includes(user?.subscription?.plan || "") ? (
+          {user?.subscription?.status === "past_due" ? (
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 rounded-lg bg-red-50 px-4 py-2 text-sm font-medium text-red-700 dark:bg-red-950/50 dark:text-red-200">
+                <AlertTriangle className="h-4 w-4" />
+                {t("paymentFailed.pricingMessage")}
+              </div>
+              <div>
+                <Button
+                  size="lg"
+                  className="bg-red-600 hover:bg-red-700 px-10"
+                  disabled={loadingPlan !== null}
+                  onClick={async () => {
+                    setLoadingPlan("portal");
+                    try {
+                      const { url } = await getCustomerPortal();
+                      window.location.href = url;
+                    } catch {
+                      window.location.href = "/payment/error";
+                    }
+                  }}
+                >
+                  {loadingPlan === "portal" ? t("pricing.cta.redirecting") : t("paymentFailed.updatePayment")}
+                </Button>
+              </div>
+            </div>
+          ) : isSubscribed && !trialEligible && !["reverse_trial", "recall", "referral", "tester"].includes(user?.subscription?.plan || "") ? (
             <Button
               size="lg"
               variant="outline"

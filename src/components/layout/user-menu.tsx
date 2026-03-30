@@ -73,6 +73,13 @@ export function SubscriptionBadge({ status, plan }: { status: string | null; pla
       </Badge>
     );
   }
+  if (status === "past_due") {
+    return (
+      <Badge className="bg-red-100 text-red-700 hover:bg-red-100">
+        {t('userMenu.pastDue')}
+      </Badge>
+    );
+  }
   return (
     <Badge variant="secondary">{t('userMenu.free')}</Badge>
   );
