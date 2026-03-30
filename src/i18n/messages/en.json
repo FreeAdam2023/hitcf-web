@@ -814,7 +814,8 @@
     "saved": "Saved to vocabulary",
     "unsaved": "Removed from vocabulary",
     "noGrammarCard": "No grammar card available",
-    "regenerate": "Regenerate analysis"
+    "regenerate": "Regenerate analysis",
+    "learnMore": "Learn more"
   },
   "exam": {
     "session": {

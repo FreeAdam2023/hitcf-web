@@ -814,7 +814,8 @@
     "saved": "已收藏到词汇池",
     "unsaved": "已取消收藏",
     "noGrammarCard": "暂无语法卡片",
-    "regenerate": "重新生成解析"
+    "regenerate": "重新生成解析",
+    "learnMore": "查看详情"
   },
   "exam": {
     "session": {

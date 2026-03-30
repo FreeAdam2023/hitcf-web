@@ -814,7 +814,8 @@
     "saved": "Ajouté au vocabulaire",
     "unsaved": "Retiré du vocabulaire",
     "noGrammarCard": "Pas de fiche grammaire disponible",
-    "regenerate": "Régénérer l'analyse"
+    "regenerate": "Régénérer l'analyse",
+    "learnMore": "En savoir plus"
   },
   "exam": {
     "session": {

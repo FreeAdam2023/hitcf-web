@@ -10,7 +10,9 @@ import { generateSentenceAnalysis, getSentenceAnalysisStatus, regenerateSentence
 import type { SentenceAnalysisResponse } from "@/lib/api/questions";
 import { useAuthStore } from "@/stores/auth-store";
 import { useVocabStore } from "@/stores/vocab-store";
+import { Link } from "@/i18n/navigation";
 import type { GrammarCard, SentenceAnalysis, SentenceAnalysisPart } from "@/lib/api/types";
+import { getReferenceSluForGrammarPoint } from "@/lib/grammar-reference-map";
 import type { WordSaveContext } from "./french-text";
 
 const ROLE_COLORS: Record<string, { bg: string; text: string }> = {
@@ -27,7 +29,27 @@ const ROLE_COLORS: Record<string, { bg: string; text: string }> = {
 };
 const DEFAULT_COLOR = { bg: "bg-gray-100 dark:bg-gray-800", text: "text-gray-700 dark:text-gray-300" };
 
-function ColoredSentence({ parts }: { parts: SentenceAnalysisPart[] }) {
+const ROLE_LABELS: Record<string, Record<string, string>> = {
+  subject:     { zh: "主语", en: "Subject", fr: "Sujet", ar: "فاعل" },
+  verb:        { zh: "谓语", en: "Verb", fr: "Verbe", ar: "فعل" },
+  object:      { zh: "宾语", en: "Object", fr: "Objet", ar: "مفعول" },
+  complement:  { zh: "补语", en: "Complement", fr: "Attribut", ar: "تكملة" },
+  adverbial:   { zh: "状语", en: "Adverbial", fr: "Adverbe", ar: "ظرف" },
+  connector:   { zh: "连词", en: "Connector", fr: "Connecteur", ar: "رابط" },
+  preposition: { zh: "介词短语", en: "Prep. phrase", fr: "Prép.", ar: "حرف جر" },
+  negation:    { zh: "否定", en: "Negation", fr: "Négation", ar: "نفي" },
+  pronoun:     { zh: "代词", en: "Pronoun", fr: "Pronom", ar: "ضمير" },
+  auxiliary:   { zh: "助动词", en: "Auxiliary", fr: "Auxiliaire", ar: "فعل مساعد" },
+  _header:     { zh: "成分", en: "Role", fr: "Rôle", ar: "دور" },
+};
+
+function getRoleLabel(role: string, locale: string): string {
+  const labels = ROLE_LABELS[role];
+  if (!labels) return role;
+  return labels[locale] || labels["en"] || role;
+}
+
+function ColoredSentence({ parts, locale }: { parts: SentenceAnalysisPart[]; locale: string }) {
   return (
     <p className="flex flex-wrap items-end gap-x-1 gap-y-2 text-sm leading-loose">
       {parts.map((p, i) => {
@@ -35,7 +57,7 @@ function ColoredSentence({ parts }: { parts: SentenceAnalysisPart[] }) {
         return (
           <span key={i} className="inline-flex flex-col items-center">
             <span className={`rounded px-1.5 py-0.5 font-medium ${c.bg} ${c.text}`}>{p.fr}</span>
-            <span className={`text-[9px] leading-none mt-0.5 ${c.text} opacity-60`}>{p.role}</span>
+            <span className={`text-[9px] leading-none mt-0.5 ${c.text} opacity-60`}>{getRoleLabel(p.role, locale)}</span>
           </span>
         );
       })}
@@ -49,9 +71,9 @@ function PartsTable({ parts, locale }: { parts: SentenceAnalysisPart[]; locale: 
       <table className="w-full">
         <thead>
           <tr className="bg-muted/50 text-muted-foreground">
-            <th className="px-2 py-1.5 text-left font-medium w-16">Role</th>
+            <th className="px-2 py-1.5 text-left font-medium w-16">{getRoleLabel("_header", locale)}</th>
             <th className="px-2 py-1.5 text-left font-medium">French</th>
-            <th className="px-2 py-1.5 text-left font-medium">Translation</th>
+            <th className="px-2 py-1.5 text-left font-medium">{locale === "zh" ? "翻译" : locale === "fr" ? "Traduction" : "Translation"}</th>
           </tr>
         </thead>
         <tbody>
@@ -60,7 +82,7 @@ function PartsTable({ parts, locale }: { parts: SentenceAnalysisPart[]; locale: 
             return (
               <tr key={i} className="border-t border-border/50">
                 <td className="px-2 py-1.5">
-                  <span className={`inline-block rounded px-1.5 py-0.5 text-[10px] font-semibold ${c.bg} ${c.text}`}>{p.role}</span>
+                  <span className={`inline-block rounded px-1.5 py-0.5 text-[10px] font-semibold ${c.bg} ${c.text}`}>{getRoleLabel(p.role, locale)}</span>
                 </td>
                 <td className={`px-2 py-1.5 font-medium ${c.text}`}>{p.fr}</td>
                 <td className="px-2 py-1.5 text-muted-foreground">
@@ -147,6 +169,20 @@ function GrammarCardInline({ name }: { name: string }) {
               {card.irregulars && (
                 <p className="mt-1.5 border-t border-border/50 pt-1.5 text-muted-foreground">{card.irregulars}</p>
               )}
+              {(() => {
+                const refSlug = getReferenceSluForGrammarPoint(card.slug);
+                if (!refSlug) return null;
+                return (
+                  <Link
+                    href={`/reference/${refSlug}`}
+                    target="_blank"
+                    className="mt-1.5 inline-flex items-center gap-1 border-t border-border/50 pt-1.5 text-primary hover:underline"
+                  >
+                    {t("learnMore")}
+                    <ArrowRight className="h-3 w-3" />
+                  </Link>
+                );
+              })()}
             </div>
           )}
         </div>
@@ -173,7 +209,12 @@ export function SentenceAnalysisInline({
   const t = useTranslations("sentenceAnalysis");
   const locale = useLocale();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const { isSaved, addWord, removeWord, isLoaded: vocabLoaded } = useVocabStore();
+  const { isSaved, addWord, removeWord, isLoaded: vocabLoaded, fetchSavedWords } = useVocabStore();
+
+  // Ensure vocab store is loaded so collocation save buttons appear
+  useEffect(() => {
+    if (isAuthenticated && !vocabLoaded) fetchSavedWords();
+  }, [isAuthenticated, vocabLoaded, fetchSavedWords]);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [data, setData] = useState<SentenceAnalysis | null>(null);
@@ -369,7 +410,7 @@ export function SentenceAnalysisInline({
                 </h4>
                 {data.parts && data.parts.length > 0 ? (
                   <>
-                    <ColoredSentence parts={data.parts} />
+                    <ColoredSentence parts={data.parts} locale={locale} />
                     <PartsTable parts={data.parts} locale={locale} />
                   </>
                 ) : (
