@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen, Star, Eye, EyeOff, Lightbulb, BookCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
@@ -334,6 +335,7 @@ export function PracticeSession() {
   const router = useRouter();
   const {
     attemptId,
+    testSetId,
     testSetName,
     testSetType,
     questions,
@@ -352,6 +354,7 @@ export function PracticeSession() {
     loadedQuestions,
     setDrillQuestion,
     setDrillNavPage,
+    setTestSetId,
   } = usePracticeStore();
 
   const totalQuestions = drillMode ? drillTotal : questions.length;
@@ -382,6 +385,8 @@ export function PracticeSession() {
     serverLoadedRef.current = true;
     import("@/lib/api/attempts").then(({ getAttempt }) =>
       getAttempt(attemptId).then((att) => {
+        // Store test_set_id for navigation (redo practice / exam mode)
+        if (att.test_set_id) setTestSetId(att.test_set_id);
         // If localStorage had no open_book but server does, use server
         if (att.open_book != null) {
           const localOb = localStorage.getItem(`openBook:${attemptId}`);
@@ -762,7 +767,7 @@ export function PracticeSession() {
   const saveContext: WordSaveContext | undefined = question
     ? {
         sourceType: testSetType ?? question.type,
-        testSetId: undefined, // not available in practice store
+        testSetId: testSetId ?? undefined,
         testSetName: testSetName ?? undefined,
         questionId: question.id,
         questionNumber: question.question_number,
@@ -974,6 +979,14 @@ export function PracticeSession() {
     return () => window.removeEventListener("keydown", handler);
   }, [questions, currentIndex, previousAnswers, totalQuestions, openBook, toggleReviewed]);
 
+  const [showAllReviewedDialog, setShowAllReviewedDialog] = useState(false);
+  const allReviewed = openBook && reviewedIds.size >= totalQuestions;
+
+  // Auto-show dialog when all reviewed
+  useEffect(() => {
+    if (allReviewed) setShowAllReviewedDialog(true);
+  }, [allReviewed]);
+
   if (!question || !attemptId) return <LoadingSpinner />;
 
   const isLast = currentIndex === totalQuestions - 1;
@@ -981,7 +994,6 @@ export function PracticeSession() {
     ? drillAnsweredIds.size
     : new Set([...Array.from(answers.keys()), ...Array.from(previousAnswers.keys())]).size;
   const allAnswered = totalAnswered >= totalQuestions;
-  const allReviewed = openBook && reviewedIds.size >= totalQuestions;
 
   return (
     <>
@@ -1174,21 +1186,45 @@ export function PracticeSession() {
           </Button>
         </div>
 
-        {/* All reviewed CTA */}
+        {/* All reviewed — show banner + dialog */}
         {allReviewed && (
           <div className="rounded-lg border-2 border-indigo-200 bg-indigo-50/50 dark:border-indigo-800 dark:bg-indigo-950/30 p-4 text-center space-y-2">
             <p className="text-sm font-medium">{t("practice.session.allReviewedTitle")}</p>
             <p className="text-xs text-muted-foreground">{t("practice.session.allReviewedDesc")}</p>
-            <div className="flex justify-center gap-2">
-              <Button size="sm" variant="outline" onClick={handleComplete} disabled={completing}>
-                {completing ? t("common.actions.submitting") : t("practice.session.redoPractice")}
-              </Button>
-              <Button size="sm" onClick={handleComplete} disabled={completing}>
-                {t("practice.session.tryExamMode")}
-              </Button>
-            </div>
+            <Button size="sm" onClick={() => setShowAllReviewedDialog(true)}>
+              {t("practice.session.chooseNextStep")}
+            </Button>
           </div>
         )}
+
+        {/* All-reviewed dialog */}
+        <Dialog open={showAllReviewedDialog} onOpenChange={setShowAllReviewedDialog}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>{t("practice.session.allReviewedTitle")}</DialogTitle>
+              <DialogDescription>{t("practice.session.allReviewedDesc")}</DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="flex-col gap-2 sm:flex-row">
+              {testSetId && (
+                <Button
+                  variant="outline"
+                  onClick={() => router.push(`/tests/${testSetId}`)}
+                  className="w-full sm:w-auto"
+                >
+                  {t("practice.session.redoPractice")}
+                </Button>
+              )}
+              {testSetId && (
+                <Button
+                  onClick={() => router.push(`/tests/${testSetId}`)}
+                  className="w-full sm:w-auto"
+                >
+                  {t("practice.session.tryExamMode")}
+                </Button>
+              )}
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {/* 提示栏 */}
         <div className="flex items-center justify-center gap-4 text-[11px] text-muted-foreground/60 flex-wrap">

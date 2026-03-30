@@ -6,6 +6,7 @@ export const NAV_PAGE_SIZE = 50;
 
 interface PracticeState {
   attemptId: string | null;
+  testSetId: string | null;
   testSetName: string | null;
   testSetType: string | null;
   startedAt: string | null;
@@ -22,6 +23,7 @@ interface PracticeState {
   drillNavLoadedPages: Set<number>;         // 1-based backend page numbers loaded
   loadedQuestions: Map<string, QuestionBrief>; // cache: id → full question
 
+  setTestSetId: (id: string) => void;
   init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null, startedAt?: string | null, existingAnswers?: AnswerResponse[], previousAnswers?: AnswerResponse[], serverIndex?: number | null) => void;
   initDrill: (attemptId: string, total: number, navPage: number, questionIds: string[], answeredIds: string[], firstQuestion: QuestionBrief, serverIndex?: number | null) => void;
   setDrillNavPage: (page: number, questionIds: string[], answeredIds: string[]) => void;
@@ -77,6 +79,7 @@ function syncIndexToServer(attemptId: string, index: number) {
 
 export const usePracticeStore = create<PracticeState>((set, get) => ({
   attemptId: null,
+  testSetId: null,
   testSetName: null,
   testSetType: null,
   startedAt: null,
@@ -92,6 +95,8 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   drillAnsweredIds: new Set(),
   drillNavLoadedPages: new Set(),
   loadedQuestions: new Map(),
+
+  setTestSetId: (id) => set({ testSetId: id }),
 
   init: (attemptId, questions, testSetName, testSetType, startedAt, existingAnswers, previousAnswers, serverIndex) => {
     const answers = new Map<string, AnswerResponse>();
@@ -177,7 +182,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
 
     set({
       attemptId, questions,
-      testSetName: null, testSetType: null, startedAt: null,
+      testSetId: null, testSetName: null, testSetType: null, startedAt: null,
       currentIndex, answers: new Map(), previousAnswers: new Map(),
       drillMode: true, drillTotal: total, drillQuestionIds: allIds,
       drillAnsweredIds: answeredSet, loadedQuestions: cache,
@@ -264,7 +269,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
     const { attemptId } = get();
     if (attemptId) clearIndex(attemptId);
     set({
-      attemptId: null, testSetName: null, testSetType: null, startedAt: null,
+      attemptId: null, testSetId: null, testSetName: null, testSetType: null, startedAt: null,
       questions: [], currentIndex: 0, answers: new Map(), previousAnswers: new Map(),
       drillMode: false, drillTotal: 0, drillQuestionIds: [], drillAnsweredIds: new Set(),
       drillNavLoadedPages: new Set(), loadedQuestions: new Map(),
