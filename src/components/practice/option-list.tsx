@@ -1,10 +1,12 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { BookOpen, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import type { Option, AnswerResponse, OptionTranslation } from "@/lib/api/types";
 import { FrenchText, type WordSaveContext } from "./french-text";
+import { SentenceAnalysisInline } from "./sentence-analysis-inline";
 
 function stripKeyPrefix(text: string, key: string): string {
   const lower = key.toLowerCase();
@@ -49,6 +51,8 @@ interface OptionListProps {
   showNative?: boolean;
   /** Current locale */
   locale?: string;
+  /** Question ID for sentence analysis */
+  questionId?: string;
 }
 
 export function OptionList({
@@ -71,9 +75,11 @@ export function OptionList({
   showEn = false,
   showNative = false,
   locale = "en",
+  questionId,
 }: OptionListProps) {
   const t = useTranslations();
   const isExam = mode === "exam";
+  const [optionAnalysis, setOptionAnalysis] = useState<string | null>(null);
   const locked = readonly || (!isExam && !!answer);
 
   function getOptionState(opt: Option) {
@@ -168,6 +174,27 @@ export function OptionList({
                     </>
                   );
                 })()}
+                {/* Sentence analysis button — show after answered, for non-audio options */}
+                {locked && !isExam && questionId && opt.text && (
+                  <>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setOptionAnalysis((prev) => prev === opt.key ? null : opt.key); }}
+                      className={`mt-1 inline-flex items-center gap-1 rounded p-0.5 text-xs transition-colors hover:bg-muted hover:text-primary ${optionAnalysis === opt.key ? "text-primary" : "text-muted-foreground/50"}`}
+                      title={t("sentenceAnalysis.trigger")}
+                    >
+                      <BookOpen className="h-3 w-3" />
+                    </button>
+                    {optionAnalysis === opt.key && (
+                      <SentenceAnalysisInline
+                        questionId={questionId}
+                        sentenceIndex={100 + "ABCD".indexOf(opt.key)}
+                        sentenceFr={opt.text}
+                        saveContext={saveContext}
+                        onClose={() => setOptionAnalysis(null)}
+                      />
+                    )}
+                  </>
+                )}
               </div>
             )}
           </button>

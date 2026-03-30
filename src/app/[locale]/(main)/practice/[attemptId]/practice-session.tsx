@@ -1115,6 +1115,7 @@ export function PracticeSession() {
           showEn={(currentAnswer || openBook) ? showEn : false}
           showNative={(currentAnswer || openBook) ? showNative : false}
           locale={locale}
+          questionId={question.id}
         />
 
         {/* Confirm button: visible when option selected but not yet submitted */}
