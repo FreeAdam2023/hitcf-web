@@ -76,37 +76,33 @@ export function NotificationBell() {
     return () => clearInterval(timer);
   }, [load]);
 
-  // Single changelog notification: "有新更新" → click to /changelog
+  // Single changelog notification — always visible, badge only when unread
   useEffect(() => {
     const refresh = () => {
       const unread = getUnreadChangelogEntries();
       const hasUnread = unread.length > 0;
       setChangelogUnread(hasUnread ? 1 : 0);
-      setChangelogItems(
-        hasUnread
-          ? [
-              {
-                id: "changelog-update",
-                title: {
-                  zh: "平台有新更新",
-                  en: "New updates available",
-                  fr: "Nouvelles mises à jour",
-                  ar: "تحديثات جديدة متاحة",
-                },
-                content: {
-                  zh: `${unread.length} 条更新，点击查看详情`,
-                  en: `${unread.length} update${unread.length > 1 ? "s" : ""} — tap to view`,
-                  fr: `${unread.length} mise${unread.length > 1 ? "s" : ""} à jour`,
-                  ar: `${unread.length} تحديث${unread.length > 1 ? "ات" : ""}`,
-                },
-                type: "feature" as const,
-                published_at: `${unread[0].date}T00:00:00Z`,
-                is_unread: true,
-                _href: "/changelog",
-              },
-            ]
-          : [],
-      );
+      setChangelogItems([
+        {
+          id: "changelog-update",
+          title: {
+            zh: hasUnread ? "平台有新更新" : "更新日志",
+            en: hasUnread ? "New updates available" : "Changelog",
+            fr: hasUnread ? "Nouvelles mises à jour" : "Mises à jour",
+            ar: hasUnread ? "تحديثات جديدة متاحة" : "سجل التحديثات",
+          },
+          content: {
+            zh: hasUnread ? `${unread.length} 条更新，点击查看详情` : "点击查看更新日志",
+            en: hasUnread ? `${unread.length} update${unread.length > 1 ? "s" : ""} — tap to view` : "Tap to view changelog",
+            fr: hasUnread ? `${unread.length} mise${unread.length > 1 ? "s" : ""} à jour` : "Voir les mises à jour",
+            ar: hasUnread ? `${unread.length} تحديث${unread.length > 1 ? "ات" : ""}` : "عرض سجل التحديثات",
+          },
+          type: "feature" as const,
+          published_at: hasUnread ? `${unread[0].date}T00:00:00Z` : new Date().toISOString(),
+          is_unread: hasUnread,
+          _href: "/changelog",
+        },
+      ]);
     };
     refresh();
     window.addEventListener("changelog-read", refresh);
