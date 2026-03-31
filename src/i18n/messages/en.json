@@ -97,7 +97,9 @@
     "referral": "Invite Friends",
     "checkin": "Daily Check-in",
     "blog": "Blog",
-    "home": "Home"
+    "home": "Home",
+    "seatAvailable": "Seats available: {cities}",
+    "seatNone": "No seats available"
   },
   "userMenu": {
     "pro": "Pro Member",

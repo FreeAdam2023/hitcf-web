@@ -96,7 +96,9 @@
     "referral": "دعوة الأصدقاء",
     "checkin": "تسجيل يومي",
     "blog": "مدونة",
-    "home": "الرئيسية"
+    "home": "الرئيسية",
+    "seatAvailable": "مقاعد متاحة: {cities}",
+    "seatNone": "لا توجد مقاعد متاحة"
   },
   "userMenu": {
     "pro": "Pro",

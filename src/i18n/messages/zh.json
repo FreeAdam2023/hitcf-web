@@ -97,7 +97,9 @@
     "referral": "邀请好友",
     "checkin": "每日打卡",
     "blog": "博客",
-    "home": "首页"
+    "home": "首页",
+    "seatAvailable": "有考位：{cities}",
+    "seatNone": "暂无考位"
   },
   "userMenu": {
     "pro": "Pro 会员",

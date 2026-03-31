@@ -186,13 +186,10 @@ export function NotificationBell() {
                     <p className="text-sm font-medium leading-tight">
                       {getLocaleText(item.title)}
                     </p>
-                    {getLocaleText(item.content) && (
-                      <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
-                        {getLocaleText(item.content)}
-                      </p>
-                    )}
-                    <p className="mt-1 text-[11px] text-muted-foreground/70">
-                      {timeAgo(item.published_at)}
+                    <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
+                      {getLocaleText(item.content)}
+                      {getLocaleText(item.content) && " · "}
+                      <span className="text-muted-foreground/70">{timeAgo(item.published_at)}</span>
                     </p>
                   </div>
                 </div>
