@@ -2367,7 +2367,8 @@
       ],
       "chinaFee": "Frais d'environ <b>¥2 500–2 800</b> (varie selon la ville et l'établissement)",
       "globalSearch": "Recherche mondiale de centres d'examen : ",
-      "canadaFee": "Frais d'environ <b>390 $ CAD</b>, inscription ouverte chaque trimestre"
+      "canadaFee": "Frais d'environ <b>390 $ CAD</b>, inscription ouverte chaque trimestre",
+      "seatAlerts": "Activer les alertes de places au Canada \u2192"
     },
     "cta": {
       "title": "Prêt(e) à commencer l'entraînement ?",

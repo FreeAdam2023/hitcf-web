@@ -2367,7 +2367,8 @@
       ],
       "chinaFee": "Fee approximately <b>¥2,500–2,800</b> (varies by city and institution)",
       "globalSearch": "Global test center search: ",
-      "canadaFee": "Fee approximately <b>CAD $390</b>, registration opens quarterly"
+      "canadaFee": "Fee approximately <b>CAD $390</b>, registration opens quarterly",
+      "seatAlerts": "Enable real-time seat alerts for Canada \u2192"
     },
     "cta": {
       "title": "Ready to start practicing?",

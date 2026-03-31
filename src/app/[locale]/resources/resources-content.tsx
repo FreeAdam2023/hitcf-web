@@ -694,6 +694,15 @@ export function ResourcesContent() {
                   <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground">
                     {t.rich("resources.centers.canadaFee", richB)}
                   </div>
+                  <div className="border-t px-5 py-3">
+                    <Link
+                      href="/seat-monitor"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                    >
+                      {t("resources.centers.seatAlerts")}
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </TabsContent>
