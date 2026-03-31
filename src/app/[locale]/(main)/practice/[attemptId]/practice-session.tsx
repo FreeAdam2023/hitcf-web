@@ -1250,6 +1250,7 @@ export function PracticeSession() {
             <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Space</kbd> {t("practice.session.kbPlayPause")}</span>
             <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">R</kbd> {t("practice.session.kbReplay")}</span>
           </>}
+          <span>📖 {t("practice.sentenceAnalysisHint")}</span>
           <span>💡 {t("practice.wordCardHint")}</span>
         </div>
 

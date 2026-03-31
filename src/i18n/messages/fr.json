@@ -723,6 +723,7 @@
       "cancel": "Annuler",
       "submit": "Envoyer le signalement"
     },
+    "sentenceAnalysisHint": "Cliquez 📖 pour l'analyse de phrase",
     "wordCardHint": "Cliquez sur un mot pour sa définition et prononciation"
   },
   "audio": {

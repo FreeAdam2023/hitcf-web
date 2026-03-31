@@ -723,6 +723,7 @@
       "cancel": "Cancel",
       "submit": "Submit Feedback"
     },
+    "sentenceAnalysisHint": "Click 📖 for sentence analysis",
     "wordCardHint": "Click any word for definition & pronunciation"
   },
   "audio": {

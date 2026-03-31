@@ -723,6 +723,7 @@
       "cancel": "取消",
       "submit": "提交反馈"
     },
+    "sentenceAnalysisHint": "点击📖可进行句子分析",
     "wordCardHint": "点击单词可查看释义和发音"
   },
   "audio": {
