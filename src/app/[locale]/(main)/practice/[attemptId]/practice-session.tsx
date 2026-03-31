@@ -448,7 +448,7 @@ export function PracticeSession() {
           duration: 1200,
           id: "reviewed",
           icon: "✓",
-          style: { background: "#7c3aed", color: "#fff", border: "none" },
+          style: { background: "#f5f3ff", color: "#6d28d9", border: "1px solid #ddd6fe" },
         });
       }
       return next;
