@@ -685,6 +685,7 @@
       "openBook": "Open Book",
       "answerMode": "Answer",
       "reviewed": "Reviewed",
+      "reviewedToast": "Reviewed {done}/{total}",
       "openBookOn": "Switch to open book mode (view answers and explanations)",
       "openBookOff": "Switch to answer mode",
       "showEn": "Show English translation",

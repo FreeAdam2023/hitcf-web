@@ -17,7 +17,6 @@ import {
   type AnnouncementItem,
 } from "@/lib/api/announcements";
 import {
-  getLocalizedChangelog,
   getUnreadChangelogEntries,
   markChangelogRead,
 } from "@/lib/changelog";
@@ -77,38 +76,42 @@ export function NotificationBell() {
     return () => clearInterval(timer);
   }, [load]);
 
-  // Load virtual changelog notifications from localStorage
-  // Always show recent entries (last 7 days); only toggle is_unread on read
+  // Single changelog notification: "有新更新" → click to /changelog
   useEffect(() => {
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - 7);
-    const cutoffStr = cutoff.toISOString().slice(0, 10);
-    const localized = getLocalizedChangelog(locale);
-    const recentEntries = localized.filter((e) => e.date > cutoffStr).slice(0, 1);
-
     const refresh = () => {
       const unread = getUnreadChangelogEntries();
-      const unreadDates = new Set(unread.map((e) => e.date));
-      setChangelogUnread(unread.length);
+      const hasUnread = unread.length > 0;
+      setChangelogUnread(hasUnread ? 1 : 0);
       setChangelogItems(
-        recentEntries.map((e, i) => ({
-          id: `changelog-${i}`,
-          title: { zh: e.title, en: e.title },
-          content: {
-            zh: e.details?.[0] || "",
-            en: e.details?.[0] || "",
-          },
-          type: e.type,
-          published_at: `${e.date}T00:00:00Z`,
-          is_unread: unreadDates.has(e.date),
-          _href: "/changelog",
-        })),
+        hasUnread
+          ? [
+              {
+                id: "changelog-update",
+                title: {
+                  zh: "平台有新更新",
+                  en: "New updates available",
+                  fr: "Nouvelles mises à jour",
+                  ar: "تحديثات جديدة متاحة",
+                },
+                content: {
+                  zh: `${unread.length} 条更新，点击查看详情`,
+                  en: `${unread.length} update${unread.length > 1 ? "s" : ""} — tap to view`,
+                  fr: `${unread.length} mise${unread.length > 1 ? "s" : ""} à jour`,
+                  ar: `${unread.length} تحديث${unread.length > 1 ? "ات" : ""}`,
+                },
+                type: "feature" as const,
+                published_at: `${unread[0].date}T00:00:00Z`,
+                is_unread: true,
+                _href: "/changelog",
+              },
+            ]
+          : [],
       );
     };
     refresh();
     window.addEventListener("changelog-read", refresh);
     return () => window.removeEventListener("changelog-read", refresh);
-  }, [locale]);
+  }, []);
 
   const handleOpen = useCallback(
     (isOpen: boolean) => {

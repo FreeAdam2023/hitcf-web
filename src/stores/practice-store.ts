@@ -114,13 +114,17 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
         }
       }
     }
-    // Priority: localStorage (same device) > server (cross-device) > first unanswered
+    // Cross-device sync: use max of local and server index (furthest progress)
     const localIndex = loadIndex(attemptId);
     let currentIndex: number;
-    if (localIndex !== null && localIndex >= 0 && localIndex < questions.length) {
-      currentIndex = localIndex;
-    } else if (serverIndex != null && serverIndex >= 0 && serverIndex < questions.length) {
-      currentIndex = serverIndex;
+    const validLocal = localIndex !== null && localIndex >= 0 && localIndex < questions.length ? localIndex : null;
+    const validServer = serverIndex != null && serverIndex >= 0 && serverIndex < questions.length ? serverIndex : null;
+    if (validLocal !== null && validServer !== null) {
+      currentIndex = Math.max(validLocal, validServer);
+    } else if (validLocal !== null) {
+      currentIndex = validLocal;
+    } else if (validServer !== null) {
+      currentIndex = validServer;
     } else {
       currentIndex = 0;
       const allAnsweredIds = new Set([...Array.from(answers.keys()), ...Array.from(prevMap.keys())]);
@@ -164,13 +168,17 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
 
     const answeredSet = new Set(answeredIds);
 
-    // Priority: localStorage > server > first unanswered
+    // Cross-device sync: use max of local and server index (furthest progress)
     const localIndex = loadIndex(attemptId);
     let currentIndex: number;
-    if (localIndex !== null && localIndex >= 0 && localIndex < total) {
-      currentIndex = localIndex;
-    } else if (serverIndex != null && serverIndex >= 0 && serverIndex < total) {
-      currentIndex = serverIndex;
+    const validLocal = localIndex !== null && localIndex >= 0 && localIndex < total ? localIndex : null;
+    const validServer = serverIndex != null && serverIndex >= 0 && serverIndex < total ? serverIndex : null;
+    if (validLocal !== null && validServer !== null) {
+      currentIndex = Math.max(validLocal, validServer);
+    } else if (validLocal !== null) {
+      currentIndex = validLocal;
+    } else if (validServer !== null) {
+      currentIndex = validServer;
     } else {
       currentIndex = offset;
       if (answeredSet.size > 0) {

@@ -61,3 +61,34 @@ export function getReferenceSluForGrammarPoint(
 ): string | null {
   return GRAMMAR_TO_REFERENCE[grammarPointSlug] ?? null;
 }
+
+/**
+ * Slugify a grammar display name (e.g. "Présent" → "present",
+ * "Comparatif corrélatif" → "comparatif-correlatif").
+ */
+function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+/**
+ * Find reference slug from a grammar display name (e.g. "Présent", "Comparatif corrélatif").
+ * Tries exact slug match first, then prefix match (e.g. "comparatif-correlatif" matches "comparatif").
+ */
+export function findReferenceSlugByName(name: string): string | null {
+  const slug = slugify(name);
+  // Exact match
+  const exact = GRAMMAR_TO_REFERENCE[slug];
+  if (exact) return exact;
+  // Prefix match: "comparatif-correlatif" → matches key "comparatif"
+  for (const key of Object.keys(GRAMMAR_TO_REFERENCE)) {
+    if (slug.startsWith(key + "-") || slug.startsWith(key)) {
+      return GRAMMAR_TO_REFERENCE[key];
+    }
+  }
+  return null;
+}

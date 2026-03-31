@@ -685,6 +685,7 @@
       "openBook": "Ouvert",
       "answerMode": "Répondre",
       "reviewed": "Lu",
+      "reviewedToast": "Lu {done}/{total}",
       "openBookOn": "Passer en mode ouvert (voir réponses et explications)",
       "openBookOff": "Passer en mode réponse",
       "showEn": "Afficher la traduction anglaise",

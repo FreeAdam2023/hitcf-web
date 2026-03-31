@@ -24,6 +24,114 @@ export function getLocalizedChangelog(locale: string) {
 // Only user-facing changes — no admin/backend internals
 export const changelog: ChangelogEntry[] = [
   {
+    date: "2026-03-30",
+    type: "feature",
+    title: {
+      zh: "句子分析全面升级",
+      en: "Sentence analysis overhaul",
+      fr: "Refonte de l'analyse de phrases",
+      ar: "تحديث شامل لتحليل الجمل",
+    },
+    details: [
+      {
+        zh: "ABCD 选项也可以做句子分析了，点击选项旁的📖按钮即可",
+        en: "ABCD options now support sentence analysis — tap the 📖 button next to any option",
+        fr: "Les options ABCD supportent maintenant l'analyse — appuyez sur 📖 à côté de chaque option",
+        ar: "خيارات ABCD تدعم الآن تحليل الجمل — انقر على 📖 بجانب أي خيار",
+      },
+      {
+        zh: "语法标签（如 Présent、Comparatif）点击直接跳转到语法速查页面",
+        en: "Grammar tags (e.g. Présent, Comparatif) now link directly to the reference page",
+        fr: "Les tags de grammaire renvoient directement à la page de référence",
+        ar: "علامات القواعد ترتبط مباشرة بصفحة المرجع",
+      },
+      {
+        zh: "固定搭配支持一键收藏到单词本",
+        en: "Collocations can now be saved to your vocabulary list",
+        fr: "Les collocations peuvent être ajoutées à votre liste de vocabulaire",
+        ar: "يمكن الآن حفظ التعبيرات في قائمة المفردات",
+      },
+      {
+        zh: "成分标注支持多语言显示（主语/谓语/宾语等）",
+        en: "Grammatical role labels now display in your language",
+        fr: "Les rôles grammaticaux s'affichent dans votre langue",
+        ar: "تسميات الأدوار النحوية تظهر بلغتك",
+      },
+    ],
+  },
+  {
+    date: "2026-03-30",
+    type: "improvement",
+    title: {
+      zh: "句子分析异步加载",
+      en: "Sentence analysis async loading",
+      fr: "Chargement asynchrone de l'analyse",
+      ar: "تحميل غير متزامن للتحليل",
+    },
+    details: [
+      {
+        zh: "句子分析不再卡顿等待，后台生成完毕后自动显示结果",
+        en: "Sentence analysis no longer blocks — results appear automatically once ready",
+        fr: "L'analyse ne bloque plus — les résultats apparaissent automatiquement",
+        ar: "التحليل لم يعد يتجمد — النتائج تظهر تلقائيًا عند الجاهزية",
+      },
+    ],
+  },
+  {
+    date: "2026-03-30",
+    type: "improvement",
+    title: {
+      zh: "已阅进度多端同步",
+      en: "Cross-device progress sync",
+      fr: "Synchronisation de la progression multi-appareils",
+      ar: "مزامنة التقدم عبر الأجهزة",
+    },
+    details: [
+      {
+        zh: "开卷模式的已阅标记和当前题号现在可以在手机和电脑之间自动同步",
+        en: "Open-book reviewed marks and current question now sync between phone and computer",
+        fr: "Les marques de lecture et la question en cours se synchronisent entre téléphone et ordinateur",
+        ar: "علامات القراءة والسؤال الحالي يتزامنان الآن بين الهاتف والحاسوب",
+      },
+    ],
+  },
+  {
+    date: "2026-03-29",
+    type: "fix",
+    title: {
+      zh: "「重新练习」按钮修复",
+      en: "Redo practice button fix",
+      fr: "Correction du bouton « Refaire »",
+      ar: "إصلاح زر إعادة التدريب",
+    },
+    details: [
+      {
+        zh: "修复全部已阅后点击「重新练习」会错误提交 0 分成绩的问题",
+        en: "Fixed 'Redo practice' incorrectly submitting a 0-score attempt after reviewing all questions",
+        fr: "Correction du bouton « Refaire » qui soumettait un score de 0 après avoir revu toutes les questions",
+        ar: "إصلاح زر إعادة التدريب الذي كان يرسل درجة 0 بعد مراجعة جميع الأسئلة",
+      },
+    ],
+  },
+  {
+    date: "2026-03-29",
+    type: "fix",
+    title: {
+      zh: "翻译质量修复",
+      en: "Translation fixes",
+      fr: "Corrections de traduction",
+      ar: "إصلاحات الترجمة",
+    },
+    details: [
+      {
+        zh: "修复部分阅读题选项和句子翻译不准确的问题",
+        en: "Fixed inaccurate option and sentence translations in some reading questions",
+        fr: "Correction de traductions inexactes dans certaines questions de lecture",
+        ar: "إصلاح ترجمات غير دقيقة في بعض أسئلة القراءة",
+      },
+    ],
+  },
+  {
     date: "2026-03-26",
     type: "feature",
     title: {

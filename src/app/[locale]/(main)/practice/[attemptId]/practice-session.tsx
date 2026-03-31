@@ -387,19 +387,22 @@ export function PracticeSession() {
       getAttempt(attemptId).then((att) => {
         // Store test_set_id for navigation (redo practice / exam mode)
         if (att.test_set_id) setTestSetId(att.test_set_id);
-        // If localStorage had no open_book but server does, use server
+        // Always use server open_book state for cross-device sync
         if (att.open_book != null) {
-          const localOb = localStorage.getItem(`openBook:${attemptId}`);
-          if (localOb === null) setOpenBook(att.open_book);
+          setOpenBook(att.open_book);
+          if (att.open_book) localStorage.setItem(`openBook:${attemptId}`, "1");
+          else localStorage.removeItem(`openBook:${attemptId}`);
         }
-        // If localStorage had no reviewed but server does, use server
+        // Merge server reviewed with local (union) for cross-device sync
         if (att.reviewed_questions?.length) {
-          const localRev = localStorage.getItem(`reviewed:${attemptId}`);
-          if (!localRev) {
-            const serverSet = new Set(att.reviewed_questions);
-            setReviewedIds(serverSet);
-            try { localStorage.setItem(`reviewed:${attemptId}`, JSON.stringify(att.reviewed_questions)); } catch {}
-          }
+          setReviewedIds((prev) => {
+            const merged = new Set([...Array.from(prev), ...att.reviewed_questions!]);
+            if (merged.size > prev.size) {
+              const arr = Array.from(merged);
+              try { localStorage.setItem(`reviewed:${attemptId}`, JSON.stringify(arr)); } catch {}
+            }
+            return merged.size > prev.size ? merged : prev;
+          });
         }
       }).catch(() => {})
     );
@@ -437,11 +440,17 @@ export function PracticeSession() {
       reviewedSyncRef.current = setTimeout(() => {
         if (attemptId) updateAttemptProgress(attemptId, { reviewed_questions: arr }).catch(() => {});
       }, 500);
+      // Brief toast feedback (mobile-friendly)
+      if (willAdd) {
+        const done = next.size;
+        const total = questions.length;
+        toast(t("practice.session.reviewedToast", { done, total }), { duration: 1200, id: "reviewed" });
+      }
       return next;
     });
     // Auto-advance to next question after marking as reviewed
     if (willAdd) goNext();
-  }, [attemptId, questions, currentIndex, reviewedIds, goNext]);
+  }, [attemptId, questions, currentIndex, reviewedIds, goNext, t]);
 
   // Scroll to top when navigating between questions
   useEffect(() => {
