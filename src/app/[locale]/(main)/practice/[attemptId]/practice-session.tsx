@@ -444,7 +444,12 @@ export function PracticeSession() {
       if (willAdd) {
         const done = next.size;
         const total = questions.length;
-        toast(t("practice.session.reviewedToast", { done, total }), { duration: 1200, id: "reviewed" });
+        toast(t("practice.session.reviewedToast", { done, total }), {
+          duration: 1200,
+          id: "reviewed",
+          icon: "✓",
+          style: { background: "#7c3aed", color: "#fff", border: "none" },
+        });
       }
       return next;
     });
