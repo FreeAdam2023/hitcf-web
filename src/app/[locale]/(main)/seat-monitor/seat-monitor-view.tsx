@@ -16,7 +16,7 @@ import { getCenters, subscribeSeat, unsubscribeSeat } from "@/lib/api/seat-monit
 
 export function SeatMonitorView() {
   const t = useTranslations("seatMonitorPage");
-  const { isAuthenticated, user, hasActiveSubscription } = useAuthStore();
+  const { isAuthenticated, hasActiveSubscription } = useAuthStore();
   const [centers, setCenters] = useState<CenterStatus[]>([]);
   const [loading, setLoading] = useState(true);
   const [toggling, setToggling] = useState<string | null>(null);
