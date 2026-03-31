@@ -10,6 +10,7 @@ import { Toaster } from "sonner";
 import { CommunityFab } from "@/components/layout/community-fab";
 import { MobileTabBar } from "@/components/layout/mobile-tab-bar";
 import { UtmTracker } from "@/components/shared/utm-tracker";
+import { Heartbeat } from "@/components/layout/heartbeat";
 import { TrialBanner } from "@/components/shared/trial-banner";
 import { PaymentFailedBanner } from "@/components/shared/payment-failed-banner";
 import { TrialWelcomeModal } from "@/components/shared/trial-welcome-modal";
@@ -322,6 +323,7 @@ export default async function LocaleLayout({
               <MobileTabBar />
               <CommunityFab />
               <UtmTracker />
+              <Heartbeat />
             </LocaleProvider>
           </AuthProvider>
           <Toaster richColors position="top-center" />
