@@ -169,6 +169,10 @@ export function SeatMonitorView() {
             ))}
           </div>
         )}
+
+        <p className="text-center text-sm text-muted-foreground">
+          {t("moreCities")}
+        </p>
       </div>
 
       {/* FAQ */}
