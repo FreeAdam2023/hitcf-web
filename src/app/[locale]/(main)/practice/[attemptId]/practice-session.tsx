@@ -1250,8 +1250,8 @@ export function PracticeSession() {
             <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Space</kbd> {t("practice.session.kbPlayPause")}</span>
             <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">R</kbd> {t("practice.session.kbReplay")}</span>
           </>}
-          <span>📖 {t("practice.sentenceAnalysisHint")}</span>
-          <span>💡 {t("practice.wordCardHint")}</span>
+          <span className="inline-flex items-center gap-1"><BookOpen className="h-3 w-3" /> {t("practice.sentenceAnalysisHint")}</span>
+          <span className="inline-flex items-center gap-1"><Lightbulb className="h-3 w-3" /> {t("practice.wordCardHint")}</span>
         </div>
 
         {/* 听力原文 / 阅读逐句翻译 — 答题后展开 */}
