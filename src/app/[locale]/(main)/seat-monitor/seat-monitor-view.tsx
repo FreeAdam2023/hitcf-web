@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Bell, BellOff, Crown, HelpCircle, LogIn, MapPin, RefreshCw, Zap } from "lucide-react";
+import { Bell, BellOff, Crown, ExternalLink, HelpCircle, LogIn, MapPin, RefreshCw, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -172,6 +172,11 @@ export function SeatMonitorView() {
 
         <p className="text-center text-sm text-muted-foreground">
           {t("moreCities")}
+          {" "}
+          <Link href="/resources?tab=centers" className="inline-flex items-center gap-1 text-primary hover:underline">
+            {t("viewAllCenters")}
+            <ExternalLink className="h-3 w-3" />
+          </Link>
         </p>
       </div>
 

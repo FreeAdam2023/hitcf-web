@@ -7,6 +7,7 @@ import {
   Settings,
   Gift,
   CalendarCheck,
+  MapPin,
   MessageSquarePlus,
   Sparkles,
   BookOpen,
@@ -58,6 +59,11 @@ export default function ProfilePage() {
       icon: CalendarCheck,
       label: t("userMenu.checkin"),
       onClick: () => router.push("/checkin"),
+    },
+    {
+      icon: MapPin,
+      label: t("userMenu.seatMonitor"),
+      onClick: () => router.push("/seat-monitor"),
     },
     {
       icon: MessageSquarePlus,
