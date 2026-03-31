@@ -2720,6 +2720,64 @@
       "description": "Guide des fonctionnalités de la plateforme HiTCF."
     }
   },
+  "seatMonitorPage": {
+    "title": "Surveillance des places TCF Canada",
+    "subtitle": "Surveillance en temps réel de la disponibilité des places d'examen à travers le Canada. Recevez des alertes par courriel lorsque de nouvelles dates s'ouvrent.",
+    "loginCta": "Connectez-vous pour recevoir des alertes",
+    "proUpsell": "Les abonnés payants reçoivent des alertes prioritaires. Les utilisateurs en essai et gratuits sont en file d'attente.",
+    "upgrade": "Passer à Pro",
+    "step1": {
+      "title": "Surveillance 24h/24",
+      "desc": "Notre système analyse en permanence les centres d'examen à travers le Canada pour de nouvelles dates TCF."
+    },
+    "step2": {
+      "title": "Nouvelles dates détectées",
+      "desc": "Lorsque des places deviennent disponibles, nous comparons avec les données précédentes pour trouver de nouvelles ouvertures."
+    },
+    "step3": {
+      "title": "Vous êtes notifié",
+      "desc": "Les abonnés payants sont notifiés en priorité. Les autres sont en file d'attente."
+    },
+    "centersTitle": "Centres d'examen",
+    "refresh": "Actualiser",
+    "checking": "Vérification de la disponibilité...",
+    "noDates": "Aucune date disponible",
+    "lastChecked": "Dernière vérification : il y a {time}",
+    "realtime": "Prioritaire",
+    "delayed": "En attente",
+    "subscribed": "Alerte activée",
+    "unsubscribed": "Alerte désactivée",
+    "error": "Opération échouée",
+    "loginToSubscribe": "Connectez-vous pour recevoir des alertes",
+    "subscribeBtn": "Activer les alertes",
+    "unsubscribeBtn": "Désactiver les alertes",
+    "upgradeToSubscribe": "Passer à Pro",
+    "compareFree": "Gratuit / Essai",
+    "comparePro": "Payant",
+    "compareDelay": "Priorité",
+    "compareDelay30": "En attente",
+    "compareDelayInstant": "Priorité maximale",
+    "compareCities": "Villes",
+    "compareUnlimited": "Illimité",
+    "upgradeNow": "Passez à Pro pour des alertes prioritaires",
+    "faqTitle": "FAQ",
+    "faq1": {
+      "q": "Les utilisateurs en essai reçoivent-ils des alertes en temps réel ?",
+      "a": "Non. Les alertes prioritaires sont réservées aux abonnés payants (mensuel/trimestriel/semestriel). Les utilisateurs en essai et gratuits sont notifiés après. Quand les places sont rares, ce délai peut faire la différence."
+    },
+    "faq2": {
+      "q": "Puis-je contourner le délai avec plusieurs comptes ?",
+      "a": "Non. Les alertes prioritaires nécessitent un abonnement payant actif avec un paiement vérifié (Stripe). Plusieurs comptes gratuits restent en file d'attente."
+    },
+    "faq3": {
+      "q": "En combien de temps serai-je notifié ?",
+      "a": "Notre système surveille tous les centres d'examen en permanence. Lorsque de nouvelles places apparaissent, les abonnés payants sont notifiés immédiatement. Les utilisateurs gratuits et en essai sont notifiés peu après (si des places restent)."
+    },
+    "faq4": {
+      "q": "Pourquoi une ville affiche « Aucune date disponible » ?",
+      "a": "Soit le centre n'a pas encore ouvert les inscriptions, soit notre système est encore en cours de calibrage (Bêta). Nous recommandons de s'abonner à plusieurs villes pour maximiser vos chances (les utilisateurs payants ont un nombre illimité de villes)."
+    }
+  },
   "referralPage": {
     "title": "Invitez vos amis, gagnez Pro",
     "subtitle": "Partagez votre code. Quand votre ami s'abonne, vous obtenez tous les deux 30 jours de Pro gratuit.",
