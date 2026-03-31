@@ -1153,7 +1153,7 @@ export function PracticeSession() {
         )}
 
         {/* 快捷导航：选项下方，桌面端显示 */}
-        <div className="hidden lg:flex items-center justify-between">
+        <div className="hidden lg:flex items-center justify-between pt-4">
           <Button
             variant="outline"
             size="sm"
