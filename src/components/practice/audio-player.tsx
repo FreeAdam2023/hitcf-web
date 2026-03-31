@@ -492,7 +492,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
       {/* Progress bar + time */}
       <div className="flex flex-1 items-center gap-2">
         <div
-          className="relative h-1.5 flex-1 cursor-pointer rounded-full bg-muted"
+          className="group relative flex-1 cursor-pointer py-2"
           role="slider"
           aria-label={t("audio.seek")}
           aria-valuemin={0}
@@ -500,7 +500,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
           aria-valuenow={Math.round(progress)}
           onPointerDown={(e) => {
             const audio = audioRef.current;
-            if (!audio || !duration) return;
+            if (!audio || !duration || exhausted) return;
             const el = e.currentTarget;
             el.setPointerCapture(e.pointerId);
             const seek = (clientX: number) => {
@@ -515,15 +515,26 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
             const onUp = () => {
               el.removeEventListener("pointermove", onMove);
               el.removeEventListener("pointerup", onUp);
+              // Auto-play from seeked position
+              segmentEndRef.current = null;
+              segmentPausedRef.current = false;
+              audio.play().then(() => setPlaying(true)).catch(() => {});
             };
             el.addEventListener("pointermove", onMove);
             el.addEventListener("pointerup", onUp);
           }}
         >
-          <div
-            className="h-1.5 rounded-full bg-primary transition-[width] duration-75"
-            style={{ width: `${progress}%` }}
-          />
+          <div className="relative h-1.5 rounded-full bg-muted">
+            <div
+              className="h-1.5 rounded-full bg-primary transition-[width] duration-75"
+              style={{ width: `${progress}%` }}
+            />
+            {/* Draggable thumb */}
+            <div
+              className="absolute top-1/2 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-primary shadow-sm ring-2 ring-background transition-transform group-hover:scale-110"
+              style={{ left: `calc(${progress}% - 7px)` }}
+            />
+          </div>
         </div>
         <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
           {formatTime(currentTime)} / {formatTime(duration)}
