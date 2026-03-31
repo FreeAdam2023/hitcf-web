@@ -149,7 +149,19 @@ export function OptionList({
             </span>
             {!audioOnly && opt.text && (
               <div className="pt-0.5 min-w-0">
-                <FrenchText text={opt.text} disabled={vocabDisabled} saveContext={saveContext} />
+                <span className="inline">
+                  <FrenchText text={opt.text} disabled={vocabDisabled} saveContext={saveContext} />
+                  {/* Sentence analysis button — inline after option text */}
+                  {locked && !isExam && questionId && (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setOptionAnalysis((prev) => prev === opt.key ? null : opt.key); }}
+                      className={`ml-1 inline-flex items-center gap-1 rounded p-0.5 text-xs transition-colors hover:bg-muted hover:text-primary ${optionAnalysis === opt.key ? "text-primary" : "text-muted-foreground/50"}`}
+                      title={t("sentenceAnalysis.trigger")}
+                    >
+                      <BookOpen className="h-3 w-3" />
+                    </button>
+                  )}
+                </span>
                 {(() => {
                   const tr = optionTranslations?.[opt.key];
                   if (!tr) return null;
@@ -174,26 +186,14 @@ export function OptionList({
                     </>
                   );
                 })()}
-                {/* Sentence analysis button — show after answered, for non-audio options */}
-                {locked && !isExam && questionId && opt.text && (
-                  <>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); setOptionAnalysis((prev) => prev === opt.key ? null : opt.key); }}
-                      className={`mt-1 inline-flex items-center gap-1 rounded p-0.5 text-xs transition-colors hover:bg-muted hover:text-primary ${optionAnalysis === opt.key ? "text-primary" : "text-muted-foreground/50"}`}
-                      title={t("sentenceAnalysis.trigger")}
-                    >
-                      <BookOpen className="h-3 w-3" />
-                    </button>
-                    {optionAnalysis === opt.key && (
-                      <SentenceAnalysisInline
-                        questionId={questionId}
-                        sentenceIndex={100 + "ABCD".indexOf(opt.key)}
-                        sentenceFr={opt.text}
-                        saveContext={saveContext}
-                        onClose={() => setOptionAnalysis(null)}
-                      />
-                    )}
-                  </>
+                {locked && !isExam && questionId && opt.text && optionAnalysis === opt.key && (
+                  <SentenceAnalysisInline
+                    questionId={questionId}
+                    sentenceIndex={100 + "ABCD".indexOf(opt.key)}
+                    sentenceFr={opt.text}
+                    saveContext={saveContext}
+                    onClose={() => setOptionAnalysis(null)}
+                  />
                 )}
               </div>
             )}

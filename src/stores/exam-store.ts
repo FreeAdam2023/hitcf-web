@@ -9,6 +9,7 @@ interface ExamAnswer {
 
 const SESSION_KEY = "hitcf_exam_answers";
 const INDEX_KEY = "hitcf_exam_index";
+const FLAGS_KEY = "hitcf_exam_flags";
 
 function isValidAnswerEntry(entry: unknown): entry is [string, ExamAnswer] {
   if (!Array.isArray(entry) || entry.length !== 2) return false;
@@ -61,10 +62,29 @@ function loadIndexFromSession(attemptId: string): number {
   }
 }
 
+function saveFlagsToSession(attemptId: string, flags: Set<number>) {
+  try {
+    sessionStorage.setItem(FLAGS_KEY, JSON.stringify({ attemptId, flags: Array.from(flags) }));
+  } catch { /* ignore */ }
+}
+
+function loadFlagsFromSession(attemptId: string): Set<number> {
+  try {
+    const raw = sessionStorage.getItem(FLAGS_KEY);
+    if (!raw) return new Set();
+    const data = JSON.parse(raw);
+    if (data.attemptId !== attemptId || !Array.isArray(data.flags)) return new Set();
+    return new Set(data.flags.filter((n: unknown) => typeof n === "number"));
+  } catch {
+    return new Set();
+  }
+}
+
 function clearAnswersFromSession() {
   try {
     sessionStorage.removeItem(SESSION_KEY);
     sessionStorage.removeItem(INDEX_KEY);
+    sessionStorage.removeItem(FLAGS_KEY);
   } catch { /* ignore */ }
 }
 
@@ -125,7 +145,10 @@ export const useExamStore = create<ExamState>((set, get) => ({
     cached.forEach((v, k) => {
       if (!answers.has(k)) answers.set(k, v);
     });
+    // Merge server flags with sessionStorage cached flags
     const flaggedQuestions = new Set<number>(existingFlags || []);
+    const cachedFlags = loadFlagsFromSession(attemptId);
+    cachedFlags.forEach((n) => flaggedQuestions.add(n));
     const firstType = questions[0]?.type;
     const testType: "listening" | "reading" | null =
       firstType === "listening" ? "listening" : firstType === "reading" ? "reading" : null;
@@ -143,6 +166,7 @@ export const useExamStore = create<ExamState>((set, get) => ({
       playedAudioQuestionIds: new Set(),
     });
     saveAnswersToSession(attemptId, answers);
+    saveFlagsToSession(attemptId, flaggedQuestions);
   },
 
   setAnswer: (questionId, answer) =>
@@ -168,6 +192,7 @@ export const useExamStore = create<ExamState>((set, get) => ({
       } else {
         next.add(questionNumber);
       }
+      if (state.attemptId) saveFlagsToSession(state.attemptId, next);
       return { flaggedQuestions: next };
     }),
 

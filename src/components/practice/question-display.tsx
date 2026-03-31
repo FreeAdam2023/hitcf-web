@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ChevronDown, Loader2 } from "lucide-react";
+import { BookOpen, ChevronDown, Loader2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import type { QuestionBrief } from "@/lib/api/types";
 import { AudioPlayer, type AudioPlayerHandle } from "./audio-player";
@@ -9,6 +9,7 @@ import { getImageUrl } from "@/lib/api/media";
 import { LevelBadge } from "@/components/shared/level-badge";
 import { getTcfPoints } from "@/lib/tcf-levels";
 import { FrenchText, type WordSaveContext } from "./french-text";
+import { SentenceAnalysisInline } from "./sentence-analysis-inline";
 import { PassageContent } from "./passage-content";
 import { localizeTestName } from "@/lib/test-name";
 
@@ -53,9 +54,13 @@ interface QuestionDisplayProps {
   showEn?: boolean;
   /** Control native translation visibility */
   showNative?: boolean;
+  /** Whether options are locked (answered) — enables sentence analysis on question text */
+  locked?: boolean;
+  /** Whether in exam mode — hides sentence analysis */
+  isExam?: boolean;
 }
 
-export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate, answered, autoPlayAudio, examMode, actions, showEn, showNative }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudioPlaybackComplete, vocabDisabled, onImageLoaded, saveContext, audioRef, onAudioTimeUpdate, answered, autoPlayAudio, examMode, actions, showEn, showNative, locked, isExam }: QuestionDisplayProps) {
   const t = useTranslations();
   const locale = useLocale();
   const isListening = question.type === "listening";
@@ -107,6 +112,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
 
   return (
     <div className="space-y-4">
+      {!examMode && (
       <div className="space-y-1">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">
@@ -131,6 +137,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
           )}
         </div>
       </div>
+      )}
 
       {isListening && question.audio_url && (
         <AudioPlayer
@@ -206,18 +213,74 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
       )}
 
       {question.question_text && !(isListening && instructionData) && (
-        <div>
-          <p className="text-base font-medium">
-            <FrenchText text={question.question_text} disabled={vocabDisabled} saveContext={saveContext} />
-          </p>
-          {answered && hasTranslation && (
-            <div className="mt-1 space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-200">
-              {locale === "zh" && (showEn ?? true) && qEn && <p className="text-sm lg:text-base text-blue-600 dark:text-blue-400">{qEn}</p>}
-              {locale === "zh" && (showNative ?? true) && qTranslations[1] && <p className="text-xs lg:text-sm text-muted-foreground pl-1">{qTranslations[1]}</p>}
-              {locale !== "zh" && qTranslations[0] && <p className="text-sm lg:text-base text-emerald-600 dark:text-emerald-400">{qTranslations[0]}</p>}
-            </div>
+        <QuestionTextWithAnalysis
+          question={question}
+          vocabDisabled={vocabDisabled}
+          saveContext={saveContext}
+          locked={locked}
+          isExam={isExam}
+          answered={answered}
+          locale={locale}
+          showEn={showEn}
+          showNative={showNative}
+          qEn={qEn}
+          qTranslations={qTranslations}
+          hasTranslation={hasTranslation}
+        />
+      )}
+    </div>
+  );
+}
+
+/** Question text with inline sentence analysis button (reading questions) */
+function QuestionTextWithAnalysis({ question, vocabDisabled, saveContext, locked, isExam, answered, locale, showEn, showNative, qEn, qTranslations, hasTranslation }: {
+  question: QuestionBrief;
+  vocabDisabled?: boolean;
+  saveContext?: WordSaveContext;
+  locked?: boolean;
+  isExam?: boolean;
+  answered?: boolean;
+  locale: string;
+  showEn?: boolean;
+  showNative?: boolean;
+  qEn: string | null | undefined;
+  qTranslations: (string | null | undefined)[];
+  hasTranslation: boolean;
+}) {
+  const t = useTranslations();
+  const [showAnalysis, setShowAnalysis] = useState(false);
+
+  return (
+    <div>
+      <p className="text-base font-medium">
+        <span className="inline">
+          <FrenchText text={question.question_text!} disabled={vocabDisabled} saveContext={saveContext} />
+          {locked && !isExam && (
+            <button
+              onClick={() => setShowAnalysis((v) => !v)}
+              className={`ml-1 inline-flex items-center gap-1 rounded p-0.5 text-xs transition-colors hover:bg-muted hover:text-primary ${showAnalysis ? "text-primary" : "text-muted-foreground/50"}`}
+              title={t("sentenceAnalysis.trigger")}
+            >
+              <BookOpen className="h-3 w-3" />
+            </button>
           )}
+        </span>
+      </p>
+      {answered && hasTranslation && (
+        <div className="mt-1 space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-200">
+          {locale === "zh" && (showEn ?? true) && qEn && <p className="text-sm lg:text-base text-blue-600 dark:text-blue-400">{qEn}</p>}
+          {locale === "zh" && (showNative ?? true) && qTranslations[1] && <p className="text-xs lg:text-sm text-muted-foreground pl-1">{qTranslations[1]}</p>}
+          {locale !== "zh" && qTranslations[0] && <p className="text-sm lg:text-base text-emerald-600 dark:text-emerald-400">{qTranslations[0]}</p>}
         </div>
+      )}
+      {showAnalysis && (
+        <SentenceAnalysisInline
+          questionId={question.id}
+          sentenceIndex={200}
+          sentenceFr={question.question_text!}
+          saveContext={saveContext}
+          onClose={() => setShowAnalysis(false)}
+        />
       )}
     </div>
   );

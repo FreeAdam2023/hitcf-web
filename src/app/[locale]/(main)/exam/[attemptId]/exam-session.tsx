@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { useExamStore } from "@/stores/exam-store";
-import { submitAnswer, completeAttempt } from "@/lib/api/attempts";
+import { submitAnswer, completeAttempt, deleteAttempt } from "@/lib/api/attempts";
 import { QuestionDisplay } from "@/components/practice/question-display";
 import { OptionList } from "@/components/practice/option-list";
 import { QuestionNavigator } from "@/components/practice/question-navigator";
@@ -42,6 +42,20 @@ export function ExamSession() {
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, [currentIndex]);
+
+  // Auto-delete attempt on unmount if user never answered any question
+  const answersRef = useRef(answers);
+  useEffect(() => { answersRef.current = answers; });
+  const attemptIdRef = useRef(attemptId);
+  useEffect(() => { attemptIdRef.current = attemptId; });
+  useEffect(() => {
+    return () => {
+      const id = attemptIdRef.current;
+      if (id && answersRef.current.size === 0) {
+        deleteAttempt(id).catch(() => {});
+      }
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Listening exam flow state
   const [listeningPhase, setListeningPhase] = useState<"ready" | "playing" | "answering">("ready");
@@ -491,6 +505,7 @@ export function ExamSession() {
           index={currentIndex}
           total={questions.length}
           vocabDisabled
+          examMode
         />
 
         <OptionList

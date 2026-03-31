@@ -13,7 +13,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
-import { submitAnswer, completeAttempt, updateAttemptProgress, createAttempt } from "@/lib/api/attempts";
+import { submitAnswer, completeAttempt, updateAttemptProgress, createAttempt, deleteAttempt } from "@/lib/api/attempts";
 import { toggleBookmark, checkBookmarks } from "@/lib/api/bookmarks";
 import { fetchDrillNav, loadDrillQuestion } from "@/lib/api/speed-drill";
 import { NAV_PAGE_SIZE } from "@/stores/practice-store";
@@ -740,6 +740,20 @@ export function PracticeSession() {
     };
   }, []);
 
+  // Auto-delete attempt on unmount if user never answered any question
+  const attemptIdRef = useRef(attemptId);
+  const previousAnswersRef = useRef(previousAnswers);
+  useEffect(() => { attemptIdRef.current = attemptId; });
+  useEffect(() => { previousAnswersRef.current = previousAnswers; });
+  useEffect(() => {
+    return () => {
+      const id = attemptIdRef.current;
+      if (id && answersRef.current.size === 0 && previousAnswersRef.current.size === 0) {
+        deleteAttempt(id).catch(() => {});
+      }
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const rawQuestion = questions[currentIndex];
   // Keep showing the last loaded question during drill transitions to avoid flash
   const lastQuestionRef = useRef<QuestionBrief | null>(null);
@@ -1044,6 +1058,7 @@ export function PracticeSession() {
           autoPlayAudio={question.type === "listening" && currentIndex > 0}
           showEn={showEn}
           showNative={showNative}
+          locked={!!currentAnswer}
           actions={
             <div className="flex shrink-0 items-center gap-1.5">
               {/* 功能区 */}
