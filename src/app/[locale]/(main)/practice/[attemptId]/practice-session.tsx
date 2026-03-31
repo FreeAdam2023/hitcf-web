@@ -13,7 +13,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
-import { submitAnswer, completeAttempt, updateAttemptProgress } from "@/lib/api/attempts";
+import { submitAnswer, completeAttempt, updateAttemptProgress, createAttempt } from "@/lib/api/attempts";
 import { toggleBookmark, checkBookmarks } from "@/lib/api/bookmarks";
 import { fetchDrillNav, loadDrillQuestion } from "@/lib/api/speed-drill";
 import { NAV_PAGE_SIZE } from "@/stores/practice-store";
@@ -1223,7 +1223,12 @@ export function PracticeSession() {
               {testSetId && (
                 <Button
                   variant="outline"
-                  onClick={() => router.push(`/tests/${testSetId}`)}
+                  onClick={async () => {
+                    try {
+                      const attempt = await createAttempt({ test_set_id: testSetId, mode: "practice" }, { forceNew: true });
+                      router.push(`/practice/${attempt.id}`);
+                    } catch { toast.error(t("common.errors.createPracticeFailed")); }
+                  }}
                   className="w-full sm:w-auto"
                 >
                   {t("practice.session.redoPractice")}
@@ -1231,7 +1236,12 @@ export function PracticeSession() {
               )}
               {testSetId && (
                 <Button
-                  onClick={() => router.push(`/tests/${testSetId}`)}
+                  onClick={async () => {
+                    try {
+                      const attempt = await createAttempt({ test_set_id: testSetId, mode: "exam" });
+                      router.push(`/exam/${attempt.id}`);
+                    } catch { toast.error(t("common.errors.createPracticeFailed")); }
+                  }}
                   className="w-full sm:w-auto"
                 >
                   {t("practice.session.tryExamMode")}
