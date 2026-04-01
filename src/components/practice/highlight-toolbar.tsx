@@ -81,42 +81,35 @@ export function HighlightToolbar({
       .catch(() => {});
   }, [questionId, disabled]);
 
-  // Apply highlight marks to the DOM
-  useEffect(() => {
+  // Compute overlay rects for highlights (no DOM mutation)
+  const [overlayRects, setOverlayRects] = useState<
+    { id: string; color: string; rects: DOMRect[]; highlight: HighlightItem }[]
+  >([]);
+
+  const computeOverlays = useCallback(() => {
     const container = containerRef.current;
-    if (!container || disabled) return;
+    if (!container || disabled || highlights.length === 0) {
+      setOverlayRects([]);
+      return;
+    }
 
-    // Clear existing marks
-    container.querySelectorAll("mark[data-hl-id]").forEach((mark) => {
-      const parent = mark.parentNode;
-      if (!parent) return;
-      while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
-      parent.removeChild(mark);
-    });
-
-    if (highlights.length === 0) return;
-
-    // Get the full text content and build a text-to-node map
     const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
     const textNodes: { node: Text; start: number; end: number }[] = [];
     let offset = 0;
-    let node: Text | null;
-    while ((node = walker.nextNode() as Text | null)) {
-      textNodes.push({ node, start: offset, end: offset + node.length });
-      offset += node.length;
+    let tNode: Text | null;
+    while ((tNode = walker.nextNode() as Text | null)) {
+      textNodes.push({ node: tNode, start: offset, end: offset + tNode.length });
+      offset += tNode.length;
     }
-    const fullText = textNodes.map((t) => t.node.textContent).join("");
+    const fullText = textNodes.map((tn) => tn.node.textContent).join("");
 
-    // Apply each highlight
-    const sorted = [...highlights].sort(
-      (a, b) => b.start_offset - a.start_offset,
-    );
-    for (const hl of sorted) {
-      // Try exact offset first
+    const containerRect = container.getBoundingClientRect();
+    const results: typeof overlayRects = [];
+
+    for (const hl of highlights) {
       let hlStart = hl.start_offset;
       let hlEnd = hl.end_offset;
 
-      // Verify text matches, fallback to text search
       const slice = fullText.slice(hlStart, hlEnd);
       if (slice !== hl.text) {
         const idx = fullText.indexOf(hl.text);
@@ -125,53 +118,49 @@ export function HighlightToolbar({
         hlEnd = idx + hl.text.length;
       }
 
-      // Find text nodes that overlap with this highlight range
-      for (let i = textNodes.length - 1; i >= 0; i--) {
-        const tn = textNodes[i];
+      // Build a Range covering this highlight
+      const range = document.createRange();
+      let rangeSet = false;
+
+      for (const tn of textNodes) {
         const overlapStart = Math.max(tn.start, hlStart);
         const overlapEnd = Math.min(tn.end, hlEnd);
         if (overlapStart >= overlapEnd) continue;
 
         const localStart = overlapStart - tn.start;
         const localEnd = overlapEnd - tn.start;
-        const textContent = tn.node.textContent || "";
 
-        const before = textContent.slice(0, localStart);
-        const marked = textContent.slice(localStart, localEnd);
-        const after = textContent.slice(localEnd);
-
-        const mark = document.createElement("mark");
-        mark.setAttribute("data-hl-id", hl.id);
-        mark.className = `cursor-pointer rounded-sm ${COLOR_BG[hl.color] || COLOR_BG.yellow}`;
-        mark.textContent = marked;
-        mark.addEventListener("click", (e) => {
-          e.stopPropagation();
-          const rect = mark.getBoundingClientRect();
-          setEditPopup({
-            x: rect.left + rect.width / 2,
-            y: rect.top - 8,
-            highlight: hl,
-          });
-          setNoteText(hl.note || "");
-          setEditingId(null);
-          setToolbar(null);
-        });
-
-        const parent = tn.node.parentNode;
-        if (!parent) continue;
-
-        if (after) {
-          parent.insertBefore(document.createTextNode(after), tn.node.nextSibling);
+        if (!rangeSet) {
+          range.setStart(tn.node, localStart);
+          rangeSet = true;
         }
-        parent.insertBefore(mark, tn.node.nextSibling);
-        if (before) {
-          tn.node.textContent = before;
-        } else {
-          parent.removeChild(tn.node);
-        }
+        range.setEnd(tn.node, localEnd);
+      }
+
+      if (!rangeSet) continue;
+
+      // Get client rects relative to container
+      const clientRects = Array.from(range.getClientRects()).map((r) => new DOMRect(
+        r.left - containerRect.left,
+        r.top - containerRect.top,
+        r.width,
+        r.height,
+      ));
+
+      if (clientRects.length > 0) {
+        results.push({ id: hl.id, color: hl.color, rects: clientRects, highlight: hl });
       }
     }
+
+    setOverlayRects(results);
   }, [highlights, containerRef, disabled]);
+
+  // Recompute overlays when highlights change or on resize/scroll
+  useEffect(() => {
+    computeOverlays();
+    window.addEventListener("resize", computeOverlays);
+    return () => window.removeEventListener("resize", computeOverlays);
+  }, [computeOverlays]);
 
   // Listen for text selection
   useEffect(() => {
@@ -335,6 +324,36 @@ export function HighlightToolbar({
 
   return (
     <>
+      {/* Highlight overlays — absolute positioned colored divs */}
+      {overlayRects.map((entry) =>
+        entry.rects.map((rect, i) => (
+          <div
+            key={`${entry.id}-${i}`}
+            className={cn(
+              "absolute cursor-pointer rounded-sm pointer-events-auto",
+              COLOR_BG[entry.color] || COLOR_BG.yellow,
+            )}
+            style={{
+              left: rect.left,
+              top: rect.top,
+              width: rect.width,
+              height: rect.height,
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditPopup({
+                x: e.clientX,
+                y: rect.top + (containerRef.current?.getBoundingClientRect().top || 0) - 8,
+                highlight: entry.highlight,
+              });
+              setNoteText(entry.highlight.note || "");
+              setEditingId(null);
+              setToolbar(null);
+            }}
+          />
+        )),
+      )}
+
       {/* Create toolbar — only color dots, click = instant create */}
       {toolbar && (
         <div

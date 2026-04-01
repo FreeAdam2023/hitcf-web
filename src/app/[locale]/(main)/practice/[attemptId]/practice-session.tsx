@@ -1090,7 +1090,7 @@ export function PracticeSession() {
       <div
         ref={highlightContainerRef}
         className={cn(
-          "flex flex-col gap-4 overflow-y-auto scrollbar-on-hover pb-20 lg:pb-0 lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5 transition-opacity duration-150",
+          "relative flex flex-col gap-4 overflow-y-auto scrollbar-on-hover pb-20 lg:pb-0 lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5 transition-opacity duration-150",
           isStaleQuestion && "opacity-40 pointer-events-none",
         )}
       >
