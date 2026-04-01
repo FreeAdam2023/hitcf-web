@@ -2039,7 +2039,7 @@
       "trial": "注册即享 7 天体验",
       "stripe": "Stripe 安全支付",
       "refund": "48h 无理由退款",
-      "cancel": "一次付清，无隐藏扣费"
+      "cancel": "一次付清，不自动续费"
     },
     "comparison": {
       "title": "免费版 vs",
