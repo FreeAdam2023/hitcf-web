@@ -358,8 +358,8 @@ export function HighlightToolbar({
               const cRect = containerRef.current?.getBoundingClientRect();
               const scrollTop = containerRef.current?.scrollTop || 0;
               setEditPopup({
-                x: e.clientX - (cRect?.left || 0),
-                y: rect.top + scrollTop - 8,
+                x: rect.left + rect.width,
+                y: rect.top + rect.height + scrollTop + 4,
                 highlight: entry.highlight,
               });
               setNoteText(entry.highlight.note || "");
