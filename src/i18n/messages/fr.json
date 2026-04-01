@@ -2749,6 +2749,7 @@
     "refresh": "Actualiser",
     "checking": "Vérification de la disponibilité...",
     "noDates": "Aucune date disponible",
+    "monitoring": "Surveillance",
     "lastChecked": "Dernière vérification : il y a {time}",
     "realtime": "Prioritaire",
     "delayed": "En attente",

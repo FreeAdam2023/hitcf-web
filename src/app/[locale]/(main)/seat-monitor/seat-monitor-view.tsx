@@ -175,13 +175,20 @@ function CenterCard({
   const hasAvailability = center.available_dates.length > 0;
 
   return (
-    <Card className={center.is_subscribed ? "border-primary/30 bg-primary/5" : ""}>
+    <Card className={center.is_subscribed ? "border-emerald-300 bg-emerald-50/50 dark:border-emerald-800 dark:bg-emerald-950/20" : ""}>
       <CardContent className="p-5">
-        {/* Header: city info + compact action */}
+        {/* Header: city info + status/action */}
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <span className={`h-2 w-2 shrink-0 rounded-full ${hasAvailability ? "bg-emerald-500 animate-pulse" : "bg-gray-300 dark:bg-gray-600"}`} />
+              {center.is_subscribed ? (
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+              ) : (
+                <span className={`h-2 w-2 shrink-0 rounded-full ${hasAvailability ? "bg-emerald-500" : "bg-gray-300 dark:bg-gray-600"}`} />
+              )}
               <h3 className="font-semibold">{center.city_name}</h3>
             </div>
             <p className="mt-0.5 text-xs text-muted-foreground">{center.center_name}</p>
@@ -196,10 +203,10 @@ function CenterCard({
                 </Button>
               </Link>
             ) : center.is_subscribed ? (
-              <Button variant="ghost" size="sm" className="h-8 text-xs text-muted-foreground" onClick={onToggle} disabled={toggling}>
-                <BellOff className="mr-1 h-3 w-3" />
-                {t("unsubscribeBtn")}
-              </Button>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300">
+                <Bell className="h-3 w-3" />
+                {t("monitoring")}
+              </span>
             ) : canSubscribeMore ? (
               <Button variant="outline" size="sm" className="h-8 text-xs" onClick={onToggle} disabled={toggling}>
                 <Bell className="mr-1 h-3 w-3" />
@@ -231,12 +238,23 @@ function CenterCard({
           )}
         </div>
 
-        {/* Last checked */}
-        {center.last_checked_at && (
-          <p className="mt-2 text-[11px] text-muted-foreground">
-            {t("lastChecked", { time: _timeAgo(center.last_checked_at) })}
-          </p>
-        )}
+        {/* Footer: last checked + unsubscribe */}
+        <div className="mt-2 flex items-center justify-between">
+          {center.last_checked_at ? (
+            <p className="text-[11px] text-muted-foreground">
+              {t("lastChecked", { time: _timeAgo(center.last_checked_at) })}
+            </p>
+          ) : <span />}
+          {center.is_subscribed && (
+            <button
+              className="text-[11px] text-muted-foreground/60 hover:text-destructive transition-colors"
+              onClick={onToggle}
+              disabled={toggling}
+            >
+              {t("unsubscribeBtn")}
+            </button>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

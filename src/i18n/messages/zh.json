@@ -2748,6 +2748,7 @@
     "refresh": "刷新",
     "checking": "正在检查空位...",
     "noDates": "暂无可用日期",
+    "monitoring": "监控中",
     "lastChecked": "上次检查：{time} 前",
     "realtime": "优先通知",
     "delayed": "排队中",

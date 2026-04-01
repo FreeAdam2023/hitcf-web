@@ -2746,6 +2746,7 @@
     "refresh": "تحديث",
     "checking": "جارٍ التحقق من التوفر...",
     "noDates": "لا تتوفر مواعيد",
+    "monitoring": "قيد المراقبة",
     "lastChecked": "آخر فحص: منذ {time}",
     "realtime": "أولوية",
     "delayed": "في الانتظار",

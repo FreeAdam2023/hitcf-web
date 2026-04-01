@@ -2753,6 +2753,7 @@
     "refresh": "Refresh",
     "checking": "Checking availability...",
     "noDates": "No dates available",
+    "monitoring": "Monitoring",
     "lastChecked": "Last checked: {time} ago",
     "realtime": "Priority",
     "delayed": "Queued",
