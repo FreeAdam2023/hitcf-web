@@ -29,7 +29,7 @@ export default function PaymentCancelPage() {
           <h1 className="text-3xl font-bold tracking-tight drop-shadow-lg sm:text-4xl">
             {t("payment.cancel.title")}
           </h1>
-          <p className="mx-auto max-w-md text-sm text-white/85 drop-shadow-sm">
+          <p className="mx-auto max-w-xl text-sm text-white/85 drop-shadow-sm">
             {t("payment.cancel.description")}
           </p>
         </div>
