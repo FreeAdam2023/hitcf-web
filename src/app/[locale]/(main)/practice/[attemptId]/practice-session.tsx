@@ -35,24 +35,40 @@ import { SentenceAnalysisInline } from "@/components/practice/sentence-analysis-
 import type { AudioPlayerHandle } from "@/components/practice/audio-player";
 import type { AudioSegment, Explanation, QuestionBrief } from "@/lib/api/types";
 
-const FEEDBACK_TIP_KEY = "hitcf_feedback_tip_dismissed";
+const FEEDBACK_TIP_KEY = "hitcf_feedback_tip";
+const FEEDBACK_TIP_MAX = 2;
+const FEEDBACK_TIP_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 function FeedbackTipBanner() {
   const t = useTranslations("practice.session");
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem(FEEDBACK_TIP_KEY)) setShow(true);
+    const raw = localStorage.getItem(FEEDBACK_TIP_KEY);
+    if (!raw) { setShow(true); return; }
+    try {
+      const { count, dismissedAt } = JSON.parse(raw);
+      if (count >= FEEDBACK_TIP_MAX) return;
+      if (Date.now() - dismissedAt >= FEEDBACK_TIP_COOLDOWN_MS) setShow(true);
+    } catch { setShow(true); }
   }, []);
 
   if (!show) return null;
+
+  function dismiss() {
+    const raw = localStorage.getItem(FEEDBACK_TIP_KEY);
+    let count = 0;
+    try { count = raw ? JSON.parse(raw).count || 0 : 0; } catch {}
+    localStorage.setItem(FEEDBACK_TIP_KEY, JSON.stringify({ count: count + 1, dismissedAt: Date.now() }));
+    setShow(false);
+  }
 
   return (
     <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300">
       <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
       <span className="flex-1">{t("feedbackTip")}</span>
       <button
-        onClick={() => { localStorage.setItem(FEEDBACK_TIP_KEY, "1"); setShow(false); }}
+        onClick={dismiss}
         className="shrink-0 rounded p-0.5 hover:bg-amber-200/50 dark:hover:bg-amber-900/50"
       >
         <X className="h-3.5 w-3.5" />
