@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { BookOpen, ChevronDown, Loader2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import type { QuestionBrief } from "@/lib/api/types";
@@ -11,6 +11,7 @@ import { getTcfPoints } from "@/lib/tcf-levels";
 import { FrenchText, type WordSaveContext } from "./french-text";
 import { SentenceAnalysisInline } from "./sentence-analysis-inline";
 import { PassageContent } from "./passage-content";
+import { HighlightToolbar } from "./highlight-toolbar";
 import { localizeTestName } from "@/lib/test-name";
 
 const LISTENING_INSTRUCTIONS: Record<string, { fr: string; en: string; zhKey: string }> = {
@@ -79,6 +80,8 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
   const [imageLoading, setImageLoading] = useState(false);
   // Whether the image actually rendered successfully
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  const passageRef = useRef<HTMLDivElement>(null);
 
   const instructionData = isListening
     ? LISTENING_INSTRUCTIONS[imageLoaded ? "image" : "audio"]
@@ -207,8 +210,13 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
       )}
 
       {question.passage && (
-        <div className="rounded-md border bg-muted/50 p-4 text-sm lg:text-base leading-relaxed">
+        <div ref={passageRef} className="rounded-md border bg-muted/50 p-4 text-sm lg:text-base leading-relaxed">
           <PassageContent text={question.passage} disabled={vocabDisabled} saveContext={saveContext} />
+          <HighlightToolbar
+            questionId={question.id}
+            containerRef={passageRef}
+            disabled={vocabDisabled}
+          />
         </div>
       )}
 
