@@ -372,7 +372,7 @@ export function HighlightToolbar({
               className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-muted"
               title={c}
             >
-              <span className={cn("h-4.5 w-4.5 rounded-full", COLOR_DOT[c])} />
+              <span className={cn("h-5 w-5 rounded-full", COLOR_DOT[c])} />
             </button>
           ))}
         </div>
