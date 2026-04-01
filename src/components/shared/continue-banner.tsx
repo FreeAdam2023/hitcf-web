@@ -29,7 +29,7 @@ export function ContinueBanner({ onVisibleChange }: { onVisibleChange?: (visible
       // 1. Listening/reading attempts
       listAttempts({ page_size: 5 }).then((res) =>
         res.items
-          .filter((a) => a.status === "in_progress")
+          .filter((a) => a.status === "in_progress" && a.mode !== "exam")
           .sort((a, b) => new Date(b.started_at).getTime() - new Date(a.started_at).getTime()),
       ).catch(() => [] as AttemptResponse[]),
 

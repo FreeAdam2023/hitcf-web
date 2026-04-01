@@ -43,7 +43,7 @@ export function ExamSession() {
     window.scrollTo({ top: 0 });
   }, [currentIndex]);
 
-  // Auto-delete attempt on unmount if user never answered any question
+  // On unmount: delete if 0 answers, auto-submit if > 0 (no "continue exam")
   const answersRef = useRef(answers);
   useEffect(() => { answersRef.current = answers; });
   const attemptIdRef = useRef(attemptId);
@@ -51,8 +51,11 @@ export function ExamSession() {
   useEffect(() => {
     return () => {
       const id = attemptIdRef.current;
-      if (id && answersRef.current.size === 0) {
+      if (!id) return;
+      if (answersRef.current.size === 0) {
         deleteAttempt(id).catch(() => {});
+      } else if (!completingRef.current) {
+        completeAttempt(id).catch(() => {});
       }
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps

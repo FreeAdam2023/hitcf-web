@@ -61,23 +61,12 @@ export function TestCard({
 
   // Active attempt state (fetched when dialog opens)
   const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
-  const [activeExam, setActiveExam] = useState<ActiveAttemptResponse | null>(null);
 
-
-  // Fetch active attempts when dialog opens
+  // Fetch active practice attempt when dialog opens
   useEffect(() => {
     if (!open || locked || !isAuthenticated) return;
-
     setActivePractice(null);
-    setActiveExam(null);
-
-    Promise.all([
-      getActiveAttempt(test.id, "practice").catch(() => null),
-      getActiveAttempt(test.id, "exam").catch(() => null),
-    ]).then(([practice, exam]) => {
-      setActivePractice(practice ?? null);
-      setActiveExam(exam ?? null);
-    });
+    getActiveAttempt(test.id, "practice").then((p) => setActivePractice(p ?? null)).catch(() => {});
   }, [open, test.id, locked, isAuthenticated]);
 
   const handleLockedClick = () => router.push("/pricing");
@@ -108,10 +97,6 @@ export function TestCard({
   };
 
   // ── Exam handlers ──
-  const handleContinueExam = () => {
-    router.push(`/exam/${activeExam!.id}`);
-  };
-
   const handleStartExam = async (forceNew = false) => {
     setStartingExam(true);
     try {
@@ -319,14 +304,6 @@ export function TestCard({
             </div>
           )}
 
-          {activeExam && (
-            <div className="rounded-lg border border-amber-500/20 bg-amber-50 dark:bg-amber-950/30 p-3 text-sm">
-              <span className="text-muted-foreground">
-                {t("testCard.incompleteExam", { answered: `${activeExam.answered_count}/${activeExam.total}` })}
-              </span>
-            </div>
-          )}
-
           {/* Action buttons */}
           <div className="space-y-2">
             <div className="flex gap-3">
@@ -348,54 +325,28 @@ export function TestCard({
                 </Button>
               )}
 
-              {activeExam ? (
-                <Button
-                  className="flex-1"
-                  variant="outline"
-                  onClick={handleContinueExam}
-                  disabled={starting || startingExam}
-                >
-                  {t("testCard.continueExam")}
-                </Button>
-              ) : (
-                <Button
-                  className="flex-1"
-                  variant="outline"
-                  onClick={() => handleStartExam()}
-                  disabled={starting || startingExam}
-                >
-                  {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
-                </Button>
-              )}
+              <Button
+                className="flex-1"
+                variant="outline"
+                onClick={() => handleStartExam(true)}
+                disabled={starting || startingExam}
+              >
+                {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
+              </Button>
             </div>
 
-            {/* Restart options */}
-            {(activePractice || activeExam) && (
+            {/* Restart option for practice only */}
+            {activePractice && (
               <div className="flex gap-3">
-                {activePractice ? (
-                  <button
-                    className="flex-1 inline-flex items-center justify-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
-                    onClick={() => handleStartPractice(true)}
-                    disabled={starting || startingExam}
-                  >
-                    <RotateCcw className="h-3 w-3" />
-                    {t("testCard.restartPractice")}
-                  </button>
-                ) : (
-                  <div className="flex-1" />
-                )}
-                {activeExam ? (
-                  <button
-                    className="flex-1 inline-flex items-center justify-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
-                    onClick={() => handleStartExam(true)}
-                    disabled={starting || startingExam}
-                  >
-                    <RotateCcw className="h-3 w-3" />
-                    {t("testCard.restartExam")}
-                  </button>
-                ) : (
-                  <div className="flex-1" />
-                )}
+                <button
+                  className="flex-1 inline-flex items-center justify-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
+                  onClick={() => handleStartPractice(true)}
+                  disabled={starting || startingExam}
+                >
+                  <RotateCcw className="h-3 w-3" />
+                  {t("testCard.restartPractice")}
+                </button>
+                <div className="flex-1" />
               </div>
             )}
           </div>

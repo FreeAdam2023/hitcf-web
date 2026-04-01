@@ -413,7 +413,6 @@ export default function TestDetailPage() {
   const [topics, setTopics] = useState<QuestionBrief[]>([]);
   const [topicsLoading, setTopicsLoading] = useState(false);
   const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
-  const [activeExam, setActiveExam] = useState<ActiveAttemptResponse | null>(null);
   const [completion, setCompletion] = useState<{ total: number; answered: number } | null>(null);
   const [openBookPref, setOpenBookPref] = useState(false);
 
@@ -432,7 +431,6 @@ export default function TestDetailPage() {
         // Check for active attempts and completion stats (listening/reading only)
         if (data.type === "listening" || data.type === "reading") {
           getActiveAttempt(data.id, "practice").then(setActivePractice).catch(() => {});
-          getActiveAttempt(data.id, "exam").then(setActiveExam).catch(() => {});
           getTestSetCompletion(data.id).then(setCompletion).catch(() => {});
         }
       })
@@ -715,34 +713,6 @@ export default function TestDetailPage() {
                     </div>
                   </div>
                 )}
-                {/* Active exam resume card */}
-                {activeExam && activeExam.answered_count > 0 && (
-                  <div className="rounded-lg border border-orange-200 bg-orange-50/50 p-3 dark:border-orange-800 dark:bg-orange-950/20">
-                    <p className="text-sm font-medium">
-                      {t("testDetail.examProgress", { answered: activeExam.answered_count, total: activeExam.total })}
-                    </p>
-                    <div className="mt-2 flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleStartExam(false)}
-                        disabled={starting || startingExam}
-                      >
-                        <Play className="mr-1.5 h-3.5 w-3.5" />
-                        {startingExam ? t("common.actions.starting") : t("testCard.continueExam")}
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => handleStartExam(true)}
-                        disabled={starting || startingExam}
-                      >
-                        <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
-                        {t("testDetail.restart")}
-                      </Button>
-                    </div>
-                  </div>
-                )}
                 {/* Default buttons */}
                 <div className="flex gap-3">
                   {!activePractice || activePractice.answered_count === 0 ? (
@@ -755,17 +725,15 @@ export default function TestDetailPage() {
                       {starting ? t("common.actions.starting") : t("testCard.startPractice")}
                     </Button>
                   ) : null}
-                  {!activeExam || activeExam.answered_count === 0 ? (
-                    <Button
-                      className="flex-1"
-                      size="lg"
-                      variant="outline"
-                      onClick={() => handleStartExam(false)}
-                      disabled={starting || startingExam}
-                    >
-                      {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
-                    </Button>
-                  ) : null}
+                  <Button
+                    className="flex-1"
+                    size="lg"
+                    variant="outline"
+                    onClick={() => handleStartExam(true)}
+                    disabled={starting || startingExam}
+                  >
+                    {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
+                  </Button>
                 </div>
             </>
           </div>
