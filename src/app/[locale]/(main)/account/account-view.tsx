@@ -6,11 +6,8 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useAuthStore } from "@/stores/auth-store";
 import { updateProfile, changePassword } from "@/lib/api/auth";
-import { reactivateSubscription } from "@/lib/api/subscriptions";
 import { getStatsOverview, type StatsOverview } from "@/lib/api/stats";
 import { ApiError } from "@/lib/api/client";
-import { toast } from "sonner";
-import { SubscriptionManageModal } from "@/components/subscription/subscription-manage-modal";
 import { SUPPORTED_LOCALES, LOCALE_LABELS, type Locale } from "@/i18n/locales";
 import { PRICING } from "@/lib/constants";
 import {
@@ -27,7 +24,6 @@ import {
   ChevronUp,
   Check,
   Loader2,
-  ExternalLink,
   Sparkles,
   LogOut,
   Crown,
@@ -103,10 +99,6 @@ export function AccountView() {
   // Language
   const [langSaving, setLangSaving] = useState(false);
 
-  // Subscription management
-  const [manageModalOpen, setManageModalOpen] = useState(false);
-  const [manageInitialStep, setManageInitialStep] = useState<"manage" | "cancel">("manage");
-  const [reactivating, setReactivating] = useState(false);
 
   const quoteIndex = useMemo(
     () => Math.floor(Math.random() * QUOTE_FR.length),
@@ -210,24 +202,6 @@ export function AccountView() {
     }
   };
 
-  const handleOpenManageModal = (step: "manage" | "cancel" = "manage") => {
-    setManageInitialStep(step);
-    setManageModalOpen(true);
-  };
-
-  const handleReactivate = async () => {
-    setReactivating(true);
-    try {
-      await reactivateSubscription();
-      await fetchUser();
-      toast.success(t("subscriptionManage.reactivated"));
-    } catch {
-      toast.error("Failed to reactivate. Please try again.");
-    } finally {
-      setReactivating(false);
-    }
-  };
-
   return (
     <div className="mx-auto max-w-2xl space-y-6 p-4 pt-8">
       {/* ── Hero Card ── */}
@@ -271,54 +245,7 @@ export function AccountView() {
                   </p>
                 )}
             </div>
-            {subPlan !== "tester" && subPlan !== "reverse_trial" && subPlan !== "recall" && subPlan !== "referral" && (
-              <div className="flex items-center gap-1">
-                {user.subscription?.user_cancelled ? (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-amber-400/80 hover:bg-amber-500/10 hover:text-amber-300"
-                    onClick={handleReactivate}
-                    disabled={reactivating}
-                  >
-                    {reactivating ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : null}
-                    <span className="ml-1 text-xs">{t("subscriptionManage.reactivate")}</span>
-                  </Button>
-                ) : subStatus === "active" || subStatus === "trialing" ? (
-                  <>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-white/50 hover:bg-white/10 hover:text-white"
-                      onClick={() => handleOpenManageModal("manage")}
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                      <span className="ml-1 text-xs">{t("account.subscription.manageSubscription")}</span>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-white/30 hover:bg-red-500/10 hover:text-red-300"
-                      onClick={() => handleOpenManageModal("cancel")}
-                    >
-                      <span className="text-xs">{t("account.subscription.cancelSubscription")}</span>
-                    </Button>
-                  </>
-                ) : (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-amber-400/80 hover:bg-amber-500/10 hover:text-amber-300"
-                    onClick={() => router.push("/pricing")}
-                  >
-                    <span className="text-xs">{t("subscriptionManage.resubscribe")}</span>
-                  </Button>
-                )}
-              </div>
-            )}
-          </div>
+            </div>
 
           {/* Quote */}
           <div className="relative mt-6 border-t border-white/10 pt-4">
@@ -653,11 +580,6 @@ export function AccountView() {
           </div>
         </CardContent>
       </Card>
-      <SubscriptionManageModal
-        open={manageModalOpen}
-        onOpenChange={setManageModalOpen}
-        initialStep={manageInitialStep}
-      />
     </div>
   );
 }

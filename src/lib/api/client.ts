@@ -102,12 +102,10 @@ async function request<T>(
 
     if (res.status === 403) {
       const body = await res.json().catch(() => ({ detail: "Forbidden" }));
-      if (
-        typeof body.detail === "string" &&
-        body.detail.includes("subscription") &&
-        typeof window !== "undefined"
-      ) {
-        window.location.href = getLocalePath("/pricing");
+      if (typeof body.detail === "string" && typeof window !== "undefined") {
+        if (body.detail === "TRIAL_AI_BLOCKED" || body.detail.includes("subscription")) {
+          window.location.href = getLocalePath("/pricing");
+        }
       }
       throw new ApiError(403, body.detail || "Forbidden");
     }

@@ -95,7 +95,7 @@ export function Navbar() {
               <Flame className="h-4 w-4" />
             </Link>
           </Button>
-          <SeatIndicator />
+          {/* <SeatIndicator /> — hidden until backend scraper is verified */}
           <NotificationBell />
           <UserMenu className="hidden md:inline-flex" />
         </div>

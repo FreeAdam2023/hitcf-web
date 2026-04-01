@@ -971,8 +971,7 @@
       "reverseTrial": "Essai 7 jours",
       "renewalDate": "Renouvellement le {date}",
       "expiresDate": "Expire le {date}",
-      "manageSubscription": "Gérer l'abonnement",
-      "cancelSubscription": "Annuler l'abonnement"
+      "manageSubscription": "Mon abonnement"
     },
     "stats": {
       "title": "Statistiques d'étude",
@@ -2029,7 +2028,7 @@
       "subscribe": "S'abonner maintenant",
       "subscribeDirect": "S'abonner maintenant",
       "registerFirst": "Inscription pour s'abonner",
-      "manageSubscription": "Gérer l'abonnement"
+      "manageSubscription": "Mon abonnement"
     },
     "usdNote": "Tous les prix sont en USD",
     "renewalNote": "Les forfaits trimestriel/semestriel sont des paiements uniques, sans renouvellement automatique",

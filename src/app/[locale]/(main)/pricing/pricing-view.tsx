@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/accordion";
 import { useAuthStore } from "@/stores/auth-store";
 import { createCheckout, getCustomerPortal } from "@/lib/api/subscriptions";
-import { SubscriptionManageModal } from "@/components/subscription/subscription-manage-modal";
 import { activateTrial } from "@/lib/api/trial";
 import { cn } from "@/lib/utils";
 import { PRICING, formatPrice, STATS_PARAMS } from "@/lib/constants";
@@ -121,7 +120,6 @@ export function PricingView() {
   const trialEligible = user?.trial_eligible ?? false;
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "quarterly" | "semiannual">("semiannual");
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
-  const [manageModalOpen, setManageModalOpen] = useState(false);
   const activePlan = PLANS.find((p) => p.key === selectedPlan)!;
 
   // Track pricing page view
@@ -153,10 +151,6 @@ export function PricingView() {
       setLoadingPlan(null);
       window.location.href = getLocalePath("/payment/error");
     }
-  };
-
-  const handleManage = () => {
-    setManageModalOpen(true);
   };
 
   return (
@@ -279,9 +273,11 @@ export function PricingView() {
               size="lg"
               variant="outline"
               className="px-10"
-              onClick={handleManage}
+              asChild
             >
-              {t("pricing.cta.manageSubscription")}
+              <Link href="/account">
+                {t("pricing.cta.manageSubscription")}
+              </Link>
             </Button>
           ) : isAuthenticated ? (
             <Button
@@ -454,10 +450,6 @@ export function PricingView() {
         {t("pricing.legalPeriod")}
       </p>
 
-      <SubscriptionManageModal
-        open={manageModalOpen}
-        onOpenChange={setManageModalOpen}
-      />
     </div>
   );
 }

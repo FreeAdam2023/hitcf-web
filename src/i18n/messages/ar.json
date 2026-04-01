@@ -968,8 +968,7 @@
       "reverseTrial": "تجربة 7 أيام",
       "renewalDate": "يُجدَّد في {date}",
       "expiresDate": "ينتهي في {date}",
-      "manageSubscription": "إدارة الاشتراك",
-      "cancelSubscription": "إلغاء الاشتراك"
+      "manageSubscription": "عضويتي"
     },
     "stats": {
       "title": "إحصائيات الدراسة",
@@ -2026,7 +2025,7 @@
       "subscribe": "اشترك الآن",
       "subscribeDirect": "اشترك الآن",
       "registerFirst": "سجّل للاشتراك",
-      "manageSubscription": "إدارة الاشتراك"
+      "manageSubscription": "عضويتي"
     },
     "usdNote": "جميع الأسعار بالدولار الأمريكي",
     "renewalNote": "الاشتراك الربع سنوي/نصف سنوي دفعة واحدة بدون تجديد تلقائي",

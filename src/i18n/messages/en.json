@@ -962,8 +962,7 @@
       "reverseTrial": "7-Day Trial",
       "renewalDate": "Renews {date}",
       "expiresDate": "Expires {date}",
-      "manageSubscription": "Manage Subscription",
-      "cancelSubscription": "Cancel Subscription"
+      "manageSubscription": "My Membership"
     },
     "stats": {
       "title": "Study Stats",
@@ -2029,7 +2028,7 @@
       "subscribe": "Subscribe Now",
       "subscribeDirect": "Subscribe Now",
       "registerFirst": "Sign Up to Subscribe",
-      "manageSubscription": "Manage Subscription"
+      "manageSubscription": "My Membership"
     },
     "usdNote": "All prices in USD",
     "renewalNote": "Quarterly/semi-annual plans are one-time payments, no auto-renewal",
