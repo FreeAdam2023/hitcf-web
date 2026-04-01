@@ -4,10 +4,20 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, LayoutGrid, Headphones, Volume2, BookOpen, Flag, CheckCircle2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutGrid, Headphones, Volume2, BookOpen, Flag, CheckCircle2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useExamStore } from "@/stores/exam-store";
 import { submitAnswer, completeAttempt, deleteAttempt } from "@/lib/api/attempts";
 import { QuestionDisplay } from "@/components/practice/question-display";
@@ -39,6 +49,8 @@ export function ExamSession() {
   const [flagged, setFlagged] = useState<Set<string>>(new Set());
   // Pending selection: user clicked an option but hasn't confirmed yet
   const [pendingSelection, setPendingSelection] = useState<string | null>(null);
+  // Submit exam confirmation dialog
+  const [showSubmitDialog, setShowSubmitDialog] = useState(false);
 
   // Scroll to top and reset pending selection when navigating between questions
   useEffect(() => {
@@ -619,20 +631,32 @@ export function ExamSession() {
             {isFlagged ? t("exam.session.flagged") : t("exam.session.flag")}
           </Button>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={goNext}
-            disabled={isLast}
-          >
-            {t("exam.session.next")}
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
+          {isLast ? (
+            <Button
+              size="sm"
+              variant="outline"
+              className="text-destructive hover:bg-destructive/10"
+              onClick={() => setShowSubmitDialog(true)}
+              disabled={submitting}
+            >
+              <Send className="mr-1 h-4 w-4" />
+              {t("exam.session.submitExam")}
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={goNext}
+            >
+              {t("exam.session.next")}
+              <ChevronRight className="ml-1 h-4 w-4" />
+            </Button>
+          )}
         </div>
       </div>
 
       {/* Desktop sidebar navigator */}
-      <div className="hidden lg:block overflow-y-auto scrollbar-on-hover rounded-xl bg-card border shadow-sm p-3">
+      <div className="hidden lg:flex lg:flex-col lg:gap-3 overflow-y-auto scrollbar-on-hover rounded-xl bg-card border shadow-sm p-3">
         <QuestionNavigator
           total={questions.length}
           currentIndex={currentIndex}
@@ -642,6 +666,16 @@ export function ExamSession() {
           mode="exam"
           flaggedQuestions={flaggedNumbers}
         />
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full text-destructive hover:bg-destructive/10"
+          onClick={() => setShowSubmitDialog(true)}
+          disabled={submitting}
+        >
+          <Send className="mr-1.5 h-3.5 w-3.5" />
+          {t("exam.session.submitExam")}
+        </Button>
       </div>
 
       {/* Mobile floating navigator */}
@@ -669,6 +703,26 @@ export function ExamSession() {
           </div>
         </DrawerContent>
       </Drawer>
+
+      {/* Submit exam confirmation dialog */}
+      <AlertDialog open={showSubmitDialog} onOpenChange={setShowSubmitDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("exam.session.submitConfirm")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {answers.size < questions.length
+                ? t("exam.session.submitConfirmDesc", { unanswered: questions.length - answers.size })
+                : t("exam.session.submitConfirmAll")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("exam.session.submitCancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleComplete}>
+              {t("exam.session.submitOk")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

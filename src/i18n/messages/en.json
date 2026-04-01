@@ -855,6 +855,12 @@
       "startReading": "Start Exam",
       "exitExam": "Back to Tests",
       "confirmAnswer": "Confirm Answer",
+      "submitExam": "Submit Exam",
+      "submitConfirm": "Submit exam?",
+      "submitConfirmDesc": "{unanswered} questions unanswered. You cannot change answers after submitting.",
+      "submitConfirmAll": "All questions answered. Submit exam?",
+      "submitCancel": "Keep Going",
+      "submitOk": "Submit",
       "answerNow": "Answer now",
       "listenCarefully": "Listen carefully..."
     },

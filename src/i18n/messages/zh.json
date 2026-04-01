@@ -856,7 +856,13 @@
       "readingRule3": "计时结束后自动提交",
       "startReading": "开始考试",
       "exitExam": "返回题库",
-      "confirmAnswer": "确认答案"
+      "confirmAnswer": "确认答案",
+      "submitExam": "交卷",
+      "submitConfirm": "确定要交卷吗？",
+      "submitConfirmDesc": "还有 {unanswered} 题未答。交卷后不可修改。",
+      "submitConfirmAll": "所有题目已作答，确定交卷吗？",
+      "submitCancel": "继续答题",
+      "submitOk": "确定交卷"
     },
     "timer": {
       "fiveMinutes": "注意：剩余 5 分钟",

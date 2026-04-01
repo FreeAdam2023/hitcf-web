@@ -852,6 +852,12 @@
       "startReading": "بدء الامتحان",
       "exitExam": "العودة للاختبارات",
       "confirmAnswer": "تأكيد الإجابة",
+      "submitExam": "تسليم الامتحان",
+      "submitConfirm": "تسليم الامتحان؟",
+      "submitConfirmDesc": "{unanswered} أسئلة بدون إجابة. لا يمكن تعديل الإجابات بعد التسليم.",
+      "submitConfirmAll": "تمت الإجابة على جميع الأسئلة. تسليم الامتحان؟",
+      "submitCancel": "متابعة",
+      "submitOk": "تسليم",
       "answerNow": "أجب الآن",
       "listenCarefully": "استمع بعناية..."
     },

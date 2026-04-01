@@ -855,6 +855,12 @@
       "startReading": "Commencer l'examen",
       "exitExam": "Retour aux tests",
       "confirmAnswer": "Confirmer la réponse",
+      "submitExam": "Remettre l'examen",
+      "submitConfirm": "Remettre l'examen ?",
+      "submitConfirmDesc": "{unanswered} questions sans réponse. Vous ne pourrez plus modifier après.",
+      "submitConfirmAll": "Toutes les questions sont répondues. Remettre l'examen ?",
+      "submitCancel": "Continuer",
+      "submitOk": "Remettre",
       "answerNow": "Répondez maintenant",
       "listenCarefully": "Écoutez attentivement..."
     },
