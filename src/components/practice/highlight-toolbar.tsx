@@ -171,10 +171,8 @@ export function HighlightToolbar({
     const container = containerRef.current;
     if (!container) return;
 
-    const handleMouseUp = (e: MouseEvent) => {
+    const handleMouseUp = () => {
       // Small delay to let selection finalize
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
       setTimeout(() => {
         const selection = window.getSelection();
         if (!selection || selection.isCollapsed || !selection.rangeCount) {
@@ -194,10 +192,14 @@ export function HighlightToolbar({
         preRange.setEnd(range.startContainer, range.startOffset);
         const startOffset = preRange.toString().length;
 
-        // Position at mouse release point
+        // Position at end of selected text (not mouse, not bounding box)
+        const endRange = document.createRange();
+        endRange.setStart(range.endContainer, range.endOffset);
+        endRange.collapse(true);
+        const endRect = endRange.getBoundingClientRect();
         setToolbar({
-          x: mouseX,
-          y: mouseY + 10,
+          x: endRect.left,
+          y: endRect.bottom + 4,
           text: text.slice(0, 500),
           startOffset,
           endOffset: startOffset + text.length,
