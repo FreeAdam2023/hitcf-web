@@ -70,7 +70,6 @@ export function HighlightToolbar({
     highlight: HighlightItem;
   } | null>(null);
   const [noteText, setNoteText] = useState("");
-  const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
   const toolbarRef = useRef<HTMLDivElement>(null);
   const editRef = useRef<HTMLDivElement>(null);
 
@@ -210,7 +209,6 @@ export function HighlightToolbar({
           startOffset,
           endOffset: startOffset + text.length,
         });
-        setSelectedTags(new Set());
         setEditPopup(null);
       }, 10);
     };
@@ -250,7 +248,6 @@ export function HighlightToolbar({
           start_offset: toolbar.startOffset,
           end_offset: toolbar.endOffset,
           color,
-          tags: Array.from(selectedTags),
         });
         setHighlights((prev) => [...prev, hl]);
         setToolbar(null);
@@ -265,7 +262,7 @@ export function HighlightToolbar({
         }
       }
     },
-    [toolbar, questionId, selectedTags, t],
+    [toolbar, questionId, t],
   );
 
   const handleDelete = useCallback(
@@ -338,57 +335,27 @@ export function HighlightToolbar({
 
   return (
     <>
-      {/* Create toolbar — appears on text selection */}
+      {/* Create toolbar — only color dots, click = instant create */}
       {toolbar && (
         <div
           ref={toolbarRef}
-          className="fixed z-50 w-72 rounded-xl border bg-popover p-2.5 shadow-xl animate-in fade-in zoom-in-95 duration-100"
+          className="fixed z-50 flex items-center gap-0.5 rounded-full border bg-popover px-1.5 py-1 shadow-xl animate-in fade-in zoom-in-95 duration-100"
           style={{
             left: toolbar.x,
             top: toolbar.y,
             transform: "translateX(-50%)",
           }}
         >
-          {/* Color buttons */}
-          <div className="flex items-center gap-1">
-            {COLORS.map((c) => (
-              <button
-                key={c}
-                onClick={() => handleCreate(c)}
-                className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-muted"
-                title={c}
-              >
-                <span className={cn("h-5 w-5 rounded-full", COLOR_DOT[c])} />
-              </button>
-            ))}
-          </div>
-          {/* Tag pills */}
-          <div className="mt-2 flex flex-wrap gap-1">
-            {TAGS.map((tag) => {
-              const active = selectedTags.has(tag);
-              return (
-                <button
-                  key={tag}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedTags((prev) => {
-                      const next = new Set(prev);
-                      if (active) next.delete(tag); else next.add(tag);
-                      return next;
-                    });
-                  }}
-                  className={cn(
-                    "rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
-                    active
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground hover:bg-muted/80",
-                  )}
-                >
-                  {t(`review.highlights.tags.${tag}`)}
-                </button>
-              );
-            })}
-          </div>
+          {COLORS.map((c) => (
+            <button
+              key={c}
+              onClick={() => handleCreate(c)}
+              className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-muted"
+              title={c}
+            >
+              <span className={cn("h-4.5 w-4.5 rounded-full", COLOR_DOT[c])} />
+            </button>
+          ))}
         </div>
       )}
 
