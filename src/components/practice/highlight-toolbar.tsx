@@ -13,7 +13,7 @@ import {
 } from "@/lib/api/highlights";
 import type { HighlightItem } from "@/lib/api/types";
 
-const COLORS = ["yellow", "green", "blue"] as const;
+const COLORS = ["yellow", "green", "blue", "pink", "purple", "orange"] as const;
 const TAGS = [
   "collocation",
   "expression",
@@ -28,12 +28,18 @@ const COLOR_BG: Record<string, string> = {
   yellow: "bg-yellow-200/60 dark:bg-yellow-800/40",
   green: "bg-green-200/60 dark:bg-green-800/40",
   blue: "bg-blue-200/60 dark:bg-blue-800/40",
+  pink: "bg-pink-200/60 dark:bg-pink-800/40",
+  purple: "bg-purple-200/60 dark:bg-purple-800/40",
+  orange: "bg-orange-200/60 dark:bg-orange-800/40",
 };
 
 const COLOR_DOT: Record<string, string> = {
   yellow: "bg-yellow-400",
   green: "bg-green-400",
   blue: "bg-blue-400",
+  pink: "bg-pink-400",
+  purple: "bg-purple-400",
+  orange: "bg-orange-400",
 };
 
 interface HighlightToolbarProps {
@@ -201,7 +207,7 @@ export function HighlightToolbar({
         const lastRect = rects[rects.length - 1] || firstRect;
         setToolbar({
           x: (firstRect.left + lastRect.right) / 2,
-          y: firstRect.top - 8,
+          y: lastRect.bottom + 8,
           text: text.slice(0, 500),
           startOffset,
           endOffset: startOffset + text.length,
@@ -342,7 +348,7 @@ export function HighlightToolbar({
           style={{
             left: toolbar.x,
             top: toolbar.y,
-            transform: "translate(-50%, -100%)",
+            transform: "translateX(-50%)",
           }}
         >
           {/* Color buttons */}
@@ -396,7 +402,7 @@ export function HighlightToolbar({
           style={{
             left: editPopup.x,
             top: editPopup.y,
-            transform: "translate(-50%, -100%)",
+            transform: "translateX(-50%)",
           }}
         >
           {/* Color picker + actions */}
