@@ -159,12 +159,24 @@ export function HighlightToolbar({
     setOverlayRects(results);
   }, [highlights, containerRef, disabled]);
 
-  // Recompute overlays when highlights change or on resize/scroll
+  // Recompute overlays when highlights change, on resize, or container layout shift
   useEffect(() => {
     computeOverlays();
     window.addEventListener("resize", computeOverlays);
-    return () => window.removeEventListener("resize", computeOverlays);
-  }, [computeOverlays]);
+
+    // Watch container size changes (e.g. open-book panel toggling)
+    const container = containerRef.current;
+    let resizeObserver: ResizeObserver | undefined;
+    if (container) {
+      resizeObserver = new ResizeObserver(computeOverlays);
+      resizeObserver.observe(container);
+    }
+
+    return () => {
+      window.removeEventListener("resize", computeOverlays);
+      resizeObserver?.disconnect();
+    };
+  }, [computeOverlays, containerRef]);
 
   // Listen for text selection
   useEffect(() => {
