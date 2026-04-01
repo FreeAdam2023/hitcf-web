@@ -2069,7 +2069,7 @@
     "mostPopular": "Most Popular",
     "cta": {
       "redirecting": "Redirecting...",
-      "trialSuffix": " — 48h money-back guarantee",
+      "trialSuffix": " — 24h money-back guarantee",
       "subscribe": "Subscribe Now",
       "subscribeDirect": "Subscribe Now",
       "registerFirst": "Sign Up to Subscribe",
@@ -2082,7 +2082,7 @@
     "trust": {
       "trial": "7-day free trial on signup",
       "stripe": "Secure Stripe payments",
-      "refund": "48h money-back guarantee",
+      "refund": "24h money-back guarantee",
       "cancel": "Pay once, no auto-renewal"
     },
     "comparison": {
@@ -2124,7 +2124,7 @@
         },
         {
           "q": "Can I cancel anytime?",
-          "a": "Cancel anytime via the Stripe customer portal (click \"Manage Subscription\" on the pricing page). Paid users keep Pro access until the end of the billing cycle. Quarterly and semi-annual plans do not auto-renew — no need to cancel manually. Full refund within 48 hours of first payment."
+          "a": "Cancel anytime via the Stripe customer portal (click \"Manage Subscription\" on the pricing page). Paid users keep Pro access until the end of the billing cycle. Quarterly and semi-annual plans do not auto-renew — no need to cancel manually. Full refund within 24 hours of first payment (one-time only)."
         },
         {
           "q": "What payment methods are supported?",
@@ -2140,7 +2140,7 @@
         },
         {
           "q": "How do I request a refund?",
-          "a": "You can request a full refund within 48 hours of your first payment. Simply email support@hitcf.com. See our refund policy for details."
+          "a": "You can request a full refund within 24 hours of your first payment (one-time only). Simply email support@hitcf.com. See our refund policy for details."
         }
       ]
     },
@@ -2586,7 +2586,7 @@
       },
       {
         "label": "First Charge Refundable",
-        "desc": "Full refund within 48 hours"
+        "desc": "Full refund within 24 hours"
       },
       {
         "label": "No Surprise Charges",
@@ -2617,7 +2617,7 @@
       },
       {
         "q": "How do I request a refund?",
-        "a": "Full refund within 48 hours of first payment. Semi-annual subscribers can get a prorated refund within 30 days. Email support@hitcf.com — processed within 3 business days."
+        "a": "Full refund within 24 hours of first payment (one-time only). Email support@hitcf.com — processed within 3 business days."
       }
     ],
     "ctaImageAlt": "Parliament Hill and Ottawa River panorama",
@@ -2717,7 +2717,7 @@
     },
     "refund": {
       "title": "Refund Policy · Refund Process",
-      "description": "HiTCF Refund Policy: 7-day free trial on signup, no credit card needed. Full refund within 48 hours of first payment, prorated refund within 30 days for semi-annual. Refunded via Stripe."
+      "description": "HiTCF Refund Policy: 7-day free trial on signup, no credit card needed. Full refund within 24 hours of first payment (one-time only). Refunded via Stripe."
     },
     "disclaimer": {
       "title": "Disclaimer · Content Sources & Exam Result Notice",
@@ -3106,14 +3106,14 @@
       "title": "3. Refund Conditions",
       "p1": "The following situations are eligible for a refund:",
       "fullTitle": "3.1 Full Refund",
-      "fullLi1": "Within <b>48 hours</b> of your first payment, if you are unsatisfied with the service.",
+      "fullLi1": "Within <b>24 hours</b> of your first payment (one-time only), if you are unsatisfied with the service.",
       "fullLi2": "If a Platform technical issue (such as prolonged login failures or widespread feature outages) prevents you from using the service, and we fail to resolve it within 72 hours.",
       "fullLi3": "Duplicate or erroneous charges.",
-      "proTitle": "3.2 Prorated Refund",
-      "proLi1": "Semi-annual subscribers who request a refund within <b>30 days</b> of payment may receive a prorated refund for unused days.",
+      "proTitle": "",
+      "proLi1": "",
       "noTitle": "3.3 Non-Refundable",
-      "noLi1": "Monthly subscribers requesting a refund after the initial 48 hours.",
-      "noLi2": "Semi-annual subscribers requesting a refund after 30 days.",
+      "noLi1": "Any refund request after 24 hours of payment.",
+      "noLi2": "",
       "noLi3": "Non-use due to personal reasons (e.g., forgetting to cancel auto-renewal, personal scheduling).",
       "noLi4": "Refund requests based on unsatisfactory exam results (the Platform does not guarantee exam outcomes — see our <disclaimerLink>Disclaimer</disclaimerLink>).",
       "noLi5": "Account suspension or termination due to violation of <termsLink>Terms of Service</termsLink>."
@@ -3149,7 +3149,7 @@
     "faq5q": "How do I practice speaking and writing?",
     "faq5a": "Speaking: built-in AI examiner conversation with pronunciation scoring, supporting full Tâche 2 and Tâche 3 simulations. Writing: AI 4-dimension scoring with sentence-by-sentence corrections. Pro members only.",
     "faq6q": "How do I request a refund?",
-    "faq6a": "Full refund within 48 hours of first payment. Semi-annual subscribers can get a prorated refund within 30 days. Simply email support@hitcf.com — processed within 3 business days."
+    "faq6a": "Full refund within 24 hours of first payment (one-time only). Simply email support@hitcf.com — processed within 3 business days."
   },
   "welcome": {
     "title": "Welcome, {name}",
@@ -3241,7 +3241,7 @@
       "upgradePro": "Upgrade to Pro",
       "subscribe": "Subscribe Now",
       "recommended": "Recommended",
-      "refundGuarantee": "48-hour refund guarantee",
+      "refundGuarantee": "24-hour refund guarantee",
       "unlimitedAccess": "Unlimited questions + explanations",
       "cancelAnytime": "Cancel anytime"
     },

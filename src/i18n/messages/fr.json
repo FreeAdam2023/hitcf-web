@@ -2069,7 +2069,7 @@
     "mostPopular": "Le plus populaire",
     "cta": {
       "redirecting": "Redirection...",
-      "trialSuffix": " — remboursement sous 48 h",
+      "trialSuffix": " — remboursement sous 24 h",
       "subscribe": "S'abonner maintenant",
       "subscribeDirect": "S'abonner maintenant",
       "registerFirst": "Inscription pour s'abonner",
@@ -2082,7 +2082,7 @@
     "trust": {
       "trial": "7 jours d'essai à l'inscription",
       "stripe": "Paiements sécurisés via Stripe",
-      "refund": "Garantie de remboursement sous 48 h",
+      "refund": "Garantie de remboursement sous 24 h",
       "cancel": "Paiement unique, sans renouvellement"
     },
     "comparison": {
@@ -2124,7 +2124,7 @@
         },
         {
           "q": "Puis-je annuler à tout moment ?",
-          "a": "Annulez à tout moment via le portail client Stripe (cliquez sur « Gérer l'abonnement » sur la page de tarification). Les utilisateurs payants conservent l'accès Pro jusqu'à la fin du cycle de facturation. Les abonnements trimestriel et semestriel ne se renouvellent pas automatiquement — aucune action requise. Remboursement intégral dans les 48 heures suivant le premier paiement."
+          "a": "Annulez à tout moment via le portail client Stripe (cliquez sur « Gérer l'abonnement » sur la page de tarification). Les utilisateurs payants conservent l'accès Pro jusqu'à la fin du cycle de facturation. Les abonnements trimestriel et semestriel ne se renouvellent pas automatiquement — aucune action requise. Remboursement intégral dans les 24 heures suivant le premier paiement (une seule fois)."
         },
         {
           "q": "Quels modes de paiement sont acceptés ?",
@@ -2140,7 +2140,7 @@
         },
         {
           "q": "Comment demander un remboursement ?",
-          "a": "Vous pouvez demander un remboursement intégral dans les 48 heures suivant votre premier paiement. Envoyez simplement un e-mail à support@hitcf.com. Consultez notre politique de remboursement pour plus de détails."
+          "a": "Vous pouvez demander un remboursement intégral dans les 24 heures suivant votre premier paiement (une seule fois). Envoyez simplement un e-mail à support@hitcf.com. Consultez notre politique de remboursement pour plus de détails."
         }
       ]
     },
@@ -2586,7 +2586,7 @@
       },
       {
         "label": "Premier paiement remboursable",
-        "desc": "Remboursement intégral sous 48 heures"
+        "desc": "Remboursement intégral sous 24 heures"
       },
       {
         "label": "Aucun frais surprise",
@@ -2617,7 +2617,7 @@
       },
       {
         "q": "Comment demander un remboursement ?",
-        "a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés semestriels peuvent obtenir un remboursement proportionnel dans les 30 jours. Envoyez un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
+        "a": "Remboursement intégral dans les 24 heures suivant le premier paiement (une seule fois). Envoyez un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
       }
     ],
     "ctaImageAlt": "Panorama de la Colline du Parlement et de la rivière des Outaouais",
@@ -2717,7 +2717,7 @@
     },
     "refund": {
       "title": "Politique de remboursement · Procédure de remboursement",
-      "description": "Politique de remboursement de HiTCF : 7 jours d'essai gratuit à l'inscription, sans carte bancaire. Remboursement intégral dans les 48 heures suivant le premier paiement, remboursement proportionnel dans les 30 jours pour le semestriel. Remboursement via Stripe."
+      "description": "Politique de remboursement de HiTCF : 7 jours d'essai gratuit à l'inscription, sans carte bancaire. Remboursement intégral dans les 24 heures suivant le premier paiement (une seule fois). Remboursement via Stripe."
     },
     "disclaimer": {
       "title": "Avertissement · Sources du contenu et avis sur les résultats d'examen",
@@ -3102,14 +3102,14 @@
       "title": "3. Conditions de remboursement",
       "p1": "Les situations suivantes donnent droit à un remboursement :",
       "fullTitle": "3.1 Remboursement intégral",
-      "fullLi1": "Dans les <b>48 heures</b> suivant votre premier paiement, si vous n'êtes pas satisfait du service.",
+      "fullLi1": "Dans les <b>24 heures</b> suivant votre premier paiement, si vous n'êtes pas satisfait du service (une seule fois par utilisateur).",
       "fullLi2": "Si un problème technique de la Plateforme (tel que des échecs de connexion prolongés ou des pannes généralisées de fonctionnalités) vous empêche d'utiliser le service, et que nous ne parvenons pas à le résoudre dans les 72 heures.",
       "fullLi3": "Charges en double ou erronées.",
-      "proTitle": "3.2 Remboursement proportionnel",
-      "proLi1": "Les abonnés semestriels qui demandent un remboursement dans les <b>30 jours</b> suivant le paiement peuvent recevoir un remboursement proportionnel pour les jours non utilisés.",
+      "proTitle": "",
+      "proLi1": "",
       "noTitle": "3.3 Non remboursable",
-      "noLi1": "Abonnés mensuels demandant un remboursement après les 48 premières heures.",
-      "noLi2": "Abonnés semestriels demandant un remboursement après 30 jours.",
+      "noLi1": "Abonnés mensuels demandant un remboursement après les 24 premières heures.",
+      "noLi2": "",
       "noLi3": "Non-utilisation pour des raisons personnelles (par ex., oubli d'annuler le renouvellement automatique, emploi du temps personnel).",
       "noLi4": "Demandes de remboursement basées sur des résultats d'examen insatisfaisants (la Plateforme ne garantit pas les résultats d'examen — voir notre <disclaimerLink>Avertissement</disclaimerLink>).",
       "noLi5": "Suspension ou résiliation de compte pour violation des <termsLink>Conditions d'utilisation</termsLink>."
@@ -3145,7 +3145,7 @@
     "faq5q": "Comment puis-je m'entraîner à l'expression orale et écrite ?",
     "faq5a": "Oral : conversation avec un examinateur IA intégré avec score de prononciation, simulation complète des Tâches 2 et 3. Écrit : notation IA sur 4 dimensions + corrections phrase par phrase. Réservé aux membres Pro.",
     "faq6q": "Comment demander un remboursement ?",
-    "faq6a": "Remboursement intégral dans les 48 heures suivant le premier paiement. Les abonnés semestriels peuvent obtenir un remboursement proportionnel dans les 30 jours. Envoyez simplement un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
+    "faq6a": "Remboursement intégral dans les 24 heures suivant le premier paiement (une seule fois). Envoyez simplement un e-mail à support@hitcf.com — traitement sous 3 jours ouvrables."
   },
   "welcome": {
     "title": "Bienvenue, {name}",
@@ -3235,7 +3235,7 @@
       "upgradePro": "Passer à Pro",
       "subscribe": "S'abonner maintenant",
       "recommended": "Recommandé",
-      "refundGuarantee": "Remboursement sous 48h",
+      "refundGuarantee": "Remboursement sous 24h",
       "unlimitedAccess": "Questions + explications illimitées",
       "cancelAnytime": "Annulez à tout moment"
     },
