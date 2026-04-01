@@ -2040,6 +2040,7 @@
       "registerFirst": "Sign Up to Subscribe",
       "manageSubscription": "My Membership"
     },
+    "alreadySubscribed": "You are already a member",
     "usdNote": "All prices in USD",
     "renewalNote": "Quarterly/semi-annual plans are one-time payments, no auto-renewal",
     "referralNudge": "Or invite friends — both get 30 free days",

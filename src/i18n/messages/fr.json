@@ -2040,6 +2040,7 @@
       "registerFirst": "Inscription pour s'abonner",
       "manageSubscription": "Mon abonnement"
     },
+    "alreadySubscribed": "Vous êtes déjà membre",
     "usdNote": "Tous les prix sont en USD",
     "renewalNote": "Les forfaits trimestriel/semestriel sont des paiements uniques, sans renouvellement automatique",
     "referralNudge": "Ou invitez un ami — 30 jours Pro gratuits pour chacun",

@@ -13,6 +13,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { toast } from "sonner";
 import { Testimonials } from "@/components/shared/testimonials";
 import { Button } from "@/components/ui/button";
 import {
@@ -147,9 +148,13 @@ export function PricingView() {
     try {
       const { url } = await createCheckout(plan);
       window.location.href = url;
-    } catch {
+    } catch (err) {
       setLoadingPlan(null);
-      window.location.href = getLocalePath("/payment/error");
+      if (err instanceof Error && err.message?.includes("already have")) {
+        toast.info(t("pricing.alreadySubscribed"));
+      } else {
+        window.location.href = getLocalePath("/payment/error");
+      }
     }
   };
 

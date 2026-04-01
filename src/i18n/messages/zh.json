@@ -2036,11 +2036,12 @@
     "cta": {
       "redirecting": "跳转中...",
       "trialSuffix": "，48 小时无理由退款",
-      "subscribe": "立即订阅",
-      "subscribeDirect": "立即订阅",
-      "registerFirst": "注册后订阅",
+      "subscribe": "开通会员",
+      "subscribeDirect": "开通会员",
+      "registerFirst": "注册开通",
       "manageSubscription": "我的会员"
     },
+    "alreadySubscribed": "你已经是会员，无需重复购买",
     "usdNote": "所有价格均以美元（USD）计价",
     "renewalNote": "季付/半年付一次付清，到期不续费",
     "referralNudge": "或者邀请好友，双方各得 30 天 Pro",

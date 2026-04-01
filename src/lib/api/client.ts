@@ -2,6 +2,31 @@ import { getLocalePath } from "@/lib/utils";
 
 const DEFAULT_TIMEOUT_MS = 30_000;
 
+/** Track consecutive network failures to detect deployment/downtime */
+let _networkFailCount = 0;
+let _upgradeToastShown = false;
+
+function _handleNetworkError() {
+  _networkFailCount++;
+  if (_networkFailCount >= 3 && !_upgradeToastShown) {
+    _upgradeToastShown = true;
+    // Dynamic import to avoid circular deps
+    import("sonner").then(({ toast }) => {
+      toast.info(
+        typeof window !== "undefined" && document.documentElement.lang?.startsWith("zh")
+          ? "系统正在升级，请稍后刷新页面"
+          : "System is updating, please refresh in a moment",
+        { duration: 15000, id: "system-upgrade" },
+      );
+    }).catch(() => {});
+  }
+}
+
+function _resetNetworkFailCount() {
+  _networkFailCount = 0;
+  _upgradeToastShown = false;
+}
+
 /** Debounced error reporter — sends client errors to backend for monitoring */
 const _errorQueue: Array<{ path: string; method: string; status: number; message: string; ts: number }> = [];
 let _flushTimer: ReturnType<typeof setTimeout> | null = null;
@@ -93,6 +118,9 @@ async function request<T>(
       cache: "no-store",
     });
 
+    // Successful fetch — reset network fail counter
+    _resetNetworkFailCount();
+
     if (res.status === 401) {
       if (!extra?.noRedirect && typeof window !== "undefined") {
         window.location.href = getLocalePath("/login");
@@ -146,7 +174,10 @@ async function request<T>(
     if (res.status === 204) return undefined as T;
     return res.json();
   } catch (e) {
-    // Network errors (status 0) are user-side — don't report
+    // Network errors (status 0) — show upgrade toast after 3 consecutive failures
+    if (!(e instanceof ApiError)) {
+      _handleNetworkError();
+    }
     if (e instanceof ApiError) throw e;
     throw e;
   } finally {
