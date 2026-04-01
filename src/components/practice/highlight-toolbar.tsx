@@ -185,10 +185,13 @@ export function HighlightToolbar({
         preRange.setEnd(range.startContainer, range.startOffset);
         const startOffset = preRange.toString().length;
 
-        const rect = range.getBoundingClientRect();
+        // Position above the start of the selection
+        const rects = range.getClientRects();
+        const firstRect = rects[0] || range.getBoundingClientRect();
+        const lastRect = rects[rects.length - 1] || firstRect;
         setToolbar({
-          x: rect.left + rect.width / 2,
-          y: rect.top - 8,
+          x: (firstRect.left + lastRect.right) / 2,
+          y: firstRect.top - 8,
           text: text.slice(0, 500),
           startOffset,
           endOffset: startOffset + text.length,
