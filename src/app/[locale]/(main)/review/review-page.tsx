@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { ArrowDownWideNarrow, BookOpen, Clock, Headphones, Highlighter, Star, Trash2, CheckSquare, X } from "lucide-react";
+import { ArrowDownWideNarrow, BookOpen, Clock, Headphones, Star, Trash2, CheckSquare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
