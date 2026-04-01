@@ -192,14 +192,24 @@ export function HighlightToolbar({
         preRange.setEnd(range.startContainer, range.startOffset);
         const startOffset = preRange.toString().length;
 
-        // Position at end of selected text (not mouse, not bounding box)
-        const endRange = document.createRange();
-        endRange.setStart(range.endContainer, range.endOffset);
-        endRange.collapse(true);
-        const endRect = endRange.getBoundingClientRect();
+        // Position toolbar right below the last line of selected text.
+        // Use getClientRects() on the original range (NOT a collapsed range)
+        // to get per-line rects. The last rect = last line of the selection.
+        const rects = range.getClientRects();
+        if (rects.length === 0) return;
+        const lastRect = rects[rects.length - 1];
+
+        // Convert viewport coords → container-relative coords.
+        // This is necessary because the container has overflow-y: auto
+        // (scrollable), and position: fixed inside it behaves unexpectedly.
+        // Using absolute positioning relative to the container is correct.
+        const containerRect = container.getBoundingClientRect();
+        const relX = lastRect.left + lastRect.width / 2 - containerRect.left;
+        const relY = lastRect.bottom - containerRect.top + container.scrollTop + 4;
+
         setToolbar({
-          x: endRect.left,
-          y: endRect.bottom + 4,
+          x: relX,
+          y: relY,
           text: text.slice(0, 500),
           startOffset,
           endOffset: startOffset + text.length,
@@ -345,9 +355,11 @@ export function HighlightToolbar({
             }}
             onClick={(e) => {
               e.stopPropagation();
+              const cRect = containerRef.current?.getBoundingClientRect();
+              const scrollTop = containerRef.current?.scrollTop || 0;
               setEditPopup({
-                x: e.clientX,
-                y: rect.top + (containerRef.current?.getBoundingClientRect().top || 0) - 8,
+                x: e.clientX - (cRect?.left || 0),
+                y: rect.top + scrollTop - 8,
                 highlight: entry.highlight,
               });
               setNoteText(entry.highlight.note || "");
@@ -362,7 +374,7 @@ export function HighlightToolbar({
       {toolbar && (
         <div
           ref={toolbarRef}
-          className="fixed z-50 flex items-center gap-0.5 rounded-full border bg-popover px-1.5 py-1 shadow-xl animate-in fade-in zoom-in-95 duration-100"
+          className="absolute z-50 flex items-center gap-0.5 rounded-full border bg-popover px-1.5 py-1 shadow-xl animate-in fade-in zoom-in-95 duration-100"
           style={{
             left: toolbar.x,
             top: toolbar.y,
@@ -386,7 +398,7 @@ export function HighlightToolbar({
       {editPopup && (
         <div
           ref={editRef}
-          className="fixed z-50 w-72 rounded-xl border bg-popover p-3 shadow-xl animate-in fade-in zoom-in-95 duration-100"
+          className="absolute z-50 w-72 rounded-xl border bg-popover p-3 shadow-xl animate-in fade-in zoom-in-95 duration-100"
           style={{
             left: editPopup.x,
             top: editPopup.y,
