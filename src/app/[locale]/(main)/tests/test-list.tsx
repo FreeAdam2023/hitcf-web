@@ -441,7 +441,13 @@ export function TestList() {
     });
 
     if (tab === "listening" || tab === "reading") {
-      return filtered.sort((a, b) => a.order - b.order);
+      const statusPriority: Record<string, number> = { inProgress: 0, completed: 1, notStarted: 2 };
+      return filtered.sort((a, b) => {
+        const sa = statusPriority[getTestStatus(a.id)] ?? 2;
+        const sb = statusPriority[getTestStatus(b.id)] ?? 2;
+        if (sa !== sb) return sa - sb;
+        return a.order - b.order;
+      });
     }
 
     return filtered;

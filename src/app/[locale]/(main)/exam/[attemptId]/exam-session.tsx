@@ -356,6 +356,14 @@ export function ExamSession() {
             <Button size="lg" onClick={handleStartListening}>
               {t("exam.session.startListening")}
             </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground"
+              onClick={() => router.push("/tests")}
+            >
+              {t("exam.session.exitExam")}
+            </Button>
           </div>
         </div>
       );
@@ -478,6 +486,14 @@ export function ExamSession() {
         </div>
         <Button size="lg" onClick={() => setReadingStarted(true)}>
           {t("exam.session.startReading")}
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-muted-foreground"
+          onClick={() => router.push("/tests")}
+        >
+          {t("exam.session.exitExam")}
         </Button>
       </div>
     );

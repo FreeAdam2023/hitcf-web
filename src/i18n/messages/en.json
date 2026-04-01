@@ -853,6 +853,7 @@
       "readingRule2": "You can go back to previous questions and skip ahead",
       "readingRule3": "Auto-submit when time is up",
       "startReading": "Start Exam",
+      "exitExam": "Back to Tests",
       "answerNow": "Answer now",
       "listenCarefully": "Listen carefully..."
     },
