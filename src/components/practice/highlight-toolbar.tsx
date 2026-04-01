@@ -171,8 +171,10 @@ export function HighlightToolbar({
     const container = containerRef.current;
     if (!container) return;
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (e: MouseEvent) => {
       // Small delay to let selection finalize
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
       setTimeout(() => {
         const selection = window.getSelection();
         if (!selection || selection.isCollapsed || !selection.rangeCount) {
@@ -192,12 +194,10 @@ export function HighlightToolbar({
         preRange.setEnd(range.startContainer, range.startOffset);
         const startOffset = preRange.toString().length;
 
-        // Position below the last line of the selection
-        const rects = range.getClientRects();
-        const lastRect = rects.length > 0 ? rects[rects.length - 1] : range.getBoundingClientRect();
+        // Position at mouse release point
         setToolbar({
-          x: lastRect.left + lastRect.width / 2,
-          y: lastRect.bottom + 4,
+          x: mouseX,
+          y: mouseY + 10,
           text: text.slice(0, 500),
           startOffset,
           endOffset: startOffset + text.length,
