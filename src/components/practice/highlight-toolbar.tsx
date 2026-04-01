@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Pencil, Trash2, X } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
@@ -430,12 +430,6 @@ export function HighlightToolbar({
                 title={t("review.highlights.delete")}
               >
                 <Trash2 className="h-3.5 w-3.5" />
-              </button>
-              <button
-                onClick={() => { setEditPopup(null); setEditingId(null); }}
-                className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <X className="h-3.5 w-3.5" />
               </button>
             </div>
           </div>
