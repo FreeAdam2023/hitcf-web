@@ -251,6 +251,7 @@ export function HighlightToolbar({
         setHighlights((prev) => [...prev, hl]);
         setToolbar(null);
         window.getSelection()?.removeAllRanges();
+        window.dispatchEvent(new Event("highlight-created"));
       } catch (err) {
         const msg = err instanceof Error ? err.message : "";
         if (msg.includes("409") || msg.includes("Duplicate")) {

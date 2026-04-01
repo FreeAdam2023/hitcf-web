@@ -1309,18 +1309,8 @@ export function PracticeSession() {
           </DialogContent>
         </Dialog>
 
-        {/* 提示栏 */}
-        <div className="flex items-center justify-center gap-4 text-[11px] text-muted-foreground/60 flex-wrap">
-          <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">A</kbd>-<kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">D</kbd> {t("practice.session.kbSelect")}</span>
-          <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Enter</kbd> {openBook ? t("practice.session.reviewed") : t("practice.session.kbConfirm")}</span>
-          <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">←</kbd> <kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">→</kbd> {t("practice.session.kbNavigate")}</span>
-          {question.type === "listening" && <>
-            <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">Space</kbd> {t("practice.session.kbPlayPause")}</span>
-            <span className="hidden lg:inline"><kbd className="rounded border border-border/50 px-1 py-0.5 font-mono text-[10px]">R</kbd> {t("practice.session.kbReplay")}</span>
-          </>}
-          <span className="inline-flex items-center gap-1"><BookOpen className="h-3 w-3" /> {t("practice.sentenceAnalysisHint")}</span>
-          <span className="inline-flex items-center gap-1"><Lightbulb className="h-3 w-3" /> {t("practice.wordCardHint")}</span>
-        </div>
+        {/* 提示栏 — 一行紧凑提示 */}
+        <PracticeHints isListening={question.type === "listening"} />
 
         {/* 听力原文 / 阅读逐句翻译 — 答题后展开 */}
         {currentAnswer && (question.type === "listening" || question.type === "reading") && (
@@ -1537,5 +1527,53 @@ export function PracticeSession() {
         limit={quotaModal.limit}
       />
     </>
+  );
+}
+
+const HIGHLIGHT_USED_KEY = "hitcf_highlight_used";
+
+function PracticeHints({ isListening }: { isListening: boolean }) {
+  const t = useTranslations();
+  const [highlightUsed, setHighlightUsed] = useState(true);
+
+  useEffect(() => {
+    setHighlightUsed(localStorage.getItem(HIGHLIGHT_USED_KEY) === "1");
+  }, []);
+
+  // Listen for highlight creation to mark as used
+  useEffect(() => {
+    const handler = () => {
+      localStorage.setItem(HIGHLIGHT_USED_KEY, "1");
+      setHighlightUsed(true);
+    };
+    window.addEventListener("highlight-created", handler);
+    return () => window.removeEventListener("highlight-created", handler);
+  }, []);
+
+  const isNew = !highlightUsed;
+
+  return (
+    <div className="flex items-center justify-center gap-1 text-[11px] text-muted-foreground/50 flex-wrap">
+      <span className="hidden lg:inline">{t("practice.hints.select")}</span>
+      <span className="hidden lg:inline text-border">·</span>
+      <span className="hidden lg:inline">{t("practice.hints.confirm")}</span>
+      <span className="hidden lg:inline text-border">·</span>
+      <span className="hidden lg:inline">{t("practice.hints.navigate")}</span>
+      {isListening && (
+        <>
+          <span className="hidden lg:inline text-border">·</span>
+          <span className="hidden lg:inline">{t("practice.hints.playPause")}</span>
+          <span className="hidden lg:inline text-border">·</span>
+          <span className="hidden lg:inline">{t("practice.hints.replay")}</span>
+        </>
+      )}
+      <span className="text-border">·</span>
+      <span className={isNew ? "inline-flex items-center gap-1 text-green-600 dark:text-green-400 font-medium" : ""}>
+        {isNew && <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" /></span>}
+        {t("practice.hints.highlight")}
+      </span>
+      <span className="text-border">·</span>
+      <span>{t("practice.hints.wordCard")}</span>
+    </div>
   );
 }

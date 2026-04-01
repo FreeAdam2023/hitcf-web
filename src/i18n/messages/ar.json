@@ -725,7 +725,16 @@
       "submit": "إرسال الملاحظة"
     },
     "sentenceAnalysisHint": "انقر لتحليل الجملة",
-    "wordCardHint": "انقر على أي كلمة لمعرفة معناها ونطقها"
+    "wordCardHint": "انقر على أي كلمة لمعرفة معناها ونطقها",
+    "hints": {
+      "select": "A-D اختيار",
+      "confirm": "Enter التالي",
+      "navigate": "←→ تنقل",
+      "highlight": "حدد للتمييز",
+      "wordCard": "انقر كلمة",
+      "playPause": "Space تشغيل",
+      "replay": "R إعادة"
+    }
   },
   "audio": {
     "loadError": "فشل تحميل الصوت",

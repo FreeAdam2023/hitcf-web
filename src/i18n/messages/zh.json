@@ -728,7 +728,16 @@
       "submit": "提交反馈"
     },
     "sentenceAnalysisHint": "点击可进行句子分析",
-    "wordCardHint": "点击单词可查看释义和发音"
+    "wordCardHint": "点击单词可查看释义和发音",
+    "hints": {
+      "select": "A-D 选择",
+      "confirm": "Enter 下一题",
+      "navigate": "←→ 切题",
+      "highlight": "选中高亮",
+      "wordCard": "点词查义",
+      "playPause": "Space 播放",
+      "replay": "R 重播"
+    }
   },
   "audio": {
     "loadError": "无法加载音频",

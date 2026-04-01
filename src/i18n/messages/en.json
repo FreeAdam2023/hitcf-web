@@ -728,7 +728,16 @@
       "submit": "Submit Feedback"
     },
     "sentenceAnalysisHint": "Click for sentence analysis",
-    "wordCardHint": "Click any word for definition & pronunciation"
+    "wordCardHint": "Click any word for definition & pronunciation",
+    "hints": {
+      "select": "A-D select",
+      "confirm": "Enter next",
+      "navigate": "←→ switch",
+      "highlight": "Select to highlight",
+      "wordCard": "Click word",
+      "playPause": "Space play",
+      "replay": "R replay"
+    }
   },
   "audio": {
     "loadError": "Failed to load audio",

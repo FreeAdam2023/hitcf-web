@@ -728,7 +728,16 @@
       "submit": "Envoyer le signalement"
     },
     "sentenceAnalysisHint": "Cliquez pour l'analyse de phrase",
-    "wordCardHint": "Cliquez sur un mot pour sa définition et prononciation"
+    "wordCardHint": "Cliquez sur un mot pour sa définition et prononciation",
+    "hints": {
+      "select": "A-D choisir",
+      "confirm": "Enter suivant",
+      "navigate": "←→ naviguer",
+      "highlight": "Sélectionner pour surligner",
+      "wordCard": "Cliquer un mot",
+      "playPause": "Space lecture",
+      "replay": "R rejouer"
+    }
   },
   "audio": {
     "loadError": "Échec du chargement audio",
