@@ -8,6 +8,7 @@ export function createHighlight(body: {
   start_offset: number;
   end_offset: number;
   color?: string;
+  tags?: string[];
 }): Promise<HighlightItem> {
   return post<HighlightItem>("/api/highlights", body);
 }
@@ -18,12 +19,14 @@ export function getHighlightsForQuestion(questionId: string): Promise<HighlightI
 
 export function listHighlights(params?: {
   has_note?: boolean;
+  tag?: string;
   type?: string;
   page?: number;
   page_size?: number;
 }): Promise<PaginatedResponse<HighlightItem>> {
   const sp = new URLSearchParams();
   if (params?.has_note !== undefined) sp.set("has_note", String(params.has_note));
+  if (params?.tag) sp.set("tag", params.tag);
   if (params?.type) sp.set("type", params.type);
   if (params?.page) sp.set("page", String(params.page));
   if (params?.page_size) sp.set("page_size", String(params.page_size));
@@ -33,9 +36,9 @@ export function listHighlights(params?: {
 
 export function updateHighlight(
   id: string,
-  body: { color?: string; note?: string | null },
-): Promise<{ id: string; color: string; note: string | null }> {
-  return patch<{ id: string; color: string; note: string | null }>(`/api/highlights/${id}`, body);
+  body: { color?: string; note?: string | null; tags?: string[] },
+): Promise<{ id: string; color: string; note: string | null; tags: string[] }> {
+  return patch<{ id: string; color: string; note: string | null; tags: string[] }>(`/api/highlights/${id}`, body);
 }
 
 export function deleteHighlight(id: string): Promise<{ message: string }> {

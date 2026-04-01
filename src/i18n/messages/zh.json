@@ -1199,7 +1199,16 @@
       "addNote": "添加批注",
       "notePlaceholder": "写下你的笔记...",
       "save": "保存",
-      "source": "来源"
+      "source": "来源",
+      "tags": {
+        "collocation": "固定搭配",
+        "expression": "常用表达",
+        "connector": "连接词",
+        "grammar": "语法点",
+        "vocabulary": "生词",
+        "confusing": "易混淆",
+        "exam_key": "考点"
+      }
     },
     "practiceBookmarks": "练习收藏题",
     "upgradeBanner": {

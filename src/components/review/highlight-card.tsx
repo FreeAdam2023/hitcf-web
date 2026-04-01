@@ -104,6 +104,20 @@ export function HighlightCard({ item, onDelete, onUpdate }: HighlightCardProps) 
           </p>
         ) : null}
 
+        {/* Tags */}
+        {item.tags && item.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {item.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-medium text-violet-700 dark:bg-violet-900/30 dark:text-violet-400"
+              >
+                {t(`review.highlights.tags.${tag}`)}
+              </span>
+            ))}
+          </div>
+        )}
+
         {/* Footer: metadata + actions */}
         <div className="flex items-center justify-between">
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">

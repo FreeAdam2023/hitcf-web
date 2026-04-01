@@ -103,6 +103,7 @@ export function ReviewPage() {
   const [hlError, setHlError] = useState<string | null>(null);
   const [hlPage, setHlPage] = useState(1);
   const [hlNoteFilter, setHlNoteFilter] = useState<"all" | "with_note" | "highlight_only">("all");
+  const [hlTagFilter, setHlTagFilter] = useState<string | null>(null);
 
   // Selection mode for batch delete
   const [selectionMode, setSelectionMode] = useState(false);
@@ -189,6 +190,7 @@ export function ReviewPage() {
     try {
       const result = await listHighlights({
         has_note: hlNoteFilter === "with_note" ? true : hlNoteFilter === "highlight_only" ? false : undefined,
+        tag: hlTagFilter || undefined,
         type: type === "all" ? undefined : type,
         page: hlPage,
         page_size: 20,
@@ -200,7 +202,7 @@ export function ReviewPage() {
     } finally {
       setHlLoading(false);
     }
-  }, [type, hlPage, hlNoteFilter, t]);
+  }, [type, hlPage, hlNoteFilter, hlTagFilter, t]);
 
   useEffect(() => {
     if (tab === "highlights") fetchHlData();
@@ -782,6 +784,24 @@ export function ReviewPage() {
                     </button>
                   );
                 })}
+              </div>
+
+              {/* Tag filter */}
+              <div className="flex flex-wrap gap-1.5">
+                {["collocation", "expression", "connector", "grammar", "vocabulary", "confusing", "exam_key"].map((tag) => (
+                  <button
+                    key={tag}
+                    onClick={() => { setHlTagFilter(hlTagFilter === tag ? null : tag); setHlPage(1); }}
+                    className={cn(
+                      "rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
+                      hlTagFilter === tag
+                        ? "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400"
+                        : "bg-muted/60 text-muted-foreground hover:bg-muted",
+                    )}
+                  >
+                    {t(`review.highlights.tags.${tag}`)}
+                  </button>
+                ))}
               </div>
 
               {/* List */}

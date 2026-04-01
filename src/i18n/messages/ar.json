@@ -1196,7 +1196,16 @@
       "addNote": "إضافة ملاحظة",
       "notePlaceholder": "اكتب ملاحظتك...",
       "save": "حفظ",
-      "source": "المصدر"
+      "source": "المصدر",
+      "tags": {
+        "collocation": "تعبير ثابت",
+        "expression": "تعبير شائع",
+        "connector": "رابط",
+        "grammar": "قواعد",
+        "vocabulary": "مفردات",
+        "confusing": "مربك",
+        "exam_key": "نقطة مهمة"
+      }
     },
     "practiceBookmarks": "تدريب المفضلة",
     "upgradeBanner": {

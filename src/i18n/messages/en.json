@@ -1199,7 +1199,16 @@
       "addNote": "Add note",
       "notePlaceholder": "Write your note...",
       "save": "Save",
-      "source": "Source"
+      "source": "Source",
+      "tags": {
+        "collocation": "Collocation",
+        "expression": "Expression",
+        "connector": "Connector",
+        "grammar": "Grammar",
+        "vocabulary": "Vocabulary",
+        "confusing": "Confusing",
+        "exam_key": "Exam Key"
+      }
     },
     "practiceBookmarks": "Practice Bookmarks",
     "upgradeBanner": {

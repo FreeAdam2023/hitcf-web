@@ -14,6 +14,15 @@ import {
 import type { HighlightItem } from "@/lib/api/types";
 
 const COLORS = ["yellow", "green", "blue"] as const;
+const TAGS = [
+  "collocation",
+  "expression",
+  "connector",
+  "grammar",
+  "vocabulary",
+  "confusing",
+  "exam_key",
+] as const;
 
 const COLOR_BG: Record<string, string> = {
   yellow: "bg-yellow-200/60 dark:bg-yellow-800/40",
@@ -55,6 +64,7 @@ export function HighlightToolbar({
     highlight: HighlightItem;
   } | null>(null);
   const [noteText, setNoteText] = useState("");
+  const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
   const toolbarRef = useRef<HTMLDivElement>(null);
   const editRef = useRef<HTMLDivElement>(null);
 
@@ -196,6 +206,7 @@ export function HighlightToolbar({
           startOffset,
           endOffset: startOffset + text.length,
         });
+        setSelectedTags(new Set());
         setEditPopup(null);
       }, 10);
     };
@@ -235,6 +246,7 @@ export function HighlightToolbar({
           start_offset: toolbar.startOffset,
           end_offset: toolbar.endOffset,
           color,
+          tags: Array.from(selectedTags),
         });
         setHighlights((prev) => [...prev, hl]);
         setToolbar(null);
@@ -248,7 +260,7 @@ export function HighlightToolbar({
         }
       }
     },
-    [toolbar, questionId, t],
+    [toolbar, questionId, selectedTags, t],
   );
 
   const handleDelete = useCallback(
@@ -284,6 +296,23 @@ export function HighlightToolbar({
     [t],
   );
 
+  const handleTagsChange = useCallback(
+    async (id: string, tags: string[]) => {
+      try {
+        await updateHighlight(id, { tags });
+        setHighlights((prev) =>
+          prev.map((h) => (h.id === id ? { ...h, tags } : h)),
+        );
+        setEditPopup((prev) =>
+          prev ? { ...prev, highlight: { ...prev.highlight, tags } } : null,
+        );
+      } catch {
+        toast.error(t("common.errors.operationFailed"));
+      }
+    },
+    [t],
+  );
+
   const handleSaveNote = useCallback(
     async (id: string) => {
       try {
@@ -308,25 +337,53 @@ export function HighlightToolbar({
       {toolbar && (
         <div
           ref={toolbarRef}
-          className="fixed z-50 flex items-center gap-1 rounded-xl border bg-popover p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-100"
+          className="fixed z-50 w-72 rounded-xl border bg-popover p-2.5 shadow-xl animate-in fade-in zoom-in-95 duration-100"
           style={{
             left: toolbar.x,
             top: toolbar.y,
             transform: "translate(-50%, -100%)",
           }}
         >
-          {COLORS.map((c) => (
-            <button
-              key={c}
-              onClick={() => handleCreate(c)}
-              className={cn(
-                "flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-muted",
-              )}
-              title={c}
-            >
-              <span className={cn("h-5 w-5 rounded-full", COLOR_DOT[c])} />
-            </button>
-          ))}
+          {/* Color buttons */}
+          <div className="flex items-center gap-1">
+            {COLORS.map((c) => (
+              <button
+                key={c}
+                onClick={() => handleCreate(c)}
+                className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-muted"
+                title={c}
+              >
+                <span className={cn("h-5 w-5 rounded-full", COLOR_DOT[c])} />
+              </button>
+            ))}
+          </div>
+          {/* Tag pills */}
+          <div className="mt-2 flex flex-wrap gap-1">
+            {TAGS.map((tag) => {
+              const active = selectedTags.has(tag);
+              return (
+                <button
+                  key={tag}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedTags((prev) => {
+                      const next = new Set(prev);
+                      if (active) next.delete(tag); else next.add(tag);
+                      return next;
+                    });
+                  }}
+                  className={cn(
+                    "rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
+                    active
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80",
+                  )}
+                >
+                  {t(`review.highlights.tags.${tag}`)}
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
 
@@ -382,6 +439,33 @@ export function HighlightToolbar({
                 <X className="h-4 w-4" />
               </button>
             </div>
+          </div>
+
+          {/* Tag pills */}
+          <div className="mt-2 flex flex-wrap gap-1">
+            {TAGS.map((tag) => {
+              const active = (editPopup.highlight.tags || []).includes(tag);
+              return (
+                <button
+                  key={tag}
+                  onClick={() => {
+                    const current = editPopup.highlight.tags || [];
+                    const newTags = active
+                      ? current.filter((t: string) => t !== tag)
+                      : [...current, tag];
+                    handleTagsChange(editPopup.highlight.id, newTags);
+                  }}
+                  className={cn(
+                    "rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
+                    active
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80",
+                  )}
+                >
+                  {t(`review.highlights.tags.${tag}`)}
+                </button>
+              );
+            })}
           </div>
 
           {/* Note editor */}

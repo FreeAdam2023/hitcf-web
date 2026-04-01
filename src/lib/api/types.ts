@@ -283,6 +283,7 @@ export interface HighlightItem {
   end_offset: number;
   color: "yellow" | "green" | "blue";
   note: string | null;
+  tags: string[];
   created_at: string | null;
   question_type?: "listening" | "reading" | null;
   question_number?: number | null;

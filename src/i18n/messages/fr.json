@@ -1199,7 +1199,16 @@
       "addNote": "Ajouter une note",
       "notePlaceholder": "Écrivez votre note...",
       "save": "Enregistrer",
-      "source": "Source"
+      "source": "Source",
+      "tags": {
+        "collocation": "Collocation",
+        "expression": "Expression",
+        "connector": "Connecteur",
+        "grammar": "Grammaire",
+        "vocabulary": "Vocabulaire",
+        "confusing": "Faux ami",
+        "exam_key": "Point clé"
+      }
     },
     "practiceBookmarks": "Pratiquer les favoris",
     "upgradeBanner": {
