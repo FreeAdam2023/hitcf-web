@@ -393,7 +393,7 @@ export function HighlightToolbar({
           ref={editRef}
           className="fixed z-[9999] w-72 rounded-xl border bg-popover p-3 shadow-xl animate-in fade-in zoom-in-95 duration-100"
           style={{
-            left: Math.min(editPopup.x, window.innerWidth - 300),
+            left: Math.max(8, Math.min(editPopup.x - 144, window.innerWidth - 296)),
             top: editPopup.y + 4,
           }}
         >
