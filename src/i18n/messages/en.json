@@ -3656,7 +3656,8 @@
     "planLabels": {
       "monthly": "month",
       "quarterly": "quarter",
-      "semiannual": "6 months"
+      "semiannual": "6 months",
+      "yearly": "year"
     },
     "cancel": {
       "step1": {

@@ -3645,13 +3645,14 @@
     "title": "管理订阅",
     "currentPlan": "当前方案",
     "nextBilling": "下次扣款",
-    "changePlan": "换档",
+    "changePlan": "更换方案",
     "updatePayment": "更新支付方式",
     "cancelSubscription": "取消订阅",
     "planLabels": {
       "monthly": "月",
       "quarterly": "季",
-      "semiannual": "半年"
+      "semiannual": "半年",
+      "yearly": "年"
     },
     "cancel": {
       "step1": {

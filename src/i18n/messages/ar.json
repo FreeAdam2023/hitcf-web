@@ -3647,7 +3647,8 @@
     "planLabels": {
       "monthly": "شهر",
       "quarterly": "ربع سنة",
-      "semiannual": "6 أشهر"
+      "semiannual": "6 أشهر",
+      "yearly": "سنة"
     },
     "cancel": {
       "step1": {

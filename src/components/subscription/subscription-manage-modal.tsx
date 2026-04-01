@@ -175,7 +175,9 @@ export function SubscriptionManageModal({
         ? `${formatPrice(PRICING.quarterly)} / ${t("planLabels.quarterly")}`
         : plan === "semiannual"
           ? `${formatPrice(PRICING.semiannual)} / ${t("planLabels.semiannual")}`
-          : plan || "";
+          : plan === "yearly"
+            ? `$99.90 / ${t("planLabels.yearly")}`
+            : plan || "";
 
   const LOSS_ITEMS = [
     { key: "loseUnlimited", icon: Headphones },
@@ -239,13 +241,15 @@ export function SubscriptionManageModal({
                     {t("updatePayment")}
                   </Button>
                 )}
-                <Button
-                  variant="ghost"
-                  className="text-muted-foreground hover:text-destructive"
-                  onClick={() => setStep("cancel1")}
-                >
-                  {t("cancelSubscription")}
-                </Button>
+                {!sub?.cancel_at_period_end && (
+                  <Button
+                    variant="ghost"
+                    className="text-muted-foreground hover:text-destructive"
+                    onClick={() => setStep("cancel1")}
+                  >
+                    {t("cancelSubscription")}
+                  </Button>
+                )}
               </div>
             </div>
           </>

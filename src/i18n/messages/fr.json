@@ -3650,7 +3650,8 @@
     "planLabels": {
       "monthly": "mois",
       "quarterly": "trimestre",
-      "semiannual": "6 mois"
+      "semiannual": "6 mois",
+      "yearly": "an"
     },
     "cancel": {
       "step1": {
