@@ -14,7 +14,7 @@ import {
 } from "@/lib/api/highlights";
 import type { HighlightItem } from "@/lib/api/types";
 
-const COLORS = ["yellow", "green", "blue", "pink", "purple"] as const;
+const COLORS = ["yellow", "green", "blue", "pink", "purple", "orange"] as const;
 const TAGS = [
   "collocation",
   "expression",
@@ -391,9 +391,9 @@ export function HighlightToolbar({
       {editPopup && createPortal(
         <div
           ref={editRef}
-          className="fixed z-[9999] w-72 rounded-xl border bg-popover p-3 shadow-xl animate-in fade-in zoom-in-95 duration-100"
+          className="fixed z-[9999] w-80 rounded-xl border bg-popover p-3 shadow-xl animate-in fade-in zoom-in-95 duration-100"
           style={{
-            left: Math.max(8, Math.min(editPopup.x - 144, window.innerWidth - 296)),
+            left: Math.max(8, Math.min(editPopup.x - 160, window.innerWidth - 328)),
             top: editPopup.y + 4,
           }}
         >
