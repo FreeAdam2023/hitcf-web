@@ -1267,9 +1267,11 @@
     "success": {
       "title": "Bienvenue sur HiTCF Pro",
       "description": "Les 8 500+ questions sont maintenant débloquées. Le mode examen, le carnet d'erreurs, l'entraînement rapide et l'estimation du niveau CLB sont tous disponibles.",
-      "syncing": "Synchronisation de l'état de l'abonnement...",
+      "syncing": "Confirmation du paiement...",
       "startPractice": "Commencer la pratique",
-      "viewSubscription": "Voir l'abonnement"
+      "viewSubscription": "Voir mon abonnement",
+      "slowSync": "Paiement reçu. Votre abonnement est en cours d'activation. Si rien ne change après 1 minute, veuillez rafraîchir.",
+      "refresh": "Rafraîchir la page"
     },
     "cancel": {
       "title": "Pas de souci, prenez votre temps",

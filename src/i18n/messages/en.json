@@ -1267,9 +1267,11 @@
     "success": {
       "title": "Welcome to HiTCF Pro",
       "description": "All 8,500+ questions are now unlocked. Exam mode, wrong answer notebook, speed drill, and CLB level estimation are all available.",
-      "syncing": "Syncing subscription status...",
+      "syncing": "Confirming payment...",
       "startPractice": "Start Practicing",
-      "viewSubscription": "View Subscription"
+      "viewSubscription": "View Membership",
+      "slowSync": "Payment received. Your membership is being activated. If it doesn't take effect within 1 minute, please refresh.",
+      "refresh": "Refresh Page"
     },
     "cancel": {
       "title": "No worries, take your time",

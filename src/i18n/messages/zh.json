@@ -1267,9 +1267,11 @@
     "success": {
       "title": "欢迎加入 HiTCF Pro",
       "description": "全部 8,500+ 道题库已解锁。考试模式、错题本、速练、CLB 等级估算等功能现在都可以使用了。",
-      "syncing": "正在同步订阅状态...",
+      "syncing": "正在确认付款...",
       "startPractice": "开始刷题",
-      "viewSubscription": "查看订阅详情"
+      "viewSubscription": "查看会员详情",
+      "slowSync": "付款已收到，会员正在开通中。如果超过 1 分钟未生效，请刷新页面。",
+      "refresh": "刷新页面"
     },
     "cancel": {
       "title": "没关系，不着急",

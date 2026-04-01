@@ -21,6 +21,14 @@ export function getQuotaStatus(): Promise<QuotaStatus> {
   return get<QuotaStatus>("/api/questions/quota");
 }
 
+export function verifyPayment(
+  sessionId: string,
+): Promise<{ status: string; plan?: string }> {
+  return get<{ status: string; plan?: string }>(
+    `/api/subscriptions/verify-payment?session_id=${sessionId}`,
+  );
+}
+
 export function getCustomerPortal(): Promise<{ url: string }> {
   return get<{ url: string }>("/api/subscriptions/portal");
 }
