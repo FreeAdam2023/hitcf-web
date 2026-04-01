@@ -24,6 +24,7 @@ import { ApiError, QuotaExceededError } from "@/lib/api/client";
 import { QuotaExceededModal } from "@/components/shared/quota-exceeded-modal";
 import { QuestionDisplay } from "@/components/practice/question-display";
 import { OptionList } from "@/components/practice/option-list";
+import { HighlightToolbar } from "@/components/practice/highlight-toolbar";
 import { QuestionNavigator } from "@/components/practice/question-navigator";
 import { ExplanationPanel } from "@/components/practice/explanation-panel";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
@@ -527,6 +528,7 @@ export function PracticeSession() {
   const [explanationError, setExplanationError] = useState(false);
   // hasImage state removed — horizontal layout now uses question.has_image directly
   const audioPlayerRef = useRef<AudioPlayerHandle>(null);
+  const highlightContainerRef = useRef<HTMLDivElement>(null);
   const [audioTime, setAudioTime] = useState(0);
 
   // ── Bookmarks ──
@@ -1085,11 +1087,15 @@ export function PracticeSession() {
       </div>
 
       {/* 中间：主内容 */}
-      <div className={cn(
-        "flex flex-col gap-4 overflow-y-auto scrollbar-on-hover pb-20 lg:pb-0 lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5 transition-opacity duration-150",
-        isStaleQuestion && "opacity-40 pointer-events-none",
-      )}>
+      <div
+        ref={highlightContainerRef}
+        className={cn(
+          "flex flex-col gap-4 overflow-y-auto scrollbar-on-hover pb-20 lg:pb-0 lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5 transition-opacity duration-150",
+          isStaleQuestion && "opacity-40 pointer-events-none",
+        )}
+      >
         <FeedbackTipBanner />
+        <HighlightToolbar questionId={question.id} containerRef={highlightContainerRef} />
         <QuestionDisplay
           question={question}
           index={currentIndex}
