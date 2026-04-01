@@ -254,10 +254,14 @@ export function AccountView() {
         </div>
       ) : (
         /* ─── Free / Trial User Hero ─── */
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 p-6 dark:from-[#0f1729] dark:to-[#162036] dark:border dark:border-slate-700/40 dark:shadow-2xl dark:shadow-indigo-500/5">
+        <div className={`relative overflow-hidden rounded-2xl p-6 ${
+          subPlan === "reverse_trial" || subStatus === "trialing"
+            ? "border-2 border-indigo-200 bg-gradient-to-br from-indigo-50/80 via-white to-violet-50/60 shadow-lg dark:border-indigo-800 dark:from-indigo-950/40 dark:via-slate-900 dark:to-violet-950/30"
+            : "bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0f1729] dark:to-[#162036] dark:border dark:border-slate-700/40 dark:shadow-2xl dark:shadow-indigo-500/5"
+        }`}>
           <div>
             {(subPlan === "reverse_trial" || subStatus === "trialing") && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300">
+              <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300">
                 <Sparkles className="h-3 w-3" />
                 {t("account.subscription.reverseTrial")}
                 {user.subscription?.current_period_end && (
@@ -265,9 +269,9 @@ export function AccountView() {
                     · {t("account.subscription.expiresDate", { date: formatDate(user.subscription.current_period_end, locale) })}
                   </span>
                 )}
-              </span>
+              </div>
             )}
-            <h1 className="mt-2 text-2xl font-bold">{t("account.heroGreetingFree", { name: firstName })}</h1>
+            <h1 className="text-2xl font-bold">{t("account.heroGreetingFree", { name: firstName })}</h1>
             <blockquote className="mt-3 border-l-4 border-primary/40 pl-4">
               <p className="text-sm italic text-muted-foreground">
                 {QUOTE_FR[quoteIndex]}
