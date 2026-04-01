@@ -355,7 +355,6 @@ export function HighlightToolbar({
             }}
             onClick={(e) => {
               e.stopPropagation();
-              const cRect = containerRef.current?.getBoundingClientRect();
               const scrollTop = containerRef.current?.scrollTop || 0;
               setEditPopup({
                 x: rect.left + rect.width,
