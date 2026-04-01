@@ -24,22 +24,22 @@ const TAGS = [
   "exam_key",
 ] as const;
 
-const COLOR_BG: Record<string, string> = {
-  yellow: "bg-yellow-200/60 dark:bg-yellow-800/40",
-  green: "bg-green-200/60 dark:bg-green-800/40",
-  blue: "bg-blue-200/60 dark:bg-blue-800/40",
-  pink: "bg-pink-200/60 dark:bg-pink-800/40",
-  purple: "bg-purple-200/60 dark:bg-purple-800/40",
-  orange: "bg-orange-200/60 dark:bg-orange-800/40",
+const COLOR_BG_STYLE: Record<string, string> = {
+  yellow: "rgba(253, 224, 71, 0.4)",
+  green: "rgba(74, 222, 128, 0.4)",
+  blue: "rgba(96, 165, 250, 0.4)",
+  pink: "rgba(244, 114, 182, 0.4)",
+  purple: "rgba(192, 132, 252, 0.4)",
+  orange: "rgba(251, 146, 60, 0.4)",
 };
 
-const COLOR_DOT: Record<string, string> = {
-  yellow: "bg-yellow-400",
-  green: "bg-green-400",
-  blue: "bg-blue-400",
-  pink: "bg-pink-400",
-  purple: "bg-purple-400",
-  orange: "bg-orange-400",
+const COLOR_DOT_STYLE: Record<string, string> = {
+  yellow: "#facc15",
+  green: "#4ade80",
+  blue: "#60a5fa",
+  pink: "#f472b6",
+  purple: "#c084fc",
+  orange: "#fb923c",
 };
 
 interface HighlightToolbarProps {
@@ -329,15 +329,13 @@ export function HighlightToolbar({
         entry.rects.map((rect, i) => (
           <div
             key={`${entry.id}-${i}`}
-            className={cn(
-              "absolute cursor-pointer rounded-sm pointer-events-auto",
-              COLOR_BG[entry.color] || COLOR_BG.yellow,
-            )}
+            className="absolute cursor-pointer rounded-sm pointer-events-auto"
             style={{
               left: rect.left,
               top: rect.top,
               width: rect.width,
               height: rect.height,
+              backgroundColor: COLOR_BG_STYLE[entry.color] || COLOR_BG_STYLE.yellow,
             }}
             onClick={(e) => {
               e.stopPropagation();
@@ -372,7 +370,7 @@ export function HighlightToolbar({
               className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-muted"
               title={c}
             >
-              <span className={cn("h-5 w-5 rounded-full", COLOR_DOT[c])} />
+              <span className="h-5 w-5 rounded-full" style={{ backgroundColor: COLOR_DOT_STYLE[c] }} />
             </button>
           ))}
         </div>
@@ -401,7 +399,7 @@ export function HighlightToolbar({
                     editPopup.highlight.color === c && "ring-2 ring-primary ring-offset-2",
                   )}
                 >
-                  <span className={cn("h-5 w-5 rounded-full", COLOR_DOT[c])} />
+                  <span className="h-5 w-5 rounded-full" style={{ backgroundColor: COLOR_DOT_STYLE[c] }} />
                 </button>
               ))}
             </div>
