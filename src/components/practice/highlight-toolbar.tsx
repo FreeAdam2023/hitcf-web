@@ -192,11 +192,12 @@ export function HighlightToolbar({
         preRange.setEnd(range.startContainer, range.startOffset);
         const startOffset = preRange.toString().length;
 
-        // Position directly below the selected text
-        const rect = range.getBoundingClientRect();
+        // Position below the last line of the selection
+        const rects = range.getClientRects();
+        const lastRect = rects.length > 0 ? rects[rects.length - 1] : range.getBoundingClientRect();
         setToolbar({
-          x: rect.left + rect.width / 2,
-          y: rect.bottom + 4,
+          x: lastRect.left + lastRect.width / 2,
+          y: lastRect.bottom + 4,
           text: text.slice(0, 500),
           startOffset,
           endOffset: startOffset + text.length,
