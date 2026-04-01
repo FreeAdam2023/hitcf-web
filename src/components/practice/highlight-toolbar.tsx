@@ -14,7 +14,7 @@ import {
 } from "@/lib/api/highlights";
 import type { HighlightItem } from "@/lib/api/types";
 
-const COLORS = ["yellow", "green", "blue", "pink", "purple", "orange"] as const;
+const COLORS = ["yellow", "green", "blue", "pink", "purple"] as const;
 const TAGS = [
   "collocation",
   "expression",
@@ -397,41 +397,38 @@ export function HighlightToolbar({
             top: editPopup.y + 4,
           }}
         >
-          {/* Color picker row */}
-          <div className="flex items-center justify-between">
-            <div className="flex gap-1.5">
-              {COLORS.map((c) => (
-                <button
-                  key={c}
-                  onClick={() => handleColorChange(editPopup.highlight.id, c)}
-                  className={cn(
-                    "flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:bg-muted",
-                    editPopup.highlight.color === c && "ring-2 ring-primary ring-offset-1",
-                  )}
-                >
-                  <span className="h-4 w-4 rounded-full" style={{ backgroundColor: COLOR_DOT_STYLE[c] }} />
-                </button>
-              ))}
-            </div>
-            <div className="flex gap-0.5">
+          {/* Color picker + actions */}
+          <div className="flex items-center gap-1">
+            {COLORS.map((c) => (
               <button
-                onClick={() => {
-                  setEditingId(editPopup.highlight.id);
-                  setNoteText(editPopup.highlight.note || "");
-                }}
-                className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
-                title={t("review.highlights.addNote")}
+                key={c}
+                onClick={() => handleColorChange(editPopup.highlight.id, c)}
+                className={cn(
+                  "flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-muted",
+                  editPopup.highlight.color === c && "ring-2 ring-primary ring-offset-1",
+                )}
               >
-                <Pencil className="h-3.5 w-3.5" />
+                <span className="h-4 w-4 rounded-full" style={{ backgroundColor: COLOR_DOT_STYLE[c] }} />
               </button>
-              <button
-                onClick={() => handleDelete(editPopup.highlight.id)}
-                className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-red-100 hover:text-destructive dark:hover:bg-red-900/30"
-                title={t("review.highlights.delete")}
-              >
-                <Trash2 className="h-3.5 w-3.5" />
-              </button>
-            </div>
+            ))}
+            <span className="mx-0.5 h-4 w-px shrink-0 bg-border" />
+            <button
+              onClick={() => {
+                setEditingId(editPopup.highlight.id);
+                setNoteText(editPopup.highlight.note || "");
+              }}
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+              title={t("review.highlights.addNote")}
+            >
+              <Pencil className="h-3.5 w-3.5" />
+            </button>
+            <button
+              onClick={() => handleDelete(editPopup.highlight.id)}
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-red-100 hover:text-destructive dark:hover:bg-red-900/30"
+              title={t("review.highlights.delete")}
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </button>
           </div>
 
           {/* Tag pills */}
