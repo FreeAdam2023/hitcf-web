@@ -308,7 +308,7 @@ export function HighlightToolbar({
       {toolbar && (
         <div
           ref={toolbarRef}
-          className="fixed z-50 flex items-center gap-1 rounded-lg border bg-popover p-1 shadow-lg animate-in fade-in zoom-in-95 duration-100"
+          className="fixed z-50 flex items-center gap-1 rounded-xl border bg-popover p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-100"
           style={{
             left: toolbar.x,
             top: toolbar.y,
@@ -320,11 +320,11 @@ export function HighlightToolbar({
               key={c}
               onClick={() => handleCreate(c)}
               className={cn(
-                "flex h-7 w-7 items-center justify-center rounded-md transition-colors hover:bg-muted",
+                "flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-muted",
               )}
               title={c}
             >
-              <span className={cn("h-4 w-4 rounded-full", COLOR_DOT[c])} />
+              <span className={cn("h-5 w-5 rounded-full", COLOR_DOT[c])} />
             </button>
           ))}
         </div>
@@ -334,26 +334,26 @@ export function HighlightToolbar({
       {editPopup && (
         <div
           ref={editRef}
-          className="fixed z-50 w-56 rounded-lg border bg-popover p-2 shadow-lg animate-in fade-in zoom-in-95 duration-100"
+          className="fixed z-50 w-72 rounded-xl border bg-popover p-3 shadow-xl animate-in fade-in zoom-in-95 duration-100"
           style={{
             left: editPopup.x,
             top: editPopup.y,
             transform: "translate(-50%, -100%)",
           }}
         >
-          {/* Color picker + delete */}
+          {/* Color picker + actions */}
           <div className="flex items-center justify-between">
-            <div className="flex gap-1">
+            <div className="flex gap-2">
               {COLORS.map((c) => (
                 <button
                   key={c}
                   onClick={() => handleColorChange(editPopup.highlight.id, c)}
                   className={cn(
-                    "flex h-6 w-6 items-center justify-center rounded-md transition-colors hover:bg-muted",
-                    editPopup.highlight.color === c && "ring-2 ring-primary ring-offset-1",
+                    "flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-muted",
+                    editPopup.highlight.color === c && "ring-2 ring-primary ring-offset-2",
                   )}
                 >
-                  <span className={cn("h-3.5 w-3.5 rounded-full", COLOR_DOT[c])} />
+                  <span className={cn("h-5 w-5 rounded-full", COLOR_DOT[c])} />
                 </button>
               ))}
             </div>
@@ -363,39 +363,41 @@ export function HighlightToolbar({
                   setEditingId(editPopup.highlight.id);
                   setNoteText(editPopup.highlight.note || "");
                 }}
-                className="flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
+                title={t("review.highlights.addNote")}
               >
-                <Pencil className="h-3.5 w-3.5" />
+                <Pencil className="h-4 w-4" />
               </button>
               <button
                 onClick={() => handleDelete(editPopup.highlight.id)}
-                className="flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-destructive"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-red-100 hover:text-destructive dark:hover:bg-red-900/30"
+                title={t("review.highlights.delete")}
               >
-                <Trash2 className="h-3.5 w-3.5" />
+                <Trash2 className="h-4 w-4" />
               </button>
               <button
                 onClick={() => { setEditPopup(null); setEditingId(null); }}
-                className="flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-4 w-4" />
               </button>
             </div>
           </div>
 
           {/* Note editor */}
           {editingId === editPopup.highlight.id && (
-            <div className="mt-2 space-y-1.5">
+            <div className="mt-3 space-y-2">
               <textarea
                 value={noteText}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setNoteText(e.target.value)}
                 placeholder={t("review.highlights.notePlaceholder")}
-                className="min-h-[50px] w-full rounded-md border bg-background px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-ring"
+                className="min-h-[70px] w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 maxLength={1000}
                 autoFocus
               />
               <button
                 onClick={() => handleSaveNote(editPopup.highlight.id)}
-                className="w-full rounded-md bg-primary px-2 py-1 text-xs font-medium text-primary-foreground hover:bg-primary/90"
+                className="w-full rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
               >
                 {t("review.highlights.save")}
               </button>
@@ -404,7 +406,7 @@ export function HighlightToolbar({
 
           {/* Show existing note */}
           {!editingId && editPopup.highlight.note && (
-            <p className="mt-1.5 rounded bg-muted/50 px-2 py-1 text-xs text-muted-foreground">
+            <p className="mt-2 rounded-lg bg-muted/50 px-3 py-2 text-sm text-muted-foreground">
               {editPopup.highlight.note}
             </p>
           )}
