@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Pencil, Trash2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -193,23 +194,14 @@ export function HighlightToolbar({
         const startOffset = preRange.toString().length;
 
         // Position toolbar right below the last line of selected text.
-        // Use getClientRects() on the original range (NOT a collapsed range)
-        // to get per-line rects. The last rect = last line of the selection.
         const rects = range.getClientRects();
         if (rects.length === 0) return;
         const lastRect = rects[rects.length - 1];
 
-        // Convert viewport coords → container-relative coords.
-        // This is necessary because the container has overflow-y: auto
-        // (scrollable), and position: fixed inside it behaves unexpectedly.
-        // Using absolute positioning relative to the container is correct.
-        const containerRect = container.getBoundingClientRect();
-        const relX = lastRect.left + lastRect.width / 2 - containerRect.left;
-        const relY = lastRect.bottom - containerRect.top + container.scrollTop + 4;
-
+        // Store viewport coordinates — rendered via portal on document.body
         setToolbar({
-          x: relX,
-          y: relY,
+          x: lastRect.left + lastRect.width / 2,
+          y: lastRect.bottom + 4,
           text: text.slice(0, 500),
           startOffset,
           endOffset: startOffset + text.length,
@@ -355,10 +347,11 @@ export function HighlightToolbar({
             }}
             onClick={(e) => {
               e.stopPropagation();
-              const scrollTop = containerRef.current?.scrollTop || 0;
+              // Store viewport coordinates for portal rendering
+              const cRect = containerRef.current?.getBoundingClientRect();
               setEditPopup({
-                x: rect.left + rect.width,
-                y: rect.top + rect.height + scrollTop + 4,
+                x: (cRect?.left || 0) + rect.left + rect.width / 2,
+                y: (cRect?.top || 0) + rect.top + rect.height,
                 highlight: entry.highlight,
               });
               setNoteText(entry.highlight.note || "");
@@ -369,11 +362,11 @@ export function HighlightToolbar({
         )),
       )}
 
-      {/* Create toolbar — only color dots, click = instant create */}
-      {toolbar && (
+      {/* Create toolbar — portal to body, fixed positioning */}
+      {toolbar && createPortal(
         <div
           ref={toolbarRef}
-          className="absolute z-50 flex items-center gap-0.5 rounded-full border bg-popover px-1.5 py-1 shadow-xl animate-in fade-in zoom-in-95 duration-100"
+          className="fixed z-[9999] flex items-center gap-0.5 rounded-full border bg-popover px-1.5 py-1 shadow-xl animate-in fade-in zoom-in-95 duration-100"
           style={{
             left: toolbar.x,
             top: toolbar.y,
@@ -390,18 +383,18 @@ export function HighlightToolbar({
               <span className="h-5 w-5 rounded-full" style={{ backgroundColor: COLOR_DOT_STYLE[c] }} />
             </button>
           ))}
-        </div>
+        </div>,
+        document.body,
       )}
 
-      {/* Edit popup — appears on clicking an existing highlight */}
-      {editPopup && (
+      {/* Edit popup — portal to body, fixed positioning */}
+      {editPopup && createPortal(
         <div
           ref={editRef}
-          className="absolute z-50 w-72 rounded-xl border bg-popover p-3 shadow-xl animate-in fade-in zoom-in-95 duration-100"
+          className="fixed z-[9999] w-72 rounded-xl border bg-popover p-3 shadow-xl animate-in fade-in zoom-in-95 duration-100"
           style={{
-            left: editPopup.x,
-            top: editPopup.y,
-            transform: "translateX(-50%)",
+            left: Math.min(editPopup.x, window.innerWidth - 300),
+            top: editPopup.y + 4,
           }}
         >
           {/* Color picker + actions */}
@@ -500,7 +493,8 @@ export function HighlightToolbar({
               {editPopup.highlight.note}
             </p>
           )}
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );
