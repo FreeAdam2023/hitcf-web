@@ -397,45 +397,45 @@ export function HighlightToolbar({
             top: editPopup.y + 4,
           }}
         >
-          {/* Color picker + actions */}
+          {/* Color picker row */}
           <div className="flex items-center justify-between">
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               {COLORS.map((c) => (
                 <button
                   key={c}
                   onClick={() => handleColorChange(editPopup.highlight.id, c)}
                   className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-muted",
-                    editPopup.highlight.color === c && "ring-2 ring-primary ring-offset-2",
+                    "flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:bg-muted",
+                    editPopup.highlight.color === c && "ring-2 ring-primary ring-offset-1",
                   )}
                 >
-                  <span className="h-5 w-5 rounded-full" style={{ backgroundColor: COLOR_DOT_STYLE[c] }} />
+                  <span className="h-4 w-4 rounded-full" style={{ backgroundColor: COLOR_DOT_STYLE[c] }} />
                 </button>
               ))}
             </div>
-            <div className="flex gap-1">
+            <div className="flex gap-0.5">
               <button
                 onClick={() => {
                   setEditingId(editPopup.highlight.id);
                   setNoteText(editPopup.highlight.note || "");
                 }}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
+                className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
                 title={t("review.highlights.addNote")}
               >
-                <Pencil className="h-4 w-4" />
+                <Pencil className="h-3.5 w-3.5" />
               </button>
               <button
                 onClick={() => handleDelete(editPopup.highlight.id)}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-red-100 hover:text-destructive dark:hover:bg-red-900/30"
+                className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-red-100 hover:text-destructive dark:hover:bg-red-900/30"
                 title={t("review.highlights.delete")}
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="h-3.5 w-3.5" />
               </button>
               <button
                 onClick={() => { setEditPopup(null); setEditingId(null); }}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
+                className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
               >
-                <X className="h-4 w-4" />
+                <X className="h-3.5 w-3.5" />
               </button>
             </div>
           </div>
