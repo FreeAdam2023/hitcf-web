@@ -443,7 +443,7 @@
     "speakingModeAI": "HiTCF AI Coach",
     "speakingModeAIDesc": "محادثة فورية مع HiTCF AI Coach يحاكي اختبار TCF الشفهي الحقيقي. احصل على تقرير تقييم من 6 أبعاد بعد الجلسة.",
     "speakingModePron": "تدريب النطق / امتحان تجريبي",
-    "speakingModePronDesc": "اقرأ بصوت عالٍ أمام الميكروفون للحصول على تقييم النطق من Azure (الدقة، الطلاقة، التنغيم). وضع الامتحان بحد زمني.",
+    "speakingModePronDesc": "اقرأ بصوت عالٍ أمام الميكروفون للحصول على تقييم النطق بالذكاء الاصطناعي (الدقة، الطلاقة، التنغيم). وضع الامتحان بحد زمني.",
     "externalAI": "ذكاء اصطناعي خارجي",
     "notFound": "مجموعة الاختبار غير موجودة أو تم حذفها",
     "writingBadge": "التعبير الكتابي",
@@ -2610,7 +2610,7 @@
       },
       {
         "q": "كيف أتدرب على التعبير الشفهي والكتابي؟",
-        "a": "الشفهي: محادثة مع ممتحن ذكاء اصطناعي مدمج (تقييم صوتي Azure + تقييم النطق)، محاكاة كاملة للمهمتين 2 و3. الكتابي: تقييم ذكاء اصطناعي على 4 أبعاد + تصحيحات جملة بجملة. حصرياً لأعضاء Pro."
+        "a": "الشفهي: محادثة مع ممتحن ذكاء اصطناعي مدمج (تقييم صوتي ذكي + تقييم النطق)، محاكاة كاملة للمهمتين 2 و3. الكتابي: تقييم ذكاء اصطناعي على 4 أبعاد + تصحيحات جملة بجملة. حصرياً لأعضاء Pro."
       },
       {
         "q": "كيف أطلب استردادًا؟",
@@ -3609,7 +3609,7 @@
         },
         "speaking": {
           "title": "Speaking Practice",
-          "desc": "AI examiner simulates real conversations with Azure speech assessment.",
+          "desc": "AI examiner simulates real conversations with smart speech assessment.",
           "d1": "AI Conversation: simulates Tache 2/3 real interview",
           "d2": "Pronunciation assessment: accuracy and fluency scoring",
           "d3": "6-dimension scoring: pronunciation, fluency, grammar, vocabulary, task completion, pragmatics"

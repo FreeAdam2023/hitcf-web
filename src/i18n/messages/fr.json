@@ -444,7 +444,7 @@
     "speakingModeAI": "HiTCF AI Coach",
     "speakingModeAIDesc": "Conversation en temps réel avec HiTCF AI Coach simulant un vrai test oral TCF. Rapport d'évaluation en 6 dimensions après la session.",
     "speakingModePron": "Entraînement à la prononciation / Examen blanc",
-    "speakingModePronDesc": "Lisez à voix haute devant le micro pour obtenir des scores de prononciation Azure (précision, fluidité, prosodie). Le mode examen est chronométré.",
+    "speakingModePronDesc": "Lisez à voix haute devant le micro pour obtenir des scores de prononciation IA (précision, fluidité, prosodie). Le mode examen est chronométré.",
     "externalAI": "IA externe",
     "notFound": "Série de tests introuvable ou supprimée",
     "writingBadge": "Expression écrite",
@@ -2613,7 +2613,7 @@
       },
       {
         "q": "Comment puis-je m'entraîner à l'expression orale et écrite ?",
-        "a": "Oral : conversation avec un examinateur IA intégré (évaluation vocale Azure + score de prononciation), simulation complète des Tâches 2 et 3. Écrit : notation IA sur 4 dimensions + corrections phrase par phrase. Réservé aux membres Pro."
+        "a": "Oral : conversation avec un examinateur IA intégré (évaluation vocale intelligente + score de prononciation), simulation complète des Tâches 2 et 3. Écrit : notation IA sur 4 dimensions + corrections phrase par phrase. Réservé aux membres Pro."
       },
       {
         "q": "Comment demander un remboursement ?",
@@ -3612,7 +3612,7 @@
         },
         "speaking": {
           "title": "Expression orale",
-          "desc": "Examinateur IA simulant des conversations réelles avec évaluation vocale Azure.",
+          "desc": "Examinateur IA simulant des conversations réelles avec évaluation vocale intelligente.",
           "d1": "Mode conversation IA : simulation d'entretien Tâche 2/3",
           "d2": "Évaluation de la prononciation : scores de précision et de fluidité",
           "d3": "Notation sur 6 dimensions"

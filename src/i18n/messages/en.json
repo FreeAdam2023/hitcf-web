@@ -444,7 +444,7 @@
     "speakingModeAI": "HiTCF AI Coach",
     "speakingModeAIDesc": "Real-time conversation with HiTCF AI Coach simulating a real TCF speaking test. Get a 6-dimension evaluation report after the session.",
     "speakingModePron": "Pronunciation Practice / Mock Exam",
-    "speakingModePronDesc": "Read aloud to the microphone for Azure pronunciation scores (accuracy, fluency, prosody). Exam mode has a time limit.",
+    "speakingModePronDesc": "Read aloud to the microphone for AI pronunciation scores (accuracy, fluency, prosody). Exam mode has a time limit.",
     "externalAI": "External AI",
     "notFound": "Test set not found or has been deleted",
     "writingBadge": "Writing",
@@ -2613,7 +2613,7 @@
       },
       {
         "q": "How do I practice speaking and writing?",
-        "a": "Speaking: built-in AI examiner conversation with Azure speech assessment and pronunciation scoring, supporting full Tâche 2 and Tâche 3 simulations. Writing: submit your essay for AI 4-dimension scoring and sentence-by-sentence corrections. Pro members only."
+        "a": "Speaking: built-in AI examiner conversation with smart speech assessment and pronunciation scoring, supporting full Tâche 2 and Tâche 3 simulations. Writing: submit your essay for AI 4-dimension scoring and sentence-by-sentence corrections. Pro members only."
       },
       {
         "q": "How do I request a refund?",
@@ -3610,7 +3610,7 @@
         },
         "speaking": {
           "title": "Speaking Practice",
-          "desc": "AI examiner simulates real conversations with Azure speech assessment.",
+          "desc": "AI examiner simulates real conversations with smart speech assessment.",
           "d1": "AI Conversation: simulates Tache 2/3 real interview",
           "d2": "Pronunciation assessment: accuracy and fluency scoring",
           "d3": "6-dimension scoring: pronunciation, fluency, grammar, vocabulary, task completion, pragmatics"
