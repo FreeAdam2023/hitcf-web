@@ -256,7 +256,7 @@ export function AccountView() {
         /* ─── Free / Trial User Hero ─── */
         <div className={`relative overflow-hidden rounded-2xl p-6 ${
           subPlan === "reverse_trial" || subStatus === "trialing"
-            ? "border-2 border-indigo-200 bg-gradient-to-br from-indigo-50/80 via-white to-violet-50/60 shadow-lg dark:border-indigo-800 dark:from-indigo-950/40 dark:via-slate-900 dark:to-violet-950/30"
+            ? "border-2 border-indigo-200 bg-white shadow-xl dark:border-indigo-800 dark:bg-slate-900"
             : "bg-gradient-to-br from-slate-50 to-slate-100 dark:from-[#0f1729] dark:to-[#162036] dark:border dark:border-slate-700/40 dark:shadow-2xl dark:shadow-indigo-500/5"
         }`}>
           <div>
