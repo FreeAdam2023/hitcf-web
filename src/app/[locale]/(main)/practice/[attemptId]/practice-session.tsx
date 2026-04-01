@@ -1579,6 +1579,8 @@ function PracticeHints({ isListening }: { isListening: boolean }) {
         {t("practice.hints.highlight")}
       </span>
       <span className="text-border">·</span>
+      <span>{t("practice.hints.editHighlight")}</span>
+      <span className="text-border">·</span>
       <span>{t("practice.hints.wordCard")}</span>
     </div>
   );

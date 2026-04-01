@@ -734,6 +734,7 @@
       "confirm": "Enter suivant",
       "navigate": "←→ naviguer",
       "highlight": "Sélectionner pour surligner",
+      "editHighlight": "Cliquer surlignage pour modifier",
       "wordCard": "Cliquer un mot",
       "playPause": "Space lecture",
       "replay": "R rejouer"

@@ -734,6 +734,7 @@
       "confirm": "Enter 下一题",
       "navigate": "←→ 切题",
       "highlight": "选中高亮",
+      "editHighlight": "点高亮编辑",
       "wordCard": "点词查义",
       "playPause": "Space 播放",
       "replay": "R 重播"

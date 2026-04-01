@@ -734,6 +734,7 @@
       "confirm": "Enter next",
       "navigate": "←→ switch",
       "highlight": "Select to highlight",
+      "editHighlight": "Tap highlight to edit",
       "wordCard": "Click word",
       "playPause": "Space play",
       "replay": "R replay"
