@@ -684,6 +684,7 @@
       "viewAfterAnswer": "Répondez pour voir l'explication",
       "clickToPlay": "Cliquez sur une phrase pour réécouter cette partie",
       "reportTitle": "Signaler un problème",
+      "feedbackTip": "Vous voyez une erreur ? Cliquez sur ⚠️ pour la signaler et nous aider à améliorer la banque de questions",
       "loadError": "Échec du chargement des données d'entraînement",
       "openBook": "Ouvert",
       "answerMode": "Répondre",

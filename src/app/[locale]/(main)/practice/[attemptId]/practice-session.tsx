@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen, Star, Eye, EyeOff, Lightbulb, BookCheck } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle, LayoutGrid, AlertTriangle, BookmarkCheck, FileText, Play, BookOpen, Star, Eye, EyeOff, Lightbulb, BookCheck, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -34,6 +34,32 @@ import { FrenchText, type WordSaveContext } from "@/components/practice/french-t
 import { SentenceAnalysisInline } from "@/components/practice/sentence-analysis-inline";
 import type { AudioPlayerHandle } from "@/components/practice/audio-player";
 import type { AudioSegment, Explanation, QuestionBrief } from "@/lib/api/types";
+
+const FEEDBACK_TIP_KEY = "hitcf_feedback_tip_dismissed";
+
+function FeedbackTipBanner() {
+  const t = useTranslations("practice.session");
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (!localStorage.getItem(FEEDBACK_TIP_KEY)) setShow(true);
+  }, []);
+
+  if (!show) return null;
+
+  return (
+    <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300">
+      <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+      <span className="flex-1">{t("feedbackTip")}</span>
+      <button
+        onClick={() => { localStorage.setItem(FEEDBACK_TIP_KEY, "1"); setShow(false); }}
+        className="shrink-0 rounded p-0.5 hover:bg-amber-200/50 dark:hover:bg-amber-900/50"
+      >
+        <X className="h-3.5 w-3.5" />
+      </button>
+    </div>
+  );
+}
 
 /** Strip leading key prefix from option translation text (e.g. "a happy birthday" → "happy birthday") */
 function stripKeyPrefix(text: string, key: string): string {
@@ -1047,6 +1073,7 @@ export function PracticeSession() {
         "flex flex-col gap-4 overflow-y-auto scrollbar-on-hover pb-20 lg:pb-0 lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5 transition-opacity duration-150",
         isStaleQuestion && "opacity-40 pointer-events-none",
       )}>
+        <FeedbackTipBanner />
         <QuestionDisplay
           question={question}
           index={currentIndex}

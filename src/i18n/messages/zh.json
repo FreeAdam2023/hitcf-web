@@ -684,6 +684,7 @@
       "viewAfterAnswer": "答题后查看解析",
       "clickToPlay": "点击句子重听对应音频",
       "reportTitle": "题目报错",
+      "feedbackTip": "发现题目有误？点右上角 ⚠️ 报错，帮助我们一起完善题库",
       "loadError": "无法加载练习数据",
       "openBook": "开卷",
       "answerMode": "答题",

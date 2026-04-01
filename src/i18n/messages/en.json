@@ -684,6 +684,7 @@
       "viewAfterAnswer": "Answer to view explanation",
       "clickToPlay": "Click a sentence to replay that part",
       "reportTitle": "Report Issue",
+      "feedbackTip": "Spot an error? Tap ⚠️ above to report it and help us improve the question bank",
       "loadError": "Failed to load practice data",
       "openBook": "Open Book",
       "answerMode": "Answer",
