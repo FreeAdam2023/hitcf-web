@@ -205,49 +205,29 @@ export function AccountView() {
   return (
     <div className="mx-auto max-w-2xl space-y-6 p-4 pt-8">
       {/* ── Hero Card ── */}
-      {isSubscribed ? (
-        /* ─── Pro Member Hero ─── */
+      {isSubscribed && subPlan !== "reverse_trial" && subStatus !== "trialing" ? (
+        /* ─── Paid Pro Member Hero ─── */
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6 shadow-xl">
-          {/* Subtle glow */}
           <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-amber-500/10 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-blue-500/10 blur-2xl" />
 
-          {/* Header */}
-          <div className="relative flex items-start justify-between">
-            <div>
-              <div className="flex items-center gap-2">
-                <Crown className="h-5 w-5 text-amber-400" />
-                <span className="text-sm font-semibold tracking-wide text-amber-400">
-                  PRO{" "}
-                  {subStatus === "trialing"
-                    ? t("account.subscription.trialing")
-                    : planLabel
-                      ? `· ${planLabel}`
-                      : t("account.subscription.member")}
-                </span>
-              </div>
-              <h1 className="mt-2 text-2xl font-bold text-white">
-                {t("account.heroGreetingPro", { name: firstName })}
-              </h1>
-              {subStatus === "trialing" && user.subscription?.trial_end && (
-                <p className="mt-1 text-xs text-white/50">
-                  {t("account.subscription.trialUntil", { date: formatDate(user.subscription.trial_end, locale) })}
-                </p>
-              )}
-              {subStatus === "active" &&
-                user.subscription?.current_period_end && (
-                  <p className="mt-1 text-xs text-white/50">
-                    {user.subscription.cancel_at_period_end
-                      ? t("subscriptionManage.cancelsOn", { date: formatDate(user.subscription.current_period_end, locale) })
-                      : subPlan === "reverse_trial"
-                        ? t("account.subscription.expiresDate", { date: formatDate(user.subscription.current_period_end, locale) })
-                        : t("account.subscription.renewalDate", { date: formatDate(user.subscription.current_period_end, locale) })}
-                  </p>
-                )}
+          <div className="relative">
+            <div className="flex items-center gap-2">
+              <Crown className="h-5 w-5 text-amber-400" />
+              <span className="text-sm font-semibold tracking-wide text-amber-400">
+                PRO{planLabel ? ` · ${planLabel}` : ""}
+              </span>
             </div>
-            </div>
+            <h1 className="mt-2 text-2xl font-bold text-white">
+              {t("account.heroGreetingPro", { name: firstName })}
+            </h1>
+            {user.subscription?.current_period_end && (
+              <p className="mt-1 text-xs text-white/50">
+                {t("account.subscription.expiresDate", { date: formatDate(user.subscription.current_period_end, locale) })}
+              </p>
+            )}
+          </div>
 
-          {/* Quote */}
           <div className="relative mt-6 border-t border-white/10 pt-4">
             <p className="text-sm italic text-white/40">
               &ldquo;{QUOTE_FR[quoteIndex]}&rdquo;
@@ -255,25 +235,16 @@ export function AccountView() {
             <p className="mt-1 text-xs text-white/30">{t(`account.quotes.${quoteIndex}`)}</p>
           </div>
 
-          {/* Quick link */}
           <div className="relative mt-4 flex gap-2">
             <Link href="/history">
-              <Button
-                size="sm"
-                variant="ghost"
-                className="text-white/60 hover:bg-white/10 hover:text-white"
-              >
+              <Button size="sm" variant="ghost" className="text-white/60 hover:bg-white/10 hover:text-white">
                 <BarChart3 className="mr-1 h-4 w-4" />
                 {t("account.stats.title")}
                 <ArrowRight className="ml-1 h-3 w-3" />
               </Button>
             </Link>
             <Link href="/tests">
-              <Button
-                size="sm"
-                variant="ghost"
-                className="text-white/60 hover:bg-white/10 hover:text-white"
-              >
+              <Button size="sm" variant="ghost" className="text-white/60 hover:bg-white/10 hover:text-white">
                 <BookOpen className="mr-1 h-4 w-4" />
                 {t("account.continuePractice")}
                 <ArrowRight className="ml-1 h-3 w-3" />
@@ -282,10 +253,21 @@ export function AccountView() {
           </div>
         </div>
       ) : (
-        /* ─── Free User Hero ─── */
+        /* ─── Free / Trial User Hero ─── */
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 p-6 dark:from-[#0f1729] dark:to-[#162036] dark:border dark:border-slate-700/40 dark:shadow-2xl dark:shadow-indigo-500/5">
           <div>
-            <h1 className="text-2xl font-bold">{t("account.heroGreetingFree", { name: firstName })}</h1>
+            {(subPlan === "reverse_trial" || subStatus === "trialing") && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300">
+                <Sparkles className="h-3 w-3" />
+                {t("account.subscription.reverseTrial")}
+                {user.subscription?.current_period_end && (
+                  <span className="text-indigo-500 dark:text-indigo-400">
+                    · {t("account.subscription.expiresDate", { date: formatDate(user.subscription.current_period_end, locale) })}
+                  </span>
+                )}
+              </span>
+            )}
+            <h1 className="mt-2 text-2xl font-bold">{t("account.heroGreetingFree", { name: firstName })}</h1>
             <blockquote className="mt-3 border-l-4 border-primary/40 pl-4">
               <p className="text-sm italic text-muted-foreground">
                 {QUOTE_FR[quoteIndex]}
@@ -294,7 +276,7 @@ export function AccountView() {
             </blockquote>
           </div>
 
-          {/* Stats summary for free user */}
+          {/* Stats summary */}
           {stats && stats.total_attempts > 0 && (
             <div className="mt-4 flex gap-6 text-sm text-muted-foreground">
               <span>
