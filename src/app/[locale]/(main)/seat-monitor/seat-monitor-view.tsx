@@ -94,50 +94,6 @@ export function SeatMonitorView() {
         )}
       </div>
 
-      {/* How it works */}
-      <div className="grid gap-4 sm:grid-cols-3">
-        {(["step1", "step2", "step3"] as const).map((key, i) => (
-          <div key={key} className="flex items-start gap-3 rounded-lg border p-4">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
-              {i + 1}
-            </span>
-            <div>
-              <p className="font-medium">{t(`${key}.title`)}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{t(`${key}.desc`)}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Free vs Pro comparison */}
-      <div className="rounded-xl border overflow-hidden">
-        <div className="grid grid-cols-3 text-center text-sm font-medium">
-          <div className="p-3 bg-muted/50" />
-          <div className="p-3 bg-muted/50">{t("compareFree")}</div>
-          <div className="p-3 bg-primary/10 text-primary">{t("comparePro")}</div>
-        </div>
-        <div className="grid grid-cols-3 text-center text-sm border-t">
-          <div className="p-3 text-left text-muted-foreground">{t("compareDelay")}</div>
-          <div className="p-3 text-amber-600 font-medium">{t("compareDelay30")}</div>
-          <div className="p-3 text-emerald-600 font-medium flex items-center justify-center gap-1"><Zap className="h-3.5 w-3.5" />{t("compareDelayInstant")}</div>
-        </div>
-        <div className="grid grid-cols-3 text-center text-sm border-t">
-          <div className="p-3 text-left text-muted-foreground">{t("compareCities")}</div>
-          <div className="p-3">1</div>
-          <div className="p-3 text-emerald-600 font-medium">{t("compareUnlimited")}</div>
-        </div>
-        {!isPro && isAuthenticated && (
-          <div className="border-t bg-amber-50/50 dark:bg-amber-950/20 p-3 text-center">
-            <Link href="/pricing">
-              <Button size="sm" className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600">
-                <Crown className="mr-1.5 h-3.5 w-3.5" />
-                {t("upgradeNow")}
-              </Button>
-            </Link>
-          </div>
-        )}
-      </div>
-
       {/* City cards */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
@@ -151,7 +107,7 @@ export function SeatMonitorView() {
         {loading ? (
           <div className="grid gap-4 sm:grid-cols-2">
             {[1, 2, 3, 4, 5].map((i) => (
-              <Card key={i}><CardContent className="p-5"><Skeleton className="h-32 w-full" /></CardContent></Card>
+              <Card key={i}><CardContent className="p-5"><Skeleton className="h-20 w-full" /></CardContent></Card>
             ))}
           </div>
         ) : (
@@ -160,7 +116,6 @@ export function SeatMonitorView() {
               <CenterCard
                 key={c.city_code}
                 center={c}
-                isPro={isPro}
                 isAuthenticated={isAuthenticated}
                 canSubscribeMore={isPro || subscribedCount < 1 || c.is_subscribed}
                 toggling={toggling === c.city_code}
@@ -205,14 +160,12 @@ export function SeatMonitorView() {
 
 function CenterCard({
   center,
-  isPro,
   isAuthenticated,
   canSubscribeMore,
   toggling,
   onToggle,
 }: {
   center: CenterStatus;
-  isPro: boolean;
   isAuthenticated: boolean;
   canSubscribeMore: boolean;
   toggling: boolean;
@@ -222,33 +175,50 @@ function CenterCard({
   const hasAvailability = center.available_dates.length > 0;
 
   return (
-    <Card className={center.is_subscribed ? "border-primary/40 bg-primary/5" : ""}>
+    <Card className={center.is_subscribed ? "border-primary/30 bg-primary/5" : ""}>
       <CardContent className="p-5">
-        <div className="flex items-start justify-between">
-          <div>
+        {/* Header: city info + compact action */}
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <span className={`h-2.5 w-2.5 rounded-full ${hasAvailability ? "bg-emerald-500" : "bg-gray-300 dark:bg-gray-600"}`} />
+              <span className={`h-2 w-2 shrink-0 rounded-full ${hasAvailability ? "bg-emerald-500 animate-pulse" : "bg-gray-300 dark:bg-gray-600"}`} />
               <h3 className="font-semibold">{center.city_name}</h3>
             </div>
             <p className="mt-0.5 text-xs text-muted-foreground">{center.center_name}</p>
           </div>
 
-          {center.is_subscribed && (
-            <Badge variant="secondary" className="shrink-0 text-[10px]">
-              {isPro ? (
-                <><Zap className="mr-1 h-3 w-3" />{t("realtime")}</>
-              ) : (
-                <>{t("delayed")}</>
-              )}
-            </Badge>
-          )}
+          <div className="shrink-0">
+            {!isAuthenticated ? (
+              <Link href="/login">
+                <Button variant="outline" size="sm" className="h-8 text-xs">
+                  <Bell className="mr-1 h-3 w-3" />
+                  {t("subscribeBtn")}
+                </Button>
+              </Link>
+            ) : center.is_subscribed ? (
+              <Button variant="ghost" size="sm" className="h-8 text-xs text-muted-foreground" onClick={onToggle} disabled={toggling}>
+                <BellOff className="mr-1 h-3 w-3" />
+                {t("unsubscribeBtn")}
+              </Button>
+            ) : canSubscribeMore ? (
+              <Button variant="outline" size="sm" className="h-8 text-xs" onClick={onToggle} disabled={toggling}>
+                <Bell className="mr-1 h-3 w-3" />
+                {t("subscribeBtn")}
+              </Button>
+            ) : (
+              <Link href="/pricing">
+                <Button variant="outline" size="sm" className="h-8 text-xs text-amber-600">
+                  <Crown className="mr-1 h-3 w-3" />
+                  {t("upgradeToSubscribe")}
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
 
-        {/* Available dates */}
-        <div className="mt-3 min-h-[2rem]">
-          {center.scrape_status === "pending" ? (
-            <p className="text-sm text-muted-foreground">{t("checking")}</p>
-          ) : hasAvailability ? (
+        {/* Available dates or status */}
+        <div className="mt-3 min-h-[1.5rem]">
+          {hasAvailability ? (
             <div className="flex flex-wrap gap-1.5">
               {center.available_dates.map((d) => (
                 <Badge key={d} variant="outline" className="text-xs font-normal">
@@ -267,35 +237,6 @@ function CenterCard({
             {t("lastChecked", { time: _timeAgo(center.last_checked_at) })}
           </p>
         )}
-
-        {/* Subscribe button */}
-        <div className="mt-3">
-          {!isAuthenticated ? (
-            <Link href="/login" className="w-full">
-              <Button variant="outline" size="sm" className="w-full">
-                <LogIn className="mr-1.5 h-3.5 w-3.5" />
-                {t("loginToSubscribe")}
-              </Button>
-            </Link>
-          ) : center.is_subscribed ? (
-            <Button variant="ghost" size="sm" className="w-full text-muted-foreground" onClick={onToggle} disabled={toggling}>
-              <BellOff className="mr-1.5 h-3.5 w-3.5" />
-              {t("unsubscribeBtn")}
-            </Button>
-          ) : canSubscribeMore ? (
-            <Button variant="default" size="sm" className="w-full" onClick={onToggle} disabled={toggling}>
-              <Bell className="mr-1.5 h-3.5 w-3.5" />
-              {t("subscribeBtn")}
-            </Button>
-          ) : (
-            <Link href="/pricing" className="w-full">
-              <Button variant="outline" size="sm" className="w-full text-amber-600">
-                <Crown className="mr-1.5 h-3.5 w-3.5" />
-                {t("upgradeToSubscribe")}
-              </Button>
-            </Link>
-          )}
-        </div>
       </CardContent>
     </Card>
   );
