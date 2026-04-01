@@ -23,7 +23,7 @@ import { useExamStore } from "@/stores/exam-store";
 import { completeAttempt } from "@/lib/api/attempts";
 import { UserMenu } from "./user-menu";
 import { NotificationBell } from "./notification-bell";
-import { SeatIndicator } from "./seat-indicator";
+// import { SeatIndicator } from "./seat-indicator"; // hidden until scraper verified
 import { cn, parseUTCms } from "@/lib/utils";
 import { localizeTestName } from "@/lib/test-name";
 import { useAuthStore } from "@/stores/auth-store";
