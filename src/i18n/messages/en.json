@@ -854,6 +854,7 @@
       "readingRule3": "Auto-submit when time is up",
       "startReading": "Start Exam",
       "exitExam": "Back to Tests",
+      "confirmAnswer": "Confirm Answer",
       "answerNow": "Answer now",
       "listenCarefully": "Listen carefully..."
     },

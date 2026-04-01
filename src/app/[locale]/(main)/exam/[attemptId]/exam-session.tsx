@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, LayoutGrid, Headphones, Volume2, BookOpen, Flag } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutGrid, Headphones, Volume2, BookOpen, Flag, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
@@ -37,10 +37,13 @@ export function ExamSession() {
 
   const [submitting, setSubmitting] = useState(false);
   const [flagged, setFlagged] = useState<Set<string>>(new Set());
+  // Pending selection: user clicked an option but hasn't confirmed yet
+  const [pendingSelection, setPendingSelection] = useState<string | null>(null);
 
-  // Scroll to top when navigating between questions
+  // Scroll to top and reset pending selection when navigating between questions
   useEffect(() => {
     window.scrollTo({ top: 0 });
+    setPendingSelection(null);
   }, [currentIndex]);
 
   // On unmount: delete if 0 answers, auto-submit if > 0 (no "continue exam")
@@ -160,8 +163,10 @@ export function ExamSession() {
         if (prev <= 1) {
           clearInterval(answerTimerRef.current!);
           answerTimerRef.current = null;
-          // Auto-advance (no answer)
-          if (currentIndex < questions.length - 1) {
+          // Auto-confirm pending selection or advance without answer
+          if (pendingSelectionRef.current) {
+            handleConfirmRef.current(pendingSelectionRef.current);
+          } else if (currentIndex < questions.length - 1) {
             goNext();
             setListeningPhase("playing");
           } else {
@@ -176,10 +181,17 @@ export function ExamSession() {
 
   const question = questions[currentIndex];
 
-  const handleSelect = useCallback(async (key: string) => {
-    if (!question || !attemptId || submitting) return;
-    // Listening mode: once answered, lock the question
+  // Select: only sets pending (no API call yet)
+  const handleSelect = useCallback((key: string) => {
+    if (!question || submitting) return;
     if (isListening && answers.has(question.id)) return;
+    setPendingSelection(key);
+  }, [question, submitting, isListening, answers]);
+
+  // Confirm: submit pending selection to backend + auto-advance
+  const handleConfirm = useCallback(async (overrideKey?: string) => {
+    const key = overrideKey ?? pendingSelection;
+    if (!question || !attemptId || !key || submitting) return;
 
     setSubmitting(true);
     const payload = {
@@ -188,7 +200,6 @@ export function ExamSession() {
       selected: key,
     };
 
-    // Retry up to 3 times with exponential backoff
     let success = false;
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
@@ -205,8 +216,9 @@ export function ExamSession() {
 
     if (success) {
       setAnswer(question.id, payload);
+      setPendingSelection(null);
 
-      // Listening exam mode: clear countdown and auto-advance after 800ms
+      // Auto-advance to next question
       if (isListening) {
         if (answerTimerRef.current) {
           clearInterval(answerTimerRef.current);
@@ -216,16 +228,25 @@ export function ExamSession() {
           setTimeout(() => {
             goNext();
             setListeningPhase("playing");
-          }, 800);
+          }, 500);
+        }
+      } else {
+        // Reading: auto-advance after confirm
+        if (currentIndex < questions.length - 1) {
+          setTimeout(() => goNext(), 300);
         }
       }
     } else {
       toast.error(t("common.errors.submitFailed"));
     }
     setSubmitting(false);
-  }, [question, attemptId, submitting, setAnswer, isListening, answers, currentIndex, questions.length, goNext]);
+  }, [question, attemptId, pendingSelection, submitting, setAnswer, isListening, currentIndex, questions.length, goNext]);
 
-  // Stable refs for keyboard handler to avoid listener churn
+  // Stable refs for callbacks to avoid listener/timer churn
+  const pendingSelectionRef = useRef(pendingSelection);
+  useEffect(() => { pendingSelectionRef.current = pendingSelection; });
+  const handleConfirmRef = useRef(handleConfirm);
+  useEffect(() => { handleConfirmRef.current = handleConfirm; });
   const handleSelectRef = useRef(handleSelect);
   useEffect(() => { handleSelectRef.current = handleSelect; });
   const goNextRef = useRef(goNext);
@@ -276,6 +297,13 @@ export function ExamSession() {
           e.preventDefault();
           return;
         }
+      }
+
+      // Enter = confirm pending selection
+      if (e.key === "Enter" && pendingSelectionRef.current) {
+        e.preventDefault();
+        handleConfirmRef.current();
+        return;
       }
 
       const keyMap: Record<string, number> = {
@@ -420,11 +448,26 @@ export function ExamSession() {
             onSelect={handleSelect}
             disabled={submitting || listeningPhase === "playing" || answers.has(question.id)}
             mode="exam"
-            examSelected={currentAnswer?.selected ?? null}
+            examSelected={pendingSelection ?? currentAnswer?.selected ?? null}
             audioOnly={question.options.every((o) => !o.text?.trim())}
             horizontal={!!question.has_image}
             vocabDisabled
           />
+
+          {/* Confirm button */}
+          {listeningPhase === "answering" && !answers.has(question.id) && (
+            <div className="flex justify-center">
+              <Button
+                size="lg"
+                onClick={() => handleConfirm()}
+                disabled={!pendingSelection || submitting}
+                className="min-w-[200px]"
+              >
+                <CheckCircle2 className="mr-2 h-5 w-5" />
+                {t("exam.session.confirmAnswer")}
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Desktop sidebar: read-only navigator + submit on last question */}
@@ -533,10 +576,25 @@ export function ExamSession() {
           onSelect={handleSelect}
           disabled={submitting}
           mode="exam"
-          examSelected={currentAnswer?.selected ?? null}
+          examSelected={pendingSelection ?? currentAnswer?.selected ?? null}
           audioOnly={false}
           vocabDisabled
         />
+
+        {/* Confirm button */}
+        {!answers.has(question.id) && (
+          <div className="flex justify-center">
+            <Button
+              size="lg"
+              onClick={() => handleConfirm()}
+              disabled={!pendingSelection || submitting}
+              className="min-w-[200px]"
+            >
+              <CheckCircle2 className="mr-2 h-5 w-5" />
+              {t("exam.session.confirmAnswer")}
+            </Button>
+          </div>
+        )}
 
         <Separator />
 

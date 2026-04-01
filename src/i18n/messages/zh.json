@@ -855,7 +855,8 @@
       "readingRule2": "可以回看上一题，可以跳题",
       "readingRule3": "计时结束后自动提交",
       "startReading": "开始考试",
-      "exitExam": "返回题库"
+      "exitExam": "返回题库",
+      "confirmAnswer": "确认答案"
     },
     "timer": {
       "fiveMinutes": "注意：剩余 5 分钟",
