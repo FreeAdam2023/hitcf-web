@@ -273,6 +273,23 @@ export interface BookmarkDetail {
   question: WrongAnswerDetailQuestion | null;
 }
 
+// Highlights
+export interface HighlightItem {
+  id: string;
+  question_id: string;
+  text: string;
+  sentence_index: number | null;
+  start_offset: number;
+  end_offset: number;
+  color: "yellow" | "green" | "blue";
+  note: string | null;
+  created_at: string | null;
+  question_type?: "listening" | "reading" | null;
+  question_number?: number | null;
+  level?: string | null;
+  test_set_name?: string | null;
+}
+
 // Attempts
 export interface ActiveAttemptResponse {
   id: string;

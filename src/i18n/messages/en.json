@@ -1165,7 +1165,8 @@
     "subtitle": "Track weak points and bookmark important questions",
     "tabs": {
       "wrong": "Wrong Answers",
-      "bookmarks": "Bookmarks"
+      "bookmarks": "Bookmarks",
+      "highlights": "Notes"
     },
     "bookmarks": {
       "remove": "Unbookmark",
@@ -1184,6 +1185,21 @@
       "all": "All",
       "description": "{count} questions available",
       "start": "Start Practice ({count})"
+    },
+    "highlights": {
+      "total": "{count} notes",
+      "delete": "Delete",
+      "deleted": "Deleted",
+      "emptyTitle": "No highlights yet",
+      "emptyDescription": "Select text during reading practice to highlight it. Tap a highlight to add notes.",
+      "filterAll": "All",
+      "filterWithNote": "With notes",
+      "filterHighlightOnly": "Highlights only",
+      "editNote": "Edit note",
+      "addNote": "Add note",
+      "notePlaceholder": "Write your note...",
+      "save": "Save",
+      "source": "Source"
     },
     "practiceBookmarks": "Practice Bookmarks",
     "upgradeBanner": {

@@ -1165,7 +1165,8 @@
     "subtitle": "Suivez vos points faibles et marquez les questions importantes",
     "tabs": {
       "wrong": "Erreurs",
-      "bookmarks": "Favoris"
+      "bookmarks": "Favoris",
+      "highlights": "Notes"
     },
     "bookmarks": {
       "remove": "Retirer",
@@ -1184,6 +1185,21 @@
       "all": "Toutes",
       "description": "{count} questions disponibles",
       "start": "Commencer ({count})"
+    },
+    "highlights": {
+      "total": "{count} notes",
+      "delete": "Supprimer",
+      "deleted": "Supprimé",
+      "emptyTitle": "Aucune note pour le moment",
+      "emptyDescription": "Sélectionnez du texte pendant la lecture pour le surligner. Appuyez sur un surlignage pour ajouter des notes.",
+      "filterAll": "Toutes",
+      "filterWithNote": "Avec notes",
+      "filterHighlightOnly": "Surlignages",
+      "editNote": "Modifier la note",
+      "addNote": "Ajouter une note",
+      "notePlaceholder": "Écrivez votre note...",
+      "save": "Enregistrer",
+      "source": "Source"
     },
     "practiceBookmarks": "Pratiquer les favoris",
     "upgradeBanner": {

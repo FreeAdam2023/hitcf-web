@@ -1162,7 +1162,8 @@
     "subtitle": "تتبع نقاط الضعف واحفظ الأسئلة المهمة",
     "tabs": {
       "wrong": "الأخطاء",
-      "bookmarks": "المفضلة"
+      "bookmarks": "المفضلة",
+      "highlights": "الملاحظات"
     },
     "bookmarks": {
       "remove": "إزالة",
@@ -1181,6 +1182,21 @@
       "all": "الكل",
       "description": "{count} سؤال متاح",
       "start": "بدء التدريب ({count})"
+    },
+    "highlights": {
+      "total": "{count} ملاحظة",
+      "delete": "حذف",
+      "deleted": "تم الحذف",
+      "emptyTitle": "لا توجد ملاحظات بعد",
+      "emptyDescription": "حدد النص أثناء تمارين القراءة لتمييزه. اضغط على التمييز لإضافة ملاحظات.",
+      "filterAll": "الكل",
+      "filterWithNote": "مع ملاحظات",
+      "filterHighlightOnly": "التمييزات فقط",
+      "editNote": "تعديل الملاحظة",
+      "addNote": "إضافة ملاحظة",
+      "notePlaceholder": "اكتب ملاحظتك...",
+      "save": "حفظ",
+      "source": "المصدر"
     },
     "practiceBookmarks": "تدريب المفضلة",
     "upgradeBanner": {

@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { ArrowDownWideNarrow, BookOpen, Clock, Headphones, Star, Trash2, CheckSquare, X } from "lucide-react";
+import { ArrowDownWideNarrow, BookOpen, Clock, Headphones, Highlighter, Star, Trash2, CheckSquare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { ErrorState } from "@/components/shared/error-state";
@@ -11,6 +11,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { Pagination } from "@/components/shared/pagination";
 import { WrongAnswerCard } from "@/components/wrong-answers/wrong-answer-card";
 import { BookmarkCard } from "@/components/wrong-answers/bookmark-card";
+import { HighlightCard } from "@/components/review/highlight-card";
 import {
   listWrongAnswers,
   toggleMastered,
@@ -26,6 +27,7 @@ import {
   toggleBookmark,
   practiceBookmarks,
 } from "@/lib/api/bookmarks";
+import { listHighlights, deleteHighlight } from "@/lib/api/highlights";
 import { useAuthStore } from "@/stores/auth-store";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { useTranslations } from "next-intl";
@@ -34,9 +36,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { PracticeStartDialog } from "@/components/review/practice-start-dialog";
 import { TYPE_COLORS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import type { PaginatedResponse, WrongAnswerItem, WrongAnswerStats, BookmarkItem, BookmarkStats } from "@/lib/api/types";
+import type { PaginatedResponse, WrongAnswerItem, WrongAnswerStats, BookmarkItem, BookmarkStats, HighlightItem } from "@/lib/api/types";
 
-type Tab = "wrong" | "bookmarks";
+type Tab = "wrong" | "bookmarks" | "highlights";
 
 const TYPE_CHIPS: Array<{ key: string; Icon?: React.ElementType }> = [
   { key: "all" },
@@ -94,6 +96,13 @@ export function ReviewPage() {
   const [bmError, setBmError] = useState<string | null>(null);
   const [startingBmPractice, setStartingBmPractice] = useState(false);
   const [bmPracticeDialogOpen, setBmPracticeDialogOpen] = useState(false);
+
+  // Highlight state
+  const [hlData, setHlData] = useState<PaginatedResponse<HighlightItem> | null>(null);
+  const [hlLoading, setHlLoading] = useState(true);
+  const [hlError, setHlError] = useState<string | null>(null);
+  const [hlPage, setHlPage] = useState(1);
+  const [hlNoteFilter, setHlNoteFilter] = useState<"all" | "with_note" | "highlight_only">("all");
 
   // Selection mode for batch delete
   const [selectionMode, setSelectionMode] = useState(false);
@@ -173,10 +182,58 @@ export function ReviewPage() {
     if (tab === "bookmarks") fetchBmData();
   }, [tab, fetchBmData]);
 
+  // Fetch highlights
+  const fetchHlData = useCallback(async () => {
+    setHlLoading(true);
+    setHlError(null);
+    try {
+      const result = await listHighlights({
+        has_note: hlNoteFilter === "with_note" ? true : hlNoteFilter === "highlight_only" ? false : undefined,
+        type: type === "all" ? undefined : type,
+        page: hlPage,
+        page_size: 20,
+      });
+      setHlData(result);
+    } catch (err) {
+      setHlData({ items: [], page: 1, page_size: 20, total: 0, total_pages: 0 } as PaginatedResponse<HighlightItem>);
+      setHlError(err instanceof Error ? err.message : t("wrongAnswers.loadFailed"));
+    } finally {
+      setHlLoading(false);
+    }
+  }, [type, hlPage, hlNoteFilter, t]);
+
+  useEffect(() => {
+    if (tab === "highlights") fetchHlData();
+  }, [tab, fetchHlData]);
+
+  const handleDeleteHighlight = async (id: string) => {
+    try {
+      await deleteHighlight(id);
+      setHlData((prev) => {
+        if (!prev) return prev;
+        return { ...prev, items: prev.items.filter((i) => i.id !== id), total: prev.total - 1 };
+      });
+      toast.success(t("review.highlights.deleted"));
+    } catch {
+      toast.error(t("common.errors.operationFailed"));
+    }
+  };
+
+  const handleUpdateHighlight = (id: string, updates: Partial<HighlightItem>) => {
+    setHlData((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        items: prev.items.map((i) => (i.id === id ? { ...i, ...updates } : i)),
+      };
+    });
+  };
+
   const handleTypeChange = (v: string) => {
     setType(v);
     setWaPage(1);
     setBmPage(1);
+    setHlPage(1);
   };
 
   const handleToggleMastered = async (id: string) => {
@@ -381,6 +438,26 @@ export function ReviewPage() {
                   tab === "bookmarks" ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400" : "bg-muted text-muted-foreground",
                 )}>
                   {bmStats.total}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => handleTabChange("highlights")}
+              className={cn(
+                "flex items-center gap-2 rounded-full px-5 py-1.5 text-sm font-medium transition-all focus-visible:outline-none",
+                tab === "highlights"
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              <Highlighter className="h-3.5 w-3.5" />
+              {t("review.tabs.highlights")}
+              {hlData && (
+                <span className={cn(
+                  "rounded-full px-1.5 py-0.5 text-xs tabular-nums",
+                  tab === "highlights" ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : "bg-muted text-muted-foreground",
+                )}>
+                  {hlData.total}
                 </span>
               )}
             </button>
@@ -643,6 +720,98 @@ export function ReviewPage() {
                     ))}
                   </div>
                   <Pagination page={bmPage} totalPages={bmData.total_pages} onPageChange={setBmPage} />
+                </>
+              )}
+            </>
+          )}
+
+          {/* Highlights tab */}
+          {tab === "highlights" && (
+            <>
+              {/* Summary + filters */}
+              {hlData && hlData.total > 0 && (
+                <div className="flex items-center justify-between rounded-xl border bg-card p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+                      <Highlighter className="h-5 w-5 text-green-600 dark:text-green-400" />
+                    </div>
+                    <p className="text-sm font-medium">{t("review.highlights.total", { count: hlData.total })}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Note filter + type filter */}
+              <div className="flex flex-wrap items-center gap-2">
+                {(["all", "with_note", "highlight_only"] as const).map((key) => (
+                  <button
+                    key={key}
+                    onClick={() => { setHlNoteFilter(key); setHlPage(1); }}
+                    className={cn(
+                      "rounded-full px-3 py-1.5 text-xs font-medium transition-colors",
+                      hlNoteFilter === key
+                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                        : "bg-muted text-muted-foreground hover:bg-muted/80",
+                    )}
+                  >
+                    {t(`review.highlights.filter${key.charAt(0).toUpperCase() + key.slice(1).replace(/_([a-z])/g, (_, c: string) => c.toUpperCase())}`)}
+                  </button>
+                ))}
+
+                <span className="mx-1 h-4 w-px bg-border" />
+
+                {TYPE_CHIPS.map(({ key, Icon }) => {
+                  const colors = TYPE_COLORS[key];
+                  const isActive = type === key;
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => handleTypeChange(key)}
+                      className={cn(
+                        "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors",
+                        isActive
+                          ? key === "all"
+                            ? "bg-primary text-primary-foreground"
+                            : colors?.iconBg
+                          : "bg-muted text-muted-foreground hover:bg-muted/80",
+                      )}
+                    >
+                      {Icon && <Icon className="h-3 w-3" />}
+                      {key === "all"
+                        ? t("wrongAnswers.filters.allTypes")
+                        : t(`common.types.${key}`)}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* List */}
+              {hlLoading ? (
+                <LoadingSpinner />
+              ) : hlError ? (
+                <ErrorState message={hlError} onRetry={fetchHlData} />
+              ) : !hlData?.items.length ? (
+                <EmptyState
+                  title={t("review.highlights.emptyTitle")}
+                  description={t("review.highlights.emptyDescription")}
+                  action={
+                    <Button onClick={() => i18nRouter.push("/tests")}>
+                      {t("wrongAnswers.goToTests")}
+                    </Button>
+                  }
+                />
+              ) : (
+                <>
+                  <div className="space-y-3">
+                    {hlData.items.map((item) => (
+                      <HighlightCard
+                        key={item.id}
+                        item={item}
+                        onDelete={handleDeleteHighlight}
+                        onUpdate={handleUpdateHighlight}
+                      />
+                    ))}
+                  </div>
+                  <Pagination page={hlPage} totalPages={hlData.total_pages} onPageChange={setHlPage} />
                 </>
               )}
             </>
