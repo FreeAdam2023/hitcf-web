@@ -2764,7 +2764,7 @@
     "selectCity": "Select exam cities",
     "freeLimit": "Free users: 1 city max",
     "proUnlimited": "Unlimited cities",
-    "priorityNotify": "Priority alerts",
+    "priorityNotify": "Pro members get priority alerts",
     "queueNotify": "Queued alerts",
     "lastChecked": "Last checked: {time} ago",
     "realtime": "Priority",

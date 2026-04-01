@@ -2760,7 +2760,7 @@
     "selectCity": "Choisissez vos villes d'examen",
     "freeLimit": "Gratuit : 1 ville max",
     "proUnlimited": "Villes illimitées",
-    "priorityNotify": "Alertes prioritaires",
+    "priorityNotify": "Alertes prioritaires pour les abonnés",
     "queueNotify": "Alertes en file d'attente",
     "lastChecked": "Dernière vérification : il y a {time}",
     "realtime": "Prioritaire",

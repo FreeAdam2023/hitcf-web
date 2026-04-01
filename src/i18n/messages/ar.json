@@ -2757,7 +2757,7 @@
     "selectCity": "اختر مدن الامتحان",
     "freeLimit": "المستخدمون المجانيون: مدينة واحدة فقط",
     "proUnlimited": "مدن غير محدودة",
-    "priorityNotify": "تنبيهات ذات أولوية",
+    "priorityNotify": "تنبيهات ذات أولوية للمشتركين",
     "queueNotify": "تنبيهات في قائمة الانتظار",
     "lastChecked": "آخر فحص: منذ {time}",
     "realtime": "أولوية",

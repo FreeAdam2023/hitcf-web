@@ -2759,7 +2759,7 @@
     "selectCity": "选择考试城市",
     "freeLimit": "免费用户限选 1 个城市",
     "proUnlimited": "不限城市",
-    "priorityNotify": "优先通知",
+    "priorityNotify": "付费会员优先通知",
     "queueNotify": "排队通知",
     "lastChecked": "上次检查：{time} 前",
     "realtime": "优先通知",
