@@ -70,8 +70,11 @@ export function HighlightToolbar({
     highlight: HighlightItem;
   } | null>(null);
   const [noteText, setNoteText] = useState("");
+  const [mounted, setMounted] = useState(false);
   const toolbarRef = useRef<HTMLDivElement>(null);
   const editRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { setMounted(true); }, []);
 
   // Load existing highlights
   useEffect(() => {
@@ -320,7 +323,7 @@ export function HighlightToolbar({
     [noteText, t],
   );
 
-  if (disabled) return null;
+  if (disabled || !mounted) return null;
 
   return (
     <>
