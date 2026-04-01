@@ -167,12 +167,20 @@ export function SeatMonitorView() {
       ) : viewState === "picker" ? (
         /* ── Picker View ── */
         <div className="flex flex-col items-center gap-6 py-12 text-center">
+          <Heartbeat active={false} />
+
           <div>
-            <h1 className="text-xl font-bold sm:text-2xl">
-              {t("selectCity")}
+            <h1 className="text-2xl font-bold sm:text-3xl">
+              {t("title")}
+              <Badge
+                variant="outline"
+                className="ml-2 align-middle text-xs font-normal text-blue-600 border-blue-300"
+              >
+                Beta
+              </Badge>
             </h1>
-            <p className="mt-1.5 text-sm text-muted-foreground">
-              {t("subtitle")}
+            <p className="mt-2 text-sm text-muted-foreground">
+              {t("selectCity")}
             </p>
           </div>
 
@@ -200,26 +208,31 @@ export function SeatMonitorView() {
             })}
           </div>
 
-          {/* Free / Pro hint */}
-          <p className="text-sm text-muted-foreground">
-            {isPro ? (
-              <span className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400">
+          {/* Free vs Pro comparison */}
+          {isPro ? (
+            <div className="flex items-center gap-4 rounded-full bg-amber-50 px-5 py-2 text-sm dark:bg-amber-950/30">
+              <span className="inline-flex items-center gap-1.5 font-medium text-amber-700 dark:text-amber-300">
                 <Zap className="h-3.5 w-3.5" />
                 {t("proUnlimited")}
               </span>
-            ) : (
-              <>
+              <span className="text-amber-600/60 dark:text-amber-400/60">·</span>
+              <span className="text-amber-700 dark:text-amber-300">
+                {t("priorityNotify")}
+              </span>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">
                 {t("freeLimit")}
-                <span className="mx-1.5">·</span>
-                <Link
-                  href="/pricing"
-                  className="text-primary hover:underline"
-                >
-                  {t("upgrade")}
-                </Link>
-              </>
-            )}
-          </p>
+              </p>
+              <Link href="/pricing">
+                <Button variant="outline" size="sm" className="text-xs text-amber-600 border-amber-200 hover:bg-amber-50">
+                  <Zap className="mr-1 h-3 w-3" />
+                  {t("upgrade")} — {t("proUnlimited")} + {t("priorityNotify")}
+                </Button>
+              </Link>
+            </div>
+          )}
 
           {/* Action */}
           <Button
