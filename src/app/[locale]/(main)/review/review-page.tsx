@@ -432,7 +432,6 @@ export function ReviewPage() {
                   : "text-muted-foreground hover:text-foreground",
               )}
             >
-              <Star className="h-3.5 w-3.5" />
               {t("review.tabs.bookmarks")}
               {bmStats && (
                 <span className={cn(
@@ -452,7 +451,6 @@ export function ReviewPage() {
                   : "text-muted-foreground hover:text-foreground",
               )}
             >
-              <Highlighter className="h-3.5 w-3.5" />
               {t("review.tabs.highlights")}
               {hlData && (
                 <span className={cn(
@@ -735,7 +733,7 @@ export function ReviewPage() {
                 <div className="flex items-center justify-between rounded-xl border bg-card p-4">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
-                      <Highlighter className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      <span className="h-3 w-3 rounded-full bg-green-500" />
                     </div>
                     <p className="text-sm font-medium">{t("review.highlights.total", { count: hlData.total })}</p>
                   </div>
