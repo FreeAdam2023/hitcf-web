@@ -146,9 +146,8 @@ async function request<T>(
     if (res.status === 204) return undefined as T;
     return res.json();
   } catch (e) {
-    // Report network/timeout errors
+    // Network errors (status 0) are user-side — don't report
     if (e instanceof ApiError) throw e;
-    _reportError(path, options.method || "GET", 0, e instanceof Error ? e.message : "Unknown error");
     throw e;
   } finally {
     clearTimeout(timer);
