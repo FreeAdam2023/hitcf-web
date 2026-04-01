@@ -2033,12 +2033,13 @@
       "manageSubscription": "管理订阅"
     },
     "usdNote": "所有价格均以美元（USD）计价",
+    "renewalNote": "季付/半年付一次付清，到期不续费",
     "referralNudge": "或者邀请好友，双方各得 30 天 Pro",
     "trust": {
       "trial": "注册即享 7 天体验",
       "stripe": "Stripe 安全支付",
       "refund": "48h 无理由退款",
-      "cancel": "随时一键取消"
+      "cancel": "到期不自动续费"
     },
     "comparison": {
       "title": "免费版 vs",

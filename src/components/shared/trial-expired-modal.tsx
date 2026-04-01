@@ -64,10 +64,10 @@ export function TrialExpiredModal() {
           {/* Pricing cards — same style as quota modal */}
           <div className="grid gap-3 sm:grid-cols-3">
             {([
-              { plan: "monthly" as const, price: formatPrice(PRICING.monthly), unit: t("monthly"), perMonth: null, save: 0, recommended: false, badge: null, renewal: t("autoRenew") },
-              { plan: "quarterly" as const, price: formatPrice(PRICING.quarterly), unit: t("quarterly"), perMonth: formatPrice(PRICING.quarterlyPerMonth), save: PRICING.quarterlySavePercent, recommended: false, badge: t("limitedOffer"), renewal: t("noRenew") },
-              { plan: "semiannual" as const, price: formatPrice(PRICING.semiannual), unit: t("semiannual"), perMonth: formatPrice(PRICING.semiannualPerMonth), save: PRICING.semiannualSavePercent, recommended: true, badge: null, renewal: t("noRenew") },
-            ]).map(({ plan, price, unit, perMonth, save, recommended, badge, renewal }) => (
+              { plan: "monthly" as const, price: formatPrice(PRICING.monthly), unit: t("monthly"), perMonth: null, save: 0, recommended: false, badge: null },
+              { plan: "quarterly" as const, price: formatPrice(PRICING.quarterly), unit: t("quarterly"), perMonth: formatPrice(PRICING.quarterlyPerMonth), save: PRICING.quarterlySavePercent, recommended: false, badge: t("limitedOffer") },
+              { plan: "semiannual" as const, price: formatPrice(PRICING.semiannual), unit: t("semiannual"), perMonth: formatPrice(PRICING.semiannualPerMonth), save: PRICING.semiannualSavePercent, recommended: true, badge: null },
+            ]).map(({ plan, price, unit, perMonth, save, recommended, badge }) => (
               <div
                 key={plan}
                 className={`relative rounded-xl p-[1px] ${
@@ -100,7 +100,6 @@ export function TrialExpiredModal() {
                       ≈ {perMonth}/mo · {t("save", { percent: save })}
                     </p>
                   )}
-                  <p className="text-xs text-muted-foreground">{renewal}</p>
                   <div className="mt-2 space-y-1 text-xs text-muted-foreground">
                     {["feature1", "feature2", "feature3"].map((k) => (
                       <div key={k} className="flex items-center gap-1.5">

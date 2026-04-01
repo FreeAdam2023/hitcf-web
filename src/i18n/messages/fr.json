@@ -2032,12 +2032,13 @@
       "manageSubscription": "Gérer l'abonnement"
     },
     "usdNote": "Tous les prix sont en USD",
+    "renewalNote": "Les forfaits trimestriel/semestriel sont des paiements uniques, sans renouvellement automatique",
     "referralNudge": "Ou invitez un ami — 30 jours Pro gratuits pour chacun",
     "trust": {
       "trial": "7 jours d'essai à l'inscription",
       "stripe": "Paiements sécurisés via Stripe",
       "refund": "Garantie de remboursement sous 48 h",
-      "cancel": "Annulez à tout moment en un clic"
+      "cancel": "Sans renouvellement automatique"
     },
     "comparison": {
       "title": "Gratuit vs",

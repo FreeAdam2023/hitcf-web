@@ -231,9 +231,6 @@ export function PricingView() {
                         ≈ {plan.perMonth} {t("pricing.perMonth")} · {t("pricing.save", { percent: plan.savePercent })}
                       </p>
                     )}
-                    <p className="text-xs text-muted-foreground">
-                      {plan.key === "monthly" ? t("pricing.autoRenew") : t("pricing.noAutoRenew")}
-                    </p>
                   </div>
                 </Card>
               </div>
