@@ -869,7 +869,19 @@
       "submitCancel": "متابعة",
       "submitOk": "تسليم",
       "answerNow": "أجب الآن",
-      "listenCarefully": "استمع بعناية..."
+      "listenCarefully": "استمع بعناية...",
+      "introQuestions": "سؤال",
+      "introMinutes": "دقيقة",
+      "introProgressive": "تدريجي",
+      "introRulesTitle": "قواعد الامتحان",
+      "readingConsigne1": "لكل سؤال 4 خيارات (A، B، C، D). إجابة واحدة فقط صحيحة.",
+      "readingConsigne2": "يمكنك تخطي الأسئلة والعودة إليها بحرية. أدِر وقتك بحكمة.",
+      "readingConsigne3": "عند انتهاء الوقت، يُقدَّم الامتحان تلقائياً. الأسئلة غير المُجابة تُحسب خطأً.",
+      "introDifficultyTitle": "توزيع الصعوبة",
+      "readingLevel1": "س1–10 · نصوص يومية بسيطة (إعلانات، رسائل قصيرة)",
+      "readingLevel2": "س11–25 · نصوص عملية (بريد إلكتروني، أخبار، وثائق)",
+      "readingLevel3": "س26–39 · نصوص معقدة (افتتاحيات، أدب، مقالات مجردة)",
+      "readingWarning": "يبدأ العد التنازلي ({minutes} دقيقة) فور النقر على \"بدء الامتحان\". تأكد من استعدادك."
     },
     "timer": {
       "fiveMinutes": "تنبيه: بقيت 5 دقائق",

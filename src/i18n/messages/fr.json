@@ -872,7 +872,19 @@
       "submitCancel": "Continuer",
       "submitOk": "Remettre",
       "answerNow": "Répondez maintenant",
-      "listenCarefully": "Écoutez attentivement..."
+      "listenCarefully": "Écoutez attentivement...",
+      "introQuestions": "questions",
+      "introMinutes": "minutes",
+      "introProgressive": "progressif",
+      "introRulesTitle": "Consignes",
+      "readingConsigne1": "Pour chaque question, il y a 4 choix de réponse (A, B, C, D). Une seule réponse est exacte.",
+      "readingConsigne2": "Vous pouvez naviguer librement entre les questions. Gérez bien votre temps.",
+      "readingConsigne3": "L'examen est soumis automatiquement à la fin du temps. Les questions sans réponse sont comptées comme incorrectes.",
+      "introDifficultyTitle": "Répartition des difficultés",
+      "readingLevel1": "Q1–10 · Textes simples du quotidien (annonces, publicités, messages)",
+      "readingLevel2": "Q11–25 · Textes pratiques (courriels, actualités, documents)",
+      "readingLevel3": "Q26–39 · Textes complexes (éditoriaux, littérature, essais)",
+      "readingWarning": "Le chronomètre de {minutes} minutes démarre dès que vous cliquez sur « Commencer ». Assurez-vous d'être prêt(e)."
     },
     "timer": {
       "fiveMinutes": "Attention : il reste 5 minutes",

@@ -872,7 +872,19 @@
       "submitConfirmDesc": "还有 {unanswered} 题未答。交卷后不可修改。",
       "submitConfirmAll": "所有题目已作答，确定交卷吗？",
       "submitCancel": "继续答题",
-      "submitOk": "确定交卷"
+      "submitOk": "确定交卷",
+      "introQuestions": "道题",
+      "introMinutes": "分钟",
+      "introProgressive": "难度递进",
+      "introRulesTitle": "考试规则",
+      "readingConsigne1": "每题有 A、B、C、D 四个选项，只有一个正确答案。",
+      "readingConsigne2": "可以自由跳题和回看，合理分配时间。",
+      "readingConsigne3": "计时结束后系统自动提交，未作答的题目计为错误。",
+      "introDifficultyTitle": "难度分布",
+      "readingLevel1": "Q1–10 · 简单日常文本（通知、广告、短信）",
+      "readingLevel2": "Q11–25 · 中等实用文本（邮件、新闻、政策）",
+      "readingLevel3": "Q26–39 · 高级复杂文本（社论、文学、抽象论述）",
+      "readingWarning": "点击「开始考试」后计时 {minutes} 分钟立即开始，请确保准备就绪。"
     },
     "timer": {
       "fiveMinutes": "注意：剩余 5 分钟",
