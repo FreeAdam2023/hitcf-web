@@ -640,18 +640,7 @@ export function ExamSession() {
             {isFlagged ? t("exam.session.flagged") : t("exam.session.flag")}
           </Button>
 
-          {isLast ? (
-            <Button
-              size="sm"
-              variant="outline"
-              className="text-destructive hover:bg-destructive/10"
-              onClick={() => setShowSubmitDialog(true)}
-              disabled={submitting}
-            >
-              <Send className="mr-1 h-4 w-4" />
-              {t("exam.session.submitExam")}
-            </Button>
-          ) : (
+          {!isLast && (
             <Button
               variant="outline"
               size="sm"
@@ -699,7 +688,7 @@ export function ExamSession() {
           </Button>
         </DrawerTrigger>
         <DrawerContent className="max-h-[70vh]">
-          <div className="overflow-y-auto p-4 pb-8">
+          <div className="overflow-y-auto p-4 pb-8 space-y-3">
             <QuestionNavigator
               total={questions.length}
               currentIndex={currentIndex}
@@ -709,6 +698,16 @@ export function ExamSession() {
               mode="exam"
               flaggedQuestions={flaggedNumbers}
             />
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full text-destructive hover:bg-destructive/10"
+              onClick={() => setShowSubmitDialog(true)}
+              disabled={submitting}
+            >
+              <Send className="mr-1.5 h-3.5 w-3.5" />
+              {t("exam.session.submitExam")}
+            </Button>
           </div>
         </DrawerContent>
       </Drawer>
