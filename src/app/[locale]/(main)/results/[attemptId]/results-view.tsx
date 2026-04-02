@@ -70,6 +70,14 @@ export function ResultsView({ attempt }: ResultsViewProps) {
     const start = parseUTCms(attempt.started_at);
     const end = parseUTCms(attempt.completed_at);
     timeTakenSeconds = Math.round((end - start) / 1000);
+    // Cap at exam time limit — prevents inflated times from stale attempts
+    const timeLimitSeconds =
+      attempt.test_set_type === "listening" ? 35 * 60
+        : attempt.test_set_type === "reading" ? 60 * 60
+          : null;
+    if (timeLimitSeconds && timeTakenSeconds > timeLimitSeconds) {
+      timeTakenSeconds = timeLimitSeconds;
+    }
   }
 
   // Format completed date
