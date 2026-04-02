@@ -409,7 +409,6 @@ export default function TestDetailPage() {
   const [test, setTest] = useState<TestSetDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [starting, setStarting] = useState(false);
-  const [startingExam, setStartingExam] = useState(false);
   const [topics, setTopics] = useState<QuestionBrief[]>([]);
   const [topicsLoading, setTopicsLoading] = useState(false);
   const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
@@ -685,7 +684,7 @@ export default function TestDetailPage() {
                       <Button
                         size="sm"
                         onClick={() => handleStart(false)}
-                        disabled={starting || startingExam}
+                        disabled={starting}
                       >
                         <Play className="mr-1.5 h-3.5 w-3.5" />
                         {starting ? t("common.actions.starting") : t("testCard.continuePractice")}
@@ -694,7 +693,7 @@ export default function TestDetailPage() {
                         size="sm"
                         variant="ghost"
                         onClick={() => handleStart(true)}
-                        disabled={starting || startingExam}
+                        disabled={starting}
                       >
                         <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
                         {t("testDetail.restart")}
@@ -709,7 +708,7 @@ export default function TestDetailPage() {
                       className="flex-1"
                       size="lg"
                       onClick={() => handleStart(false)}
-                      disabled={starting || startingExam}
+                      disabled={starting}
                     >
                       {starting ? t("common.actions.starting") : t("testCard.startPractice")}
                     </Button>
@@ -719,9 +718,9 @@ export default function TestDetailPage() {
                     size="lg"
                     variant="outline"
                     onClick={() => handleStartExam(true)}
-                    disabled={starting || startingExam}
+                    disabled={starting}
                   >
-                    {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
+                    {t("testCard.startExam")}
                   </Button>
                 </div>
             </>

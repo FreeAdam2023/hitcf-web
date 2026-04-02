@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { PenLine, Clock, FileText, ArrowRight, AlertTriangle, History, Gift, Loader2 } from "lucide-react";
+import { PenLine, Clock, FileText, AlertTriangle, History, Gift, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { startWritingExam, checkWritingFreeTrialEligible } from "@/lib/api/writing-exam";

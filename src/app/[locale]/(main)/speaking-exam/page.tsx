@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { Mic, Clock, FileText, ArrowRight, AlertTriangle, History, Gift, Loader2 } from "lucide-react";
+import { Mic, Clock, FileText, AlertTriangle, History, Gift, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { startSpeakingExam, checkFreeTrialEligible } from "@/lib/api/speaking-exam";
