@@ -76,6 +76,16 @@ export function ExamSession() {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Exit before starting: delete the attempt so no stale record remains
+  const handleExitBeforeStart = useCallback(async () => {
+    if (attemptId) {
+      await deleteAttempt(attemptId).catch(() => {});
+      // Clear ref so unmount cleanup doesn't double-delete
+      attemptIdRef.current = null;
+    }
+    router.push("/tests");
+  }, [attemptId, router]);
+
   // Listening exam flow state
   const [listeningPhase, setListeningPhase] = useState<"ready" | "playing" | "answering">("ready");
   // Reading exam intro state
@@ -614,7 +624,7 @@ export function ExamSession() {
             variant="ghost"
             size="sm"
             className="text-muted-foreground"
-            onClick={() => router.push("/tests")}
+            onClick={handleExitBeforeStart}
           >
             {t("exam.session.exitExam")}
           </Button>
