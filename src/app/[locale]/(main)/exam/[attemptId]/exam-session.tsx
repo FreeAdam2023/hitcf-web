@@ -58,18 +58,17 @@ export function ExamSession() {
     setPendingSelection(null);
   }, [currentIndex]);
 
-  // On unmount: delete if 0 answers, auto-submit if > 0 (no "continue exam")
+  // On unmount: auto-submit if in progress (no "continue exam")
   const answersRef = useRef(answers);
   useEffect(() => { answersRef.current = answers; });
   const attemptIdRef = useRef(attemptId);
   useEffect(() => { attemptIdRef.current = attemptId; });
+  const completingRef = useRef(false);
   useEffect(() => {
     return () => {
       const id = attemptIdRef.current;
-      if (!id) return;
-      if (answersRef.current.size === 0) {
-        deleteAttempt(id).catch(() => {});
-      } else if (!completingRef.current) {
+      if (!id || completingRef.current) return;
+      if (answersRef.current.size > 0) {
         completeAttempt(id).catch(() => {});
       }
     };
@@ -142,7 +141,6 @@ export function ExamSession() {
     };
   }, []);
 
-  const completingRef = useRef(false);
   const handleComplete = useCallback(async () => {
     if (completingRef.current) return;
     completingRef.current = true;

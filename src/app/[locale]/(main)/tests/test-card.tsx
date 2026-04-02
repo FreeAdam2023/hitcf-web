@@ -57,7 +57,6 @@ export function TestCard({
 
   const [open, setOpen] = useState(false);
   const [starting, setStarting] = useState(false);
-  const [startingExam, setStartingExam] = useState(false);
 
   // Active attempt state (fetched when dialog opens)
   const [activePractice, setActivePractice] = useState<ActiveAttemptResponse | null>(null);
@@ -97,18 +96,8 @@ export function TestCard({
   };
 
   // ── Exam handlers ──
-  const handleStartExam = async (forceNew = false) => {
-    setStartingExam(true);
-    try {
-      const attempt = await createAttempt(
-        { test_set_id: test.id, mode: "exam" },
-        forceNew ? { forceNew: true } : undefined,
-      );
-      router.push(`/exam/${attempt.id}`);
-    } catch {
-      toast.error(t("common.errors.createExamFailed"));
-      setStartingExam(false);
-    }
+  const handleStartExam = () => {
+    router.push(`/exam/start/${test.id}`);
   };
 
   const colors = TYPE_COLORS[test.type];
@@ -311,7 +300,7 @@ export function TestCard({
                 <Button
                   className="flex-1"
                   onClick={handleContinuePractice}
-                  disabled={starting || startingExam}
+                  disabled={starting}
                 >
                   {t("testCard.continuePractice")}
                 </Button>
@@ -319,7 +308,7 @@ export function TestCard({
                 <Button
                   className="flex-1"
                   onClick={() => handleStartPractice()}
-                  disabled={starting || startingExam}
+                  disabled={starting}
                 >
                   {starting ? t("common.actions.starting") : t("testCard.startPractice")}
                 </Button>
@@ -328,10 +317,10 @@ export function TestCard({
               <Button
                 className="flex-1"
                 variant="outline"
-                onClick={() => handleStartExam(true)}
-                disabled={starting || startingExam}
+                onClick={() => handleStartExam()}
+                disabled={starting}
               >
-                {startingExam ? t("common.actions.starting") : t("testCard.startExam")}
+                {t("testCard.startExam")}
               </Button>
             </div>
 
@@ -341,7 +330,7 @@ export function TestCard({
                 <button
                   className="flex-1 inline-flex items-center justify-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
                   onClick={() => handleStartPractice(true)}
-                  disabled={starting || startingExam}
+                  disabled={starting}
                 >
                   <RotateCcw className="h-3 w-3" />
                   {t("testCard.restartPractice")}
