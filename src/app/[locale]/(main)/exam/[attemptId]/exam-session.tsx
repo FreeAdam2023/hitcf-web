@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, LayoutGrid, Headphones, Volume2, BookOpen, Flag, CheckCircle2, Send, Clock, FileText, ArrowRight, AlertTriangle, Navigation } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutGrid, Headphones, Volume2, Flag, CheckCircle2, Send, Clock, FileText, ArrowRight, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
