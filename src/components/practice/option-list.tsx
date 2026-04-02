@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { BookOpen, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
@@ -106,8 +106,8 @@ export function OptionList({
         const { isPending, isSelected, isCorrect, isWrong } = getOptionState(opt);
 
         return (
+          <React.Fragment key={opt.key}>
           <button
-            key={opt.key}
             role="radio"
             aria-checked={isSelected}
             aria-label={`${opt.key}${opt.text ? `: ${opt.text}` : ""}`}
@@ -191,18 +191,19 @@ export function OptionList({
                     </>
                   );
                 })()}
-                {locked && !isExam && questionId && opt.text && optionAnalysis === opt.key && (
-                  <SentenceAnalysisInline
-                    questionId={questionId}
-                    sentenceIndex={100 + "ABCD".indexOf(opt.key)}
-                    sentenceFr={opt.text}
-                    saveContext={saveContext}
-                    onClose={() => setOptionAnalysis(null)}
-                  />
-                )}
               </div>
             )}
           </button>
+          {locked && !isExam && questionId && opt.text && optionAnalysis === opt.key && (
+            <SentenceAnalysisInline
+              questionId={questionId}
+              sentenceIndex={100 + "ABCD".indexOf(opt.key)}
+              sentenceFr={opt.text}
+              saveContext={saveContext}
+              onClose={() => setOptionAnalysis(null)}
+            />
+          )}
+        </React.Fragment>
         );
       })}
     </div>
