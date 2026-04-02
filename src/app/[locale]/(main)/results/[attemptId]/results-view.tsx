@@ -156,26 +156,32 @@ export function ResultsView({ attempt }: ResultsViewProps) {
         ]}
       />
       {/* Header */}
-      <div>
-        <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold">
-            {displayName}
-          </h1>
-          <Badge variant="secondary">
-            {t(`common.modes.${attempt.mode}`)}
-          </Badge>
-          {attempt.test_set_type && (
-            <Badge
-              variant="outline"
-              className={TYPE_COLORS[attempt.test_set_type]?.badge ?? ""}
-            >
-              {t(`common.types.${attempt.test_set_type}`)}
+      <div className="flex items-start justify-between">
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold">
+              {displayName}
+            </h1>
+            <Badge variant="secondary">
+              {t(`common.modes.${attempt.mode}`)}
             </Badge>
+            {attempt.test_set_type && (
+              <Badge
+                variant="outline"
+                className={TYPE_COLORS[attempt.test_set_type]?.badge ?? ""}
+              >
+                {t(`common.types.${attempt.test_set_type}`)}
+              </Badge>
+            )}
+          </div>
+          {completedDate && (
+            <p className="mt-1 text-sm lg:text-base text-muted-foreground">{completedDate}</p>
           )}
         </div>
-        {completedDate && (
-          <p className="mt-1 text-sm lg:text-base text-muted-foreground">{completedDate}</p>
-        )}
+        <Button variant="outline" size="sm" onClick={() => setShareOpen(true)} className="shrink-0">
+          <Share2 className="mr-1.5 h-4 w-4" />
+          {t("results.share.button")}
+        </Button>
       </div>
 
       {/* Score card */}
@@ -266,10 +272,6 @@ export function ResultsView({ attempt }: ResultsViewProps) {
             {practicingWrong ? t("common.actions.creating") : t("results.practiceWrong", { count: wrongCount })}
           </Button>
         )}
-        <Button variant="outline" onClick={() => setShareOpen(true)}>
-          <Share2 className="mr-1.5 h-4 w-4" />
-          {t("results.share.button")}
-        </Button>
         {nextTestSet && (
           <Button onClick={handleNextTest} disabled={startingNext}>
             <ArrowRight className="mr-1.5 h-4 w-4" />
