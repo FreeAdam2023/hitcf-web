@@ -288,7 +288,9 @@ export function TestCard({
           {activePractice && (
             <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-sm">
               <span className="text-muted-foreground">
-                {t("testCard.incompletePractice", { answered: `${activePractice.answered_count}/${activePractice.total}` })}
+                {activePractice.reviewed_count > 0 && activePractice.answered_count === 0
+                  ? t("testCard.incompletePractice", { answered: `${activePractice.reviewed_count}/${activePractice.total}` })
+                  : t("testCard.incompletePractice", { answered: `${activePractice.answered_count}/${activePractice.total}` })}
               </span>
             </div>
           )}

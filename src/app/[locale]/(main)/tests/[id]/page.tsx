@@ -675,10 +675,15 @@ export default function TestDetailPage() {
           <div className="mt-4 space-y-3">
             <>
                 {/* Active practice resume card */}
-                {activePractice && activePractice.answered_count > 0 && (
+                {activePractice && (activePractice.answered_count > 0 || activePractice.reviewed_count > 0) && (
                   <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
                     <p className="text-sm font-medium">
-                      {t("testDetail.practiceProgress", { answered: activePractice.answered_count, total: activePractice.total })}
+                      {t("testDetail.practiceProgress", {
+                        answered: activePractice.reviewed_count > 0 && activePractice.answered_count === 0
+                          ? activePractice.reviewed_count
+                          : activePractice.answered_count,
+                        total: activePractice.total,
+                      })}
                     </p>
                     <div className="mt-2 flex gap-2">
                       <Button
@@ -703,7 +708,7 @@ export default function TestDetailPage() {
                 )}
                 {/* Default buttons */}
                 <div className="flex gap-3">
-                  {!activePractice || activePractice.answered_count === 0 ? (
+                  {!activePractice || (activePractice.answered_count === 0 && activePractice.reviewed_count === 0) ? (
                     <Button
                       className="flex-1"
                       size="lg"

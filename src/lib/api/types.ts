@@ -298,6 +298,7 @@ export interface ActiveAttemptResponse {
   mode: string;
   total: number;
   answered_count: number;
+  reviewed_count: number;
   status: string;
   started_at: string;
 }
