@@ -145,13 +145,20 @@ export function ExamSession() {
     if (completingRef.current) return;
     completingRef.current = true;
     try {
+      // 0 answers → discard silently, no record
+      if (answersRef.current.size === 0) {
+        await deleteAttempt(attemptId!).catch(() => {});
+        toast.info(t("exam.session.discardedEmpty"));
+        router.push("/tests");
+        return;
+      }
       await completeAttempt(attemptId!);
       router.push(`/results/${attemptId}`);
     } catch (err) {
       console.error("Failed to complete exam", err);
       completingRef.current = false;
     }
-  }, [attemptId, router]);
+  }, [attemptId, router, t]);
 
   const handleTimeUp = useCallback(() => {
     handleComplete();

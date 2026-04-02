@@ -891,7 +891,8 @@
       "listeningLevel1": "Q1–13 · Dialogues courts du quotidien (salutations, achats, rendez-vous)",
       "listeningLevel2": "Q14–26 · Conversations à vitesse modérée (travail, actualités)",
       "listeningLevel3": "Q27–39 · Audio complexe et rapide (conférences, débats, interviews)",
-      "listeningWarning": "L'audio démarre automatiquement après avoir cliqué sur « Commencer ». Vérifiez vos écouteurs/volume. Durée : {minutes} minutes."
+      "listeningWarning": "L'audio démarre automatiquement après avoir cliqué sur « Commencer ». Vérifiez vos écouteurs/volume. Durée : {minutes} minutes.",
+      "discardedEmpty": "Aucune réponse soumise — cet examen ne sera pas enregistré"
     },
     "timer": {
       "fiveMinutes": "Attention : il reste 5 minutes",
