@@ -1973,7 +1973,11 @@
     "daysUntilExam": "{days} jours avant l'examen",
     "examDatePassed": "La date d'examen est passée",
     "clearDate": "Effacer la date",
-    "pointsStr": "pts"
+    "pointsStr": "pts",
+    "statsTaches": "tâches",
+    "statsMinutes": "minutes",
+    "statsProgressive": "progressif",
+    "warning": "L'enregistrement et le chronomètre démarrent dès que vous cliquez sur « Commencer ». Vérifiez votre micro et vos écouteurs."
   },
   "writingMockExam": {
     "title": "Examen d'écriture simulé",
@@ -2039,7 +2043,11 @@
       "coherence": "Cohérence",
       "vocabulaire": "Vocabulaire",
       "grammaire": "Grammaire"
-    }
+    },
+    "statsTaches": "tâches",
+    "statsMinutes": "minutes",
+    "statsProgressive": "progressif",
+    "warning": "Le chronomètre de 60 minutes démarre dès que vous cliquez sur « Commencer ». Les trois tâches partagent le même temps. Planifiez bien."
   },
   "community": {
     "fab": "Communauté",

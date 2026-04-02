@@ -1973,7 +1973,11 @@
     "daysUntilExam": "{days} days until exam",
     "examDatePassed": "Exam date has passed",
     "clearDate": "Clear Date",
-    "pointsStr": "pts"
+    "pointsStr": "pts",
+    "statsTaches": "tâches",
+    "statsMinutes": "minutes",
+    "statsProgressive": "progressive",
+    "warning": "Recording and timer start immediately after clicking \"Start Exam\". Make sure your microphone and headphones are ready."
   },
   "writingMockExam": {
     "title": "Mock Writing Exam",
@@ -2039,7 +2043,11 @@
       "coherence": "Coherence",
       "vocabulaire": "Vocabulary",
       "grammaire": "Grammar"
-    }
+    },
+    "statsTaches": "tâches",
+    "statsMinutes": "minutes",
+    "statsProgressive": "progressive",
+    "warning": "The 60-minute timer starts immediately after clicking \"Start Exam\". All three tasks share the same time limit. Plan accordingly."
   },
   "community": {
     "fab": "Community",

@@ -1973,7 +1973,11 @@
     "daysUntilExam": "距考试还有 {days} 天",
     "examDatePassed": "考试日期已过",
     "clearDate": "清除日期",
-    "pointsStr": "分"
+    "pointsStr": "分",
+    "statsTaches": "个 Tâche",
+    "statsMinutes": "分钟",
+    "statsProgressive": "难度递进",
+    "warning": "点击「开始考试」后录音和计时立即开始，请确保麦克风和耳机已就绪。"
   },
   "writingMockExam": {
     "title": "模拟写作考试",
@@ -2039,7 +2043,11 @@
       "coherence": "连贯性",
       "vocabulaire": "词汇",
       "grammaire": "语法"
-    }
+    },
+    "statsTaches": "个 Tâche",
+    "statsMinutes": "分钟",
+    "statsProgressive": "难度递进",
+    "warning": "点击「开始考试」后计时 60 分钟立即开始，三篇作文共享时间，请合理分配。"
   },
   "community": {
     "fab": "社区",

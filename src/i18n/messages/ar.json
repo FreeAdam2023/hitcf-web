@@ -1970,7 +1970,11 @@
     "daysUntilExam": "{days} يوم حتى الامتحان",
     "examDatePassed": "تاريخ الامتحان قد مر",
     "clearDate": "مسح التاريخ",
-    "pointsStr": "نقاط"
+    "pointsStr": "نقاط",
+    "statsTaches": "مهام",
+    "statsMinutes": "دقيقة",
+    "statsProgressive": "تدريجي",
+    "warning": "يبدأ التسجيل والمؤقت فور النقر على \"بدء الامتحان\". تأكد من جاهزية الميكروفون والسماعات."
   },
   "writingMockExam": {
     "title": "امتحان كتابة تجريبي",
@@ -2036,7 +2040,11 @@
       "coherence": "التماسك",
       "vocabulaire": "المفردات",
       "grammaire": "القواعد"
-    }
+    },
+    "statsTaches": "مهام",
+    "statsMinutes": "دقيقة",
+    "statsProgressive": "تدريجي",
+    "warning": "يبدأ العد التنازلي (60 دقيقة) فور النقر على \"بدء الامتحان\". المهام الثلاث تشترك في نفس الوقت. خطط بحكمة."
   },
   "community": {
     "fab": "المجتمع",
