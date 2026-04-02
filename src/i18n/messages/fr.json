@@ -836,7 +836,7 @@
   "exam": {
     "session": {
       "exitWarning": "Examen en cours. Veuillez utiliser le bouton « Soumettre l'examen » pour quitter.",
-      "submitExam": "Soumettre l'examen",
+      "submitExam": "Remettre l'examen",
       "confirmTitle": "Soumettre l'examen ?",
       "answeredCount": "{answered} / {total} questions répondues.",
       "unansweredCount": "{count} questions sans réponse.",
@@ -866,7 +866,6 @@
       "startReading": "Commencer l'examen",
       "exitExam": "Retour aux tests",
       "confirmAnswer": "Confirmer la réponse",
-      "submitExam": "Remettre l'examen",
       "submitConfirm": "Remettre l'examen ?",
       "submitConfirmDesc": "{unanswered} questions sans réponse. Vous ne pourrez plus modifier après.",
       "submitConfirmAll": "Toutes les questions sont répondues. Remettre l'examen ?",
@@ -974,15 +973,15 @@
       "monthly": "Mensuel",
       "quarterly": "Trimestriel",
       "semiannual": "Semestriel",
-    "bestValue": "Meilleur prix",
-    "save": "Économisez {percent}%",
-    "autoRenew": "Renouvellement auto, annulez à tout moment",
-    "noRenew": "Sans renouvellement",
-    "limitedOffer": "Offre limitée",
-    "feature1": "Écoute + lecture illimitées",
-    "feature2": "IA oral + écrit + mode examen",
-    "feature3": "Cahier erreurs + export Anki",
-    "viewAllPlans": "Voir tous les forfaits",
+      "bestValue": "Meilleur prix",
+      "save": "Économisez {percent}%",
+      "autoRenew": "Renouvellement auto, annulez à tout moment",
+      "noRenew": "Sans renouvellement",
+      "limitedOffer": "Offre limitée",
+      "feature1": "Écoute + lecture illimitées",
+      "feature2": "IA oral + écrit + mode examen",
+      "feature3": "Cahier erreurs + export Anki",
+      "viewAllPlans": "Voir tous les forfaits",
       "tester": "Beta Testeur",
       "trialing": "Essai",
       "member": "Membre",
@@ -2034,7 +2033,7 @@
   "pricing": {
     "trial": {
       "title": "Essai Pro de {days} jours en attente d'activation",
-      "subtitle": "Essayez toutes les fonctionnalités gratuitement, sans carte bancaire.",
+      "subtitle": "Écoute et lecture illimitées, flashcards de vocabulaire et plus. Sans carte bancaire.",
       "cta": "Activer l'essai de {days} jours"
     },
     "title": "8 500+ questions d'entraînement TCF + outils de vocabulaire, les 4 sections",
@@ -2154,13 +2153,11 @@
     "legalPeriod": ".",
     "perMonth": "/ mois",
     "save": "Économisez {percent}%",
-    "autoRenew": "Renouvellement auto, annulez à tout moment",
+    "autoRenew": "Renouvellement automatique, annulation à tout moment",
     "noRenew": "Sans renouvellement",
-    "limitedOffer": "Offre limitée",
     "feature1": "Écoute + lecture illimitées",
     "feature2": "IA oral + écrit + mode examen",
     "feature3": "Cahier erreurs + export Anki",
-    "autoRenew": "Renouvellement automatique, annulation à tout moment",
     "noAutoRenew": "Paiement unique, sans renouvellement"
   },
   "resources": {
@@ -2415,7 +2412,7 @@
       "chinaFee": "Frais d'environ <b>¥2 500–2 800</b> (varie selon la ville et l'établissement)",
       "globalSearch": "Recherche mondiale de centres d'examen : ",
       "canadaFee": "Frais d'environ <b>390 $ CAD</b>, inscription ouverte chaque trimestre",
-      "seatAlerts": "Activer les alertes de places au Canada \u2192"
+      "seatAlerts": "Activer les alertes de places au Canada →"
     },
     "cta": {
       "title": "Prêt(e) à commencer l'entraînement ?",
@@ -3157,7 +3154,8 @@
       "speaking": "Conversation IA",
       "writing": "Correction IA",
       "vocabulary": "Vocabulaire + Flashcards",
-      "analytics": "Suivi NCLC 7+"
+      "analytics": "Suivi NCLC 7+",
+      "seatMonitor": "Alertes de places en temps réel"
     },
     "featuresDesc": {
       "listening": "42 séries avec écoute phrase par phrase",
@@ -3165,9 +3163,10 @@
       "speaking": "Examinateur IA avec évaluation de prononciation",
       "writing": "Notation sur 4 dimensions + corrections",
       "vocabulary": "Export Anki + vocabulaire de manuels",
-      "analytics": "Radar de niveaux + analyse des erreurs"
+      "analytics": "Radar de niveaux + analyse des erreurs",
+      "seatMonitor": "5 villes · alertes instantanées"
     },
-    "subtitleChoice": "Un essai Pro de {days} jours vous attend",
+    "subtitleChoice": "Vous avez un essai Pro de {days} jours à activer",
     "cta": "Activer maintenant",
     "activating": "Activation...",
     "activated": "Essai Pro activé — bon courage !",
@@ -3219,9 +3218,9 @@
   "quota": {
     "trial": {
       "title": "Essai Pro en attente",
-      "subtitle": "Activez votre essai de {days} jours — sans carte bancaire",
+      "subtitle": "Activez l'essai de {days} jours pour l'écoute et la lecture illimitées",
       "trialFeature1": "Écoute + lecture illimitées",
-      "trialFeature2": "Conversation IA + correction écrite",
+      "trialFeature2": "Vocabulaire + flashcards + dictée + export",
       "trialFeature3": "Mode examen + cahier d'erreurs + exercice rapide",
       "activate": "Activer l'essai Pro de {days} jours",
       "activating": "Activation...",

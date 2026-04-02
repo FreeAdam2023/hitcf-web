@@ -21,12 +21,12 @@ import { PRICING, STATS_PARAMS } from "@/lib/constants";
 const GA_ID = "G-DTDE8V6XLH";
 
 const geistSans = localFont({
-  src: "../fonts/GeistVF.woff",
+  src: "../fonts/Geist-Variable.woff2",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "../fonts/GeistMonoVF.woff",
+  src: "../fonts/GeistMono-Variable.woff2",
   variable: "--font-geist-mono",
   weight: "100 900",
 });

@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { useAuthStore } from "@/stores/auth-store";
 import { Button } from "@/components/ui/button";
-import { Headphones, BookOpen, Mic, PenTool, BookMarked, BarChart3, Sparkles, Loader2, X } from "lucide-react";
+import { Headphones, BookOpen, Bell, BookMarked, BarChart3, Sparkles, Loader2, X } from "lucide-react";
 import { PRICING } from "@/lib/constants";
 import { activateTrial } from "@/lib/api/trial";
 import { toast } from "sonner";
@@ -14,10 +14,9 @@ import { trackEvent } from "@/lib/analytics/track";
 const FEATURES = [
   { icon: Headphones, key: "listening" },
   { icon: BookOpen, key: "reading" },
-  { icon: Mic, key: "speaking" },
-  { icon: PenTool, key: "writing" },
   { icon: BookMarked, key: "vocabulary" },
   { icon: BarChart3, key: "analytics" },
+  { icon: Bell, key: "seatMonitor" },
 ] as const;
 
 export function TrialWelcomeModal() {

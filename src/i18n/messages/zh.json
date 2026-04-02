@@ -836,7 +836,7 @@
   "exam": {
     "session": {
       "exitWarning": "考试进行中，请通过「提交考试」按钮退出",
-      "submitExam": "提交考试",
+      "submitExam": "交卷",
       "confirmTitle": "确认提交考试？",
       "answeredCount": "已答 {answered} / {total} 题。",
       "unansweredCount": "还有 {count} 题未作答。",
@@ -868,7 +868,6 @@
       "startReading": "开始考试",
       "exitExam": "返回题库",
       "confirmAnswer": "确认答案",
-      "submitExam": "交卷",
       "submitConfirm": "确定要交卷吗？",
       "submitConfirmDesc": "还有 {unanswered} 题未答。交卷后不可修改。",
       "submitConfirmAll": "所有题目已作答，确定交卷吗？",
@@ -1349,7 +1348,6 @@
     "defaultDescription": "升级 Pro 会员，获取全部 8,500+ 道题目和高级功能",
     "viewPlans": "查看方案",
     "semiannualTrial": "注册即享 7 天全功能体验",
-    "viewPlans": "查看方案",
     "upgradePro": "升级 Pro"
   },
   "cancelSubscription": {
@@ -2034,8 +2032,8 @@
   },
   "pricing": {
     "trial": {
-      "title": "{days} 天 Pro 全功能体验待激活",
-      "subtitle": "免费体验全部功能，无需信用卡。到期后回到免费版。",
+      "title": "{days} 天 Pro 体验待激活",
+      "subtitle": "免费体验听力阅读无限刷题、词汇翻卡听写等功能，无需信用卡。",
       "cta": "立即激活 {days} 天体验"
     },
     "title": "8,500+ 道 TCF 练习题 + 词汇工具，四科全覆盖",
@@ -2410,7 +2408,7 @@
       "chinaFee": "费用约 <b>¥2,500–2,800</b>（因城市和机构略有差异）",
       "globalSearch": "全球考场查询：",
       "canadaFee": "费用约 <b>CAD $390</b>，每季度开放报名",
-      "seatAlerts": "开启加拿大考位实时提醒 \u2192"
+      "seatAlerts": "开启加拿大考位实时提醒 →"
     },
     "cta": {
       "title": "了解完考试，开始练题吧",
@@ -3168,7 +3166,7 @@
       "analytics": "等级雷达图 · 错题分析",
       "seatMonitor": "5 大城市 · 新考位秒知道"
     },
-    "subtitleChoice": "你有一份 {days} 天 Pro 全功能体验等待激活",
+    "subtitleChoice": "你有一份 {days} 天 Pro 体验等待激活",
     "cta": "立即激活",
     "activating": "激活中...",
     "activated": "Pro 体验已激活，尽情备考吧",
@@ -3220,9 +3218,9 @@
   "quota": {
     "trial": {
       "title": "你有一份 Pro 体验待激活",
-      "subtitle": "激活 {days} 天全功能体验，无需信用卡",
+      "subtitle": "激活 {days} 天体验，解锁无限听力阅读、词汇翻卡听写等",
       "trialFeature1": "无限听力 + 阅读刷题",
-      "trialFeature2": "AI 口语对话 + 写作评分",
+      "trialFeature2": "生词本 + 翻卡 + 听写导出",
       "trialFeature3": "考试模式 + 错题本 + 速练",
       "activate": "激活 {days} 天全功能体验",
       "activating": "激活中...",

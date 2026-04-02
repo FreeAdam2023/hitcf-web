@@ -866,7 +866,6 @@
       "startReading": "Start Exam",
       "exitExam": "Back to Tests",
       "confirmAnswer": "Confirm Answer",
-      "submitExam": "Submit Exam",
       "submitConfirm": "Submit exam?",
       "submitConfirmDesc": "{unanswered} questions unanswered. You cannot change answers after submitting.",
       "submitConfirmAll": "All questions answered. Submit exam?",
@@ -2034,7 +2033,7 @@
   "pricing": {
     "trial": {
       "title": "{days}-Day Pro Trial Waiting to Be Activated",
-      "subtitle": "Try all features free, no credit card needed. Returns to free plan after expiry.",
+      "subtitle": "Unlimited listening & reading practice, vocabulary flashcards and more. No credit card needed.",
       "cta": "Activate {days}-Day Trial"
     },
     "title": "8,500+ TCF Practice Questions + Vocab Tools, All 4 Sections",
@@ -2154,13 +2153,11 @@
     "legalPeriod": ".",
     "perMonth": "/ mo",
     "save": "Save {percent}%",
-    "autoRenew": "Auto-renew, cancel anytime",
+    "autoRenew": "Auto-renews, cancel anytime",
     "noRenew": "No auto-renewal",
-    "limitedOffer": "Limited Offer",
     "feature1": "Unlimited listening + reading",
     "feature2": "AI speaking + writing + exam mode",
     "feature3": "Wrong answers + Anki export + seat alerts",
-    "autoRenew": "Auto-renews, cancel anytime",
     "noAutoRenew": "One-time payment, no auto-renewal"
   },
   "resources": {
@@ -2415,7 +2412,7 @@
       "chinaFee": "Fee approximately <b>¥2,500–2,800</b> (varies by city and institution)",
       "globalSearch": "Global test center search: ",
       "canadaFee": "Fee approximately <b>CAD $390</b>, registration opens quarterly",
-      "seatAlerts": "Enable real-time seat alerts for Canada \u2192"
+      "seatAlerts": "Enable real-time seat alerts for Canada →"
     },
     "cta": {
       "title": "Ready to start practicing?",
@@ -3225,9 +3222,9 @@
   "quota": {
     "trial": {
       "title": "You have a Pro trial waiting",
-      "subtitle": "Activate your {days}-day full-access trial — no credit card needed",
+      "subtitle": "Activate {days}-day trial for unlimited listening, reading, vocabulary tools and more",
       "trialFeature1": "Unlimited listening + reading practice",
-      "trialFeature2": "AI speaking conversation + writing grading",
+      "trialFeature2": "Vocabulary flashcards + dictation + export",
       "trialFeature3": "Exam mode + wrong answer book + speed drill",
       "activate": "Activate {days}-Day Pro Trial",
       "activating": "Activating...",
