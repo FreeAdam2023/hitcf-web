@@ -619,7 +619,7 @@ export function ExamSession() {
 
         <Separator />
 
-        <div className="flex items-center justify-between">
+        <div className="mt-4 flex items-center justify-between">
           <Button
             variant="outline"
             size="sm"
