@@ -24,6 +24,102 @@ export function getLocalizedChangelog(locale: string) {
 // Only user-facing changes — no admin/backend internals
 export const changelog: ChangelogEntry[] = [
   {
+    date: "2026-04-02",
+    type: "feature",
+    title: {
+      zh: "考试模式全面升级",
+      en: "Exam mode overhaul",
+      fr: "Refonte du mode examen",
+      ar: "تحديث شامل لوضع الامتحان",
+    },
+    details: [
+      {
+        zh: "全新考试介绍页：四科统一风格，展示考试规则、难度分布（A1→C2）和 TCF 官方 consignes",
+        en: "New exam intro pages for all 4 sections: unified design with rules, A1→C2 difficulty breakdown, and official TCF consignes",
+        fr: "Nouvelles pages d'introduction pour les 4 sections : design unifié avec règles, répartition A1→C2 et consignes officielles",
+        ar: "صفحات تقديم جديدة لجميع الأقسام: تصميم موحد مع القواعد وتوزيع A1→C2 والتعليمات الرسمية",
+      },
+      {
+        zh: "计时器仅在正式开始答题后显示，退出介绍页不产生空白记录",
+        en: "Timer only starts when you begin answering; leaving the intro page creates no records",
+        fr: "Le chronomètre ne démarre qu'au début des réponses ; quitter l'introduction ne crée aucun enregistrement",
+        ar: "المؤقت يبدأ فقط عند بدء الإجابة؛ مغادرة المقدمة لا تنشئ أي سجلات",
+      },
+    ],
+  },
+  {
+    date: "2026-04-01",
+    type: "feature",
+    title: {
+      zh: "画线笔记",
+      en: "Text highlighting & notes",
+      fr: "Surlignage et notes",
+      ar: "تمييز النص والملاحظات",
+    },
+    details: [
+      {
+        zh: "选中 passage 或选项文本即可高亮标记，支持 6 种颜色",
+        en: "Select any passage or option text to highlight — 6 colors available",
+        fr: "Sélectionnez du texte pour le surligner — 6 couleurs disponibles",
+        ar: "حدد أي نص لتمييزه — 6 ألوان متاحة",
+      },
+      {
+        zh: "高亮支持标签分类（固定搭配、常用表达、语法点等）和编辑/删除",
+        en: "Highlights support tags (collocations, expressions, grammar points) with edit/delete",
+        fr: "Les surlignages supportent les tags (collocations, expressions, grammaire) avec édition/suppression",
+        ar: "التمييزات تدعم العلامات (تعبيرات، قواعد) مع التعديل/الحذف",
+      },
+      {
+        zh: "复习页面新增「笔记」标签，集中查看所有画线",
+        en: "New 'Notes' tab on the review page to browse all highlights",
+        fr: "Nouvel onglet « Notes » sur la page de révision",
+        ar: "علامة تبويب 'ملاحظات' جديدة في صفحة المراجعة",
+      },
+    ],
+  },
+  {
+    date: "2026-04-01",
+    type: "feature",
+    title: {
+      zh: "考位实时监控",
+      en: "Real-time exam seat alerts",
+      fr: "Alertes de places d'examen en temps réel",
+      ar: "تنبيهات مقاعد الامتحان الفورية",
+    },
+    details: [
+      {
+        zh: "温哥华和卡尔加里考位有新名额时即时提醒",
+        en: "Instant alerts when new TCF exam seats open in Vancouver and Calgary",
+        fr: "Alertes instantanées pour les nouvelles places à Vancouver et Calgary",
+        ar: "تنبيهات فورية عند توفر مقاعد جديدة في فانكوفر وكالغاري",
+      },
+    ],
+  },
+  {
+    date: "2026-04-02",
+    type: "fix",
+    title: {
+      zh: "阅读体验优化",
+      en: "Reading experience improvements",
+      fr: "Améliorations de l'expérience de lecture",
+      ar: "تحسينات تجربة القراءة",
+    },
+    details: [
+      {
+        zh: "全站字体显示更清晰，长文阅读更舒适",
+        en: "Clearer font rendering site-wide for more comfortable reading",
+        fr: "Rendu de police plus net pour une lecture plus confortable",
+        ar: "عرض أوضح للخطوط لقراءة أكثر راحة",
+      },
+      {
+        zh: "修正 81 道阅读题的文章文本错误",
+        en: "Fixed text errors in 81 reading passages",
+        fr: "Correction de 81 passages de lecture",
+        ar: "تصحيح 81 نص قراءة",
+      },
+    ],
+  },
+  {
     date: "2026-03-30",
     type: "feature",
     title: {
