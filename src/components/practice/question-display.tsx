@@ -111,7 +111,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
   }, [imageLoaded, onImageLoaded]);
 
   return (
-    <div className="space-y-4">
+    <div className={`space-y-4 ${examMode ? "select-none" : ""}`}>
       {!examMode && (
       <div className="space-y-1">
         <div className="flex items-center justify-between">

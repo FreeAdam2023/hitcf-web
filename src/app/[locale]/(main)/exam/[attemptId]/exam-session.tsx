@@ -454,7 +454,7 @@ export function ExamSession() {
 
     // "Playing" and "Answering" phases — two-column layout like reading
     return (
-      <div className="grid gap-2 lg:gap-3 lg:grid-cols-[1fr_220px] lg:h-full lg:overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
+      <div className="select-none grid gap-2 lg:gap-3 lg:grid-cols-[1fr_220px] lg:h-full lg:overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
         <div className="space-y-4 overflow-y-auto scrollbar-on-hover lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5">
           {/* Header: question number + timer */}
           <div className="flex items-center justify-between">
@@ -568,7 +568,7 @@ export function ExamSession() {
 
   // --- Reading layout: two-column with navigator ---
   return (
-    <div className="grid gap-2 lg:gap-3 lg:grid-cols-[1fr_220px] lg:h-full lg:overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
+    <div className="select-none grid gap-2 lg:gap-3 lg:grid-cols-[1fr_220px] lg:h-full lg:overflow-hidden lg:rounded-xl lg:bg-muted/40 lg:p-2.5">
       <div className="space-y-4 overflow-y-auto scrollbar-on-hover lg:rounded-xl lg:bg-card lg:border lg:shadow-sm lg:p-5">
         {/* Header with prominent timer */}
         <div className="flex items-center justify-between">
