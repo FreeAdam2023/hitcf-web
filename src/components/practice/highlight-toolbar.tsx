@@ -349,7 +349,7 @@ export function HighlightToolbar({
         entry.rects.map((rect, i) => (
           <div
             key={`${entry.id}-${i}`}
-            className="absolute cursor-pointer rounded-sm pointer-events-auto"
+            className="absolute z-10 cursor-pointer rounded-sm pointer-events-auto"
             style={{
               left: rect.left,
               top: rect.top,
