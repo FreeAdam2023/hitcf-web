@@ -892,7 +892,9 @@
       "listeningLevel2": "Q14–26 · Moderate-speed conversations (work, news, discussions)",
       "listeningLevel3": "Q27–39 · Fast complex audio (lectures, debates, interviews)",
       "listeningWarning": "Audio will auto-play after clicking \"Start\". Make sure your headphones/volume are ready. Total: {minutes} minutes.",
-      "discardedEmpty": "No answers submitted — this exam will not be recorded"
+      "discardedEmpty": "No answers submitted — this exam will not be recorded",
+      "getReadyReading": "Get ready — exam starting",
+      "getReadyListening": "Put on your headphones — audio starting"
     },
     "timer": {
       "fiveMinutes": "Warning: 5 minutes remaining",

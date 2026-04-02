@@ -75,13 +75,27 @@ export function ExamSession() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Listening exam flow state
-  const [listeningPhase, setListeningPhase] = useState<"ready" | "playing" | "answering">("ready");
-  // Skip listening splash if exam already in progress (e.g. page refresh mid-exam)
+  const alreadyInProgress = answers.size > 0 || currentIndex > 0;
+  const [listeningPhase, setListeningPhase] = useState<"ready" | "countdown" | "playing" | "answering">("ready");
   useEffect(() => {
-    if (isListening && listeningPhase === "ready" && (answers.size > 0 || currentIndex > 0)) {
+    if (isListening && listeningPhase === "ready" && alreadyInProgress) {
       setListeningPhase("playing");
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 3-2-1 countdown before exam starts
+  // Reading: starts immediately. Listening: starts after sound check.
+  const [countdown, setCountdown] = useState(isListening || alreadyInProgress ? 0 : 3);
+  useEffect(() => {
+    if (countdown <= 0) {
+      if (isListening && listeningPhase === "countdown") {
+        setListeningPhase("playing");
+      }
+      return;
+    }
+    const timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [countdown, isListening, listeningPhase]);
   const [answerCountdown, setAnswerCountdown] = useState(0);
   const answerTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -123,7 +137,9 @@ export function ExamSession() {
         silence.play().then(() => silence.pause()).catch(() => {});
       } catch { /* ignore */ }
     }
-    setListeningPhase("playing");
+    // Trigger 3-2-1 countdown, then start playing
+    setCountdown(3);
+    setListeningPhase("countdown");
   }, [soundChecked]);
 
   // Prevent accidental back navigation (no beforeunload — exam state persists via sessionStorage)
@@ -344,6 +360,25 @@ export function ExamSession() {
   }, [questions, currentIndex]);
 
   if (!question || !attemptId || !startedAt) return <LoadingSpinner />;
+
+  // ── 3-2-1 countdown ──
+  if (countdown > 0) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div
+            key={countdown}
+            className="text-8xl sm:text-9xl font-bold text-primary animate-in zoom-in-50 fade-in duration-300"
+          >
+            {countdown}
+          </div>
+          <p className="mt-4 text-lg text-muted-foreground">
+            {isListening ? t("exam.session.getReadyListening") : t("exam.session.getReadyReading")}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const currentAnswer = answers.get(question.id);
   const isLast = currentIndex === questions.length - 1;

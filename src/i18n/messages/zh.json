@@ -892,7 +892,9 @@
       "listeningLevel2": "Q14–26 · 中等语速对话（工作、新闻、讨论）",
       "listeningLevel3": "Q27–39 · 快速复杂音频（讲座、辩论、访谈）",
       "listeningWarning": "点击「开始」后音频将自动播放，请确保耳机/音量已调好。全程 {minutes} 分钟。",
-      "discardedEmpty": "未作答，本次考试不计入记录"
+      "discardedEmpty": "未作答，本次考试不计入记录",
+      "getReadyReading": "准备好了吗？考试即将开始",
+      "getReadyListening": "请戴好耳机，音频即将播放"
     },
     "timer": {
       "fiveMinutes": "注意：剩余 5 分钟",
