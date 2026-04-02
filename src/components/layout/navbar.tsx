@@ -131,6 +131,7 @@ function ImmersiveHeader() {
   const examAnswersSize = useExamStore((s) => s.answers.size);
   const examTotalQuestions = useExamStore((s) => s.questions.length);
   const examCurrentIndex = useExamStore((s) => s.currentIndex);
+  const examStarted = useExamStore((s) => s.examStarted);
   const startedAt = usePracticeStore((s) => s.startedAt);
   const isPractice = !isExam;
   const allAnswered = isPractice && totalQuestions > 0 && answersSize >= totalQuestions;
@@ -160,7 +161,7 @@ function ImmersiveHeader() {
             {testSetName}
           </span>
         )}
-        {isExam && (
+        {isExam && examStarted && (
           <div className="ms-3 flex items-center gap-1.5 text-xs tabular-nums text-muted-foreground">
             <Clock className="h-3.5 w-3.5" />
             {formatElapsed(elapsed)}

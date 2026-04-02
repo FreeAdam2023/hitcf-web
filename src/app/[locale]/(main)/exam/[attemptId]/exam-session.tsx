@@ -38,6 +38,7 @@ export function ExamSession() {
     startedAt,
     testType,
     setAnswer,
+    setExamStarted,
     goNext,
     goPrev,
     goToQuestion,
@@ -131,7 +132,8 @@ export function ExamSession() {
       } catch { /* ignore */ }
     }
     setListeningPhase("playing");
-  }, [soundChecked]);
+    setExamStarted();
+  }, [soundChecked, setExamStarted]);
 
   // Prevent accidental back navigation (no beforeunload — exam state persists via sessionStorage)
   useEffect(() => {
@@ -542,7 +544,7 @@ export function ExamSession() {
           <p>• {t("exam.session.readingRule2")}</p>
           <p>• {t("exam.session.readingRule3")}</p>
         </div>
-        <Button size="lg" onClick={() => setReadingStarted(true)}>
+        <Button size="lg" onClick={() => { setReadingStarted(true); setExamStarted(); }}>
           {t("exam.session.startReading")}
         </Button>
         <Button

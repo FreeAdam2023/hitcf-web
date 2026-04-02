@@ -97,6 +97,7 @@ interface ExamState {
   timeLimitSeconds: number;
   startedAt: string | null;
   testType: "listening" | "reading" | null;
+  examStarted: boolean;
   playedAudioQuestionIds: Set<string>;
 
   init: (
@@ -109,6 +110,7 @@ interface ExamState {
   ) => void;
   setAnswer: (questionId: string, answer: ExamAnswer) => void;
   toggleFlag: (questionNumber: number) => void;
+  setExamStarted: () => void;
   markAudioPlayed: (questionId: string) => void;
   goToQuestion: (index: number) => void;
   goNext: () => void;
@@ -125,6 +127,7 @@ export const useExamStore = create<ExamState>((set, get) => ({
   timeLimitSeconds: 0,
   startedAt: null,
   testType: null,
+  examStarted: false,
   playedAudioQuestionIds: new Set(),
 
   init: (attemptId, questions, timeLimitSeconds, startedAt, existingAnswers, existingFlags) => {
@@ -163,11 +166,14 @@ export const useExamStore = create<ExamState>((set, get) => ({
       timeLimitSeconds,
       startedAt,
       testType,
+      examStarted: answers.size > 0 || currentIndex > 0,
       playedAudioQuestionIds: new Set(),
     });
     saveAnswersToSession(attemptId, answers);
     saveFlagsToSession(attemptId, flaggedQuestions);
   },
+
+  setExamStarted: () => set({ examStarted: true }),
 
   setAnswer: (questionId, answer) =>
     set((state) => {
@@ -233,6 +239,7 @@ export const useExamStore = create<ExamState>((set, get) => ({
       timeLimitSeconds: 0,
       startedAt: null,
       testType: null,
+      examStarted: false,
       playedAudioQuestionIds: new Set(),
     });
   },
