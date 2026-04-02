@@ -187,52 +187,39 @@ function ImmersiveHeader() {
             >
               {completing ? t('common.actions.submitting') : t('practice.session.completePractice')}
             </Button>
-          ) : isExam && examAnswersSize === 0 && examCurrentIndex === 0 ? (
-            /* Hide submit during exam intro (no answers yet) */
+          ) : isExam ? (
+            /* Exam submit is handled by the navigator panel, not navbar */
             null
           ) : (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="sm" className={isExam
-                  ? "gap-1.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-semibold shadow-sm hover:from-indigo-600 hover:to-violet-600 hover:shadow-md transition-all"
-                  : "gap-1.5 text-destructive hover:text-destructive hover:bg-destructive/10"
-                }>
-                  {isExam ? t('nav.submitExam') : t('nav.exitLabel', { label })}
+                <Button variant="ghost" size="sm" className="gap-1.5 text-destructive hover:text-destructive hover:bg-destructive/10">
+                  {t('nav.exitLabel', { label })}
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>
-                    {isExam ? t('nav.submitExamTitle') : t('nav.exitConfirmTitle', { label })}
+                    {t('nav.exitConfirmTitle', { label })}
                   </AlertDialogTitle>
                   <AlertDialogDescription>
                     {t('nav.exitConfirmAnswered', {
-                      answered: isExam ? examAnswersSize : answersSize,
-                      total: isExam ? examTotalQuestions : totalQuestions,
+                      answered: answersSize,
+                      total: totalQuestions,
                     })}
-                    {isExam
-                      ? ` ${t('nav.submitExamWarning')}`
-                      : answersSize > 0 ? ` ${t('nav.exitConfirmProgress', { label })}` : ''
-                    }
+                    {answersSize > 0 ? ` ${t('nav.exitConfirmProgress', { label })}` : ''}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>
-                    {isExam ? t('nav.exitConfirmContinue', { label }) : t('nav.exitConfirmContinue', { label })}
+                    {t('nav.exitConfirmContinue', { label })}
                   </AlertDialogCancel>
-                  <AlertDialogAction onClick={async () => {
-                    if (isExam && examAttemptId) {
-                      try {
-                        await completeAttempt(examAttemptId);
-                      } catch { /* ignore */ }
-                      router.push(`/results/${examAttemptId}`);
-                    } else {
-                      const returnUrl = sessionStorage.getItem("practiceReturnUrl") || "/tests";
-                      sessionStorage.removeItem("practiceReturnUrl");
-                      router.push(returnUrl);
-                    }
+                  <AlertDialogAction onClick={() => {
+                    const returnUrl = sessionStorage.getItem("practiceReturnUrl") || "/tests";
+                    sessionStorage.removeItem("practiceReturnUrl");
+                    router.push(returnUrl);
                   }}>
-                    {isExam ? t('nav.submitExamConfirm') : t('nav.exitConfirmExit')}
+                    {t('nav.exitConfirmExit')}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
