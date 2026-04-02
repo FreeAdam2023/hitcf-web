@@ -127,10 +127,6 @@ function ImmersiveHeader() {
   const answersSize = usePracticeStore((s) => s.answers.size);
   const totalQuestions = usePracticeStore((s) => s.questions.length);
   const practiceAttemptId = usePracticeStore((s) => s.attemptId);
-  const examAttemptId = useExamStore((s) => s.attemptId);
-  const examAnswersSize = useExamStore((s) => s.answers.size);
-  const examTotalQuestions = useExamStore((s) => s.questions.length);
-  const examCurrentIndex = useExamStore((s) => s.currentIndex);
   const examStarted = useExamStore((s) => s.examStarted);
   const startedAt = usePracticeStore((s) => s.startedAt);
   const isPractice = !isExam;
