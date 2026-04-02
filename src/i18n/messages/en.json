@@ -884,7 +884,14 @@
       "readingLevel1": "Q1–10 · Simple everyday texts (notices, ads, messages)",
       "readingLevel2": "Q11–25 · Practical texts (emails, news, policies)",
       "readingLevel3": "Q26–39 · Complex texts (editorials, literature, abstract essays)",
-      "readingWarning": "The {minutes}-minute timer starts as soon as you click \"Start Exam\". Make sure you are ready."
+      "readingWarning": "The {minutes}-minute timer starts as soon as you click \"Start Exam\". Make sure you are ready.",
+      "listeningConsigne1": "Each question has 4 choices (A, B, C, D). Only one answer is correct.",
+      "listeningConsigne2": "Each recording is played only once. You cannot pause or replay.",
+      "listeningConsigne3": "Audio plays automatically. You cannot skip or go back.",
+      "listeningLevel1": "Q1–13 · Short everyday dialogues (greetings, shopping, appointments)",
+      "listeningLevel2": "Q14–26 · Moderate-speed conversations (work, news, discussions)",
+      "listeningLevel3": "Q27–39 · Fast complex audio (lectures, debates, interviews)",
+      "listeningWarning": "Audio will auto-play after clicking \"Start\". Make sure your headphones/volume are ready. Total: {minutes} minutes."
     },
     "timer": {
       "fiveMinutes": "Warning: 5 minutes remaining",

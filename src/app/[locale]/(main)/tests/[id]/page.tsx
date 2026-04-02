@@ -459,20 +459,9 @@ export default function TestDetailPage() {
     }
   };
 
-  const handleStartExam = async (forceNew = false) => {
+  const handleStartExam = (forceNew = false) => {
     if (!test) return;
-    setStartingExam(true);
-    try {
-      const attempt = await createAttempt(
-        { test_set_id: test.id, mode: "exam" },
-        { forceNew },
-      );
-      router.push(`/exam/${attempt.id}`);
-    } catch (err) {
-      console.error("Failed to create exam attempt", err);
-      toast.error(t("common.errors.createExamFailed"));
-      setStartingExam(false);
-    }
+    router.push(`/exam/start/${test.id}${forceNew ? "?forceNew=1" : ""}`);
   };
 
   if (loading) return <LoadingSpinner />;

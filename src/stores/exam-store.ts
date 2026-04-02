@@ -166,7 +166,7 @@ export const useExamStore = create<ExamState>((set, get) => ({
       timeLimitSeconds,
       startedAt,
       testType,
-      examStarted: answers.size > 0 || currentIndex > 0,
+      examStarted: true,
       playedAudioQuestionIds: new Set(),
     });
     saveAnswersToSession(attemptId, answers);

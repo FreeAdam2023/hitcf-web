@@ -884,7 +884,14 @@
       "readingLevel1": "Q1–10 · Textes simples du quotidien (annonces, publicités, messages)",
       "readingLevel2": "Q11–25 · Textes pratiques (courriels, actualités, documents)",
       "readingLevel3": "Q26–39 · Textes complexes (éditoriaux, littérature, essais)",
-      "readingWarning": "Le chronomètre de {minutes} minutes démarre dès que vous cliquez sur « Commencer ». Assurez-vous d'être prêt(e)."
+      "readingWarning": "Le chronomètre de {minutes} minutes démarre dès que vous cliquez sur « Commencer ». Assurez-vous d'être prêt(e).",
+      "listeningConsigne1": "Pour chaque question, il y a 4 choix de réponse (A, B, C, D). Une seule réponse est exacte.",
+      "listeningConsigne2": "Chaque enregistrement n'est diffusé qu'une seule fois. Pas de pause ni de réécoute.",
+      "listeningConsigne3": "L'audio se lance automatiquement. Vous ne pouvez pas sauter ni revenir en arrière.",
+      "listeningLevel1": "Q1–13 · Dialogues courts du quotidien (salutations, achats, rendez-vous)",
+      "listeningLevel2": "Q14–26 · Conversations à vitesse modérée (travail, actualités)",
+      "listeningLevel3": "Q27–39 · Audio complexe et rapide (conférences, débats, interviews)",
+      "listeningWarning": "L'audio démarre automatiquement après avoir cliqué sur « Commencer ». Vérifiez vos écouteurs/volume. Durée : {minutes} minutes."
     },
     "timer": {
       "fiveMinutes": "Attention : il reste 5 minutes",

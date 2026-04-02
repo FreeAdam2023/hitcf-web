@@ -884,7 +884,14 @@
       "readingLevel1": "Q1–10 · 简单日常文本（通知、广告、短信）",
       "readingLevel2": "Q11–25 · 中等实用文本（邮件、新闻、政策）",
       "readingLevel3": "Q26–39 · 高级复杂文本（社论、文学、抽象论述）",
-      "readingWarning": "点击「开始考试」后计时 {minutes} 分钟立即开始，请确保准备就绪。"
+      "readingWarning": "点击「开始考试」后计时 {minutes} 分钟立即开始，请确保准备就绪。",
+      "listeningConsigne1": "每题有 A、B、C、D 四个选项，只有一个正确答案。",
+      "listeningConsigne2": "每段录音只播放一次，无法暂停或回放。",
+      "listeningConsigne3": "系统自动播放音频并推进，不能跳题或回看。",
+      "listeningLevel1": "Q1–13 · 简短日常对话（问候、购物、预约）",
+      "listeningLevel2": "Q14–26 · 中等语速对话（工作、新闻、讨论）",
+      "listeningLevel3": "Q27–39 · 快速复杂音频（讲座、辩论、访谈）",
+      "listeningWarning": "点击「开始」后音频将自动播放，请确保耳机/音量已调好。全程 {minutes} 分钟。"
     },
     "timer": {
       "fiveMinutes": "注意：剩余 5 分钟",
