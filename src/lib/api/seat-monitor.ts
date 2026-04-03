@@ -4,7 +4,11 @@ export interface CenterStatus {
   city_code: string;
   city_name: string;
   center_name: string;
+  address: string;
+  maps_url: string;
+  registration_url: string;
   available_dates: string[];
+  seats_by_date: Record<string, number | null>;
   last_checked_at: string | null;
   scrape_status: string;
   is_subscribed: boolean;
