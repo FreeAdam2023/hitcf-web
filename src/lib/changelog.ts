@@ -72,24 +72,6 @@ export const changelog: ChangelogEntry[] = [
     ],
   },
   {
-    date: "2026-04-03",
-    type: "improvement",
-    title: {
-      zh: "SEO 与多语言元数据全面更新",
-      en: "SEO & multilingual metadata update",
-      fr: "Mise à jour SEO et métadonnées multilingues",
-      ar: "تحديث SEO والبيانات الوصفية متعددة اللغات",
-    },
-    details: [
-      {
-        zh: "修复描述过短问题，新增 7 个页面到 sitemap，四语言关键词和描述优化",
-        en: "Fixed short descriptions, added 7 pages to sitemap, optimized keywords and descriptions across 4 languages",
-        fr: "Corrections des descriptions courtes, 7 pages ajoutées au sitemap, optimisation des mots-clés en 4 langues",
-        ar: "إصلاح الأوصاف القصيرة، إضافة 7 صفحات إلى خريطة الموقع، تحسين الكلمات المفتاحية بـ 4 لغات",
-      },
-    ],
-  },
-  {
     date: "2026-04-02",
     type: "feature",
     title: {

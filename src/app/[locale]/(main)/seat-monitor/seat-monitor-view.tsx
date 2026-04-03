@@ -152,14 +152,9 @@ export function SeatMonitorView() {
   };
 
   const followedCenters = centers.filter((c) => c.is_subscribed);
-  const unfollowedCenters = centers.filter((c) => !c.is_subscribed);
 
-  // Logged in user with follows → personal view
-  // Logged in user with no follows → city picker
-  // Guest → showcase all cities
   const isPersonalView = isAuthenticated && followedCenters.length > 0 && !showManage;
   const isPickerView = isAuthenticated && (followedCenters.length === 0 || showManage);
-  const isGuestView = !isAuthenticated;
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
@@ -192,7 +187,6 @@ export function SeatMonitorView() {
               <AvailableCard
                 key={center.city_code}
                 center={center}
-                isPro={isPro}
                 isSaving={savingCities.has(center.city_code)}
                 locale={locale}
                 t={t}
@@ -344,7 +338,6 @@ export function SeatMonitorView() {
                 <AvailableCard
                   key={center.city_code}
                   center={center}
-                  isPro={false}
                   isSaving={false}
                   locale={locale}
                   t={t}
@@ -408,7 +401,6 @@ const MAX_VISIBLE_DATES = 3;
 
 function AvailableCard({
   center,
-  isPro,
   isSaving,
   locale,
   t,
@@ -416,7 +408,6 @@ function AvailableCard({
   onToggleFollow,
 }: {
   center: CenterStatus;
-  isPro: boolean;
   isSaving: boolean;
   locale: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
