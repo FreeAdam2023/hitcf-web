@@ -2224,7 +2224,7 @@
     "hero": {
       "badge": "Guide de l'examen",
       "title": "Guide complet du TCF Canada",
-      "subtitle": "Format de l'examen, conversion des scores, ressources d'étude gratuites et centres d'examen en Chine et au Canada — tout en un seul endroit.",
+      "subtitle": "Format de l'examen, conversion des scores, ressources d'étude gratuites et centres d'examen dans le monde — tout en un seul endroit.",
       "startPractice": "Commencer l'entraînement",
       "joinCommunity": "Rejoindre la communauté",
       "communityTitle": "Rejoignez la communauté d'étude",
@@ -2407,8 +2407,8 @@
       ]
     },
     "centers": {
-      "title": "Centres d'examen en Chine et au Canada",
-      "subtitle": "Les informations sur les centres d'examen peuvent changer. Veuillez vérifier auprès du site officiel de chaque centre.",
+      "title": "Centres d'examen TCF dans le monde",
+      "subtitle": "Canada, Chine, France, Afrique, Moyen-Orient et Asie. Les informations peuvent changer — vérifiez auprès du site officiel de chaque centre.",
       "website": "Site web",
       "chinaTitle": "Centres d'examen en Chine",
       "canadaTitle": "Centres d'examen au Canada",
@@ -2762,7 +2762,7 @@
     },
     "resources": {
       "title": "Guide de l'examen TCF Canada · Tableaux de scores, ressources d'étude et centres d'examen",
-      "description": "Guide complet du TCF Canada : format et contenu de l'examen, tableaux de conversion des scores NCLC/CLB, ressources gratuites pour étudier le français, et informations sur les centres d'examen en Chine et au Canada.",
+      "description": "Guide complet du TCF Canada : format et contenu de l'examen, tableaux de conversion des scores NCLC/CLB, ressources gratuites pour étudier le français, et centres d'examen dans le monde.",
       "keywords": "examen TCF Canada,tableau scores CLB,conversion NCLC,centres examen TCF,ressources étude français,inscription TCF Canada,test français immigration Canada"
     },
     "terms": {
