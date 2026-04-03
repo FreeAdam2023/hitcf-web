@@ -269,7 +269,7 @@ function ExamDatePrompt({ onSet }: { onSet: () => void }) {
 function ExamDateEditor({ initialDate, initialCity, onSave, onCancel }: {
   initialDate: string | null;
   initialCity: string | null;
-  onSave: (date: string, city: string | null) => void;
+  onSave: () => void;
   onCancel: () => void;
 }) {
   const t = useTranslations("history.summary.countdown");
@@ -282,7 +282,7 @@ function ExamDateEditor({ initialDate, initialCity, onSave, onCancel }: {
     setSaving(true);
     try {
       await setExamDate(date, city || null);
-      onSave(date, city || null);
+      onSave();
     } finally {
       setSaving(false);
     }
@@ -292,7 +292,7 @@ function ExamDateEditor({ initialDate, initialCity, onSave, onCancel }: {
     setSaving(true);
     try {
       await setExamDate(null, null);
-      onSave("", null);
+      onSave();
     } finally {
       setSaving(false);
     }
@@ -469,9 +469,8 @@ function SummaryTabs({ progress, stats }: { progress: ProgressResponse | null; s
   const examDate = user?.exam_date ?? null;
   const examCity = user?.exam_city ?? null;
 
-  const handleSave = (_date: string, _city: string | null) => {
+  const handleSave = () => {
     setEditing(false);
-    // Refresh user data to update exam_date/exam_city in auth store
     fetchUser();
   };
 
