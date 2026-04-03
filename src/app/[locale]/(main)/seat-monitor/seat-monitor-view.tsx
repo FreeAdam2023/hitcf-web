@@ -214,7 +214,6 @@ export function SeatMonitorView() {
             <CenterCard
               key={center.city_code}
               center={center}
-              status="available"
               isPro={isPro}
               isSaving={savingCities.has(center.city_code)}
               locale={locale}
@@ -366,7 +365,6 @@ export function SeatMonitorView() {
 
 function CenterCard({
   center,
-  status,
   isPro,
   isSaving,
   locale,
@@ -375,7 +373,6 @@ function CenterCard({
   onToggleFollow,
 }: {
   center: CenterStatus;
-  status: CenterStatusType;
   isPro: boolean;
   isSaving: boolean;
   locale: string;
