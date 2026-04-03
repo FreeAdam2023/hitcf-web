@@ -151,7 +151,9 @@ export function SeatMonitorView() {
     return t("hoursAgo", { hours: Math.floor(sec / 3600) });
   };
 
-  const followedCenters = centers.filter((c) => c.is_subscribed);
+  const followedCenters = centers
+    .filter((c) => c.is_subscribed)
+    .sort((a, b) => b.available_dates.length - a.available_dates.length);
 
   const isPersonalView = isAuthenticated && followedCenters.length > 0 && !showManage;
   const isPickerView = isAuthenticated && (followedCenters.length === 0 || showManage);
