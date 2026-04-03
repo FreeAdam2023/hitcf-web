@@ -469,7 +469,7 @@ function SummaryTabs({ progress, stats }: { progress: ProgressResponse | null; s
   const examDate = user?.exam_date ?? null;
   const examCity = user?.exam_city ?? null;
 
-  const handleSave = (date: string, city: string | null) => {
+  const handleSave = (_date: string, _city: string | null) => {
     setEditing(false);
     // Refresh user data to update exam_date/exam_city in auth store
     fetchUser();
