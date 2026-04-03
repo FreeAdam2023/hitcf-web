@@ -404,6 +404,8 @@ export function SeatMonitorView() {
 
 /* ── Available City Card ── */
 
+const MAX_VISIBLE_DATES = 3;
+
 function AvailableCard({
   center,
   isPro,
@@ -422,6 +424,11 @@ function AvailableCard({
   formatTimeAgo: (iso: string | null) => string;
   onToggleFollow: (cityCode: string) => void;
 }) {
+  const [expanded, setExpanded] = useState(false);
+  const dates = center.available_dates;
+  const hasMore = dates.length > MAX_VISIBLE_DATES;
+  const visibleDates = expanded ? dates : dates.slice(0, MAX_VISIBLE_DATES);
+
   return (
     <Card className="overflow-hidden border-2 border-emerald-200 dark:border-emerald-800">
       <CardHeader className="pb-3">
@@ -430,7 +437,7 @@ function AvailableCard({
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-bold">{center.city_name}</h2>
               <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800">
-                {t("statusAvailable")}
+                {dates.length} {t("statusAvailable")}
               </Badge>
             </div>
             <p className="text-sm text-muted-foreground mt-0.5">{center.center_name}</p>
@@ -475,7 +482,7 @@ function AvailableCard({
 
       <CardContent className="pt-0">
         <div className="space-y-1.5">
-          {center.available_dates.map((date) => {
+          {visibleDates.map((date) => {
             const seats = center.seats_by_date[date];
             return (
               <div
@@ -501,11 +508,21 @@ function AvailableCard({
             );
           })}
         </div>
+        {hasMore && (
+          <button
+            className="mt-1 w-full text-center text-xs text-muted-foreground hover:text-primary transition-colors py-1"
+            onClick={() => setExpanded(!expanded)}
+          >
+            {expanded
+              ? t("collapse")
+              : t("showMore", { count: dates.length - MAX_VISIBLE_DATES })}
+          </button>
+        )}
         <a
           href={center.registration_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 flex items-center justify-center gap-2 rounded-lg border-2 border-primary bg-primary/5 px-4 py-2.5 text-sm font-semibold text-primary hover:bg-primary/10 transition-colors"
+          className="mt-2 flex items-center justify-center gap-2 rounded-lg border-2 border-primary bg-primary/5 px-4 py-2.5 text-sm font-semibold text-primary hover:bg-primary/10 transition-colors"
         >
           {t("registerNow")}
           <ExternalLink className="h-4 w-4" />
@@ -515,13 +532,11 @@ function AvailableCard({
       <CardFooter className="pt-2 text-xs text-muted-foreground">
         <div className="flex w-full items-center justify-between">
           <span>
-            {center.is_subscribed ? (
+            {center.is_subscribed && (
               <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
                 <Bell className="h-3 w-3" />
-                {isPro ? t("priorityNotify") : t("queueNotify")}
+                {t("priorityNotify")}
               </span>
-            ) : (
-              <span className="text-muted-foreground/60">{t("monitoringSubtitle")}</span>
             )}
           </span>
           {center.last_checked_at && (

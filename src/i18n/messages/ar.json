@@ -2861,6 +2861,8 @@
     "statusNone": "لا يوجد",
     "statusSoldOut": "ممتلئ",
     "statusChecking": "جارٍ الفحص",
+    "showMore": "عرض {count} المزيد",
+    "collapse": "تقليل",
     "manageCities": "إدارة المدن",
     "done": "تم",
     "pickCitiesHint": "اختر مدن الامتحان التي تريد متابعتها. ستتلقى بريداً عند توفر مقاعد جديدة.",

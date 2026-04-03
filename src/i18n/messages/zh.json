@@ -2860,6 +2860,8 @@
     "statusNone": "暂无",
     "statusSoldOut": "已满",
     "statusChecking": "检查中",
+    "showMore": "展开更多 ({count})",
+    "collapse": "收起",
     "manageCities": "管理关注城市",
     "done": "完成",
     "pickCitiesHint": "选择你关注的考试城市，有新考位会邮件通知你",

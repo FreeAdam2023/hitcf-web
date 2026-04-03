@@ -2864,6 +2864,8 @@
     "statusNone": "Aucune",
     "statusSoldOut": "Complet",
     "statusChecking": "Vérification",
+    "showMore": "Afficher {count} de plus",
+    "collapse": "Réduire",
     "manageCities": "Gérer les villes",
     "done": "Terminé",
     "pickCitiesHint": "Choisissez les villes d'examen à suivre. Vous recevrez un courriel dès qu'une place se libère.",

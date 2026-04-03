@@ -154,7 +154,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
 
       {instructionData && (
         <div>
-          <p className="text-sm lg:text-base text-muted-foreground italic">
+          <p className="text-base text-muted-foreground italic">
             {instructionData.fr}
             {locale !== "fr" && (
               <button
@@ -169,12 +169,12 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
           {(showTranslation || answered) && locale !== "fr" && (
             <div className="mt-1 space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-200">
               {locale === "zh" && (showEn ?? true) && (
-                <p className="text-xs lg:text-sm text-blue-600 dark:text-blue-400">{instructionData.en}</p>
+                <p className="text-sm text-blue-600 dark:text-blue-400">{instructionData.en}</p>
               )}
               {locale === "zh" && (showNative ?? true) && (
                 <p className="text-[11px] lg:text-xs text-muted-foreground pl-1">{t(instructionData.zhKey)}</p>
               )}
-              {locale !== "zh" && <p className="text-xs lg:text-sm text-emerald-600 dark:text-emerald-400">{t(instructionData.zhKey)}</p>}
+              {locale !== "zh" && <p className="text-sm text-emerald-600 dark:text-emerald-400">{t(instructionData.zhKey)}</p>}
             </div>
           )}
         </div>
@@ -207,7 +207,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
       )}
 
       {question.passage && (
-        <div className="rounded-md border bg-muted/50 p-4 text-sm lg:text-base leading-relaxed">
+        <div className="rounded-md border bg-muted/50 p-4 text-base leading-relaxed">
           <PassageContent text={question.passage} disabled={vocabDisabled} saveContext={saveContext} />
         </div>
       )}
@@ -268,9 +268,9 @@ function QuestionTextWithAnalysis({ question, vocabDisabled, saveContext, locked
       </p>
       {answered && hasTranslation && (
         <div className="mt-1 space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-200">
-          {locale === "zh" && (showEn ?? true) && qEn && <p className="text-sm lg:text-base text-blue-600 dark:text-blue-400">{qEn}</p>}
-          {locale === "zh" && (showNative ?? true) && qTranslations[1] && <p className="text-xs lg:text-sm text-muted-foreground pl-1">{qTranslations[1]}</p>}
-          {locale !== "zh" && qTranslations[0] && <p className="text-sm lg:text-base text-emerald-600 dark:text-emerald-400">{qTranslations[0]}</p>}
+          {locale === "zh" && (showEn ?? true) && qEn && <p className="text-base text-blue-600 dark:text-blue-400">{qEn}</p>}
+          {locale === "zh" && (showNative ?? true) && qTranslations[1] && <p className="text-sm text-muted-foreground pl-1">{qTranslations[1]}</p>}
+          {locale !== "zh" && qTranslations[0] && <p className="text-base text-emerald-600 dark:text-emerald-400">{qTranslations[0]}</p>}
         </div>
       )}
       {showAnalysis && (
