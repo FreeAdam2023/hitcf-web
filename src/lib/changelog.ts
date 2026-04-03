@@ -24,6 +24,72 @@ export function getLocalizedChangelog(locale: string) {
 // Only user-facing changes — no admin/backend internals
 export const changelog: ChangelogEntry[] = [
   {
+    date: "2026-04-03",
+    type: "feature",
+    title: {
+      zh: "TCF 考位实时监控上线",
+      en: "TCF exam seat monitor is live",
+      fr: "Surveillance des places TCF en ligne",
+      ar: "مراقبة مقاعد TCF مباشرة",
+    },
+    details: [
+      {
+        zh: "5 大城市实时监控：渥太华、蒙特利尔、多伦多、温哥华、卡尔加里",
+        en: "Real-time monitoring across 5 cities: Ottawa, Montreal, Toronto, Vancouver, Calgary",
+        fr: "Surveillance en temps réel dans 5 villes : Ottawa, Montréal, Toronto, Vancouver, Calgary",
+        ar: "مراقبة فورية في 5 مدن: أوتاوا، مونتريال، تورنتو، فانكوفر، كالغاري",
+      },
+      {
+        zh: "显示剩余座位数、考场地址地图、一键跳转报名页",
+        en: "Shows remaining seats, venue address with map link, one-click registration",
+        fr: "Affiche les places restantes, adresse avec carte, inscription en un clic",
+        ar: "عرض المقاعد المتبقية، عنوان المركز مع خريطة، تسجيل بنقرة واحدة",
+      },
+      {
+        zh: "关注城市后有新考位邮件通知，付费会员优先收到",
+        en: "Follow cities to get email alerts when new seats appear. Paid members notified first",
+        fr: "Suivez des villes pour recevoir des alertes. Les membres payants sont notifiés en premier",
+        ar: "تابع المدن لتلقي تنبيهات بالبريد. الأعضاء المدفوعون يُبلَّغون أولاً",
+      },
+    ],
+  },
+  {
+    date: "2026-04-03",
+    type: "improvement",
+    title: {
+      zh: "移动端阅读体验优化",
+      en: "Mobile reading experience improved",
+      fr: "Amélioration de la lecture sur mobile",
+      ar: "تحسين تجربة القراءة على الهاتف",
+    },
+    details: [
+      {
+        zh: "练习页面选项和题目文字加大，夜间模式更舒适",
+        en: "Larger text for options and questions in practice mode, more comfortable in dark mode",
+        fr: "Texte plus grand pour les options et questions, plus confortable en mode sombre",
+        ar: "نص أكبر للخيارات والأسئلة، أكثر راحة في الوضع الداكن",
+      },
+    ],
+  },
+  {
+    date: "2026-04-03",
+    type: "improvement",
+    title: {
+      zh: "SEO 与多语言元数据全面更新",
+      en: "SEO & multilingual metadata update",
+      fr: "Mise à jour SEO et métadonnées multilingues",
+      ar: "تحديث SEO والبيانات الوصفية متعددة اللغات",
+    },
+    details: [
+      {
+        zh: "修复描述过短问题，新增 7 个页面到 sitemap，四语言关键词和描述优化",
+        en: "Fixed short descriptions, added 7 pages to sitemap, optimized keywords and descriptions across 4 languages",
+        fr: "Corrections des descriptions courtes, 7 pages ajoutées au sitemap, optimisation des mots-clés en 4 langues",
+        ar: "إصلاح الأوصاف القصيرة، إضافة 7 صفحات إلى خريطة الموقع، تحسين الكلمات المفتاحية بـ 4 لغات",
+      },
+    ],
+  },
+  {
     date: "2026-04-02",
     type: "feature",
     title: {
