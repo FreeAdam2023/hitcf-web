@@ -2875,15 +2875,15 @@
     "faqTitle": "FAQ",
     "faq1": {
       "q": "Tous les utilisateurs peuvent-ils voir les places disponibles ?",
-      "a": "Oui. Les données sur cette page sont en temps réel pour tous, sans connexion requise. La différence : les abonnés payants reçoivent un courriel immédiatement, les utilisateurs gratuits après 30 minutes. Quand les places sont rares, 30 minutes font toute la différence."
+      "a": "Oui. Les données sur cette page sont en temps réel pour tous, sans connexion requise. Pour les alertes par courriel, les abonnés payants bénéficient d'une notification prioritaire. Les utilisateurs gratuits sont en file d'attente. Quand les places sont rares, la priorité fait toute la différence."
     },
     "faq2": {
       "q": "Quelle est la différence entre payant et gratuit ?",
-      "a": "Les abonnés payants reçoivent des alertes instantanées + suivent un nombre illimité de villes. Les utilisateurs gratuits reçoivent les alertes avec 30 min de délai + peuvent suivre 1 ville. Les données sur la page sont visibles par tous en temps réel."
+      "a": "Les abonnés payants bénéficient d'alertes prioritaires + suivent un nombre illimité de villes. Les utilisateurs gratuits sont en file d'attente + peuvent suivre 1 ville. Les données sur la page sont visibles par tous en temps réel."
     },
     "faq3": {
-      "q": "À quelle fréquence le système vérifie-t-il ?",
-      "a": "Toutes les 15 secondes, 24h/24. Dès qu'une nouvelle place est détectée, les abonnés payants reçoivent un courriel immédiatement. Les utilisateurs gratuits sont notifiés 30 minutes après."
+      "q": "En combien de temps serai-je notifié ?",
+      "a": "Notre système surveille tous les centres d'examen en permanence. Lorsque de nouvelles places apparaissent, les abonnés payants reçoivent une notification prioritaire. Les utilisateurs gratuits sont en file d'attente."
     },
     "faq4": {
       "q": "Pourquoi une ville affiche « Aucune date disponible » ?",

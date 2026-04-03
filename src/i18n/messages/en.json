@@ -2875,15 +2875,15 @@
     "faqTitle": "FAQ",
     "faq1": {
       "q": "Can all users see seat availability?",
-      "a": "Yes. Seat data on this page is real-time for everyone, no login required. The difference is email alerts: paid users get notified instantly, free users get a 30-minute delay. When seats are scarce, 30 minutes is the difference between booking and missing out."
+      "a": "Yes. Seat data on this page is real-time for everyone, no login required. For email alerts, paid users get priority notification first. Free users are queued. When seats are scarce, priority is the difference between booking and missing out."
     },
     "faq2": {
       "q": "What's the difference between paid and free?",
-      "a": "Paid users get instant email alerts + unlimited city follows. Free users get 30-minute delayed emails + 1 city follow. Seat data on the page is visible to everyone in real-time."
+      "a": "Paid users get priority email alerts + unlimited city follows. Free users are queued for notifications + 1 city follow. Seat data on the page is visible to everyone in real-time."
     },
     "faq3": {
-      "q": "How often does the system check?",
-      "a": "Every 15 seconds, around the clock. When new seats are detected, paid users are emailed immediately. Free users are emailed 30 minutes later."
+      "q": "How quickly will I be notified?",
+      "a": "Our system monitors all exam centers around the clock. When new seats appear, paid users receive priority notification first. Free users are queued."
     },
     "faq4": {
       "q": "Why does a city show 'No dates available'?",
