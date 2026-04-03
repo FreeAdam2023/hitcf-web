@@ -2994,7 +2994,7 @@
     },
     "trial": {
       "title": "4. Essai gratuit",
-      "p1": "Les nouveaux utilisateurs bénéficient de 7 jours d'essai gratuit avec accès complet à Pro lors de l'inscription, sans carte bancaire. À la fin de l'essai, vous serez rétrogradé en utilisateur gratuit. Pour continuer à utiliser les fonctionnalités Pro, veuillez choisir un forfait payant. Chaque utilisateur n'a droit qu'à un seul essai gratuit."
+      "p1": "Les nouveaux utilisateurs bénéficient de 7 jours d'essai gratuit avec accès Pro lors de l'inscription, sans carte bancaire. À la fin de l'essai, vous serez rétrogradé en utilisateur gratuit. Pour continuer à utiliser les fonctionnalités Pro, veuillez choisir un forfait payant. Chaque utilisateur n'a droit qu'à un seul essai gratuit."
     },
     "acceptableUse": {
       "title": "5. Utilisation acceptable",
@@ -3134,7 +3134,7 @@
     "intro": "Merci d'avoir choisi HiTCF. Cette politique de remboursement s'applique à tous les services d'abonnement payant achetés via la Plateforme.",
     "freeTrial": {
       "title": "1. Essai gratuit",
-      "li1": "Tous les nouveaux utilisateurs bénéficient de <b>7 jours</b> d'essai gratuit avec accès complet à Pro lors de l'inscription, sans carte bancaire.",
+      "li1": "Tous les nouveaux utilisateurs bénéficient de <b>7 jours</b> d'essai gratuit avec accès Pro lors de l'inscription, sans carte bancaire.",
       "li2": "Vous pouvez utiliser toutes les fonctionnalités Pro pendant l'essai sans frais.",
       "li3": "À la fin de l'essai, vous serez rétrogradé en utilisateur gratuit. Pour continuer à utiliser les fonctionnalités Pro, veuillez choisir un forfait payant.",
       "li4": "Chaque utilisateur (par adresse e-mail) n'a droit qu'à un seul essai gratuit."
@@ -3713,7 +3713,7 @@
       },
       "cta": {
         "title": "Commencer",
-        "desc": "5 questions gratuites par jour. Abonnez-vous à Pro pour un accès complet.",
+        "desc": "5 questions gratuites par jour. Abonnez-vous à Pro pour l'accès Pro.",
         "start": "Commencer la pratique",
         "pricing": "Voir les prix"
       },

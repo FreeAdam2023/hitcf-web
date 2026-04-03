@@ -2146,7 +2146,7 @@
       "items": [
         {
           "q": "What's the difference between monthly, quarterly, and semi-annual?",
-          "a": "Monthly is a recurring subscription — cancel anytime. Quarterly is a one-time payment, valid for 3 months with no auto-renewal. Semi-annual is a one-time payment, valid for 6 months with no auto-renewal. All new users get a 7-day full-access trial on signup, no credit card required."
+          "a": "Monthly is a recurring subscription — cancel anytime. Quarterly is a one-time payment, valid for 3 months with no auto-renewal. Semi-annual is a one-time payment, valid for 6 months with no auto-renewal. All new users get a 7-day Pro trial on signup, no credit card required."
         },
         {
           "q": "Do I need a credit card?",
@@ -2633,7 +2633,7 @@
       },
       {
         "q": "What are the benefits of Pro?",
-        "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, Anki export, and priority exam seat alerts. Sign up for a 7-day full-access trial, then subscribe when ready."
+        "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, Anki export, and priority exam seat alerts. Sign up for a 7-day Pro trial, then subscribe when ready."
       },
       {
         "q": "Can you guarantee I'll reach CLB 7+?",
@@ -3186,7 +3186,7 @@
     "faq2q": "What can I do with the free version?",
     "faq2a": "The free version gives you access to all listening + reading test sets, with {dailyQuestions} questions and {dailyExplanations} detailed explanations per day in practice mode. Free forever.",
     "faq3q": "What are the benefits of Pro?",
-    "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, Anki export, and priority exam seat alerts. Sign up for a 7-day full-access trial, then subscribe when ready.",
+    "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, Anki export, and priority exam seat alerts. Sign up for a 7-day Pro trial, then subscribe when ready.",
     "faq4q": "Can you guarantee I’ll reach CLB 7+?",
     "faq4a": "No. HiTCF provides a practice environment aligned with TCF Canada to help you identify and improve weak areas. However, actual scores depend on many factors — we do not promise any exam results.",
     "faq5q": "How do I practice speaking and writing?",
@@ -3705,7 +3705,7 @@
       },
       "cta": {
         "title": "Start Practicing",
-        "desc": "5 free listening/reading questions per day + 5 explanation views. Subscribe to Pro for full access.",
+        "desc": "5 free listening/reading questions per day + 5 explanation views. Subscribe to Pro for Pro access.",
         "start": "Start Practice",
         "pricing": "View Pricing"
       },
