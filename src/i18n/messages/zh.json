@@ -2753,7 +2753,7 @@
     },
     "seatMonitor": {
       "title": "TCF Canada 考位监控 · 5 大城市实时考位查询",
-      "description": "每 15 秒自动检查多伦多、蒙特利尔、温哥华、卡尔加里、渥太华 TCF Canada 考位。显示剩余席位、一键报名、考场地址地图，关注城市有新考位即时邮件通知。"
+      "description": "实时监控多伦多、蒙特利尔、温哥华、卡尔加里、渥太华 TCF Canada 考位。显示剩余席位、一键报名、考场地址地图，关注城市有新考位优先邮件通知。"
     },
     "writingMockExam": {
       "title": "模拟写作考试 | HiTCF",

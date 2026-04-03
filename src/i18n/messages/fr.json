@@ -2799,7 +2799,7 @@
     },
     "seatMonitor": {
       "title": "Surveillance des places TCF Canada · 5 villes en temps réel",
-      "description": "Vérification automatique des places TCF Canada toutes les 15 secondes à Toronto, Montréal, Vancouver, Calgary et Ottawa. Places restantes, inscription en un clic, carte du centre et alertes par courriel."
+      "description": "Surveillance en temps réel des places TCF Canada à Toronto, Montréal, Vancouver, Calgary et Ottawa. Places restantes, inscription en un clic, carte du centre et alertes prioritaires par courriel."
     },
     "vocabularyThemeWords": {
       "title": "Vocabulaire thématique · Mots français par thème et niveau",
