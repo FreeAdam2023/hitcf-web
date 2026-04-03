@@ -1305,7 +1305,37 @@
       "doneQuestions": "{count} سؤال · {pct}%",
       "done30dQuestions": "30 يوم: {count} سؤال",
       "done30dSets": "30 يوم: {count} مجموعة",
-      "readiness": "جاهزية CLB 7+"
+      "readiness": "جاهزية CLB 7+",
+      "countdown": {
+        "daysLeft": "{days} يوم",
+        "examOn": "{city} · {date}",
+        "phaseRelax": "وقت كافٍ — ابنِ أساساً متيناً",
+        "phaseSteady": "تقدّم ثابت — ركّز على نقاط الضعف",
+        "phaseSprint": "مرحلة السرعة — مجموعة كاملة يومياً",
+        "phaseFinal": "الدفعة الأخيرة — راجع أخطاءك",
+        "phaseReady": "استعداد: جواز السفر، بريد التأكيد، قلم أسود",
+        "phaseToday": "اليوم يومك — بالتوفيق!",
+        "phasePast": "انتهى الاختبار — النتائج خلال 2-3 أسابيع",
+        "cancelDeadline": "آخر موعد للإلغاء: {date} (قبل 14 يوم)",
+        "centerAddress": "عنوان المركز",
+        "mockExam": "اختبار تجريبي",
+        "reviewWrong": "مراجعة الأخطاء",
+        "navigate": "الاتجاهات",
+        "setExamDate": "حددت موعد الاختبار؟ ابدأ العد التنازلي",
+        "editExamDate": "تعديل موعد الاختبار",
+        "clearExamDate": "مسح",
+        "selectDate": "اختر تاريخ الاختبار",
+        "selectCity": "اختر مدينة الاختبار",
+        "save": "حفظ",
+        "cancel": "إلغاء",
+        "cities": {
+          "ottawa": "أوتاوا",
+          "toronto": "تورنتو",
+          "montreal": "مونتريال",
+          "vancouver": "فانكوفر",
+          "calgary": "كالغاري"
+        }
+      }
     },
     "filter": {
       "all": "الكل"

@@ -1308,7 +1308,37 @@
       "doneQuestions": "已练 {count} 题 · {pct}%",
       "done30dQuestions": "近30天 {count} 题",
       "done30dSets": "近30天 {count} 套",
-      "readiness": "CLB 7+ 准备度"
+      "readiness": "CLB 7+ 准备度",
+      "countdown": {
+        "daysLeft": "{days} 天",
+        "examOn": "{city} · {date}",
+        "phaseRelax": "时间充裕，打好基础",
+        "phaseSteady": "稳步推进，重点突破薄弱项",
+        "phaseSprint": "冲刺阶段，每天一套题",
+        "phaseFinal": "最后冲刺，巩固错题",
+        "phaseReady": "考前准备：护照、确认邮件、黑色水笔",
+        "phaseToday": "今天就是你的舞台，加油！",
+        "phasePast": "考试已结束，成绩通常 2-3 周出",
+        "cancelDeadline": "取消截止：{date}（考前14天）",
+        "centerAddress": "考场地址",
+        "mockExam": "模拟考试",
+        "reviewWrong": "错题回顾",
+        "navigate": "考场导航",
+        "setExamDate": "考试日期定了？设置倒计时",
+        "editExamDate": "修改考试日期",
+        "clearExamDate": "清除",
+        "selectDate": "选择考试日期",
+        "selectCity": "选择考试城市",
+        "save": "保存",
+        "cancel": "取消",
+        "cities": {
+          "ottawa": "渥太华",
+          "toronto": "多伦多",
+          "montreal": "蒙特利尔",
+          "vancouver": "温哥华",
+          "calgary": "卡尔加里"
+        }
+      }
     },
     "filter": {
       "all": "全部"

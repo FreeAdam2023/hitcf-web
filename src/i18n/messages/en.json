@@ -1308,7 +1308,37 @@
       "doneQuestions": "{count} done · {pct}%",
       "done30dQuestions": "30d: {count} questions",
       "done30dSets": "30d: {count} sets",
-      "readiness": "CLB 7+ Readiness"
+      "readiness": "CLB 7+ Readiness",
+      "countdown": {
+        "daysLeft": "{days} days",
+        "examOn": "{city} · {date}",
+        "phaseRelax": "Plenty of time — build a solid foundation",
+        "phaseSteady": "Stay steady — focus on weak areas",
+        "phaseSprint": "Sprint mode — one full set per day",
+        "phaseFinal": "Final push — review your mistakes",
+        "phaseReady": "Exam prep: passport, confirmation email, black pen",
+        "phaseToday": "Today is your day — good luck!",
+        "phasePast": "Exam complete — results usually take 2-3 weeks",
+        "cancelDeadline": "Cancel by: {date} (14 days before exam)",
+        "centerAddress": "Center address",
+        "mockExam": "Mock Exam",
+        "reviewWrong": "Review Mistakes",
+        "navigate": "Directions",
+        "setExamDate": "Exam date set? Start your countdown",
+        "editExamDate": "Edit exam date",
+        "clearExamDate": "Clear",
+        "selectDate": "Select exam date",
+        "selectCity": "Select exam city",
+        "save": "Save",
+        "cancel": "Cancel",
+        "cities": {
+          "ottawa": "Ottawa",
+          "toronto": "Toronto",
+          "montreal": "Montreal",
+          "vancouver": "Vancouver",
+          "calgary": "Calgary"
+        }
+      }
     },
     "filter": {
       "all": "All"

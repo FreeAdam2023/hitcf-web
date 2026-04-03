@@ -13,6 +13,13 @@ import {
   TrendingUp,
   Loader2,
   Trash2,
+  Flame,
+  MapPin,
+  CalendarDays,
+  AlertTriangle,
+  Navigation,
+  Pencil,
+  X,
 } from "lucide-react";
 
 import {
@@ -40,7 +47,10 @@ import type { AttemptResponse, SpeakingAttemptResponse, SpeakingConversationResp
 import { TYPE_COLORS, TYPE_KEYS } from "@/lib/constants";
 import { localizeTestName } from "@/lib/test-name";
 import { getStatsOverview, type StatsOverview } from "@/lib/api/stats";
+import { setExamDate } from "@/lib/api/auth";
 import { CLB7Readiness } from "@/components/dashboard/clb7-readiness";
+import { useAuthStore } from "@/stores/auth-store";
+import { getPhaseMessage, getDaysUntil, getCancelDeadline, EXAM_CENTERS, CITY_OPTIONS } from "@/lib/countdown";
 import { cn } from "@/lib/utils";
 
 // Unified history item type
@@ -134,6 +144,212 @@ function fromConversation(c: SpeakingConversationResponse): HistoryItem {
     is_mock_exam: false,
     _source: "conversation",
   };
+}
+
+function CountdownHeader({ examDate, examCity, onEdit }: { examDate: string; examCity: string | null; onEdit: () => void }) {
+  const t = useTranslations("history.summary.countdown");
+  const locale = useLocale();
+  const days = getDaysUntil(examDate);
+  const phase = getPhaseMessage(days);
+  const center = examCity ? EXAM_CENTERS[examCity] : null;
+  const cancelDate = getCancelDeadline(examDate);
+
+  const formattedDate = new Date(examDate + "T00:00:00").toLocaleDateString(
+    LOCALE_MAP[locale] || locale,
+    { month: "long", day: "numeric" },
+  );
+  const formattedCancelDate = new Date(cancelDate + "T00:00:00").toLocaleDateString(
+    LOCALE_MAP[locale] || locale,
+    { month: "numeric", day: "numeric" },
+  );
+
+  const cityName = examCity ? t(`cities.${examCity}`) : "";
+
+  const flameColor = days <= 7 ? "text-red-500" : days <= 30 ? "text-orange-500" : "text-amber-500";
+
+  return (
+    <div className="space-y-3">
+      {/* Countdown number + info */}
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-3">
+          <div className={cn("flex flex-col items-center justify-center rounded-xl bg-muted/50 px-3 py-1.5 min-w-[64px]", days <= 7 && "bg-red-50 dark:bg-red-950/30")}>
+            <Flame className={cn("h-4 w-4 mb-0.5", flameColor)} />
+            <span className={cn("text-2xl font-bold tabular-nums leading-none", flameColor)}>
+              {Math.max(0, days)}
+            </span>
+            <span className="text-[10px] text-muted-foreground mt-0.5">
+              {days === 1 ? "day" : t("daysLeft", { days: "" }).trim()}
+            </span>
+          </div>
+          <div>
+            <p className="text-sm font-medium">
+              {t("examOn", { city: cityName, date: formattedDate })}
+            </p>
+            <p className="text-xs text-muted-foreground mt-0.5">{t(phase)}</p>
+          </div>
+        </div>
+        <button
+          onClick={onEdit}
+          className="rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          aria-label={t("editExamDate")}
+        >
+          <Pencil className="h-3.5 w-3.5" />
+        </button>
+      </div>
+
+      {/* Policy + address row */}
+      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+        {days > 0 && days <= 60 && (
+          <span className="flex items-center gap-1">
+            <AlertTriangle className="h-3 w-3 text-amber-500" />
+            {t("cancelDeadline", { date: formattedCancelDate })}
+          </span>
+        )}
+        {center && (
+          <a
+            href={center.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 hover:text-foreground transition-colors"
+          >
+            <MapPin className="h-3 w-3" />
+            {center.address}
+          </a>
+        )}
+      </div>
+
+      {/* Quick action buttons */}
+      <div className="flex flex-wrap gap-2">
+        <Link
+          href="/tests"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
+        >
+          <CalendarDays className="h-3 w-3" />
+          {t("mockExam")}
+        </Link>
+        <Link
+          href="/wrong-answers"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-muted px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
+        >
+          <BookOpen className="h-3 w-3" />
+          {t("reviewWrong")}
+        </Link>
+        {center && (
+          <a
+            href={center.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-muted px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
+          >
+            <Navigation className="h-3 w-3" />
+            {t("navigate")}
+          </a>
+        )}
+      </div>
+
+      <div className="border-b" />
+    </div>
+  );
+}
+
+function ExamDatePrompt({ onSet }: { onSet: () => void }) {
+  const t = useTranslations("history.summary.countdown");
+  return (
+    <button
+      onClick={onSet}
+      className="flex items-center gap-2 w-full rounded-lg border border-dashed border-muted-foreground/25 px-3 py-2.5 text-xs text-muted-foreground hover:border-primary/50 hover:text-primary transition-colors"
+    >
+      <CalendarDays className="h-3.5 w-3.5" />
+      <span>{t("setExamDate")}</span>
+      <ChevronRight className="h-3 w-3 ml-auto" />
+    </button>
+  );
+}
+
+function ExamDateEditor({ initialDate, initialCity, onSave, onCancel }: {
+  initialDate: string | null;
+  initialCity: string | null;
+  onSave: (date: string, city: string | null) => void;
+  onCancel: () => void;
+}) {
+  const t = useTranslations("history.summary.countdown");
+  const [date, setDate] = useState(initialDate || "");
+  const [city, setCity] = useState(initialCity || "");
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    if (!date) return;
+    setSaving(true);
+    try {
+      await setExamDate(date, city || null);
+      onSave(date, city || null);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleClear = async () => {
+    setSaving(true);
+    try {
+      await setExamDate(null, null);
+      onSave("", null);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="space-y-3 p-1">
+      <div className="space-y-2">
+        <label className="text-xs font-medium text-muted-foreground">{t("selectDate")}</label>
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          min={new Date().toISOString().slice(0, 10)}
+          className="w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+        />
+      </div>
+      <div className="space-y-2">
+        <label className="text-xs font-medium text-muted-foreground">{t("selectCity")}</label>
+        <select
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          className="w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+        >
+          <option value="">—</option>
+          {CITY_OPTIONS.map((c) => (
+            <option key={c} value={c}>{t(`cities.${c}`)}</option>
+          ))}
+        </select>
+      </div>
+      <div className="flex items-center gap-2">
+        <button
+          onClick={handleSave}
+          disabled={!date || saving}
+          className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 transition-colors"
+        >
+          {saving ? <Loader2 className="h-3 w-3 animate-spin" /> : t("save")}
+        </button>
+        <button
+          onClick={onCancel}
+          className="rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+        >
+          {t("cancel")}
+        </button>
+        {initialDate && (
+          <button
+            onClick={handleClear}
+            disabled={saving}
+            className="ml-auto rounded-md px-3 py-1.5 text-xs font-medium text-red-500 hover:text-red-600 transition-colors"
+          >
+            <X className="h-3 w-3 inline mr-1" />
+            {t("clearExamDate")}
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }
 
 const TYPE_ICONS: Record<string, React.ElementType> = {
@@ -245,8 +461,19 @@ function ProgressBar({
 function SummaryTabs({ progress, stats }: { progress: ProgressResponse | null; stats: StatsOverview | null }) {
   const t = useTranslations();
   const [activeTab, setActiveTab] = useState<"progress" | "readiness">("progress");
+  const { user, fetchUser } = useAuthStore();
+  const [editing, setEditing] = useState(false);
 
   if (!progress && !stats) return null;
+
+  const examDate = user?.exam_date ?? null;
+  const examCity = user?.exam_city ?? null;
+
+  const handleSave = (date: string, city: string | null) => {
+    setEditing(false);
+    // Refresh user data to update exam_date/exam_city in auth store
+    fetchUser();
+  };
 
   return (
     <div className="rounded-xl border bg-card overflow-hidden">
@@ -283,6 +510,18 @@ function SummaryTabs({ progress, stats }: { progress: ProgressResponse | null; s
       {/* Tab content */}
       {activeTab === "progress" && progress && (
         <div className="p-4 space-y-3">
+          {/* Countdown section */}
+          {editing ? (
+            <ExamDateEditor
+              initialDate={examDate}
+              initialCity={examCity}
+              onSave={handleSave}
+              onCancel={() => setEditing(false)}
+            />
+          ) : examDate ? (
+            <CountdownHeader examDate={examDate} examCity={examCity} onEdit={() => setEditing(true)} />
+          ) : null}
+
           <ProgressBar
             icon={Headphones}
             label={t("common.types.listening")}
@@ -315,6 +554,11 @@ function SummaryTabs({ progress, stats }: { progress: ProgressResponse | null; s
             total={progress.writing.total}
             colorClass="bg-rose-500 text-rose-500"
           />
+
+          {/* Prompt to set exam date (when not set and not editing) */}
+          {!examDate && !editing && (
+            <ExamDatePrompt onSet={() => setEditing(true)} />
+          )}
         </div>
       )}
 

@@ -26,6 +26,7 @@ export interface UserResponse {
   subscription: SubscriptionInfo;
   trial_eligible: boolean;
   exam_date: string | null;
+  exam_city: string | null;
   watermark_visible?: boolean;
   created_at: string;
   last_login_at: string | null;

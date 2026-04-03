@@ -10,8 +10,8 @@ export function updateProfile(body: { name?: string; ui_language?: string }): Pr
   return put<{ message: string; name: string; ui_language: string }>("/api/user/me", body);
 }
 
-export function setExamDate(exam_date: string | null): Promise<{ exam_date: string | null }> {
-  return put<{ exam_date: string | null }>("/api/user/exam-date", { exam_date });
+export function setExamDate(exam_date: string | null, exam_city?: string | null): Promise<{ exam_date: string | null; exam_city: string | null }> {
+  return put<{ exam_date: string | null; exam_city: string | null }>("/api/user/exam-date", { exam_date, exam_city: exam_city ?? null });
 }
 
 export function changePassword(body: {

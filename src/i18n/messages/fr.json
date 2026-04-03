@@ -1308,7 +1308,37 @@
       "doneQuestions": "{count} faites · {pct}%",
       "done30dQuestions": "30j : {count} questions",
       "done30dSets": "30j : {count} séries",
-      "readiness": "Préparation CLB 7+"
+      "readiness": "Préparation CLB 7+",
+      "countdown": {
+        "daysLeft": "{days} jours",
+        "examOn": "{city} · {date}",
+        "phaseRelax": "Du temps devant vous — construisez des bases solides",
+        "phaseSteady": "Progression régulière — ciblez vos faiblesses",
+        "phaseSprint": "Sprint — une série complète par jour",
+        "phaseFinal": "Dernière ligne droite — révisez vos erreurs",
+        "phaseReady": "Préparation : passeport, courriel de confirmation, stylo noir",
+        "phaseToday": "C'est votre jour — bonne chance !",
+        "phasePast": "Examen terminé — résultats sous 2 à 3 semaines",
+        "cancelDeadline": "Annulation avant : {date} (14 jours avant l'examen)",
+        "centerAddress": "Adresse du centre",
+        "mockExam": "Examen blanc",
+        "reviewWrong": "Réviser les erreurs",
+        "navigate": "Itinéraire",
+        "setExamDate": "Date d'examen confirmée ? Lancez le compte à rebours",
+        "editExamDate": "Modifier la date d'examen",
+        "clearExamDate": "Effacer",
+        "selectDate": "Choisir la date d'examen",
+        "selectCity": "Choisir la ville d'examen",
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "cities": {
+          "ottawa": "Ottawa",
+          "toronto": "Toronto",
+          "montreal": "Montréal",
+          "vancouver": "Vancouver",
+          "calgary": "Calgary"
+        }
+      }
     },
     "filter": {
       "all": "Tout"

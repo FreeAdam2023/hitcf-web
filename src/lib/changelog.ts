@@ -27,6 +27,34 @@ export const changelog: ChangelogEntry[] = [
     date: "2026-04-03",
     type: "feature",
     title: {
+      zh: "备考倒计时",
+      en: "Exam countdown",
+      fr: "Compte à rebours d'examen",
+      ar: "العد التنازلي للاختبار",
+    },
+    details: [
+      {
+        zh: "设置考试日期后，练习记录页显示倒计时、阶段提醒、考场导航",
+        en: "Set your exam date to see countdown, phase tips, and venue directions on your history page",
+        fr: "Définissez votre date d'examen pour voir le compte à rebours, les conseils et l'itinéraire",
+        ar: "حدد تاريخ اختبارك لعرض العد التنازلي والنصائح والاتجاهات",
+      },
+    ],
+  },
+  {
+    date: "2026-04-03",
+    type: "improvement",
+    title: {
+      zh: "考场信息按所在地自动排序",
+      en: "Exam centers sorted by your location",
+      fr: "Centres d'examen triés selon votre position",
+      ar: "مراكز الاختبار مرتبة حسب موقعك",
+    },
+  },
+  {
+    date: "2026-04-03",
+    type: "feature",
+    title: {
       zh: "TCF 考位实时监控上线",
       en: "TCF exam seat monitor is live",
       fr: "Surveillance des places TCF en ligne",

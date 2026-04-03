@@ -21,6 +21,7 @@ import {
   TableProperties,
   Info,
   Users,
+  ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -623,102 +624,164 @@ export function ResourcesContent() {
               </p>
 
               {(() => {
-                // Locale-based priority: show most relevant region first
-                type CenterGroup = { flag: string; title: string; fee?: string; centers: typeof CANADA_CENTERS; seatLink?: boolean };
-                const canada: CenterGroup = { flag: "🇨🇦", title: t("resources.centers.canadaTitle"), fee: "canadaFee", centers: CANADA_CENTERS, seatLink: true };
-                const france: CenterGroup = { flag: "🇫🇷", title: "France", centers: FRANCE_CENTERS };
-                const africa: CenterGroup = { flag: "🌍", title: "Afrique / Africa", centers: AFRICA_CENTERS };
-                const mideast: CenterGroup = { flag: "🌍", title: "Moyen-Orient / Middle East", centers: MIDEAST_CENTERS };
-                const asia: CenterGroup = { flag: "🌏", title: "Asia / Asie", centers: ASIA_CENTERS };
+                // Detect user's region from browser timezone
+                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+                const userRegion: "canada" | "china" | "france" | "mideast" | "asia" | "africa" | "other" =
+                  tz.startsWith("America/") && (
+                    tz.includes("Toronto") || tz.includes("Vancouver") || tz.includes("Edmonton") ||
+                    tz.includes("Winnipeg") || tz.includes("Halifax") || tz.includes("Montreal") ||
+                    tz.includes("Regina") || tz.includes("St_Johns") || tz.includes("Iqaluit") ||
+                    tz.includes("Whitehorse") || tz.includes("Yellowknife")
+                  ) ? "canada" :
+                  (tz.startsWith("Asia/Shanghai") || tz.startsWith("Asia/Hong_Kong") || tz.startsWith("Asia/Taipei") || tz.startsWith("Asia/Macau") || tz === "Asia/Chongqing") ? "china" :
+                  (tz.startsWith("Europe/Paris") || tz.startsWith("Europe/Lyon")) ? "france" :
+                  (tz.startsWith("Asia/Riyadh") || tz.startsWith("Asia/Dubai") || tz.startsWith("Asia/Baghdad") || tz.startsWith("Asia/Beirut") || tz.startsWith("Asia/Kuwait") || tz.startsWith("Asia/Qatar")) ? "mideast" :
+                  (tz.startsWith("Africa/Cairo") || tz.startsWith("Africa/Casablanca") || tz.startsWith("Africa/Algiers") || tz.startsWith("Africa/Tunis") || tz.startsWith("Africa/Dakar") || tz.startsWith("Africa/Abidjan")) ? "africa" :
+                  tz.startsWith("Asia/") ? "asia" :
+                  "other";
 
-                const groupOrder: CenterGroup[] =
-                  locale === "zh" ? [canada, asia, france, africa, mideast] :
-                  locale === "fr" ? [france, africa, canada, mideast, asia] :
-                  locale === "ar" ? [africa, mideast, france, canada, asia] :
-                  [canada, asia, france, africa, mideast];
+                type CenterGroup = { id: string; flag: string; title: string; fee?: string; centers: typeof CANADA_CENTERS; seatLink?: boolean };
+                const canada: CenterGroup = { id: "canada", flag: "🇨🇦", title: t("resources.centers.canadaTitle"), fee: "canadaFee", centers: CANADA_CENTERS, seatLink: true };
+                const france: CenterGroup = { id: "france", flag: "🇫🇷", title: "France", centers: FRANCE_CENTERS };
+                const africa: CenterGroup = { id: "africa", flag: "🌍", title: "Afrique / Africa", centers: AFRICA_CENTERS };
+                const mideast: CenterGroup = { id: "mideast", flag: "🌍", title: "Moyen-Orient / Middle East", centers: MIDEAST_CENTERS };
+                const asia: CenterGroup = { id: "asia", flag: "🌏", title: "Asia / Asie", centers: ASIA_CENTERS };
+
+                // User's region first, then others
+                const allGroups: CenterGroup[] = [canada, france, africa, mideast, asia];
+                const regionToGroup: Record<string, string> = { canada: "canada", china: "canada", france: "france", africa: "africa", mideast: "mideast", asia: "asia", other: "canada" };
+                const primaryId = regionToGroup[userRegion];
+                const sorted = [...allGroups].sort((a, b) => {
+                  if (a.id === primaryId && b.id !== primaryId) return -1;
+                  if (b.id === primaryId && a.id !== primaryId) return 1;
+                  return 0;
+                });
+
+                // China block for zh locale
+                const showChina = locale === "zh";
+                const chinaIsLocal = userRegion === "china";
+
+                // Render a center group card
+                const renderGroup = (group: CenterGroup) => (
+                  <div className="rounded-xl border overflow-hidden">
+                    <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
+                      <span className="text-base">{group.flag}</span>
+                      <h3 className="font-bold">{group.title}</h3>
+                    </div>
+                    <div className="divide-y">
+                      {group.centers.map((c) => (
+                        <div key={c.city} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold">{c.city}</span>
+                              <span className="text-muted-foreground">{c.org}</span>
+                            </div>
+                            <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                              <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.org + " " + c.address)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-foreground transition-colors">
+                                <MapPin className="h-3 w-3" />{c.address}
+                              </a>
+                              {"phone" in c && c.phone && (
+                                <a href={`tel:${c.phone}`} className="hover:text-foreground transition-colors">{c.phone}</a>
+                              )}
+                            </div>
+                          </div>
+                          <a href={c.url} target="_blank" rel="noopener noreferrer" className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5">
+                            {t("resources.centers.website")}<ExternalLink className="ml-1 inline h-3 w-3" />
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                    {group.fee && (
+                      <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground">
+                        {t.rich(`resources.centers.${group.fee}`, richB)}
+                      </div>
+                    )}
+                    {group.seatLink && (
+                      <div className="border-t px-5 py-3">
+                        <Link href="/seat-monitor" className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
+                          {t("resources.centers.seatAlerts")}<ExternalLink className="h-3.5 w-3.5" />
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                );
+
+                // Render China card
+                const renderChina = () => (
+                  <div className="rounded-xl border overflow-hidden">
+                    <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
+                      <span className="text-base">🇨🇳</span>
+                      <h3 className="font-bold">{t("resources.centers.chinaTitle")}</h3>
+                    </div>
+                    <div className="divide-y">
+                      {CHINA_CENTER_URLS.map((url, i) => {
+                        const city = t(`resources.centers.china.${i}.city`);
+                        const org = t(`resources.centers.china.${i}.org`);
+                        const note = t(`resources.centers.china.${i}.note`);
+                        return (
+                          <div key={`${city}-${i}`} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="font-semibold">{city}</span>
+                                <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(org)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
+                                  <MapPin className="h-3 w-3" />{org}
+                                </a>
+                                {note && <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">{note}</span>}
+                              </div>
+                            </div>
+                            <a href={url} target="_blank" rel="noopener noreferrer" className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5">
+                              {t("resources.centers.website")}<ExternalLink className="ml-1 inline h-3 w-3" />
+                            </a>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground">
+                      {t.rich("resources.centers.chinaFee", richB)}
+                    </div>
+                  </div>
+                );
 
                 return (
                   <div className="space-y-6">
-                    {/* China — for zh locale */}
-                    {locale === "zh" && (
-                      <div className="rounded-xl border overflow-hidden">
-                        <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
-                          <span className="text-base">🇨🇳</span>
-                          <h3 className="font-bold">{t("resources.centers.chinaTitle")}</h3>
-                        </div>
-                        <div className="divide-y">
-                          {CHINA_CENTER_URLS.map((url, i) => {
-                            const city = t(`resources.centers.china.${i}.city`);
-                            const org = t(`resources.centers.china.${i}.org`);
-                            const note = t(`resources.centers.china.${i}.note`);
-                            return (
-                              <div key={`${city}-${i}`} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
-                                <div className="min-w-0">
-                                  <div className="flex items-center gap-2 flex-wrap">
-                                    <span className="font-semibold">{city}</span>
-                                    <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(org)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
-                                      <MapPin className="h-3 w-3" />{org}
-                                    </a>
-                                    {note && <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">{note}</span>}
-                                  </div>
-                                </div>
-                                <a href={url} target="_blank" rel="noopener noreferrer" className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5">
-                                  {t("resources.centers.website")}<ExternalLink className="ml-1 inline h-3 w-3" />
-                                </a>
-                              </div>
-                            );
-                          })}
-                        </div>
-                        <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground">
-                          {t.rich("resources.centers.chinaFee", richB)}
-                        </div>
-                      </div>
-                    )}
+                    {/* China user in zh locale: China first (expanded) */}
+                    {showChina && chinaIsLocal && renderChina()}
 
-                    {/* Dynamic region groups by locale priority */}
-                    {groupOrder.map((group) => (
-                      <div key={group.title} className="rounded-xl border overflow-hidden">
-                        <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
-                          <span className="text-base">{group.flag}</span>
-                          <h3 className="font-bold">{group.title}</h3>
-                        </div>
-                        <div className="divide-y">
-                          {group.centers.map((c) => (
-                            <div key={c.city} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
-                              <div className="min-w-0">
-                                <div className="flex items-center gap-2">
-                                  <span className="font-semibold">{c.city}</span>
-                                  <span className="text-muted-foreground">{c.org}</span>
-                                </div>
-                                <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.org + " " + c.address)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-foreground transition-colors">
-                                    <MapPin className="h-3 w-3" />{c.address}
-                                  </a>
-                                  {"phone" in c && c.phone && (
-                                    <a href={`tel:${c.phone}`} className="hover:text-foreground transition-colors">{c.phone}</a>
-                                  )}
-                                </div>
-                              </div>
-                              <a href={c.url} target="_blank" rel="noopener noreferrer" className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5">
-                                {t("resources.centers.website")}<ExternalLink className="ml-1 inline h-3 w-3" />
-                              </a>
-                            </div>
-                          ))}
-                        </div>
-                        {group.fee && (
-                          <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground">
-                            {t.rich(`resources.centers.${group.fee}`, richB)}
-                          </div>
-                        )}
-                        {group.seatLink && (
-                          <div className="border-t px-5 py-3">
-                            <Link href="/seat-monitor" className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
-                              {t("resources.centers.seatAlerts")}<ExternalLink className="h-3.5 w-3.5" />
-                            </Link>
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                    {sorted.map((group, idx) => {
+                      const isLocal = group.id === primaryId;
+                      // For China users, Canada is not the "local" group
+                      const expanded = chinaIsLocal ? false : isLocal;
+
+                      if (expanded || idx === 0) {
+                        // First group or local group: show expanded
+                        return <div key={group.id}>{renderGroup(group)}</div>;
+                      }
+                      // Others: collapsed
+                      return (
+                        <details key={group.id} className="group">
+                          <summary className="flex cursor-pointer items-center gap-2 rounded-xl border bg-card px-5 py-3 text-sm font-bold hover:bg-muted/50 transition-colors list-none [&::-webkit-details-marker]:hidden">
+                            <span className="text-base">{group.flag}</span>
+                            {group.title}
+                            <span className="ml-auto text-xs font-normal text-muted-foreground">{group.centers.length} {t("resources.centers.website").includes("官") ? "个考点" : "centers"}</span>
+                            <ChevronRight className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-90" />
+                          </summary>
+                          <div className="mt-2">{renderGroup(group)}</div>
+                        </details>
+                      );
+                    })}
+
+                    {/* China card for zh locale, non-China users: collapsed */}
+                    {showChina && !chinaIsLocal && (
+                      <details className="group">
+                        <summary className="flex cursor-pointer items-center gap-2 rounded-xl border bg-card px-5 py-3 text-sm font-bold hover:bg-muted/50 transition-colors list-none [&::-webkit-details-marker]:hidden">
+                          <span className="text-base">🇨🇳</span>
+                          {t("resources.centers.chinaTitle")}
+                          <span className="ml-auto text-xs font-normal text-muted-foreground">{CHINA_CENTER_URLS.length} 个考点</span>
+                          <ChevronRight className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-90" />
+                        </summary>
+                        <div className="mt-2">{renderChina()}</div>
+                      </details>
+                    )}
 
                     {/* Global search link */}
                     <div className="rounded-lg border bg-muted/30 px-5 py-4 text-sm text-muted-foreground">

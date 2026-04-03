@@ -18,6 +18,7 @@ describe("auth API client", () => {
       ui_language: "zh",
       subscription: { plan: null, status: null },
       exam_date: null,
+      exam_city: null,
       watermark_visible: false,
       created_at: "2026-01-01T00:00:00",
       last_login_at: null,
@@ -44,6 +45,7 @@ describe("auth API client", () => {
       ui_language: "zh",
       subscription: { plan: "monthly", status: "active" },
       exam_date: "2026-06-15",
+      exam_city: "ottawa",
       watermark_visible: false,
       created_at: "2026-01-01T00:00:00",
       last_login_at: null,
@@ -77,28 +79,31 @@ describe("auth API client", () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve({ exam_date: "2026-06-15" }),
+      json: () => Promise.resolve({ exam_date: "2026-06-15", exam_city: "ottawa" }),
     });
 
-    const result = await setExamDate("2026-06-15");
+    const result = await setExamDate("2026-06-15", "ottawa");
     expect(result.exam_date).toBe("2026-06-15");
+    expect(result.exam_city).toBe("ottawa");
     const [url, opts] = mockFetch.mock.calls[0];
     expect(url).toBe("/api/user/exam-date");
     expect(opts.method).toBe("PUT");
-    expect(JSON.parse(opts.body)).toEqual({ exam_date: "2026-06-15" });
+    expect(JSON.parse(opts.body)).toEqual({ exam_date: "2026-06-15", exam_city: "ottawa" });
   });
 
   it("setExamDate calls PUT with null to clear", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: () => Promise.resolve({ exam_date: null }),
+      json: () => Promise.resolve({ exam_date: null, exam_city: null }),
     });
 
     const result = await setExamDate(null);
     expect(result.exam_date).toBeNull();
+    expect(result.exam_city).toBeNull();
     expect(JSON.parse(mockFetch.mock.calls[0][1].body)).toEqual({
       exam_date: null,
+      exam_city: null,
     });
   });
 
