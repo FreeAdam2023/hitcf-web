@@ -95,13 +95,38 @@ const CHINA_CENTER_URLS = [
 ];
 
 const CANADA_CENTERS = [
-  { city: "Toronto", org: "Alliance Française Toronto", address: "24 Spadina Rd, Toronto, ON", url: "https://www.alliance-francaise.ca/en/exams/tcf-canada" },
-  { city: "Montréal", org: "Alliance Française de Montréal", address: "1425 Blvd René-Lévesque O, Montréal, QC", url: "https://www.afmontreal.com" },
-  { city: "Vancouver", org: "Alliance Française Vancouver", address: "6161 Cambie St, Vancouver, BC", url: "https://www.afvancouver.ca" },
-  { city: "Calgary", org: "Alliance Française Calgary", address: "1520 4 St SW, Calgary, AB", url: "https://www.afcalgary.ca" },
-  { city: "Ottawa", org: "Alliance Française Ottawa", address: "352 MacLaren St, Ottawa, ON", url: "https://www.af.ca/ottawa" },
-  { city: "Halifax", org: "Alliance Française Halifax", address: "1526 Dresden Row, Halifax, NS", url: "https://www.afhalifax.ca" },
-  { city: "Edmonton", org: "Alliance Française Edmonton", address: "10507 Saskatchewan Dr, Edmonton, AB", url: "https://www.afedmonton.ca" },
+  { city: "Toronto", org: "Alliance Française Toronto", address: "24 Spadina Rd, Toronto, ON M5R 2S7", phone: "416-922-2014", url: "https://www.alliance-francaise.ca/en/exams/tests/informations-about-tcf-canada/tcf-canada" },
+  { city: "Montréal", org: "Alliance Française de Montréal", address: "1425 Blvd René-Lévesque O, Montréal, QC H3G 1T7", phone: "514-495-2632", url: "https://www.afmontreal.ca/en/tcf-2/" },
+  { city: "Vancouver", org: "Alliance Française de Vancouver", address: "6161 Cambie St, Vancouver, BC V5Z 3B2", phone: "604-327-0201", url: "https://www.alliancefrancaise.ca/products/ciep-tcf-canada-full-exam/" },
+  { city: "Calgary", org: "Alliance Française de Calgary", address: "710 10 Ave SW #101, Calgary, AB T2R 0B3", phone: "403-245-5662", url: "https://www.afcalgary.ca/exams/tcf/tcf-registrations-open/" },
+  { city: "Ottawa", org: "Alliance Française d'Ottawa", address: "352 MacLaren St, Ottawa, ON K2P 0M6", phone: "613-234-9470", url: "https://af.ca/ottawa/en/exam-type-details/?examinationTypeId=5" },
+  { city: "Halifax", org: "Alliance Française Halifax", address: "1526 Dresden Row, Halifax, NS B3J 3K3", phone: "902-421-2262", url: "https://www.afhalifax.ca" },
+  { city: "Edmonton", org: "Alliance Française d'Edmonton", address: "10507 Saskatchewan Dr, Edmonton, AB T6E 4S1", phone: "780-469-0399", url: "https://www.afedmonton.ca" },
+  { city: "Winnipeg", org: "Alliance Française du Manitoba", address: "934 Corydon Ave, Winnipeg, MB R3M 0Y7", phone: "204-477-1515", url: "https://www.afmanitoba.ca" },
+  { city: "Victoria", org: "Alliance Française de Victoria", address: "1112 Langley St #213, Victoria, BC V8W 1V8", phone: "250-385-5914", url: "https://www.afvictoria.ca" },
+  { city: "Moncton", org: "Alliance Française de Moncton", address: "140 Botsford St #27, Moncton, NB E1C 4X5", phone: "506-857-2144", url: "https://www.afmoncton.ca" },
+];
+
+const FRANCE_CENTERS = [
+  { city: "Paris", org: "France Éducation International", address: "1 Ave Léon Journault, 92310 Sèvres", phone: "+33 1 45 07 60 00", url: "https://www.france-education-international.fr/en/test/tcf-canada" },
+  { city: "Lyon", org: "Alliance Française de Lyon", address: "11 Rue Pierre Bourdan, 69003 Lyon", phone: "+33 4 78 95 24 72", url: "https://www.aflyon.org" },
+  { city: "Marseille", org: "Alliance Française de Marseille", address: "310 Rue Paradis, 13008 Marseille", phone: "+33 4 96 10 24 60", url: "https://www.afmarseille.org" },
+  { city: "Toulouse", org: "Alliance Française de Toulouse", address: "9 Place du Capitole, 31000 Toulouse", phone: "+33 5 34 45 26 10", url: "https://www.alliance-toulouse.org" },
+  { city: "Bordeaux", org: "Alliance Française de Bordeaux", address: "126 Cours Victor Hugo, 33000 Bordeaux", phone: "+33 5 56 79 32 80", url: "https://www.alliance-bordeaux.org" },
+];
+
+const AFRICA_CENTERS = [
+  { city: "Casablanca", org: "Institut Français du Maroc", address: "121 Bd Zerktouni, Casablanca", phone: "+212 5 22 77 98 70", url: "https://www.if-maroc.org/casablanca/" },
+  { city: "Rabat", org: "Institut Français de Rabat", address: "1 Rue Abou Inane, Rabat", phone: "+212 5 37 68 96 50", url: "https://www.if-maroc.org/rabat/" },
+  { city: "Alger", org: "Institut Français d'Alger", address: "7 Rue Hassani Issad, Alger", phone: "+213 21 73 78 20", url: "https://www.if-algerie.com/alger" },
+  { city: "Tunis", org: "Institut Français de Tunisie", address: "20 Av de Paris, Tunis 1000", phone: "+216 31 321 000", url: "https://www.institutfrancais-tunisie.com" },
+  { city: "Dakar", org: "Institut Français de Dakar", address: "89 Rue Joseph Gomis, Dakar", phone: "+221 33 823 03 20", url: "https://www.institutfrancais-senegal.com" },
+];
+
+const MIDEAST_CENTERS = [
+  { city: "Beirut", org: "Institut Français du Liban", address: "Rue de Damas, Beyrouth", phone: "+961 1 420 200", url: "https://www.institutfrancais-liban.com" },
+  { city: "Dubai", org: "Alliance Française de Dubai", address: "Oud Metha, Dubai", phone: "+971 4 335 8712", url: "https://www.afdubai.org" },
+  { city: "Abu Dhabi", org: "Alliance Française d'Abu Dhabi", address: "Al Bateen, Abu Dhabi", phone: "+971 2 666 6232", url: "https://www.afabudhabi.org" },
 ];
 
 /* ── component ── */
@@ -588,123 +613,113 @@ export function ResourcesContent() {
                 {t("resources.centers.subtitle")}
               </p>
 
-              <div className={`grid gap-8 ${locale === "zh" ? "lg:grid-cols-2" : ""}`}>
-                {/* China — only for zh */}
-                {locale === "zh" && (
-                  <div className="rounded-xl border overflow-hidden">
-                    <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
-                      <span className="text-base">🇨🇳</span>
-                      <h3 className="font-bold">{t("resources.centers.chinaTitle")}</h3>
-                    </div>
-                    <div className="divide-y">
-                      {CHINA_CENTER_URLS.map((url, i) => {
-                        const city = t(`resources.centers.china.${i}.city`);
-                        const org = t(`resources.centers.china.${i}.org`);
-                        const note = t(`resources.centers.china.${i}.note`);
-                        return (
-                          <div key={`${city}-${i}`} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
-                            <div className="min-w-0">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className="font-semibold">{city}</span>
-                                <a
-                                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(org)}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
-                                >
-                                  <MapPin className="h-3 w-3" />
-                                  {org}
-                                </a>
-                                {note && (
-                                  <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-                                    {note}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                            <a
-                              href={url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5"
-                            >
-                              {t("resources.centers.website")}
-                              <ExternalLink className="ml-1 inline h-3 w-3" />
-                            </a>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground space-y-1">
-                      <div>
-                        {t.rich("resources.centers.chinaFee", richB)}
-                      </div>
-                      <div>
-                        {t("resources.centers.globalSearch")}
-                        <a
-                          href="https://www.france-education-international.fr/en/tcf-all-audiences/register-session"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-medium text-primary hover:underline"
-                        >
-                          france-education-international.fr
-                          <ExternalLink className="ml-1 inline h-3 w-3" />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                )}
+              {(() => {
+                // Locale-based priority: show most relevant region first
+                type CenterGroup = { flag: string; title: string; fee?: string; centers: typeof CANADA_CENTERS; seatLink?: boolean };
+                const canada: CenterGroup = { flag: "🇨🇦", title: t("resources.centers.canadaTitle"), fee: "canadaFee", centers: CANADA_CENTERS, seatLink: true };
+                const france: CenterGroup = { flag: "🇫🇷", title: "France", centers: FRANCE_CENTERS };
+                const africa: CenterGroup = { flag: "🌍", title: "Afrique / Africa", centers: AFRICA_CENTERS };
+                const mideast: CenterGroup = { flag: "🌍", title: "Moyen-Orient / Middle East", centers: MIDEAST_CENTERS };
 
-                {/* Canada */}
-                <div className="rounded-xl border overflow-hidden">
-                  <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
-                    <span className="text-base">🇨🇦</span>
-                    <h3 className="font-bold">{t("resources.centers.canadaTitle")}</h3>
-                  </div>
-                  <div className="divide-y">
-                    {CANADA_CENTERS.map((c) => (
-                      <div key={c.city} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="font-semibold">{c.city}</span>
-                            <span className="text-muted-foreground">{c.org}</span>
-                          </div>
-                          <a
-                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.org + " " + c.address)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-1 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                          >
-                            <MapPin className="h-3 w-3" />
-                            {c.address}
-                          </a>
+                const groupOrder: CenterGroup[] =
+                  locale === "zh" ? [canada, france, africa, mideast] :
+                  locale === "fr" ? [france, africa, canada, mideast] :
+                  locale === "ar" ? [africa, mideast, france, canada] :
+                  [canada, france, africa, mideast];
+
+                return (
+                  <div className="space-y-6">
+                    {/* China — for zh locale */}
+                    {locale === "zh" && (
+                      <div className="rounded-xl border overflow-hidden">
+                        <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
+                          <span className="text-base">🇨🇳</span>
+                          <h3 className="font-bold">{t("resources.centers.chinaTitle")}</h3>
                         </div>
-                        <a
-                          href={c.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5"
-                        >
-                          {t("resources.centers.website")}
-                          <ExternalLink className="ml-1 inline h-3 w-3" />
-                        </a>
+                        <div className="divide-y">
+                          {CHINA_CENTER_URLS.map((url, i) => {
+                            const city = t(`resources.centers.china.${i}.city`);
+                            const org = t(`resources.centers.china.${i}.org`);
+                            const note = t(`resources.centers.china.${i}.note`);
+                            return (
+                              <div key={`${city}-${i}`} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="font-semibold">{city}</span>
+                                    <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(org)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
+                                      <MapPin className="h-3 w-3" />{org}
+                                    </a>
+                                    {note && <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">{note}</span>}
+                                  </div>
+                                </div>
+                                <a href={url} target="_blank" rel="noopener noreferrer" className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5">
+                                  {t("resources.centers.website")}<ExternalLink className="ml-1 inline h-3 w-3" />
+                                </a>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground">
+                          {t.rich("resources.centers.chinaFee", richB)}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Dynamic region groups by locale priority */}
+                    {groupOrder.map((group) => (
+                      <div key={group.title} className="rounded-xl border overflow-hidden">
+                        <div className="flex items-center gap-2 bg-muted/50 px-5 py-3 border-b">
+                          <span className="text-base">{group.flag}</span>
+                          <h3 className="font-bold">{group.title}</h3>
+                        </div>
+                        <div className="divide-y">
+                          {group.centers.map((c) => (
+                            <div key={c.city} className="flex items-start justify-between gap-3 px-5 py-3.5 text-sm">
+                              <div className="min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-semibold">{c.city}</span>
+                                  <span className="text-muted-foreground">{c.org}</span>
+                                </div>
+                                <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.org + " " + c.address)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-foreground transition-colors">
+                                    <MapPin className="h-3 w-3" />{c.address}
+                                  </a>
+                                  {"phone" in c && c.phone && (
+                                    <a href={`tel:${c.phone}`} className="hover:text-foreground transition-colors">{c.phone}</a>
+                                  )}
+                                </div>
+                              </div>
+                              <a href={c.url} target="_blank" rel="noopener noreferrer" className="shrink-0 rounded-md border px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/5">
+                                {t("resources.centers.website")}<ExternalLink className="ml-1 inline h-3 w-3" />
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                        {group.fee && (
+                          <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground">
+                            {t.rich(`resources.centers.${group.fee}`, richB)}
+                          </div>
+                        )}
+                        {group.seatLink && (
+                          <div className="border-t px-5 py-3">
+                            <Link href="/seat-monitor" className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
+                              {t("resources.centers.seatAlerts")}<ExternalLink className="h-3.5 w-3.5" />
+                            </Link>
+                          </div>
+                        )}
                       </div>
                     ))}
+
+                    {/* Global search link */}
+                    <div className="rounded-lg border bg-muted/30 px-5 py-4 text-sm text-muted-foreground">
+                      {t("resources.centers.globalSearch")}
+                      <a href="https://www.france-education-international.fr/en/tcf-all-audiences/register-session" target="_blank" rel="noopener noreferrer" className="ml-1 font-medium text-primary hover:underline">
+                        france-education-international.fr<ExternalLink className="ml-1 inline h-3 w-3" />
+                      </a>
+                    </div>
                   </div>
-                  <div className="border-t bg-muted/30 px-5 py-3 text-xs text-muted-foreground">
-                    {t.rich("resources.centers.canadaFee", richB)}
-                  </div>
-                  <div className="border-t px-5 py-3">
-                    <Link
-                      href="/seat-monitor"
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-                    >
-                      {t("resources.centers.seatAlerts")}
-                      <ExternalLink className="h-3.5 w-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
+                );
+              })()}
             </TabsContent>
           </Tabs>
         </div>
