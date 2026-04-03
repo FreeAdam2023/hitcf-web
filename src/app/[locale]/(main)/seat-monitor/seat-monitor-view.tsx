@@ -10,6 +10,8 @@ import {
   Loader2,
   LogIn,
   MapPin,
+  Plus,
+  Settings,
   Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -61,14 +63,10 @@ function seatBg(seats: number | null | undefined): string {
   return "bg-emerald-50 dark:bg-emerald-950/30";
 }
 
-type CenterStatusType = "available" | "sold_out" | "none" | "checking";
-
-function statusSummary(center: CenterStatus): CenterStatusType {
+function statusSummary(center: CenterStatus): "available" | "sold_out" | "none" | "checking" {
   if (center.scrape_status !== "success") return "checking";
   if (center.available_dates.length === 0) return "none";
-  const allZero = center.available_dates.every(
-    (d) => center.seats_by_date[d] === 0,
-  );
+  const allZero = center.available_dates.every((d) => center.seats_by_date[d] === 0);
   return allZero ? "sold_out" : "available";
 }
 
@@ -82,6 +80,7 @@ export function SeatMonitorView() {
   const [centers, setCenters] = useState<CenterStatus[]>([]);
   const [loading, setLoading] = useState(true);
   const [savingCities, setSavingCities] = useState<Set<string>>(new Set());
+  const [showManage, setShowManage] = useState(false);
   const [tick, setTick] = useState(0);
   const tickRef = useRef(0);
 
@@ -92,7 +91,7 @@ export function SeatMonitorView() {
       const data = await getCenters();
       setCenters(data);
     } catch {
-      // silent for guests
+      // silent
     } finally {
       setLoading(false);
     }
@@ -152,10 +151,15 @@ export function SeatMonitorView() {
     return t("hoursAgo", { hours: Math.floor(sec / 3600) });
   };
 
-  // Sort: available cities first, then the rest
-  const availableCenters = centers.filter((c) => statusSummary(c) === "available");
-  const emptyCenters = centers.filter((c) => statusSummary(c) !== "available");
-  const totalDates = availableCenters.reduce((sum, c) => sum + c.available_dates.length, 0);
+  const followedCenters = centers.filter((c) => c.is_subscribed);
+  const unfollowedCenters = centers.filter((c) => !c.is_subscribed);
+
+  // Logged in user with follows → personal view
+  // Logged in user with no follows → city picker
+  // Guest → showcase all cities
+  const isPersonalView = isAuthenticated && followedCenters.length > 0 && !showManage;
+  const isPickerView = isAuthenticated && (followedCenters.length === 0 || showManage);
+  const isGuestView = !isAuthenticated;
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
@@ -176,177 +180,231 @@ export function SeatMonitorView() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-48 w-full rounded-xl" />
+            <Skeleton key={i} className="h-40 w-full rounded-xl" />
           ))}
         </div>
-      ) : (
+      ) : isPersonalView ? (
+        /* ══════ Logged-in user: show only followed cities ══════ */
         <>
-          {/* Dynamic hero banner */}
-          {availableCenters.length > 0 ? (
+          {followedCenters.map((center) => {
+            const status = statusSummary(center);
+            return status === "available" ? (
+              <AvailableCard
+                key={center.city_code}
+                center={center}
+                isPro={isPro}
+                isSaving={savingCities.has(center.city_code)}
+                locale={locale}
+                t={t}
+                formatTimeAgo={formatTimeAgo}
+                onToggleFollow={handleToggleFollow}
+              />
+            ) : (
+              /* Followed but no seats — compact inline */
+              <div key={center.city_code} className="flex items-center justify-between rounded-lg border px-4 py-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <Bell className="h-4 w-4 text-emerald-500 shrink-0" />
+                  <div className="min-w-0">
+                    <p className="font-medium text-sm">{center.city_name}</p>
+                    <p className="text-xs text-muted-foreground">{t("noDates")}</p>
+                  </div>
+                </div>
+                {center.last_checked_at && (
+                  <span className="text-[11px] text-muted-foreground flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {formatTimeAgo(center.last_checked_at)}
+                  </span>
+                )}
+              </div>
+            );
+          })}
+
+          {/* Manage button */}
+          <div className="text-center">
+            <button
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+              onClick={() => setShowManage(true)}
+            >
+              <Settings className="h-3.5 w-3.5" />
+              {t("manageCities")}
+            </button>
+          </div>
+
+          {/* Pro upsell */}
+          {!isPro && <ProUpsell t={t} />}
+        </>
+      ) : isPickerView ? (
+        /* ══════ City picker (no follows yet, or managing) ══════ */
+        <>
+          <div className="space-y-3">
+            {showManage && (
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium">{t("manageCities")}</p>
+                <button
+                  className="text-sm text-primary hover:underline"
+                  onClick={() => setShowManage(false)}
+                >
+                  {t("done")}
+                </button>
+              </div>
+            )}
+            {!showManage && (
+              <p className="text-center text-sm text-muted-foreground">{t("pickCitiesHint")}</p>
+            )}
+            <div className="grid gap-3 sm:grid-cols-2">
+              {centers.map((center) => {
+                const status = statusSummary(center);
+                const isSaving = savingCities.has(center.city_code);
+                const hasSeats = status === "available";
+                return (
+                  <Card key={center.city_code} className={cn("overflow-hidden", hasSeats && "border-emerald-200 dark:border-emerald-800")}>
+                    <CardHeader className="p-4 pb-2">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold">{center.city_name}</h3>
+                            {hasSeats && (
+                              <Badge className="text-[10px] px-1.5 py-0 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300">
+                                {center.available_dates.length} {t("statusAvailable")}
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-xs text-muted-foreground truncate">{center.center_name}</p>
+                        </div>
+                        <button
+                          className={cn(
+                            "shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
+                            center.is_subscribed
+                              ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                              : "text-muted-foreground hover:text-primary hover:bg-muted",
+                          )}
+                          onClick={() => handleToggleFollow(center.city_code)}
+                          disabled={isSaving}
+                        >
+                          {isSaving ? (
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                          ) : center.is_subscribed ? (
+                            <>
+                              <Bell className="h-3 w-3" />
+                              {t("following")}
+                            </>
+                          ) : (
+                            <>
+                              <Plus className="h-3 w-3" />
+                              {t("follow")}
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </CardHeader>
+                    <CardFooter className="p-4 pt-1 text-[11px] text-muted-foreground">
+                      {center.address && (
+                        <a
+                          href={center.maps_url || `https://maps.google.com/?q=${encodeURIComponent(center.address)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 hover:text-primary transition-colors truncate"
+                        >
+                          <MapPin className="h-3 w-3 shrink-0" />
+                          <span className="truncate">{center.address}</span>
+                        </a>
+                      )}
+                    </CardFooter>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+
+          {showManage && (
+            <div className="text-center">
+              <Button onClick={() => setShowManage(false)}>{t("done")}</Button>
+            </div>
+          )}
+
+          {!isPro && <ProUpsell t={t} />}
+        </>
+      ) : (
+        /* ══════ Guest: showcase all cities + register CTA ══════ */
+        <>
+          {/* Hero banner if seats exist */}
+          {centers.some((c) => statusSummary(c) === "available") && (
             <div className="rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4 text-center dark:border-emerald-700 dark:bg-emerald-950/30">
               <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">
-                🎉 {availableCenters.map((c) => c.city_name).join(" · ")} {t("seatsFound")}
-              </p>
-              <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-1">
-                {t("sessionsAvailable", { count: totalDates })}
-              </p>
-            </div>
-          ) : (
-            <div className="rounded-xl border bg-muted/30 p-4 text-center">
-              <p className="text-sm text-muted-foreground">
-                {t("noDates")}。{t("monitoringSubtitle")}
+                🎉 {centers.filter((c) => statusSummary(c) === "available").map((c) => c.city_name).join(" · ")} {t("seatsFound")}
               </p>
             </div>
           )}
 
-          {/* Available city cards — full detail */}
-          {availableCenters.map((center) => (
-            <CenterCard
-              key={center.city_code}
-              center={center}
-              isPro={isPro}
-              isSaving={savingCities.has(center.city_code)}
-              locale={locale}
-              t={t}
-              formatTimeAgo={formatTimeAgo}
-              onToggleFollow={handleToggleFollow}
-            />
-          ))}
-
-          {/* Empty cities — compact */}
-          {emptyCenters.length > 0 && (
-            <div className="space-y-3">
-              {availableCenters.length > 0 && (
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider px-1">
-                  {t("statusNone")}
-                </p>
-              )}
-              <div className="grid gap-3 sm:grid-cols-2">
-                {emptyCenters.map((center) => {
-                  const status = statusSummary(center);
-                  const isSaving = savingCities.has(center.city_code);
-                  return (
-                    <Card key={center.city_code} className="overflow-hidden">
-                      <CardHeader className="p-4 pb-2">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-2">
-                              <h3 className="font-semibold">{center.city_name}</h3>
-                              {status === "sold_out" && (
-                                <Badge variant="destructive" className="text-[10px] px-1.5 py-0">{t("statusSoldOut")}</Badge>
-                              )}
-                              {status === "checking" && (
-                                <Badge variant="outline" className="text-[10px] px-1.5 py-0">{t("statusChecking")}</Badge>
-                              )}
-                            </div>
-                            <p className="text-xs text-muted-foreground truncate">{center.center_name}</p>
-                          </div>
-                          <button
-                            className={cn(
-                              "shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
-                              center.is_subscribed
-                                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-                                : "text-muted-foreground hover:text-primary hover:bg-muted",
-                            )}
-                            onClick={() => handleToggleFollow(center.city_code)}
-                            disabled={isSaving}
-                          >
-                            {isSaving ? (
-                              <Loader2 className="h-3 w-3 animate-spin" />
-                            ) : (
-                              <>
-                                <Bell className="h-3 w-3" />
-                                {center.is_subscribed ? t("following") : t("follow")}
-                              </>
-                            )}
-                          </button>
-                        </div>
-                      </CardHeader>
-                      <CardFooter className="p-4 pt-1 text-[11px] text-muted-foreground flex justify-between">
-                        {center.address ? (
-                          <a
-                            href={center.maps_url || `https://maps.google.com/?q=${encodeURIComponent(center.address)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 hover:text-primary transition-colors truncate"
-                          >
-                            <MapPin className="h-3 w-3 shrink-0" />
-                            <span className="truncate">{center.address}</span>
-                          </a>
-                        ) : (
-                          <span />
-                        )}
-                      </CardFooter>
-                    </Card>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Pro upsell for non-pro */}
-          {!isPro && (
-            <div className="rounded-xl border bg-gradient-to-r from-amber-50 to-orange-50 p-5 text-center dark:from-amber-950/20 dark:to-orange-950/20">
-              <p className="text-sm font-medium">{t("proUpsell")}</p>
-              <Link href="/pricing">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mt-3 text-amber-700 border-amber-300 hover:bg-amber-100 dark:text-amber-300 dark:border-amber-700"
-                >
-                  <Zap className="mr-1.5 h-3.5 w-3.5" />
-                  {t("upgradeNow")}
-                </Button>
-              </Link>
-            </div>
-          )}
-
-          {/* Guest register prompt */}
-          {!isAuthenticated && (
-            <div className="rounded-xl border-2 border-primary/20 bg-primary/5 p-6 text-center">
-              <p className="text-base font-medium mb-1">{t("registerToFollow")}</p>
-              <p className="text-sm text-muted-foreground mb-4">{t("registerToFollowDesc")}</p>
-              <Link href="/register">
-                <Button size="lg">
-                  <LogIn className="mr-2 h-4 w-4" />
-                  {t("registerCta")}
-                </Button>
-              </Link>
-            </div>
-          )}
-
-          {/* FAQ */}
+          {/* All cities */}
           <div className="space-y-3">
-            <h2 className="flex items-center gap-2 text-lg font-semibold">
-              <HelpCircle className="h-5 w-5 text-muted-foreground" />
-              {t("faqTitle")}
-            </h2>
-            <Accordion type="single" collapsible className="rounded-lg border">
-              {(["faq1", "faq2", "faq3", "faq4"] as const).map((key) => (
-                <AccordionItem
-                  key={key}
-                  value={key}
-                  className="border-b last:border-b-0 px-4"
-                >
-                  <AccordionTrigger className="text-sm font-medium hover:no-underline">
-                    {t(`${key}.q`)}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-sm text-muted-foreground">
-                    {t(`${key}.a`)}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            {centers.map((center) => {
+              const status = statusSummary(center);
+              return status === "available" ? (
+                <AvailableCard
+                  key={center.city_code}
+                  center={center}
+                  isPro={false}
+                  isSaving={false}
+                  locale={locale}
+                  t={t}
+                  formatTimeAgo={formatTimeAgo}
+                  onToggleFollow={handleToggleFollow}
+                />
+              ) : (
+                <div key={center.city_code} className="flex items-center justify-between rounded-lg border px-4 py-3">
+                  <div className="min-w-0">
+                    <p className="font-medium text-sm">{center.city_name}</p>
+                    <p className="text-xs text-muted-foreground">{center.center_name}</p>
+                  </div>
+                  <span className="text-xs text-muted-foreground">{t("noDates")}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Register CTA */}
+          <div className="rounded-xl border-2 border-primary/20 bg-primary/5 p-6 text-center">
+            <p className="text-base font-medium mb-1">{t("registerToFollow")}</p>
+            <p className="text-sm text-muted-foreground mb-4">{t("registerToFollowDesc")}</p>
+            <Link href="/register">
+              <Button size="lg">
+                <LogIn className="mr-2 h-4 w-4" />
+                {t("registerCta")}
+              </Button>
+            </Link>
           </div>
         </>
+      )}
+
+      {/* FAQ — always shown */}
+      {!loading && (
+        <div className="space-y-3">
+          <h2 className="flex items-center gap-2 text-lg font-semibold">
+            <HelpCircle className="h-5 w-5 text-muted-foreground" />
+            {t("faqTitle")}
+          </h2>
+          <Accordion type="single" collapsible className="rounded-lg border">
+            {(["faq1", "faq2", "faq3", "faq4"] as const).map((key) => (
+              <AccordionItem key={key} value={key} className="border-b last:border-b-0 px-4">
+                <AccordionTrigger className="text-sm font-medium hover:no-underline">
+                  {t(`${key}.q`)}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-muted-foreground">
+                  {t(`${key}.a`)}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       )}
     </div>
   );
 }
 
-/* ── Full City Card (for cities with available dates) ── */
+/* ── Available City Card ── */
 
-function CenterCard({
+function AvailableCard({
   center,
   isPro,
   isSaving,
@@ -475,5 +533,25 @@ function CenterCard({
         </div>
       </CardFooter>
     </Card>
+  );
+}
+
+/* ── Pro Upsell ── */
+
+function ProUpsell({ t }: { t: (key: string) => string }) {
+  return (
+    <div className="rounded-xl border bg-gradient-to-r from-amber-50 to-orange-50 p-5 text-center dark:from-amber-950/20 dark:to-orange-950/20">
+      <p className="text-sm font-medium">{t("proUpsell")}</p>
+      <Link href="/pricing">
+        <Button
+          variant="outline"
+          size="sm"
+          className="mt-3 text-amber-700 border-amber-300 hover:bg-amber-100 dark:text-amber-300 dark:border-amber-700"
+        >
+          <Zap className="mr-1.5 h-3.5 w-3.5" />
+          {t("upgradeNow")}
+        </Button>
+      </Link>
+    </div>
   );
 }
