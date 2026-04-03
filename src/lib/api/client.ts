@@ -83,6 +83,7 @@ async function request<T>(
   path: string,
   options: RequestInit = {},
   extra?: RequestOptions,
+  _retryCount = 0,
 ): Promise<T> {
   const timeoutMs = extra?.timeout ?? DEFAULT_TIMEOUT_MS;
   const controller = new AbortController();
@@ -161,10 +162,15 @@ async function request<T>(
       throw new ApiError(429, message);
     }
 
+    // Auto-retry once on 502/503 (deployment restart)
+    if ((res.status === 502 || res.status === 503) && _retryCount < 1) {
+      await new Promise((r) => setTimeout(r, 2000));
+      return request<T>(path, options, extra, _retryCount + 1);
+    }
+
     if (!res.ok) {
       const body = await res.json().catch(() => ({ detail: res.statusText }));
       const err = new ApiError(res.status, body.detail || res.statusText);
-      // Report unexpected errors to backend (skip auth/quota which are handled)
       if (res.status >= 500 || (res.status >= 400 && ![401, 403, 429].includes(res.status))) {
         _reportError(path, options.method || "GET", res.status, err.message);
       }
