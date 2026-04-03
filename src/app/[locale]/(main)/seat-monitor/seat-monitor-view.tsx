@@ -114,7 +114,7 @@ export function SeatMonitorView() {
 
   const handleToggleFollow = async (cityCode: string) => {
     if (!isAuthenticated) {
-      router.push("/login");
+      router.push("/register");
       return;
     }
     setSavingCities((prev) => new Set(prev).add(cityCode));
@@ -308,14 +308,15 @@ export function SeatMonitorView() {
             </div>
           )}
 
-          {/* Guest login prompt */}
+          {/* Guest register prompt */}
           {!isAuthenticated && (
-            <div className="rounded-xl border p-5 text-center">
-              <p className="text-sm text-muted-foreground mb-3">{t("loginToSubscribe")}</p>
-              <Link href="/login">
-                <Button>
+            <div className="rounded-xl border-2 border-primary/20 bg-primary/5 p-6 text-center">
+              <p className="text-base font-medium mb-1">{t("registerToFollow")}</p>
+              <p className="text-sm text-muted-foreground mb-4">{t("registerToFollowDesc")}</p>
+              <Link href="/register">
+                <Button size="lg">
                   <LogIn className="mr-2 h-4 w-4" />
-                  {t("loginCta")}
+                  {t("registerCta")}
                 </Button>
               </Link>
             </div>
