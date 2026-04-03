@@ -148,7 +148,7 @@ export function SeatMonitorView() {
     void tick;
     if (!iso) return "";
     const sec = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
-    if (sec < 60) return t("secondsAgo", { seconds: Math.max(sec, 1) });
+    if (sec < 120) return t("justNow");
     if (sec < 3600) return t("minutesAgo", { minutes: Math.floor(sec / 60) });
     return t("hoursAgo", { hours: Math.floor(sec / 3600) });
   };
@@ -193,12 +193,7 @@ export function SeatMonitorView() {
                 🎉 {availableCenters.map((c) => c.city_name).join(" · ")} {t("seatsFound")}
               </p>
               <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-1">
-                {totalDates} {t("statusAvailable")}
-                {lowestSeat !== null && lowestSeat < 10 && (
-                  <span className="text-red-600 dark:text-red-400 font-semibold animate-pulse ml-1">
-                    · {t("seatsLeft", { count: lowestSeat })}
-                  </span>
-                )}
+                {t("sessionsAvailable", { count: totalDates })}
               </p>
             </div>
           ) : (
@@ -287,12 +282,6 @@ export function SeatMonitorView() {
                           </a>
                         ) : (
                           <span />
-                        )}
-                        {center.last_checked_at && (
-                          <span className="inline-flex items-center gap-1 shrink-0 ml-2">
-                            <Clock className="h-3 w-3" />
-                            {formatTimeAgo(center.last_checked_at)}
-                          </span>
                         )}
                       </CardFooter>
                     </Card>
