@@ -2633,7 +2633,7 @@
       },
       {
         "q": "What are the benefits of Pro?",
-        "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, Anki export, and priority exam seat alerts (free users are queued). Sign up for a 7-day full-access trial, then subscribe when ready."
+        "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, Anki export, and priority exam seat alerts. Sign up for a 7-day full-access trial, then subscribe when ready."
       },
       {
         "q": "Can you guarantee I'll reach CLB 7+?",
@@ -2810,7 +2810,7 @@
     "title": "TCF Canada Seat Monitor",
     "subtitle": "Real-time monitoring of exam seat availability across Canada. Get email alerts when new dates open up.",
     "loginCta": "Log in to get alerts",
-    "proUpsell": "Paid subscribers get priority alerts. Trial and free users are queued.",
+    "proUpsell": "Exam seats are limited — paid members get notified first.",
     "upgrade": "Upgrade",
     "step1": {
       "title": "24/7 monitoring",
@@ -2822,7 +2822,7 @@
     },
     "step3": {
       "title": "You get notified",
-      "desc": "Paid subscribers get top priority — notified first. Others are queued."
+      "desc": "New seats detected? Paid members are notified first to secure their spot."
     },
     "centersTitle": "Exam Centers",
     "moreCities": "More cities coming soon. Let us know which city you need!",
@@ -2839,7 +2839,7 @@
     "editCities": "Edit cities",
     "saveCities": "Save",
     "selectCity": "Select exam cities",
-    "freeLimit": "Free users: 1 city max",
+    "freeLimit": "Follow 1 city",
     "proUnlimited": "Unlimited cities",
     "priorityNotify": "Pro members get priority alerts",
     "queueNotify": "Queued alerts",
@@ -2875,15 +2875,15 @@
     "faqTitle": "FAQ",
     "faq1": {
       "q": "Can all users see seat availability?",
-      "a": "Yes. Seat data on this page is real-time for everyone, no login required. For email alerts, paid users get priority notification first. Free users are queued. When seats are scarce, priority is the difference between booking and missing out."
+      "a": "Yes, seat data on this page is real-time for everyone, no login required. For email alerts, paid members are notified first. When seats are scarce, getting the alert sooner is often the key to securing a spot."
     },
     "faq2": {
       "q": "What's the difference between paid and free?",
-      "a": "Paid users get priority email alerts + unlimited city follows. Free users are queued for notifications + 1 city follow. Seat data on the page is visible to everyone in real-time."
+      "a": "Paid members enjoy priority email alerts and can follow unlimited cities. Everyone can view seat data on the page in real-time. Upgrade to follow more cities and get notified first."
     },
     "faq3": {
       "q": "How quickly will I be notified?",
-      "a": "Our system monitors all exam centers around the clock. When new seats appear, paid users receive priority notification first. Free users are queued."
+      "a": "Our system monitors all exam centers around the clock. When new seats appear, paid members are the first to be notified by email."
     },
     "faq4": {
       "q": "Why does a city show 'No dates available'?",
@@ -3186,7 +3186,7 @@
     "faq2q": "What can I do with the free version?",
     "faq2a": "The free version gives you access to all listening + reading test sets, with {dailyQuestions} questions and {dailyExplanations} detailed explanations per day in practice mode. Free forever.",
     "faq3q": "What are the benefits of Pro?",
-    "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, Anki export, and priority exam seat alerts (free users are queued). Sign up for a 7-day full-access trial, then subscribe when ready.",
+    "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, Anki export, and priority exam seat alerts. Sign up for a 7-day full-access trial, then subscribe when ready.",
     "faq4q": "Can you guarantee I’ll reach CLB 7+?",
     "faq4a": "No. HiTCF provides a practice environment aligned with TCF Canada to help you identify and improve weak areas. However, actual scores depend on many factors — we do not promise any exam results.",
     "faq5q": "How do I practice speaking and writing?",
