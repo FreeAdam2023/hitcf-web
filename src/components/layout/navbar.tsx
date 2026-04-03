@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import Image from "next/image";
-import { Clock, Flame } from "lucide-react";
+import { Clock } from "lucide-react";
 
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ import { useExamStore } from "@/stores/exam-store";
 import { completeAttempt } from "@/lib/api/attempts";
 import { UserMenu } from "./user-menu";
 import { NotificationBell } from "./notification-bell";
-// import { SeatIndicator } from "./seat-indicator"; // hidden until scraper verified
+import { SeatIndicator } from "./seat-indicator";
 import { cn, parseUTCms } from "@/lib/utils";
 import { localizeTestName } from "@/lib/test-name";
 import { useAuthStore } from "@/stores/auth-store";
@@ -90,12 +90,7 @@ export function Navbar() {
         </nav>
 
         <div className="ms-auto flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="h-8 w-8 hidden md:inline-flex" asChild>
-            <Link href="/checkin" aria-label={t("nav.checkin")}>
-              <Flame className="h-4 w-4" />
-            </Link>
-          </Button>
-          {/* <SeatIndicator /> — hidden until backend scraper is verified */}
+          <SeatIndicator />
           <NotificationBell />
           <UserMenu className="hidden md:inline-flex" />
         </div>
