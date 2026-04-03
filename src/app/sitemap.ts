@@ -30,15 +30,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Feature pages
     ...localizedEntries("/speaking-practice", { changeFrequency: "weekly", priority: 0.8 }),
     ...localizedEntries("/speaking-conversation", { changeFrequency: "weekly", priority: 0.8 }),
+    ...localizedEntries("/speaking-exam", { changeFrequency: "weekly", priority: 0.8 }),
+    ...localizedEntries("/speaking-scripts", { changeFrequency: "monthly", priority: 0.7 }),
+    ...localizedEntries("/writing-mock-exam", { changeFrequency: "weekly", priority: 0.8 }),
+    ...localizedEntries("/seat-monitor", { changeFrequency: "daily", priority: 0.7 }),
     ...localizedEntries("/review", { changeFrequency: "daily", priority: 0.6 }),
     ...localizedEntries("/history", { changeFrequency: "daily", priority: 0.5 }),
     // Vocabulary
     ...localizedEntries("/vocabulary", { changeFrequency: "weekly", priority: 0.8 }),
     ...localizedEntries("/vocabulary/my-saved", { changeFrequency: "daily", priority: 0.6 }),
     ...localizedEntries("/vocabulary/nihao-french", { changeFrequency: "monthly", priority: 0.7 }),
+    ...localizedEntries("/vocabulary/theme-words", { changeFrequency: "monthly", priority: 0.7 }),
+    // Reference
+    ...localizedEntries("/reference", { changeFrequency: "monthly", priority: 0.7 }),
     // Referral
     ...localizedEntries("/referral", { changeFrequency: "monthly", priority: 0.5 }),
     // Guide pages
+    ...localizedEntries("/guide", { changeFrequency: "monthly", priority: 0.7 }),
     ...localizedEntries("/guide/tcf-canada", { changeFrequency: "monthly", priority: 0.8 }),
     ...localizedEntries("/guide/clb-7", { changeFrequency: "monthly", priority: 0.8 }),
     ...localizedEntries("/guide/tcf-listening", { changeFrequency: "monthly", priority: 0.8 }),

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, LayoutGrid, Headphones, Volume2, Flag, CheckCircle2, Send } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutGrid, Headphones, Volume2, CheckCircle2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
@@ -46,7 +46,6 @@ export function ExamSession() {
   const isListening = testType === "listening";
 
   const [submitting, setSubmitting] = useState(false);
-  const [flagged, setFlagged] = useState<Set<string>>(new Set());
   // Pending selection: user clicked an option but hasn't confirmed yet
   const [pendingSelection, setPendingSelection] = useState<string | null>(null);
   // Submit exam confirmation dialog
@@ -382,28 +381,10 @@ export function ExamSession() {
 
   const currentAnswer = answers.get(question.id);
   const isLast = currentIndex === questions.length - 1;
-  const isFlagged = flagged.has(question.id);
-
-  const toggleFlag = () => {
-    setFlagged((prev) => {
-      const next = new Set(prev);
-      if (next.has(question.id)) next.delete(question.id);
-      else next.add(question.id);
-      return next;
-    });
-  };
-
   // Build a compatible answers map for QuestionNavigator (reading only)
   const navigatorAnswers = new Map<string, { is_correct?: boolean | null }>();
   answers.forEach((_ans, qid) => {
     navigatorAnswers.set(qid, { is_correct: null });
-  });
-
-  // Convert flagged question IDs → 1-based question numbers for navigator
-  const flaggedNumbers = new Set<number>();
-  flagged.forEach((qid) => {
-    const idx = questions.findIndex((q) => q.id === qid);
-    if (idx >= 0) flaggedNumbers.add(idx + 1);
   });
 
   // --- Listening layout: system-paced, no manual navigation ---
@@ -532,7 +513,7 @@ export function ExamSession() {
               questionIds={questions.map((q) => q.id)}
               onNavigate={() => {}}
               mode="exam"
-              flaggedQuestions={flaggedNumbers}
+              flaggedQuestions={new Set()}
             />
           </div>
         </div>
@@ -557,7 +538,7 @@ export function ExamSession() {
                 questionIds={questions.map((q) => q.id)}
                 onNavigate={() => {}}
                 mode="exam"
-                flaggedQuestions={flaggedNumbers}
+                flaggedQuestions={new Set()}
               />
             </div>
           </DrawerContent>
@@ -630,16 +611,6 @@ export function ExamSession() {
             {t("exam.session.prev")}
           </Button>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={toggleFlag}
-            className={isFlagged ? "border-amber-400 bg-amber-50 text-amber-600 hover:bg-amber-100 dark:bg-amber-950/30 dark:text-amber-400 dark:hover:bg-amber-950/50" : ""}
-          >
-            <Flag className="mr-1.5 h-4 w-4" />
-            {isFlagged ? t("exam.session.flagged") : t("exam.session.flag")}
-          </Button>
-
           {!isLast && (
             <Button
               variant="outline"
@@ -662,7 +633,7 @@ export function ExamSession() {
           questionIds={questions.map((q) => q.id)}
           onNavigate={goToQuestion}
           mode="exam"
-          flaggedQuestions={flaggedNumbers}
+          flaggedQuestions={new Set()}
         />
         <Button
           variant="outline"
@@ -696,7 +667,7 @@ export function ExamSession() {
               questionIds={questions.map((q) => q.id)}
               onNavigate={goToQuestion}
               mode="exam"
-              flaggedQuestions={flaggedNumbers}
+              flaggedQuestions={new Set()}
             />
             <Button
               variant="outline"

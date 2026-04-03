@@ -2654,18 +2654,18 @@
   "meta": {
     "siteTitle": "HiTCF — منصة التدريب على اختبار TCF Canada عبر الإنترنت",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "أكثر من 8,500 سؤال TCF Canada في الاستماع والقراءة والتحدث والكتابة. حقق CLB 7+.",
+    "siteDescription": "أكثر من 8,500 سؤال TCF Canada في الاستماع والقراءة والتحدث والكتابة. اختبارات محاكاة بالذكاء الاصطناعي وأدوات مفردات ومراقبة مقاعد الامتحان. حقق CLB 7+.",
     "ogTitle": "HiTCF — تدرّب لتصل إلى CLB 7+",
-    "ogDescription": "أكثر من 8,500 سؤال TCF Canada + دفتر مفردات + تصدير Anki. تدريب وبطاقات تعليمية وإملاء في مكان واحد.",
+    "ogDescription": "أكثر من 8,500 سؤال TCF Canada + اختبارات محاكاة IA + أدوات مفردات + تصدير Anki. تدريب ومحاكاة وبطاقات تعليمية وإملاء في مكان واحد.",
     "ogImageAlt": "HiTCF — منصة التدريب على اختبار TCF Canada عبر الإنترنت",
-    "keywords": "TCF Canada,CLB 7+,تدريب TCF,استماع TCF,قراءة TCF,تحضير TCF Canada,فرنسية الهجرة الكندية,اختبار TCF تجريبي,أسئلة TCF,مفردات TCF,Anki فرنسي,بطاقات فرنسية",
+    "keywords": "TCF Canada,CLB 7+,تدريب TCF,استماع TCF,قراءة TCF,تحدث TCF,كتابة TCF,تحضير TCF Canada,فرنسية الهجرة الكندية,اختبار TCF تجريبي,محاكاة TCF,أسئلة TCF,مفردات TCF,Anki فرنسي,بطاقات فرنسية,مقاعد TCF Canada",
     "home": {
       "title": "HiTCF — تدريب TCF Canada | CLB 7+",
-      "description": "أكثر من {totalQuestions} سؤال TCF Canada — استماع وقراءة وتحدث وكتابة. حقق CLB 7+."
+      "description": "أكثر من {totalQuestions} سؤال TCF Canada — استماع وقراءة وتحدث وكتابة. اختبارات محاكاة بالذكاء الاصطناعي، أدوات مفردات، دفتر أخطاء وتنبيهات مقاعد الامتحان. حقق CLB 7+."
     },
     "tests": {
-      "title": "بنك أسئلة TCF Canada · {totalQuestions}+ سؤال",
-      "description": "بنك أسئلة TCF Canada: {listeningSets} مجموعة استماع + {readingSets} قراءة + تحدث وكتابة بالذكاء الاصطناعي. A1-C2."
+      "title": "بنك أسئلة TCF Canada · {totalQuestions} سؤال",
+      "description": "بنك أسئلة TCF Canada: {listeningSets} مجموعة استماع + {readingSets} قراءة + تحدث وكتابة بالذكاء الاصطناعي. وضع الامتحان، تدريب حسب المستوى وشروحات ثلاثية اللغة. A1-C2."
     },
     "dashboard": {
       "title": "لوحة التحكم · جاهزية CLB 7+ وإحصائيات التدريب",
@@ -2754,7 +2754,7 @@
     },
     "writingMockExam": {
       "title": "اختبار الكتابة التجريبي | HiTCF",
-      "description": "محاكاة كاملة لاختبار الكتابة TCF Canada مع تصحيح بالذكاء الاصطناعي"
+      "description": "محاكاة اختبار الكتابة TCF Canada: 3 مهام (رسالة، مقال، مقال مقارن) مع مؤقت 60 دقيقة. تقييم IA على 4 أبعاد مع تصحيحات مفصّلة واقتراحات تحسين."
     },
     "guideTcfCanada": {
       "title": "ما هو TCF Canada؟ هيكل الامتحان والتقييم ومستويات NCLC",
@@ -2791,8 +2791,16 @@
       "description": "مدونة التحضير لاختبار TCF Canada: تحليل الامتحان واستراتيجيات CLB 7+ ونصائح للاستماع والقراءة والتحدث والكتابة."
     },
     "guide": {
-      "title": "Platform Guide — HiTCF",
-      "description": "HiTCF platform features and usage guide. Learn about Listening, Reading, Speaking, and Writing practice modules."
+      "title": "دليل الاستخدام — HiTCF",
+      "description": "دليل ميزات ووظائف منصة HiTCF. تعرّف على وحدات تدريب الاستماع والقراءة والتحدث والكتابة."
+    },
+    "seatMonitor": {
+      "title": "مراقبة مقاعد TCF Canada · توفر المقاعد في الوقت الفعلي",
+      "description": "مراقبة فورية لتوفر مقاعد امتحان TCF Canada في تورنتو ومونتريال وفانكوفر وكالغاري وأوتاوا. تنبيهات بالبريد الإلكتروني عند توفر مواعيد جديدة."
+    },
+    "vocabularyThemeWords": {
+      "title": "مفردات حسب الموضوع · كلمات فرنسية حسب الموضوع والمستوى",
+      "description": "مفردات فرنسية منظمة حسب الموضوع ومستوى CECR (A1-C2). مراجعة بالبطاقات وتمارين إملاء وتصدير Anki للتحضير لـ TCF Canada."
     }
   },
   "seatMonitorPage": {

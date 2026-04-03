@@ -2657,18 +2657,18 @@
   "meta": {
     "siteTitle": "HiTCF — TCF Canada Online Practice Platform",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "8,500+ TCF Canada practice questions covering listening, reading, speaking & writing. Reach CLB 7+.",
+    "siteDescription": "8,500+ TCF Canada practice questions covering listening, reading, speaking & writing. AI mock exams, vocabulary tools & exam seat monitoring. Reach CLB 7+.",
     "ogTitle": "HiTCF — Practice Your Way to CLB 7+",
-    "ogDescription": "8,500+ TCF Canada questions + vocabulary notebook + Anki export. Practice, flashcards & dictation all in one place.",
+    "ogDescription": "8,500+ TCF Canada questions + AI mock exams + vocabulary tools + Anki export. Practice, exam simulation, flashcards & dictation all in one platform.",
     "ogImageAlt": "HiTCF — TCF Canada Online Practice Platform",
-    "keywords": "TCF Canada,CLB 7+,TCF practice,TCF listening,TCF reading,TCF Canada prep,Canada immigration French,TCF online mock,TCF questions,TCF vocabulary,French Anki,French flashcards",
+    "keywords": "TCF Canada,CLB 7+,TCF practice,TCF listening,TCF reading,TCF speaking,TCF writing,TCF Canada prep,Canada immigration French,TCF online mock,TCF mock exam,TCF questions,TCF vocabulary,French Anki,French flashcards,TCF seat monitor,TCF exam dates",
     "home": {
       "title": "HiTCF — TCF Canada Practice | CLB 7+",
-      "description": "{totalQuestions}+ TCF Canada questions — listening, reading, speaking & writing. Reach CLB 7+."
+      "description": "{totalQuestions} TCF Canada questions — listening, reading, speaking & writing. AI mock exams, vocabulary tools, wrong answer review & seat alerts. Aim for CLB 7+."
     },
     "tests": {
-      "title": "TCF Canada Question Bank · {totalQuestions}+",
-      "description": "TCF Canada question bank: {listeningSets} listening + {readingSets} reading sets + AI speaking & writing. A1-C2."
+      "title": "TCF Canada Question Bank · {totalQuestions}",
+      "description": "Complete TCF Canada bank: {listeningSets} listening + {readingSets} reading sets, AI speaking & writing. Exam mode, speed drill, tri-lingual explanations & wrong answer tracking."
     },
     "dashboard": {
       "title": "My Dashboard · CLB 7+ Readiness & Practice Stats",
@@ -2761,7 +2761,7 @@
     },
     "writingMockExam": {
       "title": "Mock Writing Exam | HiTCF",
-      "description": "Full TCF Canada mock writing exam simulation with AI grading"
+      "description": "TCF Canada mock writing exam: 3 tasks (message, article, essay) with 60-min timer. AI scoring on 4 dimensions with detailed corrections and improvement tips."
     },
     "guideTcfCanada": {
       "title": "What Is TCF Canada? Exam Structure, Scoring & NCLC Levels Explained",
@@ -2800,6 +2800,10 @@
     "guide": {
       "title": "Platform Guide — HiTCF",
       "description": "HiTCF platform features and usage guide. Learn about Listening, Reading, Speaking, and Writing practice modules."
+    },
+    "vocabularyThemeWords": {
+      "title": "Theme Vocabulary · French Words by Topic & Level",
+      "description": "Browse curated French vocabulary organized by theme and CEFR level (A1-C2). Flashcard review, dictation practice & Anki export for TCF Canada preparation."
     }
   },
   "seatMonitorPage": {

@@ -2653,18 +2653,18 @@
   "meta": {
     "siteTitle": "HiTCF — TCF Canada 在线练习平台",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "8,500+ 道 TCF Canada 练习题，覆盖听力阅读口语写作，助你冲刺 CLB 7+。",
+    "siteDescription": "8,500+ 道 TCF Canada 练习题，听说读写全覆盖。AI 模拟考试、生词本、错题本、考位监控，助你冲刺 CLB 7+。",
     "ogTitle": "HiTCF — 打开就练，刷到 CLB 7+",
-    "ogDescription": "8,500+ 道 TCF Canada 练习题 + 生词本 + Anki 导出。刷题、翻卡、听写一站搞定，薄弱环节一目了然。",
+    "ogDescription": "8,500+ 道 TCF Canada 练习题 + AI 模拟考试 + 生词本 + Anki 导出。刷题、考试模拟、翻卡、听写一站搞定，薄弱环节一目了然。",
     "ogImageAlt": "HiTCF — TCF Canada 在线练习平台",
-    "keywords": "TCF Canada,CLB 7+,TCF 练习,TCF 听力,TCF 阅读,TCF Canada 备考,加拿大移民法语,TCF 在线模拟,TCF 练习题,TCF 词汇,法语 Anki,法语翻卡",
+    "keywords": "TCF Canada,CLB 7+,TCF 练习,TCF 听力,TCF 阅读,TCF 口语,TCF 写作,TCF Canada 备考,加拿大移民法语,TCF 在线模拟,TCF 模拟考试,TCF 练习题,TCF 词汇,法语 Anki,法语翻卡,TCF 考位,TCF 考位监控",
     "home": {
       "title": "HiTCF — TCF Canada 在线练习 | CLB 7+",
-      "description": "{totalQuestions} 道 TCF Canada 练习题，听说读写全覆盖，练习+考试+错题本，冲刺 CLB 7+。"
+      "description": "{totalQuestions} 道 TCF Canada 练习题，听力阅读口语写作全覆盖。AI 模拟口语写作考试、三语解析、生词本、错题本、等级刷题、考位监控，注册即享 {reverseTrialDays} 天免费体验，冲刺 CLB 7+。"
     },
     "tests": {
-      "title": "TCF Canada 题库 · {totalQuestions}+ 道练习题",
-      "description": "TCF Canada 听力阅读口语写作全真题库，{listeningSets} 套听力 + {readingSets} 套阅读 + AI 口语写作。"
+      "title": "TCF Canada 题库 · {totalQuestions} 道练习题",
+      "description": "TCF Canada 全真题库：{listeningSets} 套听力 + {readingSets} 套阅读 + AI 口语写作练习。练习模式、考试模拟、等级刷题，中法英三语解析与错题本，A1-C2 全等级覆盖。"
     },
     "dashboard": {
       "title": "我的仪表盘 · CLB 7+ 准备度与练习统计",
@@ -2672,7 +2672,7 @@
     },
     "pricing": {
       "title": "HiTCF 订阅方案 · 注册即享 7 天全功能体验",
-      "description": "免费直接练习，Pro 解锁全部题库+考试模式+错题本。注册即享 7 天全功能体验，无需信用卡。"
+      "description": "免费即可练习听力阅读，Pro 解锁全部 {totalQuestions} 道题库、考试模拟、错题本、AI 口语写作与考位提醒。注册即享 {reverseTrialDays} 天全功能体验，无需信用卡。"
     },
     "speedDrill": {
       "title": "等级练习 · 按等级和题型定向刷题",
@@ -2757,7 +2757,7 @@
     },
     "writingMockExam": {
       "title": "模拟写作考试 | HiTCF",
-      "description": "TCF Canada 全真模拟写作考试，AI智能评分"
+      "description": "TCF Canada 全真模拟写作考试：短消息、文章、对比论述 3 道任务，60 分钟计时。AI 四维评分（语法、词汇、连贯性、任务完成度），附详细纠错与改进建议。"
     },
     "guideTcfCanada": {
       "title": "TCF Canada 是什么？考试结构、评分体系与 NCLC 等级详解",
@@ -2796,6 +2796,10 @@
     "guide": {
       "title": "使用指南 — HiTCF",
       "description": "HiTCF 平台功能介绍和使用指南，了解听力、阅读、口语、写作四大练习模块。"
+    },
+    "vocabularyThemeWords": {
+      "title": "主题词汇 · 按主题和等级分类的法语词汇",
+      "description": "按主题和 CEFR 等级（A1-C2）分类的法语词汇集。支持翻卡复习、听写练习和 Anki 导出，系统性提升 TCF Canada 词汇量。"
     }
   },
   "seatMonitorPage": {

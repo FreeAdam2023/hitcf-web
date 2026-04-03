@@ -2657,18 +2657,18 @@
   "meta": {
     "siteTitle": "HiTCF — Plateforme d'entraînement en ligne TCF Canada",
     "titleTemplate": "%s | HiTCF",
-    "siteDescription": "8 500+ questions TCF Canada : écoute, lecture, oral et écrit. Atteignez le NCLC 7+.",
-    "ogTitle": "HiTCF — Entraînez-vous pour atteindre le NCLC 7",
-    "ogDescription": "Plus de 8 500+ questions TCF Canada + carnet de vocabulaire + export Anki. Entraînement, cartes mémoire et dictée en un seul endroit.",
+    "siteDescription": "8 500+ questions TCF Canada : écoute, lecture, oral et écrit. Examens simulés IA, outils de vocabulaire et suivi des places. Atteignez le NCLC 7+.",
+    "ogTitle": "HiTCF — Entraînez-vous pour atteindre le NCLC 7+",
+    "ogDescription": "8 500+ questions TCF Canada + examens simulés IA + outils de vocabulaire + export Anki. Entraînement, simulation d'examen, cartes mémoire et dictée en un seul endroit.",
     "ogImageAlt": "HiTCF — Plateforme d'entraînement en ligne TCF Canada",
-    "keywords": "TCF Canada,NCLC 7,entraînement TCF,compréhension orale TCF,compréhension écrite TCF,préparation TCF Canada,français immigration Canada,simulation TCF en ligne,questions TCF,vocabulaire TCF,Anki français,cartes mémoire français",
+    "keywords": "TCF Canada,NCLC 7,entraînement TCF,compréhension orale TCF,compréhension écrite TCF,expression orale TCF,expression écrite TCF,préparation TCF Canada,français immigration Canada,simulation TCF en ligne,examen blanc TCF,questions TCF,vocabulaire TCF,Anki français,cartes mémoire français,places TCF Canada",
     "home": {
       "title": "HiTCF — Entraînement TCF Canada | NCLC 7+",
-      "description": "{totalQuestions}+ questions TCF Canada — écoute, lecture, oral et écrit. Visez le NCLC 7+."
+      "description": "{totalQuestions} questions TCF Canada — écoute, lecture, oral et écrit. Simulations d'examen IA, outils de vocabulaire, cahier d'erreurs et alertes places. Visez le NCLC 7+."
     },
     "tests": {
-      "title": "Banque de questions TCF Canada · {totalQuestions}+",
-      "description": "Banque TCF Canada : {listeningSets} séries d'écoute + {readingSets} de lecture + oral et écrit IA. A1-C2."
+      "title": "Banque de questions TCF Canada · {totalQuestions}",
+      "description": "Banque complète TCF Canada : {listeningSets} séries d'écoute + {readingSets} de lecture, oral et écrit IA. Mode examen, pratique par niveau et explications trilingues. A1 à C2."
     },
     "dashboard": {
       "title": "Mon tableau de bord · Préparation NCLC 7 et statistiques d'entraînement",
@@ -2757,7 +2757,7 @@
     },
     "writingMockExam": {
       "title": "Examen d'écriture simulé | HiTCF",
-      "description": "Simulation complète de l'examen d'écriture TCF Canada avec correction IA"
+      "description": "Simulation de l'examen d'écriture TCF Canada : 3 tâches (message, article, essai comparatif), chronomètre 60 min. Correction IA sur 4 dimensions avec corrections détaillées."
     },
     "guideTcfCanada": {
       "title": "Qu'est-ce que le TCF Canada ? Structure, notation et niveaux NCLC",
@@ -2796,6 +2796,14 @@
     "guide": {
       "title": "Guide — HiTCF",
       "description": "Guide des fonctionnalités de la plateforme HiTCF."
+    },
+    "seatMonitor": {
+      "title": "Surveillance des places TCF Canada · Disponibilité en temps réel",
+      "description": "Surveillance en temps réel des places d'examen TCF Canada à Toronto, Montréal, Vancouver, Calgary et Ottawa. Alertes par courriel dès qu'une place se libère."
+    },
+    "vocabularyThemeWords": {
+      "title": "Vocabulaire thématique · Mots français par thème et niveau",
+      "description": "Vocabulaire français organisé par thème et niveau CECR (A1-C2). Révision par cartes mémoire, exercices de dictée et export Anki pour la préparation au TCF Canada."
     }
   },
   "seatMonitorPage": {
