@@ -2798,8 +2798,8 @@
       "description": "Guide des fonctionnalités de la plateforme HiTCF."
     },
     "seatMonitor": {
-      "title": "Surveillance des places TCF Canada · Disponibilité en temps réel",
-      "description": "Surveillance en temps réel des places d'examen TCF Canada à Toronto, Montréal, Vancouver, Calgary et Ottawa. Alertes par courriel dès qu'une place se libère."
+      "title": "Surveillance des places TCF Canada · 5 villes en temps réel",
+      "description": "Vérification automatique des places TCF Canada toutes les 15 secondes à Toronto, Montréal, Vancouver, Calgary et Ottawa. Places restantes, inscription en un clic, carte du centre et alertes par courriel."
     },
     "vocabularyThemeWords": {
       "title": "Vocabulaire thématique · Mots français par thème et niveau",

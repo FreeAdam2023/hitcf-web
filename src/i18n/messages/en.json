@@ -2756,8 +2756,8 @@
       "description": "Invite friends to HiTCF — when they subscribe, you both get 30 extra days of Pro access!"
     },
     "seatMonitor": {
-      "title": "TCF Canada Seat Monitor · Real-Time Exam Availability",
-      "description": "Monitor TCF Canada exam seat availability in Toronto, Montreal, Vancouver, Calgary & Ottawa. Get instant email alerts when new dates open up."
+      "title": "TCF Canada Seat Monitor · Real-Time Availability in 5 Cities",
+      "description": "Auto-checks TCF Canada exam seats every 15 seconds across Toronto, Montreal, Vancouver, Calgary & Ottawa. See remaining seats, one-click registration, venue maps & instant email alerts when new dates open."
     },
     "writingMockExam": {
       "title": "Mock Writing Exam | HiTCF",

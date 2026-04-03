@@ -2752,8 +2752,8 @@
       "description": "邀请好友加入 HiTCF，好友订阅后双方各获 30 天免费延期！"
     },
     "seatMonitor": {
-      "title": "TCF Canada 考位监控 · 实时查看考试空位",
-      "description": "实时监控多伦多、蒙特利尔、温哥华、卡尔加里、渥太华 TCF Canada 考位，有空位邮件提醒。"
+      "title": "TCF Canada 考位监控 · 5 大城市实时考位查询",
+      "description": "每 15 秒自动检查多伦多、蒙特利尔、温哥华、卡尔加里、渥太华 TCF Canada 考位。显示剩余席位、一键报名、考场地址地图，关注城市有新考位即时邮件通知。"
     },
     "writingMockExam": {
       "title": "模拟写作考试 | HiTCF",
