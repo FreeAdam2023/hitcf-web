@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import {
   Bell,
-  BellOff,
   Clock,
   ExternalLink,
   HelpCircle,
@@ -157,10 +156,6 @@ export function SeatMonitorView() {
   const availableCenters = centers.filter((c) => statusSummary(c) === "available");
   const emptyCenters = centers.filter((c) => statusSummary(c) !== "available");
   const totalDates = availableCenters.reduce((sum, c) => sum + c.available_dates.length, 0);
-  const minSeats = availableCenters.flatMap((c) =>
-    c.available_dates.map((d) => c.seats_by_date[d]).filter((s): s is number => s != null),
-  );
-  const lowestSeat = minSeats.length > 0 ? Math.min(...minSeats) : null;
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
@@ -246,27 +241,25 @@ export function SeatMonitorView() {
                             </div>
                             <p className="text-xs text-muted-foreground truncate">{center.center_name}</p>
                           </div>
-                          <Button
-                            variant={center.is_subscribed ? "default" : "outline"}
-                            size="sm"
-                            className="shrink-0 h-8 text-xs"
+                          <button
+                            className={cn(
+                              "shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
+                              center.is_subscribed
+                                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                                : "text-muted-foreground hover:text-primary hover:bg-muted",
+                            )}
                             onClick={() => handleToggleFollow(center.city_code)}
                             disabled={isSaving}
                           >
                             {isSaving ? (
-                              <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                            ) : center.is_subscribed ? (
-                              <>
-                                <Bell className="mr-1 h-3 w-3" />
-                                {t("following")}
-                              </>
+                              <Loader2 className="h-3 w-3 animate-spin" />
                             ) : (
                               <>
-                                <BellOff className="mr-1 h-3 w-3" />
-                                {t("follow")}
+                                <Bell className="h-3 w-3" />
+                                {center.is_subscribed ? t("following") : t("follow")}
                               </>
                             )}
-                          </Button>
+                          </button>
                         </div>
                       </CardHeader>
                       <CardFooter className="p-4 pt-1 text-[11px] text-muted-foreground flex justify-between">
@@ -395,74 +388,73 @@ function CenterCard({
               </a>
             )}
           </div>
-          <Button
-            variant={center.is_subscribed ? "default" : "outline"}
-            size="sm"
-            className="shrink-0"
+          <button
+            className={cn(
+              "shrink-0 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors",
+              center.is_subscribed
+                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                : "text-muted-foreground hover:text-primary hover:bg-muted",
+            )}
             onClick={() => onToggleFollow(center.city_code)}
             disabled={isSaving}
           >
             {isSaving ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
             ) : center.is_subscribed ? (
               <>
-                <Bell className="mr-1.5 h-3.5 w-3.5" />
+                <Bell className="h-3.5 w-3.5" />
                 {t("following")}
               </>
             ) : (
               <>
-                <BellOff className="mr-1.5 h-3.5 w-3.5" />
+                <Bell className="h-3.5 w-3.5" />
                 {t("follow")}
               </>
             )}
-          </Button>
+          </button>
         </div>
       </CardHeader>
 
       <CardContent className="pt-0">
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           {center.available_dates.map((date) => {
             const seats = center.seats_by_date[date];
             return (
               <div
                 key={date}
                 className={cn(
-                  "flex items-center justify-between gap-3 rounded-lg px-3 py-2.5",
+                  "flex items-center justify-between gap-3 rounded-lg px-3 py-2",
                   seatBg(seats),
                 )}
               >
-                <span className="text-sm font-medium">
-                  {formatExamDate(date, locale)}
-                </span>
-                <div className="flex items-center gap-3">
-                  {seats !== undefined && seats !== null && (
-                    <span
-                      className={cn(
-                        "text-sm font-semibold tabular-nums",
-                        seatColor(seats),
-                        seats > 0 && seats < 10 && "animate-pulse",
-                      )}
-                    >
-                      {t("seatsLeft", { count: seats })}
-                    </span>
-                  )}
-                  <a
-                    href={center.registration_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors whitespace-nowrap"
+                <span className="text-sm">{formatExamDate(date, locale)}</span>
+                {seats !== undefined && seats !== null && (
+                  <span
+                    className={cn(
+                      "text-sm font-semibold tabular-nums",
+                      seatColor(seats),
+                      seats > 0 && seats < 10 && "animate-pulse",
+                    )}
                   >
-                    {t("registerNow")}
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                </div>
+                    {t("seatsLeft", { count: seats })}
+                  </span>
+                )}
               </div>
             );
           })}
         </div>
+        <a
+          href={center.registration_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 flex items-center justify-center gap-2 rounded-lg border-2 border-primary bg-primary/5 px-4 py-2.5 text-sm font-semibold text-primary hover:bg-primary/10 transition-colors"
+        >
+          {t("registerNow")}
+          <ExternalLink className="h-4 w-4" />
+        </a>
       </CardContent>
 
-      <CardFooter className="pt-0 text-xs text-muted-foreground">
+      <CardFooter className="pt-2 text-xs text-muted-foreground">
         <div className="flex w-full items-center justify-between">
           <span>
             {center.is_subscribed ? (
