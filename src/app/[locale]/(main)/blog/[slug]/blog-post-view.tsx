@@ -1,6 +1,7 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
 import type { BlogMeta } from "@/lib/blog";
@@ -13,17 +14,18 @@ interface BlogPostViewProps {
 
 export function BlogPostView({ meta, children }: BlogPostViewProps) {
   const t = useTranslations("blog");
+  const router = useRouter();
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
-      {/* Back link */}
-      <Link
-        href="/blog"
+      {/* Back link — goes to previous page, not hardcoded /blog */}
+      <button
+        onClick={() => router.back()}
         className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="h-4 w-4" />
         {t("backToBlog")}
-      </Link>
+      </button>
 
       {/* Article header */}
       <header className="mt-6 border-b pb-6">

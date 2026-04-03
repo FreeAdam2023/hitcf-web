@@ -1678,7 +1678,7 @@
       "structures": "Structures de phrases",
       "exam": "Astuces d'examen"
     },
-    "backToReference": "Retour à l'aide-mémoire",
+    "backToReference": "Retour",
     "toc": "Sommaire",
     "prevTopic": "Précédent",
     "nextTopic": "Suivant",
@@ -3394,7 +3394,7 @@
     "title": "Blog",
     "subtitle": "Guides de preparation, conseils et astuces pour le TCF Canada",
     "noPosts": "Aucun article pour le moment",
-    "backToBlog": "Retour au blog",
+    "backToBlog": "Retour",
     "ctaText": "Pret a preparer le TCF Canada ? Commencez a vous entrainer sur HiTCF !",
     "ctaButton": "Commencer"
   },

@@ -1678,7 +1678,7 @@
       "structures": "Sentence Structures",
       "exam": "Exam Tips"
     },
-    "backToReference": "Back to Reference",
+    "backToReference": "Back",
     "toc": "Contents",
     "prevTopic": "Previous",
     "nextTopic": "Next",
@@ -3764,7 +3764,7 @@
     "title": "Blog",
     "subtitle": "TCF Canada study guides, exam tips, and preparation insights",
     "noPosts": "No articles yet",
-    "backToBlog": "Back to Blog",
+    "backToBlog": "Back",
     "ctaText": "Ready to prepare for TCF Canada? Start practicing on HiTCF!",
     "ctaButton": "Start Practicing"
   },

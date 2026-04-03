@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -49,6 +49,7 @@ function extractHeadings(md: string): { id: string; text: string; level: number 
 export function ReferenceDetail() {
   const t = useTranslations("reference");
   const locale = useLocale();
+  const router = useRouter();
   const params = useParams<{ slug: string }>()!;
   const [topic, setTopic] = useState<RefDetail | null>(null);
   const [allItems, setAllItems] = useState<GrammarReferenceItem[]>([]);
@@ -94,8 +95,8 @@ export function ReferenceDetail() {
     return (
       <div className="mx-auto max-w-4xl px-4 py-16 text-center">
         <p className="text-muted-foreground">Topic not found</p>
-        <Button variant="outline" className="mt-4" asChild>
-          <Link href="/reference">{t("backToReference")}</Link>
+        <Button variant="outline" className="mt-4" onClick={() => router.back()}>
+          {t("backToReference")}
         </Button>
       </div>
     );
@@ -104,13 +105,13 @@ export function ReferenceDetail() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       {/* Back link */}
-      <Link
-        href="/reference"
+      <button
+        onClick={() => router.back()}
         className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
       >
         <ArrowLeft className="h-4 w-4" />
         {t("backToReference")}
-      </Link>
+      </button>
 
       {/* Header */}
       <div className="mb-8 rounded-2xl border bg-gradient-to-br from-primary/5 via-background to-violet-500/5 dark:from-primary/10 dark:to-violet-500/10 p-6">

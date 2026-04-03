@@ -1675,7 +1675,7 @@
       "structures": "تراكيب الجمل",
       "exam": "نصائح الامتحان"
     },
-    "backToReference": "العودة إلى المرجع",
+    "backToReference": "رجوع",
     "toc": "الفهرس",
     "prevTopic": "السابق",
     "nextTopic": "التالي",
@@ -3391,7 +3391,7 @@
     "title": "المدونة",
     "subtitle": "أدلة التحضير ونصائح وحيل لاختبار TCF Canada",
     "noPosts": "لا توجد مقالات بعد",
-    "backToBlog": "العودة إلى المدونة",
+    "backToBlog": "رجوع",
     "ctaText": "هل أنت مستعد للتحضير لاختبار TCF Canada؟ ابدأ التمرين على HiTCF!",
     "ctaButton": "ابدأ التمرين"
   },

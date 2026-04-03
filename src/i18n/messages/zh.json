@@ -1678,7 +1678,7 @@
       "structures": "句型结构",
       "exam": "考试技巧"
     },
-    "backToReference": "返回速查手册",
+    "backToReference": "返回",
     "toc": "目录",
     "prevTopic": "上一个",
     "nextTopic": "下一个",
@@ -3390,7 +3390,7 @@
     "title": "博客",
     "subtitle": "TCF Canada 备考指南、考试技巧与学习心得",
     "noPosts": "暂无文章",
-    "backToBlog": "返回博客",
+    "backToBlog": "返回",
     "ctaText": "想要系统备考 TCF Canada？来 HiTCF 刷题吧！",
     "ctaButton": "开始刷题"
   },
