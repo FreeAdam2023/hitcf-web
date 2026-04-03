@@ -1196,9 +1196,9 @@ export function PracticeSession() {
           questionId={question.id}
         />
 
-        {/* Confirm button: visible when option selected but not yet submitted */}
+        {/* Confirm button: mobile only (desktop merged into nav row below) */}
         {selectedKey && !currentAnswer && (
-          <div className="flex justify-center">
+          <div className="flex justify-center lg:hidden">
             <Button
               onClick={handleConfirm}
               disabled={submitting}
@@ -1221,7 +1221,7 @@ export function PracticeSession() {
           </div>
         )}
 
-        {/* 快捷导航：选项下方，桌面端显示 */}
+        {/* 快捷导航：[上一题] [确认/完成/已复习] [下一题] 一行，桌面端显示 */}
         <div className="hidden lg:flex items-center justify-between pt-4">
           <Button
             variant="outline"
@@ -1233,7 +1233,17 @@ export function PracticeSession() {
             {t("practice.session.prev")}
           </Button>
 
-          {openBook ? (
+          {/* Center: confirm / reviewed / complete — mutually exclusive */}
+          {selectedKey && !currentAnswer ? (
+            <Button
+              size="sm"
+              onClick={handleConfirm}
+              disabled={submitting}
+              className="min-w-[140px]"
+            >
+              {submitting ? t("common.actions.submitting") : t("practice.session.confirmAnswer")}
+            </Button>
+          ) : openBook ? (
             <Button
               variant={question && reviewedIds.has(question.id) ? "default" : "outline"}
               size="sm"
@@ -1252,7 +1262,7 @@ export function PracticeSession() {
               <CheckCircle className="mr-1 h-4 w-4" />
               {completing ? t("common.actions.submitting") : t("practice.session.completePractice")}
             </Button>
-          ) : null}
+          ) : <div />}
 
           <Button
             variant="outline"
