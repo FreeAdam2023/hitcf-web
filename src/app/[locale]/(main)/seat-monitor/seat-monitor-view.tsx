@@ -1,10 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import {
   Bell,
-  Clock,
   ExternalLink,
   HelpCircle,
   Loader2,
@@ -18,6 +17,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Accordion,
   AccordionContent,
@@ -81,8 +86,6 @@ export function SeatMonitorView() {
   const [loading, setLoading] = useState(true);
   const [savingCities, setSavingCities] = useState<Set<string>>(new Set());
   const [showManage, setShowManage] = useState(false);
-  const [tick, setTick] = useState(0);
-  const tickRef = useRef(0);
 
   const isPro = isAuthenticated && hasActiveSubscription();
 
@@ -100,14 +103,7 @@ export function SeatMonitorView() {
   useEffect(() => {
     load();
     const refreshTimer = setInterval(load, 60_000);
-    const tickTimer = setInterval(() => {
-      tickRef.current += 1;
-      setTick(tickRef.current);
-    }, 10_000);
-    return () => {
-      clearInterval(refreshTimer);
-      clearInterval(tickTimer);
-    };
+    return () => clearInterval(refreshTimer);
   }, [load]);
 
   const handleToggleFollow = async (cityCode: string) => {
@@ -140,15 +136,6 @@ export function SeatMonitorView() {
         return n;
       });
     }
-  };
-
-  const formatTimeAgo = (iso: string | null): string => {
-    void tick;
-    if (!iso) return "";
-    const sec = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
-    if (sec < 120) return t("justNow");
-    if (sec < 3600) return t("minutesAgo", { minutes: Math.floor(sec / 60) });
-    return t("hoursAgo", { hours: Math.floor(sec / 3600) });
   };
 
   const followedCenters = centers
@@ -192,7 +179,6 @@ export function SeatMonitorView() {
                 isSaving={savingCities.has(center.city_code)}
                 locale={locale}
                 t={t}
-                formatTimeAgo={formatTimeAgo}
                 onToggleFollow={handleToggleFollow}
               />
             ) : (
@@ -205,12 +191,10 @@ export function SeatMonitorView() {
                     <p className="text-xs text-muted-foreground">{t("noDates")}</p>
                   </div>
                 </div>
-                {center.last_checked_at && (
-                  <span className="text-[11px] text-muted-foreground flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {formatTimeAgo(center.last_checked_at)}
-                  </span>
-                )}
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
               </div>
             );
           })}
@@ -226,98 +210,29 @@ export function SeatMonitorView() {
             </button>
           </div>
 
+          {/* Manage dialog */}
+          <ManageDialog
+            open={showManage}
+            onClose={() => setShowManage(false)}
+            centers={centers}
+            savingCities={savingCities}
+            onToggleFollow={handleToggleFollow}
+            t={t}
+          />
+
           {/* Pro upsell */}
           {!isPro && <ProUpsell t={t} />}
         </>
       ) : isPickerView ? (
-        /* ══════ City picker (no follows yet, or managing) ══════ */
+        /* ══════ City picker (no follows yet) ══════ */
         <>
-          <div className="space-y-3">
-            {showManage && (
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-medium">{t("manageCities")}</p>
-                <button
-                  className="text-sm text-primary hover:underline"
-                  onClick={() => setShowManage(false)}
-                >
-                  {t("done")}
-                </button>
-              </div>
-            )}
-            {!showManage && (
-              <p className="text-center text-sm text-muted-foreground">{t("pickCitiesHint")}</p>
-            )}
-            <div className="grid gap-3 sm:grid-cols-2">
-              {centers.map((center) => {
-                const status = statusSummary(center);
-                const isSaving = savingCities.has(center.city_code);
-                const hasSeats = status === "available";
-                return (
-                  <Card key={center.city_code} className={cn("overflow-hidden", hasSeats && "border-emerald-200 dark:border-emerald-800")}>
-                    <CardHeader className="p-4 pb-2">
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-2">
-                            <h3 className="font-semibold">{center.city_name}</h3>
-                            {hasSeats && (
-                              <Badge className="text-[10px] px-1.5 py-0 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300">
-                                {center.available_dates.length} {t("statusAvailable")}
-                              </Badge>
-                            )}
-                          </div>
-                          <p className="text-xs text-muted-foreground truncate">{center.center_name}</p>
-                        </div>
-                        <button
-                          className={cn(
-                            "shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
-                            center.is_subscribed
-                              ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-                              : "text-muted-foreground hover:text-primary hover:bg-muted",
-                          )}
-                          onClick={() => handleToggleFollow(center.city_code)}
-                          disabled={isSaving}
-                        >
-                          {isSaving ? (
-                            <Loader2 className="h-3 w-3 animate-spin" />
-                          ) : center.is_subscribed ? (
-                            <>
-                              <Bell className="h-3 w-3" />
-                              {t("following")}
-                            </>
-                          ) : (
-                            <>
-                              <Plus className="h-3 w-3" />
-                              {t("follow")}
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    </CardHeader>
-                    <CardFooter className="p-4 pt-1 text-[11px] text-muted-foreground">
-                      {center.address && (
-                        <a
-                          href={center.maps_url || `https://maps.google.com/?q=${encodeURIComponent(center.address)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 hover:text-primary transition-colors truncate"
-                        >
-                          <MapPin className="h-3 w-3 shrink-0" />
-                          <span className="truncate">{center.address}</span>
-                        </a>
-                      )}
-                    </CardFooter>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-
-          {showManage && (
-            <div className="text-center">
-              <Button onClick={() => setShowManage(false)}>{t("done")}</Button>
-            </div>
-          )}
-
+          <p className="text-center text-sm text-muted-foreground">{t("pickCitiesHint")}</p>
+          <CityGrid
+            centers={centers}
+            savingCities={savingCities}
+            onToggleFollow={handleToggleFollow}
+            t={t}
+          />
           {!isPro && <ProUpsell t={t} />}
         </>
       ) : (
@@ -343,7 +258,6 @@ export function SeatMonitorView() {
                   isSaving={false}
                   locale={locale}
                   t={t}
-                  formatTimeAgo={formatTimeAgo}
                   onToggleFollow={handleToggleFollow}
                 />
               ) : (
@@ -406,7 +320,6 @@ function AvailableCard({
   isSaving,
   locale,
   t,
-  formatTimeAgo,
   onToggleFollow,
 }: {
   center: CenterStatus;
@@ -414,7 +327,6 @@ function AvailableCard({
   locale: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: any;
-  formatTimeAgo: (iso: string | null) => string;
   onToggleFollow: (cityCode: string) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -532,15 +444,175 @@ function AvailableCard({
               </span>
             )}
           </span>
-          {center.last_checked_at && (
-            <span className="inline-flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              {formatTimeAgo(center.last_checked_at)}
-            </span>
-          )}
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+          </span>
         </div>
       </CardFooter>
     </Card>
+  );
+}
+
+/* ── Pro Upsell ── */
+
+/* ── Manage Cities Dialog ── */
+
+function ManageDialog({
+  open,
+  onClose,
+  centers,
+  savingCities,
+  onToggleFollow,
+  t,
+}: {
+  open: boolean;
+  onClose: () => void;
+  centers: CenterStatus[];
+  savingCities: Set<string>;
+  onToggleFollow: (cityCode: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: any;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle>{t("manageCities")}</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-2 py-2">
+          {centers.map((center) => {
+            const isSaving = savingCities.has(center.city_code);
+            const hasSeats = center.available_dates.length > 0;
+            return (
+              <div
+                key={center.city_code}
+                className={cn(
+                  "flex items-center justify-between rounded-lg border px-4 py-3",
+                  hasSeats && "border-emerald-200 dark:border-emerald-800",
+                )}
+              >
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium text-sm">{center.city_name}</p>
+                    {hasSeats && (
+                      <Badge className="text-[10px] px-1.5 py-0 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300">
+                        {center.available_dates.length}
+                      </Badge>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground">{center.center_name}</p>
+                </div>
+                <button
+                  className={cn(
+                    "shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
+                    center.is_subscribed
+                      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                      : "text-muted-foreground hover:text-primary hover:bg-muted",
+                  )}
+                  onClick={() => onToggleFollow(center.city_code)}
+                  disabled={isSaving}
+                >
+                  {isSaving ? (
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                  ) : center.is_subscribed ? (
+                    <>
+                      <Bell className="h-3 w-3" />
+                      {t("following")}
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="h-3 w-3" />
+                      {t("follow")}
+                    </>
+                  )}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+/* ── City Grid (for first-time picker) ── */
+
+function CityGrid({
+  centers,
+  savingCities,
+  onToggleFollow,
+  t,
+}: {
+  centers: CenterStatus[];
+  savingCities: Set<string>;
+  onToggleFollow: (cityCode: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: any;
+}) {
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      {centers.map((center) => {
+        const isSaving = savingCities.has(center.city_code);
+        const hasSeats = center.available_dates.length > 0;
+        return (
+          <Card key={center.city_code} className={cn("overflow-hidden", hasSeats && "border-emerald-200 dark:border-emerald-800")}>
+            <CardHeader className="p-4 pb-2">
+              <div className="flex items-center justify-between gap-2">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold">{center.city_name}</h3>
+                    {hasSeats && (
+                      <Badge className="text-[10px] px-1.5 py-0 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300">
+                        {center.available_dates.length} {t("statusAvailable")}
+                      </Badge>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground truncate">{center.center_name}</p>
+                </div>
+                <button
+                  className={cn(
+                    "shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
+                    center.is_subscribed
+                      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                      : "text-muted-foreground hover:text-primary hover:bg-muted",
+                  )}
+                  onClick={() => onToggleFollow(center.city_code)}
+                  disabled={isSaving}
+                >
+                  {isSaving ? (
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                  ) : center.is_subscribed ? (
+                    <>
+                      <Bell className="h-3 w-3" />
+                      {t("following")}
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="h-3 w-3" />
+                      {t("follow")}
+                    </>
+                  )}
+                </button>
+              </div>
+            </CardHeader>
+            <CardFooter className="p-4 pt-1 text-[11px] text-muted-foreground">
+              {center.address && (
+                <a
+                  href={center.maps_url || `https://maps.google.com/?q=${encodeURIComponent(center.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 hover:text-primary transition-colors truncate"
+                >
+                  <MapPin className="h-3 w-3 shrink-0" />
+                  <span className="truncate">{center.address}</span>
+                </a>
+              )}
+            </CardFooter>
+          </Card>
+        );
+      })}
+    </div>
   );
 }
 
