@@ -20,6 +20,7 @@ import {
   Navigation,
   Pencil,
   X,
+  Info,
 } from "lucide-react";
 
 import {
@@ -245,6 +246,13 @@ function CountdownHeader({ examDate, examCity, onEdit }: { examDate: string; exa
             {t("navigate")}
           </a>
         )}
+        <Link
+          href="/blog/exam-day-guide"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-muted px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
+        >
+          <Info className="h-3 w-3" />
+          {t("examDayGuide")}
+        </Link>
       </div>
 
       <div className="border-b" />
