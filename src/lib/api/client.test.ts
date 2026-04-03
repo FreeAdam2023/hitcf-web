@@ -163,9 +163,10 @@ describe("API client - error handling", () => {
   });
 
   it("should handle non-JSON error responses", async () => {
+    // Use 500 (not 502) to avoid auto-retry logic
     mockFetch.mockResolvedValueOnce({
       ok: false,
-      status: 502,
+      status: 500,
       statusText: "Bad Gateway",
       json: () => Promise.reject(new Error("not json")),
     });
@@ -174,7 +175,7 @@ describe("API client - error handling", () => {
       await get("/api/bad-gateway");
     } catch (err) {
       expect(err).toBeInstanceOf(ApiError);
-      expect((err as ApiError).status).toBe(502);
+      expect((err as ApiError).status).toBe(500);
       expect((err as ApiError).message).toBe("Bad Gateway");
     }
   });
