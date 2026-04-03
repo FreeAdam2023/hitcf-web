@@ -129,6 +129,15 @@ const MIDEAST_CENTERS = [
   { city: "Abu Dhabi", org: "Alliance Française d'Abu Dhabi", address: "Al Bateen, Abu Dhabi", phone: "+971 2 666 6232", url: "https://www.afabudhabi.org" },
 ];
 
+const ASIA_CENTERS = [
+  { city: "Manila", org: "Alliance Française de Manille", address: "209 Nicanor Garcia St, Bel-Air II, Makati City 1209", phone: "+63 2 8895 7585", url: "https://www.alliance.ph" },
+  { city: "Singapore", org: "Alliance Française de Singapour", address: "1 Sarkies Rd, Singapore 258130", phone: "+65 6737 8422", url: "https://www.alliancefrancaise.org.sg" },
+  { city: "Tokyo", org: "Alliance Française de Tokyo", address: "15 Kagurazaka, Shinjuku, Tokyo 162-0825", phone: "+81 3 5206 2500", url: "https://www.institutfrancais.jp" },
+  { city: "Seoul", org: "Alliance Française de Séoul", address: "6F, 6 Seolleung-ro 131-gil, Gangnam-gu, Seoul", phone: "+82 2 6380 0344", url: "https://www.afcoree.co.kr" },
+  { city: "Mumbai", org: "Alliance Française de Bombay", address: "40 New Marine Lines, Mumbai 400020", phone: "+91 22 2203 6187", url: "https://www.afindia.org" },
+  { city: "New Delhi", org: "Alliance Française de Delhi", address: "D-13 South Extension Part II, New Delhi 110049", phone: "+91 11 4350 6224", url: "https://www.afindia.org" },
+];
+
 /* ── component ── */
 
 export function ResourcesContent() {
@@ -620,12 +629,13 @@ export function ResourcesContent() {
                 const france: CenterGroup = { flag: "🇫🇷", title: "France", centers: FRANCE_CENTERS };
                 const africa: CenterGroup = { flag: "🌍", title: "Afrique / Africa", centers: AFRICA_CENTERS };
                 const mideast: CenterGroup = { flag: "🌍", title: "Moyen-Orient / Middle East", centers: MIDEAST_CENTERS };
+                const asia: CenterGroup = { flag: "🌏", title: "Asia / Asie", centers: ASIA_CENTERS };
 
                 const groupOrder: CenterGroup[] =
-                  locale === "zh" ? [canada, france, africa, mideast] :
-                  locale === "fr" ? [france, africa, canada, mideast] :
-                  locale === "ar" ? [africa, mideast, france, canada] :
-                  [canada, france, africa, mideast];
+                  locale === "zh" ? [canada, asia, france, africa, mideast] :
+                  locale === "fr" ? [france, africa, canada, mideast, asia] :
+                  locale === "ar" ? [africa, mideast, france, canada, asia] :
+                  [canada, asia, france, africa, mideast];
 
                 return (
                   <div className="space-y-6">
