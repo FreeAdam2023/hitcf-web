@@ -62,7 +62,9 @@ function seatBg(seats: number | null | undefined): string {
   return "bg-emerald-50 dark:bg-emerald-950/30";
 }
 
-function statusSummary(center: CenterStatus): "available" | "sold_out" | "none" | "checking" {
+type CenterStatusType = "available" | "sold_out" | "none" | "checking";
+
+function statusSummary(center: CenterStatus): CenterStatusType {
   if (center.scrape_status !== "success") return "checking";
   if (center.available_dates.length === 0) return "none";
   const allZero = center.available_dates.every(
@@ -99,9 +101,7 @@ export function SeatMonitorView() {
 
   useEffect(() => {
     load();
-    // Auto-refresh every 60s
     const refreshTimer = setInterval(load, 60_000);
-    // Tick for relative time display
     const tickTimer = setInterval(() => {
       tickRef.current += 1;
       setTick(tickRef.current);
@@ -145,7 +145,7 @@ export function SeatMonitorView() {
   };
 
   const formatTimeAgo = (iso: string | null): string => {
-    void tick; // depend on tick for reactivity
+    void tick;
     if (!iso) return "";
     const sec = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
     if (sec < 60) return t("secondsAgo", { seconds: Math.max(sec, 1) });
@@ -153,15 +153,21 @@ export function SeatMonitorView() {
     return t("hoursAgo", { hours: Math.floor(sec / 3600) });
   };
 
+  // Sort: available cities first, then the rest
+  const availableCenters = centers.filter((c) => statusSummary(c) === "available");
+  const emptyCenters = centers.filter((c) => statusSummary(c) !== "available");
+  const totalDates = availableCenters.reduce((sum, c) => sum + c.available_dates.length, 0);
+  const minSeats = availableCenters.flatMap((c) =>
+    c.available_dates.map((d) => c.seats_by_date[d]).filter((s): s is number => s != null),
+  );
+  const lowestSeat = minSeats.length > 0 ? Math.min(...minSeats) : null;
+
   return (
     <div className="mx-auto max-w-3xl space-y-8">
       {/* Header */}
       <div className="text-center space-y-2">
         <h1 className="text-2xl font-bold sm:text-3xl flex items-center justify-center gap-2">
           {t("title")}
-          <Badge variant="outline" className="text-xs font-normal text-blue-600 border-blue-300">
-            Beta
-          </Badge>
           {!loading && (
             <span className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -180,164 +186,127 @@ export function SeatMonitorView() {
         </div>
       ) : (
         <>
-          {/* City Cards */}
-          <div className="space-y-4">
-            {centers.map((center) => {
-              const status = statusSummary(center);
-              const isSaving = savingCities.has(center.city_code);
+          {/* Dynamic hero banner */}
+          {availableCenters.length > 0 ? (
+            <div className="rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4 text-center dark:border-emerald-700 dark:bg-emerald-950/30">
+              <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">
+                🎉 {availableCenters.map((c) => c.city_name).join(" · ")} {t("seatsFound")}
+              </p>
+              <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-1">
+                {totalDates} {t("statusAvailable")}
+                {lowestSeat !== null && lowestSeat < 10 && (
+                  <span className="text-red-600 dark:text-red-400 font-semibold animate-pulse ml-1">
+                    · {t("seatsLeft", { count: lowestSeat })}
+                  </span>
+                )}
+              </p>
+            </div>
+          ) : (
+            <div className="rounded-xl border bg-muted/30 p-4 text-center">
+              <p className="text-sm text-muted-foreground">
+                {t("noDates")}。{t("monitoringSubtitle")}
+              </p>
+            </div>
+          )}
 
-              return (
-                <Card key={center.city_code} className="overflow-hidden">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-2">
-                          <h2 className="text-lg font-bold">{center.city_name}</h2>
-                          {status === "available" && (
-                            <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800">
-                              {t("statusAvailable")}
-                            </Badge>
-                          )}
-                          {status === "sold_out" && (
-                            <Badge variant="destructive">{t("statusSoldOut")}</Badge>
-                          )}
-                          {status === "none" && (
-                            <Badge variant="secondary">{t("statusNone")}</Badge>
-                          )}
-                          {status === "checking" && (
-                            <Badge variant="outline">{t("statusChecking")}</Badge>
-                          )}
+          {/* Available city cards — full detail */}
+          {availableCenters.map((center) => (
+            <CenterCard
+              key={center.city_code}
+              center={center}
+              status="available"
+              isPro={isPro}
+              isSaving={savingCities.has(center.city_code)}
+              locale={locale}
+              t={t}
+              formatTimeAgo={formatTimeAgo}
+              onToggleFollow={handleToggleFollow}
+            />
+          ))}
+
+          {/* Empty cities — compact */}
+          {emptyCenters.length > 0 && (
+            <div className="space-y-3">
+              {availableCenters.length > 0 && (
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider px-1">
+                  {t("statusNone")}
+                </p>
+              )}
+              <div className="grid gap-3 sm:grid-cols-2">
+                {emptyCenters.map((center) => {
+                  const status = statusSummary(center);
+                  const isSaving = savingCities.has(center.city_code);
+                  return (
+                    <Card key={center.city_code} className="overflow-hidden">
+                      <CardHeader className="p-4 pb-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-semibold">{center.city_name}</h3>
+                              {status === "sold_out" && (
+                                <Badge variant="destructive" className="text-[10px] px-1.5 py-0">{t("statusSoldOut")}</Badge>
+                              )}
+                              {status === "checking" && (
+                                <Badge variant="outline" className="text-[10px] px-1.5 py-0">{t("statusChecking")}</Badge>
+                              )}
+                            </div>
+                            <p className="text-xs text-muted-foreground truncate">{center.center_name}</p>
+                          </div>
+                          <Button
+                            variant={center.is_subscribed ? "default" : "outline"}
+                            size="sm"
+                            className="shrink-0 h-8 text-xs"
+                            onClick={() => handleToggleFollow(center.city_code)}
+                            disabled={isSaving}
+                          >
+                            {isSaving ? (
+                              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                            ) : center.is_subscribed ? (
+                              <>
+                                <Bell className="mr-1 h-3 w-3" />
+                                {t("following")}
+                              </>
+                            ) : (
+                              <>
+                                <BellOff className="mr-1 h-3 w-3" />
+                                {t("follow")}
+                              </>
+                            )}
+                          </Button>
                         </div>
-                        <p className="text-sm text-muted-foreground mt-0.5">
-                          {center.center_name}
-                        </p>
-                        {center.address && (
+                      </CardHeader>
+                      <CardFooter className="p-4 pt-1 text-[11px] text-muted-foreground flex justify-between">
+                        {center.address ? (
                           <a
                             href={center.maps_url || `https://maps.google.com/?q=${encodeURIComponent(center.address)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary mt-1 transition-colors"
+                            className="inline-flex items-center gap-1 hover:text-primary transition-colors truncate"
                           >
                             <MapPin className="h-3 w-3 shrink-0" />
-                            {center.address}
+                            <span className="truncate">{center.address}</span>
                           </a>
-                        )}
-                      </div>
-                      {/* Follow button */}
-                      <Button
-                        variant={center.is_subscribed ? "default" : "outline"}
-                        size="sm"
-                        className={cn(
-                          "shrink-0",
-                          center.is_subscribed && "bg-primary",
-                        )}
-                        onClick={() => handleToggleFollow(center.city_code)}
-                        disabled={isSaving}
-                      >
-                        {isSaving ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : center.is_subscribed ? (
-                          <>
-                            <Bell className="mr-1.5 h-3.5 w-3.5" />
-                            {t("following")}
-                          </>
                         ) : (
-                          <>
-                            <BellOff className="mr-1.5 h-3.5 w-3.5" />
-                            {t("follow")}
-                          </>
+                          <span />
                         )}
-                      </Button>
-                    </div>
-                  </CardHeader>
-
-                  <CardContent className="pt-0">
-                    {center.available_dates.length > 0 ? (
-                      <div className="space-y-2">
-                        {center.available_dates.map((date) => {
-                          const seats = center.seats_by_date[date];
-                          return (
-                            <div
-                              key={date}
-                              className={cn(
-                                "flex items-center justify-between gap-3 rounded-lg px-3 py-2.5",
-                                seatBg(seats),
-                              )}
-                            >
-                              <span className="text-sm font-medium">
-                                {formatExamDate(date, locale)}
-                              </span>
-                              <div className="flex items-center gap-3">
-                                {seats !== undefined && seats !== null && (
-                                  <span
-                                    className={cn(
-                                      "text-sm font-semibold tabular-nums",
-                                      seatColor(seats),
-                                      seats > 0 && seats < 10 && "animate-pulse",
-                                    )}
-                                  >
-                                    {t("seatsLeft", { count: seats })}
-                                  </span>
-                                )}
-                                <a
-                                  href={center.registration_url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors whitespace-nowrap"
-                                >
-                                  {t("registerNow")}
-                                  <ExternalLink className="h-3 w-3" />
-                                </a>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <p className="py-6 text-center text-sm text-muted-foreground">
-                        {t("noDates")}
-                      </p>
-                    )}
-                  </CardContent>
-
-                  <CardFooter className="pt-0 text-xs text-muted-foreground">
-                    <div className="flex w-full items-center justify-between">
-                      <span>
-                        {center.is_subscribed ? (
-                          <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
-                            <Bell className="h-3 w-3" />
-                            {isPro ? t("priorityNotify") : t("queueNotify")}
-                          </span>
-                        ) : (
-                          <span className="text-muted-foreground/60">
-                            {t("monitoringSubtitle")}
+                        {center.last_checked_at && (
+                          <span className="inline-flex items-center gap-1 shrink-0 ml-2">
+                            <Clock className="h-3 w-3" />
+                            {formatTimeAgo(center.last_checked_at)}
                           </span>
                         )}
-                      </span>
-                      {center.last_checked_at && (
-                        <span className="inline-flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {formatTimeAgo(center.last_checked_at)}
-                        </span>
-                      )}
-                    </div>
-                  </CardFooter>
-                </Card>
-              );
-            })}
-          </div>
-
-          {/* Coming soon */}
-          <p className="text-center text-sm text-muted-foreground">
-            {t("moreCities")}
-          </p>
+                      </CardFooter>
+                    </Card>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Pro upsell for non-pro */}
           {!isPro && (
             <div className="rounded-xl border bg-gradient-to-r from-amber-50 to-orange-50 p-5 text-center dark:from-amber-950/20 dark:to-orange-950/20">
-              <p className="text-sm font-medium">
-                {t("proUpsell")}
-              </p>
+              <p className="text-sm font-medium">{t("proUpsell")}</p>
               <Link href="/pricing">
                 <Button
                   variant="outline"
@@ -354,9 +323,7 @@ export function SeatMonitorView() {
           {/* Guest login prompt */}
           {!isAuthenticated && (
             <div className="rounded-xl border p-5 text-center">
-              <p className="text-sm text-muted-foreground mb-3">
-                {t("loginToSubscribe")}
-              </p>
+              <p className="text-sm text-muted-foreground mb-3">{t("loginToSubscribe")}</p>
               <Link href="/login">
                 <Button>
                   <LogIn className="mr-2 h-4 w-4" />
@@ -392,5 +359,142 @@ export function SeatMonitorView() {
         </>
       )}
     </div>
+  );
+}
+
+/* ── Full City Card (for cities with available dates) ── */
+
+function CenterCard({
+  center,
+  status,
+  isPro,
+  isSaving,
+  locale,
+  t,
+  formatTimeAgo,
+  onToggleFollow,
+}: {
+  center: CenterStatus;
+  status: CenterStatusType;
+  isPro: boolean;
+  isSaving: boolean;
+  locale: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: any;
+  formatTimeAgo: (iso: string | null) => string;
+  onToggleFollow: (cityCode: string) => void;
+}) {
+  return (
+    <Card className="overflow-hidden border-2 border-emerald-200 dark:border-emerald-800">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold">{center.city_name}</h2>
+              <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800">
+                {t("statusAvailable")}
+              </Badge>
+            </div>
+            <p className="text-sm text-muted-foreground mt-0.5">{center.center_name}</p>
+            {center.address && (
+              <a
+                href={center.maps_url || `https://maps.google.com/?q=${encodeURIComponent(center.address)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary mt-1 transition-colors"
+              >
+                <MapPin className="h-3 w-3 shrink-0" />
+                {center.address}
+              </a>
+            )}
+          </div>
+          <Button
+            variant={center.is_subscribed ? "default" : "outline"}
+            size="sm"
+            className="shrink-0"
+            onClick={() => onToggleFollow(center.city_code)}
+            disabled={isSaving}
+          >
+            {isSaving ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : center.is_subscribed ? (
+              <>
+                <Bell className="mr-1.5 h-3.5 w-3.5" />
+                {t("following")}
+              </>
+            ) : (
+              <>
+                <BellOff className="mr-1.5 h-3.5 w-3.5" />
+                {t("follow")}
+              </>
+            )}
+          </Button>
+        </div>
+      </CardHeader>
+
+      <CardContent className="pt-0">
+        <div className="space-y-2">
+          {center.available_dates.map((date) => {
+            const seats = center.seats_by_date[date];
+            return (
+              <div
+                key={date}
+                className={cn(
+                  "flex items-center justify-between gap-3 rounded-lg px-3 py-2.5",
+                  seatBg(seats),
+                )}
+              >
+                <span className="text-sm font-medium">
+                  {formatExamDate(date, locale)}
+                </span>
+                <div className="flex items-center gap-3">
+                  {seats !== undefined && seats !== null && (
+                    <span
+                      className={cn(
+                        "text-sm font-semibold tabular-nums",
+                        seatColor(seats),
+                        seats > 0 && seats < 10 && "animate-pulse",
+                      )}
+                    >
+                      {t("seatsLeft", { count: seats })}
+                    </span>
+                  )}
+                  <a
+                    href={center.registration_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors whitespace-nowrap"
+                  >
+                    {t("registerNow")}
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </CardContent>
+
+      <CardFooter className="pt-0 text-xs text-muted-foreground">
+        <div className="flex w-full items-center justify-between">
+          <span>
+            {center.is_subscribed ? (
+              <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+                <Bell className="h-3 w-3" />
+                {isPro ? t("priorityNotify") : t("queueNotify")}
+              </span>
+            ) : (
+              <span className="text-muted-foreground/60">{t("monitoringSubtitle")}</span>
+            )}
+          </span>
+          {center.last_checked_at && (
+            <span className="inline-flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              {formatTimeAgo(center.last_checked_at)}
+            </span>
+          )}
+        </div>
+      </CardFooter>
+    </Card>
   );
 }
