@@ -2874,20 +2874,20 @@
     "upgradeNow": "Upgrade for priority alerts",
     "faqTitle": "FAQ",
     "faq1": {
-      "q": "Do trial users get real-time alerts?",
-      "a": "No. Priority alerts are exclusively for paid subscribers (monthly/quarterly/semiannual). Trial and free users are notified later. When seats are scarce, the delay can mean the difference between booking and missing out."
+      "q": "Can all users see seat availability?",
+      "a": "Yes. Seat data on this page is real-time for everyone, no login required. The difference is email alerts: paid users get notified instantly, free users get a 30-minute delay. When seats are scarce, 30 minutes is the difference between booking and missing out."
     },
     "faq2": {
-      "q": "Can I bypass the delay with multiple accounts?",
-      "a": "No. Priority alerts require an active paid subscription with a verified payment record (Stripe). Multiple free accounts are still delayed."
+      "q": "What's the difference between paid and free?",
+      "a": "Paid users get instant email alerts + unlimited city follows. Free users get 30-minute delayed emails + 1 city follow. Seat data on the page is visible to everyone in real-time."
     },
     "faq3": {
-      "q": "How quickly will I be notified?",
-      "a": "Our system monitors all exam centers around the clock. When new seats appear, paid subscribers are notified immediately. Free and trial users are notified shortly after (if seats remain)."
+      "q": "How often does the system check?",
+      "a": "Every 15 seconds, around the clock. When new seats are detected, paid users are emailed immediately. Free users are emailed 30 minutes later."
     },
     "faq4": {
       "q": "Why does a city show 'No dates available'?",
-      "a": "Either the center hasn't opened registration, or our scraper is still being tuned (Beta). We recommend subscribing to multiple cities to maximize your chances (paid users get unlimited cities)."
+      "a": "The exam center currently has no open registration. Follow the city to get an email alert as soon as new dates appear. We recommend following multiple cities to maximize your chances (paid users get unlimited)."
     }
   },
   "referralPage": {
