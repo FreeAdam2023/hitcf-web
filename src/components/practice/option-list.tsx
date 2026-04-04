@@ -134,7 +134,6 @@ export function OptionList({
               if (sel && sel.toString().trim().length > 0) return;
               if (!locked && !disabled) onSelect(opt.key);
             }}
-            disabled={disabled}
             aria-disabled={locked || disabled}
           >
             <span
