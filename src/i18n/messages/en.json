@@ -1018,7 +1018,7 @@
     },
     "continuePractice": "Continue Practice",
     "unlockAll": "AI Speaking + Writing, Unlimited Listening & Reading",
-    "semiannualDeal": "Seat monitoring · Priority alerts · From ${semiannualPerMonth}/mo",
+    "semiannualDeal": "Seat monitoring · Express alerts · From ${semiannualPerMonth}/mo",
     "upgradePro": "Upgrade to Pro",
     "profile": {
       "title": "Profile",
@@ -2664,7 +2664,7 @@
       },
       {
         "q": "What are the benefits of Pro?",
-        "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, Anki export, and priority exam seat alerts. Sign up for a 7-day Pro trial, then subscribe when ready."
+        "a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer book, speed drill, vocabulary book, flashcard review, dictation practice, Anki export, and express exam seat alerts. Sign up for a 7-day Pro trial, then subscribe when ready."
       },
       {
         "q": "Can you guarantee I'll reach CLB 7+?",
@@ -2788,7 +2788,7 @@
     },
     "seatMonitor": {
       "title": "TCF Canada Seat Monitor · Real-Time Availability in 5 Cities",
-      "description": "Real-time TCF Canada exam seat monitoring across Toronto, Montreal, Vancouver, Calgary & Ottawa. See remaining seats, one-click registration, venue maps & priority email alerts when new dates open."
+      "description": "Real-time TCF Canada exam seat monitoring across Toronto, Montreal, Vancouver, Calgary & Ottawa. See remaining seats, one-click registration, venue maps & express email alerts when new dates open."
     },
     "writingMockExam": {
       "title": "Mock Writing Exam | HiTCF",
@@ -2841,7 +2841,7 @@
     "title": "TCF Canada Seat Monitor",
     "subtitle": "Real-time monitoring of exam seat availability across Canada. Get email alerts when new dates open up.",
     "loginCta": "Log in to get alerts",
-    "proUpsell": "Exam seats are limited — paid members get notified first.",
+    "proUpsell": "Exam seats are limited — Pro members get express email alerts.",
     "upgrade": "Upgrade",
     "step1": {
       "title": "24/7 monitoring",
@@ -2853,7 +2853,7 @@
     },
     "step3": {
       "title": "You get notified",
-      "desc": "New seats detected? Paid members are notified first to secure their spot."
+      "desc": "New seats detected? Pro members get express email alerts to secure their spot."
     },
     "centersTitle": "Exam Centers",
     "moreCities": "More cities coming soon. Let us know which city you need!",
@@ -2872,11 +2872,11 @@
     "selectCity": "Select exam cities",
     "freeLimit": "Follow 1 city",
     "proUnlimited": "Unlimited cities",
-    "priorityNotify": "Pro members get priority alerts",
-    "queueNotify": "Queued alerts",
+    "priorityNotify": "Pro members get express email alerts",
+    "queueNotify": "Email alerts",
     "lastChecked": "Last checked: {time} ago",
-    "realtime": "Priority",
-    "delayed": "Queued",
+    "realtime": "Express",
+    "delayed": "Standard",
     "subscribed": "Following",
     "unsubscribed": "Unfollowed",
     "error": "Operation failed",
@@ -2907,24 +2907,24 @@
     "upgradeToSubscribe": "Upgrade to Pro",
     "compareFree": "Free / Trial",
     "comparePro": "Paid",
-    "compareDelay": "Priority",
-    "compareDelay30": "Queued",
-    "compareDelayInstant": "Top priority",
+    "compareDelay": "Alert speed",
+    "compareDelay30": "Standard",
+    "compareDelayInstant": "Express",
     "compareCities": "Cities",
     "compareUnlimited": "Unlimited",
-    "upgradeNow": "Upgrade for priority alerts",
+    "upgradeNow": "Upgrade for express alerts",
     "faqTitle": "FAQ",
     "faq1": {
       "q": "Can all users see seat availability?",
-      "a": "Yes, seat data on this page is real-time for everyone, no login required. For email alerts, paid members are notified first. When seats are scarce, getting the alert sooner is often the key to securing a spot."
+      "a": "Yes, seat data on this page is real-time for everyone, no login required. Follow a city to get email alerts when new seats open up. Pro members enjoy express delivery."
     },
     "faq2": {
       "q": "What's the difference between paid and free?",
-      "a": "Paid members enjoy priority email alerts and can follow unlimited cities. Everyone can view seat data on the page in real-time. Upgrade to follow more cities and get notified first."
+      "a": "Pro members enjoy express email alerts and can follow unlimited cities. Everyone can view seat data on the page in real-time."
     },
     "faq3": {
       "q": "How quickly will I be notified?",
-      "a": "Our system monitors all exam centers around the clock. When new seats appear, all followers receive an email notification. Paid members are notified first to secure their spot."
+      "a": "Our system monitors all exam centers around the clock. When new seats appear, all followers receive an email notification. Pro members get express delivery."
     },
     "faq4": {
       "q": "Why does a city show 'No dates available'?",
@@ -3227,7 +3227,7 @@
     "faq2q": "What can I do with the free version?",
     "faq2a": "The free version gives you access to all listening + reading test sets, with {dailyQuestions} questions and {dailyExplanations} detailed explanations per day in practice mode. Free forever.",
     "faq3q": "What are the benefits of Pro?",
-    "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, Anki export, and priority exam seat alerts. Sign up for a 7-day Pro trial, then subscribe when ready.",
+    "faq3a": "Unlock all 8,500+ questions (1,200+ sets), including exam mode, wrong answer notebook, speed drill, vocabulary tools, flashcard review, dictation, Anki export, and express exam seat alerts. Sign up for a 7-day Pro trial, then subscribe when ready.",
     "faq4q": "Can you guarantee I’ll reach CLB 7+?",
     "faq4a": "No. HiTCF provides a practice environment aligned with TCF Canada to help you identify and improve weak areas. However, actual scores depend on many factors — we do not promise any exam results.",
     "faq5q": "How do I practice speaking and writing?",

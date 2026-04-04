@@ -1027,7 +1027,7 @@
     },
     "continuePractice": "Continuer la pratique",
     "unlockAll": "Oral IA + Correction écrite, Écoute et lecture illimitées",
-    "semiannualDeal": "Surveillance des places · Alertes prioritaires · Dès ${semiannualPerMonth}/mois",
+    "semiannualDeal": "Surveillance des places · Alertes express · Dès ${semiannualPerMonth}/mois",
     "upgradePro": "Passer à Pro",
     "profile": {
       "title": "Profil",
@@ -2830,7 +2830,7 @@
     },
     "seatMonitor": {
       "title": "Surveillance des places TCF Canada · 5 villes en temps réel",
-      "description": "Surveillance en temps réel des places TCF Canada à Toronto, Montréal, Vancouver, Calgary et Ottawa. Places restantes, inscription en un clic, carte du centre et alertes prioritaires par courriel."
+      "description": "Surveillance en temps réel des places TCF Canada à Toronto, Montréal, Vancouver, Calgary et Ottawa. Places restantes, inscription en un clic, carte du centre et alertes express par courriel."
     },
     "vocabularyThemeWords": {
       "title": "Vocabulaire thématique · Mots français par thème et niveau",
@@ -2841,7 +2841,7 @@
     "title": "Surveillance des places TCF Canada",
     "subtitle": "Surveillance en temps réel de la disponibilité des places d'examen à travers le Canada. Recevez des alertes par courriel lorsque de nouvelles dates s'ouvrent.",
     "loginCta": "Connectez-vous pour recevoir des alertes",
-    "proUpsell": "Les places sont limitées — les membres payants sont notifiés en premier.",
+    "proUpsell": "Les places sont limitées — les membres Pro bénéficient d'alertes express.",
     "upgrade": "Passer à Pro",
     "step1": {
       "title": "Surveillance 24h/24",
@@ -2853,7 +2853,7 @@
     },
     "step3": {
       "title": "Vous êtes notifié",
-      "desc": "Nouvelles places détectées ? Les membres payants sont notifiés en premier."
+      "desc": "Nouvelles places détectées ? Les membres Pro reçoivent des alertes express."
     },
     "centersTitle": "Centres d'examen",
     "moreCities": "D'autres villes seront disponibles prochainement. Dites-nous laquelle vous intéresse !",
@@ -2872,11 +2872,11 @@
     "selectCity": "Choisissez vos villes d'examen",
     "freeLimit": "Gratuit : 1 ville max",
     "proUnlimited": "Villes illimitées",
-    "priorityNotify": "Alertes prioritaires pour les abonnés",
-    "queueNotify": "Alertes en file d'attente",
+    "priorityNotify": "Alertes express pour les membres Pro",
+    "queueNotify": "Alertes par courriel",
     "lastChecked": "Dernière vérification : il y a {time}",
-    "realtime": "Prioritaire",
-    "delayed": "En attente",
+    "realtime": "Express",
+    "delayed": "Standard",
     "subscribed": "Suivi activé",
     "unsubscribed": "Suivi désactivé",
     "error": "Opération échouée",
@@ -2907,24 +2907,24 @@
     "upgradeToSubscribe": "Passer à Pro",
     "compareFree": "Gratuit / Essai",
     "comparePro": "Payant",
-    "compareDelay": "Priorité",
-    "compareDelay30": "En attente",
-    "compareDelayInstant": "Priorité maximale",
+    "compareDelay": "Vitesse d'alerte",
+    "compareDelay30": "Standard",
+    "compareDelayInstant": "Express",
     "compareCities": "Villes",
     "compareUnlimited": "Illimité",
-    "upgradeNow": "Passez à Pro pour des alertes prioritaires",
+    "upgradeNow": "Passez à Pro pour des alertes express",
     "faqTitle": "FAQ",
     "faq1": {
       "q": "Tous les utilisateurs peuvent-ils voir les places disponibles ?",
-      "a": "Oui, les données sur cette page sont en temps réel pour tous, sans connexion requise. Pour les alertes par courriel, les membres payants sont notifiés en premier. Quand les places sont rares, recevoir l'alerte plus vite est souvent la clé pour décrocher une place."
+      "a": "Oui, les données sur cette page sont en temps réel pour tous, sans connexion requise. Suivez une ville pour recevoir des alertes par courriel. Les membres Pro bénéficient d'alertes express."
     },
     "faq2": {
       "q": "Quelle est la différence entre payant et gratuit ?",
-      "a": "Les membres payants bénéficient d'alertes prioritaires et peuvent suivre un nombre illimité de villes. Tout le monde peut consulter les données en temps réel sur la page. Passez à Pro pour suivre plus de villes et être notifié en premier."
+      "a": "Les membres Pro bénéficient d'alertes express et peuvent suivre un nombre illimité de villes. Tout le monde peut consulter les données en temps réel sur la page."
     },
     "faq3": {
       "q": "En combien de temps serai-je notifié ?",
-      "a": "Notre système surveille tous les centres d'examen en permanence. Dès que de nouvelles places apparaissent, tous les abonnés reçoivent un courriel. Les membres payants sont notifiés en premier."
+      "a": "Notre système surveille tous les centres d'examen en permanence. Dès que de nouvelles places apparaissent, tous les abonnés reçoivent un courriel. Les membres Pro bénéficient d'alertes express."
     },
     "faq4": {
       "q": "Pourquoi une ville affiche « Aucune date disponible » ?",
