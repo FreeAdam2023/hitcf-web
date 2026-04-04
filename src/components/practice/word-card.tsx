@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Loader2, RefreshCw, Star, Volume2 } from "lucide-react";
+import { AlertTriangle, Loader2, RefreshCw, Star, Volume2 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { createPortal } from "react-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -30,6 +30,7 @@ export function WordCard({ word: initialWord, anchorEl, clickPos, onClose, saveC
   const t = useTranslations();
   const locale = useLocale();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const isAdmin = useAuthStore((s) => s.user?.role === "admin");
   const [currentWord, setCurrentWord] = useState(initialWord);
   const [data, setData] = useState<VocabularyCardData | null>(
     () => getCached(initialWord, locale) ?? null,
@@ -43,6 +44,7 @@ export function WordCard({ word: initialWord, anchorEl, clickPos, onClose, saveC
   const { isSaved, addWord, removeWord, isLoaded: vocabLoaded, fetchSavedWords } = useVocabStore();
   const wordSaved = vocabLoaded && isSaved(currentWord);
   const [starBounce, setStarBounce] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
 
   // Load saved words on first mount if not loaded
   useEffect(() => {
@@ -298,7 +300,7 @@ export function WordCard({ word: initialWord, anchorEl, clickPos, onClose, saveC
                       />
                     </button>
                   )}
-                  {isAuthenticated && data && (
+                  {isAdmin && data && (
                     <button
                       onClick={handleRegenerate}
                       disabled={regenerating}
@@ -308,6 +310,15 @@ export function WordCard({ word: initialWord, anchorEl, clickPos, onClose, saveC
                       <RefreshCw
                         className={`h-3.5 w-3.5 text-muted-foreground ${regenerating ? "animate-spin" : ""}`}
                       />
+                    </button>
+                  )}
+                  {isAuthenticated && data && (
+                    <button
+                      onClick={() => setReportOpen(true)}
+                      className="rounded-full p-1 hover:bg-muted transition-colors"
+                      title={t("wordCard.report")}
+                    >
+                      <AlertTriangle className="h-3.5 w-3.5 text-muted-foreground hover:text-orange-500" />
                     </button>
                   )}
                   {data.cefr_level && data.cefr_level !== "null" && (
@@ -486,6 +497,11 @@ export function WordCard({ word: initialWord, anchorEl, clickPos, onClose, saveC
                   })}
                 </div>
               )}
+
+              {/* Inline report form */}
+              {reportOpen && (
+                <VocabReportInline word={currentWord} onClose={() => setReportOpen(false)} />
+              )}
             </>
           ) : null}
         </div>
@@ -629,6 +645,80 @@ function WordCardLoading({ generating = false }: { generating?: boolean }) {
       >
         {generating ? t("wordCard.generating") : messages[idx]}
       </p>
+    </div>
+  );
+}
+
+/** Inline report form for vocab card */
+const VOCAB_ISSUE_TYPES = ["english_audio", "wrong_definition", "not_a_word", "bad_example", "other"] as const;
+
+function VocabReportInline({ word, onClose }: { word: string; onClose: () => void }) {
+  const t = useTranslations();
+  const [issueType, setIssueType] = useState("");
+  const [description, setDescription] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!issueType) return;
+    setSubmitting(true);
+    try {
+      const { reportVocab } = await import("@/lib/api/reports");
+      await reportVocab(word, {
+        issue_type: issueType as (typeof VOCAB_ISSUE_TYPES)[number],
+        description: description.trim() || undefined,
+      });
+      toast.success(t("wordCard.reportSuccess"));
+      onClose();
+    } catch (err) {
+      const status = (err as { status?: number })?.status;
+      if (status === 409) {
+        toast.error(t("wordCard.reportDuplicate"));
+      } else {
+        toast.error(t("common.errors.submitFailed"));
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="rounded-md border border-orange-200 bg-orange-50/50 p-2.5 space-y-2 dark:border-orange-800 dark:bg-orange-950/20">
+      <p className="text-xs font-medium">{t("wordCard.reportTitle")}</p>
+      <div className="flex flex-wrap gap-1">
+        {VOCAB_ISSUE_TYPES.map((type) => (
+          <button
+            key={type}
+            onClick={() => setIssueType(type)}
+            className={`rounded-full px-2 py-0.5 text-[11px] border transition-colors ${
+              issueType === type
+                ? "border-orange-400 bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-200 dark:border-orange-600"
+                : "border-border hover:bg-muted"
+            }`}
+          >
+            {t(`wordCard.reportTypes.${type}`)}
+          </button>
+        ))}
+      </div>
+      <textarea
+        className="w-full rounded border border-input bg-transparent px-2 py-1 text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+        rows={2}
+        placeholder={t("wordCard.reportPlaceholder")}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        maxLength={500}
+      />
+      <div className="flex justify-end gap-1.5">
+        <button onClick={onClose} className="rounded px-2 py-0.5 text-xs hover:bg-muted">
+          {t("common.actions.cancel")}
+        </button>
+        <button
+          onClick={handleSubmit}
+          disabled={submitting || !issueType}
+          className="rounded bg-orange-500 px-2 py-0.5 text-xs text-white hover:bg-orange-600 disabled:opacity-50"
+        >
+          {submitting ? <Loader2 className="h-3 w-3 animate-spin inline" /> : t("wordCard.reportSubmit")}
+        </button>
+      </div>
     </div>
   );
 }

@@ -151,7 +151,7 @@ function TranscriptBlock({
   if (!isReading && !hasTranscript && !audioTimestamps?.length && !showTranscriptOptions) return null;
 
   return (
-    <div className="rounded-lg bg-muted/50 p-3 text-sm lg:text-base animate-in fade-in duration-300">
+    <div className="rounded-lg bg-muted/50 p-3 text-sm lg:text-base animate-in fade-in duration-300 select-none">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h4 className="flex items-center gap-1.5 font-medium">
@@ -405,6 +405,7 @@ export function PracticeSession() {
   const locale = useLocale();
   const hasActiveSub = useAuthStore((s) => s.hasActiveSubscription);
   const isSubscriber = hasActiveSub();
+  const isAdmin = useAuthStore((s) => s.user?.role === "admin");
   const { showEn, showNative, toggleEn, toggleNative } = useTranscriptLang();
 
   const [openBook, setOpenBook] = useState(() => {
@@ -784,15 +785,17 @@ export function PracticeSession() {
     };
   }, []);
 
-  // Auto-delete attempt on unmount if user never answered any question
+  // Auto-delete attempt on unmount if user never answered or reviewed any question
   const attemptIdRef = useRef(attemptId);
   const previousAnswersRef = useRef(previousAnswers);
+  const reviewedIdsRef = useRef(reviewedIds);
   useEffect(() => { attemptIdRef.current = attemptId; });
   useEffect(() => { previousAnswersRef.current = previousAnswers; });
+  useEffect(() => { reviewedIdsRef.current = reviewedIds; });
   useEffect(() => {
     return () => {
       const id = attemptIdRef.current;
-      if (id && answersRef.current.size === 0 && previousAnswersRef.current.size === 0) {
+      if (id && answersRef.current.size === 0 && previousAnswersRef.current.size === 0 && reviewedIdsRef.current.size === 0) {
         deleteAttempt(id).catch(() => {});
       }
     };
@@ -1364,7 +1367,7 @@ export function PracticeSession() {
               loading={explanationLoading}
               error={explanationError}
               onRetry={() => fetchExplanation(question.id)}
-              onForceRefresh={() => fetchExplanation(question.id, true)}
+              onForceRefresh={isAdmin ? () => fetchExplanation(question.id, true) : undefined}
               onOpen={() => !explanation && !explanationLoading && fetchExplanation(question.id)}
               saveContext={saveContext}
             />
@@ -1434,7 +1437,7 @@ export function PracticeSession() {
               loading={explanationLoading}
               error={explanationError}
               onRetry={() => fetchExplanation(question.id)}
-              onForceRefresh={() => fetchExplanation(question.id, true)}
+              onForceRefresh={isAdmin ? () => fetchExplanation(question.id, true) : undefined}
               onOpen={() => !explanation && !explanationLoading && fetchExplanation(question.id)}
               saveContext={saveContext}
             />

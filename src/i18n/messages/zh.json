@@ -813,7 +813,20 @@
     "loadMsg3": "发音、释义、例句，我一个都不落下",
     "loadMsg4": "变位表也在赶工了，比你复习还认真",
     "loadMsg5": "你是第一个探索这个词的人！我倍感荣幸",
-    "loadMsg6": "快好了，我正在做最后的精修..."
+    "loadMsg6": "快好了，我正在做最后的精修...",
+    "report": "反馈问题",
+    "reportTitle": "反馈词卡问题",
+    "reportSuccess": "反馈已提交，谢谢！",
+    "reportDuplicate": "你已提交过相同类型的反馈",
+    "reportPlaceholder": "补充描述（可选）",
+    "reportSubmit": "提交",
+    "reportTypes": {
+      "english_audio": "发音是英语",
+      "wrong_definition": "释义有误",
+      "not_a_word": "不是单词（句子/短语）",
+      "bad_example": "例句有误",
+      "other": "其他"
+    }
   },
   "sentenceAnalysis": {
     "title": "句子分析",

@@ -813,7 +813,20 @@
     "loadMsg3": "Pronunciation, meanings, examples — I'm not skipping a thing",
     "loadMsg4": "Conjugation tables in progress — I'm more thorough than your textbook",
     "loadMsg5": "You're the first to explore this word! I'm honored",
-    "loadMsg6": "Almost done, just adding the finishing touches..."
+    "loadMsg6": "Almost done, just adding the finishing touches...",
+    "report": "Report issue",
+    "reportTitle": "Report word card issue",
+    "reportSuccess": "Feedback submitted, thank you!",
+    "reportDuplicate": "You have already reported this issue type",
+    "reportPlaceholder": "Additional details (optional)",
+    "reportSubmit": "Submit",
+    "reportTypes": {
+      "english_audio": "Pronunciation is English",
+      "wrong_definition": "Wrong definition",
+      "not_a_word": "Not a word (sentence/phrase)",
+      "bad_example": "Incorrect example",
+      "other": "Other"
+    }
   },
   "sentenceAnalysis": {
     "title": "Sentence Analysis",

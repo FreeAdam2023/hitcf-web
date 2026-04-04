@@ -813,7 +813,20 @@
     "loadMsg3": "Prononciation, sens, exemples — je ne saute rien",
     "loadMsg4": "Tableaux de conjugaison en cours — je suis plus complet que votre manuel",
     "loadMsg5": "Vous êtes le premier à explorer ce mot ! C'est un honneur",
-    "loadMsg6": "Presque terminé, je peaufine les derniers détails..."
+    "loadMsg6": "Presque terminé, je peaufine les derniers détails...",
+    "report": "Signaler un problème",
+    "reportTitle": "Signaler un problème de fiche",
+    "reportSuccess": "Signalement envoyé, merci !",
+    "reportDuplicate": "Vous avez déjà signalé ce type de problème",
+    "reportPlaceholder": "Détails supplémentaires (optionnel)",
+    "reportSubmit": "Envoyer",
+    "reportTypes": {
+      "english_audio": "Prononciation en anglais",
+      "wrong_definition": "Définition incorrecte",
+      "not_a_word": "Ce n'est pas un mot (phrase/expression)",
+      "bad_example": "Exemple incorrect",
+      "other": "Autre"
+    }
   },
   "sentenceAnalysis": {
     "title": "Analyse de la phrase",
