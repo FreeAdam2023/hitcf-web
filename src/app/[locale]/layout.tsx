@@ -144,169 +144,210 @@ export default async function LocaleLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                name: "HiTCF",
-                url: SITE_URL,
-                description: s("siteDescription"),
-                inLanguage: htmlLang,
-                potentialAction: {
-                  "@type": "SearchAction",
-                  target: {
-                    "@type": "EntryPoint",
-                    urlTemplate: `${SITE_URL}/${locale}/tests?q={search_term_string}`,
-                  },
-                  "query-input": "required name=search_term_string",
-                },
-                publisher: {
-                  "@type": "Organization",
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "EducationalOrganization",
+                  "@id": `${SITE_URL}/#org`,
                   name: "HiTCF",
+                  alternateName: "HiTCF TCF Canada Practice",
                   url: SITE_URL,
                   logo: {
                     "@type": "ImageObject",
                     url: `${SITE_URL}/logo.png`,
                   },
+                  description:
+                    "Independent online practice platform for the TCF Canada (Test de connaissance du français pour le Canada) exam, providing 1,300+ test sets and 8,500+ questions with AI-powered grading and sentence-level audio analysis.",
+                  knowsLanguage: ["fr", "en", "zh", "ar"],
+                  knowsAbout: [
+                    "TCF Canada",
+                    "Test de connaissance du français",
+                    "French language proficiency",
+                    "Canadian immigration language requirements",
+                    "CEFR A1 to C2",
+                    "CLB (Canadian Language Benchmarks)",
+                  ],
+                  contactPoint: {
+                    "@type": "ContactPoint",
+                    email: "support@hitcf.com",
+                    contactType: "customer service",
+                    availableLanguage: ["en", "fr", "zh"],
+                  },
+                  sameAs: [],
                 },
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "SoftwareApplication",
-                name: "HiTCF",
-                applicationCategory: "EducationalApplication",
-                operatingSystem: "Web",
-                url: SITE_URL,
-                description:
-                  "TCF Canada online practice platform with 8,500+ questions covering listening, reading, speaking and writing. Practice mode, exam simulation, wrong answer notebook, vocabulary flashcards, Anki export, and AI-powered explanations to help you reach CLB 7+.",
-                inLanguage: ["zh-CN", "fr-FR", "en", "ar"],
-                aggregateRating: {
-                  "@type": "AggregateRating",
-                  ratingValue: "5",
-                  bestRating: "5",
-                  ratingCount: "2",
-                  reviewCount: "2",
-                },
-                review: [
-                  {
-                    "@type": "Review",
-                    author: {
-                      "@type": "Person",
-                      name: "momo",
-                      image: `${SITE_URL}/reviews/momo.jpg`,
-                    },
-                    datePublished: "2026-03-22",
-                    reviewRating: {
-                      "@type": "Rating",
-                      ratingValue: "5",
-                      bestRating: "5",
-                    },
-                    reviewBody:
-                      "您这个听力是设计的最好的。其他的都没有您这个好用，我试用过了就买会员。你的设计很懂客户需求。",
-                  },
-                  {
-                    "@type": "Review",
-                    author: {
-                      "@type": "Person",
-                      name: "肉食动物不吃素",
-                      image: `${SITE_URL}/reviews/roushidongwu.webp`,
-                    },
-                    datePublished: "2026-03-19",
-                    reviewRating: {
-                      "@type": "Rating",
-                      ratingValue: "5",
-                      bestRating: "5",
-                    },
-                    reviewBody:
-                      "网站真的蛮多细节的，我在别的网站没见过。鼠标碰到单词自动有发音和解释，这个真的很好！",
-                  },
-                ],
-                offers: [
-                  {
-                    "@type": "Offer",
-                    name: "Free",
-                    price: "0",
-                    priceCurrency: "USD",
-                    description:
-                      "Free test sets for listening, reading, speaking, and writing. Practice and exam mode included.",
-                  },
-                  {
-                    "@type": "Offer",
-                    name: "Pro Monthly",
-                    price: PRICING.monthly.toFixed(2),
-                    priceCurrency: PRICING.currency,
-                    billingIncrement: "P1M",
-                    description: "Full access to 8,500+ questions, exam mode, wrong answer notebook, vocabulary tools, Anki export.",
-                  },
-                  {
-                    "@type": "Offer",
-                    name: "Pro Semi-Annual",
-                    price: PRICING.semiannual.toFixed(2),
-                    priceCurrency: PRICING.currency,
-                    billingIncrement: "P6M",
-                    description: "Full access to all features including vocabulary flashcards, dictation, and Anki export.",
-                  },
-                ],
-                screenshot: `${SITE_URL}/opengraph-image`,
-                featureList: [
-                  "8,500+ TCF Canada practice questions",
-                  "44 listening test sets with original audio",
-                  "44 reading test sets covering A1-C2",
-                  "696 speaking topic sets",
-                  "515 writing task sets with AI grading",
-                  "Practice mode with instant feedback",
-                  "Exam simulation with timer",
-                  "Wrong answer notebook",
-                  "Vocabulary flashcard review and dictation",
-                  "Anki export with textbook vocabulary pools",
-                  "Speed drill mode",
-                  "AI-powered deep explanations",
-                ],
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "FAQPage",
-                mainEntity: faqEntries,
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                name: "HiTCF",
-                url: SITE_URL,
-                logo: `${SITE_URL}/logo.png`,
-                contactPoint: {
-                  "@type": "ContactPoint",
-                  email: "support@hitcf.com",
-                  contactType: "customer service",
-                },
-                sameAs: [],
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "Course",
-                name: "TCF Canada Preparation",
-                description:
-                  "Complete TCF Canada preparation course covering listening (compréhension orale), reading (compréhension écrite), speaking (expression orale), and writing (expression écrite). Practice with 8,500+ questions and AI-powered feedback.",
-                provider: {
-                  "@type": "Organization",
-                  name: "HiTCF",
+                {
+                  "@type": "WebSite",
+                  "@id": `${SITE_URL}/#website`,
                   url: SITE_URL,
+                  name: "HiTCF",
+                  description: s("siteDescription"),
+                  inLanguage: htmlLang,
+                  publisher: { "@id": `${SITE_URL}/#org` },
+                  potentialAction: {
+                    "@type": "SearchAction",
+                    target: {
+                      "@type": "EntryPoint",
+                      urlTemplate: `${SITE_URL}/${locale}/tests?q={search_term_string}`,
+                    },
+                    "query-input": "required name=search_term_string",
+                  },
                 },
-                educationalLevel: "A1-C2",
-                inLanguage: ["fr", "zh-CN", "en", "ar"],
-                teaches: [
-                  "TCF Canada Listening Comprehension",
-                  "TCF Canada Reading Comprehension",
-                  "TCF Canada Speaking Expression",
-                  "TCF Canada Writing Expression",
-                ],
-                hasCourseInstance: {
-                  "@type": "CourseInstance",
-                  courseMode: "online",
-                  courseWorkload: "PT100H",
+                {
+                  "@type": "Course",
+                  "@id": `${SITE_URL}/#course`,
+                  name: "TCF Canada Complete Preparation",
+                  description:
+                    "Complete TCF Canada preparation aligned to the official exam format (Compréhension Orale, Compréhension Écrite, Expression Écrite, Expression Orale). Includes 1,306 test sets and 8,397 questions, sentence-level audio timestamps generated with OpenAI Whisper, AI speaking evaluation via Azure Speech + Grok, and AI writing feedback on the 4-criteria official TCF rubric.",
+                  provider: { "@id": `${SITE_URL}/#org` },
+                  educationalLevel: "A1-C2 CEFR",
+                  inLanguage: ["fr", "zh", "en", "ar"],
+                  teaches: [
+                    "TCF Canada Compréhension Orale (Listening)",
+                    "TCF Canada Compréhension Écrite (Reading)",
+                    "TCF Canada Expression Écrite (Writing)",
+                    "TCF Canada Expression Orale (Speaking)",
+                  ],
+                  hasCourseInstance: {
+                    "@type": "CourseInstance",
+                    courseMode: "online",
+                    courseWorkload: "PT100H",
+                  },
+                  offers: [
+                    {
+                      "@type": "Offer",
+                      name: "Free trial (7 days)",
+                      price: "0",
+                      priceCurrency: "USD",
+                      description:
+                        "7-day reverse-trial Pro access on registration, no credit card required.",
+                    },
+                    {
+                      "@type": "Offer",
+                      name: "Pro Monthly",
+                      price: PRICING.monthly.toFixed(2),
+                      priceCurrency: PRICING.currency,
+                      description:
+                        "Full access to 8,500+ questions, exam mode, wrong-answer notebook, vocabulary tools, Anki export.",
+                    },
+                    {
+                      "@type": "Offer",
+                      name: "Pro Semi-Annual",
+                      price: PRICING.semiannual.toFixed(2),
+                      priceCurrency: PRICING.currency,
+                      description:
+                        "Best value. Full access to all features including AI speaking and writing evaluation.",
+                    },
+                  ],
                 },
-              },
-            ]),
+                {
+                  "@type": "SoftwareApplication",
+                  "@id": `${SITE_URL}/#app`,
+                  name: "HiTCF",
+                  applicationCategory: "EducationalApplication",
+                  operatingSystem: "Web",
+                  url: SITE_URL,
+                  description:
+                    "TCF Canada online practice platform with 1,306 test sets (42 listening, 42 reading, 702 speaking, 520 writing) and 8,397 questions covering A1–C2 CEFR levels. Features include sentence-level audio analysis powered by OpenAI Whisper, AI speaking evaluation via Azure Speech, AI writing feedback on the official 4-criteria TCF rubric, vocabulary flashcards with Anki export, wrong-answer notebook, and real-time exam seat monitoring for Ottawa / Calgary / Vancouver.",
+                  inLanguage: ["zh", "fr", "en", "ar"],
+                  provider: { "@id": `${SITE_URL}/#org` },
+                  aggregateRating: {
+                    "@type": "AggregateRating",
+                    ratingValue: "5",
+                    bestRating: "5",
+                    ratingCount: "2",
+                    reviewCount: "2",
+                  },
+                  review: [
+                    {
+                      "@type": "Review",
+                      author: {
+                        "@type": "Person",
+                        name: "momo",
+                        image: `${SITE_URL}/reviews/momo.jpg`,
+                      },
+                      datePublished: "2026-03-22",
+                      reviewRating: {
+                        "@type": "Rating",
+                        ratingValue: "5",
+                        bestRating: "5",
+                      },
+                      reviewBody:
+                        "您这个听力是设计的最好的。其他的都没有您这个好用，我试用过了就买会员。你的设计很懂客户需求。",
+                    },
+                    {
+                      "@type": "Review",
+                      author: {
+                        "@type": "Person",
+                        name: "肉食动物不吃素",
+                        image: `${SITE_URL}/reviews/roushidongwu.webp`,
+                      },
+                      datePublished: "2026-03-19",
+                      reviewRating: {
+                        "@type": "Rating",
+                        ratingValue: "5",
+                        bestRating: "5",
+                      },
+                      reviewBody:
+                        "网站真的蛮多细节的，我在别的网站没见过。鼠标碰到单词自动有发音和解释，这个真的很好！",
+                    },
+                  ],
+                  offers: [
+                    {
+                      "@type": "Offer",
+                      name: "Free",
+                      price: "0",
+                      priceCurrency: "USD",
+                      description:
+                        "Free test sets for listening, reading, speaking, and writing. Practice and exam mode included.",
+                    },
+                    {
+                      "@type": "Offer",
+                      name: "Pro Monthly",
+                      price: PRICING.monthly.toFixed(2),
+                      priceCurrency: PRICING.currency,
+                      billingIncrement: "P1M",
+                      description:
+                        "Full access to 8,500+ questions, exam mode, wrong answer notebook, vocabulary tools, Anki export.",
+                    },
+                    {
+                      "@type": "Offer",
+                      name: "Pro Semi-Annual",
+                      price: PRICING.semiannual.toFixed(2),
+                      priceCurrency: PRICING.currency,
+                      billingIncrement: "P6M",
+                      description:
+                        "Full access to all features including vocabulary flashcards, dictation, and Anki export.",
+                    },
+                  ],
+                  screenshot: `${SITE_URL}/opengraph-image`,
+                  featureList: [
+                    "1,306 test sets covering A1–C2 CEFR levels",
+                    "8,397 TCF Canada practice questions",
+                    "42 listening test sets (1,638 questions) with original audio",
+                    "42 reading test sets (1,638 questions)",
+                    "702 speaking topic sets (3,536 questions) for Tâche 1/2/3",
+                    "520 writing task sets (1,540 questions) with AI grading",
+                    "Sentence-level audio timestamps via OpenAI Whisper",
+                    "AI speaking evaluation via Azure Speech + Grok (6 TCF dimensions)",
+                    "AI writing feedback on 4-criteria official TCF rubric",
+                    "Practice mode with instant feedback",
+                    "Exam simulation with timer (mirrors real TCF Canada)",
+                    "Wrong-answer notebook with spaced repetition",
+                    "Vocabulary flashcards with click-to-lookup and Anki CSV export",
+                    "Speed drill mode by CEFR level (A1–C2)",
+                    "Real-time TCF Canada exam seat monitoring (Ottawa/Calgary/Vancouver)",
+                    "4-language interface (Chinese, English, French, Arabic)",
+                    "7-day free Pro trial on registration (no credit card)",
+                  ],
+                },
+                {
+                  "@type": "FAQPage",
+                  "@id": `${SITE_URL}/#faq`,
+                  mainEntity: faqEntries,
+                },
+              ],
+            }),
           }}
         />
       </head>

@@ -1,0 +1,106 @@
+# HiTCF — TCF Canada practice platform
+# robots.txt
+
+# ------------------------------------------------------------
+# AI crawlers — explicitly allowed so HiTCF can be indexed
+# for training data (CCBot, GPTBot, ClaudeBot) and retrieval
+# grounding (OAI-SearchBot, PerplexityBot, Claude-SearchBot).
+# ------------------------------------------------------------
+
+# OpenAI — training + search
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Anthropic — training + retrieval + user-triggered
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: Claude-User
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Perplexity — indexing + user-triggered
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Google Gemini / Vertex training opt-out token
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Apple Intelligence training
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Common Crawl — foundation dataset for GPT / Claude / Llama / Mistral
+User-agent: CCBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# ByteDance / Doubao
+User-agent: Bytespider
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# ------------------------------------------------------------
+# All other crawlers (incl. Googlebot, Bingbot)
+# ------------------------------------------------------------
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+# Authenticated / stateful routes — nothing useful for search
+Disallow: /exam/
+Disallow: /practice/
+Disallow: /writing-exam/
+Disallow: /writing-practice/
+Disallow: /speaking-exam/
+Disallow: /speaking-practice/
+Disallow: /speaking-conversation/
+Disallow: /results/
+Disallow: /history
+Disallow: /review
+Disallow: /dashboard
+Disallow: /checkin
+Disallow: /account
+Disallow: /profile
+Disallow: /payment/
+
+Sitemap: https://hitcf.com/sitemap.xml

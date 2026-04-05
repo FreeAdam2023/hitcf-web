@@ -2541,6 +2541,12 @@
       "séries écoute + lecture",
       "précision seuil NCLC 7"
     ],
+    "authority": {
+      "body": "HiTCF est conçu selon le format officiel du TCF Canada (CO / CE / EE / EO) administré par <fei>France Éducation International (FEI)</fei>. Les scores du TCF Canada sont reconnus par <ircc>Immigration, Réfugiés et Citoyenneté Canada (IRCC)</ircc> comme preuve de compétence en français pour les demandes de résidence permanente et de citoyenneté. HiTCF est une plateforme de préparation indépendante sans affiliation avec FEI ou IRCC."
+    },
+    "credibility": {
+      "body": "La plateforme propose 1 306 séries de tests et 8 397 questions : 42 séries d'écoute (1 638 questions), 42 séries de lecture (1 638 questions), 702 sujets d'expression orale (3 536 questions) et 520 tâches d'expression écrite (1 540 questions), couvrant les niveaux CECRL A1 à C2. Chaque passage d'écoute est découpé par phrase avec des horodatages générés par OpenAI Whisper, l'expression orale est évaluée par Azure Speech et Grok selon les 6 dimensions TCF, et l'expression écrite est notée selon la grille officielle à 4 critères. Essai Pro gratuit de 7 jours à l'inscription — sans carte bancaire."
+    },
     "featuresBadge": "Quatre épreuves",
     "featuresTitle": "Couverture complète du TCF",
     "featuresSubtitle": "Les quatre épreuves en un seul endroit, de A1 à C2",

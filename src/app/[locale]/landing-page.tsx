@@ -158,6 +158,40 @@ export function LandingPage() {
         </div>
       </section>
 
+      {/* ── Authority / Cited Sources ── */}
+      {/* Princeton GEO paper (arxiv 2311.09735) shows citing authoritative
+          sources is the single highest-impact GEO strategy: +30% overall,
+          +115% for low-ranked sites. Real <a href> links in prose, not just
+          keywords. */}
+      <section className="border-y border-border/40 bg-muted/20 py-10">
+        <div className="mx-auto max-w-4xl px-4 text-center">
+          <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+            {t.rich("landing.authority.body", {
+              fei: (chunks) => (
+                <a
+                  href="https://www.france-education-international.fr/test/tcf-canada"
+                  target="_blank"
+                  rel="noopener"
+                  className="font-medium text-primary underline-offset-2 hover:underline"
+                >
+                  {chunks}
+                </a>
+              ),
+              ircc: (chunks) => (
+                <a
+                  href="https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-citizenship/become-canadian-citizen/eligibility/language-proof/test-results-meet-level.html"
+                  target="_blank"
+                  rel="noopener"
+                  className="font-medium text-primary underline-offset-2 hover:underline"
+                >
+                  {chunks}
+                </a>
+              ),
+            })}
+          </p>
+        </div>
+      </section>
+
       {/* ── Stats ── */}
       <section className="relative border-y border-border/40 bg-card py-14">
         <div className="mx-auto grid max-w-4xl grid-cols-2 gap-8 px-4 sm:grid-cols-4">
@@ -171,6 +205,18 @@ export function LandingPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── Credibility / Concrete Numbers in Prose ── */}
+      {/* Princeton +37% effect: statistics in natural prose are more citable
+          than abstract claims. Also +30% effect from citing the authority
+          chain (TCF Canada → FEI → IRCC). */}
+      <section className="py-12 sm:py-16">
+        <div className="mx-auto max-w-3xl px-4">
+          <p className="text-center text-base leading-relaxed text-foreground/80 sm:text-lg">
+            {t("landing.credibility.body")}
+          </p>
         </div>
       </section>
 

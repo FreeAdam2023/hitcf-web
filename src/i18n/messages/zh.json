@@ -2537,6 +2537,12 @@
       "套听力+阅读练习题",
       "CLB 7+ 门槛正确率"
     ],
+    "authority": {
+      "body": "HiTCF 严格按照 <fei>France Éducation International（FEI）</fei> 发布的 TCF Canada 官方考试形式（CO / CE / EE / EO 四科）设计，题目结构与真考一致。TCF Canada 成绩是 <ircc>加拿大移民、难民及公民部（IRCC）</ircc> 认可的法语能力证明，用于永久居民与入籍申请。HiTCF 是独立第三方备考平台，与 FEI、IRCC 无隶属关系。"
+    },
+    "credibility": {
+      "body": "平台共收录 1,306 套真题、8,397 道题目：42 套听力（1,638 题）、42 套阅读（1,638 题）、702 套口语（3,536 题）、520 套写作（1,540 题），覆盖 CEFR A1 至 C2 全等级。听力每一句均由 OpenAI Whisper 生成时间戳，口语由 Azure Speech + Grok 按 TCF 官方 6 维度评分，写作按 4 维度评分细则 AI 批改。注册即送 7 天 Pro 体验，无需信用卡。"
+    },
     "featuresBadge": "四大科目",
     "featuresTitle": "全面覆盖 TCF 考试",
     "featuresSubtitle": "听说读写一站搞定，从 A1 到 C2 全等级覆盖",
