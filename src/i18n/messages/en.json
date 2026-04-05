@@ -3796,47 +3796,280 @@
       }
     },
     "tcfReading": {
-      "heading": "TCF Canada Reading (CE) — Complete Practice Guide",
-      "intro": "The Reading Comprehension section (Compréhension écrite, or CE) tests your ability to understand written French across a wide range of text types and difficulty levels. With 39 questions and 60 minutes on the clock, time management and strategic reading are essential skills.",
+      "heading": "TCF Canada Reading (CE) Complete Guide: How to Hit 699 Points in 60 Minutes",
+      "intro": "TCF Canada Reading (Compréhension écrite, or CE) looks gentler than Listening — 60 minutes for 39 questions, and you can revise answers — but losses concentrate at the back end: the first 10 questions are easy but low-value, while the last 20 carry long texts, dense vocabulary, and layered traps. This guide uses the real scoring data from HiTCF's 42 test sets (1,638 real questions) to give you a scoring weight table, a 60-minute allocation plan, 10 common trap types, a high-frequency connector glossary, and an 8-week study plan.",
+      "quickFacts": {
+        "title": "Exam at a glance (memorize these 5 numbers)",
+        "questions": "39 multiple-choice questions",
+        "duration": "60 minutes (including instructions)",
+        "audio": "You can revise answers (unlike Listening)",
+        "totalScore": "699 max / ~331 needed for CLB 7",
+        "difficultyRange": "A1 to C2, strictly ascending"
+      },
       "format": {
-        "title": "Exam Format",
-        "p1": "The TCF Canada reading section consists of 39 multiple-choice questions with 4 answer options each. You have approximately 60 minutes to complete all questions. Unlike listening, you can go back and change your answers, so use your time wisely.",
-        "p2": "Questions are arranged in order of increasing difficulty, from simple everyday texts to complex academic and literary passages. The scoring system gives more weight to harder questions, so maintaining accuracy on mid-level questions while attempting the advanced ones is the optimal strategy."
+        "title": "Exam format: 60 minutes, back-and-forth allowed, but texts get denser",
+        "p1": "The TCF Canada reading section has 39 multiple-choice questions, each with 4 options (A/B/C/D). Total time is 60 minutes — about 3 minutes of instructions and 57 minutes of active answering.",
+        "p2": "The biggest difference from Listening: **you can revisit and change answers**. This sounds like a gift, but it also means you control the clock — and without audio to push you along, it's easy to spend 5 minutes on one hard question and discover 20 more waiting.",
+        "p3": "Question format is uniform (multiple choice) but text types vary wildly: notices, ads, menus (A1), emails, blogs, product descriptions (A2-B1), newspaper editorials, feature reports (B1-B2), academic papers, literary excerpts, legal documents (B2-C2). As you progress, texts get longer and syntax becomes more nested.",
+        "p4": "Question targets: factual information (time/place/price), main idea, author stance, implicit meaning, logical relationships (cause/concession/contrast), synonymic rewording. High-level questions (C1-C2) barely test literal comprehension — they're almost entirely about inference and rhetorical recognition."
+      },
+      "scoring": {
+        "title": "Scoring weight table: why the B2 band decides everything",
+        "intro": "Based on real scoring data from HiTCF's 1,638 reading questions (pulled directly from all 42 test sets), TCF Canada reading distributes points as follows. Note that C1 questions are worth 26 points each (listening's C1 is 27) — this is an official weighting specific to reading:",
+        "tableHeader": {
+          "range": "Questions",
+          "level": "Level",
+          "pointsPerQ": "Points/Q",
+          "subtotal": "Subtotal",
+          "percent": "Share"
+        },
+        "rows": [
+          {
+            "range": "Q1-4",
+            "level": "A1",
+            "pointsPerQ": "3 pts",
+            "subtotal": "12 pts",
+            "percent": "1.7%"
+          },
+          {
+            "range": "Q5-10",
+            "level": "A2",
+            "pointsPerQ": "9 pts",
+            "subtotal": "54 pts",
+            "percent": "7.7%"
+          },
+          {
+            "range": "Q11-19",
+            "level": "B1",
+            "pointsPerQ": "15 pts",
+            "subtotal": "135 pts",
+            "percent": "19.3%"
+          },
+          {
+            "range": "Q20-29",
+            "level": "B2",
+            "pointsPerQ": "21 pts",
+            "subtotal": "210 pts",
+            "percent": "30.0%"
+          },
+          {
+            "range": "Q30-35",
+            "level": "C1",
+            "pointsPerQ": "26 pts",
+            "subtotal": "156 pts",
+            "percent": "22.3%"
+          },
+          {
+            "range": "Q36-39",
+            "level": "C2",
+            "pointsPerQ": "33 pts",
+            "subtotal": "132 pts",
+            "percent": "18.9%"
+          }
+        ],
+        "totalLabel": "Max",
+        "totalValue": "699 points (all 39 questions)",
+        "insight": "The B2 block (Q20-29, 10 questions for 210 points) is the real scoring zone — 30% of the total. C1+C2 combined add another 41.2% (288 points), which is actually more weight than the equivalent high-level listening band. Reading demands more high-level ability than listening: to hit CLB 8+, you must handle C1-C2 long texts reliably; you cannot coast on the first 19 questions, which together contribute only 28.7% of the score."
       },
       "levels": {
-        "title": "Question Types by Level",
+        "title": "Four difficulty bands, explained",
         "a1a2": {
-          "title": "Level 1: A1-A2 (Questions 1-10)",
-          "desc": "Short, practical texts: signs, labels, simple ads, brief messages, and menus. Questions ask you to identify basic information such as prices, dates, locations, and simple instructions. The vocabulary is everyday and concrete. These are quick wins — aim for 100% accuracy here."
+          "title": "A1-A2 (Q1-10): Free 66 points",
+          "desc": "Short, practical texts: signs, menus, brief ads, text messages, schedules, metro maps. Sentences are usually under 15 words, vocabulary is everyday. Questions are direct: \"What's the price?\" \"When does it open?\" \"What kind of ad is this?\"",
+          "scenarios": "Typical scenarios: supermarket promo posters, restaurant menus, metro/bus timetables, tourist site summaries, cinema tickets, email notifications",
+          "sample": "Sample: a cinema poster says \"Séances du vendredi au dimanche : 14h, 17h, 20h30. Tarif réduit le mercredi.\" Question: \"Quand peut-on voir un film à prix réduit ?\" — answer: mercredi. Pure keyword location",
+          "errors": "Common mistakes: missing \"du ... au ...\" as a time range; confusing prix réduit (discount) with plein tarif (full price); reading the wrong weekday (vendredi vs jeudi)"
         },
         "a2b1": {
-          "title": "Level 2: A2-B1 (Questions 11-19)",
-          "desc": "Medium-length texts: personal emails, blog posts, travel guides, product descriptions, and simple news articles. You need to understand the main idea, locate specific information, and follow a basic narrative or argument. Some vocabulary may be unfamiliar, but context clues are usually available."
+          "title": "A2-B1 (Q11-19): Medium texts, main idea starts to matter",
+          "desc": "Text length doubles (100-200 words): personal blogs, travel stories, product descriptions, simple news, forum Q&A. Compound sentences appear, simple subordinate clauses, some colloquial expressions. Questions shift from \"find the fact\" to \"what's this paragraph really about\" and \"how does the author feel\".",
+          "scenarios": "Typical scenarios: lifestyle blogs, product reviews, travel journals, forum help posts, simple news, work emails",
+          "sample": "Sample: a blog about the author's first year in Lyon — some positives, some negatives. Question: \"Quel est le sentiment général de l'auteur ?\" — you can't just grab one paragraph; you need to synthesize \"weather is bad\" + \"people are friendly\" + \"food is meh\" + \"lifestyle is relaxed\" and pick \"overall satisfied, with reservations\" rather than \"likes\" or \"dislikes\"",
+          "errors": "Common mistakes: jumping to a conclusion from the first or last paragraph (TCF loves mid-text reversals); confusing an example for the main point; ignoring the true stance that appears after mais/pourtant/cependant"
         },
         "b1b2": {
-          "title": "Level 3: B1-B2 (Questions 20-30)",
-          "desc": "Longer, more complex texts: newspaper editorials, magazine features, formal correspondence, and informational brochures. Questions test your ability to understand implicit meaning, identify the author's purpose and tone, and follow logical arguments. Vocabulary is more abstract and sentences are longer with subordinate clauses."
+          "title": "B1-B2 (Q20-29): Core scoring zone (210 points)",
+          "desc": "Text length 250-400 words: newspaper editorials, feature reports, formal letters, policy briefs, interviews, cultural commentary. Vocabulary becomes abstract (policy, opinion, comparison), sentences get long with nested clauses. Questions focus heavily on \"what the author actually thinks\" and \"what does this imply\" and \"how do two speakers differ\".",
+          "scenarios": "Typical scenarios: Le Monde editorials, La Croix columns, Le Figaro interviews, government policy notes, cultural critiques, long-form popular science",
+          "sample": "Sample: an editorial on remote work. First half lists benefits, second half says \"mais il ne faut pas sous-estimer les risques d'isolement et de surcharge mentale.\" Question: \"Quelle est la position de l'auteur ?\" — the answer is not \"supports\" or \"opposes\" but \"acknowledges benefits while warning of costs\". Grab everything after \"mais\"",
+          "errors": "Common mistakes: being misled by the positive first half; failing to recognize \"il ne faut pas sous-estimer\" (don't underestimate = take seriously); mistaking \"both sides mentioned\" for \"neutral\" (the author's real stance is on the second half)"
         },
         "b2c1": {
-          "title": "Level 4: B2-C2 (Questions 31-39)",
-          "desc": "Sophisticated texts: academic papers, literary excerpts, legal documents, philosophical essays, and scientific reports. You need to analyze complex arguments, understand nuanced vocabulary, identify rhetorical devices, and synthesize information across paragraphs. These texts often contain specialized terminology and dense sentence structures."
+          "title": "B2-C2 (Q30-39): The CLB 7 vs CLB 9 decider",
+          "desc": "Text length 400-600 words: academic paper excerpts, literary works (Camus, Maupassant, Le Clézio), legal provisions, philosophical essays, economic analyses, scientific reviews. Sentences can be 40+ words with nested clauses, complex rhetoric (irony, metaphor, wordplay). Vocabulary is academic and specialized, hard to infer from context. Each question is worth 26-33 points; 10 questions total 288 points — this block caps your ceiling.",
+          "scenarios": "Typical scenarios: university textbook excerpts, classic literature snippets, legal rulings, philosophical essays, scientific journal abstracts, economic reports",
+          "sample": "Sample: the opening of Camus's L'Étranger. Question: \"Quel effet l'auteur cherche-t-il à produire avec la phrase 'Aujourd'hui, maman est morte' ?\" — not about the literal meaning (too simple), but about rhetorical intent: options include \"emphasize grief\", \"show detachment\", \"stress the mundane\", \"elicit pity\". You need to recognize Camus's existentialist style",
+          "errors": "Common mistakes: trying to translate every word and losing the rhythm; failing to spot irony (\"quelle belle journée\" in a dark context = sarcastic); confusing the author's position with the opposing view the author cites; reading \"nul ne peut\" (no one may — absolute prohibition) as \"no one can\""
+        }
+      },
+      "strategy": {
+        "title": "60-minute time allocation strategy",
+        "intro": "The biggest difference from listening is that you control the clock. But that's a double-edged sword — candidates without pacing discipline hemorrhage time on hard questions. Here's the optimal allocation based on real scoring weights:",
+        "phase1": {
+          "title": "Stage 1: Q1-10 (target 8 minutes)",
+          "action": "48 seconds per question. This block should be nearly instant — read the question → scan for the keyword → check options → pick. Do not closely read the entire text; only look around the keyword. Finishing 66 points in 8 minutes is your first checkpoint.",
+          "tip": "If this block takes over 12 minutes, your basic vocabulary isn't solid enough. Go back to A1-A2 word lists before booking the real exam."
+        },
+        "phase2": {
+          "title": "Stage 2: Q11-19 (target 14 minutes)",
+          "action": "About 1.5 minutes per question. Texts get longer, so scan paragraph structure (first sentence + last sentence + topic sentences) before diving for the answer. You should be at 22 minutes total, 201/699 points.",
+          "tip": "Train the habit of \"read halfway, jump to the question to see what's asked\" — many TCF questions only need one paragraph of the text, not the whole thing."
+        },
+        "phase3": {
+          "title": "Stage 3: Q20-29 (target 18 minutes)",
+          "action": "About 1.8 minutes per question. This is the 210-point core block — don't skip. Read the argument structure fully: introduction → evidence → pivot → conclusion. If scratch paper is allowed, map each paragraph's core sentence. Cumulative time: 40 minutes, 411/699 points.",
+          "tip": "If one question truly stumps you, mark it (write ? next to the number) and move on, but come back. A 21-point blank is the most expensive \"no answer\" in the reading section."
+        },
+        "phase4": {
+          "title": "Stage 4: Q30-39 (target 18 minutes + 2 minutes review)",
+          "action": "About 1.8 minutes per question. High-level block — abandon the need to understand every word and grab the argument skeleton and tone instead. Skip unknown technical vocabulary; judge positive/negative from context. Save 2 minutes at the end to revisit marked (?) questions, prioritizing B2 band (21-point questions have higher revision ROI than C1's 26-point questions because B2 errors are often careless).",
+          "tip": "The C2 block (Q36-39, 4 questions = 132 points) is the hardest. If time runs short, \"strategic guessing\" beats leaving blanks — 25% vs 0%. Don't spend 10 minutes grinding the last question."
+        }
+      },
+      "traps": {
+        "title": "10 high-frequency reading traps (with countermeasures)",
+        "intro": "HiTCF error data shows 70% of reading losses concentrate on these 10 traps. Unlike listening traps, reading traps live more in \"vocabulary\" and \"logic\" layers.",
+        "items": [
+          {
+            "title": "Trap 1: False friends (faux amis)",
+            "desc": "actuel ≠ actual (means \"current\", not \"real\"); sensible ≠ sensitive (means \"sensible\"); assister ≠ assist (means \"attend\"); librairie ≠ library (means \"bookshop\"; library = bibliothèque). Fix: memorize a standard false-friends list and stay alert every time you see them."
+          },
+          {
+            "title": "Trap 2: Ambiguous references",
+            "desc": "\"Cela\", \"celui-ci\", \"lequel\", \"dont\", \"y\", \"en\" all replace a prior noun or concept. Misreading the antecedent breaks the question. Fix: whenever a pronoun appears, scroll back and confirm what it refers to."
+          },
+          {
+            "title": "Trap 3: Negation scope",
+            "desc": "\"Je ne crois pas qu'il soit heureux\" (I don't believe he's happy) ≠ \"I believe he's not happy\" (semantically distinct). \"ne...que\" means \"only\" — it's affirmative, not negative. Fix: when you see negation, ask what exactly is being negated."
+          },
+          {
+            "title": "Trap 4: Concession flip",
+            "desc": "\"Bien que / Quoique / Même si + subj\" structures mean \"although... [but]...\". The real position is in the main clause. \"Il est certes intelligent, mais paresseux\" — the author's verdict is \"lazy\", not \"smart\". Fix: treat bien que / certes / malgré as \"ignore this first part\" signals."
+          },
+          {
+            "title": "Trap 5: Conditional tense traps",
+            "desc": "\"Si j'avais su, je serais venu\" (past unreal: I didn't come) ≠ \"Si je sais, je viens\" (real hypothesis). Tense determines whether something actually happened. Fix: when you see \"si\", first identify the verb tense."
+          },
+          {
+            "title": "Trap 6: Inverted subject/object",
+            "desc": "French relative clauses can invert: \"Le livre que Paul a donné à Marie\" — who gave what to whom? Grab the main subject (Paul), verb (donné), indirect object (à Marie). Fix: trace subject-verb-object with your finger on the page for complex clauses."
+          },
+          {
+            "title": "Trap 7: Time adverbs implying change",
+            "desc": "\"autrefois\" (formerly) vs \"de nos jours\" (nowadays) — time contrasts usually mean the author is discussing change, and questions may ask \"does the author miss the past?\" Fix: as soon as you spot time contrast words, identify the author's stance."
+          },
+          {
+            "title": "Trap 8: Rhetorical questions",
+            "desc": "\"Comment peut-on accepter cela ?\" is rhetorical — it means \"this is unacceptable\". \"Qui n'a jamais rêvé de ...?\" = \"everyone has dreamed of...\". Fix: every question mark needs a quick check — is this a real question or a statement in disguise?"
+          },
+          {
+            "title": "Trap 9: Options all appear in the text",
+            "desc": "Classic TCF trap: options A and B both quote words from the passage, but only one accurately reflects the author's overall stance. Fix: when comparing options, ask what context each phrase appeared in — mere appearance doesn't make it the author's view."
+          },
+          {
+            "title": "Trap 10: Over-inference",
+            "desc": "An option is plausible and \"sounds right\" but isn't actually supported by the text. TCF only tests \"conclusions the text supports\", not \"world knowledge\". Fix: before picking an answer, return to the text and find explicit support; if you can't, don't pick it."
+          }
+        ]
+      },
+      "keyExpressions": {
+        "title": "High-frequency connectors and structures (4 categories)",
+        "intro": "The hidden scoring point in reading is \"connector recognition\" — these words are the logical skeleton of any text. Below are the four most frequent structure families in TCF reading:",
+        "time": {
+          "name": "Time / sequence",
+          "items": "auparavant (previously) · désormais (from now on) · jadis (long ago) · actuellement (currently) · à l'avenir (in the future) · entre-temps (meanwhile) · dès lors (from then on) · peu à peu (gradually) · tout à coup (suddenly) · par la suite (subsequently)"
+        },
+        "numbers": {
+          "name": "Cause / conclusion",
+          "items": "donc · par conséquent · ainsi · c'est pourquoi · de ce fait · en conséquence · par suite de · en raison de · grâce à · à cause de · faute de"
+        },
+        "negation": {
+          "name": "Concession / reversal",
+          "items": "cependant · toutefois · néanmoins · pourtant · en revanche · par contre · alors que · tandis que · bien que + subj · quoique + subj · malgré · en dépit de · certes...mais"
+        },
+        "tone": {
+          "name": "Attitude / stance",
+          "items": "à mon avis · selon moi · d'après · il me semble que · il est évident que · sans aucun doute · paraît-il · soi-disant · prétendument · il est à noter que · on peut déplorer que · il convient de souligner"
+        }
+      },
+      "preparationPlan": {
+        "title": "8-week preparation plan (B1 to CLB 7+)",
+        "intro": "This plan assumes a B1 foundation and targets CLB 7 (331+ reading points). Commit roughly one hour of reading practice per day.",
+        "week1_2": {
+          "title": "Weeks 1-2: Vocabulary sweep + basic texts",
+          "actions": "Memorize 30 A2-B1 high-frequency words daily (focus: false friends, connectors, tense markers); 4 HiTCF A1-A2 level reading sets; read one RFI en français facile or 1 Jour 1 Actu (kids' news) article per day."
+        },
+        "week3_4": {
+          "title": "Weeks 3-4: Medium-text adaptation",
+          "actions": "Switch to regular Le Monde, Libération, France 24 articles; 6 HiTCF A2-B1 reading sets; practice the \"question-first, text-second\" exam strategy."
+        },
+        "week5_6": {
+          "title": "Weeks 5-6: Core breakthrough (B1-B2)",
+          "actions": "10-15 HiTCF B1-B2 reading questions daily; focus on editorial (opinion/éditorial) reading to train stance identification; 2 full 60-minute mock exams per week."
+        },
+        "week7_8": {
+          "title": "Weeks 7-8: High-level sprint (B2-C2)",
+          "actions": "Attack the C1-C2 band: one Le Monde front-page long read or one literary passage per day (Camus, Saint-Exupéry, Le Clézio); 3 full mock exams per week; error-notebook review focused on B2 band (21 pts/question)."
         }
       },
       "tips": {
-        "title": "Reading Tips & Strategies",
-        "tip1": "Read the question first, then the text. This focused reading approach saves time and helps you locate relevant information quickly instead of reading the entire passage in detail.",
-        "tip2": "For longer texts, skim first to get the overall structure and main idea, then read more carefully around the sections relevant to the questions. Pay attention to paragraph beginnings and topic sentences.",
-        "tip3": "Watch out for negation and qualifiers. Words like ne...pas, ne...jamais, seulement, rarement, and à peine can completely change the meaning of a sentence and are commonly used in distractors.",
-        "tip4": "Build your vocabulary systematically. Learn word families (e.g., emploi, employeur, employé, employer) and common prefixes/suffixes (re-, dé-, -ment, -tion) to help you deduce meanings of unfamiliar words.",
-        "tip5": "Time management is crucial. Spend about 1 minute on A1-A2 questions, 1.5 minutes on B1 questions, and up to 2 minutes on B2-C2 questions. If stuck, mark the question and move on."
+        "title": "10 tips you can apply immediately",
+        "tip1": "Read the question before the text. 70% of TCF reading questions only need one paragraph; knowing what you're hunting for is 3× more efficient than reading front-to-back.",
+        "tip2": "When skimming, fix on the first and last sentences of each paragraph — they're usually topic sentences telling you what that paragraph is about.",
+        "tip3": "Don't stop on unknown words. Use word families (emploi/employé/employer) and affixes (in-, dé-, re-, -tion, -ment) to infer meaning. If you really can't, skip — it rarely affects the answer.",
+        "tip4": "Lock onto reversal words: mais, cependant, toutefois, en revanche, néanmoins, pourtant — these are stance-flip signals that TCF loves to test.",
+        "tip5": "Beware false friends: actuel, sensible, assister, éventuellement, librairie, etc. They look English but mean something different — high-frequency exam traps.",
+        "tip6": "Enforce time allocation: A1-A2 = 1 min, B1 = 1.5 min, B2-C2 = 1.8-2 min per question. If you exceed, mark and move on.",
+        "tip7": "Every answer must have direct textual support — never rely on \"common sense\" or \"what I think is likely\". TCF tests the text, not the world.",
+        "tip8": "Use symbols for notes: ↗ agree, ↘ disagree, ? pivot, ! important, → cause-effect. On scratch paper (if allowed), sketch paragraph structure.",
+        "tip9": "In the high-level block (C1-C2), give up on understanding every word. Grab the argument skeleton and tone. Skipping technical vocabulary rarely breaks a question.",
+        "tip10": "Never leave a question blank. If time runs out, guess — TCF doesn't penalize wrong answers. 25% chance beats 0%."
       },
       "practice": {
-        "title": "How to Practice Effectively",
-        "desc": "On HiTCF, start with Practice Mode to read at your own pace and review explanations for each question. Progress to Exam Mode with the 60-minute timer to simulate real test conditions. Use the Dashboard to track your accuracy by difficulty level and the Level Practice feature to focus specifically on the levels where you need improvement. Review your mistakes in the wrong-answer notebook and look for patterns in the types of questions you get wrong."
+        "title": "How to practice reading efficiently on HiTCF",
+        "p1": "HiTCF has 42 complete TCF Canada reading test sets with 1,638 real questions, each accompanied by a **per-option explanation** — not just \"the answer is B\" but why A is wrong (paragraph X says the opposite), why B is right (paragraph Y explicitly states Z), and why C is a trap (it uses a word from the text but in a different meaning). This is rare on other TCF platforms, and for a comprehension-heavy exam like reading, explanation quality matters far more than raw question count.",
+        "p2": "Recommended 3-phase flow: (1) **Practice Mode** — slow reading, explanations visible, vocabulary lookups allowed, goal is to understand every text's logical skeleton; ideal for beginners. (2) **Level Practice** — target a weak band (e.g., if your B1 accuracy is under 60%, drill only B1); ideal mid-prep. (3) **Exam Mode** — 60-minute timed run, simulating real pressure; ideal for the final 2 weeks.",
+        "p3": "After every session, check the \"accuracy by level\" chart. Reading weak points often differ from listening weak points — many candidates are strong on listening B2 but weak on reading B2 (because reading demands more vocabulary and long-sentence parsing). Group your errors by type in the notebook (false friend / negation scope / ambiguous reference) and drill by type — this is 3-5× more efficient than grinding random new sets."
+      },
+      "faq": {
+        "title": "Frequently asked questions",
+        "q1": {
+          "q": "Can I revise my answers on TCF Canada Reading?",
+          "a": "Yes. This is the biggest difference from listening. Within the 60 minutes you can skip questions, come back, and change answers. This gives you flexibility — but also demands discipline, because you cannot afford to grind a single hard question."
+        },
+        "q2": {
+          "q": "How many reading points do I need for CLB 7?",
+          "a": "CLB 7 requires at least 331 reading points out of 699. CLB 8 needs 379 and CLB 9 needs 453. Most Canadian PR pathways require CLB 7."
+        },
+        "q3": {
+          "q": "Can I use a dictionary during the exam?",
+          "a": "No. TCF Canada does not allow any reference materials — no dictionaries, phones, or notes. Only the scratch paper and pen provided by the test center."
+        },
+        "q4": {
+          "q": "I read slowly in French. What can I do?",
+          "a": "Reading speed is trainable. Every day, time yourself reading one French news article (start at 10 minutes, gradually compress to 5); practice skimming (first/last sentences only); do HiTCF's timed level-practice drills. 8 weeks typically improves reading speed by 40-60%."
+        },
+        "q5": {
+          "q": "Are all texts in standard French?",
+          "a": "The vast majority are in standard French (français standard). Occasionally you'll see Canadian or African French expressions — usually in dialogue or literary excerpts. Formal texts are nearly all standard French."
+        },
+        "q6": {
+          "q": "What if I've never read the literary works used in C1-C2?",
+          "a": "You don't need to. TCF doesn't test literary history — only whether you can understand the passage. Even when a text comes from Camus or Saint-Exupéry, the question is about in-passage content, tone, or rhetoric, not background context."
+        },
+        "q7": {
+          "q": "What are HiTCF's reading explanations?",
+          "a": "Every question includes a **per-option breakdown**: why A is wrong (because paragraph X contradicts it), why B is right (paragraph Y explicitly states it), why C is a trap (uses the original wording in a different meaning). For a comprehension exam, this is far more valuable than a raw answer key."
+        },
+        "q8": {
+          "q": "How should I prepare the week before the exam?",
+          "a": "Days 7 to 3: one full 60-minute mock per day plus error review. Days 2 and 1: review only the error notebook's high-frequency trap types (false friends, negation, references, concession) — no new questions. Night before: sleep early; 20 minutes of Le Monde is enough to keep your French warm."
+        }
       },
       "cta": {
-        "title": "Start Reading Practice Now",
-        "desc": "HiTCF offers 42 complete reading test sets with over 1,600 questions and detailed passage analysis. Practice by level or take full mock exams to build your confidence.",
+        "title": "Start your reading practice now",
+        "desc": "HiTCF has 42 TCF Canada reading sets, 1,638 real questions, per-option explanations, level-based practice, 60-minute mock exams, and an error notebook. Sign up for a free 7-day Pro trial — no credit card needed.",
+        "dataPoint": "Based on user data, candidates who commit to 1 hour per day for 8 weeks gain +100 reading points on average (CLB 5 → CLB 7).",
         "practiceButton": "Practice Reading",
         "overviewButton": "TCF Canada Overview"
       }

@@ -3804,47 +3804,280 @@
       }
     },
     "tcfReading": {
-      "heading": "TCF Canada Compréhension écrite (CE) — Guide complet",
-      "intro": "La compréhension écrite (CE) teste votre capacité à comprendre le français écrit à travers une grande variété de types de textes et de niveaux de difficulté. Avec 39 questions et 60 minutes au chronomètre, la gestion du temps et la lecture stratégique sont des compétences essentielles.",
+      "heading": "TCF Canada Compréhension écrite (CE) — Guide complet : comment maximiser 699 points en 60 minutes",
+      "intro": "La Compréhension écrite (CE) du TCF Canada semble plus douce que la CO — 60 minutes pour 39 questions, avec la possibilité de revenir en arrière — mais les pertes de points se concentrent en fin d'épreuve : les 10 premières questions sont faciles mais peu valorisées, alors que les 20 dernières présentent des textes longs, un vocabulaire dense et des pièges superposés. Ce guide utilise les vraies données de notation des 42 séries HiTCF (1 638 questions authentiques) pour vous offrir un tableau de pondération, un plan de gestion des 60 minutes, 10 types de pièges fréquents, un glossaire de connecteurs, et un plan d'étude sur 8 semaines.",
+      "quickFacts": {
+        "title": "L'examen en un coup d'œil (retenez ces 5 chiffres)",
+        "questions": "39 questions à choix multiples",
+        "duration": "60 minutes (consignes incluses)",
+        "audio": "Vous pouvez modifier vos réponses (contrairement à la CO)",
+        "totalScore": "699 points max / environ 331 pour le CLB 7",
+        "difficultyRange": "A1 à C2, par ordre de difficulté croissante"
+      },
       "format": {
-        "title": "Format de l'épreuve",
-        "p1": "La compréhension écrite du TCF Canada comprend 39 questions à choix multiples avec 4 options de réponse. Vous disposez d'environ 60 minutes. Contrairement à la compréhension orale, vous pouvez revenir en arrière et modifier vos réponses, alors utilisez votre temps judicieusement.",
-        "p2": "Les questions sont classées par difficulté croissante, des textes quotidiens simples aux passages académiques et littéraires complexes. Le système de notation accorde plus de poids aux questions difficiles, donc maintenir la précision sur les questions de niveau intermédiaire tout en tentant les questions avancées est la stratégie optimale."
+        "title": "Format : 60 minutes, retours autorisés, mais les textes se densifient",
+        "p1": "La CE du TCF Canada comporte 39 questions à choix multiples, chacune avec 4 options (A/B/C/D). La durée totale est de 60 minutes — environ 3 minutes de consignes et 57 minutes de réponse active.",
+        "p2": "La plus grande différence avec la CO : **vous pouvez revenir en arrière et modifier vos réponses**. Cela ressemble à un cadeau, mais cela signifie aussi que vous gérez vous-même le temps — et sans audio pour rythmer votre progression, il est facile de passer 5 minutes sur une question difficile et de découvrir qu'il reste 20 questions à traiter.",
+        "p3": "Le format des questions est uniforme (choix multiple), mais les types de textes varient énormément : annonces, publicités, menus (A1), courriels, blogs, descriptions de produits (A2-B1), éditoriaux, reportages de fond (B1-B2), articles académiques, extraits littéraires, documents juridiques (B2-C2). À mesure que l'on avance, les textes s'allongent et la syntaxe devient plus imbriquée.",
+        "p4": "Objectifs des questions : informations factuelles (heure/lieu/prix), idée principale, position de l'auteur, sens implicite, relations logiques (cause/concession/contraste), reformulation synonymique. Les questions de haut niveau (C1-C2) ne testent pratiquement plus la compréhension littérale — elles portent presque exclusivement sur l'inférence et la reconnaissance rhétorique."
+      },
+      "scoring": {
+        "title": "Tableau de pondération : pourquoi le bloc B2 est le vrai tournant",
+        "intro": "Sur la base des données réelles de notation de 1 638 questions CE de HiTCF (tirées des 42 séries complètes), la CE du TCF Canada répartit les points comme suit. Notez que les questions C1 valent 26 points (vs 27 en CO) — c'est une pondération officielle spécifique à la CE :",
+        "tableHeader": {
+          "range": "Questions",
+          "level": "Niveau",
+          "pointsPerQ": "Points/Q",
+          "subtotal": "Sous-total",
+          "percent": "Part"
+        },
+        "rows": [
+          {
+            "range": "Q1-4",
+            "level": "A1",
+            "pointsPerQ": "3 pts",
+            "subtotal": "12 pts",
+            "percent": "1,7%"
+          },
+          {
+            "range": "Q5-10",
+            "level": "A2",
+            "pointsPerQ": "9 pts",
+            "subtotal": "54 pts",
+            "percent": "7,7%"
+          },
+          {
+            "range": "Q11-19",
+            "level": "B1",
+            "pointsPerQ": "15 pts",
+            "subtotal": "135 pts",
+            "percent": "19,3%"
+          },
+          {
+            "range": "Q20-29",
+            "level": "B2",
+            "pointsPerQ": "21 pts",
+            "subtotal": "210 pts",
+            "percent": "30,0%"
+          },
+          {
+            "range": "Q30-35",
+            "level": "C1",
+            "pointsPerQ": "26 pts",
+            "subtotal": "156 pts",
+            "percent": "22,3%"
+          },
+          {
+            "range": "Q36-39",
+            "level": "C2",
+            "pointsPerQ": "33 pts",
+            "subtotal": "132 pts",
+            "percent": "18,9%"
+          }
+        ],
+        "totalLabel": "Maximum",
+        "totalValue": "699 points (pour les 39 questions)",
+        "insight": "Le bloc B2 (Q20-29, 10 questions pour 210 points) est la vraie zone critique — 30% du total. Les niveaux C1+C2 combinés ajoutent encore 41,2% (288 points), ce qui représente plus de poids que le bloc équivalent en CO. La CE exige plus de compétences avancées que la CO : pour atteindre CLB 8+, il faut gérer les textes longs C1-C2 de manière fiable ; vous ne pouvez pas vous reposer sur les 19 premières questions qui ne représentent ensemble que 28,7% du score."
       },
       "levels": {
-        "title": "Types de questions par niveau",
+        "title": "Les quatre bandes de difficulté",
         "a1a2": {
-          "title": "Niveau 1 : A1-A2 (Questions 1-10)",
-          "desc": "Textes courts et pratiques : panneaux, étiquettes, publicités simples, messages brefs et menus. Les questions vous demandent d'identifier des informations de base comme les prix, dates, lieux et instructions simples. Le vocabulaire est quotidien et concret. Ce sont des points faciles — visez 100 % de réussite."
+          "title": "A1-A2 (Q1-10) : 66 points gratuits",
+          "desc": "Textes courts et pratiques : panneaux, menus, publicités brèves, SMS, horaires, plans de métro. Les phrases font généralement moins de 15 mots, le vocabulaire est quotidien. Les questions sont directes : « Quel est le prix ? », « À quelle heure ça ouvre ? », « Quel type de publicité est-ce ? »",
+          "scenarios": "Scénarios typiques : affiches promotionnelles, menus de restaurants, horaires de transport, descriptions touristiques, billets de cinéma, courriels de notification",
+          "sample": "Exemple : une affiche de cinéma indique « Séances du vendredi au dimanche : 14h, 17h, 20h30. Tarif réduit le mercredi. » Question : « Quand peut-on voir un film à prix réduit ? » — réponse : mercredi. Pure localisation de mot-clé",
+          "errors": "Erreurs fréquentes : rater la plage temporelle « du ... au ... » ; confondre prix réduit et plein tarif ; lire le mauvais jour (vendredi vs jeudi)"
         },
         "a2b1": {
-          "title": "Niveau 2 : A2-B1 (Questions 11-19)",
-          "desc": "Textes de longueur moyenne : courriels personnels, articles de blog, guides de voyage, descriptions de produits et articles de presse simples. Vous devez comprendre l'idée principale, localiser des informations spécifiques et suivre un récit ou un argument basique. Certains mots peuvent être inconnus, mais des indices contextuels sont généralement disponibles."
+          "title": "A2-B1 (Q11-19) : textes moyens, l'idée principale compte",
+          "desc": "La longueur double (100-200 mots) : blogs personnels, récits de voyage, descriptions de produits, actualités simples, Q&R de forum. Des phrases composées apparaissent, des subordonnées simples, quelques expressions familières. Les questions passent de « trouver l'info » à « de quoi parle ce paragraphe » et « comment l'auteur se sent ».",
+          "scenarios": "Scénarios typiques : blogs lifestyle, avis de produits, journaux de voyage, forums d'entraide, actualités simples, courriels professionnels",
+          "sample": "Exemple : un blog sur la première année de l'auteur à Lyon — des aspects positifs, d'autres négatifs. Question : « Quel est le sentiment général de l'auteur ? » — il faut synthétiser « le temps est mauvais » + « les gens sont sympas » + « la nourriture est moyenne » + « le rythme est agréable » et choisir « globalement satisfait, avec réserves » plutôt que « aime » ou « n'aime pas »",
+          "errors": "Erreurs fréquentes : tirer une conclusion du premier ou dernier paragraphe (TCF adore les retournements au milieu) ; prendre un exemple pour l'idée principale ; ignorer la position qui suit mais/pourtant/cependant"
         },
         "b1b2": {
-          "title": "Niveau 3 : B1-B2 (Questions 20-30)",
-          "desc": "Textes plus longs et complexes : éditoriaux, articles de magazines, correspondance formelle et brochures informatives. Les questions testent votre capacité à comprendre le sens implicite, identifier l'intention et le ton de l'auteur, et suivre des arguments logiques. Le vocabulaire est plus abstrait et les phrases plus longues avec des subordonnées."
+          "title": "B1-B2 (Q20-29) : zone critique de notation (210 points)",
+          "desc": "Longueur de 250-400 mots : éditoriaux, reportages de fond, lettres formelles, notes de politique, interviews, commentaires culturels. Vocabulaire abstrait (politique, opinion, comparaison), phrases longues avec subordonnées imbriquées. Les questions portent massivement sur « ce que l'auteur pense vraiment » et « ce qui est sous-entendu » et « en quoi deux intervenants diffèrent ».",
+          "scenarios": "Scénarios typiques : éditoriaux du Monde, chroniques de La Croix, interviews du Figaro, notes de politique gouvernementale, critiques culturelles, vulgarisation scientifique longue",
+          "sample": "Exemple : un éditorial sur le télétravail. Première moitié : avantages. Seconde moitié : « mais il ne faut pas sous-estimer les risques d'isolement et de surcharge mentale. » Question : « Quelle est la position de l'auteur ? » — ni « favorable » ni « défavorable », mais « reconnaît les avantages tout en avertissant des coûts ». Tout ce qui suit « mais » compte",
+          "errors": "Erreurs fréquentes : être induit en erreur par la première moitié positive ; ne pas reconnaître « il ne faut pas sous-estimer » (= prendre au sérieux) ; confondre « les deux aspects mentionnés » avec « neutre » (la position réelle est dans la seconde moitié)"
         },
         "b2c1": {
-          "title": "Niveau 4 : B2-C2 (Questions 31-39)",
-          "desc": "Textes sophistiqués : articles académiques, extraits littéraires, documents juridiques, essais philosophiques et rapports scientifiques. Vous devez analyser des arguments complexes, comprendre un vocabulaire nuancé, identifier des procédés rhétoriques et synthétiser des informations à travers les paragraphes."
+          "title": "B2-C2 (Q30-39) : la décision entre CLB 7 et CLB 9",
+          "desc": "Longueur de 400-600 mots : extraits d'articles académiques, œuvres littéraires (Camus, Maupassant, Le Clézio), textes juridiques, essais philosophiques, analyses économiques, revues scientifiques. Les phrases peuvent dépasser 40 mots avec plusieurs subordonnées, rhétorique complexe (ironie, métaphore, jeux de mots). Vocabulaire académique et spécialisé, difficile à déduire du contexte. 26-33 points par question ; 10 questions totalisant 288 points — ce bloc détermine votre plafond.",
+          "scenarios": "Scénarios typiques : extraits de manuels universitaires, passages de littérature classique, jugements juridiques, essais philosophiques, résumés de revues scientifiques, rapports économiques",
+          "sample": "Exemple : l'ouverture de L'Étranger de Camus. Question : « Quel effet l'auteur cherche-t-il à produire avec la phrase 'Aujourd'hui, maman est morte' ? » — pas le sens littéral (trop simple), mais l'intention rhétorique : les options incluent « souligner le deuil », « montrer le détachement », « insister sur le quotidien », « susciter la pitié ». Il faut reconnaître le style existentialiste de Camus",
+          "errors": "Erreurs fréquentes : essayer de traduire chaque mot et perdre le rythme ; ne pas repérer l'ironie (« quelle belle journée » dans un contexte sombre = sarcastique) ; confondre la position de l'auteur avec l'opinion opposée qu'il cite ; lire « nul ne peut » (interdiction absolue) comme « personne ne peut »"
+        }
+      },
+      "strategy": {
+        "title": "Stratégie de répartition du temps sur 60 minutes",
+        "intro": "La plus grande différence avec la CO : vous gérez le chrono. Mais c'est à double tranchant — les candidats sans discipline de rythme perdent du temps sur les questions difficiles. Voici la répartition optimale basée sur les vraies pondérations :",
+        "phase1": {
+          "title": "Étape 1 : Q1-10 (objectif 8 minutes)",
+          "action": "48 secondes par question. Ce bloc doit être quasi instantané — lire la question → repérer le mot-clé → vérifier les options → choisir. Ne lisez pas tout le texte en détail, seulement autour du mot-clé. Boucler 66 points en 8 minutes est votre premier point de contrôle.",
+          "tip": "Si ce bloc prend plus de 12 minutes, votre vocabulaire de base n'est pas assez solide. Revenez aux listes A1-A2 avant de réserver l'examen."
+        },
+        "phase2": {
+          "title": "Étape 2 : Q11-19 (objectif 14 minutes)",
+          "action": "Environ 1,5 minute par question. Les textes s'allongent ; survolez la structure des paragraphes (première phrase + dernière phrase + phrases clés) avant de plonger sur la réponse. Vous devriez être à 22 minutes au total, 201/699 points.",
+          "tip": "Entraînez l'habitude « lire à moitié, passer à la question pour voir ce qu'on demande » — beaucoup de questions TCF ne nécessitent qu'un seul paragraphe, pas le texte entier."
+        },
+        "phase3": {
+          "title": "Étape 3 : Q20-29 (objectif 18 minutes)",
+          "action": "Environ 1,8 minute par question. C'est le bloc central de 210 points — à ne pas sauter. Lisez la structure argumentative complète : introduction → preuves → pivot → conclusion. Si le brouillon est autorisé, cartographiez la phrase centrale de chaque paragraphe. Cumul : 40 minutes, 411/699 points.",
+          "tip": "Si une question vous bloque, marquez-la (un ? à côté du numéro) et passez, mais revenez-y. Une case blanche de 21 points est la « non-réponse » la plus chère de la CE."
+        },
+        "phase4": {
+          "title": "Étape 4 : Q30-39 (objectif 18 min + 2 min de revue)",
+          "action": "Environ 1,8 minute par question. Bloc haut niveau — renoncez à comprendre chaque mot et accrochez-vous au squelette argumentatif et au ton. Sautez le vocabulaire technique ; jugez positif/négatif par le contexte. Gardez 2 minutes à la fin pour revoir les questions marquées (?), en priorisant le bloc B2 (les 21 points/Q ont un meilleur ROI de correction que les 26 points/Q de C1, car les erreurs B2 viennent souvent de l'inattention).",
+          "tip": "Le bloc C2 (Q36-39, 4 questions = 132 points) est le plus difficile. Si le temps manque, « deviner stratégiquement » vaut mieux qu'une case blanche — 25% vs 0%. Ne passez pas 10 minutes à vous acharner sur la dernière question."
+        }
+      },
+      "traps": {
+        "title": "10 pièges fréquents en CE (avec parades)",
+        "intro": "Les données d'erreurs HiTCF montrent que 70% des pertes de points en CE se concentrent sur ces 10 pièges. Contrairement aux pièges de la CO, les pièges de la CE vivent davantage dans les couches « vocabulaire » et « logique ».",
+        "items": [
+          {
+            "title": "Piège 1 : faux amis",
+            "desc": "actuel ≠ actual (signifie « current ») ; sensible ≠ sensitive (signifie « sensible ») ; assister ≠ assist (signifie « to attend ») ; librairie ≠ library (signifie « bookshop » ; library = bibliothèque). Parade : mémorisez une liste standard de faux amis."
+          },
+          {
+            "title": "Piège 2 : références ambiguës",
+            "desc": "« Cela », « celui-ci », « lequel », « dont », « y », « en » remplacent tous un nom ou un concept antérieur. Mal lire l'antécédent casse la question. Parade : à chaque pronom, remontez dans le texte pour confirmer à quoi il renvoie."
+          },
+          {
+            "title": "Piège 3 : portée de la négation",
+            "desc": "« Je ne crois pas qu'il soit heureux » ≠ « Je crois qu'il n'est pas heureux ». « ne...que » signifie « seulement » — c'est affirmatif, pas négatif. Parade : devant une négation, demandez-vous ce qui est nié exactement."
+          },
+          {
+            "title": "Piège 4 : inversion de concession",
+            "desc": "« Bien que / Quoique / Même si + subj » signifie « même si... [en fait]... ». La vraie position est dans la principale. « Il est certes intelligent, mais paresseux » — le verdict de l'auteur est « paresseux », pas « intelligent ». Parade : bien que / certes / malgré sont des signaux « ignorez cette première partie »."
+          },
+          {
+            "title": "Piège 5 : pièges de temps conditionnels",
+            "desc": "« Si j'avais su, je serais venu » (irréel du passé : je ne suis pas venu) ≠ « Si je sais, je viens » (hypothèse réelle). Parade : devant « si », identifiez d'abord le temps verbal."
+          },
+          {
+            "title": "Piège 6 : sujet/objet inversés",
+            "desc": "Les relatives françaises peuvent s'inverser : « Le livre que Paul a donné à Marie » — qui a donné quoi à qui ? Saisissez le sujet principal (Paul), le verbe (donné), l'objet indirect (à Marie). Parade : tracez sujet-verbe-objet avec le doigt sur le papier."
+          },
+          {
+            "title": "Piège 7 : adverbes de temps impliquant un changement",
+            "desc": "« autrefois » vs « de nos jours » — ces contrastes temporels signalent que l'auteur parle d'un changement, et la question peut demander « l'auteur regrette-t-il le passé ? ». Parade : dès qu'un contraste temporel apparaît, identifiez la position de l'auteur."
+          },
+          {
+            "title": "Piège 8 : questions rhétoriques",
+            "desc": "« Comment peut-on accepter cela ? » est rhétorique — signifie « c'est inacceptable ». « Qui n'a jamais rêvé de... ? » = « tout le monde a rêvé de... ». Parade : chaque point d'interrogation mérite un petit contrôle."
+          },
+          {
+            "title": "Piège 9 : options toutes présentes dans le texte",
+            "desc": "Piège classique du TCF : les options A et B citent toutes deux des mots du texte, mais une seule reflète la position globale de l'auteur. Parade : en comparant les options, demandez-vous dans quel contexte chaque phrase est apparue — la simple apparition ne fait pas de l'option l'opinion de l'auteur."
+          },
+          {
+            "title": "Piège 10 : surinterprétation",
+            "desc": "Une option paraît plausible et « logique » mais n'est pas soutenue par le texte. Le TCF ne teste que « les conclusions que le texte soutient », pas « les connaissances générales ». Parade : avant de choisir, retournez au texte et trouvez un appui explicite ; sinon, ne choisissez pas."
+          }
+        ]
+      },
+      "keyExpressions": {
+        "title": "Connecteurs et structures fréquents (4 catégories)",
+        "intro": "Le point de notation caché en CE est la « reconnaissance des connecteurs » — ces mots sont le squelette logique de tout texte. Voici les quatre familles les plus fréquentes :",
+        "time": {
+          "name": "Temps / séquence",
+          "items": "auparavant · désormais · jadis · actuellement · à l'avenir · entre-temps · dès lors · peu à peu · tout à coup · par la suite"
+        },
+        "numbers": {
+          "name": "Cause / conclusion",
+          "items": "donc · par conséquent · ainsi · c'est pourquoi · de ce fait · en conséquence · par suite de · en raison de · grâce à · à cause de · faute de"
+        },
+        "negation": {
+          "name": "Concession / inversion",
+          "items": "cependant · toutefois · néanmoins · pourtant · en revanche · par contre · alors que · tandis que · bien que + subj · quoique + subj · malgré · en dépit de · certes...mais"
+        },
+        "tone": {
+          "name": "Attitude / position",
+          "items": "à mon avis · selon moi · d'après · il me semble que · il est évident que · sans aucun doute · paraît-il · soi-disant · prétendument · il est à noter que · on peut déplorer que · il convient de souligner"
+        }
+      },
+      "preparationPlan": {
+        "title": "Plan de préparation de 8 semaines (de B1 à CLB 7+)",
+        "intro": "Ce plan suppose une base B1 et vise le CLB 7 (331+ points en CE). Prévoir environ une heure de lecture par jour.",
+        "week1_2": {
+          "title": "Semaines 1-2 : balayage du vocabulaire + textes de base",
+          "actions": "Mémoriser 30 mots A2-B1 à haute fréquence par jour (focus : faux amis, connecteurs, marqueurs temporels) ; 4 séries HiTCF niveau A1-A2 ; lire un article RFI en français facile ou 1 Jour 1 Actu par jour."
+        },
+        "week3_4": {
+          "title": "Semaines 3-4 : adaptation aux textes moyens",
+          "actions": "Passer à des articles ordinaires du Monde, de Libération, de France 24 ; 6 séries HiTCF A2-B1 ; s'entraîner à la stratégie « question d'abord, texte ensuite »."
+        },
+        "week5_6": {
+          "title": "Semaines 5-6 : percée centrale (B1-B2)",
+          "actions": "10-15 questions HiTCF B1-B2 par jour ; se concentrer sur les éditoriaux pour entraîner l'identification de position ; 2 examens blancs complets de 60 minutes par semaine."
+        },
+        "week7_8": {
+          "title": "Semaines 7-8 : sprint haut niveau (B2-C2)",
+          "actions": "Attaquer la bande C1-C2 : un long article à la une du Monde ou un extrait littéraire par jour (Camus, Saint-Exupéry, Le Clézio) ; 3 examens blancs complets par semaine ; revue du carnet d'erreurs axée sur le bloc B2 (21 pts/question)."
         }
       },
       "tips": {
-        "title": "Conseils et stratégies de lecture",
-        "tip1": "Lisez d'abord la question, puis le texte. Cette approche de lecture ciblée fait gagner du temps et vous aide à localiser rapidement les informations pertinentes au lieu de lire tout le passage en détail.",
-        "tip2": "Pour les textes longs, survolez d'abord pour saisir la structure globale et l'idée principale, puis lisez plus attentivement les sections pertinentes aux questions. Prêtez attention aux débuts de paragraphes et aux phrases-thèmes.",
-        "tip3": "Attention aux négations et aux nuances. Les mots comme ne...pas, ne...jamais, seulement, rarement et à peine peuvent complètement changer le sens d'une phrase et sont couramment utilisés dans les distracteurs.",
-        "tip4": "Construisez votre vocabulaire systématiquement. Apprenez les familles de mots (ex. emploi, employeur, employé, employer) et les préfixes/suffixes courants (re-, dé-, -ment, -tion) pour déduire le sens des mots inconnus.",
-        "tip5": "La gestion du temps est cruciale. Passez environ 1 minute sur les questions A1-A2, 1,5 minute sur les questions B1, et jusqu'à 2 minutes sur les questions B2-C2. Si vous bloquez, marquez la question et passez à la suivante."
+        "title": "10 conseils à appliquer immédiatement",
+        "tip1": "Lisez la question avant le texte. 70% des questions TCF ne nécessitent qu'un paragraphe ; savoir ce que vous cherchez est 3× plus efficace que lire de bout en bout.",
+        "tip2": "En survol, concentrez-vous sur la première et la dernière phrase de chaque paragraphe — ce sont généralement les phrases thématiques.",
+        "tip3": "Ne vous arrêtez pas sur les mots inconnus. Utilisez les familles de mots (emploi/employé/employer) et les affixes (in-, dé-, re-, -tion, -ment). Si vous ne pouvez vraiment pas, sautez — cela affecte rarement la réponse.",
+        "tip4": "Verrouillez les mots d'inversion : mais, cependant, toutefois, en revanche, néanmoins, pourtant — ce sont les signaux de retournement de position que le TCF adore tester.",
+        "tip5": "Méfiez-vous des faux amis : actuel, sensible, assister, éventuellement, librairie, etc. Ils ressemblent à l'anglais mais signifient autre chose — pièges fréquents à l'examen.",
+        "tip6": "Respectez la répartition du temps : A1-A2 = 1 min, B1 = 1,5 min, B2-C2 = 1,8-2 min par question. En cas de dépassement, marquez et passez.",
+        "tip7": "Chaque réponse doit avoir un appui textuel direct — ne vous fiez jamais au « bon sens » ou à « ce qui semble probable ». Le TCF teste le texte, pas le monde.",
+        "tip8": "Utilisez des symboles dans vos notes : ↗ d'accord, ↘ contre, ? pivot, ! important, → cause-effet. Sur le brouillon (si autorisé), dessinez la structure des paragraphes.",
+        "tip9": "Dans le bloc haut niveau (C1-C2), renoncez à comprendre chaque mot. Saisissez le squelette argumentatif et le ton. Sauter le vocabulaire technique casse rarement une question.",
+        "tip10": "Ne laissez jamais une question vide. Si le temps manque, devinez — le TCF ne pénalise pas les mauvaises réponses. 25% de chance vaut mieux que 0%."
       },
       "practice": {
-        "title": "Comment s'entraîner efficacement",
-        "desc": "Sur HiTCF, commencez avec le mode Entraînement pour lire à votre rythme et consulter les explications pour chaque question. Passez ensuite au mode Examen avec le chronomètre de 60 minutes pour simuler les conditions réelles. Utilisez le Tableau de bord pour suivre votre précision par niveau et l'Entraînement par niveau pour vous concentrer sur les niveaux à améliorer. Revoyez vos erreurs dans le carnet d'erreurs et cherchez des tendances dans les types de questions que vous ratez."
+        "title": "Comment s'entraîner efficacement à la CE sur HiTCF",
+        "p1": "HiTCF propose 42 séries complètes de CE TCF Canada avec 1 638 questions réelles, chacune accompagnée d'une **explication option par option** — pas seulement « la réponse est B », mais pourquoi A est faux (le paragraphe X dit le contraire), pourquoi B est juste (le paragraphe Y le dit explicitement), et pourquoi C est un piège (il utilise un mot du texte dans un sens différent). C'est rare sur d'autres plateformes TCF, et pour un examen de compréhension, la qualité des explications compte bien plus que le nombre brut de questions.",
+        "p2": "Flux recommandé en 3 phases : (1) **Mode Entraînement** — lecture lente, explications visibles, recherche de vocabulaire autorisée, objectif comprendre le squelette logique de chaque texte ; idéal en début. (2) **Entraînement par niveau** — cibler une bande faible (si votre précision B1 est sous 60%, travaillez uniquement B1) ; idéal en milieu. (3) **Mode Examen** — 60 minutes chronométrées, simulant la pression réelle ; idéal les 2 dernières semaines.",
+        "p3": "Après chaque séance, consultez le graphique « précision par niveau ». Les points faibles en CE diffèrent souvent de la CO — beaucoup de candidats sont forts en CO B2 mais faibles en CE B2 (car la CE exige plus de vocabulaire et d'analyse de phrases longues). Groupez vos erreurs par type dans le carnet (faux ami / portée de négation / référence ambiguë) et travaillez par type — c'est 3 à 5 fois plus efficace que refaire des séries au hasard."
+      },
+      "faq": {
+        "title": "Questions fréquentes",
+        "q1": {
+          "q": "Peut-on modifier ses réponses en CE TCF Canada ?",
+          "a": "Oui. C'est la plus grande différence avec la CO. Pendant les 60 minutes, vous pouvez sauter des questions, y revenir et modifier vos réponses. Cela donne de la flexibilité — mais demande de la discipline, car vous ne pouvez pas vous permettre de vous acharner sur une seule question difficile."
+        },
+        "q2": {
+          "q": "Combien de points de CE faut-il pour le CLB 7 ?",
+          "a": "Le CLB 7 exige au moins 331 points de CE sur 699. Le CLB 8 en demande 379, le CLB 9 en demande 453. La plupart des programmes d'immigration canadiens exigent le CLB 7."
+        },
+        "q3": {
+          "q": "Peut-on utiliser un dictionnaire pendant l'examen ?",
+          "a": "Non. Le TCF Canada n'autorise aucun matériel de référence — pas de dictionnaire, pas de téléphone, pas de notes. Seul le brouillon et le stylo fournis par le centre sont permis."
+        },
+        "q4": {
+          "q": "Je lis lentement en français. Que faire ?",
+          "a": "La vitesse de lecture se travaille. Chaque jour, chronométrez-vous sur un article de presse français (commencer à 10 minutes, descendre progressivement à 5) ; entraînez le survol (première/dernière phrase seulement) ; faites les exercices chronométrés par niveau de HiTCF. 8 semaines améliorent généralement la vitesse de lecture de 40 à 60%."
+        },
+        "q5": {
+          "q": "Tous les textes sont-ils en français standard ?",
+          "a": "La grande majorité sont en français standard. Vous verrez parfois des expressions canadiennes ou africaines — généralement dans des dialogues ou des extraits littéraires. Les textes formels sont presque toujours en français standard."
+        },
+        "q6": {
+          "q": "Et si je n'ai jamais lu les œuvres littéraires utilisées en C1-C2 ?",
+          "a": "Aucun besoin. Le TCF ne teste pas l'histoire littéraire — seulement si vous pouvez comprendre le passage. Même si le texte vient de Camus ou de Saint-Exupéry, la question porte sur le contenu du paragraphe, le ton ou la rhétorique, pas sur le contexte biographique."
+        },
+        "q7": {
+          "q": "Qu'est-ce que la fonction d'explication CE de HiTCF ?",
+          "a": "Chaque question inclut une **analyse option par option** : pourquoi A est faux (parce que le paragraphe X le contredit), pourquoi B est juste (le paragraphe Y l'affirme explicitement), pourquoi C est un piège (il reprend un mot du texte dans un sens différent). Pour un examen de compréhension, c'est bien plus utile qu'un simple corrigé."
+        },
+        "q8": {
+          "q": "Comment se préparer la semaine précédant l'examen ?",
+          "a": "J-7 à J-3 : un examen blanc complet de 60 minutes par jour plus la revue des erreurs. J-2 et J-1 : revue uniquement des types de pièges à haute fréquence dans le carnet (faux amis, négation, références, concession) — pas de nouvelles questions. Veille : se coucher tôt ; 20 minutes du Monde suffisent pour garder le français en forme."
+        }
       },
       "cta": {
-        "title": "Commencez la pratique de lecture maintenant",
-        "desc": "HiTCF propose 42 séries complètes de compréhension écrite avec plus de 1 600 questions et analyses détaillées des passages. Pratiquez par niveau ou passez des examens blancs complets pour renforcer votre confiance.",
+        "title": "Commencez votre entraînement CE maintenant",
+        "desc": "HiTCF propose 42 séries TCF Canada CE, 1 638 questions réelles, explications option par option, entraînement par niveau, examens blancs de 60 minutes et carnet d'erreurs. Inscription gratuite avec 7 jours Pro offerts — aucune carte bancaire requise.",
+        "dataPoint": "D'après nos données utilisateurs, les candidats qui tiennent 1 heure par jour pendant 8 semaines gagnent en moyenne +100 points en CE (CLB 5 → CLB 7).",
         "practiceButton": "Pratiquer la lecture",
         "overviewButton": "Aperçu TCF Canada"
       }
