@@ -54,6 +54,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...localizedEntries("/guide/tcf-speaking", { changeFrequency: "monthly", priority: 0.8 }),
     ...localizedEntries("/guide/tcf-writing", { changeFrequency: "monthly", priority: 0.8 }),
     ...localizedEntries("/guide/tcf-score-chart", { changeFrequency: "monthly", priority: 0.9 }),
+    ...localizedEntries("/guide/tcf-canada-vs-tef", { changeFrequency: "monthly", priority: 0.9 }),
     // Blog
     ...localizedEntries("/blog", { changeFrequency: "weekly", priority: 0.7 }),
     ...getAllSlugs().flatMap((slug) =>
