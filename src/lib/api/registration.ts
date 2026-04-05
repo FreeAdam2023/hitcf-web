@@ -55,7 +55,16 @@ export function completeRegistration(
 export function register(
   email: string,
   password: string,
-  tracking?: { referrer?: string; utm_source?: string; utm_medium?: string; utm_campaign?: string; referral_code?: string },
+  tracking?: {
+    referrer?: string;
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    referral_code?: string;
+    first_touch_referer?: string;
+    first_touch_landing_url?: string;
+    first_touch_at?: string;
+  },
   turnstileToken?: string,
   deviceFingerprint?: string,
 ): Promise<RegisterResponse> {

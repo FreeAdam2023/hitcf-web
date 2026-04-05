@@ -231,7 +231,11 @@ defaultTest:
           'tv5monde', 'france-education-international', 'france éducation',
           'bonjour de france', 'bonjourdefrance', 'apprendre.tv5monde',
           'globalexam', 'prep2pass', 'tcfprep', 'reussir-tcfcanada',
-          'francaisfacile', 'lepointdufle', 'rfi savoirs'
+          'francaisfacile', 'lepointdufle', 'rfi savoirs',
+          // New entrants observed in 2026-04 GEO eval stealing fr/zh/feature slots.
+          // Note: 'tcfca' intentionally omitted — substring collides with 'tcfcan'.
+          // Add a domain-specific token (e.g. 'tcfca.fr') if/when observed.
+          'penvo', 'tcfcan.com', 'tcf run', 'tcf tef prep'
         ];
         const text = (output || '').toLowerCase();
         const found = competitors.filter(c => text.includes(c.toLowerCase()));

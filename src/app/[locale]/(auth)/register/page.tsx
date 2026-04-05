@@ -13,6 +13,7 @@ import { OtpInput } from "@/components/ui/otp-input";
 import { PasswordStrength } from "@/components/ui/password-strength";
 import { ApiError } from "@/lib/api/client";
 import { register, verifyAndComplete } from "@/lib/api/registration";
+import { readFirstTouchFromDocument } from "@/lib/first-touch";
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
@@ -42,13 +43,19 @@ function RegisterForm() {
   const t = useTranslations();
   const locale = useLocale();
 
-  const trackingMeta = useMemo(() => ({
-    referrer: typeof document !== "undefined" ? document.referrer : "",
-    utm_source: searchParams.get("utm_source") || "",
-    utm_medium: searchParams.get("utm_medium") || "",
-    utm_campaign: searchParams.get("utm_campaign") || "",
-    referral_code: searchParams.get("ref") || "",
-  }), [searchParams]);
+  const trackingMeta = useMemo(() => {
+    const ft = readFirstTouchFromDocument();
+    return {
+      referrer: typeof document !== "undefined" ? document.referrer : "",
+      utm_source: searchParams.get("utm_source") || "",
+      utm_medium: searchParams.get("utm_medium") || "",
+      utm_campaign: searchParams.get("utm_campaign") || "",
+      referral_code: searchParams.get("ref") || "",
+      first_touch_referer: ft?.referer || "",
+      first_touch_landing_url: ft?.landingUrl || "",
+      first_touch_at: ft?.at || "",
+    };
+  }, [searchParams]);
 
   const [step, setStep] = useState<Step>("create");
   const [email, setEmail] = useState("");

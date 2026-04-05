@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import jwt from "jsonwebtoken";
 import { headers as getHeaders, cookies as getCookies } from "next/headers";
+import { FIRST_TOUCH_COOKIE, parseFirstTouch } from "@/lib/first-touch";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8001";
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "dev-secret-change-in-production";
@@ -68,6 +69,10 @@ export const authOptions: NextAuthOptions = {
             const cookieLocale = c.get("NEXT_LOCALE")?.value || "";
             const refererMatch = referer.match(/\/(?:zh|en|fr|ar)\//);
             const locale = cookieLocale || (refererMatch ? refererMatch[0].replace(/\//g, "") : "");
+            // First-touch cookie survives OAuth redirect — recovers original
+            // referrer (ChatGPT, search, etc.) that last-click attribution
+            // loses to accounts.google.com.
+            const ft = parseFirstTouch(c.get(FIRST_TOUCH_COOKIE)?.value);
             trackingData = {
               signup_ip: h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "",
               signup_user_agent: h.get("user-agent") || "",
@@ -75,6 +80,9 @@ export const authOptions: NextAuthOptions = {
               signup_utm_source: c.get("utm_source")?.value || "",
               signup_utm_medium: c.get("utm_medium")?.value || "",
               signup_utm_campaign: c.get("utm_campaign")?.value || "",
+              first_touch_referer: ft?.referer || "",
+              first_touch_landing_url: ft?.landingUrl || "",
+              first_touch_at: ft?.at || "",
               referral_code: c.get("ref")?.value || "",
               locale,
             };
