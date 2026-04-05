@@ -34,6 +34,8 @@ import {
   Moon,
   Sun,
   Monitor,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -98,6 +100,10 @@ export function AccountView() {
 
   // Language
   const [langSaving, setLangSaving] = useState(false);
+
+  // Sound effect toggle
+  const [soundSaving, setSoundSaving] = useState(false);
+  const soundEnabled = user?.sound_enabled ?? true;
 
 
   const quoteIndex = useMemo(
@@ -543,6 +549,48 @@ export function AccountView() {
                 {mode === "dark" && <Moon className="mr-1 h-3 w-3" />}
                 {mode === "system" && <Monitor className="mr-1 h-3 w-3" />}
                 {t(`account.theme.${mode}`)}
+              </Button>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ── Sound Effects Card ── */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
+            {t("account.sound.title")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="mb-3 text-sm text-muted-foreground">
+            {t("account.sound.description")}
+          </p>
+          <div className="flex gap-2">
+            {([true, false] as const).map((value) => (
+              <Button
+                key={String(value)}
+                size="sm"
+                variant={soundEnabled === value ? "default" : "outline"}
+                disabled={soundSaving}
+                onClick={async () => {
+                  if (soundEnabled === value) return;
+                  setSoundSaving(true);
+                  try {
+                    await updateProfile({ sound_enabled: value });
+                    await fetchUser();
+                  } finally {
+                    setSoundSaving(false);
+                  }
+                }}
+              >
+                {soundSaving && soundEnabled !== value ? (
+                  <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+                ) : soundEnabled === value ? (
+                  <Check className="mr-1 h-3 w-3" />
+                ) : null}
+                {t(value ? "account.sound.on" : "account.sound.off")}
               </Button>
             ))}
           </div>

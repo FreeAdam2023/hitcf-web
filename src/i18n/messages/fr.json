@@ -1071,6 +1071,12 @@
       "dark": "Sombre",
       "system": "Système"
     },
+    "sound": {
+      "title": "Effets sonores",
+      "description": "Jouer un son court lors d'une réponse correcte ou incorrecte en mode entraînement",
+      "on": "Activé",
+      "off": "Désactivé"
+    },
     "heroGreetingPro": "Bonjour, {name}",
     "heroGreetingFree": "Salut {name},",
     "quotes": {

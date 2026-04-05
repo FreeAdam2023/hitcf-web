@@ -1062,6 +1062,12 @@
       "dark": "Dark",
       "system": "System"
     },
+    "sound": {
+      "title": "Sound effects",
+      "description": "Play a short tone when you answer correctly or incorrectly during practice",
+      "on": "On",
+      "off": "Off"
+    },
     "heroGreetingPro": "Bonjour, {name}",
     "heroGreetingFree": "Salut {name},",
     "quotes": {

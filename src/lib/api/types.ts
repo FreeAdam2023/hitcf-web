@@ -23,6 +23,7 @@ export interface UserResponse {
   name: string | null;
   role: string;
   ui_language: string;
+  sound_enabled: boolean;
   subscription: SubscriptionInfo;
   trial_eligible: boolean;
   exam_date: string | null;

@@ -1062,6 +1062,12 @@
       "dark": "深色",
       "system": "跟随系统"
     },
+    "sound": {
+      "title": "音效",
+      "description": "练习答对或答错时播放提示音",
+      "on": "开启",
+      "off": "关闭"
+    },
     "heroGreetingPro": "Bonjour, {name}",
     "heroGreetingFree": "Salut {name},",
     "quotes": {

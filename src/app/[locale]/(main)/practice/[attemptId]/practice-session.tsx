@@ -13,6 +13,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { usePracticeStore } from "@/stores/practice-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { useTranscriptLang } from "@/hooks/use-transcript-lang";
+import { useSoundEffect } from "@/hooks/use-sound-effect";
 import { submitAnswer, completeAttempt, updateAttemptProgress, createAttempt, deleteAttempt } from "@/lib/api/attempts";
 import { toggleBookmark, checkBookmarks } from "@/lib/api/bookmarks";
 import { fetchDrillNav, loadDrillQuestion } from "@/lib/api/speed-drill";
@@ -511,6 +512,7 @@ export function PracticeSession() {
   // (computed below, after `question` is resolved) reads null whenever the
   // current question doesn't match.
   const [pendingSelection, setPendingSelection] = useState<{ qid: string; key: string } | null>(null);
+  const { playCorrect, playWrong } = useSoundEffect();
   const [submitting, setSubmitting] = useState(false);
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
   const [completing, setCompleting] = useState(false);
@@ -922,9 +924,11 @@ export function PracticeSession() {
       setPendingSelection(null);
       setSessionAnswered((c) => c + 1);
       if (fullAnswer.is_correct === false) {
+        playWrong();
         setWrongCollected(true);
         setTimeout(() => setWrongCollected(false), 2500);
       } else {
+        playCorrect();
         setSavedIndicator(true);
         setTimeout(() => setSavedIndicator(false), 2000);
       }
@@ -944,7 +948,7 @@ export function PracticeSession() {
       setSubmitting(false);
       setSubmittingKey(null);
     }
-  }, [selectedKey, question, attemptId, answers, previousAnswers, submitting, setAnswer, quotaReached, showQuotaModal]);
+  }, [selectedKey, question, attemptId, answers, previousAnswers, submitting, setAnswer, quotaReached, showQuotaModal, playCorrect, playWrong]);
 
   const handleComplete = async () => {
     if (!attemptId) return;
