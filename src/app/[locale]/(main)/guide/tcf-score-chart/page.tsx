@@ -416,7 +416,7 @@ export default async function TcfScoreChartGuidePage({
       <p>
         Quebec programs require a minimum of <strong>NCLC 7 in oral skills</strong>{" "}
         (CO + EO). For some streams, NCLC 5 in written skills (CE + EE) is
-        sufficient. The Programme de l'expérience québécoise (PEQ) also
+        sufficient. The Programme de l&apos;expérience québécoise (PEQ) also
         accepts NCLC 7 in oral comprehension and production.
       </p>
 
