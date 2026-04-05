@@ -102,7 +102,9 @@ export function SeatMonitorView() {
 
   useEffect(() => {
     load();
-    const refreshTimer = setInterval(load, 60_000);
+    // 15s polling matches backend scrape cadence — email is only a "tickle"
+    // that drives users here; the live view is the source of truth.
+    const refreshTimer = setInterval(load, 15_000);
     return () => clearInterval(refreshTimer);
   }, [load]);
 

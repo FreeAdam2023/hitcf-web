@@ -506,7 +506,11 @@ export function PracticeSession() {
     window.scrollTo({ top: 0 });
   }, [currentIndex]);
 
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  // Pending selection is tied to a specific question.id so navigation
+  // cannot leak a stale highlight onto the next question. Derived `selectedKey`
+  // (computed below, after `question` is resolved) reads null whenever the
+  // current question doesn't match.
+  const [pendingSelection, setPendingSelection] = useState<{ qid: string; key: string } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
   const [completing, setCompleting] = useState(false);
@@ -752,9 +756,10 @@ export function PracticeSession() {
       .catch(handleError);
   }, [locale]);
 
-  // Clear pending selection and indicators when navigating
+  // Clear transient indicators when navigating. `pendingSelection` does NOT
+  // need to be cleared here — it's bound to question.id and `selectedKey` is
+  // derived from it, so navigation naturally invalidates the selection.
   useEffect(() => {
-    setSelectedKey(null);
     setSavedIndicator(false);
     setWrongCollected(false);
     setExplanation(null);
@@ -807,6 +812,13 @@ export function PracticeSession() {
   if (rawQuestion) lastQuestionRef.current = rawQuestion;
   const question = rawQuestion ?? (drillMode ? lastQuestionRef.current : null);
   const isStaleQuestion = drillMode && !rawQuestion && !!lastQuestionRef.current;
+  // Derive selectedKey from pendingSelection: valid only when the stored
+  // qid matches the currently-displayed question. This eliminates the stale
+  // highlight that used to appear for one frame after navigation.
+  const selectedKey =
+    pendingSelection && question && pendingSelection.qid === question.id
+      ? pendingSelection.key
+      : null;
   const realAnswer = question ? (answers.get(question.id) ?? previousAnswers.get(question.id) ?? null) : null;
   // Open-book mode: fetch correct_answer directly from question detail API
   const [openBookCorrect, setOpenBookCorrect] = useState<Record<string, string>>({});
@@ -876,7 +888,7 @@ export function PracticeSession() {
   const handleSelect = useCallback((key: string) => {
     if (!question || !attemptId) return;
     if (answers.has(question.id) || previousAnswers.has(question.id) || submitting) return;
-    setSelectedKey(key);
+    setPendingSelection({ qid: question.id, key });
   }, [question, attemptId, answers, previousAnswers, submitting]);
 
   // Confirm button triggers actual submission
@@ -907,7 +919,7 @@ export function PracticeSession() {
       }
       const fullAnswer = { ...res, correct_answer: correctAnswer ?? null };
       setAnswer(question.id, fullAnswer);
-      setSelectedKey(null);
+      setPendingSelection(null);
       setSessionAnswered((c) => c + 1);
       if (fullAnswer.is_correct === false) {
         setWrongCollected(true);

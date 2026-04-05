@@ -46,15 +46,19 @@ export function ExamSession() {
   const isListening = testType === "listening";
 
   const [submitting, setSubmitting] = useState(false);
-  // Pending selection: user clicked an option but hasn't confirmed yet
-  const [pendingSelection, setPendingSelection] = useState<string | null>(null);
+  // Pending selection is tied to a specific question.id so navigation cannot
+  // leak a stale highlight onto the next question. The derived `pendingSelection`
+  // string (computed below after `question` is resolved) reads null whenever
+  // the current question doesn't match.
+  const [pendingRaw, setPendingRaw] = useState<{ qid: string; key: string } | null>(null);
   // Submit exam confirmation dialog
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
 
-  // Scroll to top and reset pending selection when navigating between questions
+  // Scroll to top when navigating between questions. `pendingRaw` does NOT
+  // need to be cleared — `pendingSelection` is derived from it and question.id,
+  // so navigation naturally invalidates the pending state with zero timing gap.
   useEffect(() => {
     window.scrollTo({ top: 0 });
-    setPendingSelection(null);
   }, [currentIndex]);
 
   // On unmount: auto-submit if in progress (no "continue exam")
@@ -207,11 +211,17 @@ export function ExamSession() {
 
   const question = questions[currentIndex];
 
+  // Derive the pending-selection string for the current question only.
+  // If the user navigated away from the question the selection was made on,
+  // this is null — preventing stale highlight leakage.
+  const pendingSelection: string | null =
+    pendingRaw && question && pendingRaw.qid === question.id ? pendingRaw.key : null;
+
   // Select: only sets pending (no API call yet)
   const handleSelect = useCallback((key: string) => {
     if (!question || submitting) return;
     if (isListening && answers.has(question.id)) return;
-    setPendingSelection(key);
+    setPendingRaw({ qid: question.id, key });
   }, [question, submitting, isListening, answers]);
 
   // Confirm: submit pending selection to backend + auto-advance
@@ -242,7 +252,7 @@ export function ExamSession() {
 
     if (success) {
       setAnswer(question.id, payload);
-      setPendingSelection(null);
+      setPendingRaw(null);
 
       // Auto-advance to next question
       if (isListening) {
