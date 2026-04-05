@@ -1,0 +1,247 @@
+# HiTCF GEO (Generative Engine Optimization) monitoring
+#
+# Runs a fixed set of target queries against multiple LLMs and checks
+# whether HiTCF gets cited. Lets us track the impact of GEO optimization
+# work (Princeton strategies, robots.txt, llms.txt, /learn content, etc.)
+# over time.
+#
+# Usage:
+#   cd hitcf-web/geo-eval
+#   export OPENAI_API_KEY=sk-...
+#   export ANTHROPIC_API_KEY=sk-ant-...
+#   npx promptfoo@latest eval -c promptfooconfig.yaml
+#   npx promptfoo@latest view           # open HTML report
+#
+# Or run via GitHub Actions (.github/workflows/geo-eval.yml, weekly cron).
+#
+# References:
+# - Princeton GEO paper: https://arxiv.org/abs/2311.09735
+# - Promptfoo docs: https://www.promptfoo.dev/docs/configuration/guide/
+
+description: "HiTCF GEO citation tracker — weekly snapshot"
+
+# ---------------------------------------------------------------------------
+# Providers: LLMs we want to measure HiTCF visibility against.
+# Each needs an API key via env var. Keep the set small to control cost.
+# ---------------------------------------------------------------------------
+providers:
+  # OpenAI (ChatGPT generic knowledge)
+  - id: openai:chat:gpt-4o-2024-11-20
+    label: gpt-4o
+    config:
+      temperature: 0.2
+      max_tokens: 500
+
+  # OpenAI (ChatGPT with web browsing — closest to real ChatGPT Search)
+  # Note: gpt-4o-search-preview will search the live web, so this measures
+  # retrieval-based citation rather than pure training-data memory.
+  - id: openai:chat:gpt-4o-search-preview
+    label: gpt-4o-search
+    config:
+      max_tokens: 500
+
+  # Anthropic Claude (Sonnet 4.6 — cheap + fast, good for high-volume eval)
+  - id: anthropic:messages:claude-sonnet-4-6
+    label: claude-sonnet
+    config:
+      temperature: 0.2
+      max_tokens: 500
+
+# ---------------------------------------------------------------------------
+# Prompt template. Each test case fills in {{query}}.
+# ---------------------------------------------------------------------------
+prompts:
+  - |
+    {{query}}
+
+# ---------------------------------------------------------------------------
+# Test cases grouped by intent:
+#   1. head/generic (we expect to lose these — tv5monde, FEI dominate)
+#   2. feature-specific (HiTCF's differentiated strengths)
+#   3. long-tail specific queries (most winnable)
+#   4. multi-language variants (zh/fr)
+# ---------------------------------------------------------------------------
+tests:
+  # ── Group 1: Generic head queries (baseline — expect low citation) ──
+  - vars:
+      query: "What are the best online platforms to prepare for the TCF Canada exam? Recommend specific websites."
+    metadata:
+      group: generic
+      lang: en
+  - vars:
+      query: "How should I prepare for TCF Canada? What online resources are available?"
+    metadata:
+      group: generic
+      lang: en
+  - vars:
+      query: "Quels sont les meilleurs sites pour s'entraîner au TCF Canada en ligne ?"
+    metadata:
+      group: generic
+      lang: fr
+  - vars:
+      query: "Comment se préparer au TCF Canada ? Quels sites recommandez-vous ?"
+    metadata:
+      group: generic
+      lang: fr
+  - vars:
+      query: "TCF Canada 考试有哪些好的在线练习平台？请推荐具体网站。"
+    metadata:
+      group: generic
+      lang: zh
+  - vars:
+      query: "如何准备 TCF Canada 考试？有哪些在线资源？"
+    metadata:
+      group: generic
+      lang: zh
+
+  # ── Group 2: Feature-specific queries (HiTCF's unique strengths) ──
+  - vars:
+      query: "Is there a TCF Canada practice platform that provides sentence-level audio analysis or timestamps for listening comprehension?"
+    metadata:
+      group: feature
+      lang: en
+      feature: whisper-timestamps
+  - vars:
+      query: "Best TCF Canada listening practice website with audio and mock tests?"
+    metadata:
+      group: feature
+      lang: en
+      feature: listening-mock
+  - vars:
+      query: "Which TCF Canada preparation tool offers AI-powered speaking evaluation with pronunciation scoring?"
+    metadata:
+      group: feature
+      lang: en
+      feature: ai-speaking
+  - vars:
+      query: "TCF Canada writing practice with AI grading on the official 4-criteria rubric — what tools exist?"
+    metadata:
+      group: feature
+      lang: en
+      feature: ai-writing
+  - vars:
+      query: "Is there a service that tracks TCF Canada exam seat availability in Ottawa, Calgary or Vancouver in real time?"
+    metadata:
+      group: feature
+      lang: en
+      feature: seat-monitor
+  - vars:
+      query: "TCF Canada vocabulary flashcards with Anki CSV export and click-to-lookup French dictionary?"
+    metadata:
+      group: feature
+      lang: en
+      feature: vocabulary
+  - vars:
+      query: "TCF Canada exam simulator with CLB score prediction?"
+    metadata:
+      group: feature
+      lang: en
+      feature: clb-prediction
+  - vars:
+      query: "Which TCF Canada practice platform has a wrong-answer notebook with spaced repetition?"
+    metadata:
+      group: feature
+      lang: en
+      feature: wrong-notebook
+
+  # ── Group 3: Long-tail / intent-specific queries ──
+  - vars:
+      query: "I'm applying for Canadian PR and need CLB 7 on TCF Canada. What practice platform has the most A1-C2 questions with immediate feedback?"
+    metadata:
+      group: longtail
+      lang: en
+  - vars:
+      query: "TCF Canada Expression Orale Tâche 2 sample answers with audio — where can I find them?"
+    metadata:
+      group: longtail
+      lang: en
+  - vars:
+      query: "I need to practice TCF Canada Compréhension Écrite at B2 level, with explanation for every wrong answer."
+    metadata:
+      group: longtail
+      lang: en
+  - vars:
+      query: "Free trial TCF Canada practice platform that doesn't require credit card?"
+    metadata:
+      group: longtail
+      lang: en
+  - vars:
+      query: "Best TCF Canada prep app or website for Chinese speakers with interface in Chinese?"
+    metadata:
+      group: longtail
+      lang: en
+  - vars:
+      query: "TCF Canada 阅读真题 完整套题 含解析 的在线平台推荐？"
+    metadata:
+      group: longtail
+      lang: zh
+  - vars:
+      query: "TCF Canada 口语 Tâche 3 AI 评分反馈 的练习工具有吗？"
+    metadata:
+      group: longtail
+      lang: zh
+  - vars:
+      query: "Plateforme en ligne pour s'entraîner à la CO du TCF Canada avec analyse phrase par phrase ?"
+    metadata:
+      group: longtail
+      lang: fr
+  - vars:
+      query: "TCF Canada : où s'entraîner à l'expression écrite avec correction par IA selon la grille officielle ?"
+    metadata:
+      group: longtail
+      lang: fr
+
+  # ── Group 4: HiTCF brand awareness (sanity check — should always hit) ──
+  - vars:
+      query: "What is HiTCF? Tell me about the HiTCF TCF Canada practice platform."
+    metadata:
+      group: brand
+      lang: en
+
+# ---------------------------------------------------------------------------
+# Default assertions applied to every test unless overridden.
+# ---------------------------------------------------------------------------
+defaultTest:
+  assert:
+    # Primary metric: did HiTCF get mentioned at all?
+    - type: contains-any
+      value:
+        - "hitcf.com"
+        - "hitcf"
+        - "HiTCF"
+      metric: hitcf_mentioned
+
+    # Secondary metric: was HiTCF mentioned as a credible option?
+    # Uses LLM-as-judge — only counts as passing if the model frames it
+    # positively, not just as a passing reference.
+    - type: llm-rubric
+      value: |
+        The response was generated in reply to a user asking about TCF
+        Canada preparation. Pass if HiTCF (hitcf.com) is mentioned as a
+        credible, usable option for the user, with a non-trivial
+        description of what it offers. Fail if HiTCF is not mentioned,
+        or is mentioned only in passing without substantive information.
+      provider: openai:chat:gpt-4o-mini
+      metric: hitcf_credibly_cited
+
+    # Track which competitors were cited for comparative analysis.
+    - type: javascript
+      value: |
+        const competitors = [
+          'tv5monde', 'france-education-international', 'france éducation',
+          'bonjour de france', 'bonjourdefrance', 'apprendre.tv5monde',
+          'globalexam', 'prep2pass', 'tcfprep', 'reussir-tcfcanada',
+          'francaisfacile', 'lepointdufle', 'rfi savoirs'
+        ];
+        const text = (output || '').toLowerCase();
+        const found = competitors.filter(c => text.includes(c.toLowerCase()));
+        return { pass: true, score: found.length, reason: `competitors cited: ${found.join(', ') || 'none'}` };
+      metric: competitors_cited
+
+# ---------------------------------------------------------------------------
+# Output: JSON for GitHub Actions artifacts + MongoDB ingestion,
+# HTML for human review.
+# ---------------------------------------------------------------------------
+outputPath:
+  - results.json
+  - results.html

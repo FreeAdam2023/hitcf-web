@@ -1,0 +1,118 @@
+name: GEO Citation Eval
+
+# Weekly measurement of HiTCF citation rate across major LLMs.
+# See geo-eval/README.md for details.
+
+on:
+  schedule:
+    # Mondays 06:00 UTC (fresh data for the week)
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for manual run (optional)"
+        required: false
+        default: "manual trigger"
+
+jobs:
+  eval:
+    name: Run promptfoo eval
+    runs-on: ubuntu-latest
+    # Don't block releases if this fails — it's observability, not gating
+    continue-on-error: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run promptfoo eval
+        working-directory: ./geo-eval
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Use --no-cache so every week is a fresh LLM call
+          npx --yes promptfoo@latest eval \
+            --config promptfooconfig.yaml \
+            --output results.json \
+            --no-cache \
+            --no-progress-bar
+
+      - name: Summarize results
+        working-directory: ./geo-eval
+        if: always()
+        run: |
+          if [ ! -f results.json ]; then
+            echo "::warning::No results.json produced"
+            exit 0
+          fi
+
+          node -e '
+            const r = JSON.parse(require("fs").readFileSync("results.json", "utf8"));
+            const tests = r.results?.results || [];
+            const byGroup = {};
+            const byProvider = {};
+
+            for (const t of tests) {
+              const group = t.testCase?.metadata?.group || "unknown";
+              const provider = t.provider?.label || t.provider?.id || "unknown";
+              const mentioned = (t.gradingResult?.componentResults || []).some(
+                c => c.assertion?.metric === "hitcf_mentioned" && c.pass
+              );
+              const credible = (t.gradingResult?.componentResults || []).some(
+                c => c.assertion?.metric === "hitcf_credibly_cited" && c.pass
+              );
+
+              byGroup[group] = byGroup[group] || { total: 0, mentioned: 0, credible: 0 };
+              byGroup[group].total += 1;
+              byGroup[group].mentioned += mentioned ? 1 : 0;
+              byGroup[group].credible += credible ? 1 : 0;
+
+              byProvider[provider] = byProvider[provider] || { total: 0, mentioned: 0, credible: 0 };
+              byProvider[provider].total += 1;
+              byProvider[provider].mentioned += mentioned ? 1 : 0;
+              byProvider[provider].credible += credible ? 1 : 0;
+            }
+
+            const pct = (n, d) => d > 0 ? Math.round(n / d * 100) + "%" : "—";
+            const lines = [];
+            lines.push("## HiTCF GEO Citation Report");
+            lines.push("");
+            lines.push(`Date: ${new Date().toISOString().slice(0, 10)}`);
+            lines.push(`Total tests: ${tests.length}`);
+            lines.push("");
+            lines.push("### By query group");
+            lines.push("");
+            lines.push("| Group | Mentioned | Credibly cited |");
+            lines.push("|---|---|---|");
+            for (const [g, s] of Object.entries(byGroup).sort()) {
+              lines.push(`| ${g} | ${pct(s.mentioned, s.total)} (${s.mentioned}/${s.total}) | ${pct(s.credible, s.total)} (${s.credible}/${s.total}) |`);
+            }
+            lines.push("");
+            lines.push("### By provider");
+            lines.push("");
+            lines.push("| Provider | Mentioned | Credibly cited |");
+            lines.push("|---|---|---|");
+            for (const [p, s] of Object.entries(byProvider).sort()) {
+              lines.push(`| ${p} | ${pct(s.mentioned, s.total)} (${s.mentioned}/${s.total}) | ${pct(s.credible, s.total)} (${s.credible}/${s.total}) |`);
+            }
+
+            const summary = lines.join("\n");
+            console.log(summary);
+            require("fs").writeFileSync(process.env.GITHUB_STEP_SUMMARY || "summary.md", summary);
+          '
+
+      - name: Upload results artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: geo-eval-results-${{ github.run_number }}
+          path: |
+            geo-eval/results.json
+            geo-eval/results.html
+          retention-days: 90
