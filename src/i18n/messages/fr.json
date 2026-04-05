@@ -3525,47 +3525,280 @@
       }
     },
     "tcfListening": {
-      "heading": "TCF Canada Compréhension orale (CO) — Guide complet",
-      "intro": "La compréhension orale (CO) est souvent considérée comme la partie la plus difficile du TCF Canada. L'audio n'est diffusé qu'une seule fois, et les questions couvrent des dialogues A1 basiques jusqu'aux discussions académiques C2 complexes. Ce guide couvre tout ce que vous devez savoir pour maximiser votre score.",
+      "heading": "TCF Canada Compréhension orale (CO) — Guide complet : stratégie A1 à C2 étape par étape",
+      "intro": "La compréhension orale (CO) du TCF Canada est la section la plus sous-estimée — et la plus facile à perdre. 39 questions en 35 minutes, audio diffusé une seule fois, allant des dialogues A1 du quotidien aux conférences C2 sans aucune pause. Ce guide s'appuie sur les données des 42 séries complètes (1 638 questions) de HiTCF et vous donne une stratégie par étapes, un tableau de pondération des points, une liste de pièges fréquents et un plan de préparation de 8 semaines directement applicable.",
+      "quickFacts": {
+        "title": "L'examen en un coup d'œil (retenez ces 5 chiffres)",
+        "questions": "39 questions à choix multiples",
+        "duration": "35 minutes (consignes incluses)",
+        "audio": "Chaque extrait est diffusé une seule fois — pas de relecture",
+        "totalScore": "699 points max / environ 331 pour le CLB 7",
+        "difficultyRange": "A1 à C2, par ordre de difficulté croissante"
+      },
       "format": {
-        "title": "Format de l'épreuve",
-        "p1": "La compréhension orale du TCF Canada comprend 39 questions à choix multiples avec 4 options de réponse chacune (A, B, C, D). Vous disposez d'environ 35 minutes. Les enregistrements audio ne sont diffusés qu'une seule fois — vous ne pouvez pas les réécouter pendant l'examen.",
-        "p2": "Les questions sont présentées par ordre de difficulté croissante. Les premières testent la compréhension basique d'échanges simples, tandis que les dernières exigent la compréhension d'arguments nuancés dans des contextes académiques ou professionnels. Chaque question vaut un nombre différent de points selon son niveau de difficulté."
+        "title": "Format de l'épreuve : un seul passage, aucun retour possible",
+        "p1": "La CO du TCF Canada comporte 39 questions à choix multiples, chacune avec 4 options (A/B/C/D). La durée totale est d'environ 35 minutes — dont environ 3 minutes de consignes officielles et 32 minutes de temps de réponse actif.",
+        "p2": "Règle capitale : **l'audio n'est diffusé qu'une fois**. Contrairement à l'IELTS ou au TOEFL, aucune relecture n'est possible. Les questions sont strictement ordonnées par difficulté : vous ne pouvez ni sauter de question ni revenir en arrière, chaque réponse est verrouillée dès que vous passez à la suivante.",
+        "p3": "Les questions sont à choix multiples mais testent des compétences très différentes : informations factuelles (heure, prix, lieu), attitude du locuteur (pour/contre/neutre), sens implicite, conclusions logiques. Plus on avance, plus l'examen teste la compréhension profonde plutôt que la reconnaissance de mots-clés.",
+        "p4": "Les supports audio incluent : dialogues quotidiens (annonces en aéroport, échanges en boutique, prises de rendez-vous), actualités et interviews (journaux RFI, tables rondes, chroniques radio), conférences académiques ou spécialisées (économie, science, philosophie). Les accents sont majoritairement métropolitains, avec parfois du français québécois ou africain."
+      },
+      "scoring": {
+        "title": "Tableau de pondération : pourquoi les 20 premières questions ne suffisent pas",
+        "intro": "Le barème de la CO du TCF Canada n'est pas uniforme — les questions difficiles valent plus de 10 fois les questions faciles. Beaucoup de candidats ne s'entraînent que sur les 20 premières et stagnent au CLB 5-6. Voici le détail complet basé sur le modèle officiel :",
+        "tableHeader": {
+          "range": "Questions",
+          "level": "Niveau",
+          "pointsPerQ": "Points/Q",
+          "subtotal": "Sous-total",
+          "percent": "Part"
+        },
+        "rows": [
+          {
+            "range": "Q1-4",
+            "level": "A1",
+            "pointsPerQ": "3 pts",
+            "subtotal": "12 pts",
+            "percent": "1,7%"
+          },
+          {
+            "range": "Q5-10",
+            "level": "A2",
+            "pointsPerQ": "9 pts",
+            "subtotal": "54 pts",
+            "percent": "7,7%"
+          },
+          {
+            "range": "Q11-19",
+            "level": "A2-B1",
+            "pointsPerQ": "15 pts",
+            "subtotal": "135 pts",
+            "percent": "19,3%"
+          },
+          {
+            "range": "Q20-30",
+            "level": "B1-B2",
+            "pointsPerQ": "21 pts",
+            "subtotal": "231 pts",
+            "percent": "33,0%"
+          },
+          {
+            "range": "Q31-35",
+            "level": "B2-C1",
+            "pointsPerQ": "27 pts",
+            "subtotal": "135 pts",
+            "percent": "19,3%"
+          },
+          {
+            "range": "Q36-39",
+            "level": "C1-C2",
+            "pointsPerQ": "33 pts",
+            "subtotal": "132 pts",
+            "percent": "18,9%"
+          }
+        ],
+        "totalLabel": "Maximum",
+        "totalValue": "699 points (pour les 39 questions)",
+        "insight": "Les 10 premières questions ne valent ensemble que 9,4% du total. Les questions 20 à 39 — seulement 20 items — représentent 71,2% de votre note. Si vous faites un sans-faute sur Q1-10 et la moitié sur Q20-39, vous obtenez environ 412 points (CLB 7 de justesse). Si vous réussissez Q20-39 et seulement la moitié de Q1-10, vous atteignez ~531 points (CLB 8 direct). Chaque question après Q20 vaut plusieurs questions du bas du barème."
       },
       "levels": {
-        "title": "Types de questions par niveau",
+        "title": "Les quatre bandes de difficulté",
         "a1a2": {
-          "title": "Niveau 1 : A1-A2 (Questions 1-10)",
-          "desc": "Courts dialogues et annonces du quotidien. Vous entendrez des conversations simples sur des sujets courants — salutations, directions, achats, rendez-vous. Le débit est lent et l'articulation claire. Concentrez-vous sur l'identification des informations de base : qui, quoi, où, quand. Ces questions valent 3 à 9 points chacune et sont les plus faciles à réussir."
+          "title": "A1-A2 (Q1-10) : points gratuits",
+          "desc": "Dialogues courts, débit lent, articulation claire. Sujets de la vie quotidienne : demander son chemin, commander à manger, faire les courses, prendre rendez-vous, demander l'heure, annonces de transport. Chaque intervenant parle 1 à 2 phrases, et la réponse est généralement explicite dans l'audio.",
+          "scenarios": "Scénarios typiques : annonces d'aéroport, arrêts de bus, prix en boutique, prise de rendez-vous par téléphone, météo, brève présentation personnelle",
+          "sample": "Exemple : vous entendez « Le train pour Paris partira à 14h30 du quai 5 » et la question demande « Quel est le numéro du quai ? » — réponse : « 5 », il suffit d'isoler le bon chiffre",
+          "errors": "Erreurs fréquentes : confondre le chiffre entendu (14h30) avec le chiffre demandé (quai 5) ; manquer la préposition « pour Paris » et se tromper de direction"
         },
         "a2b1": {
-          "title": "Niveau 2 : A2-B1 (Questions 11-19)",
-          "desc": "Dialogues plus longs et émissions de radio. Les sujets incluent l'organisation de voyages, les conversations au travail, les appels téléphoniques et les annonces publiques. Le débit est naturel avec quelques expressions familières. Vous devez comprendre le message principal et les détails spécifiques. Chaque question vaut 15 points."
+          "title": "A2-B1 (Q11-19) : le contexte compte",
+          "desc": "Les dialogues s'allongent, le débit se rapproche du naturel, des expressions familières apparaissent. Sujets : travail, voyages, projets d'achat, invitations, réclamations, courtes interviews. Les questions passent du « qu'avez-vous entendu » au « que veut dire le locuteur » ou « que va-t-il faire ensuite ».",
+          "scenarios": "Scénarios typiques : discussion entre collègues, messagerie vocale, service client, émissions de radio simples, renseignements touristiques",
+          "sample": "Exemple : conversation sur l'absence d'une collègue. Question : « Pourquoi Marie n'est pas venue aujourd'hui ? » — la réponse exige de combiner deux phrases : « Elle m'a dit que son fils est malade » + « ...donc elle reste à la maison »",
+          "errors": "Erreurs fréquentes : se laisser piéger par des distracteurs qui reprennent un mot entendu (par exemple « malade » désigne le fils, pas Marie) ; confondre « hier » et « aujourd'hui »"
         },
         "b1b2": {
-          "title": "Niveau 3 : B1-B2 (Questions 20-30)",
-          "desc": "Conversations longues, interviews et reportages. Les sujets deviennent plus abstraits — questions sociales, discussions culturelles, débats professionnels. Les locuteurs peuvent exprimer des opinions, faire des comparaisons et utiliser un langage figuré. Vous devez identifier l'attitude du locuteur, le sens implicite et les relations logiques. Chaque question vaut 21 points."
+          "title": "B1-B2 (Q20-30) : la zone critique de notation",
+          "desc": "Conversations longues, interviews, reportages, extraits de débats. Sujets abstraits : questions sociales, discussions culturelles, environnement, technologie, politique éducative. Les locuteurs expriment des opinions, comparent des positions, utilisent des métaphores ou des euphémismes. C'est le bloc continu le plus valorisé (21 points par question, 231 points au total) et la vraie ligne de partage entre CLB 6 et CLB 8.",
+          "scenarios": "Scénarios typiques : analyse d'actualité RFI, interviews d'invités, débats radio, vulgarisation scientifique, narration documentaire, critique culturelle",
+          "sample": "Exemple : discussion sur le télétravail entre deux invités, un pour et un contre. Question : « Quelle est l'opinion de l'invité masculin ? » — il faut identifier les marqueurs (« mais », « cependant », « je ne suis pas d'accord ») pour distinguer les positions, et non simplement le sujet",
+          "errors": "Erreurs fréquentes : manquer les marqueurs d'attitude — « en effet », « certes...mais », « il est vrai que... » sont des concessions qui inversent la position. Les rater conduit à choisir la mauvaise opinion"
         },
         "b2c1": {
-          "title": "Niveau 4 : B2-C2 (Questions 31-39)",
-          "desc": "Conférences académiques complexes, tables rondes d'experts et rapports spécialisés. Les sujets couvrent la science, la politique, la philosophie et l'économie. Le débit est rapide avec un vocabulaire sophistiqué et des structures de phrases complexes. Vous devez suivre des arguments étendus, comprendre des distinctions subtiles et identifier la thèse globale. Chaque question vaut 27 à 33 points — ces questions peuvent faire la différence."
+          "title": "B2-C2 (Q31-39) : la décision entre CLB 7 et CLB 9",
+          "desc": "Conférences académiques, tables rondes d'experts, reportages longs, discussions philosophiques. Débit rapide, vocabulaire avancé, phrases longues et imbriquées. Sujets allant de l'économie environnementale au post-structuralisme. Chaque question vaut 27 à 33 points, soit 267 points pour 9 questions — cette section peut à elle seule faire passer de CLB 7 à CLB 9.",
+          "scenarios": "Scénarios typiques : enregistrements de cours universitaires, conférences type TED, résumés d'articles académiques, forums d'experts",
+          "sample": "Exemple : conférence de 90 secondes sur l'éthique de l'IA. Question : « Quelle est la thèse principale de l'intervenant ? » — il faut identifier la thèse centrale, les arguments d'appui et les contre-arguments potentiels, puis choisir la formulation qui résume le mieux le propos",
+          "errors": "Erreurs fréquentes : s'obséder sur chaque mot et se noyer dans les phrases longues ; oublier ce qui a été dit 30 secondes plus tôt faute de prise de notes ; confondre un exemple d'appui avec la thèse principale"
+        }
+      },
+      "strategy": {
+        "title": "Stratégie par étapes sur 35 minutes",
+        "intro": "La plupart des candidats ne réalisent pas que la CO du TCF a un rythme : les premières questions sont nombreuses mais peu valorisées, les dernières sont rares mais décisives. Bien doser son attention est plus important que de tout comprendre mot à mot.",
+        "phase1": {
+          "title": "Étape 1 : Q1-10 (~7 minutes)",
+          "action": "Rapide, confiant, sans hésitation. Vous devez traiter ce bloc en 7 minutes avec au moins 9/10. Passez mentalement à la vitesse supérieure juste après.",
+          "tip": "Si vous ratez plus de 3 questions ici, votre base n'est pas assez solide — revenez aux exercices A1-A2 sur HiTCF avant de passer l'examen réel."
+        },
+        "phase2": {
+          "title": "Étape 2 : Q11-19 (~8 minutes)",
+          "action": "Montez en concentration. Ces 9 questions valent 15 points chacune — une erreur est gérable, mais commencez à entraîner « écouter et anticiper ».",
+          "tip": "Utilisez les 3 à 5 secondes avant chaque extrait pour repérer les mots-clés des 4 options et esquisser mentalement 4 réponses possibles."
+        },
+        "phase3": {
+          "title": "Étape 3 : Q20-30 (~11 minutes)",
+          "action": "Attention maximale. C'est le cœur des 231 points. Une seconde d'inattention coûte 21 points.",
+          "tip": "Si le brouillon est autorisé, utilisez des symboles simples : position du locuteur, chiffres clés, heures, marqueurs d'inversion."
+        },
+        "phase4": {
+          "title": "Étape 4 : Q31-39 (~9 minutes)",
+          "action": "Renoncez à tout comprendre mot à mot. Accrochez-vous à la thèse, la structure et les contre-arguments. Sauter le vocabulaire technique est acceptable — tant que vous saisissez le squelette logique.",
+          "tip": "Si une question vous bloque vraiment, choisissez l'option qui « ne reprend pas les mots de l'audio » mais qui est « la plus cohérente » — les bonnes réponses du TCF sont généralement des reformulations."
+        }
+      },
+      "traps": {
+        "title": "10 pièges fréquents (avec leurs contre-mesures)",
+        "intro": "Les données d'erreurs HiTCF montrent que 80% des pertes de points se concentrent sur ces 10 types de pièges. Les apprendre vaut mieux que faire 10 séries supplémentaires.",
+        "items": [
+          {
+            "title": "Piège 1 : confusion de chiffres",
+            "desc": "Le plus fréquent. Les chiffres français sont complexes (soixante-douze, quatre-vingts, quatre-vingt-dix), et les examinateurs en empilent plusieurs dans un extrait. Parade : notez chaque chiffre immédiatement."
+          },
+          {
+            "title": "Piège 2 : heure inversée",
+            "desc": "La question demande « quand », l'audio donne deux heures (réunion à 15h mais préparatoire à 14h) ; le distracteur est 14h. Parade : retenez l'heure « finale », pas la première entendue."
+          },
+          {
+            "title": "Piège 3 : négation manquée",
+            "desc": "« Je ne suis pas d'accord » vs « Je suis d'accord » — à débit rapide le « ne...pas » peut disparaître. Parade : dès que vous entendez un verbe d'opinion, vérifiez ne/pas/jamais/non."
+          },
+          {
+            "title": "Piège 4 : concession trompeuse",
+            "desc": "« Certes, X est vrai, mais Y est plus important » — la vraie position est après « mais ». Le distracteur capture la première moitié. Parade : mais/cependant/toutefois/néanmoins sont des boutons de réinitialisation de position."
+          },
+          {
+            "title": "Piège 5 : homophones",
+            "desc": "poisson vs poison ; fois vs foie vs foi. Seul le contexte tranche. Parade : ne jamais choisir une réponse uniquement sur la sonorité d'un mot."
+          },
+          {
+            "title": "Piège 6 : pronoms ambigus",
+            "desc": "« Elle lui a dit qu'il ne devait pas y aller » — qui a dit à qui de ne pas aller où ? Deux pronoms, deux personnes. Parade : étiquetez chaque sujet mentalement quand les pronoms s'accumulent."
+          },
+          {
+            "title": "Piège 7 : questions rhétoriques",
+            "desc": "« Est-ce que j'ai dit que c'était facile ? » est rhétorique — cela signifie « je N'AI PAS dit que c'était facile ». Parade : notez la montée de ton + les marqueurs de frustration autour."
+          },
+          {
+            "title": "Piège 8 : refus poli",
+            "desc": "En français, « Ce n'est pas vraiment mon truc » ou « Je vais y réfléchir » sont des refus polis, pas de vraies réflexions. Parade : apprenez les formules françaises standard de refus."
+          },
+          {
+            "title": "Piège 9 : détails qui noient la thèse",
+            "desc": "Une conférence de 60 secondes contient 3 données, 2 exemples et 1 argument principal. La question porte sur l'argument principal, mais les distracteurs exploitent les détails. Parade : notez la thèse en haut du brouillon, les détails en dessous."
+          },
+          {
+            "title": "Piège 10 : attitude du locuteur",
+            "desc": "Les examinateurs adorent « Quelle est l'attitude de l'intervenant ? » avec ironique / enthousiaste / sceptique / neutre. Parade : écoutez la hauteur et l'intensité des adjectifs — l'ironie accélère le débit, les adjectifs s'exagèrent."
+          }
+        ]
+      },
+      "keyExpressions": {
+        "title": "Expressions clés à l'écoute (4 catégories)",
+        "intro": "Ce sont les structures qui reviennent le plus souvent dans la CO du TCF. Les connaître permet de passer automatiquement en mode « alerte piège » pendant l'examen.",
+        "time": {
+          "name": "Temps",
+          "items": "dans deux jours · avant-hier · la semaine prochaine · il y a trois mois · à partir du 5 · jusqu'au 20 · vers 15h · pile à midi"
+        },
+        "numbers": {
+          "name": "Chiffres",
+          "items": "soixante-dix (70) · quatre-vingts (80) · quatre-vingt-dix (90) · quatre-vingt-onze (91) · la moitié · le quart · le double · un tiers · une dizaine"
+        },
+        "negation": {
+          "name": "Négation / inversion",
+          "items": "ne...pas · ne...jamais · ne...plus · ne...aucun · au contraire · en revanche · toutefois · cependant · pourtant · mais · certes...mais · malgré · bien que + subj"
+        },
+        "tone": {
+          "name": "Ton / attitude",
+          "items": "en effet · à vrai dire · franchement · à mon avis · selon moi · il me semble que · je doute que · sans aucun doute · soi-disant"
+        }
+      },
+      "preparationPlan": {
+        "title": "Plan de préparation de 8 semaines (de B1 à CLB 7+)",
+        "intro": "Ce plan suppose une base B1 et vise le CLB 7 (331+ points). Prévoir environ une heure de CO par jour.",
+        "week1_2": {
+          "title": "Semaines 1-2 : consolidation des bases",
+          "actions": "20 minutes par jour de RFI Journal en français facile ; 4 séries HiTCF niveau A1-A2 ; réviser les chiffres, expressions de temps et connecteurs de base peu familiers."
+        },
+        "week3_4": {
+          "title": "Semaines 3-4 : adaptation au débit naturel",
+          "actions": "Passer à RFI Actualité et aux podcasts de France Inter à vitesse normale ; 6 séries HiTCF A2-B1 ; entraînement à la discipline « une écoute suffit » — pas de relecture."
+        },
+        "week5_6": {
+          "title": "Semaines 5-6 : percée sur le bloc central (B1-B2)",
+          "actions": "10 à 15 questions HiTCF B1-B2 par jour ; utiliser la relecture par phrase pour analyser chaque erreur ; 2 examens blancs complets de 35 minutes par semaine."
+        },
+        "week7_8": {
+          "title": "Semaines 7-8 : sprint haut niveau",
+          "actions": "Attaquer le bloc B2-C2 (Q31-39), 3 à 5 questions de conférence par jour ; 3 examens blancs par semaine ; revoir toutes les erreurs B1+ dans le carnet ; arrêter la pratique 3 jours avant l'examen pour préserver la forme."
         }
       },
       "tips": {
-        "title": "Conseils et stratégies d'écoute",
-        "tip1": "Lisez la question et les 4 options avant la diffusion de l'audio. Cela vous donne un aperçu de ce qu'il faut écouter et vous aide à concentrer votre attention pendant la lecture.",
-        "tip2": "Ne paniquez pas si vous manquez quelque chose. Concentrez-vous sur le sens global plutôt que sur les mots individuels. De nombreuses bonnes réponses peuvent être déduites du contexte même si vous avez manqué des phrases spécifiques.",
-        "tip3": "Prêtez attention au ton, à l'accentuation et à l'intonation. Les locuteurs soulignent souvent les informations les plus importantes, et leur ton peut révéler des attitudes sur lesquelles la question peut porter.",
-        "tip4": "Méfiez-vous des distracteurs — des options qui utilisent des mots entendus dans l'audio mais dans un contexte ou un sens différent. La bonne réponse paraphrase souvent l'audio plutôt que de répéter les mots exacts.",
-        "tip5": "Entraînez-vous quotidiennement avec des médias français authentiques. Écoutez RFI, France 24, Radio-Canada ou des podcasts français pour habituer votre oreille aux rythmes naturels de la parole, aux accents et à la vitesse."
+        "title": "10 conseils à appliquer immédiatement",
+        "tip1": "Lisez toujours la question et les 4 options avant le lancement de l'audio — 5 secondes d'anticipation valent mieux qu'une minute de panique.",
+        "tip2": "Phrase manquée ? Laissez tomber. En français, la réponse est souvent déductible du contexte ; s'obstiner sur un mot plombe les cinq questions suivantes.",
+        "tip3": "Verrouillez les marqueurs de ton et d'inversion : mais, cependant, en fait, à vrai dire — ce sont les signaux favoris du TCF pour l'attitude du locuteur.",
+        "tip4": "Méfiez-vous du piège du « mot exact » : les bonnes réponses reformulent l'audio, les distracteurs en reprennent les mots.",
+        "tip5": "Écoutez des médias français authentiques au quotidien : RFI, France 24, Radio-Canada, podcasts français. Vitesse réelle, sans sous-titres.",
+        "tip6": "Utilisez des symboles dans vos notes, pas des mots : ↑ pour d'accord, ↓ pour contre, ? pour incertain, △ pour l'heure, € pour le prix.",
+        "tip7": "Sautez immédiatement le vocabulaire technique inconnu — le TCF ne teste jamais le jargon, seulement la logique et l'idée principale.",
+        "tip8": "Combinez l'écoute et l'entraînement à l'oral : shadowing de 3 minutes de RFI avant une série, et votre oreille s'adapte plus vite.",
+        "tip9": "Ne faites pas de nouvelles questions la veille de l'examen. Révisez uniquement votre carnet d'erreurs — se tromper sur du neuf sape la confiance.",
+        "tip10": "Si le brouillon est autorisé, utilisez-le. Sinon, tracez les chiffres et les heures sur la table avec le doigt — la mémoire musculaire aide aussi."
       },
       "practice": {
-        "title": "Comment s'entraîner efficacement",
-        "desc": "Sur HiTCF, utilisez le mode Entraînement pour réécouter l'audio phrase par phrase — cela construit une compréhension approfondie. Une fois à l'aise, passez au mode Examen où l'audio n'est diffusé qu'une fois, comme au vrai test. Suivez votre précision par niveau dans le Tableau de bord pour identifier les bandes de difficulté nécessitant plus de travail. Utilisez l'Entraînement par niveau pour cibler des niveaux spécifiques et le carnet d'erreurs pour revoir vos fautes."
+        "title": "Comment s'entraîner efficacement à la CO sur HiTCF",
+        "p1": "HiTCF propose 42 séries complètes de CO TCF Canada (1 638 questions). Chaque extrait audio a été traité avec OpenAI Whisper pour générer des horodatages au niveau de la phrase — lors de la revue d'une erreur, vous pouvez rejouer exactement la phrase manquée au lieu de réécouter les 90 secondes. Aucune autre plateforme TCF ne propose cela.",
+        "p2": "Flux recommandé en 3 phases : (1) **Mode Entraînement** — relectures autorisées, transcriptions visibles, objectif comprendre chaque phrase ; idéal en début de parcours. (2) **Entraînement par niveau** — ciblez une bande A1-C2 précise pour travailler votre point faible ; idéal en milieu de préparation. (3) **Mode Examen** — 35 minutes, une seule écoute ; idéal les 2 dernières semaines.",
+        "p3": "Après chaque séance, consultez le graphique « précision par niveau » du tableau de bord. Si un niveau est sous 60%, concentrez-vous uniquement dessus. Le carnet d'erreurs regroupe automatiquement vos fautes par niveau et par type — un seul passage est souvent 3 fois plus efficace que refaire de nouvelles séries à l'aveugle."
+      },
+      "faq": {
+        "title": "Questions fréquentes",
+        "q1": {
+          "q": "L'audio de la CO TCF Canada n'est-il vraiment diffusé qu'une fois ?",
+          "a": "Oui. C'est la plus grande différence avec le DELF/DALF et la plupart des autres examens de français. Le système de test n'offre aucun bouton de relecture, et une réponse verrouillée ne peut pas être modifiée. Entraînez-vous dès le début avec une mentalité « une seule écoute »."
+        },
+        "q2": {
+          "q": "Combien de points de CO faut-il pour le CLB 7 ?",
+          "a": "Le CLB 7 exige au moins 331 points sur 699. Le CLB 8 en demande 369, le CLB 9 en demande 449. La plupart des programmes d'immigration canadiens exigent le CLB 7."
+        },
+        "q3": {
+          "q": "Peut-on prendre des notes pendant la CO ?",
+          "a": "Les politiques varient selon le centre. La plupart des centres officiels autorisent de courtes notes sur le brouillon fourni, sans possibilité d'écrire à l'avance. Vérifiez avec votre centre avant le jour de l'examen."
+        },
+        "q4": {
+          "q": "Combien de temps faut-il s'entraîner par jour pour atteindre le CLB 7 ?",
+          "a": "Avec une base B1, 45 à 60 minutes par jour d'écoute ciblée (questions réelles + médias français) sur 8 semaines suffisent généralement. Depuis le niveau zéro, prévoir au moins 6 mois de 2 heures par jour d'étude systématique."
+        },
+        "q5": {
+          "q": "Les accents québécois et métropolitains apparaissent-ils tous les deux ?",
+          "a": "L'examen est majoritairement en français métropolitain (~80%), avec parfois des accents canadiens (Québec) et africains dans les interviews ou les actualités. Un peu de Radio-Canada suffit à s'habituer."
+        },
+        "q6": {
+          "q": "Que faire quand on manque une phrase ?",
+          "a": "Lâcher prise immédiatement et reporter son attention sur la suite. La pire erreur en CO TCF est de « rester bloqué sur une phrase » — une minute plus tard, vous avez raté toute la question. La plupart des réponses sont déductibles du contexte."
+        },
+        "q7": {
+          "q": "Qu'est-ce que la fonction d'horodatage par phrase de HiTCF ?",
+          "a": "Nous traitons chaque extrait audio avec OpenAI Whisper pour générer des horodatages au niveau de la phrase. En mode entraînement ou en revue d'erreur, un clic sur n'importe quelle phrase ramène l'audio à cet endroit précis, au lieu de rejouer les 90 secondes. Aucune autre plateforme TCF ne le propose."
+        },
+        "q8": {
+          "q": "Comment se préparer la semaine précédant l'examen ?",
+          "a": "J-7 à J-3 : un examen blanc complet de 35 minutes par jour plus revue des erreurs. J-2 et J-1 : uniquement le carnet d'erreurs, pas de nouvelles questions. Veille : se coucher tôt, 30 minutes de RFI suffisent pour garder l'oreille en forme. Aucune nouveauté."
+        }
       },
       "cta": {
-        "title": "Commencez la pratique d'écoute maintenant",
-        "desc": "HiTCF propose 42 séries complètes de compréhension orale avec plus de 1 600 questions, audio complet et horodatages par phrase pour une réécoute détaillée. Commencez gratuitement et suivez votre progression.",
+        "title": "Commencez votre entraînement maintenant",
+        "desc": "HiTCF propose 42 séries de CO TCF Canada, 1 638 questions réelles, audio complet, horodatages par phrase, entraînement par niveau et carnet d'erreurs. Inscription gratuite avec 7 jours Pro offerts — aucune carte bancaire requise.",
+        "dataPoint": "D'après nos données utilisateurs, les candidats qui tiennent 1 heure par jour pendant 8 semaines gagnent en moyenne +120 points de CO (CLB 5 → CLB 7).",
         "practiceButton": "Pratiquer l'écoute",
         "overviewButton": "Aperçu TCF Canada"
       }

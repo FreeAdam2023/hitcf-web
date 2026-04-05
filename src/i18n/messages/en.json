@@ -3517,47 +3517,280 @@
       }
     },
     "tcfListening": {
-      "heading": "TCF Canada Listening (CO) — Complete Practice Guide",
-      "intro": "The Listening Comprehension section (Compréhension orale, or CO) is often considered the most challenging part of TCF Canada. Audio is played only once, and questions span from basic A1 dialogues to complex C2 academic discussions. This guide covers everything you need to know to maximize your score.",
+      "heading": "TCF Canada Listening (CO) Complete Guide: A1 to C2 Section-by-Section Strategy",
+      "intro": "TCF Canada Listening (Compréhension orale, or CO) is the most underestimated and easily-lost section of the exam. 39 questions in 35 minutes, audio played only once, spanning A1 café chats to C2 academic lectures without a pause. This guide is built on data from HiTCF's 42 full listening test sets (1,638 real questions) and gives you a stage-by-stage strategy, scoring weight table, trap checklist, and an 8-week study plan you can follow straight away.",
+      "quickFacts": {
+        "title": "Exam at a glance (memorize these 5 numbers)",
+        "questions": "39 multiple-choice questions",
+        "duration": "35 minutes (including instructions)",
+        "audio": "Each clip plays exactly once — no replay",
+        "totalScore": "699 max / ~331 needed for CLB 7",
+        "difficultyRange": "A1 to C2, strictly ascending order"
+      },
       "format": {
-        "title": "Exam Format",
-        "p1": "The TCF Canada listening section consists of 39 multiple-choice questions with 4 answer options each (A, B, C, D). You have approximately 35 minutes to complete the section. Audio recordings are played only once — you cannot replay them during the actual exam.",
-        "p2": "Questions are presented in order of increasing difficulty. The first questions test basic comprehension of simple exchanges, while the final questions require understanding nuanced arguments in academic or professional contexts. Each question is worth a different number of points based on its difficulty level, with harder questions worth significantly more."
+        "title": "Exam Format: One pass, no going back",
+        "p1": "The TCF Canada listening section has 39 multiple-choice questions, each with 4 options (A/B/C/D). Total duration is about 35 minutes — roughly 3 minutes of official instructions and 32 minutes of active answering.",
+        "p2": "The critical rule: **audio plays exactly once**. Unlike IELTS or TOEFL, there is no replay. Questions are strictly ordered by difficulty, so you cannot skip or go back: each answer is locked in as you move forward.",
+        "p3": "Questions are multiple-choice but probe very different things: factual details (time, price, location), speaker attitude (for/against/neutral), implicit meaning, and logical conclusions. The further you go, the more the exam tests deep comprehension rather than surface-level keyword matching.",
+        "p4": "Audio material includes: everyday dialogues (airport announcements, shop exchanges, phone bookings), news and interviews (RFI bulletins, guest panels, radio features), and academic or specialized lectures (economics, science, philosophy). Accents are mostly metropolitan French, with occasional Quebec or African French."
+      },
+      "scoring": {
+        "title": "Scoring weight table: why questions 1-20 are not enough",
+        "intro": "TCF Canada listening is not scored uniformly — hard questions are worth over 10× the easy ones. Many candidates only practice the first 20 questions and get stuck at CLB 5-6. Here is the full weight breakdown based on the official scoring model:",
+        "tableHeader": {
+          "range": "Questions",
+          "level": "Level",
+          "pointsPerQ": "Points/Q",
+          "subtotal": "Subtotal",
+          "percent": "Share"
+        },
+        "rows": [
+          {
+            "range": "Q1-4",
+            "level": "A1",
+            "pointsPerQ": "3 pts",
+            "subtotal": "12 pts",
+            "percent": "1.7%"
+          },
+          {
+            "range": "Q5-10",
+            "level": "A2",
+            "pointsPerQ": "9 pts",
+            "subtotal": "54 pts",
+            "percent": "7.7%"
+          },
+          {
+            "range": "Q11-19",
+            "level": "A2-B1",
+            "pointsPerQ": "15 pts",
+            "subtotal": "135 pts",
+            "percent": "19.3%"
+          },
+          {
+            "range": "Q20-30",
+            "level": "B1-B2",
+            "pointsPerQ": "21 pts",
+            "subtotal": "231 pts",
+            "percent": "33.0%"
+          },
+          {
+            "range": "Q31-35",
+            "level": "B2-C1",
+            "pointsPerQ": "27 pts",
+            "subtotal": "135 pts",
+            "percent": "19.3%"
+          },
+          {
+            "range": "Q36-39",
+            "level": "C1-C2",
+            "pointsPerQ": "33 pts",
+            "subtotal": "132 pts",
+            "percent": "18.9%"
+          }
+        ],
+        "totalLabel": "Max",
+        "totalValue": "699 points (all 39 questions)",
+        "insight": "The first 10 questions combined are worth only 9.4% of the total. Questions 20-39 — just 20 items — contribute 71.2% of your score. If you get Q1-10 perfect and only half of Q20-39 right, you end up around 412 points (CLB 7, barely). But if you ace Q20-39 and only get half of Q1-10 right, you land near 531 points (straight CLB 8). Every question after Q20 is worth several low-level questions."
       },
       "levels": {
-        "title": "Question Types by Level",
+        "title": "Four difficulty bands, explained",
         "a1a2": {
-          "title": "Level 1: A1-A2 (Questions 1-10)",
-          "desc": "Short everyday dialogues and announcements. You will hear simple conversations about daily topics — greetings, directions, shopping, appointments. The speech is slow and clearly articulated. Focus on identifying basic information: who, what, where, when. These questions are worth 3-9 points each and are the easiest to score on."
+          "title": "A1-A2 (Q1-10): Free points",
+          "desc": "Short dialogues, slow speech, clear articulation. Topics cover everyday life: asking for directions, ordering food, shopping, appointments, time, public transit announcements. Each speaker says 1-2 sentences, and the answer is usually right there in the audio.",
+          "scenarios": "Typical scenarios: airport announcements, bus stops, shop prices, phone booking, weather forecast, brief self-introduction",
+          "sample": "Sample: you hear \"Le train pour Paris partira à 14h30 du quai 5\" and the question asks \"Quel est le numéro du quai ?\" — answer is \"5\", just catch the number",
+          "errors": "Common mistakes: confusing the number you heard (14h30) with the number asked (quai 5); missing the preposition \"pour Paris\" and mixing up directions"
         },
         "a2b1": {
-          "title": "Level 2: A2-B1 (Questions 11-19)",
-          "desc": "Longer dialogues and radio segments. Topics include travel arrangements, workplace conversations, phone calls, and public announcements. Speech is at a natural pace with some colloquial expressions. You need to understand the main message and specific details. These questions are worth 15 points each."
+          "title": "A2-B1 (Q11-19): Context starts to matter",
+          "desc": "Dialogues get longer, speech is closer to natural pace, colloquial expressions appear. Topics cover work, travel, shopping plans, invitations, complaints, short interviews. Questions shift from \"what did you hear\" to \"what does the speaker mean\" or \"what will they do next\".",
+          "scenarios": "Typical scenarios: co-worker chat, voicemail, customer service, simple radio shows, travel info",
+          "sample": "Sample: a conversation about why a colleague is absent. Question: \"Pourquoi Marie n'est pas venue aujourd'hui ?\" — the answer requires combining two sentences: \"Elle m'a dit que son fils est malade\" + \"...donc elle reste à la maison\"",
+          "errors": "Common mistakes: falling for distractors that reuse audio words (e.g. \"malade\" appears in the options but refers to the son, not Marie); confusing \"hier\" with \"aujourd'hui\""
         },
         "b1b2": {
-          "title": "Level 3: B1-B2 (Questions 20-30)",
-          "desc": "Extended conversations, interviews, and news reports. Topics become more abstract — social issues, cultural discussions, professional debates. Speakers may express opinions, make comparisons, and use figurative language. You need to identify the speaker's attitude, implicit meaning, and logical relationships. Worth 21 points each."
+          "title": "B1-B2 (Q20-30): The core scoring zone",
+          "desc": "Long conversations, interviews, news reports, debate excerpts. Topics become more abstract: social issues, cultural discussions, environment, technology, education policy. Speakers express opinions, compare positions, use metaphors or euphemisms. This is the highest-value continuous block (21 points per question, 231 points total) and the real dividing line between CLB 6 and CLB 8.",
+          "scenarios": "Typical scenarios: RFI news analysis, guest interviews, radio debates, expert science features, documentary narration, cultural criticism",
+          "sample": "Sample: a discussion on remote work with two guests, one for and one against. Question: \"Quelle est l'opinion de l'invité masculin ?\" — you need to identify tone markers (\"mais\", \"cependant\", \"je ne suis pas d'accord\") to distinguish positions, not just the topic",
+          "errors": "Common mistakes: missing attitude markers — \"en effet\", \"certes...mais\", \"il est vrai que...\" are concession patterns that flip the speaker's position. Miss them and you pick the wrong opinion"
         },
         "b2c1": {
-          "title": "Level 4: B2-C2 (Questions 31-39)",
-          "desc": "Complex academic lectures, expert panel discussions, and specialized reports. Topics include science, politics, philosophy, and economics. Speech is fast with sophisticated vocabulary and complex sentence structures. You need to follow extended arguments, understand subtle distinctions, and identify the overall thesis. Worth 27-33 points each — these questions can make or break your score."
+          "title": "B2-C2 (Q31-39): The CLB 7 vs CLB 9 decider",
+          "desc": "Academic lectures, expert roundtables, long-form reports, philosophical discussions. Fast speech, advanced vocabulary, long nested sentences. Topics from environmental economics to post-structuralism. Each question is worth 27-33 points, 9 questions totalling 267 points — this section alone can push you from CLB 7 to CLB 9, or hold you back.",
+          "scenarios": "Typical scenarios: university lecture recordings, TED-style talks, academic journal summaries, expert forums",
+          "sample": "Sample: a 90-second lecture on AI ethics. Question: \"Quelle est la thèse principale de l'intervenant ?\" — you need to identify the speaker's core thesis, supporting arguments, and potential counter-arguments, then pick the option that best paraphrases the main point",
+          "errors": "Common mistakes: obsessing over every word and drowning in long sentences; forgetting what was said 30 seconds ago because you took no notes; mistaking a supporting example for the main thesis"
+        }
+      },
+      "strategy": {
+        "title": "35-minute stage-by-stage strategy",
+        "intro": "Most candidates don't realize TCF listening has a rhythm: early questions are plentiful but low-value, later questions are scarce but high-value. Allocating attention is more important than trying to catch every word.",
+        "phase1": {
+          "title": "Stage 1: Q1-10 (~7 minutes)",
+          "action": "Fast, confident, no hesitation. You should finish this block in 7 minutes and score at least 9/10 or perfect. Mentally shift gears immediately after.",
+          "tip": "If you miss more than 3 of these, your foundation isn't solid enough — go back to A1-A2 level practice on HiTCF instead of booking the real exam."
+        },
+        "phase2": {
+          "title": "Stage 2: Q11-19 (~8 minutes)",
+          "action": "Crank up focus. These 9 questions are 15 points each — one mistake is manageable, but start training \"listen and predict\" habits.",
+          "tip": "Use the 3-5 seconds before each clip to scan keywords in the 4 options and sketch 4 possible answer shapes in your head."
+        },
+        "phase3": {
+          "title": "Stage 3: Q20-30 (~11 minutes)",
+          "action": "Full attention. This is the 231-point core block. A single lapse costs you 21 points.",
+          "tip": "Use the scratch paper (where allowed) with simple symbols: speaker stance, key numbers, times, reversal markers."
+        },
+        "phase4": {
+          "title": "Stage 4: Q31-39 (~9 minutes)",
+          "action": "Abandon the need to understand every word. Grab the thesis, the structure, and the counter-arguments. Skipping technical vocabulary is fine — as long as you get the logical skeleton.",
+          "tip": "If a question really stumps you, pick the option that \"doesn't repeat audio words\" but \"makes the most logical sense\" — TCF correct answers are usually paraphrases, not verbatim repetitions."
+        }
+      },
+      "traps": {
+        "title": "10 high-frequency traps (with countermeasures)",
+        "intro": "HiTCF error data shows that 80% of listening losses concentrate on these 10 trap types. Memorizing them is more valuable than doing 10 more practice sets.",
+        "items": [
+          {
+            "title": "Trap 1: Number confusion",
+            "desc": "The most common. French numbers are complex (soixante-douze=72, quatre-vingts=80, quatre-vingt-dix=90), and examiners deliberately stack several in one clip. Fix: write every number down immediately."
+          },
+          {
+            "title": "Trap 2: Reversed time",
+            "desc": "Question asks \"when\", audio gives two times (meeting at 15h but a prep session at 14h); the distractor is 14h. Fix: grab the \"final time\", not the first one you heard."
+          },
+          {
+            "title": "Trap 3: Missed negation",
+            "desc": "\"Je ne suis pas d'accord\" vs \"Je suis d'accord\" — at fast speed the unstressed \"ne...pas\" can vanish. Fix: whenever you hear an opinion verb, check for ne/pas/jamais/non."
+          },
+          {
+            "title": "Trap 4: Concession flip",
+            "desc": "\"Certes, X est vrai, mais Y est plus important\" — the actual position is after \"mais\". Distractor captures the X half. Fix: treat mais/cependant/toutefois/néanmoins as stance reset buttons."
+          },
+          {
+            "title": "Trap 5: Homophones / near-homophones",
+            "desc": "poisson (fish) vs poison; fois (times) vs foie (liver) vs foi (faith). Only context disambiguates. Fix: never pick an answer based purely on word sound."
+          },
+          {
+            "title": "Trap 6: Ambiguous pronouns",
+            "desc": "\"Elle lui a dit qu'il ne devait pas y aller\" — who told whom not to go where? Two pronouns, two people. Fix: tag each subject in your head as pronouns stack up."
+          },
+          {
+            "title": "Trap 7: Rhetorical questions",
+            "desc": "\"Est-ce que j'ai dit que c'était facile ?\" is rhetorical — it means \"I did NOT say it was easy\". Fix: note tone lift + surrounding frustration markers."
+          },
+          {
+            "title": "Trap 8: Polite refusal",
+            "desc": "In French, \"Ce n'est pas vraiment mon truc\" or \"Je vais y réfléchir\" are polite refusals, not genuine deliberations. Fix: learn the standard French refusal phrases."
+          },
+          {
+            "title": "Trap 9: Details drown the thesis",
+            "desc": "A 60-second lecture packs 3 data points, 2 examples, and 1 main argument. The question asks about the main argument, but distractors use details. Fix: write the thesis at the top of your scratch sheet, details below."
+          },
+          {
+            "title": "Trap 10: Speaker attitude",
+            "desc": "Examiners love \"Quelle est l'attitude de l'intervenant ?\" with options like ironique / enthousiaste / sceptique / neutre. Fix: listen to pitch + adjective intensity — sarcasm speeds up, adjectives exaggerate."
+          }
+        ]
+      },
+      "keyExpressions": {
+        "title": "High-frequency listening expressions (4 categories)",
+        "intro": "These are the patterns that appear most often in TCF listening. Knowing them lets you automatically switch to \"trap alert\" mode during the exam.",
+        "time": {
+          "name": "Time",
+          "items": "dans deux jours (in two days) · avant-hier (the day before yesterday) · la semaine prochaine (next week) · il y a trois mois (three months ago) · à partir du 5 (from the 5th) · jusqu'au 20 (until the 20th) · vers 15h (around 3pm) · pile à midi (exactly at noon)"
+        },
+        "numbers": {
+          "name": "Numbers",
+          "items": "soixante-dix (70) · quatre-vingts (80) · quatre-vingt-dix (90) · quatre-vingt-onze (91) · la moitié (half) · le quart (a quarter) · le double (double) · un tiers (a third) · une dizaine (around ten)"
+        },
+        "negation": {
+          "name": "Negation / reversal",
+          "items": "ne...pas · ne...jamais · ne...plus · ne...aucun · au contraire · en revanche · toutefois · cependant · pourtant · mais · certes...mais · malgré · bien que + subj"
+        },
+        "tone": {
+          "name": "Tone / attitude",
+          "items": "en effet (indeed) · à vrai dire (to be honest) · franchement (frankly) · à mon avis (in my opinion) · selon moi (to me) · il me semble que (it seems to me) · je doute que (I doubt) · sans aucun doute (without a doubt) · soi-disant (so-called, ironic)"
+        }
+      },
+      "preparationPlan": {
+        "title": "8-week prep plan (B1 to CLB 7+)",
+        "intro": "This plan assumes you already have a B1 foundation and are targeting CLB 7 (331+ points). Commit roughly one hour of listening practice per day.",
+        "week1_2": {
+          "title": "Weeks 1-2: Foundation sweep",
+          "actions": "20 minutes daily of RFI Journal en français facile (slow-speed news); 4 HiTCF A1-A2 level practice sets; drill unfamiliar numbers, time expressions, and basic connectors."
+        },
+        "week3_4": {
+          "title": "Weeks 3-4: Adjust to natural speed",
+          "actions": "Switch to normal-speed RFI Actualité and France Inter podcasts; 6 HiTCF A2-B1 level practice sets; start practicing \"first-pass correct\" discipline — no replays allowed."
+        },
+        "week5_6": {
+          "title": "Weeks 5-6: Core breakthrough (B1-B2)",
+          "actions": "10-15 HiTCF B1-B2 real questions per day; use the sentence-level replay feature to fully understand every mistake; 2 full 35-minute mock exams per week."
+        },
+        "week7_8": {
+          "title": "Weeks 7-8: High-level sprint",
+          "actions": "Attack the B2-C2 block (Q31-39), 3-5 deep lecture questions daily; 3 full mock exams per week; review every B1+ mistake in your error notebook; stop practicing 3 days before the exam to preserve sharpness."
         }
       },
       "tips": {
-        "title": "Listening Tips & Strategies",
-        "tip1": "Read the question and all 4 options before the audio plays. This gives you a preview of what to listen for and helps you focus your attention during playback.",
-        "tip2": "Don't panic if you miss something. Focus on the overall meaning rather than individual words. Many correct answers can be inferred from context even if you missed specific phrases.",
-        "tip3": "Pay attention to tone, emphasis, and intonation. Speakers often stress the most important information, and their tone can reveal attitudes that the question may ask about.",
-        "tip4": "Beware of distractors — options that use words you heard in the audio but in a different context or meaning. The correct answer often paraphrases the audio rather than repeating exact words.",
-        "tip5": "Practice with real French media daily. Listen to RFI, France 24, Radio-Canada, or French podcasts to build your ear for natural speech patterns, accents, and speed."
+        "title": "10 tips you can apply immediately",
+        "tip1": "Always read the question and all 4 options before audio starts — 5 seconds of preview beats a minute of panic during playback.",
+        "tip2": "Missed a sentence? Don't dwell. French answers are usually inferrable from context; fixating on one word drags down the next five questions.",
+        "tip3": "Lock onto tone and reversal markers: mais, cependant, en fait, à vrai dire — these are the TCF's go-to signals for speaker attitude.",
+        "tip4": "Beware the \"exact word\" trap: correct answers tend to paraphrase the audio (reformulation), while distractors recycle the original words.",
+        "tip5": "Listen to real French media daily: RFI, France 24, Radio-Canada, French podcasts. Real speed, no subtitles.",
+        "tip6": "Use symbols in your notes, not words: ↑ for agree, ↓ for disagree, ? for uncertain, △ for time, € for price.",
+        "tip7": "Skip unknown technical vocabulary immediately — TCF never tests jargon, only logic and the main idea.",
+        "tip8": "Pair listening with speaking training: shadow 3 minutes of RFI news before a listening set, and your ear adapts faster.",
+        "tip9": "Don't do new questions the night before the exam. Review only your error notebook — new wrong answers crush confidence.",
+        "tip10": "If the venue allows scratch paper, use it. If not, trace digits and times on the desk with your finger — muscle memory helps."
       },
       "practice": {
-        "title": "How to Practice Effectively",
-        "desc": "On HiTCF, use Practice Mode to replay audio sentence by sentence — this builds deep comprehension. Once comfortable, switch to Exam Mode where audio plays once, just like the real test. Track your accuracy by level in the Dashboard to identify which difficulty bands need more work. Use the Level Practice feature to target specific levels (e.g., only B1-B2 questions) and the wrong-answer notebook to revisit your mistakes."
+        "title": "How to practice listening efficiently on HiTCF",
+        "p1": "HiTCF has 42 complete TCF Canada listening test sets (1,638 questions). Every audio clip was processed with OpenAI Whisper to generate sentence-level timestamps — meaning when you review a mistake, you can replay exactly the sentence you missed instead of re-listening to the entire 90-second clip. No other TCF platform offers this.",
+        "p2": "Recommended 3-phase practice flow: (1) **Practice Mode** — replay allowed, transcripts visible, goal is to understand every sentence; ideal for beginners. (2) **Level Practice** — pick a specific A1-C2 band to target your weak spot; ideal mid-prep. (3) **Exam Mode** — 35 minutes, one pass, no replay; ideal for the final 2 weeks.",
+        "p3": "After every session, check the \"accuracy by level\" chart on the dashboard. If any level is below 60%, drop everything else and drill that band. The error notebook auto-groups your mistakes by level and error type — a single pass through it is often 3× more effective than blindly grinding new sets."
+      },
+      "faq": {
+        "title": "Frequently asked questions",
+        "q1": {
+          "q": "Does TCF Canada listening audio really play only once?",
+          "a": "Yes. This is the biggest difference from DELF/DALF and most other French exams. The testing system offers no replay button, and once an answer is locked in you cannot revisit it. Train with a \"one-pass\" mindset from day one."
+        },
+        "q2": {
+          "q": "How many listening points do I need for CLB 7?",
+          "a": "CLB 7 requires at least 331 listening points (out of 699). CLB 8 needs 369 and CLB 9 needs 449. Most Canadian PR pathways require CLB 7."
+        },
+        "q3": {
+          "q": "Can I take notes during the listening section?",
+          "a": "Policies vary by test center. Most official centers allow short notes on scratch paper (provided by the center), but you cannot pre-write anything. Confirm with your specific venue before test day."
+        },
+        "q4": {
+          "q": "How long do I need to practice daily to hit CLB 7?",
+          "a": "If you already have a B1 base, 45-60 minutes of targeted listening (real questions + French media) over 8 weeks is typically enough. From scratch, expect at least 6 months of 2 hours per day of systematic study."
+        },
+        "q5": {
+          "q": "Do Quebec and metropolitan French accents both appear?",
+          "a": "The exam is mostly metropolitan French (~80%), with occasional Canadian (Quebec) and African French accents in interviews or news clips. Spend some time with Radio-Canada to acclimate."
+        },
+        "q6": {
+          "q": "What should I do when I miss a sentence?",
+          "a": "Drop it instantly and redirect attention to the rest of the clip. The biggest TCF listening mistake is \"getting stuck on one sentence\" — a minute later you've missed the entire question. Most answers are inferrable from context."
+        },
+        "q7": {
+          "q": "What is HiTCF's sentence-level timestamp feature?",
+          "a": "We process every audio clip with OpenAI Whisper to generate sentence-level timestamps. During practice or error review, you click any sentence to jump the audio to exactly that spot, instead of replaying the entire 90-second segment. No other TCF prep platform offers this."
+        },
+        "q8": {
+          "q": "How should I prepare the week before the exam?",
+          "a": "Days 7 to 3: one full 35-minute mock per day plus error review. Days 2 and 1: only review the error notebook, no new questions. Night before: sleep early; 30 minutes of RFI news is enough to keep your ear warm. Don't introduce new material."
+        }
       },
       "cta": {
-        "title": "Start Listening Practice Now",
-        "desc": "HiTCF has 42 complete listening test sets with over 1,600 questions, full audio, and sentence-level timestamps for detailed replay. Start for free and track your progress.",
+        "title": "Start your listening drills now",
+        "desc": "HiTCF has 42 TCF Canada listening sets, 1,638 real questions, full audio, sentence-level timestamps, level-based practice, and an error notebook. Sign up for a free 7-day Pro trial — no credit card needed.",
+        "dataPoint": "Based on our user data, candidates who commit to 1 hour per day for 8 weeks gain +120 listening points on average (CLB 5 → CLB 7).",
         "practiceButton": "Practice Listening",
         "overviewButton": "TCF Canada Overview"
       }
