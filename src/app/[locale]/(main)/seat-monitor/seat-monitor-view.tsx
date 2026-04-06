@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import {
   Bell,
@@ -16,7 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -68,11 +68,36 @@ function seatBg(seats: number | null | undefined): string {
   return "bg-emerald-50 dark:bg-emerald-950/30";
 }
 
-function statusSummary(center: CenterStatus): "available" | "sold_out" | "none" | "checking" {
-  if (center.scrape_status !== "success") return "checking";
-  if (center.available_dates.length === 0) return "none";
-  const allZero = center.available_dates.every((d) => center.seats_by_date[d] === 0);
-  return allZero ? "sold_out" : "available";
+/* ── City grouping ── */
+
+interface CityGroup {
+  city_code: string;
+  city_name: string;
+  is_subscribed: boolean;
+  centers: CenterStatus[];
+  totalDates: number;
+}
+
+function groupByCity(centers: CenterStatus[]): CityGroup[] {
+  const map = new Map<string, CityGroup>();
+  for (const c of centers) {
+    let group = map.get(c.city_code);
+    if (!group) {
+      group = {
+        city_code: c.city_code,
+        city_name: c.city_name,
+        is_subscribed: c.is_subscribed,
+        centers: [],
+        totalDates: 0,
+      };
+      map.set(c.city_code, group);
+    }
+    group.centers.push(c);
+    group.totalDates += c.available_dates.length;
+    // Any center subscribed means city is subscribed
+    if (c.is_subscribed) group.is_subscribed = true;
+  }
+  return Array.from(map.values());
 }
 
 /* ── Component ── */
@@ -102,11 +127,12 @@ export function SeatMonitorView() {
 
   useEffect(() => {
     load();
-    // 15s polling matches backend scrape cadence — email is only a "tickle"
-    // that drives users here; the live view is the source of truth.
+    // 15s polling matches backend scrape cadence
     const refreshTimer = setInterval(load, 15_000);
     return () => clearInterval(refreshTimer);
   }, [load]);
+
+  const cityGroups = useMemo(() => groupByCity(centers), [centers]);
 
   const handleToggleFollow = async (cityCode: string) => {
     if (!isAuthenticated) {
@@ -115,8 +141,8 @@ export function SeatMonitorView() {
     }
     setSavingCities((prev) => new Set(prev).add(cityCode));
     try {
-      const center = centers.find((c) => c.city_code === cityCode);
-      if (center?.is_subscribed) {
+      const group = cityGroups.find((g) => g.city_code === cityCode);
+      if (group?.is_subscribed) {
         await unsubscribeSeat(cityCode);
         toast.success(t("unfollowed"));
       } else {
@@ -140,12 +166,12 @@ export function SeatMonitorView() {
     }
   };
 
-  const followedCenters = centers
-    .filter((c) => c.is_subscribed)
-    .sort((a, b) => b.available_dates.length - a.available_dates.length);
+  const followedGroups = cityGroups
+    .filter((g) => g.is_subscribed)
+    .sort((a, b) => b.totalDates - a.totalDates);
 
-  const isPersonalView = isAuthenticated && followedCenters.length > 0 && !showManage;
-  const isPickerView = isAuthenticated && (followedCenters.length === 0 || showManage);
+  const isPersonalView = isAuthenticated && followedGroups.length > 0 && !showManage;
+  const isPickerView = isAuthenticated && (followedGroups.length === 0 || showManage);
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
@@ -170,47 +196,18 @@ export function SeatMonitorView() {
           ))}
         </div>
       ) : isPersonalView ? (
-        /* ══════ Logged-in user: show only followed cities ══════ */
+        /* ══════ Logged-in: show followed cities ══════ */
         <>
-          {followedCenters.map((center) => {
-            const status = statusSummary(center);
-            return status === "available" ? (
-              <AvailableCard
-                key={center.center_id}
-                center={center}
-                isSaving={savingCities.has(center.city_code)}
-                locale={locale}
-                t={t}
-                onToggleFollow={handleToggleFollow}
-              />
-            ) : (
-              /* Followed but no seats — compact inline */
-              <div key={center.center_id} className="flex items-center justify-between rounded-lg border px-4 py-3">
-                <div className="flex items-center gap-3 min-w-0">
-                  <Bell className="h-4 w-4 text-emerald-500 shrink-0" />
-                  <div className="min-w-0">
-                    <p className="font-medium text-sm">{center.city_name}</p>
-                    <p className="text-xs text-muted-foreground">{t("noDates")}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 shrink-0">
-                  <a
-                    href={center.registration_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-                  >
-                    {t("registerNow")}
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+          {followedGroups.map((group) => (
+            <CityCard
+              key={group.city_code}
+              group={group}
+              isSaving={savingCities.has(group.city_code)}
+              locale={locale}
+              t={t}
+              onToggleFollow={handleToggleFollow}
+            />
+          ))}
 
           {/* Manage button */}
           <div className="text-center">
@@ -223,80 +220,58 @@ export function SeatMonitorView() {
             </button>
           </div>
 
-          {/* Manage dialog */}
           <ManageDialog
             open={showManage}
             onClose={() => setShowManage(false)}
-            centers={centers}
+            cityGroups={cityGroups}
             savingCities={savingCities}
             onToggleFollow={handleToggleFollow}
             t={t}
           />
 
-          {/* Pro upsell */}
           {!isPro && <ProUpsell t={t} />}
         </>
       ) : isPickerView ? (
-        /* ══════ City picker (no follows yet) ══════ */
+        /* ══════ City picker ══════ */
         <>
           <p className="text-center text-sm text-muted-foreground">{t("pickCitiesHint")}</p>
-          <CityGrid
-            centers={centers}
-            savingCities={savingCities}
-            onToggleFollow={handleToggleFollow}
-            t={t}
-          />
+          <div className="space-y-3">
+            {cityGroups.map((group) => (
+              <CityPickerItem
+                key={group.city_code}
+                group={group}
+                isSaving={savingCities.has(group.city_code)}
+                onToggleFollow={handleToggleFollow}
+                t={t}
+              />
+            ))}
+          </div>
           {!isPro && <ProUpsell t={t} />}
         </>
       ) : (
-        /* ══════ Guest: showcase all cities + register CTA ══════ */
+        /* ══════ Guest ══════ */
         <>
-          {/* Hero banner if seats exist */}
-          {centers.some((c) => statusSummary(c) === "available") && (
+          {cityGroups.some((g) => g.totalDates > 0) && (
             <div className="rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4 text-center dark:border-emerald-700 dark:bg-emerald-950/30">
               <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">
-                🎉 {centers.filter((c) => statusSummary(c) === "available").map((c) => c.city_name).join(" · ")} {t("seatsFound")}
+                🎉 {cityGroups.filter((g) => g.totalDates > 0).map((g) => g.city_name).join(" · ")} {t("seatsFound")}
               </p>
             </div>
           )}
 
-          {/* All cities */}
-          <div className="space-y-3">
-            {centers.map((center) => {
-              const status = statusSummary(center);
-              return status === "available" ? (
-                <AvailableCard
-                  key={center.center_id}
-                  center={center}
-                  isSaving={false}
-                  locale={locale}
-                  t={t}
-                  onToggleFollow={handleToggleFollow}
-                />
-              ) : (
-                <div key={center.center_id} className="flex items-center justify-between rounded-lg border px-4 py-3">
-                  <div className="min-w-0">
-                    <p className="font-medium text-sm">{center.city_name}</p>
-                    <p className="text-xs text-muted-foreground">{center.center_name}</p>
-                  </div>
-                  <div className="flex items-center gap-3 shrink-0">
-                    <a
-                      href={center.registration_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-                    >
-                      {t("registerNow")}
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
-                    <span className="text-xs text-muted-foreground">{t("noDates")}</span>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="space-y-4">
+            {cityGroups.map((group) => (
+              <CityCard
+                key={group.city_code}
+                group={group}
+                isSaving={false}
+                locale={locale}
+                t={t}
+                onToggleFollow={handleToggleFollow}
+              />
+            ))}
           </div>
 
-          {/* Register CTA */}
           <div className="rounded-xl border-2 border-primary/20 bg-primary/5 p-6 text-center">
             <p className="text-base font-medium mb-1">{t("registerToFollow")}</p>
             <p className="text-sm text-muted-foreground mb-4">{t("registerToFollowDesc")}</p>
@@ -310,7 +285,7 @@ export function SeatMonitorView() {
         </>
       )}
 
-      {/* FAQ — always shown */}
+      {/* FAQ */}
       {!loading && (
         <div className="space-y-3">
           <h2 className="flex items-center gap-2 text-lg font-semibold">
@@ -335,66 +310,56 @@ export function SeatMonitorView() {
   );
 }
 
-/* ── Available City Card ── */
+/* ── City Card — groups all centers under one city ── */
 
 const MAX_VISIBLE_DATES = 3;
 
-function AvailableCard({
-  center,
+function CityCard({
+  group,
   isSaving,
   locale,
   t,
   onToggleFollow,
 }: {
-  center: CenterStatus;
+  group: CityGroup;
   isSaving: boolean;
   locale: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: any;
   onToggleFollow: (cityCode: string) => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
-  const dates = center.available_dates;
-  const hasMore = dates.length > MAX_VISIBLE_DATES;
-  const visibleDates = expanded ? dates : dates.slice(0, MAX_VISIBLE_DATES);
+  const hasAnyDates = group.totalDates > 0;
 
   return (
-    <Card className="overflow-hidden border-2 border-emerald-200 dark:border-emerald-800">
-      <CardHeader className="pb-3">
+    <Card className={cn("overflow-hidden", hasAnyDates && "border-2 border-emerald-200 dark:border-emerald-800")}>
+      <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-bold">{center.city_name}</h2>
-              <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800">
-                {dates.length} {t("statusAvailable")}
-              </Badge>
+              <h2 className="text-lg font-bold">{group.city_name}</h2>
+              {hasAnyDates && (
+                <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800">
+                  {group.totalDates} {t("statusAvailable")}
+                </Badge>
+              )}
             </div>
-            <p className="text-sm text-muted-foreground mt-0.5">{center.center_name}</p>
-            {center.address && (
-              <a
-                href={center.maps_url || `https://maps.google.com/?q=${encodeURIComponent(center.address)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary mt-1 transition-colors"
-              >
-                <MapPin className="h-3 w-3 shrink-0" />
-                {center.address}
-              </a>
-            )}
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {group.centers.length} {group.centers.length === 1 ? "center" : "centers"}
+            </p>
           </div>
           <button
             className={cn(
               "shrink-0 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors",
-              center.is_subscribed
+              group.is_subscribed
                 ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
                 : "text-muted-foreground hover:text-primary hover:bg-muted",
             )}
-            onClick={() => onToggleFollow(center.city_code)}
+            onClick={() => onToggleFollow(group.city_code)}
             disabled={isSaving}
           >
             {isSaving ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
-            ) : center.is_subscribed ? (
+            ) : group.is_subscribed ? (
               <>
                 <Bell className="h-3.5 w-3.5" />
                 {t("following")}
@@ -409,23 +374,98 @@ function AvailableCard({
         </div>
       </CardHeader>
 
-      <CardContent className="pt-0">
-        <div className="space-y-1.5">
+      <CardContent className="pt-0 space-y-3">
+        {group.centers.map((center) => (
+          <CenterSection key={center.center_id} center={center} locale={locale} t={t} />
+        ))}
+
+        {group.is_subscribed && (
+          <div className="flex items-center justify-between text-xs text-muted-foreground pt-1">
+            <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+              <Bell className="h-3 w-3" />
+              {t("priorityNotify")}
+            </span>
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+            </span>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+/* ── Center Section — one center within a city card ── */
+
+function CenterSection({
+  center,
+  locale,
+  t,
+}: {
+  center: CenterStatus;
+  locale: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: any;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const dates = center.available_dates;
+  const hasDates = dates.length > 0;
+  const hasMore = dates.length > MAX_VISIBLE_DATES;
+  const visibleDates = expanded ? dates : dates.slice(0, MAX_VISIBLE_DATES);
+
+  return (
+    <div className="rounded-lg border bg-card px-3 py-2.5">
+      {/* Center header */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="min-w-0">
+          <p className="text-sm font-medium">{center.center_name}</p>
+          {center.address && (
+            <a
+              href={center.maps_url || `https://maps.google.com/?q=${encodeURIComponent(center.address)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-primary transition-colors"
+            >
+              <MapPin className="h-2.5 w-2.5 shrink-0" />
+              {center.address}
+            </a>
+          )}
+        </div>
+        <a
+          href={center.registration_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "shrink-0 inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors",
+            hasDates
+              ? "bg-primary text-primary-foreground hover:bg-primary/90"
+              : "text-muted-foreground hover:text-foreground border",
+          )}
+        >
+          {t("registerNow")}
+          <ExternalLink className="h-3 w-3" />
+        </a>
+      </div>
+
+      {/* Dates */}
+      {hasDates && (
+        <div className="mt-2 space-y-1">
           {visibleDates.map((date) => {
             const seats = center.seats_by_date[date];
             return (
               <div
                 key={date}
                 className={cn(
-                  "flex items-center justify-between gap-3 rounded-lg px-3 py-2",
+                  "flex items-center justify-between gap-3 rounded px-2.5 py-1.5",
                   seatBg(seats),
                 )}
               >
-                <span className="text-sm">{formatExamDate(date, locale)}</span>
+                <span className="text-xs">{formatExamDate(date, locale)}</span>
                 {seats !== undefined && seats !== null && (
                   <span
                     className={cn(
-                      "text-sm font-semibold tabular-nums",
+                      "text-xs font-semibold tabular-nums",
                       seatColor(seats),
                       seats > 0 && seats < 10 && "animate-pulse",
                     )}
@@ -436,63 +476,101 @@ function AvailableCard({
               </div>
             );
           })}
+          {hasMore && (
+            <button
+              className="w-full text-center text-[11px] text-muted-foreground hover:text-primary transition-colors py-0.5"
+              onClick={() => setExpanded(!expanded)}
+            >
+              {expanded
+                ? t("collapse")
+                : t("showMore", { count: dates.length - MAX_VISIBLE_DATES })}
+            </button>
+          )}
         </div>
-        {hasMore && (
-          <button
-            className="mt-1 w-full text-center text-xs text-muted-foreground hover:text-primary transition-colors py-1"
-            onClick={() => setExpanded(!expanded)}
-          >
-            {expanded
-              ? t("collapse")
-              : t("showMore", { count: dates.length - MAX_VISIBLE_DATES })}
-          </button>
-        )}
-        <a
-          href={center.registration_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-2 flex items-center justify-center gap-2 rounded-lg border-2 border-primary bg-primary/5 px-4 py-2.5 text-sm font-semibold text-primary hover:bg-primary/10 transition-colors"
-        >
-          {t("registerNow")}
-          <ExternalLink className="h-4 w-4" />
-        </a>
-      </CardContent>
+      )}
 
-      <CardFooter className="pt-2 text-xs text-muted-foreground">
-        <div className="flex w-full items-center justify-between">
-          <span>
-            {center.is_subscribed && (
-              <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
-                <Bell className="h-3 w-3" />
-                {t("priorityNotify")}
-              </span>
-            )}
-          </span>
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-          </span>
-        </div>
-      </CardFooter>
-    </Card>
+      {!hasDates && (
+        <p className="text-[11px] text-muted-foreground mt-1">{t("noDates")}</p>
+      )}
+    </div>
   );
 }
 
-/* ── Pro Upsell ── */
+/* ── City Picker Item (for first-time / manage view) ── */
+
+function CityPickerItem({
+  group,
+  isSaving,
+  onToggleFollow,
+  t,
+}: {
+  group: CityGroup;
+  isSaving: boolean;
+  onToggleFollow: (cityCode: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: any;
+}) {
+  return (
+    <div className={cn(
+      "rounded-lg border px-4 py-3",
+      group.totalDates > 0 && "border-emerald-200 dark:border-emerald-800",
+    )}>
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="font-semibold">{group.city_name}</h3>
+            {group.totalDates > 0 && (
+              <Badge className="text-[10px] px-1.5 py-0 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300">
+                {group.totalDates} {t("statusAvailable")}
+              </Badge>
+            )}
+          </div>
+          <p className="text-xs text-muted-foreground">
+            {group.centers.map((c) => c.center_name).join(" · ")}
+          </p>
+        </div>
+        <button
+          className={cn(
+            "shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
+            group.is_subscribed
+              ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+              : "text-muted-foreground hover:text-primary hover:bg-muted",
+          )}
+          onClick={() => onToggleFollow(group.city_code)}
+          disabled={isSaving}
+        >
+          {isSaving ? (
+            <Loader2 className="h-3 w-3 animate-spin" />
+          ) : group.is_subscribed ? (
+            <>
+              <Bell className="h-3 w-3" />
+              {t("following")}
+            </>
+          ) : (
+            <>
+              <Plus className="h-3 w-3" />
+              {t("follow")}
+            </>
+          )}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 /* ── Manage Cities Dialog ── */
 
 function ManageDialog({
   open,
   onClose,
-  centers,
+  cityGroups,
   savingCities,
   onToggleFollow,
   t,
 }: {
   open: boolean;
   onClose: () => void;
-  centers: CenterStatus[];
+  cityGroups: CityGroup[];
   savingCities: Set<string>;
   onToggleFollow: (cityCode: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -505,138 +583,18 @@ function ManageDialog({
           <DialogTitle>{t("manageCities")}</DialogTitle>
         </DialogHeader>
         <div className="space-y-2 py-2">
-          {centers.map((center) => {
-            const isSaving = savingCities.has(center.city_code);
-            const hasSeats = center.available_dates.length > 0;
-            return (
-              <div
-                key={center.center_id}
-                className={cn(
-                  "flex items-center justify-between rounded-lg border px-4 py-3",
-                  hasSeats && "border-emerald-200 dark:border-emerald-800",
-                )}
-              >
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium text-sm">{center.city_name}</p>
-                    {hasSeats && (
-                      <Badge className="text-[10px] px-1.5 py-0 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300">
-                        {center.available_dates.length}
-                      </Badge>
-                    )}
-                  </div>
-                  <p className="text-xs text-muted-foreground">{center.center_name}</p>
-                </div>
-                <button
-                  className={cn(
-                    "shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
-                    center.is_subscribed
-                      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-                      : "text-muted-foreground hover:text-primary hover:bg-muted",
-                  )}
-                  onClick={() => onToggleFollow(center.city_code)}
-                  disabled={isSaving}
-                >
-                  {isSaving ? (
-                    <Loader2 className="h-3 w-3 animate-spin" />
-                  ) : center.is_subscribed ? (
-                    <>
-                      <Bell className="h-3 w-3" />
-                      {t("following")}
-                    </>
-                  ) : (
-                    <>
-                      <Plus className="h-3 w-3" />
-                      {t("follow")}
-                    </>
-                  )}
-                </button>
-              </div>
-            );
-          })}
+          {cityGroups.map((group) => (
+            <CityPickerItem
+              key={group.city_code}
+              group={group}
+              isSaving={savingCities.has(group.city_code)}
+              onToggleFollow={onToggleFollow}
+              t={t}
+            />
+          ))}
         </div>
       </DialogContent>
     </Dialog>
-  );
-}
-
-/* ── City Grid (for first-time picker) ── */
-
-function CityGrid({
-  centers,
-  savingCities,
-  onToggleFollow,
-  t,
-}: {
-  centers: CenterStatus[];
-  savingCities: Set<string>;
-  onToggleFollow: (cityCode: string) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  t: any;
-}) {
-  return (
-    <div className="grid gap-3 sm:grid-cols-2">
-      {centers.map((center) => {
-        const isSaving = savingCities.has(center.city_code);
-        const hasSeats = center.available_dates.length > 0;
-        return (
-          <Card key={center.center_id} className={cn("overflow-hidden", hasSeats && "border-emerald-200 dark:border-emerald-800")}>
-            <CardHeader className="p-4 pb-2">
-              <div className="flex items-center justify-between gap-2">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold">{center.city_name}</h3>
-                    {hasSeats && (
-                      <Badge className="text-[10px] px-1.5 py-0 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300">
-                        {center.available_dates.length} {t("statusAvailable")}
-                      </Badge>
-                    )}
-                  </div>
-                  <p className="text-xs text-muted-foreground truncate">{center.center_name}</p>
-                </div>
-                <button
-                  className={cn(
-                    "shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
-                    center.is_subscribed
-                      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-                      : "text-muted-foreground hover:text-primary hover:bg-muted",
-                  )}
-                  onClick={() => onToggleFollow(center.city_code)}
-                  disabled={isSaving}
-                >
-                  {isSaving ? (
-                    <Loader2 className="h-3 w-3 animate-spin" />
-                  ) : center.is_subscribed ? (
-                    <>
-                      <Bell className="h-3 w-3" />
-                      {t("following")}
-                    </>
-                  ) : (
-                    <>
-                      <Plus className="h-3 w-3" />
-                      {t("follow")}
-                    </>
-                  )}
-                </button>
-              </div>
-            </CardHeader>
-            <CardFooter className="p-4 pt-1 text-[11px] text-muted-foreground">
-              {center.address && (
-                <a
-                  href={center.maps_url || `https://maps.google.com/?q=${encodeURIComponent(center.address)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 hover:text-primary transition-colors truncate"
-                >
-                  <MapPin className="h-3 w-3 shrink-0" />
-                  <span className="truncate">{center.address}</span>
-                </a>
-              )}
-            </CardFooter>
-          </Card>
-        );
-      })}
-    </div>
   );
 }
 
