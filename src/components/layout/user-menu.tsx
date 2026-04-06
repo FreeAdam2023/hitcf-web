@@ -5,7 +5,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 
 import { useTranslations } from "next-intl";
 import { useAuthStore } from "@/stores/auth-store";
-import { LogOut, User, Sparkles, Settings, MessageSquarePlus, Gift, CalendarCheck } from "lucide-react";
+import { LogOut, User, Sparkles, Settings, MessageSquarePlus, Gift, CalendarCheck, MapPin } from "lucide-react";
 import { FeedbackDialog } from "@/components/feedback/feedback-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -150,6 +150,10 @@ export function UserMenu({ className }: { className?: string } = {}) {
         <DropdownMenuItem onClick={() => router.push("/checkin")}>
           <CalendarCheck className="me-2 h-4 w-4" />
           {t('userMenu.checkin')}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/seat-monitor")}>
+          <MapPin className="me-2 h-4 w-4" />
+          {t('userMenu.seatMonitor')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setFeedbackOpen(true)}>
           <MessageSquarePlus className="me-2 h-4 w-4" />
