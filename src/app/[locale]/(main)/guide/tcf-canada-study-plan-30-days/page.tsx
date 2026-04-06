@@ -2091,14 +2091,6 @@ export default async function TcfStudyPlan30DaysPage({
         totalTime: "P30D",
         educationalLevel: "B1 to B2 CEFR (CLB 5-7)",
       },
-      {
-        "@type": "FAQPage",
-        "@id": `${pageUrl}#faq`,
-        mainEntity: c.faqs.map((f) => ({
-          "@type": "Question",
-          name: f.q,
-        })),
-      },
     ],
   };
 

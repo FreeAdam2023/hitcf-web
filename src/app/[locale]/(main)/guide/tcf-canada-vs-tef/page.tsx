@@ -1143,14 +1143,6 @@ export default async function TcfVsTefGuidePage({
         ],
         isAccessibleForFree: true,
       },
-      {
-        "@type": "FAQPage",
-        "@id": `${pageUrl}#faq`,
-        mainEntity: c.faqs.map((f) => ({
-          "@type": "Question",
-          name: f.q,
-        })),
-      },
     ],
   };
 

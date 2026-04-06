@@ -1359,14 +1359,6 @@ export default async function TcfExamDayGuidePage({
         learningResourceType: "procedural guide",
         totalTime: "PT4H",
       },
-      {
-        "@type": "FAQPage",
-        "@id": `${pageUrl}#faq`,
-        mainEntity: c.faqs.map((f) => ({
-          "@type": "Question",
-          name: f.q,
-        })),
-      },
     ],
   };
 
