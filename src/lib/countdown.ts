@@ -55,6 +55,26 @@ export const EXAM_CENTERS: Record<string, { address: string; mapsUrl: string; re
     mapsUrl: "https://maps.google.com/?q=Alliance+Fran%C3%A7aise+de+Calgary+710+10+Ave+SW",
     registrationUrl: "https://www.afcalgary.ca/exams/tcf/tcf-registrations-open/",
   },
+  edmonton: {
+    address: "10424 123 St NW, Edmonton, AB T5N 1N7",
+    mapsUrl: "https://maps.google.com/?q=Alliance+Française+d'Edmonton+10424+123+St+NW",
+    registrationUrl: "https://www.afedmonton.com/en/exams/tcf/",
+  },
+  halifax: {
+    address: "5509 Young St, Halifax, NS B3K 1Z7",
+    mapsUrl: "https://maps.google.com/?q=Alliance+Française+d'Halifax+5509+Young+St",
+    registrationUrl: "https://www.afhalifax.ca/test-your-french/tcf/tcf-canada-registration/",
+  },
+  winnipeg: {
+    address: "934 Corydon Ave, Winnipeg, MB R3M 0Y5",
+    mapsUrl: "https://maps.google.com/?q=Alliance+Française+du+Manitoba+934+Corydon+Ave",
+    registrationUrl: "https://www.afmanitoba.ca/en/exams/tcf/",
+  },
+  victoria: {
+    address: "1218 Langley St, Victoria, BC V8W 1W2",
+    mapsUrl: "https://maps.google.com/?q=Alliance+Française+de+Victoria+1218+Langley+St",
+    registrationUrl: "https://www.afvictoria.ca/exams/tcf/",
+  },
 };
 
-export const CITY_OPTIONS = ["ottawa", "toronto", "montreal", "vancouver", "calgary"] as const;
+export const CITY_OPTIONS = ["ottawa", "toronto", "montreal", "vancouver", "calgary", "edmonton", "halifax", "winnipeg", "victoria"] as const;

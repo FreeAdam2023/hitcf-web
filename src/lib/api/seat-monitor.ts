@@ -1,6 +1,7 @@
 import { get, post, del } from "./client";
 
 export interface CenterStatus {
+  center_id: string;
   city_code: string;
   city_name: string;
   center_name: string;

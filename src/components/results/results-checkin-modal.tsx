@@ -6,187 +6,53 @@ import { toPng } from "html-to-image";
 import { Download, Share2, X, Loader2, Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import type { AttemptReview } from "@/lib/api/types";
-import { localizeTestName } from "@/lib/test-name";
+import { CheckinPoster } from "@/components/checkin/checkin-poster";
+import { fetchDailyCheckin, type DailyCheckinData } from "@/lib/api/stats";
+import { getAttemptProgress, type ProgressResponse } from "@/lib/api/attempts";
 
-/* ── helpers ─────────────────────────────────────────────── */
+/* ── poster dimensions ─────────────────────────────────── */
 
-function useBase64Image(src: string): string {
-  const [dataUrl, setDataUrl] = useState(src);
-  useEffect(() => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => {
-      const c = document.createElement("canvas");
-      c.width = img.naturalWidth;
-      c.height = img.naturalHeight;
-      c.getContext("2d")!.drawImage(img, 0, 0);
-      setDataUrl(c.toDataURL("image/png"));
-    };
-    img.src = src;
-  }, [src]);
-  return dataUrl;
-}
-
-function getEncouragement(pct: number, t: (k: string) => string) {
-  if (pct >= 90) return { emoji: "\u{1F3C6}", msg: t("excellent"), color: "#a855f7" };
-  if (pct >= 75) return { emoji: "\u{1F389}", msg: t("great"), color: "#3b82f6" };
-  if (pct >= 60) return { emoji: "\u{1F4AA}", msg: t("good"), color: "#22c55e" };
-  if (pct >= 40) return { emoji: "\u{1F525}", msg: t("progress"), color: "#f59e0b" };
-  return { emoji: "\u{1F4A1}", msg: t("keepGoing"), color: "#ef4444" };
-}
-
-/* ── card poster (rendered offscreen for html-to-image) ── */
-
-interface CardProps {
-  attempt: AttemptReview;
-  displayName: string;
-  scorePct: number;
-  logoSrc: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  t: (k: string, v?: any) => string;
-}
-
-function CardPoster({ attempt, displayName, scorePct, logoSrc, t }: CardProps) {
-  const enc = getEncouragement(scorePct, t);
-  const dateStr = attempt.completed_at
-    ? new Date(attempt.completed_at).toLocaleDateString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" })
-    : new Date().toLocaleDateString("zh-CN");
-  const modeLabel =
-    attempt.mode === "exam" ? t("modeExam")
-      : attempt.mode === "speed_drill" ? t("modeSpeedDrill")
-        : t("modePractice");
-
-  return (
-    <div
-      style={{
-        width: 720,
-        height: 960,
-        background: "linear-gradient(160deg, #0d0117 0%, #1a0a2e 25%, #2d1154 50%, #4a1942 75%, #1a0a2e 100%)",
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif',
-        color: "#ffffff",
-        display: "flex",
-        flexDirection: "column",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Ambient glow */}
-      <div style={{
-        position: "absolute", top: 120, left: "50%", transform: "translateX(-50%)",
-        width: 400, height: 400, borderRadius: "50%",
-        background: `radial-gradient(circle, ${enc.color}40 0%, ${enc.color}15 40%, transparent 70%)`,
-        pointerEvents: "none", filter: "blur(40px)",
-      }} />
-
-      {/* Brand bar */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "36px 44px 0" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logoSrc} alt="HiTCF" width={56} height={56} style={{ borderRadius: 10 }} />
-          <span style={{ fontSize: 32, fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>HiTCF</span>
-        </div>
-        <span style={{ fontSize: 24, color: "rgba(255,255,255,0.4)", fontWeight: 500 }}>{dateStr}</span>
-      </div>
-
-      {/* Mode badge */}
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
-        <div style={{
-          background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)",
-          borderRadius: 50, padding: "8px 24px", fontSize: 20, fontWeight: 600,
-          color: "rgba(255,255,255,0.7)", letterSpacing: "0.1em",
-        }}>
-          {modeLabel}
-        </div>
-      </div>
-
-      {/* Test name */}
-      <div style={{
-        textAlign: "center", padding: "20px 44px 0", fontSize: 36, fontWeight: 700,
-        color: "rgba(255,255,255,0.85)", lineHeight: 1.3,
-      }}>
-        {displayName}
-      </div>
-
-      {/* Giant score */}
-      <div style={{
-        display: "flex", flexDirection: "column", alignItems: "center",
-        justifyContent: "center", padding: "36px 44px 16px",
-      }}>
-        <div style={{ fontSize: 48, marginBottom: 8 }}>{enc.emoji}</div>
-        <div style={{
-          fontSize: 120, fontWeight: 900, lineHeight: 1, color: "#ffffff",
-          textShadow: `0 0 60px ${enc.color}80, 0 0 120px ${enc.color}40`,
-        }}>
-          {scorePct}%
-        </div>
-        <div style={{
-          fontSize: 28, fontWeight: 600, color: "rgba(255,255,255,0.5)", marginTop: 12,
-        }}>
-          {attempt.score}/{attempt.total} {t("correct")}
-        </div>
-      </div>
-
-      {/* Encouragement */}
-      <div style={{
-        textAlign: "center", fontSize: 32, fontWeight: 700,
-        color: enc.color, letterSpacing: "0.05em", padding: "0 44px",
-      }}>
-        {enc.msg}
-      </div>
-
-      {/* Spacer */}
-      <div style={{ flex: 1 }} />
-
-      {/* Bottom brand */}
-      <div style={{
-        padding: "0 44px 28px", display: "flex", flexDirection: "column",
-        alignItems: "center", gap: 10,
-      }}>
-        <div style={{
-          width: 200, height: 1,
-          background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)",
-        }} />
-        <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 28 }}>
-          <span style={{ fontWeight: 700, color: "rgba(255,255,255,0.6)" }}>hitcf.com</span>
-          <span style={{ color: "rgba(255,255,255,0.25)" }}>|</span>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>{t("tagline")}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
+const POSTER_W = 1080;
+const POSTER_H = 1440;
+const PREVIEW_W = 300;
+const PREVIEW_H = PREVIEW_W * (POSTER_H / POSTER_W); // 400
 
 /* ── modal with flip animation ───────────────────────── */
 
 interface ResultsCheckinModalProps {
-  attempt: AttemptReview;
   onClose: () => void;
 }
 
-export function ResultsCheckinModal({ attempt, onClose }: ResultsCheckinModalProps) {
+export function ResultsCheckinModal({ onClose }: ResultsCheckinModalProps) {
   const t = useTranslations("checkinCard");
-  const tCommon = useTranslations();
   const posterRef = useRef<HTMLDivElement>(null);
-  const logoSrc = useBase64Image("/logo.png");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [sharing, setSharing] = useState(false);
   const [visible, setVisible] = useState(false);
 
-  const scorePct = attempt.total > 0 ? Math.round(((attempt.score ?? 0) / attempt.total) * 100) : 0;
-  const isSpeedDrill = attempt.mode === "speed_drill";
-  const displayName = isSpeedDrill
-    ? tCommon("common.modes.speed_drill")
-    : attempt.test_set_type && attempt.test_set_name
-      ? localizeTestName(tCommon, attempt.test_set_type, attempt.test_set_name)
-      : (attempt.test_set_name || "");
+  const [checkinData, setCheckinData] = useState<DailyCheckinData | null>(null);
+  const [progress, setProgress] = useState<ProgressResponse | null>(null);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-  // Trigger entrance animation after mount
+  // Fetch daily checkin data
   useEffect(() => {
+    Promise.all([
+      fetchDailyCheckin().catch(() => null),
+      getAttemptProgress().catch(() => null),
+    ]).then(([checkin, prog]) => {
+      setCheckinData(checkin);
+      setProgress(prog);
+      setDataLoaded(true);
+    });
+  }, []);
+
+  // Trigger entrance animation after data loads
+  useEffect(() => {
+    if (!dataLoaded || !checkinData) return;
     const timer = setTimeout(() => setVisible(true), 50);
     return () => clearTimeout(timer);
-  }, []);
+  }, [dataLoaded, checkinData]);
 
   // Close on Escape
   useEffect(() => {
@@ -200,9 +66,9 @@ export function ResultsCheckinModal({ attempt, onClose }: ResultsCheckinModalPro
     setSaving(true);
     setSaved(false);
     try {
-      const dataUrl = await toPng(posterRef.current, { width: 720, height: 960, pixelRatio: 2 });
+      const dataUrl = await toPng(posterRef.current, { width: POSTER_W, height: POSTER_H, pixelRatio: 1 });
       const link = document.createElement("a");
-      link.download = `hitcf-result-${attempt.id}.png`;
+      link.download = `hitcf-checkin-${checkinData?.date || "today"}.png`;
       link.href = dataUrl;
       link.click();
       setSaved(true);
@@ -210,7 +76,7 @@ export function ResultsCheckinModal({ attempt, onClose }: ResultsCheckinModalPro
     } finally {
       setSaving(false);
     }
-  }, [attempt.id]);
+  }, [checkinData?.date]);
 
   const canShare = typeof navigator !== "undefined" && !!navigator.share;
 
@@ -218,17 +84,17 @@ export function ResultsCheckinModal({ attempt, onClose }: ResultsCheckinModalPro
     if (!posterRef.current) return;
     setSharing(true);
     try {
-      const dataUrl = await toPng(posterRef.current, { width: 720, height: 960, pixelRatio: 2 });
+      const dataUrl = await toPng(posterRef.current, { width: POSTER_W, height: POSTER_H, pixelRatio: 1 });
       const res = await fetch(dataUrl);
       const blob = await res.blob();
-      const file = new File([blob], `hitcf-result-${attempt.id}.png`, { type: "image/png" });
+      const file = new File([blob], `hitcf-checkin-${checkinData?.date || "today"}.png`, { type: "image/png" });
       await navigator.share({ files: [file], title: t("shareTitle"), text: t("shareText") });
     } catch (err) {
       if (err instanceof Error && err.name !== "AbortError") handleSave();
     } finally {
       setSharing(false);
     }
-  }, [attempt.id, t, handleSave]);
+  }, [checkinData?.date, t, handleSave]);
 
   // Portal to document.body so `fixed` positioning isn't broken by
   // ancestor transforms (MainContainer uses animate-fade-in-up which
@@ -236,19 +102,15 @@ export function ResultsCheckinModal({ attempt, onClose }: ResultsCheckinModalPro
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  // Don't render until data is loaded; hide if no activity today
+  if (!mounted || !dataLoaded) return null;
+  if (!checkinData) return null;
+
   const content = (
     <>
       {/* Offscreen poster for image generation */}
       <div style={{ position: "fixed", left: -9999, top: 0 }} aria-hidden>
-        <div ref={posterRef}>
-          <CardPoster
-            attempt={attempt}
-            displayName={displayName}
-            scorePct={scorePct}
-            logoSrc={logoSrc}
-            t={t}
-          />
-        </div>
+        <CheckinPoster ref={posterRef} data={checkinData} progress={progress} />
       </div>
 
       {/* Modal overlay */}
@@ -259,9 +121,7 @@ export function ResultsCheckinModal({ attempt, onClose }: ResultsCheckinModalPro
         {/* Card with flip animation */}
         <div
           className="relative"
-          style={{
-            perspective: "1200px",
-          }}
+          style={{ perspective: "1200px" }}
         >
           <div
             style={{
@@ -271,24 +131,18 @@ export function ResultsCheckinModal({ attempt, onClose }: ResultsCheckinModalPro
               transformStyle: "preserve-3d",
             }}
           >
-            {/* Visual preview card (scaled down from 720x960 poster) */}
+            {/* Visual preview card (scaled down from poster) */}
             <div
               className="rounded-2xl overflow-hidden shadow-2xl shadow-purple-500/20"
-              style={{ width: 320, height: 427 }}
+              style={{ width: PREVIEW_W, height: PREVIEW_H }}
             >
               <div style={{
-                transform: `scale(${320 / 720})`,
+                transform: `scale(${PREVIEW_W / POSTER_W})`,
                 transformOrigin: "top left",
-                width: 720,
-                height: 960,
+                width: POSTER_W,
+                height: POSTER_H,
               }}>
-                <CardPoster
-                  attempt={attempt}
-                  displayName={displayName}
-                  scorePct={scorePct}
-                  logoSrc={logoSrc}
-                  t={t}
-                />
+                <CheckinPoster data={checkinData} progress={progress} />
               </div>
             </div>
 
@@ -312,8 +166,7 @@ export function ResultsCheckinModal({ attempt, onClose }: ResultsCheckinModalPro
               {canShare && (
                 <Button
                   size="sm"
-                  variant="outline"
-                  className="gap-2 border-white/30 text-white hover:bg-white/10"
+                  className="gap-2 bg-white/20 text-white border border-white/40 hover:bg-white/30"
                   onClick={handleShare}
                   disabled={sharing}
                 >
@@ -336,6 +189,5 @@ export function ResultsCheckinModal({ attempt, onClose }: ResultsCheckinModalPro
     </>
   );
 
-  if (!mounted) return null;
   return createPortal(content, document.body);
 }
