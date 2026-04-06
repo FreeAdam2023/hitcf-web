@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { toPng } from "html-to-image";
 import { Download, Share2, X, Loader2, Check } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -229,7 +230,13 @@ export function ResultsCheckinModal({ attempt, onClose }: ResultsCheckinModalPro
     }
   }, [attempt.id, t, handleSave]);
 
-  return (
+  // Portal to document.body so `fixed` positioning isn't broken by
+  // ancestor transforms (MainContainer uses animate-fade-in-up which
+  // applies transform and creates a new containing block).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const content = (
     <>
       {/* Offscreen poster for image generation */}
       <div style={{ position: "fixed", left: -9999, top: 0 }} aria-hidden>
@@ -328,4 +335,7 @@ export function ResultsCheckinModal({ attempt, onClose }: ResultsCheckinModalPro
       </div>
     </>
   );
+
+  if (!mounted) return null;
+  return createPortal(content, document.body);
 }

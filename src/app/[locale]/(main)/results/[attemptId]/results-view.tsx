@@ -186,6 +186,29 @@ export function ResultsView({ attempt }: ResultsViewProps) {
         </Button>
       </div>
 
+      {/* Actions — top of page for visibility */}
+      <div className="flex flex-wrap gap-3">
+        {wrongCount > 0 && attempt.test_set_type && (
+          <Button
+            onClick={handlePracticeWrong}
+            disabled={practicingWrong}
+            className="bg-orange-600 hover:bg-orange-700 dark:bg-orange-700 dark:hover:bg-orange-600 text-white"
+          >
+            <RotateCcw className="mr-1.5 h-4 w-4" />
+            {practicingWrong ? t("common.actions.creating") : t("results.practiceWrong", { count: wrongCount })}
+          </Button>
+        )}
+        {nextTestSet && (
+          <Button onClick={handleNextTest} disabled={startingNext}>
+            <ArrowRight className="mr-1.5 h-4 w-4" />
+            {startingNext ? t("common.actions.creating") : t("results.nextSet", { name: localizeTestName(t, nextTestSet.type, nextTestSet.name) })}
+          </Button>
+        )}
+        <Button asChild variant="outline">
+          <Link href={attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests"}>{t("results.backToTests")}</Link>
+        </Button>
+      </div>
+
       {/* Score card */}
       <ScoreCard
         score={score}
@@ -260,29 +283,6 @@ export function ResultsView({ attempt }: ResultsViewProps) {
             </div>
           )}
         </div>
-      </div>
-
-      {/* Actions */}
-      <div className="flex flex-wrap gap-3">
-        {wrongCount > 0 && attempt.test_set_type && (
-          <Button
-            onClick={handlePracticeWrong}
-            disabled={practicingWrong}
-            className="bg-orange-600 hover:bg-orange-700 dark:bg-orange-700 dark:hover:bg-orange-600 text-white"
-          >
-            <RotateCcw className="mr-1.5 h-4 w-4" />
-            {practicingWrong ? t("common.actions.creating") : t("results.practiceWrong", { count: wrongCount })}
-          </Button>
-        )}
-        {nextTestSet && (
-          <Button onClick={handleNextTest} disabled={startingNext}>
-            <ArrowRight className="mr-1.5 h-4 w-4" />
-            {startingNext ? t("common.actions.creating") : t("results.nextSet", { name: localizeTestName(t, nextTestSet.type, nextTestSet.name) })}
-          </Button>
-        )}
-        <Button asChild variant="outline">
-          <Link href={attempt.test_set_type ? `/tests?tab=${attempt.test_set_type}` : "/tests"}>{t("results.backToTests")}</Link>
-        </Button>
       </div>
 
       {/* Share poster dialog */}
