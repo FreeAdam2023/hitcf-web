@@ -78,8 +78,8 @@ describe("getCancelDeadline", () => {
 });
 
 describe("EXAM_CENTERS", () => {
-  it("has all 5 cities", () => {
-    expect(Object.keys(EXAM_CENTERS)).toHaveLength(5);
+  it("has all 9 cities", () => {
+    expect(Object.keys(EXAM_CENTERS)).toHaveLength(9);
     for (const city of CITY_OPTIONS) {
       expect(EXAM_CENTERS[city]).toBeDefined();
       expect(EXAM_CENTERS[city].address).toBeTruthy();
@@ -90,8 +90,8 @@ describe("EXAM_CENTERS", () => {
 });
 
 describe("CITY_OPTIONS", () => {
-  it("contains exactly 5 cities matching EXAM_CENTERS keys", () => {
-    expect(CITY_OPTIONS).toHaveLength(5);
+  it("contains exactly 9 cities matching EXAM_CENTERS keys", () => {
+    expect(CITY_OPTIONS).toHaveLength(9);
     for (const city of CITY_OPTIONS) {
       expect(EXAM_CENTERS[city]).toBeDefined();
     }
