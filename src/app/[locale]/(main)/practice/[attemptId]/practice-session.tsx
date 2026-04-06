@@ -971,6 +971,7 @@ export function PracticeSession() {
         return;
       }
     }
+    (document.activeElement as HTMLElement)?.blur();
     goToQuestion(index);
   };
 
@@ -983,6 +984,8 @@ export function PracticeSession() {
         return;
       }
     }
+    // Clear focus so the previous option's focus-visible ring doesn't carry over
+    (document.activeElement as HTMLElement)?.blur();
     goNext();
   }, [goNext, questions, currentIndex, answers, quotaReached, showQuotaModal, drillMode, drillQuestionIds]);
 
@@ -998,6 +1001,7 @@ export function PracticeSession() {
   }, [drillMode, attemptId, drillNavLoadedPages, setDrillNavPage]);
 
   const handlePrev = useCallback(() => {
+    (document.activeElement as HTMLElement)?.blur();
     goPrev();
   }, [goPrev]);
 

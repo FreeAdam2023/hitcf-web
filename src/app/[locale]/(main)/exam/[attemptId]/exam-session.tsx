@@ -357,9 +357,11 @@ export function ExamSession() {
       if (!isListeningRef.current) {
         if (e.key === "ArrowRight" && currentIndex < questions.length - 1) {
           e.preventDefault();
+          (document.activeElement as HTMLElement)?.blur();
           goNextRef.current();
         } else if (e.key === "ArrowLeft" && currentIndex > 0) {
           e.preventDefault();
+          (document.activeElement as HTMLElement)?.blur();
           goPrevRef.current();
         }
       }
