@@ -4334,5 +4334,22 @@
     "reactivated": "Subscription reactivated!",
     "resubscribe": "Resubscribe",
     "cancelsOn": "Cancels on {date}"
+  },
+  "checkinCard": {
+    "excellent": "Outstanding!",
+    "great": "Well done!",
+    "good": "Nice work!",
+    "progress": "Making progress!",
+    "keepGoing": "Keep going!",
+    "correct": "correct",
+    "modeExam": "Mock Exam",
+    "modePractice": "Practice",
+    "modeSpeedDrill": "Level Practice",
+    "tagline": "TCF Canada Practice",
+    "saveImage": "Save Image",
+    "saved": "Saved",
+    "share": "Share",
+    "shareTitle": "My TCF Practice Score",
+    "shareText": "Practice TCF Canada with me on HiTCF! hitcf.com"
   }
 }

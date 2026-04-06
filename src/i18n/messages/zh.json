@@ -4330,5 +4330,22 @@
     "reactivated": "订阅已恢复！",
     "resubscribe": "重新订阅",
     "cancelsOn": "将于 {date} 到期取消"
+  },
+  "checkinCard": {
+    "excellent": "太强了！",
+    "great": "非常棒！",
+    "good": "不错！",
+    "progress": "有进步！",
+    "keepGoing": "加油！",
+    "correct": "题正确",
+    "modeExam": "模考",
+    "modePractice": "练习",
+    "modeSpeedDrill": "等级练习",
+    "tagline": "TCF Canada 在线练习",
+    "saveImage": "保存图片",
+    "saved": "已保存",
+    "share": "分享",
+    "shareTitle": "我的 TCF 练习成绩",
+    "shareText": "来 HiTCF 一起备考 TCF Canada！hitcf.com"
   }
 }

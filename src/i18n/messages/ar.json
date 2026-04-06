@@ -4331,5 +4331,22 @@
     "reactivated": "تم إعادة تفعيل الاشتراك!",
     "resubscribe": "إعادة الاشتراك",
     "cancelsOn": "سيتم الإلغاء في {date}"
+  },
+  "checkinCard": {
+    "excellent": "أداء متميز!",
+    "great": "أحسنت!",
+    "good": "عمل جيد!",
+    "progress": "تقدم ملحوظ!",
+    "keepGoing": "واصل!",
+    "correct": "صحيحة",
+    "modeExam": "اختبار تجريبي",
+    "modePractice": "تمرين",
+    "modeSpeedDrill": "حسب المستوى",
+    "tagline": "تمرين TCF Canada",
+    "saveImage": "حفظ الصورة",
+    "saved": "تم الحفظ",
+    "share": "مشاركة",
+    "shareTitle": "نتيجة تمريني في TCF",
+    "shareText": "تدرّب على TCF Canada معي على HiTCF! hitcf.com"
   }
 }

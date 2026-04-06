@@ -4334,5 +4334,22 @@
     "reactivated": "Abonnement réactivé !",
     "resubscribe": "Se réabonner",
     "cancelsOn": "Annulation prévue le {date}"
+  },
+  "checkinCard": {
+    "excellent": "Exceptionnel !",
+    "great": "Très bien !",
+    "good": "Bien joué !",
+    "progress": "En progrès !",
+    "keepGoing": "Courage !",
+    "correct": "correctes",
+    "modeExam": "Examen blanc",
+    "modePractice": "Entraînement",
+    "modeSpeedDrill": "Par niveau",
+    "tagline": "Entraînement TCF Canada",
+    "saveImage": "Enregistrer l'image",
+    "saved": "Enregistré",
+    "share": "Partager",
+    "shareTitle": "Mon score TCF",
+    "shareText": "Prépare le TCF Canada avec moi sur HiTCF ! hitcf.com"
   }
 }

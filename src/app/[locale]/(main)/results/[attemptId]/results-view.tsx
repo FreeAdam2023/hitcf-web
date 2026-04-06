@@ -21,6 +21,7 @@ import { listTestSets } from "@/lib/api/test-sets";
 import { practiceWrongAnswers } from "@/lib/api/wrong-answers";
 import { useAuthStore } from "@/stores/auth-store";
 import { ShareDialog } from "@/components/results/share-dialog";
+import { ResultsCheckinModal } from "@/components/results/results-checkin-modal";
 import { UpgradeBanner } from "@/components/shared/upgrade-banner";
 import { TYPE_COLORS } from "@/lib/constants";
 import { useTranslations } from "next-intl";
@@ -50,6 +51,7 @@ export function ResultsView({ attempt }: ResultsViewProps) {
   const [startingNext, setStartingNext] = useState(false);
   const [nextTestSet, setNextTestSet] = useState<TestSetItem | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
+  const [checkinOpen, setCheckinOpen] = useState(true);
 
   const score = attempt.score ?? 0;
   const scorePct = attempt.total > 0 ? Math.round((score / attempt.total) * 100) : 0;
@@ -308,6 +310,14 @@ export function ResultsView({ attempt }: ResultsViewProps) {
               })
         }
       />
+
+      {/* Check-in card modal with flip animation */}
+      {checkinOpen && (
+        <ResultsCheckinModal
+          attempt={attempt}
+          onClose={() => setCheckinOpen(false)}
+        />
+      )}
     </div>
   );
 }
