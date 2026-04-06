@@ -96,16 +96,32 @@ const CHINA_CENTER_URLS = [
 ];
 
 const CANADA_CENTERS = [
-  { city: "Toronto", org: "Alliance Française Toronto", address: "24 Spadina Rd, Toronto, ON M5R 2S7", phone: "416-922-2014", url: "https://www.alliance-francaise.ca/en/exams/tests/informations-about-tcf-canada/tcf-canada" },
-  { city: "Montréal", org: "Alliance Française de Montréal", address: "1425 Blvd René-Lévesque O, Montréal, QC H3G 1T7", phone: "514-495-2632", url: "https://www.afmontreal.ca/en/tcf-2/" },
+  // Toronto (2)
+  { city: "Toronto", org: "Alliance Française de Toronto", address: "24 Spadina Rd, Toronto, ON M5R 2S7", phone: "416-922-2014", url: "https://www.alliance-francaise.ca/en/exams/tests/tcf-canada" },
+  { city: "Toronto", org: "GB Language Centre", address: "716 Gordon Baker Rd #211, North York, ON M2H 3B4", phone: "437-317-7180", url: "https://gblc.ca/en" },
+  // Montréal (4)
+  { city: "Montréal", org: "Alliance Française de Montréal", address: "1425 Blvd René-Lévesque O, Montréal, QC H3G 1T7", phone: "514-687-1919", url: "https://www.afmontreal.ca/en/tcf-2/" },
+  { city: "Montréal", org: "Collège ELC", address: "600 Jean-Talon Est #201, Montréal, QC H2R 3A8", phone: "514-903-3198", url: "https://www.elccollege.ca/en/tcf-canada" },
+  { city: "Montréal", org: "Collège Stanislas", address: "780 Blvd Décarie, Montréal, QC H4L 3L5", phone: "514-273-9521", url: "https://stanislas.qc.ca/tcf/" },
+  { city: "Montréal", org: "Université Concordia", address: "1455 Blvd de Maisonneuve O, Montréal, QC H3G 1M8", phone: "514-848-3600", url: "https://www.concordia.ca/succeeding-in-french/tcf-test.html" },
+  // Vancouver (2)
   { city: "Vancouver", org: "Alliance Française de Vancouver", address: "6161 Cambie St, Vancouver, BC V5Z 3B2", phone: "604-327-0201", url: "https://www.alliancefrancaise.ca/products/ciep-tcf-canada-full-exam/" },
-  { city: "Calgary", org: "Alliance Française de Calgary", address: "710 10 Ave SW #101, Calgary, AB T2R 0B3", phone: "403-245-5662", url: "https://www.afcalgary.ca/exams/tcf/tcf-registrations-open/" },
-  { city: "Ottawa", org: "Alliance Française d'Ottawa", address: "352 MacLaren St, Ottawa, ON K2P 0M6", phone: "613-234-9470", url: "https://af.ca/ottawa/en/exam-type-details/?examinationTypeId=5" },
-  { city: "Halifax", org: "Alliance Française Halifax", address: "1526 Dresden Row, Halifax, NS B3J 3K3", phone: "902-421-2262", url: "https://www.afhalifax.ca" },
-  { city: "Edmonton", org: "Alliance Française d'Edmonton", address: "10507 Saskatchewan Dr, Edmonton, AB T6E 4S1", phone: "780-469-0399", url: "https://www.afedmonton.ca" },
-  { city: "Winnipeg", org: "Alliance Française du Manitoba", address: "934 Corydon Ave, Winnipeg, MB R3M 0Y7", phone: "204-477-1515", url: "https://www.afmanitoba.ca" },
-  { city: "Victoria", org: "Alliance Française de Victoria", address: "1112 Langley St #213, Victoria, BC V8W 1V8", phone: "250-385-5914", url: "https://www.afvictoria.ca" },
-  { city: "Moncton", org: "Alliance Française de Moncton", address: "140 Botsford St #27, Moncton, NB E1C 4X5", phone: "506-857-2144", url: "https://www.afmoncton.ca" },
+  { city: "Vancouver", org: "Ashton Testing Services", address: "1190 Melville St #700, Vancouver, BC V6E 3W1", phone: "604-628-5783", url: "https://ashtontesting.ca/tcf-canada-test/" },
+  // Ottawa (2)
+  { city: "Ottawa", org: "Alliance Française d'Ottawa", address: "352 MacLaren St, Ottawa, ON K2P 0M6", phone: "613-234-9470", url: "https://af.ca/ottawa/en/tests_et_examens/tcf/" },
+  { city: "Ottawa", org: "FrancoLangues", address: "200 Elgin St #502, Ottawa, ON K2P 1L5", phone: "613-262-1822", url: "https://francolangues.com/book-now/" },
+  // Calgary
+  { city: "Calgary", org: "Alliance Française de Calgary", address: "710 10 Ave SW #101, Calgary, AB T2R 0B3", phone: "403-245-5662", url: "https://www.afcalgary.ca/exams/tcf/tcf-registration/" },
+  // Edmonton
+  { city: "Edmonton", org: "Alliance Française d'Edmonton", address: "10424 123 St NW, Edmonton, AB T5N 1N7", phone: "780-469-0399", url: "https://www.afedmonton.com/products/af-tcf-canada/" },
+  // Halifax
+  { city: "Halifax", org: "Alliance Française d'Halifax", address: "5509 Young St, Halifax, NS B3K 1Z7", phone: "902-580-8284", url: "https://afhalifax.ca/test-your-french/tcf/tcf-canada-registration/" },
+  // Winnipeg
+  { city: "Winnipeg", org: "Alliance Française du Manitoba", address: "934 Corydon Ave, Winnipeg, MB R3M 0Y5", phone: "204-477-1515", url: "https://www.afmanitoba.ca/en/exams/tcf/register-tcf-canada/" },
+  // Victoria
+  { city: "Victoria", org: "Alliance Française de Victoria", address: "1218 Langley St, Victoria, BC V8W 1W2", phone: "778-326-0701", url: "https://www.afvictoria.ca/products/ceip-tcf-canada-full-exam-victoria/" },
+  // Moncton
+  { city: "Moncton", org: "Alliance Française de Moncton", address: "140 Botsford St #27, Moncton, NB E1C 4X5", phone: "506-387-5056", url: "https://www.afmoncton.ca" },
 ];
 
 const FRANCE_CENTERS = [
