@@ -1356,7 +1356,11 @@
           "toronto": "Toronto",
           "montreal": "Montréal",
           "vancouver": "Vancouver",
-          "calgary": "Calgary"
+          "calgary": "Calgary",
+          "edmonton": "Edmonton",
+          "halifax": "Halifax",
+          "winnipeg": "Winnipeg",
+          "victoria": "Victoria"
         }
       }
     },

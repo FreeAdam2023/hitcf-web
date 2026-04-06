@@ -1353,7 +1353,11 @@
           "toronto": "تورنتو",
           "montreal": "مونتريال",
           "vancouver": "فانكوفر",
-          "calgary": "كالغاري"
+          "calgary": "كالغاري",
+          "edmonton": "إدمونتون",
+          "halifax": "هاليفاكس",
+          "winnipeg": "وينيبيغ",
+          "victoria": "فيكتوريا"
         }
       }
     },

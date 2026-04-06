@@ -176,7 +176,7 @@ export function SeatMonitorView() {
             const status = statusSummary(center);
             return status === "available" ? (
               <AvailableCard
-                key={center.city_code}
+                key={center.center_id}
                 center={center}
                 isSaving={savingCities.has(center.city_code)}
                 locale={locale}
@@ -185,7 +185,7 @@ export function SeatMonitorView() {
               />
             ) : (
               /* Followed but no seats — compact inline */
-              <div key={center.city_code} className="flex items-center justify-between rounded-lg border px-4 py-3">
+              <div key={center.center_id} className="flex items-center justify-between rounded-lg border px-4 py-3">
                 <div className="flex items-center gap-3 min-w-0">
                   <Bell className="h-4 w-4 text-emerald-500 shrink-0" />
                   <div className="min-w-0">
@@ -193,10 +193,21 @@ export function SeatMonitorView() {
                     <p className="text-xs text-muted-foreground">{t("noDates")}</p>
                   </div>
                 </div>
-                <span className="relative flex h-2 w-2 shrink-0">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                </span>
+                <div className="flex items-center gap-3 shrink-0">
+                  <a
+                    href={center.registration_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                  >
+                    {t("registerNow")}
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                  </span>
+                </div>
               </div>
             );
           })}
@@ -255,7 +266,7 @@ export function SeatMonitorView() {
               const status = statusSummary(center);
               return status === "available" ? (
                 <AvailableCard
-                  key={center.city_code}
+                  key={center.center_id}
                   center={center}
                   isSaving={false}
                   locale={locale}
@@ -263,12 +274,23 @@ export function SeatMonitorView() {
                   onToggleFollow={handleToggleFollow}
                 />
               ) : (
-                <div key={center.city_code} className="flex items-center justify-between rounded-lg border px-4 py-3">
+                <div key={center.center_id} className="flex items-center justify-between rounded-lg border px-4 py-3">
                   <div className="min-w-0">
                     <p className="font-medium text-sm">{center.city_name}</p>
                     <p className="text-xs text-muted-foreground">{center.center_name}</p>
                   </div>
-                  <span className="text-xs text-muted-foreground">{t("noDates")}</span>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <a
+                      href={center.registration_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                    >
+                      {t("registerNow")}
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                    <span className="text-xs text-muted-foreground">{t("noDates")}</span>
+                  </div>
                 </div>
               );
             })}
@@ -488,7 +510,7 @@ function ManageDialog({
             const hasSeats = center.available_dates.length > 0;
             return (
               <div
-                key={center.city_code}
+                key={center.center_id}
                 className={cn(
                   "flex items-center justify-between rounded-lg border px-4 py-3",
                   hasSeats && "border-emerald-200 dark:border-emerald-800",
@@ -558,7 +580,7 @@ function CityGrid({
         const isSaving = savingCities.has(center.city_code);
         const hasSeats = center.available_dates.length > 0;
         return (
-          <Card key={center.city_code} className={cn("overflow-hidden", hasSeats && "border-emerald-200 dark:border-emerald-800")}>
+          <Card key={center.center_id} className={cn("overflow-hidden", hasSeats && "border-emerald-200 dark:border-emerald-800")}>
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between gap-2">
                 <div className="min-w-0">

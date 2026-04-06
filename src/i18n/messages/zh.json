@@ -1356,7 +1356,11 @@
           "toronto": "多伦多",
           "montreal": "蒙特利尔",
           "vancouver": "温哥华",
-          "calgary": "卡尔加里"
+          "calgary": "卡尔加里",
+          "edmonton": "埃德蒙顿",
+          "halifax": "哈利法克斯",
+          "winnipeg": "温尼伯",
+          "victoria": "维多利亚"
         }
       }
     },

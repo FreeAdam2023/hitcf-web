@@ -314,7 +314,6 @@ export function ResultsView({ attempt }: ResultsViewProps) {
       {/* Check-in card modal with flip animation */}
       {checkinOpen && (
         <ResultsCheckinModal
-          attempt={attempt}
           onClose={() => setCheckinOpen(false)}
         />
       )}
