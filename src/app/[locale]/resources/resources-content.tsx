@@ -109,7 +109,7 @@ const CANADA_CENTERS = [
   { city: "Vancouver", org: "Ashton Testing Services", address: "1190 Melville St #700, Vancouver, BC V6E 3W1", phone: "604-628-5783", url: "https://ashtontesting.ca/tcf-canada-test/" },
   // Ottawa (2)
   { city: "Ottawa", org: "Alliance Française d'Ottawa", address: "352 MacLaren St, Ottawa, ON K2P 0M6", phone: "613-234-9470", url: "https://af.ca/ottawa/en/tests_et_examens/tcf/" },
-  { city: "Ottawa", org: "FrancoLangues", address: "200 Elgin St #502, Ottawa, ON K2P 1L5", phone: "613-262-1822", url: "https://francolangues.com/book-now/" },
+  { city: "Ottawa", org: "FrancoLangues", address: "200 Elgin St #502, Ottawa, ON K2P 1L5", phone: "613-262-1822", url: "https://francolangues.com/tcf-canada-tcf-qc-test-de-connaissance-du-francais/" },
   // Calgary
   { city: "Calgary", org: "Alliance Française de Calgary", address: "710 10 Ave SW #101, Calgary, AB T2R 0B3", phone: "403-245-5662", url: "https://www.afcalgary.ca/exams/tcf/tcf-registration/" },
   // Edmonton
