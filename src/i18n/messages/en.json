@@ -2759,8 +2759,8 @@
       "description": "Manage your profile, password, and subscription."
     },
     "reference": {
-      "title": "French Quick Reference - Grammar, Numbers, Verb Conjugation",
-      "description": "TCF Canada French quick reference: numbers, time, dates, articles, pronouns, verb conjugation, subjunctive and more."
+      "title": "French Quick Reference · Grammar, Numbers, Verb Conjugation",
+      "description": "TCF Canada French quick reference: numbers & currency, time/dates/days/months, articles & contractions, personal pronouns, essential verb conjugations (present, past, subjunctive), connectors & more — no textbook needed."
     },
     "vocabulary": {
       "title": "Vocabulary Notebook · TCF Canada French Vocabulary Tools",
@@ -2816,8 +2816,8 @@
       "description": "Invite friends to HiTCF — when they subscribe, you both get 30 extra days of Pro access!"
     },
     "seatMonitor": {
-      "title": "TCF Canada Seat Monitor · Real-Time Availability in 5 Cities",
-      "description": "Real-time TCF Canada exam seat monitoring across Toronto, Montreal, Vancouver, Calgary & Ottawa. See remaining seats, one-click registration, venue maps & express email alerts when new dates open."
+      "title": "TCF Canada Seat Monitor · Real-Time Availability in 9 Cities",
+      "description": "Real-time TCF Canada exam seat monitoring across Toronto, Montreal, Vancouver, Calgary, Ottawa, Edmonton, Halifax, Winnipeg & Victoria. See remaining seats, one-click registration, venue maps & express email alerts when new dates open."
     },
     "writingMockExam": {
       "title": "Mock Writing Exam | HiTCF",
@@ -2855,11 +2855,11 @@
     },
     "blog": {
       "title": "Blog — TCF Canada Study Guides & Exam Tips",
-      "description": "TCF Canada preparation blog: exam analysis, CLB 7+ strategies, and high-score tips for listening, reading, speaking, and writing."
+      "description": "TCF Canada preparation blog: in-depth exam analysis, CLB 7+ strategies for each section, high-score tips for listening, reading, speaking & writing, plus the latest Canadian immigration French test updates."
     },
     "guide": {
-      "title": "Platform Guide — HiTCF",
-      "description": "HiTCF platform features and usage guide. Learn about Listening, Reading, Speaking, and Writing practice modules."
+      "title": "TCF Canada Study Guide · Exam Structure, Section Tips & Study Plans",
+      "description": "Complete TCF Canada study guide: all 4 sections explained (Listening CO, Reading CE, Speaking EO, Writing EE), CLB/NCLC level charts, 30-day study plan, question types analysis & scoring strategies."
     },
     "vocabularyThemeWords": {
       "title": "Theme Vocabulary · French Words by Topic & Level",
@@ -3284,7 +3284,7 @@
       "writing": "4-dimension scoring + corrections",
       "vocabulary": "Anki export + textbook vocab",
       "analytics": "Level radar + wrong answer analysis",
-      "seatMonitor": "5 cities · instant exam date alerts"
+      "seatMonitor": "9 cities · instant exam date alerts"
     },
     "subtitleChoice": "You have a {days}-day Pro trial waiting to be activated",
     "cta": "Activate Now",

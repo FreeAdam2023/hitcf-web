@@ -2760,7 +2760,7 @@
     },
     "reference": {
       "title": "法语速查手册 · 语法数字时间动词变位速查",
-      "description": "TCF Canada 法语速查手册：数字、时间、日期、冠词、代词、动词变位、虚拟式等知识点速查参考。"
+      "description": "TCF Canada 法语速查手册：数字与金额表达、时间日期星期月份、冠词与缩合、人称代词、常用动词变位（现在时/过去时/虚拟式）、连接词等考试高频知识点，随时查阅不用翻书。"
     },
     "vocabularyMySaved": {
       "title": "我的收藏 · 练习中收藏的法语生词",
@@ -2812,8 +2812,8 @@
       "description": "邀请好友加入 HiTCF，好友订阅后双方各获 30 天免费延期！"
     },
     "seatMonitor": {
-      "title": "TCF Canada 考位监控 · 5 大城市实时考位查询",
-      "description": "实时监控多伦多、蒙特利尔、温哥华、卡尔加里、渥太华 TCF Canada 考位。显示剩余席位、一键报名、考场地址地图，关注城市有新考位极速邮件通知。"
+      "title": "TCF Canada 考位监控 · 9 大城市实时考位查询与邮件提醒",
+      "description": "实时监控多伦多、蒙特利尔、温哥华、卡尔加里、渥太华、埃德蒙顿、哈利法克斯、温尼伯、维多利亚 9 大城市 TCF Canada 考位。显示剩余席位、一键报名、考场地址地图，关注城市有新考位极速邮件通知。"
     },
     "writingMockExam": {
       "title": "模拟写作考试 | HiTCF",
@@ -2851,11 +2851,11 @@
     },
     "blog": {
       "title": "博客 · TCF Canada 备考指南与考试技巧",
-      "description": "TCF Canada 备考博客：考试解析、CLB 7+ 冲刺攻略、听力阅读口语写作高分技巧，助你科学备考。"
+      "description": "TCF Canada 备考博客：考试结构深度解析、CLB 7+ 冲刺攻略、听力阅读口语写作各部分高分技巧，以及加拿大移民法语考试最新政策动态，助你科学备考一次通过。"
     },
     "guide": {
-      "title": "使用指南 — HiTCF",
-      "description": "HiTCF 平台功能介绍和使用指南，了解听力、阅读、口语、写作四大练习模块。"
+      "title": "TCF Canada 备考指南 · 考试结构、各部分技巧与备考规划",
+      "description": "TCF Canada 备考全指南：考试 4 大部分详解（听力 CO、阅读 CE、口语 EO、写作 EE）、CLB/NCLC 等级对照、30 天备考计划、各部分题型分析与高分策略。"
     },
     "vocabularyThemeWords": {
       "title": "主题词汇 · 按主题和等级分类的法语词汇",
@@ -3280,7 +3280,7 @@
       "writing": "四维评分 · 逐句纠错",
       "vocabulary": "Anki 导出 · 教材词库",
       "analytics": "等级雷达图 · 错题分析",
-      "seatMonitor": "5 大城市 · 新考位秒知道"
+      "seatMonitor": "9 大城市 · 新考位秒知道"
     },
     "subtitleChoice": "你有一份 {days} 天 Pro 体验等待激活",
     "cta": "立即激活",

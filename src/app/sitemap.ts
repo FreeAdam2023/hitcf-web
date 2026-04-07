@@ -34,11 +34,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...localizedEntries("/speaking-scripts", { changeFrequency: "monthly", priority: 0.7 }),
     ...localizedEntries("/writing-mock-exam", { changeFrequency: "weekly", priority: 0.8 }),
     ...localizedEntries("/seat-monitor", { changeFrequency: "daily", priority: 0.7 }),
-    ...localizedEntries("/review", { changeFrequency: "daily", priority: 0.6 }),
-    ...localizedEntries("/history", { changeFrequency: "daily", priority: 0.5 }),
     // Vocabulary
     ...localizedEntries("/vocabulary", { changeFrequency: "weekly", priority: 0.8 }),
-    ...localizedEntries("/vocabulary/my-saved", { changeFrequency: "daily", priority: 0.6 }),
     ...localizedEntries("/vocabulary/nihao-french", { changeFrequency: "monthly", priority: 0.7 }),
     ...localizedEntries("/vocabulary/theme-words", { changeFrequency: "monthly", priority: 0.7 }),
     // Reference

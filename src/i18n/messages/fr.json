@@ -2858,8 +2858,8 @@
       "description": "Guide des fonctionnalités de la plateforme HiTCF."
     },
     "seatMonitor": {
-      "title": "Surveillance des places TCF Canada · 5 villes en temps réel",
-      "description": "Surveillance en temps réel des places TCF Canada à Toronto, Montréal, Vancouver, Calgary et Ottawa. Places restantes, inscription en un clic, carte du centre et alertes express par courriel."
+      "title": "Surveillance des places TCF Canada · 9 villes en temps réel",
+      "description": "Surveillance en temps réel des places TCF Canada à Toronto, Montréal, Vancouver, Calgary, Ottawa, Edmonton, Halifax, Winnipeg et Victoria. Places restantes, inscription en un clic, carte du centre et alertes express par courriel."
     },
     "vocabularyThemeWords": {
       "title": "Vocabulaire thématique · Mots français par thème et niveau",
@@ -3284,7 +3284,7 @@
       "writing": "Notation sur 4 dimensions + corrections",
       "vocabulary": "Export Anki + vocabulaire de manuels",
       "analytics": "Radar de niveaux + analyse des erreurs",
-      "seatMonitor": "5 villes · alertes instantanées"
+      "seatMonitor": "9 villes · alertes instantanées"
     },
     "subtitleChoice": "Vous avez un essai Pro de {days} jours à activer",
     "cta": "Activer maintenant",
