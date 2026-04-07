@@ -2959,7 +2959,26 @@
       "q": "Pourquoi une ville affiche « Aucune date disponible » ?",
       "a": "Le centre n'a pas encore ouvert les inscriptions. Suivez la ville pour recevoir un courriel dès qu'une date s'ouvre. Nous recommandons de suivre plusieurs villes (les abonnés payants n'ont pas de limite)."
     },
-    "comingSoon": "Bientôt disponible"
+    "comingSoon": "Bientôt disponible",
+    "unsub": {
+      "title": "Se désabonner des alertes",
+      "subtitle": "Pourquoi souhaitez-vous vous désabonner des alertes de {city} ?",
+      "reason": {
+        "passed_exam": "J'ai réussi l'examen",
+        "got_seat": "J'ai obtenu une place",
+        "no_emails": "Je ne veux plus recevoir d'e-mails"
+      },
+      "reasonDesc": {
+        "passed_exam": "Félicitations ! Bonne continuation",
+        "got_seat": "Super ! Bonne chance pour l'examen",
+        "no_emails": "Nous arrêterons les alertes pour cette ville"
+      },
+      "doneTitle": "Désabonné",
+      "doneDesc": "Vous ne recevrez plus d'alertes pour cette ville. Vous pouvez vous réabonner à tout moment.",
+      "errorTitle": "Lien invalide",
+      "errorDesc": "Ce lien a expiré ou est invalide. Veuillez gérer vos abonnements sur la page du moniteur.",
+      "backToMonitor": "Retour au moniteur"
+    }
   },
   "referralPage": {
     "title": "Invitez vos amis, gagnez Pro",

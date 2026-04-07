@@ -249,7 +249,7 @@ const CONTENT: Record<Locale, Content> = {
         seats are extremely scarce in Ottawa, Calgary, and Vancouver —
         often booked 2–3 months in advance. HiTCF provides a{" "}
         <Link href="/seat-monitor">real-time TCF Canada seat monitor</Link>{" "}
-        for these three cities. If TCF is sold out, TEF may have a slot
+        for major Canadian cities. If TCF is sold out, TEF may have a slot
         sooner.
       </>,
       <>
@@ -494,7 +494,7 @@ const CONTENT: Record<Locale, Content> = {
     ),
     chooseList: [
       <>
-        <strong>本地考位情况。</strong>渥太华、卡尔加里、温哥华的 TCF Canada 考位极其紧张，通常要提前 2–3 个月预约。HiTCF 为这三个城市提供
+        <strong>本地考位情况。</strong>加拿大各城市的 TCF Canada 考位非常紧张，通常要提前 2–3 个月预约。HiTCF 为加拿大主要城市提供
         <Link href="/seat-monitor">实时 TCF Canada 考位监控</Link>
         。如果 TCF 约不到，TEF 可能还有名额。
       </>,
@@ -724,7 +724,7 @@ const CONTENT: Record<Locale, Content> = {
         <Link href="/seat-monitor">
           moniteur de places TCF Canada en temps réel
         </Link>{" "}
-        pour ces trois villes. Si le TCF est complet, le TEF peut avoir
+        pour les grandes villes canadiennes. Si le TCF est complet, le TEF peut avoir
         un créneau plus tôt.
       </>,
       <>
@@ -984,7 +984,7 @@ const CONTENT: Record<Locale, Content> = {
         <Link href="/seat-monitor">
           مراقب مقاعد TCF Canada في الوقت الحقيقي
         </Link>{" "}
-        لهذه المدن الثلاث. إذا كان TCF ممتلئًا، فقد يكون TEF لديه فسحة أقرب.
+        للمدن الكندية الرئيسية. إذا كان TCF ممتلئًا، فقد يكون TEF لديه فسحة أقرب.
       </>,
       <>
         <strong>التنسيق الذي استعددت له.</strong> تغيير التنسيقات قبل أسبوعين من الامتحان فكرة سيئة. إذا كنت تقوم باختبارات على نمط TCF، فالتزم بـ TCF.

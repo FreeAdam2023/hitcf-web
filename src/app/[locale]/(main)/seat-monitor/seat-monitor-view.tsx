@@ -127,8 +127,7 @@ export function SeatMonitorView() {
 
   useEffect(() => {
     load();
-    // 15s polling matches backend scrape cadence
-    const refreshTimer = setInterval(load, 15_000);
+    const refreshTimer = setInterval(load, 30_000);
     return () => clearInterval(refreshTimer);
   }, [load]);
 

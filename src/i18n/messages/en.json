@@ -2959,7 +2959,26 @@
       "q": "Why does a city show 'No dates available'?",
       "a": "The exam center currently has no open registration. Follow the city to get an email alert as soon as new dates appear. We recommend following multiple cities to maximize your chances (paid users get unlimited)."
     },
-    "comingSoon": "Coming soon"
+    "comingSoon": "Coming soon",
+    "unsub": {
+      "title": "Unsubscribe from Seat Alerts",
+      "subtitle": "Why are you unsubscribing from {city} seat alerts?",
+      "reason": {
+        "passed_exam": "I passed the exam",
+        "got_seat": "I got a seat",
+        "no_emails": "I don't want emails anymore"
+      },
+      "reasonDesc": {
+        "passed_exam": "Congratulations! Best of luck",
+        "got_seat": "Great! Good luck on the exam",
+        "no_emails": "We'll stop sending alerts for this city"
+      },
+      "doneTitle": "Unsubscribed",
+      "doneDesc": "You will no longer receive seat alerts for this city. You can re-subscribe anytime.",
+      "errorTitle": "Invalid Link",
+      "errorDesc": "This link has expired or is invalid. Please manage your subscriptions on the seat monitor page.",
+      "backToMonitor": "Back to Seat Monitor"
+    }
   },
   "referralPage": {
     "title": "Invite Friends, Earn Pro",

@@ -2955,7 +2955,26 @@
       "q": "为什么有些城市显示「暂无可用日期」？",
       "a": "该考点当前没有开放报名。关注城市后，一旦有新考位会邮件通知你。建议关注多个城市增加机会（付费用户不限城市数量）。"
     },
-    "comingSoon": "敬请期待"
+    "comingSoon": "敬请期待",
+    "unsub": {
+      "title": "取消考位关注",
+      "subtitle": "你确定要取消关注 {city} 的考位通知吗？",
+      "reason": {
+        "passed_exam": "已通过考试",
+        "got_seat": "已约到考位",
+        "no_emails": "不想收邮件了"
+      },
+      "reasonDesc": {
+        "passed_exam": "恭喜！祝一切顺利",
+        "got_seat": "太好了！考试加油",
+        "no_emails": "我们不再发送此城市的通知"
+      },
+      "doneTitle": "已取消关注",
+      "doneDesc": "你将不再收到此城市的考位通知邮件。随时可以重新关注。",
+      "errorTitle": "链接无效",
+      "errorDesc": "此链接已过期或无效，请到考位监控页面手动管理关注。",
+      "backToMonitor": "返回考位监控"
+    }
   },
   "referralPage": {
     "title": "邀请好友，赢取 Pro",

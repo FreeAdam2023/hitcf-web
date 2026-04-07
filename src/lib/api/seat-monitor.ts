@@ -36,3 +36,17 @@ export interface SeatSubscription {
 export async function getMySeatSubscriptions(): Promise<SeatSubscription[]> {
   return get<SeatSubscription[]>("/api/seat-monitor/my-subscriptions");
 }
+
+export interface UnsubInfo {
+  city_code: string;
+  city_name: string;
+  lang: string;
+}
+
+export async function getUnsubInfo(token: string): Promise<UnsubInfo> {
+  return get<UnsubInfo>(`/api/seat-monitor/unsub-info?token=${encodeURIComponent(token)}`, { noRedirect: true });
+}
+
+export async function confirmEmailUnsub(token: string, reason: string): Promise<void> {
+  await post("/api/seat-monitor/email-unsubscribe", { token, reason });
+}

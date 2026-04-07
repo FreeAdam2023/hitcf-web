@@ -380,7 +380,7 @@ const CONTENT: Record<Locale, Content> = {
             <Link href="/seat-monitor">
               real-time seat availability monitor
             </Link>{" "}
-            for these three cities, updated every 15 seconds.
+            for major Canadian cities.
           </>
         ),
       },
@@ -639,9 +639,9 @@ const CONTENT: Record<Locale, Content> = {
         q: "加拿大哪里可以考 TCF Canada？",
         a: (
           <>
-            加拿大授权考点主要是各城市的 Alliance Française（法盟），包括渥太华、卡尔加里、温哥华、多伦多、蒙特利尔等主要城市。渥太华、卡尔加里、温哥华的考位非常紧张——HiTCF 为这三个城市提供
+            加拿大授权考点主要是各城市的 Alliance Française（法盟），包括渥太华、卡尔加里、温哥华、多伦多、蒙特利尔等主要城市。考位非常紧张——HiTCF 为加拿大主要城市提供
             <Link href="/seat-monitor">实时考位监控</Link>
-            ，每 15 秒刷新一次。
+            。
           </>
         ),
       },
@@ -993,7 +993,7 @@ const CONTENT: Record<Locale, Content> = {
             <Link href="/seat-monitor">
               moniteur de disponibilité des places en temps réel
             </Link>{" "}
-            pour ces trois villes, mis à jour toutes les 15 secondes.
+            pour les grandes villes canadiennes.
           </>
         ),
       },
@@ -1256,7 +1256,7 @@ const CONTENT: Record<Locale, Content> = {
             <Link href="/seat-monitor">
               مراقب توفر المقاعد في الوقت الحقيقي
             </Link>
-            {" "}لهذه المدن الثلاث، يتم تحديثه كل 15 ثانية.
+            {" "}للمدن الكندية الرئيسية.
           </>
         ),
       },

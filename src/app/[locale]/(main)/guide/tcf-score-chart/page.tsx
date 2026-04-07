@@ -462,7 +462,7 @@ const CONTENT: Record<Locale, Content> = {
         a: (
           <>
             TCF Canada 在加拿大的授权考点主要是各城市的 Alliance Française（法盟），覆盖渥太华、卡尔加里、温哥华、多伦多、蒙特利尔以及其他主要城市。考位非常紧张，HiTCF 为渥太华、卡尔加里、温哥华提供
-            <Link href="/seat-monitor">实时考位监控</Link>，每 15 秒刷新一次。
+            <Link href="/seat-monitor">实时考位监控</Link>。
           </>
         ),
       },
@@ -693,8 +693,7 @@ const CONTENT: Record<Locale, Content> = {
             <Link href="/seat-monitor">
               moniteur de places en temps réel
             </Link>{" "}
-            pour Ottawa, Calgary et Vancouver qui se rafraîchit toutes
-            les 15 secondes.
+            pour les grandes villes canadiennes.
           </>
         ),
       },
