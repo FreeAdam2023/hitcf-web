@@ -2958,7 +2958,8 @@
     "faq4": {
       "q": "Pourquoi une ville affiche « Aucune date disponible » ?",
       "a": "Le centre n'a pas encore ouvert les inscriptions. Suivez la ville pour recevoir un courriel dès qu'une date s'ouvre. Nous recommandons de suivre plusieurs villes (les abonnés payants n'ont pas de limite)."
-    }
+    },
+    "comingSoon": "Bientôt disponible"
   },
   "referralPage": {
     "title": "Invitez vos amis, gagnez Pro",

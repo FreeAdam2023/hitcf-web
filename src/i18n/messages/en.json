@@ -2958,7 +2958,8 @@
     "faq4": {
       "q": "Why does a city show 'No dates available'?",
       "a": "The exam center currently has no open registration. Follow the city to get an email alert as soon as new dates appear. We recommend following multiple cities to maximize your chances (paid users get unlimited)."
-    }
+    },
+    "comingSoon": "Coming soon"
   },
   "referralPage": {
     "title": "Invite Friends, Earn Pro",

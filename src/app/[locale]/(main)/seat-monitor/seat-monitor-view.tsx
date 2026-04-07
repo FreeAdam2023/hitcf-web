@@ -419,7 +419,14 @@ function CenterSection({
       {/* Center header */}
       <div className="flex items-center justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-sm font-medium">{center.center_name}</p>
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-medium">{center.center_name}</p>
+            {center.coming_soon && (
+              <Badge variant="outline" className="text-[10px] px-1.5 py-0 text-amber-600 border-amber-300 dark:text-amber-400 dark:border-amber-700">
+                {t("comingSoon")}
+              </Badge>
+            )}
+          </div>
           {center.address && (
             <a
               href={center.maps_url || `https://maps.google.com/?q=${encodeURIComponent(center.address)}`}
@@ -490,7 +497,9 @@ function CenterSection({
       )}
 
       {!hasDates && (
-        <p className="text-[11px] text-muted-foreground mt-1">{t("noDates")}</p>
+        <p className="text-[11px] text-muted-foreground mt-1">
+          {center.coming_soon ? t("comingSoon") : t("noDates")}
+        </p>
       )}
     </div>
   );
