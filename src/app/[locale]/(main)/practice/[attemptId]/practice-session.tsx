@@ -505,6 +505,7 @@ export function PracticeSession() {
   // Scroll to top when navigating between questions
   useEffect(() => {
     window.scrollTo({ top: 0 });
+    highlightContainerRef.current?.scrollTo({ top: 0 });
   }, [currentIndex]);
 
   // Pending selection is tied to a specific question.id so navigation
