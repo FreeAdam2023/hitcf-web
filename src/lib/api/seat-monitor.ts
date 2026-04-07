@@ -13,6 +13,7 @@ export interface CenterStatus {
   last_checked_at: string | null;
   scrape_status: string;
   is_subscribed: boolean;
+  coming_soon: boolean;
 }
 
 export async function getCenters(): Promise<CenterStatus[]> {
