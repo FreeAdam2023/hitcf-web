@@ -97,8 +97,8 @@ const CHINA_CENTER_URLS = [
 
 const CANADA_CENTERS = [
   // Toronto (2)
-  { city: "Toronto", org: "Alliance Française de Toronto", address: "24 Spadina Rd, Toronto, ON M5R 2S7", phone: "416-922-2014", url: "https://www.alliance-francaise.ca/en/exams/tests/tcf-canada" },
-  { city: "Toronto", org: "GB Language Centre", address: "716 Gordon Baker Rd #211, North York, ON M2H 3B4", phone: "437-317-7180", url: "https://gblc.ca/en" },
+  { city: "Toronto", org: "Alliance Française de Toronto", address: "24 Spadina Rd, Toronto, ON M5R 2S7", phone: "416-922-2014", url: "https://www.alliance-francaise.ca/en/exams/tests/informations-about-tcf-canada" },
+  { city: "Toronto", org: "GB Language Centre", address: "716 Gordon Baker Rd #211, North York, ON M2H 3B4", phone: "437-317-7180", url: "https://gblc.ca/en/book-now/choose-date?test=6" },
   // Montréal (4)
   { city: "Montréal", org: "Alliance Française de Montréal", address: "1425 Blvd René-Lévesque O, Montréal, QC H3G 1T7", phone: "514-687-1919", url: "https://www.afmontreal.ca/en/tcf-2/" },
   { city: "Montréal", org: "Collège ELC", address: "600 Jean-Talon Est #201, Montréal, QC H2R 3A8", phone: "514-903-3198", url: "https://www.elccollege.ca/en/tcf-canada" },
