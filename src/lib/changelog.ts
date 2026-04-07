@@ -24,6 +24,24 @@ export function getLocalizedChangelog(locale: string) {
 // Only user-facing changes — no admin/backend internals
 export const changelog: ChangelogEntry[] = [
   {
+    date: "2026-04-07",
+    type: "improvement",
+    title: {
+      zh: "口语 + 写作题库更新",
+      en: "Speaking + writing question bank updated",
+      fr: "Banque de questions oral + écrit mise à jour",
+      ar: "تحديث بنك أسئلة التحدث + الكتابة",
+    },
+    details: [
+      {
+        zh: "新增 2026 年 4 月口语 4 套 + 写作 3 套，题库持续同步最新考题",
+        en: "Added April 2026 speaking (4 sets) + writing (3 sets), question bank stays up to date",
+        fr: "Ajout oral (4 séries) + écrit (3 séries) d'avril 2026, banque de questions à jour",
+        ar: "إضافة تحدث (4 مجموعات) + كتابة (3 مجموعات) أبريل 2026",
+      },
+    ],
+  },
+  {
     date: "2026-04-03",
     type: "feature",
     title: {
