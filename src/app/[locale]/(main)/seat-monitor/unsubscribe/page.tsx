@@ -24,12 +24,10 @@ export default function UnsubscribePage() {
 
   const [status, setStatus] = useState<Status>("loading");
   const [info, setInfo] = useState<UnsubInfo | null>(null);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!token) {
       setStatus("error");
-      setError("missing_token");
       return;
     }
     getUnsubInfo(token)
@@ -39,7 +37,6 @@ export default function UnsubscribePage() {
       })
       .catch(() => {
         setStatus("error");
-        setError("invalid_token");
       });
   }, [token]);
 
@@ -50,7 +47,6 @@ export default function UnsubscribePage() {
       setStatus("done");
     } catch {
       setStatus("error");
-      setError("submit_failed");
     }
   };
 
