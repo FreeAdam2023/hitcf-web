@@ -225,58 +225,56 @@ export function ExamSession() {
     setPendingRaw({ qid: question.id, key });
   }, [question, submitting, isListening, answers]);
 
-  // Confirm: submit pending selection to backend + auto-advance
-  const handleConfirm = useCallback(async (overrideKey?: string) => {
+  // Confirm: optimistic update + fire-and-forget API call.
+  // Advance immediately — don't block on network.
+  const handleConfirm = useCallback((overrideKey?: string) => {
     const key = overrideKey ?? pendingSelection;
     if (!question || !attemptId || !key || submitting) return;
 
-    setSubmitting(true);
     const payload = {
       question_id: question.id,
       question_number: question.question_number,
       selected: key,
     };
 
-    let success = false;
-    for (let attempt = 0; attempt < 3; attempt++) {
-      try {
-        await submitAnswer(attemptId, payload);
-        success = true;
-        break;
-      } catch (err) {
-        console.error(`Submit attempt ${attempt + 1}/3 failed`, err);
-        if (attempt < 2) {
-          await new Promise((r) => setTimeout(r, 1000 * (attempt + 1)));
+    // Optimistic: update local state immediately
+    setAnswer(question.id, payload);
+    setPendingRaw(null);
+
+    // Fire-and-forget: submit to backend with retry (no await)
+    (async () => {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          await submitAnswer(attemptId, payload);
+          return;
+        } catch (err) {
+          console.error(`Submit attempt ${attempt + 1}/3 failed`, err);
+          if (attempt < 2) {
+            await new Promise((r) => setTimeout(r, 1000 * (attempt + 1)));
+          }
         }
       }
-    }
+      // All retries failed — answer is saved locally, will be submitted on exam complete
+      console.error("Failed to submit answer after 3 retries", payload);
+    })();
 
-    if (success) {
-      setAnswer(question.id, payload);
-      setPendingRaw(null);
-
-      // Auto-advance to next question
-      if (isListening) {
-        if (answerTimerRef.current) {
-          clearInterval(answerTimerRef.current);
-          answerTimerRef.current = null;
-        }
-        if (currentIndex < questions.length - 1) {
-          setTimeout(() => {
-            goNext();
-            setListeningPhase("playing");
-          }, 500);
-        }
-      } else {
-        // Reading: auto-advance after confirm
-        if (currentIndex < questions.length - 1) {
-          setTimeout(() => goNext(), 300);
-        }
+    // Auto-advance to next question — no delay for reading
+    if (isListening) {
+      if (answerTimerRef.current) {
+        clearInterval(answerTimerRef.current);
+        answerTimerRef.current = null;
+      }
+      if (currentIndex < questions.length - 1) {
+        setTimeout(() => {
+          goNext();
+          setListeningPhase("playing");
+        }, 500);
       }
     } else {
-      toast.error(t("common.errors.submitFailed"));
+      if (currentIndex < questions.length - 1) {
+        goNext();
+      }
     }
-    setSubmitting(false);
   }, [question, attemptId, pendingSelection, submitting, setAnswer, isListening, currentIndex, questions.length, goNext]);
 
   // Stable refs for callbacks to avoid listener/timer churn
