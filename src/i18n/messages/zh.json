@@ -1534,7 +1534,8 @@
     }
   },
   "writingPractice": {
-    "title": "写作练习"
+    "title": "写作练习",
+    "trialQuotaReached": "今日免费体验次数已用完（每天 1 次），升级 Pro 解锁无限 AI 评分"
   },
   "accentToolbar": {
     "ariaLabel": "法语重音字符",
@@ -1928,6 +1929,7 @@
     "evaluationUnavailableDesc": "AI 评估未能生成，你可以尝试重新评估，或稍后刷新页面查看。",
     "reEvaluate": "重新评估",
     "reEvaluating": "正在重新评估...",
+    "trialQuotaReached": "今日免费体验次数已用完（每天 1 次），升级 Pro 解锁无限对话",
     "noUserTurns": "对话未开始",
     "noUserTurnsDesc": "你还没有发言，无法生成评估。请重新开始对话并尝试回答考官的问题。",
     "resuming": "正在恢复对话...",

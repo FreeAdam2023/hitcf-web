@@ -25,6 +25,7 @@ import {
   endConversation,
   getConversation,
 } from "@/lib/api/speaking-conversation";
+import { QuotaExceededError } from "@/lib/api/client";
 import type {
   SpeakingConversationResponse,
   ConversationTurnResponse,
@@ -270,6 +271,11 @@ export function SpeakingConversationView() {
         );
       })
       .catch((err) => {
+        if (err instanceof QuotaExceededError) {
+          toast.error(t("trialQuotaReached"), { duration: 6000 });
+          router.push("/tests");
+          return;
+        }
         toast.error(err.message || t("startFailed"));
         router.push("/tests");
       });

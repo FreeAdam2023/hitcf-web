@@ -60,12 +60,19 @@ export class ApiError extends Error {
   }
 }
 
+export type QuotaCode =
+  | "QUESTION_QUOTA_EXCEEDED"
+  | "EXPLANATION_QUOTA_EXCEEDED"
+  | "TRIAL_SPEAKING_QUOTA"
+  | "TRIAL_WRITING_QUOTA";
+
 export class QuotaExceededError extends ApiError {
   constructor(
-    public code: "QUESTION_QUOTA_EXCEEDED" | "EXPLANATION_QUOTA_EXCEEDED",
+    public code: QuotaCode,
     message: string,
     public used: number,
     public limit: number,
+    public feature?: string,
   ) {
     super(429, message);
     this.name = "QuotaExceededError";
@@ -132,7 +139,7 @@ async function request<T>(
     if (res.status === 403) {
       const body = await res.json().catch(() => ({ detail: "Forbidden" }));
       if (typeof body.detail === "string" && typeof window !== "undefined") {
-        if (body.detail === "TRIAL_AI_BLOCKED" || body.detail.includes("subscription")) {
+        if (body.detail.includes("subscription")) {
           window.location.href = getLocalePath("/pricing");
         }
       }
@@ -146,13 +153,15 @@ async function request<T>(
       if (
         typeof detail === "object" &&
         detail !== null &&
-        (detail.code === "QUESTION_QUOTA_EXCEEDED" || detail.code === "EXPLANATION_QUOTA_EXCEEDED")
+        typeof detail.code === "string" &&
+        (detail.code.endsWith("_QUOTA") || detail.code.endsWith("_EXCEEDED"))
       ) {
         throw new QuotaExceededError(
           detail.code,
           detail.message || "Daily limit reached",
           detail.used ?? 0,
           detail.limit ?? 0,
+          detail.feature,
         );
       }
       const message =

@@ -31,6 +31,7 @@ import { getWritingAttempt } from "@/lib/api/writing-attempts";
 import { saveWritingEssays } from "@/lib/api/writing-attempts";
 import { getTestSetQuestions, getTestSet } from "@/lib/api/test-sets";
 import { gradeWriting } from "@/lib/api/writing";
+import { QuotaExceededError } from "@/lib/api/client";
 import { useWritingExamStore } from "@/stores/writing-exam-store";
 import { cn } from "@/lib/utils";
 import type { QuestionBrief, WritingFeedback, TestSetDetail } from "@/lib/api/types";
@@ -179,9 +180,15 @@ export default function WritingPracticePage() {
       setGradingResults((prev) => ({ ...prev, [String(taskNum)]: result.feedback }));
       toast.success(t("testDetail.gradingComplete"));
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : t("testDetail.gradingFailed");
-      setGradingErrors((prev) => ({ ...prev, [String(taskNum)]: message }));
-      toast.error(message);
+      if (err instanceof QuotaExceededError) {
+        const msg = t("writingPractice.trialQuotaReached");
+        setGradingErrors((prev) => ({ ...prev, [String(taskNum)]: msg }));
+        toast.error(msg, { duration: 6000 });
+      } else {
+        const message = err instanceof Error ? err.message : t("testDetail.gradingFailed");
+        setGradingErrors((prev) => ({ ...prev, [String(taskNum)]: message }));
+        toast.error(message);
+      }
     } finally {
       setGrading((prev) => ({ ...prev, [String(taskNum)]: false }));
     }
