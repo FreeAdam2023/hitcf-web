@@ -4376,5 +4376,31 @@
     "setExamDate": "设定考试日期，开启每日激励 →",
     "daysLeft": "{days}j",
     "today": "Jour J"
+  },
+  "expressions": {
+    "title": "法语地道表达",
+    "subtitle": "掌握连接词、句式、俚语，用到写作与口语中",
+    "categories": {
+      "connector": "连接词",
+      "pattern": "句式",
+      "idiom": "惯用语",
+      "phrase": "词组",
+      "register": "语域"
+    },
+    "levels": {
+      "all": "全部等级"
+    },
+    "allCategories": "全部分类",
+    "example": "例句",
+    "usageTip": "TCF 实战",
+    "tags": {
+      "writing": "写作",
+      "speaking": "口语"
+    },
+    "count": "{count} 个表达",
+    "meta": {
+      "title": "法语地道表达 — HiTCF",
+      "description": "80+ 法语连接词、句式、俚语、词组，每条都有 TCF 实战用法提示"
+    }
   }
 }

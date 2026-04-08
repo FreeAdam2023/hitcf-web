@@ -4380,5 +4380,31 @@
     "setExamDate": "Set your exam date to unlock daily motivation →",
     "daysLeft": "{days}d",
     "today": "Exam day"
+  },
+  "expressions": {
+    "title": "French Expressions",
+    "subtitle": "Master connectors, patterns, idioms — boost your writing and speaking",
+    "categories": {
+      "connector": "Connectors",
+      "pattern": "Patterns",
+      "idiom": "Idioms",
+      "phrase": "Phrases",
+      "register": "Register"
+    },
+    "levels": {
+      "all": "All levels"
+    },
+    "allCategories": "All categories",
+    "example": "Example",
+    "usageTip": "TCF tip",
+    "tags": {
+      "writing": "Writing",
+      "speaking": "Speaking"
+    },
+    "count": "{count} expressions",
+    "meta": {
+      "title": "French Expressions — HiTCF",
+      "description": "80+ French connectors, patterns, idioms, and phrases with TCF exam tips"
+    }
   }
 }

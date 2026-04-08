@@ -4380,5 +4380,31 @@
     "setExamDate": "Définissez votre date d'examen pour la motivation quotidienne →",
     "daysLeft": "{days}j",
     "today": "Jour J"
+  },
+  "expressions": {
+    "title": "Expressions françaises",
+    "subtitle": "Maîtrisez connecteurs, tournures, expressions — pour l'écrit et l'oral",
+    "categories": {
+      "connector": "Connecteurs",
+      "pattern": "Tournures",
+      "idiom": "Expressions",
+      "phrase": "Locutions",
+      "register": "Registres"
+    },
+    "levels": {
+      "all": "Tous niveaux"
+    },
+    "allCategories": "Toutes catégories",
+    "example": "Exemple",
+    "usageTip": "Astuce TCF",
+    "tags": {
+      "writing": "Écrit",
+      "speaking": "Oral"
+    },
+    "count": "{count} expressions",
+    "meta": {
+      "title": "Expressions françaises — HiTCF",
+      "description": "80+ connecteurs, tournures, expressions idiomatiques et locutions avec astuces TCF"
+    }
   }
 }
