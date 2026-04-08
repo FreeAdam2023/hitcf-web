@@ -54,10 +54,11 @@ export function ExamSession() {
   // Submit exam confirmation dialog
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
 
-  // Scroll to top when navigating between questions. `pendingRaw` does NOT
-  // need to be cleared — `pendingSelection` is derived from it and question.id,
-  // so navigation naturally invalidates the pending state with zero timing gap.
+  // Scroll to top and clear focus when navigating between questions.
+  // Blur prevents focus-visible ring from leaking onto the next question's
+  // first option (React reuses the DOM element at the same list position).
   useEffect(() => {
+    (document.activeElement as HTMLElement)?.blur();
     window.scrollTo({ top: 0 });
   }, [currentIndex]);
 
