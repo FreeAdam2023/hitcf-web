@@ -18,12 +18,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { usePracticeStore } from "@/stores/practice-store";
-import { useExamStore } from "@/stores/exam-store";
+
 import { completeAttempt } from "@/lib/api/attempts";
 import { UserMenu } from "./user-menu";
 import { NotificationBell } from "./notification-bell";
 import { SeatIndicator } from "./seat-indicator";
-import { cn, parseUTCms } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { localizeTestName } from "@/lib/test-name";
 import { useAuthStore } from "@/stores/auth-store";
 
@@ -113,26 +113,9 @@ function ImmersiveHeader() {
   const answersSize = usePracticeStore((s) => s.answers.size);
   const totalQuestions = usePracticeStore((s) => s.questions.length);
   const practiceAttemptId = usePracticeStore((s) => s.attemptId);
-  // examStarted selector removed — timer shown in ExamSession body only
-  const startedAt = usePracticeStore((s) => s.startedAt);
   const isPractice = !isExam;
   const allAnswered = isPractice && totalQuestions > 0 && answersSize >= totalQuestions;
   const [completing, setCompleting] = useState(false);
-
-  const startRef = useRef(startedAt ? parseUTCms(startedAt) : Date.now());
-  const [elapsed, setElapsed] = useState(() =>
-    Math.max(0, Math.floor((Date.now() - startRef.current) / 1000))
-  );
-
-  useEffect(() => {
-    if (startedAt) {
-      startRef.current = parseUTCms(startedAt);
-    }
-    const timer = setInterval(() => {
-      setElapsed(Math.max(0, Math.floor((Date.now() - startRef.current) / 1000)));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [startedAt]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl backdrop-saturate-150 pt-[env(safe-area-inset-top)]">
