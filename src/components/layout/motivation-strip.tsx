@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Flame, CalendarPlus } from "lucide-react";
 import { useAuthStore } from "@/stores/auth-store";
-import { getDaysUntil, getPhaseMessage } from "@/lib/countdown";
+import { getDaysUntil } from "@/lib/countdown";
 import { MOTIVATION_QUOTES } from "@/lib/motivation-quotes";
 
 /** Day-of-year helper for rotating quotes. */
@@ -44,8 +44,6 @@ export function MotivationStrip() {
   // Exam already past → hide
   if (days < 0) return null;
 
-  const phaseKey = getPhaseMessage(days);
-
   return (
     <div className="border-b border-border/30 bg-muted/30">
       <div className="mx-auto flex h-8 max-w-6xl items-center gap-3 px-4 text-xs">
@@ -54,14 +52,10 @@ export function MotivationStrip() {
           <Flame className={`h-3.5 w-3.5 ${days <= 7 ? "text-red-500" : days <= 30 ? "text-orange-500" : "text-amber-500"}`} />
           {days === 0 ? t("motivation.today") : t("motivation.daysLeft", { days })}
         </span>
-        <span className="hidden text-muted-foreground/60 sm:inline">·</span>
-        {/* Phase hint */}
-        <span className="hidden text-muted-foreground sm:inline">
-          {t(`history.summary.countdown.${phaseKey}`)}
-        </span>
-        {/* Daily quote */}
-        <span className="ml-auto hidden truncate text-muted-foreground/70 italic md:inline">
-          « {quote.fr} »
+        <span className="text-muted-foreground/50 sm:hidden">·</span>
+        {/* Daily quote — always visible */}
+        <span className="truncate italic text-muted-foreground/80">
+          « {quote.fr} » — {quote.author}
         </span>
       </div>
     </div>

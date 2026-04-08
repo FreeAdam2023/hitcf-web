@@ -6,10 +6,10 @@ describe("MOTIVATION_QUOTES", () => {
     expect(MOTIVATION_QUOTES.length).toBeGreaterThanOrEqual(30);
   });
 
-  it("every quote has a non-empty fr field", () => {
+  it("every quote has non-empty fr and author fields", () => {
     for (const q of MOTIVATION_QUOTES) {
       expect(q.fr).toBeTruthy();
-      expect(typeof q.fr).toBe("string");
+      expect(q.author).toBeTruthy();
       expect(q.fr.length).toBeGreaterThan(5);
     }
   });
