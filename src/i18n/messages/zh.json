@@ -4371,5 +4371,10 @@
     "share": "分享",
     "shareTitle": "我的 TCF 练习成绩",
     "shareText": "来 HiTCF 一起备考 TCF Canada！hitcf.com"
+  },
+  "motivation": {
+    "setExamDate": "设定考试日期，开启每日激励 →",
+    "daysLeft": "{days}j",
+    "today": "Jour J"
   }
 }

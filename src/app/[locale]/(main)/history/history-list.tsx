@@ -981,14 +981,11 @@ export function HistoryList() {
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">
+        <h1 className="text-2xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
             {t("history.title")}
           </span>
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {t("history.subtitle")}
-        </p>
       </div>
 
       {loading ? (

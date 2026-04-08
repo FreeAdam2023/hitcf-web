@@ -126,14 +126,11 @@ export function ReferenceView() {
     <div className="mx-auto max-w-4xl px-4 py-8 space-y-8">
       {/* Hero */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">
+        <h1 className="text-2xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
             {t("hero.title")}
           </span>
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {t("hero.subtitle")}
-        </p>
       </div>
 
       {/* Search */}

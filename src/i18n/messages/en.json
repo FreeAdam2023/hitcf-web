@@ -4375,5 +4375,10 @@
     "share": "Share",
     "shareTitle": "My TCF Practice Score",
     "shareText": "Practice TCF Canada with me on HiTCF! hitcf.com"
+  },
+  "motivation": {
+    "setExamDate": "Set your exam date to unlock daily motivation →",
+    "daysLeft": "{days}d",
+    "today": "Exam day"
   }
 }

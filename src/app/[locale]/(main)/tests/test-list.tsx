@@ -495,7 +495,7 @@ export function TestList() {
   const isSpeakingWriting = tab === "speaking" || tab === "writing";
 
   // ─── Render: Listening / Reading (flat grid with upgrade banner) ────
-  const INITIAL_SHOW = 6;
+  const INITIAL_SHOW = 12;
 
   const renderFlatGrid = () => {
     if (loading) return <SkeletonGrid />;
@@ -624,55 +624,24 @@ export function TestList() {
   // ─── Main render ──────────────────────────────────────────
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">
+      {/* ─── Compact header: title + mock exam ─── */}
+      <div className="mb-3 flex items-center justify-between gap-4">
+        <h1 className="text-2xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-primary via-violet-500 to-indigo-400 text-gradient">
             {t("tests.pageTitle")}
           </span>
         </h1>
-        <p className="mt-2 text-sm lg:text-base text-muted-foreground">
-          {t("tests.pageSubtitle")}
-        </p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <span className="rounded-full bg-sky-500/10 px-3 py-1 text-xs font-medium text-sky-600 dark:text-sky-400">
-            {t("tests.statsListening", STATS_PARAMS)}
-          </span>
-          <span className="rounded-full bg-teal-500/10 px-3 py-1 text-xs font-medium text-teal-600 dark:text-teal-400">
-            {t("tests.statsReading", STATS_PARAMS)}
-          </span>
-          <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-600 dark:text-amber-400">
-            {t("tests.statsSpeaking", STATS_PARAMS)}
-          </span>
-          <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-600 dark:text-violet-400">
-            {t("tests.statsWriting", STATS_PARAMS)}
-          </span>
-        </div>
-
-      </div>
-      <ContinueBanner onVisibleChange={setHasContinueBanner} />
-      {!tab ? <div className="flex justify-center py-8"><span className="text-sm text-muted-foreground">Loading...</span></div> : null}
-      <Tabs value={tab ?? "listening"} onValueChange={(v) => {
-        const t = v as TabType;
-        setTab(t);
-        setExpanded(false);
-        setExpandedMonths(new Set());
-        const url = new URL(window.location.href);
-        url.searchParams.set("tab", t);
-        window.history.replaceState({}, "", url.pathname + url.search);
-      }}>
-        {/* Mock exam button */}
-        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-          {isAuthenticated && (
-            <Dialog open={mockDialogOpen} onOpenChange={(open) => { setMockDialogOpen(open); if (!open) setMockError(null); }}>
-              <DialogTrigger asChild>
-                <button
-                  className="inline-flex items-center gap-2 rounded-lg border-2 border-primary/20 bg-primary/5 px-4 py-2 text-sm font-semibold text-primary transition-all hover:border-primary/40 hover:bg-primary/10"
-                >
-                  <Shuffle className="h-4 w-4" />
-                  {t("tests.mockExam")}
-                  {!canAccessPaid && !mockFreeTrialEligible && <Lock className="h-3.5 w-3.5 text-amber-500" />}
-                </button>
-              </DialogTrigger>
+        {isAuthenticated && (
+          <Dialog open={mockDialogOpen} onOpenChange={(open) => { setMockDialogOpen(open); if (!open) setMockError(null); }}>
+            <DialogTrigger asChild>
+              <button
+                className="inline-flex items-center gap-2 rounded-lg border-2 border-primary/20 bg-primary/5 px-3 py-1.5 text-sm font-semibold text-primary transition-all hover:border-primary/40 hover:bg-primary/10"
+              >
+                <Shuffle className="h-4 w-4" />
+                {t("tests.mockExam")}
+                {!canAccessPaid && !mockFreeTrialEligible && <Lock className="h-3.5 w-3.5 text-amber-500" />}
+              </button>
+            </DialogTrigger>
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                   <DialogTitle>{t("tests.mockExam")}</DialogTitle>
@@ -793,21 +762,32 @@ export function TestList() {
                   )}
                 </DialogFooter>
               </DialogContent>
-            </Dialog>
-          )}
-        </div>
+          </Dialog>
+        )}
+      </div>
 
+      <ContinueBanner onVisibleChange={setHasContinueBanner} />
+      {!tab ? <div className="flex justify-center py-8"><span className="text-sm text-muted-foreground">Loading...</span></div> : null}
+      <Tabs value={tab ?? "listening"} onValueChange={(v) => {
+        const t = v as TabType;
+        setTab(t);
+        setExpanded(false);
+        setExpandedMonths(new Set());
+        const url = new URL(window.location.href);
+        url.searchParams.set("tab", t);
+        window.history.replaceState({}, "", url.pathname + url.search);
+      }}>
         <TabsList className="mb-1">
-          <TabsTrigger value="listening">{t("common.types.listening")}</TabsTrigger>
-          <TabsTrigger value="reading">{t("common.types.reading")}</TabsTrigger>
-          <TabsTrigger value="speaking">{t("common.types.speaking")}</TabsTrigger>
-          <TabsTrigger value="writing">{t("common.types.writing")}</TabsTrigger>
+          <TabsTrigger value="listening">{t("common.types.listening")} · {STATS_PARAMS.listeningSets}</TabsTrigger>
+          <TabsTrigger value="reading">{t("common.types.reading")} · {STATS_PARAMS.readingSets}</TabsTrigger>
+          <TabsTrigger value="speaking">{t("common.types.speaking")} · {STATS_PARAMS.speakingSets}</TabsTrigger>
+          <TabsTrigger value="writing">{t("common.types.writing")} · {STATS_PARAMS.writingSets}</TabsTrigger>
         </TabsList>
 
         <TabsContent value={tab ?? "listening"} className="mt-4">
-          {/* ── Status filter chips (listening/reading only) ── */}
+          {/* ── Status filter chips + speed drill (listening/reading only) ── */}
           {(tab === "listening" || tab === "reading") && statusCounts && (
-            <div className="mb-4 flex flex-wrap gap-2">
+            <div className="mb-4 flex flex-wrap items-center gap-2">
               <Pill active={statusFilter === "all"} onClick={() => setStatusFilter("all")}>
                 {t("tests.filterAll")}({statusCounts.all})
               </Pill>
@@ -820,19 +800,15 @@ export function TestList() {
               <Pill active={statusFilter === "notStarted"} onClick={() => setStatusFilter("notStarted")}>
                 {t("tests.filterNotStarted")}({statusCounts.notStarted})
               </Pill>
-            </div>
-          )}
-
-          {/* Speed drill button (listening/reading only) */}
-          {(tab === "listening" || tab === "reading") && isAuthenticated && (
-            <div className="mb-4">
-              <button
-                onClick={() => setLevelDialogOpen(true)}
-                className="inline-flex items-center gap-2 rounded-lg border-2 border-violet-500/20 bg-violet-500/5 px-5 py-2.5 text-sm font-semibold text-violet-600 transition-all hover:border-violet-500/40 hover:bg-violet-500/10 dark:text-violet-400"
-              >
-                <Layers className="h-4 w-4" />
-                {t("speedDrill.title")}
-              </button>
+              {isAuthenticated && (
+                <button
+                  onClick={() => setLevelDialogOpen(true)}
+                  className="ml-auto inline-flex items-center gap-1.5 rounded-lg border-2 border-violet-500/20 bg-violet-500/5 px-3 py-1.5 text-sm font-semibold text-violet-600 transition-all hover:border-violet-500/40 hover:bg-violet-500/10 dark:text-violet-400"
+                >
+                  <Layers className="h-4 w-4" />
+                  {t("speedDrill.title")}
+                </button>
+              )}
             </div>
           )}
 

@@ -4372,5 +4372,10 @@
     "share": "مشاركة",
     "shareTitle": "نتيجة تمريني في TCF",
     "shareText": "تدرّب على TCF Canada معي على HiTCF! hitcf.com"
+  },
+  "motivation": {
+    "setExamDate": "حدد موعد امتحانك لفتح التحفيز اليومي ←",
+    "daysLeft": "{days} يوم",
+    "today": "يوم الامتحان"
   }
 }

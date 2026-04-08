@@ -4375,5 +4375,10 @@
     "share": "Partager",
     "shareTitle": "Mon score TCF",
     "shareText": "Prépare le TCF Canada avec moi sur HiTCF ! hitcf.com"
+  },
+  "motivation": {
+    "setExamDate": "Définissez votre date d'examen pour la motivation quotidienne →",
+    "daysLeft": "{days}j",
+    "today": "Jour J"
   }
 }
