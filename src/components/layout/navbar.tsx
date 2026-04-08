@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import Image from "next/image";
-import { Clock } from "lucide-react";
 
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -99,14 +98,6 @@ export function Navbar() {
   );
 }
 
-function formatElapsed(seconds: number): string {
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = seconds % 60;
-  const mm = m.toString().padStart(2, "0");
-  const ss = s.toString().padStart(2, "0");
-  return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
-}
 
 function ImmersiveHeader() {
   const t = useTranslations();
@@ -122,7 +113,7 @@ function ImmersiveHeader() {
   const answersSize = usePracticeStore((s) => s.answers.size);
   const totalQuestions = usePracticeStore((s) => s.questions.length);
   const practiceAttemptId = usePracticeStore((s) => s.attemptId);
-  const examStarted = useExamStore((s) => s.examStarted);
+  // examStarted selector removed — timer shown in ExamSession body only
   const startedAt = usePracticeStore((s) => s.startedAt);
   const isPractice = !isExam;
   const allAnswered = isPractice && totalQuestions > 0 && answersSize >= totalQuestions;
@@ -152,12 +143,7 @@ function ImmersiveHeader() {
             {testSetName}
           </span>
         )}
-        {isExam && examStarted && (
-          <div className="ms-3 flex items-center gap-1.5 text-xs tabular-nums text-muted-foreground">
-            <Clock className="h-3.5 w-3.5" />
-            {formatElapsed(elapsed)}
-          </div>
-        )}
+        {/* Exam timer shown in ExamSession body, not duplicated here */}
         <div className="ms-auto flex items-center gap-1">
           {allAnswered ? (
             <Button
