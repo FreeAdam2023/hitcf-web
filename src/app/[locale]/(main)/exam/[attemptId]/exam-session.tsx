@@ -172,6 +172,17 @@ export function ExamSession() {
         router.push("/tests");
         return;
       }
+      // Safety net: batch re-submit all local answers before completing.
+      // Catches any answers where the fire-and-forget POST failed silently.
+      const resubmits = Array.from(answersRef.current.entries()).map(
+        ([, ans]) =>
+          submitAnswer(attemptId!, {
+            question_id: ans.question_id,
+            question_number: ans.question_number,
+            selected: ans.selected,
+          }).catch(() => {}),
+      );
+      await Promise.all(resubmits);
       await completeAttempt(attemptId!);
       router.push(`/results/${attemptId}`);
     } catch (err) {
