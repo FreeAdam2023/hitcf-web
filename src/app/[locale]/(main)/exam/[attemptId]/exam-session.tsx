@@ -595,21 +595,6 @@ export function ExamSession() {
           vocabDisabled
         />
 
-        {/* Confirm button */}
-        {!answers.has(question.id) && (
-          <div className="flex justify-center">
-            <Button
-              size="lg"
-              onClick={() => handleConfirm()}
-              disabled={!pendingSelection || submitting}
-              className="min-w-[200px]"
-            >
-              <CheckCircle2 className="mr-2 h-5 w-5" />
-              {t("exam.session.confirmAnswer")}
-            </Button>
-          </div>
-        )}
-
         <Separator />
 
         <div className="mt-4 flex items-center justify-between">
@@ -623,7 +608,20 @@ export function ExamSession() {
             {t("exam.session.prev")}
           </Button>
 
-          {!isLast && (
+          {/* Confirm button */}
+          {!answers.has(question.id) && (
+            <Button
+              size="lg"
+              onClick={() => handleConfirm()}
+              disabled={!pendingSelection || submitting}
+              className="min-w-[200px]"
+            >
+              <CheckCircle2 className="mr-2 h-5 w-5" />
+              {t("exam.session.confirmAnswer")}
+            </Button>
+          )}
+
+          {!isLast ? (
             <Button
               variant="outline"
               size="sm"
@@ -632,6 +630,8 @@ export function ExamSession() {
               {t("exam.session.next")}
               <ChevronRight className="ml-1 h-4 w-4" />
             </Button>
+          ) : (
+            <div className="w-[85px]" />
           )}
         </div>
       </div>
