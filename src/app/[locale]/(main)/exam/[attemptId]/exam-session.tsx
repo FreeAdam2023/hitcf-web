@@ -292,20 +292,27 @@ export function ExamSession() {
     })();
 
     // Auto-advance to next question — no delay for reading
+    const isLastQuestion = currentIndex >= questions.length - 1;
+    const allDone = answers.size + 1 >= questions.length; // +1 for the one just answered
+
     if (isListening) {
       if (answerTimerRef.current) {
         clearInterval(answerTimerRef.current);
         answerTimerRef.current = null;
       }
-      if (currentIndex < questions.length - 1) {
+      if (!isLastQuestion) {
         setTimeout(() => {
           goNext();
           setListeningPhase("playing");
         }, 500);
+      } else if (allDone) {
+        setShowSubmitDialog(true);
       }
     } else {
-      if (currentIndex < questions.length - 1) {
+      if (!isLastQuestion) {
         goNext();
+      } else if (allDone) {
+        setShowSubmitDialog(true);
       }
     }
   }, [question, attemptId, pendingSelection, submitting, setAnswer, isListening, currentIndex, questions.length, goNext]);
