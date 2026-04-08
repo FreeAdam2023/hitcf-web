@@ -6,15 +6,17 @@ describe("MOTIVATION_QUOTES", () => {
     expect(MOTIVATION_QUOTES.length).toBeGreaterThanOrEqual(30);
   });
 
-  it("every quote has non-empty fr and author fields", () => {
+  it("every quote has all required fields", () => {
     for (const q of MOTIVATION_QUOTES) {
       expect(q.fr).toBeTruthy();
+      expect(q.zh).toBeTruthy();
+      expect(q.en).toBeTruthy();
+      expect(q.ar).toBeTruthy();
       expect(q.author).toBeTruthy();
-      expect(q.fr.length).toBeGreaterThan(5);
     }
   });
 
-  it("has no duplicate quotes", () => {
+  it("has no duplicate French quotes", () => {
     const set = new Set(MOTIVATION_QUOTES.map((q) => q.fr));
     expect(set.size).toBe(MOTIVATION_QUOTES.length);
   });

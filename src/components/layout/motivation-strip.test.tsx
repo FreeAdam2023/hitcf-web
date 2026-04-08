@@ -16,6 +16,7 @@ vi.mock("@/stores/auth-store", () => ({
 }));
 
 vi.mock("next-intl", () => ({
+  useLocale: () => "zh",
   useTranslations: () => (key: string, params?: Record<string, unknown>) => {
     if (key === "motivation.daysLeft" && params?.days !== undefined) return `${params.days}j`;
     if (key === "motivation.today") return "Jour J";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { Flame, CalendarPlus } from "lucide-react";
 import { useAuthStore } from "@/stores/auth-store";
@@ -16,6 +16,7 @@ function dayOfYear(): number {
 
 export function MotivationStrip() {
   const t = useTranslations();
+  const locale = useLocale();
   const pathname = usePathname();
   const user = useAuthStore((s) => s.user);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -57,9 +58,13 @@ export function MotivationStrip() {
           {days === 0 ? t("motivation.today") : t("motivation.daysLeft", { days })}
         </span>
         <span className="text-muted-foreground/50 sm:hidden">·</span>
-        {/* Daily quote — always visible */}
-        <span className="truncate italic text-muted-foreground/80">
-          « {quote.fr} » — {quote.author}
+        {/* Daily quote — French + user language */}
+        <span className="truncate text-muted-foreground/80">
+          <span className="italic">« {quote.fr} »</span>
+          {locale !== "fr" && (
+            <span className="ml-1.5 text-foreground/60">{quote[locale as keyof typeof quote] || quote.en}</span>
+          )}
+          <span className="ml-1.5 text-muted-foreground/50">— {quote.author}</span>
         </span>
       </div>
     </div>
