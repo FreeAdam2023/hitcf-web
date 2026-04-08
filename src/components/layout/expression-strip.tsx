@@ -21,17 +21,20 @@ export function ExpressionStrip() {
   const user = useAuthStore((s) => s.user);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
-  // Hide during practice/exam — don't distract
-  const isInSession =
-    pathname.startsWith("/practice") ||
+  // Hide during exam — don't distract
+  const isInExam =
     pathname.startsWith("/exam") ||
-    pathname.startsWith("/writing-practice") ||
     pathname.startsWith("/writing-exam") ||
     pathname.startsWith("/writing-mock-exam") ||
+    pathname.startsWith("/speaking-exam");
+  if (isInExam) return null;
+
+  // Practice: show but not clickable
+  const isInPractice =
+    pathname.startsWith("/practice") ||
+    pathname.startsWith("/writing-practice") ||
     pathname.startsWith("/speaking-practice") ||
-    pathname.startsWith("/speaking-exam") ||
     pathname.startsWith("/speaking-conversation");
-  if (isInSession) return null;
 
   // /history has its own countdown card — skip to avoid duplication
   if (isAuthenticated && pathname === "/history") return null;
@@ -68,7 +71,7 @@ export function ExpressionStrip() {
         <span className="ml-1.5">— {meaning}</span>
       </span>
 
-      {/* Level badge + category + arrow */}
+      {/* Level badge + category + arrow (hide arrow during practice) */}
       <span className="flex shrink-0 items-center gap-1.5 text-muted-foreground/50">
         <span className="rounded bg-muted px-1 py-0.5 text-[10px] font-medium leading-none">
           {expression.level}
@@ -76,19 +79,25 @@ export function ExpressionStrip() {
         <span className="hidden text-[10px] sm:inline">
           {t(`expressions.categories.${expression.category}`)}
         </span>
-        <ChevronRight className="h-3 w-3" />
+        {!isInPractice && <ChevronRight className="h-3 w-3" />}
       </span>
     </>
   );
 
+  const stripClass = "mx-auto flex h-8 max-w-6xl items-center gap-2 px-4 text-xs";
+
   return (
     <div className="border-b border-border/30 bg-muted/30">
-      <Link
-        href="/expressions"
-        className="mx-auto flex h-8 max-w-6xl items-center gap-2 px-4 text-xs transition-colors hover:bg-muted/50"
-      >
-        {content}
-      </Link>
+      {isInPractice ? (
+        <div className={stripClass}>{content}</div>
+      ) : (
+        <Link
+          href="/expressions"
+          className={`${stripClass} transition-colors hover:bg-muted/50`}
+        >
+          {content}
+        </Link>
+      )}
     </div>
   );
 }

@@ -73,11 +73,12 @@ describe("ExpressionStrip", () => {
     vi.useRealTimers();
   });
 
-  it("hides during practice session", () => {
+  it("shows during practice but not clickable", () => {
     mockIsAuthenticated = false;
     mockPathname = "/practice/abc123";
     const { container } = render(<ExpressionStrip />);
-    expect(container.innerHTML).toBe("");
+    expect(container.innerHTML).not.toBe("");
+    expect(container.querySelector("a[href='/expressions']")).not.toBeInTheDocument();
   });
 
   it("hides during exam session", () => {
@@ -87,16 +88,25 @@ describe("ExpressionStrip", () => {
     expect(container.innerHTML).toBe("");
   });
 
-  it("hides during writing practice", () => {
+  it("shows during writing practice but not clickable", () => {
     mockIsAuthenticated = false;
     mockPathname = "/writing-practice/abc123";
     const { container } = render(<ExpressionStrip />);
-    expect(container.innerHTML).toBe("");
+    expect(container.innerHTML).not.toBe("");
+    expect(container.querySelector("a[href='/expressions']")).not.toBeInTheDocument();
   });
 
-  it("hides during speaking conversation", () => {
+  it("shows during speaking conversation but not clickable", () => {
     mockIsAuthenticated = false;
     mockPathname = "/speaking-conversation";
+    const { container } = render(<ExpressionStrip />);
+    expect(container.innerHTML).not.toBe("");
+    expect(container.querySelector("a[href='/expressions']")).not.toBeInTheDocument();
+  });
+
+  it("hides during writing exam", () => {
+    mockIsAuthenticated = false;
+    mockPathname = "/writing-exam/abc123";
     const { container } = render(<ExpressionStrip />);
     expect(container.innerHTML).toBe("");
   });
