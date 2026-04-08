@@ -63,6 +63,27 @@ export function ExamSession() {
     window.scrollTo({ top: 0 });
   }, [currentIndex]);
 
+  // Prefetch next question's audio (listening exam).
+  const audioPrefetchRef = useRef<HTMLLinkElement | null>(null);
+  useEffect(() => {
+    if (audioPrefetchRef.current) {
+      audioPrefetchRef.current.remove();
+      audioPrefetchRef.current = null;
+    }
+    const nextQ = questions[currentIndex + 1];
+    if (!nextQ?.audio_url) return;
+    const link = document.createElement("link");
+    link.rel = "prefetch";
+    link.as = "fetch";
+    link.href = nextQ.audio_url;
+    document.head.appendChild(link);
+    audioPrefetchRef.current = link;
+    return () => {
+      link.remove();
+      if (audioPrefetchRef.current === link) audioPrefetchRef.current = null;
+    };
+  }, [currentIndex, questions]);
+
   // On unmount: auto-submit if in progress (no "continue exam")
   const answersRef = useRef(answers);
   useEffect(() => { answersRef.current = answers; });

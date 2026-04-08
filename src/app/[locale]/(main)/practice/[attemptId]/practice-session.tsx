@@ -914,6 +914,30 @@ export function PracticeSession() {
       .catch(() => {}); // silent — will retry when user navigates
   }, [explanation, question, currentIndex, questions, locale]);
 
+  // Prefetch next question's audio in background (listening only).
+  // Uses a hidden <link rel="prefetch"> managed via DOM to let the browser
+  // cache the mp3. Each prefetch is keyed by question ID to avoid leaks.
+  const audioPrefetchRef = useRef<HTMLLinkElement | null>(null);
+  useEffect(() => {
+    // Cleanup previous prefetch link
+    if (audioPrefetchRef.current) {
+      audioPrefetchRef.current.remove();
+      audioPrefetchRef.current = null;
+    }
+    const nextQ = questions[currentIndex + 1];
+    if (!nextQ?.audio_url) return;
+    const link = document.createElement("link");
+    link.rel = "prefetch";
+    link.as = "fetch";
+    link.href = nextQ.audio_url;
+    document.head.appendChild(link);
+    audioPrefetchRef.current = link;
+    return () => {
+      link.remove();
+      if (audioPrefetchRef.current === link) audioPrefetchRef.current = null;
+    };
+  }, [currentIndex, questions]);
+
   // In practice mode, clicking an option only sets the pending selection (does not submit)
   const handleSelect = useCallback((key: string) => {
     if (!question || !attemptId) return;
