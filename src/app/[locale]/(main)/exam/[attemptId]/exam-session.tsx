@@ -45,7 +45,8 @@ export function ExamSession() {
 
   const isListening = testType === "listening";
 
-  const [submitting, setSubmitting] = useState(false);
+  // Optimistic submit — no loading state needed (fire-and-forget)
+  const submitting = false;
   // Pending selection is tied to a specific question.id so navigation cannot
   // leak a stale highlight onto the next question. The derived `pendingSelection`
   // string (computed below after `question` is resolved) reads null whenever
