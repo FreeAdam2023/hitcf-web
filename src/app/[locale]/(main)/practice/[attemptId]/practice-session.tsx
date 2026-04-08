@@ -528,9 +528,11 @@ export function PracticeSession() {
   }>({ open: false, type: "question", used: 0, limit: 0 });
   const [explanation, _setExplanation] = useState<Explanation | null>(null);
   const [explanationForId, setExplanationForId] = useState<string | null>(null);
+  const explanationCache = useRef(new Map<string, Explanation>());
   const setExplanation = (exp: Explanation | null, qId?: string) => {
     _setExplanation(exp);
     setExplanationForId(exp ? (qId ?? null) : null);
+    if (exp && qId) explanationCache.current.set(qId, exp);
   };
   const [explanationLoading, setExplanationLoading] = useState(false);
   const [explanationError, setExplanationError] = useState(false);
@@ -759,18 +761,26 @@ export function PracticeSession() {
       .catch(handleError);
   }, [locale]);
 
-  // Clear transient indicators when navigating. `pendingSelection` does NOT
-  // need to be cleared here — it's bound to question.id and `selectedKey` is
-  // derived from it, so navigation naturally invalidates the selection.
+  // Clear transient indicators when navigating. Check explanation cache first
+  // to avoid a network round-trip for already-fetched explanations.
   useEffect(() => {
     setSavedIndicator(false);
     setWrongCollected(false);
-    setExplanation(null);
-    setExplanationLoading(false);
-    setExplanationError(false);
     setAudioTime(0);
     fetchingRef.current = false;
-  }, [currentIndex]);
+    const qId = questions[currentIndex]?.id;
+    const cached = qId ? explanationCache.current.get(qId) : undefined;
+    if (cached) {
+      _setExplanation(cached);
+      setExplanationForId(qId);
+      setExplanationLoading(false);
+      setExplanationError(false);
+    } else {
+      setExplanation(null);
+      setExplanationLoading(false);
+      setExplanationError(false);
+    }
+  }, [currentIndex, questions]);
 
   // Prevent accidental navigation (browser back/forward swipe + tab close)
   const answersRef = useRef(answers);
@@ -886,6 +896,23 @@ export function PracticeSession() {
       fetchExplanation(question.id);
     }
   }, [question, explanation, explanationLoading, explanationError, fetchExplanation]);
+
+  // Prefetch next question's explanation in background after current one is ready
+  useEffect(() => {
+    if (!explanation || !question) return;
+    const nextQ = questions[currentIndex + 1];
+    if (!nextQ || explanationCache.current.has(nextQ.id)) return;
+    // Silent background fetch — no loading/error state changes
+    generateExplanation(nextQ.id, false, locale)
+      .then((data) => {
+        if (data.status === "ready" || !("status" in data) || data.status === undefined) {
+          const d = { ...data } as Record<string, unknown>;
+          delete d.status;
+          explanationCache.current.set(nextQ.id, d as unknown as Explanation);
+        }
+      })
+      .catch(() => {}); // silent — will retry when user navigates
+  }, [explanation, question, currentIndex, questions, locale]);
 
   // In practice mode, clicking an option only sets the pending selection (does not submit)
   const handleSelect = useCallback((key: string) => {
