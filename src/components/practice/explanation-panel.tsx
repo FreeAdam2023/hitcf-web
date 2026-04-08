@@ -130,7 +130,13 @@ export function ExplanationPanel({
             </p>
           ) : !hasContent ? (
             <p className="text-muted-foreground">
-              {t("explanation.comingSoon")}
+              {t("explanation.loadFailed")}{" "}
+              <button
+                className="underline hover:text-foreground"
+                onClick={onRetry}
+              >
+                {t("explanation.clickRetry")}
+              </button>
             </p>
           ) : (
             <div className="space-y-3">
