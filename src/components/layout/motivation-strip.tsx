@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { Flame, CalendarPlus } from "lucide-react";
 import { useAuthStore } from "@/stores/auth-store";
 import { getDaysUntil } from "@/lib/countdown";
@@ -16,11 +16,15 @@ function dayOfYear(): number {
 
 export function MotivationStrip() {
   const t = useTranslations();
+  const pathname = usePathname();
   const user = useAuthStore((s) => s.user);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   // Not logged in → hide
   if (!isAuthenticated || !user) return null;
+
+  // /history already has a full countdown card — skip strip to avoid duplication
+  if (pathname === "/history") return null;
 
   const examDate = user.exam_date;
   const quote = MOTIVATION_QUOTES[dayOfYear() % MOTIVATION_QUOTES.length];

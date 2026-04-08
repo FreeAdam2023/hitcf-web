@@ -25,10 +25,13 @@ vi.mock("next-intl", () => ({
   },
 }));
 
+let mockPathname = "/tests";
+
 vi.mock("@/i18n/navigation", () => ({
   Link: ({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) => (
     <a href={href} className={className}>{children}</a>
   ),
+  usePathname: () => mockPathname,
 }));
 
 // ─── Tests ───────────────────────────────────────────────
@@ -37,6 +40,7 @@ describe("MotivationStrip", () => {
   beforeEach(() => {
     mockUser = null;
     mockIsAuthenticated = false;
+    mockPathname = "/tests";
     vi.useRealTimers();
   });
 
@@ -79,6 +83,17 @@ describe("MotivationStrip", () => {
     vi.setSystemTime(new Date(2026, 5, 1)); // June 1, 2026
     mockIsAuthenticated = true;
     mockUser = { exam_date: "2026-05-20", exam_city: "ottawa" };
+    const { container } = render(<MotivationStrip />);
+    expect(container.innerHTML).toBe("");
+    vi.useRealTimers();
+  });
+
+  it("hides on /history page to avoid duplication", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2026, 3, 7));
+    mockIsAuthenticated = true;
+    mockUser = { exam_date: "2026-05-20", exam_city: "ottawa" };
+    mockPathname = "/history";
     const { container } = render(<MotivationStrip />);
     expect(container.innerHTML).toBe("");
     vi.useRealTimers();
