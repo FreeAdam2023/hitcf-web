@@ -664,7 +664,8 @@
       "reviewed": "Reviewed",
       "questionLabel": "Question {n}, {status}",
       "showMixed": "Time order",
-      "showGrouped": "Group by type"
+      "showGrouped": "Group by type",
+      "reviewedProgress": "Reviewed {reviewed} / {total}"
     },
     "session": {
       "tabTranscript": "Transcript",

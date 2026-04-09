@@ -62,6 +62,7 @@ export function QuestionNavigator({
     : previousAnswers
       ? new Set([...Array.from(answers.keys()), ...Array.from(previousAnswers.keys())]).size
       : answers.size;
+  const totalReviewed = reviewedIds?.size ?? 0;
 
   // Detect mixed types (wrong answer practice with both listening + reading)
   const types = questions ? new Set(questions.map((q) => q.type)) : new Set<string>();
@@ -84,6 +85,9 @@ export function QuestionNavigator({
     const isCorrect = !isExam && !!effectiveAnswer && effectiveAnswer.is_correct === true;
     const isWrong = !isExam && !!effectiveAnswer && effectiveAnswer.is_correct === false;
     const isReviewed = !!(qid && reviewedIds?.has(qid));
+    // In open-book mode, highlight unreviewed questions so they stand out
+    const hasReviewedIds = reviewedIds && reviewedIds.size > 0;
+    const isUnreviewedInOpenBook = hasReviewedIds && !isAnswered && !isReviewed;
 
     let statusLabel = t("practice.navigator.unanswered");
     if (isCorrect) statusLabel = t("practice.navigator.correct");
@@ -103,8 +107,9 @@ export function QuestionNavigator({
           !isExam && isWrong && "bg-red-500 text-white",
           isExam && isAnswered && "bg-primary text-primary-foreground",
           !isExam && isAnswered && !isCorrect && !isWrong && "bg-primary text-primary-foreground",
-          !isAnswered && !isReviewed && !isCurrent && "bg-muted hover:bg-accent",
-          !isAnswered && !isReviewed && isCurrent && "bg-primary/20",
+          !isAnswered && !isReviewed && !isCurrent && !isUnreviewedInOpenBook && "bg-muted hover:bg-accent",
+          !isAnswered && !isReviewed && isCurrent && !isUnreviewedInOpenBook && "bg-primary/20",
+          isUnreviewedInOpenBook && "border-2 border-orange-400 bg-orange-50 text-orange-700 dark:border-orange-500 dark:bg-orange-950 dark:text-orange-300",
           isReviewed && !isAnswered && "bg-purple-500 text-white",
         )}
       >
@@ -170,9 +175,15 @@ export function QuestionNavigator({
             {Array.from({ length: total }, (_, i) => renderButton(i))}
           </div>
         )}
-        <p className="text-xs text-muted-foreground">
-          {t("common.answeredProgress", { answered: totalAnswered, total })}
-        </p>
+        {reviewedIds && totalReviewed > 0 ? (
+          <p className="text-xs text-purple-600 dark:text-purple-400 font-medium">
+            {t("practice.navigator.reviewedProgress", { reviewed: totalReviewed, total })}
+          </p>
+        ) : (
+          <p className="text-xs text-muted-foreground">
+            {t("common.answeredProgress", { answered: totalAnswered, total })}
+          </p>
+        )}
       </div>
     );
   }
@@ -206,6 +217,8 @@ export function QuestionNavigator({
           total={total}
           currentIndex={currentIndex}
           totalAnswered={totalAnswered}
+          totalReviewed={totalReviewed}
+          hasReviewedIds={!!reviewedIds}
           renderButton={renderButton}
           t={t}
           onPageChange={onNavPageChange}
@@ -228,9 +241,15 @@ export function QuestionNavigator({
             </div>
           ))}
         </div>
-        <p className="text-xs text-muted-foreground">
-          {t("common.answeredProgress", { answered: totalAnswered, total })}
-        </p>
+        {reviewedIds && totalReviewed > 0 ? (
+          <p className="text-xs text-purple-600 dark:text-purple-400 font-medium">
+            {t("practice.navigator.reviewedProgress", { reviewed: totalReviewed, total })}
+          </p>
+        ) : (
+          <p className="text-xs text-muted-foreground">
+            {t("common.answeredProgress", { answered: totalAnswered, total })}
+          </p>
+        )}
       </div>
     );
   }
@@ -241,6 +260,8 @@ export function QuestionNavigator({
       total={total}
       currentIndex={currentIndex}
       totalAnswered={totalAnswered}
+      totalReviewed={totalReviewed}
+      hasReviewedIds={!!reviewedIds}
       renderButton={renderButton}
       t={t}
     />
@@ -253,6 +274,8 @@ function PaginatedGrid({
   total,
   currentIndex,
   totalAnswered,
+  totalReviewed = 0,
+  hasReviewedIds = false,
   renderButton,
   t,
   onPageChange,
@@ -260,6 +283,8 @@ function PaginatedGrid({
   total: number;
   currentIndex: number;
   totalAnswered: number;
+  totalReviewed?: number;
+  hasReviewedIds?: boolean;
   renderButton: (i: number) => React.ReactNode;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: any;
@@ -312,9 +337,15 @@ function PaginatedGrid({
       <div className="flex flex-wrap gap-1.5 p-0.5">
         {Array.from({ length: end - start }, (_, j) => renderButton(start + j))}
       </div>
-      <p className="text-xs text-muted-foreground">
-        {t("common.answeredProgress", { answered: totalAnswered, total })}
-      </p>
+      {hasReviewedIds && totalReviewed > 0 ? (
+        <p className="text-xs text-purple-600 dark:text-purple-400 font-medium">
+          {t("practice.navigator.reviewedProgress", { reviewed: totalReviewed, total })}
+        </p>
+      ) : (
+        <p className="text-xs text-muted-foreground">
+          {t("common.answeredProgress", { answered: totalAnswered, total })}
+        </p>
+      )}
     </div>
   );
 }

@@ -664,7 +664,8 @@
       "reviewed": "Lu",
       "questionLabel": "Question {n}, {status}",
       "showMixed": "Ordre chronologique",
-      "showGrouped": "Grouper par type"
+      "showGrouped": "Grouper par type",
+      "reviewedProgress": "Révisé {reviewed} / {total}"
     },
     "session": {
       "tabTranscript": "Transcription",

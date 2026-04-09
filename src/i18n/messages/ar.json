@@ -662,7 +662,8 @@
       "answered": "تمت الإجابة",
       "questionLabel": "سؤال {n}، {status}",
       "showMixed": "ترتيب زمني",
-      "showGrouped": "تجميع حسب النوع"
+      "showGrouped": "تجميع حسب النوع",
+      "reviewedProgress": "تمت المراجعة {reviewed} / {total}"
     },
     "session": {
       "tabTranscript": "النص",

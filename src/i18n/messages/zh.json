@@ -664,7 +664,8 @@
       "reviewed": "已阅",
       "questionLabel": "第{n}题，{status}",
       "showMixed": "时间顺序",
-      "showGrouped": "按类型分组"
+      "showGrouped": "按类型分组",
+      "reviewedProgress": "已阅 {reviewed} / {total}"
     },
     "session": {
       "tabTranscript": "原文",
