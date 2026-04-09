@@ -1817,6 +1817,39 @@
       "themeCount": "{count} موضوع",
       "statWordCount": "{count} كلمة"
     },
+    "expressions": {
+      "poolTitle": "تعبيرات الكتابة والتحدث",
+      "poolDesc": "{count} تعبير",
+      "poolEmpty": "تعبيرات فرنسية أساسية للكتابة والتحدث",
+      "title": "تعبيرات الكتابة والتحدث",
+      "heroDesc": "تعبيرات أساسية لـ TCF: روابط، أنماط، تراكيب — حسب الفئة",
+      "totalWords": "{count} تعبير إجمالاً",
+      "wordCount": "{total} تعبير",
+      "wordCountFiltered": "(مُصفّاة من {total})",
+      "filterCategory": "الفئة",
+      "filterLevel": "مستوى CECR",
+      "filterTag": "الاستخدام",
+      "filterAll": "الكل",
+      "tcfTip": "نصيحة TCF",
+      "example": "مثال",
+      "startFlashcard": "مراجعة البطاقات",
+      "startDictation": "إملاء",
+      "export": "تصدير إلى Anki",
+      "emptyTitle": "لا توجد تعبيرات بعد",
+      "emptyDesc": "التعبيرات قيد الإعداد",
+      "meta": {
+        "title": "تعبيرات الكتابة والتحدث — HiTCF",
+        "description": "تعبيرات فرنسية أساسية لـ TCF: روابط، أنماط، تراكيب"
+      }
+    },
+    "dailyExpression": {
+      "label": "يومي",
+      "viewAll": "عرض الكل",
+      "save": "حفظ",
+      "saved": "تم الحفظ",
+      "play": "تشغيل النطق",
+      "dismiss": "إغلاق"
+    },
     "dictation": {
       "button": "إملاء",
       "title": "الإملاء",
@@ -4381,31 +4414,5 @@
     "setExamDate": "حدد موعد امتحانك لفتح التحفيز اليومي ←",
     "daysLeft": "{days} يوم",
     "today": "يوم الامتحان"
-  },
-  "expressions": {
-    "title": "التعبيرات الفرنسية",
-    "subtitle": "أتقن الروابط والأنماط والتعبيرات الاصطلاحية لتحسين كتابتك وتحدثك",
-    "categories": {
-      "connector": "روابط",
-      "pattern": "أنماط",
-      "idiom": "تعبيرات",
-      "phrase": "عبارات",
-      "register": "مستويات اللغة"
-    },
-    "levels": {
-      "all": "جميع المستويات"
-    },
-    "allCategories": "جميع الفئات",
-    "example": "مثال",
-    "usageTip": "نصيحة TCF",
-    "tags": {
-      "writing": "كتابة",
-      "speaking": "تحدث"
-    },
-    "count": "{count} تعبير",
-    "meta": {
-      "title": "التعبيرات الفرنسية — HiTCF",
-      "description": "أكثر من 80 رابطاً ونمطاً وتعبيراً اصطلاحياً مع نصائح لامتحان TCF"
-    }
   }
 }

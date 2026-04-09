@@ -1820,6 +1820,39 @@
       "themeCount": "{count} themes",
       "statWordCount": "{count} words"
     },
+    "expressions": {
+      "poolTitle": "Speaking & Writing",
+      "poolDesc": "{count} expressions",
+      "poolEmpty": "Essential French expressions for writing and speaking",
+      "title": "Speaking & Writing Expressions",
+      "heroDesc": "Essential TCF expressions: connectors, patterns, collocations — by category",
+      "totalWords": "{count} expressions total",
+      "wordCount": "{total} expressions",
+      "wordCountFiltered": "(filtered from {total})",
+      "filterCategory": "Category",
+      "filterLevel": "CEFR Level",
+      "filterTag": "Usage",
+      "filterAll": "All",
+      "tcfTip": "TCF Tip",
+      "example": "Example",
+      "startFlashcard": "Flashcard Review",
+      "startDictation": "Dictation",
+      "export": "Export to Anki",
+      "emptyTitle": "No expressions yet",
+      "emptyDesc": "Expressions pool is being built",
+      "meta": {
+        "title": "Speaking & Writing Expressions — HiTCF",
+        "description": "Essential French expressions for TCF speaking and writing: connectors, patterns, collocations"
+      }
+    },
+    "dailyExpression": {
+      "label": "Daily",
+      "viewAll": "View all",
+      "save": "Save",
+      "saved": "Saved",
+      "play": "Play pronunciation",
+      "dismiss": "Close"
+    },
     "dictation": {
       "button": "Dictation",
       "title": "Dictation Mode",
@@ -4384,31 +4417,5 @@
     "setExamDate": "Set your exam date to unlock daily motivation →",
     "daysLeft": "{days}d",
     "today": "Exam day"
-  },
-  "expressions": {
-    "title": "French Expressions",
-    "subtitle": "Master connectors, patterns, idioms — boost your writing and speaking",
-    "categories": {
-      "connector": "Connectors",
-      "pattern": "Patterns",
-      "idiom": "Idioms",
-      "phrase": "Phrases",
-      "register": "Register"
-    },
-    "levels": {
-      "all": "All levels"
-    },
-    "allCategories": "All categories",
-    "example": "Example",
-    "usageTip": "TCF tip",
-    "tags": {
-      "writing": "Writing",
-      "speaking": "Speaking"
-    },
-    "count": "{count} expressions",
-    "meta": {
-      "title": "French Expressions — HiTCF",
-      "description": "80+ French connectors, patterns, idioms, and phrases with TCF exam tips"
-    }
   }
 }

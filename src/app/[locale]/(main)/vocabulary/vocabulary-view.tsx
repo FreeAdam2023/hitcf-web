@@ -14,13 +14,14 @@ import {
   FileText,
   Mic,
   PenLine,
+  MessageSquareText,
 } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { getLocalizedField } from "@/lib/test-name";
 import { useSession } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
-import { getSavedWordStats, listSavedWords, getNihaoStats, getThemeStats } from "@/lib/api/vocabulary";
-import type { SavedWordStats, SavedWordItem, NihaoStats, ThemeStats } from "@/lib/api/types";
+import { getSavedWordStats, listSavedWords, getNihaoStats, getThemeStats, getExpressionStats } from "@/lib/api/vocabulary";
+import type { SavedWordStats, SavedWordItem, NihaoStats, ThemeStats, ExpressionStats } from "@/lib/api/types";
 import { cn } from "@/lib/utils";
 
 const SOURCE_ICON: Record<string, typeof Headphones> = {
@@ -53,6 +54,7 @@ export function VocabularyView() {
   const [stats, setStats] = useState<SavedWordStats | null>(null);
   const [nihaoStats, setNihaoStats] = useState<NihaoStats | null>(null);
   const [themeStats, setThemeStats] = useState<ThemeStats | null>(null);
+  const [expressionStats, setExpressionStats] = useState<ExpressionStats | null>(null);
   const [recent, setRecent] = useState<SavedWordItem[]>([]);
   const [loading, setLoading] = useState(true);
   const isLoggedIn = !!session?.user;
@@ -61,6 +63,7 @@ export function VocabularyView() {
     const promises: Promise<void>[] = [
       getNihaoStats().then((s) => setNihaoStats(s)).catch(() => {}),
       getThemeStats().then((s) => setThemeStats(s)).catch(() => {}),
+      getExpressionStats().then((s) => setExpressionStats(s)).catch(() => {}),
     ];
     if (isLoggedIn) {
       promises.push(
@@ -232,6 +235,26 @@ export function VocabularyView() {
                       <h3 className="font-semibold group-hover:text-primary transition-colors">{t("vocabulary.themeWords.title")}</h3>
                       <p className="text-sm text-muted-foreground truncate">
                         {themeStats ? t("vocabulary.themeWords.totalWords", { count: themeStats.total }) : t("vocabulary.themeWords.heroDesc")}
+                      </p>
+                    </div>
+                    <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </CardContent>
+                </Card>
+              </Link>
+
+              {/* Expressions (口语写作素材) */}
+              <Link href="/vocabulary/expressions" className="group block">
+                <Card className="h-full transition-all hover:shadow-md hover:-translate-y-0.5">
+                  <CardContent className="flex items-center gap-4 pt-6">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">
+                      <MessageSquareText className="h-5 w-5" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="font-semibold group-hover:text-primary transition-colors">{t("vocabulary.expressions.poolTitle")}</h3>
+                      <p className="text-sm text-muted-foreground truncate">
+                        {expressionStats
+                          ? t("vocabulary.expressions.poolDesc", { count: expressionStats.total })
+                          : t("vocabulary.expressions.poolEmpty")}
                       </p>
                     </div>
                     <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />

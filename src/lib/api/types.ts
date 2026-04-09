@@ -805,6 +805,49 @@ export interface ThemeStats {
   by_category: Record<string, { word_count: number; tag_count: number }>;
 }
 
+// Expression Words (口语写作素材 pool)
+export interface ExpressionWordItem {
+  id: string;
+  expression: string;
+  display_form: string;
+  category: string;
+  category_zh: string;
+  cefr_level: string;
+  ipa: string | null;
+  meaning_zh: string | null;
+  meaning_en: string | null;
+  meaning_fr: string | null;
+  meaning_ar: string | null;
+  example_fr: string | null;
+  example_zh: string | null;
+  example_en: string | null;
+  example_ar: string | null;
+  tcf_tip_zh: string | null;
+  tcf_tip_en: string | null;
+  tcf_tip_ar: string | null;
+  tags: string[];
+  audio_url: string | null;
+}
+
+export interface ExpressionCategoryInfo {
+  category: string;
+  category_zh: string;
+  count: number;
+}
+
+export interface ExpressionFilters {
+  categories: ExpressionCategoryInfo[];
+  levels: string[];
+  tags: string[];
+}
+
+export interface ExpressionStats {
+  total: number;
+  by_category: Record<string, number>;
+}
+
+export type DailyExpression = ExpressionWordItem;
+
 // Vocabulary Card
 export interface ConjugationTable {
   je: string;

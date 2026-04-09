@@ -10,6 +10,10 @@ import type {
   ThemeWordItem,
   ThemeFilters,
   ThemeStats,
+  ExpressionWordItem,
+  ExpressionFilters,
+  ExpressionStats,
+  DailyExpression,
 } from "./types";
 
 // First-time card generation calls Azure Dict + Grok + TTS and can take 30-50s
@@ -227,6 +231,39 @@ export function getThemeStats(): Promise<ThemeStats> {
 }
 
 // ---------------------------------------------------------------------------
+// Expression Words (口语写作素材)
+// ---------------------------------------------------------------------------
+
+export function listExpressionWords(params?: {
+  category?: string;
+  cefr_level?: string;
+  tag?: string;
+  page?: number;
+  page_size?: number;
+}): Promise<PaginatedResponse<ExpressionWordItem>> {
+  const qs = new URLSearchParams();
+  if (params?.category) qs.set("category", params.category);
+  if (params?.cefr_level) qs.set("cefr_level", params.cefr_level);
+  if (params?.tag) qs.set("tag", params.tag);
+  if (params?.page) qs.set("page", String(params.page));
+  if (params?.page_size) qs.set("page_size", String(params.page_size));
+  const q = qs.toString();
+  return get(`/api/vocab/expression${q ? `?${q}` : ""}`);
+}
+
+export function getExpressionFilters(): Promise<ExpressionFilters> {
+  return get("/api/vocab/expression/filters");
+}
+
+export function getExpressionStats(): Promise<ExpressionStats> {
+  return get("/api/vocab/expression/stats");
+}
+
+export function getDailyExpression(): Promise<DailyExpression> {
+  return get("/api/vocab/expression/daily");
+}
+
+// ---------------------------------------------------------------------------
 // Async export API (start → poll → download)
 // ---------------------------------------------------------------------------
 
@@ -269,6 +306,23 @@ export async function startThemeExport(
   return res.json();
 }
 
+export async function startExpressionExport(
+  category?: string,
+  cefrLevel?: string,
+  tag?: string,
+): Promise<{ job_id: string }> {
+  const params = new URLSearchParams();
+  if (category) params.set("category", category);
+  if (cefrLevel) params.set("cefr_level", cefrLevel);
+  if (tag) params.set("tag", tag);
+  const qs = params.toString();
+  const res = await fetch(`/api/vocab/expression/export/start${qs ? `?${qs}` : ""}`, {
+    method: "POST",
+  });
+  if (!res.ok) await handleExportError(res);
+  return res.json();
+}
+
 export async function startSavedExport(
   sourceType?: string,
 ): Promise<{ job_id: string }> {
@@ -283,7 +337,7 @@ export async function startSavedExport(
 }
 
 export async function getExportStatus(
-  type: "nihao" | "saved" | "theme",
+  type: "nihao" | "saved" | "theme" | "expression",
   jobId: string,
 ): Promise<ExportStatus> {
   const res = await fetch(`/api/vocab/${type}/export/status/${jobId}`);
@@ -292,7 +346,7 @@ export async function getExportStatus(
 }
 
 export async function downloadExportFile(
-  type: "nihao" | "saved" | "theme",
+  type: "nihao" | "saved" | "theme" | "expression",
   jobId: string,
 ): Promise<void> {
   const res = await fetch(`/api/vocab/${type}/export/download/${jobId}`);
@@ -303,7 +357,7 @@ export async function downloadExportFile(
 export async function logWordView(
   word: string,
   sourceType?: string | null,
-  pool: "saved" | "nihao" | "theme" = "saved",
+  pool: "saved" | "nihao" | "theme" | "expression" = "saved",
 ): Promise<boolean> {
   try {
     const res = await post<{ ok: boolean; auto_saved: boolean }>("/api/vocab/view", {

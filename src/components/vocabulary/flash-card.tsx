@@ -98,8 +98,8 @@ interface FlashCardViewProps {
   backLink: string;
   backLabel: string;
   emptyMessage?: string;
-  /** Pool identifier for view tracking: "saved" | "nihao" | "theme" */
-  pool?: "saved" | "nihao" | "theme";
+  /** Pool identifier for view tracking: "saved" | "nihao" | "theme" | "expression" */
+  pool?: "saved" | "nihao" | "theme" | "expression";
 }
 
 /* ------------------------------------------------------------------ */

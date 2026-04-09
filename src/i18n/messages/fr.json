@@ -1820,6 +1820,39 @@
       "themeCount": "{count} thèmes",
       "statWordCount": "{count} mots"
     },
+    "expressions": {
+      "poolTitle": "Oral et écrit",
+      "poolDesc": "{count} expressions",
+      "poolEmpty": "Expressions françaises essentielles pour l'écrit et l'oral",
+      "title": "Expressions oral et écrit",
+      "heroDesc": "Expressions essentielles pour le TCF : connecteurs, tournures, collocations",
+      "totalWords": "{count} expressions au total",
+      "wordCount": "{total} expressions",
+      "wordCountFiltered": "(filtré parmi {total})",
+      "filterCategory": "Catégorie",
+      "filterLevel": "Niveau CECR",
+      "filterTag": "Usage",
+      "filterAll": "Tous",
+      "tcfTip": "Astuce TCF",
+      "example": "Exemple",
+      "startFlashcard": "Révision par flashcards",
+      "startDictation": "Dictée",
+      "export": "Exporter vers Anki",
+      "emptyTitle": "Aucune expression pour l'instant",
+      "emptyDesc": "Les expressions sont en cours de préparation",
+      "meta": {
+        "title": "Expressions oral et écrit — HiTCF",
+        "description": "Expressions françaises essentielles pour le TCF : connecteurs, tournures, collocations"
+      }
+    },
+    "dailyExpression": {
+      "label": "Du jour",
+      "viewAll": "Voir tout",
+      "save": "Sauvegarder",
+      "saved": "Sauvegardé",
+      "play": "Écouter la prononciation",
+      "dismiss": "Fermer"
+    },
     "dictation": {
       "button": "Dictée",
       "title": "Mode dictée",
@@ -4384,31 +4417,5 @@
     "setExamDate": "Définissez votre date d'examen pour la motivation quotidienne →",
     "daysLeft": "{days}j",
     "today": "Jour J"
-  },
-  "expressions": {
-    "title": "Expressions françaises",
-    "subtitle": "Maîtrisez connecteurs, tournures, expressions — pour l'écrit et l'oral",
-    "categories": {
-      "connector": "Connecteurs",
-      "pattern": "Tournures",
-      "idiom": "Expressions",
-      "phrase": "Locutions",
-      "register": "Registres"
-    },
-    "levels": {
-      "all": "Tous niveaux"
-    },
-    "allCategories": "Toutes catégories",
-    "example": "Exemple",
-    "usageTip": "Astuce TCF",
-    "tags": {
-      "writing": "Écrit",
-      "speaking": "Oral"
-    },
-    "count": "{count} expressions",
-    "meta": {
-      "title": "Expressions françaises — HiTCF",
-      "description": "80+ connecteurs, tournures, expressions idiomatiques et locutions avec astuces TCF"
-    }
   }
 }

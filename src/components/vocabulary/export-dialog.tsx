@@ -8,6 +8,7 @@ import {
   startNihaoExport,
   startThemeExport,
   startSavedExport,
+  startExpressionExport,
   getExportStatus,
   downloadExportFile,
 } from "@/lib/api/vocabulary";
@@ -24,7 +25,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-type ExportType = "nihao" | "saved" | "theme";
+type ExportType = "nihao" | "saved" | "theme" | "expression";
 
 interface ExportDialogProps {
   wordCount: number;
@@ -90,6 +91,13 @@ export function ExportDialog({ wordCount, exportType, exportParams }: ExportDial
         const res = await startThemeExport(
           exportParams.tag as string | undefined,
           exportParams.tag_category as string | undefined,
+        );
+        jobId = res.job_id;
+      } else if (exportType === "expression") {
+        const res = await startExpressionExport(
+          exportParams.category as string | undefined,
+          exportParams.cefr_level as string | undefined,
+          exportParams.tag as string | undefined,
         );
         jobId = res.job_id;
       } else {

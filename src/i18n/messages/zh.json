@@ -1820,6 +1820,39 @@
       "themeCount": "{count} 主题",
       "statWordCount": "{count} 词"
     },
+    "expressions": {
+      "poolTitle": "口语写作素材",
+      "poolDesc": "{count} 个表达",
+      "poolEmpty": "常用法语表达，写作口语必备",
+      "title": "口语写作素材",
+      "heroDesc": "TCF 口语写作常用表达：连接词、句型、搭配，按场景分类",
+      "totalWords": "共 {count} 个表达",
+      "wordCount": "共 {total} 个表达",
+      "wordCountFiltered": "（筛选自 {total} 个表达）",
+      "filterCategory": "类别",
+      "filterLevel": "CEFR 等级",
+      "filterTag": "用途",
+      "filterAll": "全部",
+      "tcfTip": "TCF 实战",
+      "example": "例句",
+      "startFlashcard": "翻卡复习",
+      "startDictation": "听写练习",
+      "export": "导出 Anki",
+      "emptyTitle": "暂无表达数据",
+      "emptyDesc": "口语写作素材池正在建设中",
+      "meta": {
+        "title": "口语写作素材 — HiTCF",
+        "description": "TCF 口语写作常用法语表达：连接词、句型、搭配、副词"
+      }
+    },
+    "dailyExpression": {
+      "label": "每日一句",
+      "viewAll": "查看全部",
+      "save": "收藏",
+      "saved": "已收藏",
+      "play": "播放发音",
+      "dismiss": "关闭"
+    },
     "dictation": {
       "button": "听写",
       "title": "听写模式",
@@ -4380,31 +4413,5 @@
     "setExamDate": "设定考试日期，开启每日激励 →",
     "daysLeft": "{days}j",
     "today": "Jour J"
-  },
-  "expressions": {
-    "title": "法语地道表达",
-    "subtitle": "掌握连接词、句式、俚语，用到写作与口语中",
-    "categories": {
-      "connector": "连接词",
-      "pattern": "句式",
-      "idiom": "惯用语",
-      "phrase": "词组",
-      "register": "语域"
-    },
-    "levels": {
-      "all": "全部等级"
-    },
-    "allCategories": "全部分类",
-    "example": "例句",
-    "usageTip": "TCF 实战",
-    "tags": {
-      "writing": "写作",
-      "speaking": "口语"
-    },
-    "count": "{count} 个表达",
-    "meta": {
-      "title": "法语地道表达 — HiTCF",
-      "description": "80+ 法语连接词、句式、俚语、词组，每条都有 TCF 实战用法提示"
-    }
   }
 }
