@@ -523,6 +523,12 @@ export interface WritingFeedback {
   vocab_suggestions: VocabSuggestionItem[];
 }
 
+export interface TrialQuotaInfo {
+  used: number;
+  limit: number;
+  remaining: number;
+}
+
 export interface WritingGradeResponse {
   id: string;
   user_id: string;
@@ -533,6 +539,7 @@ export interface WritingGradeResponse {
   word_count: number;
   feedback: WritingFeedback;
   created_at: string;
+  trial_quota?: TrialQuotaInfo;
 }
 
 export type WritingSubmissionItem = WritingGradeResponse;
@@ -658,6 +665,7 @@ export interface SpeakingConversationResponse {
   started_at: string;
   conversation_started_at: string | null;
   completed_at: string | null;
+  trial_quota?: TrialQuotaInfo;
 }
 
 export interface BeginConversationResponse {

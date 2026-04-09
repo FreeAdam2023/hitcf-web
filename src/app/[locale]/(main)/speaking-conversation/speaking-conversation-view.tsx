@@ -265,6 +265,11 @@ export function SpeakingConversationView() {
         setPrepTimer(conv.prep_time_seconds);
         setTimer(conv.speaking_time_seconds);
         setPhase("prep");
+        // Show trial quota remaining
+        if (conv.trial_quota) {
+          const { remaining, limit } = conv.trial_quota;
+          toast.info(t("trialQuotaRemaining", { remaining, limit }), { duration: 5000 });
+        }
         // Add sessionId to URL so refresh can resume
         router.replace(
           `/speaking-conversation?testSetId=${testSetId}&questionId=${questionId}&sessionId=${conv.id}`,

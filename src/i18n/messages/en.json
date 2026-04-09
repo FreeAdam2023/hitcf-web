@@ -1535,7 +1535,8 @@
   },
   "writingPractice": {
     "title": "Writing Practice",
-    "trialQuotaReached": "Daily free trial limit reached (1/day). Upgrade to Pro for unlimited AI grading"
+    "trialQuotaReached": "Daily free trial limit reached ({limit}/day). Upgrade to Pro for unlimited AI grading",
+    "trialQuotaRemaining": "Free trial: {remaining}/{limit} remaining today"
   },
   "accentToolbar": {
     "ariaLabel": "French accent characters",
@@ -1929,7 +1930,8 @@
     "evaluationUnavailableDesc": "AI evaluation could not be generated. You can try re-evaluating or refresh the page later.",
     "reEvaluate": "Re-evaluate",
     "reEvaluating": "Re-evaluating...",
-    "trialQuotaReached": "Daily free trial limit reached (1/day). Upgrade to Pro for unlimited conversations",
+    "trialQuotaReached": "Daily free trial limit reached ({limit}/day). Upgrade to Pro for unlimited conversations",
+    "trialQuotaRemaining": "Free trial: {remaining}/{limit} remaining today",
     "noUserTurns": "Conversation Not Started",
     "noUserTurnsDesc": "You haven't spoken yet, so no evaluation can be generated. Please start a new conversation and try answering the examiner's questions.",
     "resuming": "Resuming conversation...",

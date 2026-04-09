@@ -178,7 +178,12 @@ export default function WritingPracticePage() {
     try {
       const result = await gradeWriting(task.id, taskNum, essay);
       setGradingResults((prev) => ({ ...prev, [String(taskNum)]: result.feedback }));
-      toast.success(t("testDetail.gradingComplete"));
+      if (result.trial_quota) {
+        const { remaining, limit } = result.trial_quota;
+        toast.info(t("writingPractice.trialQuotaRemaining", { remaining, limit }), { duration: 5000 });
+      } else {
+        toast.success(t("testDetail.gradingComplete"));
+      }
     } catch (err: unknown) {
       if (err instanceof QuotaExceededError) {
         const msg = t("writingPractice.trialQuotaReached");

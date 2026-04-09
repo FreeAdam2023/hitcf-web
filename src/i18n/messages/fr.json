@@ -1535,7 +1535,8 @@
   },
   "writingPractice": {
     "title": "Pratique d'écriture",
-    "trialQuotaReached": "Limite d'essai quotidienne atteinte (1/jour). Passez à Pro pour une correction IA illimitée"
+    "trialQuotaReached": "Limite d'essai quotidienne atteinte ({limit}/jour). Passez à Pro pour une correction IA illimitée",
+    "trialQuotaRemaining": "Essai gratuit : {remaining}/{limit} restant(s) aujourd'hui"
   },
   "accentToolbar": {
     "ariaLabel": "Caractères accentués français",
@@ -1929,7 +1930,8 @@
     "evaluationUnavailableDesc": "L'évaluation IA n'a pas pu être générée. Vous pouvez tenter une réévaluation ou actualiser la page plus tard.",
     "reEvaluate": "Réévaluer",
     "reEvaluating": "Réévaluation en cours...",
-    "trialQuotaReached": "Limite d'essai quotidienne atteinte (1/jour). Passez à Pro pour des conversations illimitées",
+    "trialQuotaReached": "Limite d'essai quotidienne atteinte ({limit}/jour). Passez à Pro pour des conversations illimitées",
+    "trialQuotaRemaining": "Essai gratuit : {remaining}/{limit} restant(s) aujourd'hui",
     "noUserTurns": "Conversation non commencée",
     "noUserTurnsDesc": "Vous n'avez pas encore parlé, aucune évaluation ne peut être générée. Veuillez recommencer une conversation et essayer de répondre aux questions de l'examinateur.",
     "resuming": "Reprise de la conversation...",
