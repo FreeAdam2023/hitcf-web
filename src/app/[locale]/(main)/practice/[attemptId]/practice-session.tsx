@@ -498,9 +498,33 @@ export function PracticeSession() {
       }
       return next;
     });
-    // Auto-advance to next question after marking as reviewed
-    if (willAdd) goNext();
-  }, [attemptId, questions, currentIndex, reviewedIds, goNext, t]);
+    // Auto-advance to next UNREVIEWED+UNANSWERED question after marking as reviewed
+    if (willAdd) {
+      // Build set of "done" question ids = current reviewed + this one + answered
+      const doneIds = new Set(reviewedIds);
+      doneIds.add(q.id);
+      Array.from(answers.keys()).forEach((aid) => doneIds.add(aid));
+      if (previousAnswers) {
+        Array.from(previousAnswers.keys()).forEach((aid) => doneIds.add(aid));
+      }
+
+      // Search forward from current+1, then wrap to start
+      let target = -1;
+      for (let i = currentIndex + 1; i < questions.length; i++) {
+        if (!doneIds.has(questions[i].id)) { target = i; break; }
+      }
+      if (target === -1) {
+        for (let i = 0; i < currentIndex; i++) {
+          if (!doneIds.has(questions[i].id)) { target = i; break; }
+        }
+      }
+      if (target !== -1) {
+        goToQuestion(target);
+      } else {
+        goNext();
+      }
+    }
+  }, [attemptId, questions, currentIndex, reviewedIds, answers, previousAnswers, goNext, goToQuestion, t]);
 
   // Scroll to top when navigating between questions
   useEffect(() => {
@@ -1271,19 +1295,6 @@ export function PracticeSession() {
           questionId={question.id}
         />
 
-        {/* Confirm button: mobile only (desktop merged into nav row below) */}
-        {selectedKey && !currentAnswer && (
-          <div className="flex justify-center lg:hidden">
-            <Button
-              onClick={handleConfirm}
-              disabled={submitting}
-              className="min-w-[160px]"
-            >
-              {submitting ? t("common.actions.submitting") : t("practice.session.confirmAnswer")}
-            </Button>
-          </div>
-        )}
-
         {savedIndicator && (
           <p className="text-xs text-green-600 dark:text-green-400 animate-in fade-in slide-in-from-bottom-2 duration-300">{t("practice.session.answerCorrect")}</p>
         )}
@@ -1538,7 +1549,16 @@ export function PracticeSession() {
             {t("practice.session.prev")}
           </Button>
 
-          {openBook ? (
+          {selectedKey && !currentAnswer ? (
+            <Button
+              size="sm"
+              onClick={handleConfirm}
+              disabled={submitting}
+              className="min-w-[120px]"
+            >
+              {submitting ? t("common.actions.submitting") : t("practice.session.confirmAnswer")}
+            </Button>
+          ) : openBook ? (
             <Button
               variant={question && reviewedIds.has(question.id) ? "default" : "ghost"}
               size="sm"

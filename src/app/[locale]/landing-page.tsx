@@ -99,7 +99,7 @@ export function LandingPage() {
                 {t("landing.hero.badge")}
               </Badge>
               <h1 className="animate-fade-in-up-d1 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                <span className="bg-gradient-to-r from-blue-600 via-primary to-purple-600 bg-clip-text text-transparent animate-gradient-shift">
+                <span className="bg-gradient-to-r from-blue-600 via-primary to-purple-600 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
                   {t("landing.hero.titleHighlight")}
                 </span>
                 {t("landing.hero.titleSuffix")}

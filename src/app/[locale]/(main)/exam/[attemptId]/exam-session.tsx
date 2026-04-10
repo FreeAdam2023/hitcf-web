@@ -538,9 +538,9 @@ export function ExamSession() {
             vocabDisabled
           />
 
-          {/* Confirm button */}
+          {/* Confirm button — desktop only (mobile uses fixed bottom bar) */}
           {listeningPhase === "answering" && !answers.has(question.id) && (
-            <div className="flex justify-center">
+            <div className="hidden lg:flex justify-center">
               <Button
                 size="lg"
                 onClick={() => handleConfirm()}
@@ -550,6 +550,23 @@ export function ExamSession() {
                 <CheckCircle2 className="mr-2 h-5 w-5" />
                 {t("exam.session.confirmAnswer")}
               </Button>
+            </div>
+          )}
+
+          {/* Mobile fixed bottom bar with confirm */}
+          {listeningPhase === "answering" && !answers.has(question.id) && (
+            <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/50 bg-background/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)] lg:hidden">
+              <div className="flex items-center justify-center px-4 py-2">
+                <Button
+                  size="sm"
+                  onClick={() => handleConfirm()}
+                  disabled={!pendingSelection || submitting}
+                  className="min-w-[200px]"
+                >
+                  <CheckCircle2 className="mr-2 h-4 w-4" />
+                  {t("exam.session.confirmAnswer")}
+                </Button>
+              </div>
             </div>
           )}
         </div>
@@ -634,9 +651,10 @@ export function ExamSession() {
           vocabDisabled
         />
 
-        <Separator />
+        <Separator className="hidden lg:block" />
 
-        <div className="mt-4 flex items-center justify-between">
+        {/* Desktop nav row */}
+        <div className="mt-4 hidden lg:flex items-center justify-between">
           <Button
             variant="outline"
             size="sm"
@@ -672,6 +690,43 @@ export function ExamSession() {
           ) : (
             <div className="w-[85px]" />
           )}
+        </div>
+
+        {/* Mobile fixed bottom bar */}
+        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/50 bg-background/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)] lg:hidden">
+          <div className="flex items-center justify-between px-4 py-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={goPrev}
+              disabled={currentIndex === 0}
+            >
+              <ChevronLeft className="mr-1 h-4 w-4" />
+              {t("exam.session.prev")}
+            </Button>
+
+            {!answers.has(question.id) ? (
+              <Button
+                size="sm"
+                onClick={() => handleConfirm()}
+                disabled={!pendingSelection || submitting}
+                className="min-w-[120px]"
+              >
+                <CheckCircle2 className="mr-1 h-4 w-4" />
+                {t("exam.session.confirmAnswer")}
+              </Button>
+            ) : null}
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={goNext}
+              disabled={isLast}
+            >
+              {t("exam.session.next")}
+              <ChevronRight className="ml-1 h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
 
