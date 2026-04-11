@@ -776,7 +776,10 @@ export function TestList() {
           {tab === "listening" || tab === "reading" ? (
             <div className="space-y-4">
               <RecentPracticeList type={tab} />
-              <TestSetGroupsAccordion type={tab} />
+              <TestSetGroupsAccordion
+                type={tab}
+                autoOpen={attemptMap.size > 0}
+              />
             </div>
           ) : tab === "speaking" && speakingTache === 1 ? (
             <SpeakingTache1Guide />
