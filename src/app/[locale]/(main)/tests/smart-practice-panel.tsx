@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Sparkles, Loader2, Zap, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { startSmartPractice } from "@/lib/api/smart-practice";
+import { fetchLevelStats } from "@/lib/api/speed-drill";
 import { useAuthStore } from "@/stores/auth-store";
 import { LevelPracticeDialog } from "./level-practice-dialog";
 
@@ -20,6 +21,25 @@ export function SmartPracticePanel({ type }: Props) {
   const { isAuthenticated } = useAuthStore();
   const [starting, setStarting] = useState<number | null>(null);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
+  // Pool size (total primaries across all levels), shown in subtitle as a
+  // trust signal + efficiency story now that the browse accordion is hidden
+  // from new users. Falls back to the generic subtitle if the fetch fails.
+  const [poolTotal, setPoolTotal] = useState<number | null>(null);
+
+  useEffect(() => {
+    setPoolTotal(null);
+    fetchLevelStats(type)
+      .then((stats) => {
+        const total = Object.values(stats.levels).reduce(
+          (sum, lvl) => sum + (lvl?.total ?? 0),
+          0,
+        );
+        if (total > 0) setPoolTotal(total);
+      })
+      .catch(() => {
+        // Silent — subtitle falls back to the generic variant
+      });
+  }, [type]);
 
   const handleStart = async (size: number) => {
     if (!isAuthenticated) {
@@ -53,7 +73,11 @@ export function SmartPracticePanel({ type }: Props) {
           </div>
           <div>
             <h3 className="text-base font-bold">{t("smartPractice.title")}</h3>
-            <p className="text-xs text-muted-foreground">{t("smartPractice.subtitle")}</p>
+            <p className="text-xs text-muted-foreground">
+              {poolTotal
+                ? t("smartPractice.subtitleWithCount", { count: poolTotal })
+                : t("smartPractice.subtitle")}
+            </p>
           </div>
         </div>
 

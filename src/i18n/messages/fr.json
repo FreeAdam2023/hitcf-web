@@ -1331,6 +1331,7 @@
   "smartPractice": {
     "title": "Pratique intelligente",
     "subtitle": "Assemblée selon la distribution TCF réelle · Ignore les questions déjà faites",
+    "subtitleWithCount": "{count} questions TCF sélectionnées · distribution réelle · ignore les faites",
     "quick": "Rapide 10",
     "full": "Complet 39",
     "quickLink": "Commencer par 10 ?",
