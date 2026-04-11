@@ -1307,6 +1307,13 @@
       ]
     }
   },
+  "smartPractice": {
+    "title": "Smart Practice",
+    "subtitle": "Auto-assembled by real TCF distribution · Skips done questions",
+    "quick": "Quick 10",
+    "full": "Full 39",
+    "totalProgress": "Pool coverage"
+  },
   "history": {
     "title": "Practice History",
     "subtitle": "View all practice and exam results",

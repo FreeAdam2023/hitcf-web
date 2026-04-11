@@ -1307,6 +1307,13 @@
       ]
     }
   },
+  "smartPractice": {
+    "title": "Pratique intelligente",
+    "subtitle": "Assemblée selon la distribution TCF réelle · Ignore les questions déjà faites",
+    "quick": "Rapide 10",
+    "full": "Complet 39",
+    "totalProgress": "Couverture du pool"
+  },
   "history": {
     "title": "Historique de pratique",
     "subtitle": "Consultez tous les résultats de pratique et d'examen",

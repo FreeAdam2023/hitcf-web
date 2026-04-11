@@ -34,6 +34,7 @@ import { RecommendedBanner } from "@/components/shared/recommended-banner";
 import { useAuthStore } from "@/stores/auth-store";
 
 import { LevelPracticeDialog } from "./level-practice-dialog";
+import { SmartPracticePanel } from "./smart-practice-panel";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
 
@@ -818,6 +819,11 @@ export function TestList() {
             onOpenChange={setLevelDialogOpen}
             type={tab as "listening" | "reading"}
           />
+
+          {/* Smart practice panel — featured at the top for listening/reading */}
+          {(tab === "listening" || tab === "reading") && (
+            <SmartPracticePanel type={tab} />
+          )}
 
           {tab && !hasContinueBanner && <RecommendedBanner type={tab} />}
 
