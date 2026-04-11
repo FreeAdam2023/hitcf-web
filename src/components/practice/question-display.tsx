@@ -11,7 +11,6 @@ import { getTcfPoints } from "@/lib/tcf-levels";
 import { FrenchText, type WordSaveContext } from "./french-text";
 import { SentenceAnalysisInline } from "./sentence-analysis-inline";
 import { PassageContent } from "./passage-content";
-import { localizeTestName } from "@/lib/test-name";
 
 const LISTENING_INSTRUCTIONS: Record<string, { fr: string; en: string; zhKey: string }> = {
   image: {
@@ -126,15 +125,6 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
           <span className="rounded bg-muted px-1.5 py-0.5 font-medium tabular-nums">
             {t("common.points", { points: getTcfPoints(question.original_question_number ?? question.question_number) })}
           </span>
-          {question.test_set_name && (
-            <>
-              <span className="text-border">|</span>
-              <span>
-                {localizeTestName(t, isListening ? "listening" : "reading", question.test_set_name!)}
-                {question.original_question_number != null && ` · Q${question.original_question_number}`}
-              </span>
-            </>
-          )}
         </div>
 
       </div>
