@@ -670,7 +670,8 @@
     "questionDisplay": {
       "imageListening": "听四个选项，选择与图片相符的。",
       "imageListeningShort": "听录音和四个选项，选择正确答案。",
-      "tabChinese": "中文"
+      "tabChinese": "中文",
+      "idLabel": "题目 ID:"
     },
     "navigator": {
       "title": "题号导航",

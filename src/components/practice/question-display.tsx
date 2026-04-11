@@ -120,7 +120,7 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
           </h2>
           {actions}
         </div>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
           <span>{isListening ? t("common.types.listening") : t("common.types.reading")}</span>
           {question.level && <LevelBadge level={question.level} size="sm" />}
           <span className="rounded bg-muted px-1.5 py-0.5 font-medium tabular-nums">
@@ -135,6 +135,14 @@ export function QuestionDisplay({ question, index, total, audioMaxPlays, onAudio
               </span>
             </>
           )}
+        </div>
+
+        {/* Question ID — plain read-only label. Feedback dialog attaches
+            the id automatically; this is just so users can see and reference
+            it in any external channel (screenshot, email, etc.). */}
+        <div className="mt-1 text-[11px] text-muted-foreground/70">
+          {t("practice.questionDisplay.idLabel")}{" "}
+          <code className="font-mono">{question.id}</code>
         </div>
       </div>
       )}
