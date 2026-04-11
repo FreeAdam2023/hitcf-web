@@ -1327,7 +1327,7 @@
   },
   "smartPractice": {
     "title": "Smart Practice",
-    "subtitle": "Auto-assembled by real TCF distribution · Skips done questions",
+    "subtitle": "Real TCF distribution · No duplicates · Skips done questions",
     "quick": "Quick 10",
     "full": "Full 39",
     "totalProgress": "Pool coverage"

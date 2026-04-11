@@ -1327,7 +1327,7 @@
   },
   "smartPractice": {
     "title": "智能组题",
-    "subtitle": "按 TCF 真实分布自动组卷 · 自动跳过已做题",
+    "subtitle": "按 TCF 真实分布 · 无重复 · 自动跳过已做题",
     "quick": "快速 10 题",
     "full": "完整 39 题",
     "totalProgress": "题库覆盖率"
