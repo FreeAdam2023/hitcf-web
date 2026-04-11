@@ -10,6 +10,7 @@
       "practice": "练习",
       "exam": "考试",
       "speed_drill": "等级练习",
+      "smart": "智能组题",
       "conversation": "AI 对话"
     },
     "actions": {
@@ -27,7 +28,8 @@
       "creating": "正在创建...",
       "starting": "正在开始...",
       "copied": "已复制",
-      "copyPrompt": "复制 Prompt"
+      "copyPrompt": "复制 Prompt",
+      "share": "分享"
     },
     "status": {
       "free": "免费",
@@ -920,6 +922,11 @@
     "breadcrumbTests": "题库",
     "breadcrumbReport": "成绩报告",
     "defaultTitle": "成绩报告",
+    "passage": "阅读材料",
+    "transcript": "听力原文",
+    "answer": "正确答案",
+    "showAnswer": "查看答案",
+    "hideAnswer": "隐藏答案",
     "upgradeBanner": {
       "title": "想更快提分？",
       "description": "Pro 会员解锁全部题库、考试模式、错题本和速练，系统化备考",

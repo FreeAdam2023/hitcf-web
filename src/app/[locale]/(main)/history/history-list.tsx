@@ -651,6 +651,7 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
   const isSpeaking = item._source === "speaking";
   const isConversation = item._source === "conversation";
   const isSpeedDrill = item.mode === "speed_drill";
+  const isSmart = item.mode === "smart";
 
   // Check if an in-progress exam has expired
   const isExpired = item.mode === "exam" && item.status === "in_progress" && !!item.time_limit_minutes && (() => {
@@ -684,7 +685,7 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
           : null);
 
   const tcf =
-    !isSpeaking && !isSpeedDrill && isCompleted && item.score != null
+    !isSpeaking && !isSpeedDrill && !isSmart && isCompleted && item.score != null
       ? estimateTcfLevelFromRatio(item.score, item.total)
       : null;
 
@@ -719,8 +720,8 @@ function HistoryCard({ item, onDelete }: { item: HistoryItem; onDelete: (item: H
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span className="truncate text-sm lg:text-base font-medium">
-            {item.mode === "speed_drill"
-              ? t(`common.modes.speed_drill`)
+            {item.mode === "speed_drill" || item.mode === "smart"
+              ? t(`common.modes.${item.mode}`)
               : item.test_set_name
                 ? localizeTestName(t, item.test_set_type, item.test_set_name)
                 : "-"}

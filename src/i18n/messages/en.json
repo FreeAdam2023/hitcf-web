@@ -10,6 +10,7 @@
       "practice": "Practice",
       "exam": "Exam",
       "speed_drill": "Level Practice",
+      "smart": "Smart Practice",
       "conversation": "AI Conversation"
     },
     "actions": {
@@ -27,7 +28,8 @@
       "creating": "Creating...",
       "starting": "Starting...",
       "copied": "Copied",
-      "copyPrompt": "Copy Prompt"
+      "copyPrompt": "Copy Prompt",
+      "share": "Share"
     },
     "status": {
       "free": "Free",
@@ -920,6 +922,11 @@
     "breadcrumbTests": "Tests",
     "breadcrumbReport": "Score Report",
     "defaultTitle": "Score Report",
+    "passage": "Passage",
+    "transcript": "Transcript",
+    "answer": "Answer",
+    "showAnswer": "Show answer",
+    "hideAnswer": "Hide answer",
     "upgradeBanner": {
       "title": "Want to improve faster?",
       "description": "Pro members unlock all tests, exam mode, wrong answer notebook, and speed drill",

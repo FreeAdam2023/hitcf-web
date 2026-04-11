@@ -10,6 +10,7 @@
       "practice": "تدريب",
       "exam": "اختبار",
       "speed_drill": "تمرين حسب المستوى",
+      "smart": "تدريب ذكي",
       "conversation": "محادثة ذكية"
     },
     "actions": {
@@ -27,7 +28,8 @@
       "creating": "جارٍ الإنشاء...",
       "starting": "جارٍ البدء...",
       "copied": "تم النسخ!",
-      "copyPrompt": "نسخ النص"
+      "copyPrompt": "نسخ النص",
+      "share": "مشاركة"
     },
     "status": {
       "free": "مجاني",
@@ -917,6 +919,11 @@
     "breadcrumbTests": "الاختبارات",
     "breadcrumbReport": "تقرير النتيجة",
     "defaultTitle": "تقرير النتيجة",
+    "passage": "النص",
+    "transcript": "النص الصوتي",
+    "answer": "الإجابة الصحيحة",
+    "showAnswer": "عرض الإجابة",
+    "hideAnswer": "إخفاء الإجابة",
     "upgradeBanner": {
       "title": "هل تريد التحسّن بشكل أسرع؟",
       "description": "يتيح اشتراك Pro جميع الاختبارات ووضع الاختبار ودفتر الإجابات الخاطئة والتدريب السريع",

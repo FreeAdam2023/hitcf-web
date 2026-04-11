@@ -10,6 +10,7 @@
       "practice": "Entraînement",
       "exam": "Examen",
       "speed_drill": "Exercice par niveau",
+      "smart": "Pratique intelligente",
       "conversation": "Conversation IA"
     },
     "actions": {
@@ -27,7 +28,8 @@
       "creating": "Création en cours...",
       "starting": "Démarrage...",
       "copied": "Copié",
-      "copyPrompt": "Copier la consigne"
+      "copyPrompt": "Copier la consigne",
+      "share": "Partager"
     },
     "status": {
       "free": "Gratuit",
@@ -920,6 +922,11 @@
     "breadcrumbTests": "Tests",
     "breadcrumbReport": "Rapport de score",
     "defaultTitle": "Rapport de score",
+    "passage": "Texte",
+    "transcript": "Transcription",
+    "answer": "Réponse",
+    "showAnswer": "Afficher la réponse",
+    "hideAnswer": "Masquer la réponse",
     "upgradeBanner": {
       "title": "Vous voulez progresser plus vite ?",
       "description": "Les membres Pro débloquent tous les tests, le mode examen, le carnet d'erreurs et l'entraînement rapide",

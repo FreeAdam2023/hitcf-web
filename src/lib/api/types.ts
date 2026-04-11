@@ -307,7 +307,7 @@ export interface ActiveAttemptResponse {
 
 export interface CreateAttemptRequest {
   test_set_id: string;
-  mode: "practice" | "exam" | "speed_drill";
+  mode: "practice" | "exam" | "speed_drill" | "smart";
 }
 
 export interface SubmitAnswerRequest {
@@ -459,7 +459,7 @@ export interface AttemptReview {
   test_set_name: string | null;
   test_set_type: string | null;
   is_mock_exam?: boolean;
-  mode: "practice" | "exam" | "speed_drill";
+  mode: "practice" | "exam" | "speed_drill" | "smart";
   score: number | null;
   total: number;
   answered_count: number;
