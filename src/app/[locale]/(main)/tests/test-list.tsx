@@ -782,10 +782,10 @@ export function TestList() {
         window.history.replaceState({}, "", url.pathname + url.search);
       }}>
         <TabsList className="mb-1">
-          <TabsTrigger value="listening">{t("common.types.listening")} · {STATS_PARAMS.listeningSets}</TabsTrigger>
-          <TabsTrigger value="reading">{t("common.types.reading")} · {STATS_PARAMS.readingSets}</TabsTrigger>
-          <TabsTrigger value="speaking">{t("common.types.speaking")} · {STATS_PARAMS.speakingSets}</TabsTrigger>
-          <TabsTrigger value="writing">{t("common.types.writing")} · {STATS_PARAMS.writingSets}</TabsTrigger>
+          <TabsTrigger value="listening">{t("common.types.listening")}</TabsTrigger>
+          <TabsTrigger value="reading">{t("common.types.reading")}</TabsTrigger>
+          <TabsTrigger value="speaking">{t("common.types.speaking")}</TabsTrigger>
+          <TabsTrigger value="writing">{t("common.types.writing")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value={tab ?? "listening"} className="mt-4">
