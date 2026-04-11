@@ -171,7 +171,10 @@ function MonthHeader({ label, countLabel, collapsible, open, onToggle, locked, i
 }
 
 // ═══════════════════════════════════════════════════════════════
-const VALID_TABS: TabType[] = ["listening", "reading", "speaking", "writing"];
+// Display order: reading first (lowest-friction entry + best data quality
+// right now), then listening, then the productive skills. Not the TCF
+// exam-day order — users don't study in exam-day order, they start easy.
+const VALID_TABS: TabType[] = ["reading", "listening", "writing", "speaking"];
 
 function buildAttemptMap(attempts: AttemptResponse[]): Map<string, TestAttemptInfo> {
   const map = new Map<string, TestAttemptInfo>();
@@ -234,7 +237,7 @@ export function TestList() {
     if (stored && VALID_TABS.includes(stored as TabType)) {
       setTab(stored as TabType);
     } else {
-      setTab("listening");
+      setTab("reading");
     }
   }, []);
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
@@ -685,7 +688,7 @@ export function TestList() {
 
       <ContinueBanner />
       {!tab ? <div className="flex justify-center py-8"><span className="text-sm text-muted-foreground">Loading...</span></div> : null}
-      <Tabs value={tab ?? "listening"} onValueChange={(v) => {
+      <Tabs value={tab ?? "reading"} onValueChange={(v) => {
         const t = v as TabType;
         setTab(t);
         setExpandedMonths(new Set());
@@ -694,13 +697,13 @@ export function TestList() {
         window.history.replaceState({}, "", url.pathname + url.search);
       }}>
         <TabsList className="mb-1">
-          <TabsTrigger value="listening">{t("common.types.listening")}</TabsTrigger>
           <TabsTrigger value="reading">{t("common.types.reading")}</TabsTrigger>
-          <TabsTrigger value="speaking">{t("common.types.speaking")}</TabsTrigger>
+          <TabsTrigger value="listening">{t("common.types.listening")}</TabsTrigger>
           <TabsTrigger value="writing">{t("common.types.writing")}</TabsTrigger>
+          <TabsTrigger value="speaking">{t("common.types.speaking")}</TabsTrigger>
         </TabsList>
 
-        <TabsContent value={tab ?? "listening"} className="mt-4">
+        <TabsContent value={tab ?? "reading"} className="mt-4">
           {/* Smart practice panel — featured at the top for listening/reading */}
           {(tab === "listening" || tab === "reading") && (
             <SmartPracticePanel type={tab} />
