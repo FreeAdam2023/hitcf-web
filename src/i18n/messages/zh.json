@@ -280,7 +280,7 @@
     "view": "查看",
     "resume": "继续",
     "noHistory": "暂无练习记录，从上方智能组题开始吧",
-    "firstTimeNudge": "这是你的第一次？建议从快速 10 题开始，点击上方按钮即可。",
+    "firstTimeNudge": "这是你的第一次？点击上方「完整 39 题」，按 TCF 真实分布做一套，最接近真实考试。",
     "browseTestSets": "题库浏览",
     "browseHint": "推荐使用上方的智能组题，自动跳过已做题，效率最高",
     "classicSets": "经典套题",
@@ -1334,7 +1334,7 @@
     "subtitle": "按 TCF 真实分布自动组卷 · 自动跳过已做题",
     "quick": "快速 10 题",
     "full": "完整 39 题",
-    "fullLink": "想做完整测试？",
+    "quickLink": "先来 10 题？",
     "byLevel": "按等级筛选",
     "totalProgress": "题库覆盖率"
   },

@@ -280,7 +280,7 @@
     "view": "Voir",
     "resume": "Reprendre",
     "noHistory": "Aucune pratique pour l'instant — commencez par la pratique intelligente ci-dessus",
-    "firstTimeNudge": "C'est votre première fois ? Essayez Rapide 10 ci-dessus — la façon la plus simple de commencer.",
+    "firstTimeNudge": "C'est votre première fois ? Cliquez sur « Complet 39 » ci-dessus — une série complète selon la distribution TCF réelle, au plus près de l'examen.",
     "browseTestSets": "Parcourir les séries",
     "browseHint": "La pratique intelligente ci-dessus ignore automatiquement les questions déjà faites — c'est le moyen le plus efficace",
     "classicSets": "Séries classiques",
@@ -1334,7 +1334,7 @@
     "subtitle": "Assemblée selon la distribution TCF réelle · Ignore les questions déjà faites",
     "quick": "Rapide 10",
     "full": "Complet 39",
-    "fullLink": "Envie d'un test complet ?",
+    "quickLink": "Commencer par 10 ?",
     "byLevel": "Filtrer par niveau",
     "totalProgress": "Couverture du pool"
   },

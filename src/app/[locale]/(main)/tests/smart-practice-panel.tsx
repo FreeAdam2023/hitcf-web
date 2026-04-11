@@ -88,27 +88,29 @@ export function SmartPracticePanel({ type }: Props) {
 
         <div className="flex flex-col items-end gap-1.5 ml-auto">
           <Button
-            onClick={() => handleStart(10)}
+            onClick={() => handleStart(39)}
             disabled={starting !== null}
             className="bg-violet-600 hover:bg-violet-700 shadow-md shadow-violet-500/20 h-10 px-5 text-sm font-semibold"
           >
-            {starting === 10 ? (
+            {starting === 39 ? (
               <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
             ) : (
-              <Zap className="mr-1.5 h-4 w-4" />
+              <Sparkles className="mr-1.5 h-4 w-4" />
             )}
-            {t("smartPractice.quick")}
+            {t("smartPractice.full")}
           </Button>
           <button
             type="button"
-            onClick={() => handleStart(39)}
+            onClick={() => handleStart(10)}
             disabled={starting !== null}
-            className="text-xs text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 underline-offset-2 hover:underline transition-colors disabled:opacity-50"
+            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 underline-offset-2 hover:underline transition-colors disabled:opacity-50"
           >
-            {starting === 39 ? (
-              <Loader2 className="inline h-3 w-3 animate-spin mr-1" />
-            ) : null}
-            {t("smartPractice.fullLink")}
+            {starting === 10 ? (
+              <Loader2 className="h-3 w-3 animate-spin" />
+            ) : (
+              <Zap className="h-3 w-3" />
+            )}
+            {t("smartPractice.quickLink")}
           </button>
         </div>
       </div>
