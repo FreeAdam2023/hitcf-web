@@ -36,7 +36,33 @@ export default function PracticePage() {
         return;
       }
 
-      if (attempt.lazy_load) {
+      if (attempt.mode === "smart") {
+        // Smart practice is always a fixed 39-question set assembled across
+        // multiple test sets. It's stored the same way a speed drill is
+        // (mock_question_ids + lazy_load flag), but we eagerly load all 39
+        // questions up-front so the navigator can render level groups —
+        // "Q1 is Q1" in the A1 bucket, not a flat random grid. 39 parallel
+        // requests complete in ~1s, which is perfectly fine for this size.
+        const nav = await fetchDrillNav(params.attemptId, 1);
+        if (signal?.aborted) return;
+        if (!nav.question_ids.length) throw new Error("No questions in smart practice");
+
+        const loaded = await Promise.all(
+          nav.question_ids.map((id) => loadDrillQuestion(id, params.attemptId)),
+        );
+        if (signal?.aborted) return;
+
+        init(
+          params.attemptId,
+          loaded,
+          attempt.test_set_name,
+          attempt.test_set_type,
+          attempt.started_at,
+          attempt.answers,
+          attempt.previously_answered,
+          attempt.current_index,
+        );
+      } else if (attempt.lazy_load) {
         // Determine which nav page to fetch (resume may be on a later page)
         let startPage = 1;
         try {
