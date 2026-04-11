@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Sparkles, Loader2, Zap } from "lucide-react";
+import { Sparkles, Loader2, Zap, ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import {
@@ -33,6 +33,7 @@ export function SmartPracticePanel({ type }: Props) {
   const [coverage, setCoverage] = useState<SmartPracticeCoverage | null>(null);
   const [loading, setLoading] = useState(false);
   const [starting, setStarting] = useState<number | null>(null);
+  const [showLevels, setShowLevels] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -107,41 +108,54 @@ export function SmartPracticePanel({ type }: Props) {
       {/* Coverage progress */}
       {isAuthenticated && coverage && coverage.pool_total > 0 && (
         <div className="mt-4 space-y-3">
-          {/* Overall progress bar */}
-          <div className="space-y-1.5">
+          {/* Overall progress bar — clickable to toggle per-level breakdown */}
+          <button
+            type="button"
+            onClick={() => setShowLevels((v) => !v)}
+            className="w-full text-left space-y-1.5 group"
+          >
             <div className="flex items-center justify-between text-xs">
-              <span className="font-medium text-muted-foreground">{t("smartPractice.totalProgress")}</span>
+              <span className="font-medium text-muted-foreground inline-flex items-center gap-1">
+                {showLevels ? (
+                  <ChevronDown className="h-3 w-3" />
+                ) : (
+                  <ChevronRight className="h-3 w-3" />
+                )}
+                {t("smartPractice.totalProgress")}
+              </span>
               <span className="font-mono">
                 {coverage.total_done} / {coverage.pool_total} ({coverage.pct}%)
               </span>
             </div>
-            <div className="h-2 overflow-hidden rounded-full bg-muted">
+            <div className="h-2 overflow-hidden rounded-full bg-muted group-hover:bg-muted/70 transition-colors">
               <div
                 className="h-full bg-gradient-to-r from-violet-500 to-blue-500 transition-all"
                 style={{ width: `${coverage.pct}%` }}
               />
             </div>
-          </div>
+          </button>
 
-          {/* Per-level breakdown */}
-          <div className="grid grid-cols-6 gap-1.5">
-            {coverage.levels.map((lvl) => (
-              <div key={lvl.level} className="space-y-1">
-                <div className="flex items-center justify-between text-[10px]">
-                  <span className="font-bold">{lvl.level}</span>
-                  <span className="text-muted-foreground">
-                    {lvl.done}/{lvl.total}
-                  </span>
+          {/* Per-level breakdown — collapsed by default */}
+          {showLevels && (
+            <div className="grid grid-cols-6 gap-1.5">
+              {coverage.levels.map((lvl) => (
+                <div key={lvl.level} className="space-y-1">
+                  <div className="flex items-center justify-between text-[10px]">
+                    <span className="font-bold">{lvl.level}</span>
+                    <span className="text-muted-foreground">
+                      {lvl.done}/{lvl.total}
+                    </span>
+                  </div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className={`h-full ${LEVEL_COLORS[lvl.level] || "bg-muted-foreground"} transition-all`}
+                      style={{ width: `${lvl.pct}%` }}
+                    />
+                  </div>
                 </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-muted">
-                  <div
-                    className={`h-full ${LEVEL_COLORS[lvl.level] || "bg-muted-foreground"} transition-all`}
-                    style={{ width: `${lvl.pct}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
