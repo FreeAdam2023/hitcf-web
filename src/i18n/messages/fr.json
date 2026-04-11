@@ -1316,8 +1316,7 @@
     "remainingCount": "{count} restantes",
     "totalCount": "{count} au total",
     "doneCount": "{count} faites",
-    "includeDone": "Inclure les questions déjà faites",
-    "dedupHint": "Questions uniques soigneusement sélectionnées",
+    "dedupHint": "Ignore automatiquement les doublons et les questions déjà faites",
     "upgradeBanner": {
       "title": "La pratique par niveau est réservée aux Pro",
       "description": "Pratique ciblée par niveau et type sur toute la banque de questions",

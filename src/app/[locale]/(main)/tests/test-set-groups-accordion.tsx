@@ -390,34 +390,17 @@ function GroupRow({
                   >
                     <div className="text-xs font-medium truncate">{ts.name}</div>
                     {progress && progress.total > 0 && (
-                      <div className="mt-1 flex items-center justify-between gap-2">
-                        <span
-                          className={`text-[10px] font-mono ${
-                            isHighDup
-                              ? "text-amber-700 dark:text-amber-400"
-                              : isMidDup
-                                ? "text-muted-foreground"
-                                : "text-muted-foreground/70"
-                          }`}
-                          title={t("tests.duplicateRatioTooltip", {
-                            dup,
-                            total,
-                          })}
-                        >
-                          {t("tests.duplicateRatio", { pct: dupPct })}
-                        </span>
-                        <div className="flex-1 h-1 overflow-hidden rounded-full bg-muted">
-                          <div
-                            className={`h-full transition-all ${
-                              isHighDup
-                                ? "bg-amber-500/70"
-                                : isMidDup
-                                  ? "bg-muted-foreground/50"
-                                  : "bg-emerald-500/50"
-                            }`}
-                            style={{ width: `${dupPct}%` }}
-                          />
-                        </div>
+                      <div
+                        className={`mt-1 text-[10px] font-mono ${
+                          isHighDup
+                            ? "text-amber-700 dark:text-amber-400"
+                            : isMidDup
+                              ? "text-muted-foreground"
+                              : "text-muted-foreground/70"
+                        }`}
+                        title={t("tests.duplicateRatioTooltip", { dup, total })}
+                      >
+                        {t("tests.duplicateRatio", { pct: dupPct })}
                       </div>
                     )}
                   </button>

@@ -1313,8 +1313,7 @@
     "remainingCount": "متبقي {count}",
     "totalCount": "إجمالي {count}",
     "doneCount": "مكتمل {count}",
-    "includeDone": "تضمين الأسئلة المكتملة",
-    "dedupHint": "أسئلة فريدة مختارة بعناية",
+    "dedupHint": "يتخطى التكرارات والأسئلة المُنجزة تلقائياً",
     "upgradeBanner": {
       "title": "التدريب حسب المستوى متاح فقط لمشتركي Pro",
       "description": "تدريب مستهدف حسب المستوى والنوع عبر بنك الأسئلة الكامل",

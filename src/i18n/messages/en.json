@@ -1316,8 +1316,7 @@
     "remainingCount": "{count} left",
     "totalCount": "{count} total",
     "doneCount": "{count} done",
-    "includeDone": "Include completed questions",
-    "dedupHint": "Curated unique questions only",
+    "dedupHint": "Auto-skips duplicates and questions you've done",
     "upgradeBanner": {
       "title": "Level Practice is Pro-only",
       "description": "Targeted practice by level and type across the full question bank",

@@ -40,7 +40,6 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
 
   const [selectedLevels, setSelectedLevels] = useState<Set<string>>(new Set(LEVELS));
   const [count, setCount] = useState(0);
-  const [includeDone, setIncludeDone] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState<LevelStats | null>(null);
@@ -88,7 +87,7 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
     setError(null);
     try {
       const levels = allSelected ? undefined : Array.from(selectedLevels);
-      const result = await startSpeedDrill({ type, levels, count, dedup: !includeDone, include_done: includeDone });
+      const result = await startSpeedDrill({ type, levels, count, dedup: true });
 
       if (!result.total) {
         setError(t("speedDrill.noMoreQuestions"));
@@ -158,27 +157,6 @@ export function LevelPracticeDialog({ open, onOpenChange, type }: LevelPracticeD
             <p className="mt-2 text-[11px] text-muted-foreground/60">
               {t("speedDrill.dedupHint")}
             </p>
-          </div>
-
-          {/* Include done toggle */}
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">{t("speedDrill.includeDone")}</span>
-            <button
-              role="switch"
-              aria-checked={includeDone}
-              onClick={() => setIncludeDone((v) => !v)}
-              className={cn(
-                "relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors",
-                includeDone ? "bg-primary" : "bg-muted-foreground/30",
-              )}
-            >
-              <span
-                className={cn(
-                  "pointer-events-none block h-4 w-4 rounded-full bg-background shadow-sm ring-0 transition-transform mt-0.5",
-                  includeDone ? "translate-x-[18px]" : "translate-x-0.5",
-                )}
-              />
-            </button>
           </div>
 
           {/* Count selection */}
