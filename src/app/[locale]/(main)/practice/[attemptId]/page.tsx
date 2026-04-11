@@ -52,10 +52,16 @@ export default function PracticePage() {
         );
         if (signal?.aborted) return;
 
+        // Header label: the attempt's stored test_set_name is just the
+        // first sampled question's source set (e.g. "阅读测试 14"), which
+        // is misleading for a cross-set smart attempt. Synthesize a
+        // real label instead: "智能组题 · 10 题".
+        const smartLabel = `${t("common.modes.smart")} · ${t("common.questions", { count: loaded.length })}`;
+
         init(
           params.attemptId,
           loaded,
-          attempt.test_set_name,
+          smartLabel,
           attempt.test_set_type,
           attempt.started_at,
           attempt.answers,
