@@ -1,10 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter, Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, BookOpen, Headphones, Loader2, ExternalLink } from "lucide-react";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { listTestSets, fetchTestSetsProgress } from "@/lib/api/test-sets";
+import { createAttempt } from "@/lib/api/attempts";
 import type { TestSetItem } from "@/lib/api/types";
 
 interface Props {
@@ -146,6 +156,10 @@ export function TestSetGroupsAccordion({ type, autoOpen = false }: Props) {
 
   const totalCount = counts.classic + counts.extended;
 
+  // Quick-start dialog: shared across both GroupRows. Clicking a test set
+  // card sets selectedTestSet; dialog renders practice/exam CTAs.
+  const [selectedTestSet, setSelectedTestSet] = useState<TestSetItem | null>(null);
+
   return (
     <div className="rounded-xl border border-border/40 bg-muted/20 overflow-hidden">
       {/* Outer level — secondary visual */}
@@ -174,6 +188,7 @@ export function TestSetGroupsAccordion({ type, autoOpen = false }: Props) {
             onToggle={() => toggleGroup("classic")}
             items={classicSets}
             progressMap={progressMap}
+            onCardClick={setSelectedTestSet}
           />
           <GroupRow
             label={t("tests.extendedSets")}
@@ -182,10 +197,144 @@ export function TestSetGroupsAccordion({ type, autoOpen = false }: Props) {
             onToggle={() => toggleGroup("extended")}
             items={extendedSets}
             progressMap={progressMap}
+            onCardClick={setSelectedTestSet}
           />
         </div>
       )}
+
+      <TestSetQuickStartDialog
+        test={selectedTestSet}
+        type={type}
+        onClose={() => setSelectedTestSet(null)}
+        progressMap={progressMap}
+      />
     </div>
+  );
+}
+
+function TestSetQuickStartDialog({
+  test,
+  type,
+  onClose,
+  progressMap,
+}: {
+  test: TestSetItem | null;
+  type: "listening" | "reading";
+  onClose: () => void;
+  progressMap: Record<string, { total: number; dup: number }>;
+}) {
+  const t = useTranslations();
+  const router = useRouter();
+  const [starting, setStarting] = useState<"practice" | "exam" | null>(null);
+
+  const Icon = type === "listening" ? Headphones : BookOpen;
+
+  const handleStart = async (mode: "practice" | "exam") => {
+    if (!test) return;
+    setStarting(mode);
+    try {
+      const res = await createAttempt({ test_set_id: test.id, mode });
+      router.push(`/${mode}/${res.id}`);
+    } catch {
+      toast.error(t("common.errors.generic"));
+      setStarting(null);
+    }
+  };
+
+  const progress = test ? progressMap[test.id] : undefined;
+  const total = progress?.total ?? test?.question_count ?? 0;
+  const dup = progress?.dup ?? 0;
+  const dupPct = total > 0 ? Math.round((dup / total) * 100) : 0;
+
+  return (
+    <Dialog open={!!test} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="sm:max-w-md">
+        {test && (
+          <>
+            <DialogHeader>
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <DialogTitle className="truncate">{test.name}</DialogTitle>
+                  <DialogDescription>
+                    {t("common.questionsWithMinutes", {
+                      count: test.question_count,
+                      minutes: test.time_limit_minutes,
+                    })}
+                  </DialogDescription>
+                </div>
+              </div>
+            </DialogHeader>
+
+            {/* Duplicate ratio — surfaced so user can bail out before starting */}
+            {progress && progress.total > 0 && (
+              <div className="rounded-lg bg-muted/50 px-3 py-2 flex items-center justify-between gap-3 text-xs">
+                <span className="text-muted-foreground">
+                  {t("tests.duplicateRatioTooltip", { dup, total })}
+                </span>
+                <span className="font-mono font-medium">{dupPct}%</span>
+              </div>
+            )}
+
+            {/* Compact mode explanations */}
+            <div className="rounded-lg bg-muted/30 px-3 py-2.5 text-xs leading-relaxed text-muted-foreground">
+              <ul className="list-disc pl-4 space-y-0.5">
+                <li>
+                  <strong className="text-foreground">
+                    {t("testCard.practiceMode")}
+                  </strong>
+                  {" — "}
+                  {t("testCard.practiceDesc")}
+                </li>
+                <li>
+                  <strong className="text-foreground">
+                    {t("testCard.examMode")}
+                  </strong>
+                  {" — "}
+                  {t("testCard.examDesc")}
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex gap-2">
+              <Button
+                className="flex-1"
+                onClick={() => handleStart("practice")}
+                disabled={starting !== null}
+              >
+                {starting === "practice" ? (
+                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
+                ) : null}
+                {t("testCard.startPractice")}
+              </Button>
+              <Button
+                className="flex-1"
+                variant="outline"
+                onClick={() => handleStart("exam")}
+                disabled={starting !== null}
+              >
+                {starting === "exam" ? (
+                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
+                ) : null}
+                {t("testCard.startExam")}
+              </Button>
+            </div>
+
+            {/* Escape hatch: full detail page (open-book toggle, etc.) */}
+            <Link
+              href={`/tests/${test.id}`}
+              className="inline-flex items-center justify-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+              onClick={onClose}
+            >
+              {t("tests.viewDetails")}
+              <ExternalLink className="h-3 w-3" />
+            </Link>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -196,6 +345,7 @@ function GroupRow({
   onToggle,
   items,
   progressMap,
+  onCardClick,
 }: {
   label: string;
   count: number;
@@ -203,8 +353,8 @@ function GroupRow({
   onToggle: () => void;
   items: TestSetItem[] | null;
   progressMap: Record<string, { total: number; dup: number }>;
+  onCardClick: (ts: TestSetItem) => void;
 }) {
-  const router = useRouter();
   const t = useTranslations();
   return (
     <div className="rounded-lg border border-border/50 bg-card overflow-hidden">
@@ -240,7 +390,7 @@ function GroupRow({
                 return (
                   <button
                     key={ts.id}
-                    onClick={() => router.push(`/tests/${ts.id}`)}
+                    onClick={() => onCardClick(ts)}
                     className={`rounded-lg border px-3 py-2 text-left transition-colors ${
                       isHighDup
                         ? "border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10"

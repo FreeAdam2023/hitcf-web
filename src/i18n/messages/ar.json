@@ -284,6 +284,7 @@
     "browseHint": "التدريب الذكي أعلاه يتخطى الأسئلة المنجزة تلقائياً — الطريقة الأكثر كفاءة",
     "classicSets": "الاختبارات الكلاسيكية",
     "extendedSets": "الاختبارات الموسّعة",
+    "viewDetails": "عرض التفاصيل الكاملة",
     "duplicateRatio": "التكرار {pct}%",
     "duplicateRatioTooltip": "{dup} من أصل {total} سؤال يظهر في اختبارات أخرى",
     "listeningTestName": "اختبار استماع {num}",

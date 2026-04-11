@@ -285,6 +285,7 @@
     "browseHint": "推荐使用上方的智能组题，自动跳过已做题，效率最高",
     "classicSets": "经典套题",
     "extendedSets": "拓展套题",
+    "viewDetails": "查看完整详情页",
     "duplicateRatio": "重复度 {pct}%",
     "duplicateRatioTooltip": "{dup}/{total} 道题与其他套题重复",
     "listeningTestName": "听力测试 {num}",
