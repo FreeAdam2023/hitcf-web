@@ -8,6 +8,18 @@ import type {
   WritingTopicItem,
 } from "./types";
 
+export function fetchTestSetsProgress(params: {
+  type: "listening" | "reading";
+  group?: "classic" | "extended";
+}): Promise<Record<string, { done: number; total: number }>> {
+  const sp = new URLSearchParams();
+  sp.set("type", params.type);
+  if (params.group) sp.set("group", params.group);
+  return get<Record<string, { done: number; total: number }>>(
+    `/api/test-sets/progress?${sp.toString()}`
+  );
+}
+
 export function listTestSets(params?: {
   type?: "listening" | "reading" | "speaking" | "writing";
   exam_type?: string;

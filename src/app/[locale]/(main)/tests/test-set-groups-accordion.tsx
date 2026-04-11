@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ChevronDown, ChevronRight, Sparkles } from "lucide-react";
-import { listTestSets } from "@/lib/api/test-sets";
+import { listTestSets, fetchTestSetsProgress } from "@/lib/api/test-sets";
 import type { TestSetItem } from "@/lib/api/types";
+import { useAuthStore } from "@/stores/auth-store";
 
 interface Props {
   type: "listening" | "reading";
@@ -15,10 +16,14 @@ type Group = "classic" | "extended";
 
 export function TestSetGroupsAccordion({ type }: Props) {
   const t = useTranslations();
+  const { isAuthenticated } = useAuthStore();
   const [outerOpen, setOuterOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<Group | null>(null);
   const [classicSets, setClassicSets] = useState<TestSetItem[] | null>(null);
   const [extendedSets, setExtendedSets] = useState<TestSetItem[] | null>(null);
+  const [progressMap, setProgressMap] = useState<
+    Record<string, { done: number; total: number }>
+  >({});
   const [counts, setCounts] = useState<{ classic: number; extended: number }>({
     classic: 0,
     extended: 0,
@@ -38,6 +43,15 @@ export function TestSetGroupsAccordion({ type }: Props) {
       })
       .catch(() => {});
   }, [type]);
+
+  // Fetch progress map on first expand (once per type, only when authenticated)
+  useEffect(() => {
+    if (!outerOpen || !isAuthenticated) return;
+    if (Object.keys(progressMap).length > 0) return;
+    fetchTestSetsProgress({ type })
+      .then(setProgressMap)
+      .catch(() => {});
+  }, [outerOpen, isAuthenticated, type, progressMap]);
 
   const loadGroup = (group: Group) => {
     if (group === "classic" && classicSets !== null) return;
@@ -94,6 +108,7 @@ export function TestSetGroupsAccordion({ type }: Props) {
             open={openGroup === "classic"}
             onToggle={() => toggleGroup("classic")}
             items={classicSets}
+            progressMap={progressMap}
           />
           <GroupRow
             label={t("tests.extendedSets")}
@@ -101,6 +116,7 @@ export function TestSetGroupsAccordion({ type }: Props) {
             open={openGroup === "extended"}
             onToggle={() => toggleGroup("extended")}
             items={extendedSets}
+            progressMap={progressMap}
           />
         </div>
       )}
@@ -114,12 +130,14 @@ function GroupRow({
   open,
   onToggle,
   items,
+  progressMap,
 }: {
   label: string;
   count: number;
   open: boolean;
   onToggle: () => void;
   items: TestSetItem[] | null;
+  progressMap: Record<string, { done: number; total: number }>;
 }) {
   const router = useRouter();
   return (
@@ -145,17 +163,48 @@ function GroupRow({
           ) : items.length === 0 ? (
             <div className="text-xs text-muted-foreground">—</div>
           ) : (
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
-              {items.map((ts) => (
-                <button
-                  key={ts.id}
-                  onClick={() => router.push(`/tests/${ts.id}`)}
-                  className="rounded-lg border border-border/50 bg-muted/20 px-2 py-2 text-xs text-center hover:bg-muted hover:border-border transition-colors truncate"
-                  title={ts.name}
-                >
-                  {ts.name}
-                </button>
-              ))}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+              {items.map((ts) => {
+                const progress = progressMap[ts.id];
+                const done = progress?.done ?? 0;
+                const total = progress?.total ?? ts.question_count;
+                const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+                const isFullyDone = done >= total && total > 0;
+                const isMostlyDone = pct >= 50;
+                return (
+                  <button
+                    key={ts.id}
+                    onClick={() => router.push(`/tests/${ts.id}`)}
+                    className={`rounded-lg border px-3 py-2 text-left transition-colors ${
+                      isFullyDone
+                        ? "border-border/40 bg-muted/40 text-muted-foreground opacity-70"
+                        : isMostlyDone
+                          ? "border-border/50 bg-muted/20 hover:bg-muted"
+                          : "border-border/50 bg-card hover:bg-muted/40 hover:border-border"
+                    }`}
+                    title={ts.name}
+                  >
+                    <div className="text-xs font-medium truncate">{ts.name}</div>
+                    {progress && (
+                      <div className="mt-1 flex items-center justify-between gap-2">
+                        <span className="text-[10px] text-muted-foreground font-mono">
+                          {done}/{total}
+                        </span>
+                        {isFullyDone ? (
+                          <span className="text-[10px] text-muted-foreground">✓</span>
+                        ) : (
+                          <div className="flex-1 h-1 overflow-hidden rounded-full bg-muted">
+                            <div
+                              className="h-full bg-violet-500/60 transition-all"
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
