@@ -281,6 +281,7 @@
     "resume": "继续",
     "noHistory": "暂无练习记录，从上方智能组题开始吧",
     "browseTestSets": "题库浏览",
+    "browseHint": "推荐使用上方的智能组题，自动跳过已做题，效率最高",
     "classicSets": "经典套题",
     "extendedSets": "拓展套题",
     "listeningTestName": "听力测试 {num}",

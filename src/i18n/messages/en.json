@@ -281,6 +281,7 @@
     "resume": "Resume",
     "noHistory": "No practice yet — start with smart practice above",
     "browseTestSets": "Browse test sets",
+    "browseHint": "Smart practice above auto-skips questions you've already done — it's the most efficient way to practice",
     "classicSets": "Classic sets",
     "extendedSets": "Extended sets",
     "listeningTestName": "Listening Test {num}",

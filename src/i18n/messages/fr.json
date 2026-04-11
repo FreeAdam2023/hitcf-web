@@ -281,6 +281,7 @@
     "resume": "Reprendre",
     "noHistory": "Aucune pratique pour l'instant — commencez par la pratique intelligente ci-dessus",
     "browseTestSets": "Parcourir les séries",
+    "browseHint": "La pratique intelligente ci-dessus ignore automatiquement les questions déjà faites — c'est le moyen le plus efficace",
     "classicSets": "Séries classiques",
     "extendedSets": "Séries étendues",
     "listeningTestName": "Compréhension orale {num}",

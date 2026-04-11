@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, Sparkles } from "lucide-react";
 import { listTestSets } from "@/lib/api/test-sets";
 import type { TestSetItem } from "@/lib/api/types";
 
@@ -15,6 +15,7 @@ type Group = "classic" | "extended";
 
 export function TestSetGroupsAccordion({ type }: Props) {
   const t = useTranslations();
+  const [outerOpen, setOuterOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<Group | null>(null);
   const [classicSets, setClassicSets] = useState<TestSetItem[] | null>(null);
   const [extendedSets, setExtendedSets] = useState<TestSetItem[] | null>(null);
@@ -58,25 +59,51 @@ export function TestSetGroupsAccordion({ type }: Props) {
     }
   };
 
+  const totalCount = counts.classic + counts.extended;
+
   return (
-    <div className="space-y-2">
-      <h3 className="text-sm font-semibold text-muted-foreground">
-        {t("tests.browseTestSets")}
-      </h3>
-      <GroupRow
-        label={t("tests.classicSets")}
-        count={counts.classic}
-        open={openGroup === "classic"}
-        onToggle={() => toggleGroup("classic")}
-        items={classicSets}
-      />
-      <GroupRow
-        label={t("tests.extendedSets")}
-        count={counts.extended}
-        open={openGroup === "extended"}
-        onToggle={() => toggleGroup("extended")}
-        items={extendedSets}
-      />
+    <div className="rounded-xl border border-border/40 bg-muted/20 overflow-hidden">
+      {/* Outer level — secondary visual */}
+      <button
+        onClick={() => setOuterOpen((v) => !v)}
+        className="flex w-full items-center justify-between px-4 py-2.5 text-left hover:bg-muted/40 transition-colors"
+      >
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          {outerOpen ? (
+            <ChevronDown className="h-4 w-4" />
+          ) : (
+            <ChevronRight className="h-4 w-4" />
+          )}
+          <span>{t("tests.browseTestSets")}</span>
+          <span className="text-xs">({totalCount})</span>
+        </div>
+      </button>
+
+      {outerOpen && (
+        <div className="border-t border-border/40 bg-background/40 p-3 space-y-2">
+          {/* Recommendation hint */}
+          <div className="flex items-start gap-2 rounded-lg bg-violet-500/5 border border-violet-500/20 px-3 py-2 text-xs text-violet-700 dark:text-violet-300">
+            <Sparkles className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+            <span>{t("tests.browseHint")}</span>
+          </div>
+
+          {/* Inner accordion — classic + extended */}
+          <GroupRow
+            label={t("tests.classicSets")}
+            count={counts.classic}
+            open={openGroup === "classic"}
+            onToggle={() => toggleGroup("classic")}
+            items={classicSets}
+          />
+          <GroupRow
+            label={t("tests.extendedSets")}
+            count={counts.extended}
+            open={openGroup === "extended"}
+            onToggle={() => toggleGroup("extended")}
+            items={extendedSets}
+          />
+        </div>
+      )}
     </div>
   );
 }
@@ -96,10 +123,10 @@ function GroupRow({
 }) {
   const router = useRouter();
   return (
-    <div className="rounded-xl border border-border/50 bg-card overflow-hidden">
+    <div className="rounded-lg border border-border/50 bg-card overflow-hidden">
       <button
         onClick={onToggle}
-        className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-muted/40 transition-colors"
+        className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-muted/40 transition-colors"
       >
         <div className="flex items-center gap-2">
           {open ? (
@@ -107,7 +134,7 @@ function GroupRow({
           ) : (
             <ChevronRight className="h-4 w-4 text-muted-foreground" />
           )}
-          <span className="font-medium">{label}</span>
+          <span className="text-sm font-medium">{label}</span>
           <span className="text-xs text-muted-foreground">({count})</span>
         </div>
       </button>
