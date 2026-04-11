@@ -8,8 +8,14 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { startSmartPractice } from "@/lib/api/smart-practice";
 import { fetchLevelStats } from "@/lib/api/speed-drill";
+import { listTestSets } from "@/lib/api/test-sets";
 import { useAuthStore } from "@/stores/auth-store";
 import { LevelPracticeDialog } from "./level-practice-dialog";
+
+/** Round a number down to the nearest multiple of `unit`. Used to phrase
+ *  the pool size and set count as soft floors ("1500+", "90+") instead of
+ *  exact values that change with every import. */
+const roundDownTo = (n: number, unit: number) => Math.floor(n / unit) * unit;
 
 interface Props {
   type: "listening" | "reading";
@@ -21,13 +27,18 @@ export function SmartPracticePanel({ type }: Props) {
   const { isAuthenticated } = useAuthStore();
   const [starting, setStarting] = useState<number | null>(null);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
-  // Pool size (total primaries across all levels), shown in subtitle as a
-  // trust signal + efficiency story now that the browse accordion is hidden
-  // from new users. Falls back to the generic subtitle if the fetch fails.
+  // Trust-signal numbers in subtitle. Two distinct values:
+  //   poolTotal — deduped unique-question pool (the efficiency story)
+  //   setCount  — raw classic + extended test-set total (the scale story)
+  // Both are rounded down to soft floors (1500+, 90+) for the display string.
+  // Fall back to the generic subtitle if either fetch fails.
   const [poolTotal, setPoolTotal] = useState<number | null>(null);
+  const [setCount, setSetCount] = useState<number | null>(null);
 
   useEffect(() => {
     setPoolTotal(null);
+    setSetCount(null);
+
     fetchLevelStats(type)
       .then((stats) => {
         const total = Object.values(stats.levels).reduce(
@@ -36,9 +47,17 @@ export function SmartPracticePanel({ type }: Props) {
         );
         if (total > 0) setPoolTotal(total);
       })
-      .catch(() => {
-        // Silent — subtitle falls back to the generic variant
-      });
+      .catch(() => {});
+
+    Promise.all([
+      listTestSets({ type, group: "classic", page: 1, page_size: 1 }),
+      listTestSets({ type, group: "extended", page: 1, page_size: 1 }),
+    ])
+      .then(([c, e]) => {
+        const sets = (c.total || 0) + (e.total || 0);
+        if (sets > 0) setSetCount(sets);
+      })
+      .catch(() => {});
   }, [type]);
 
   const handleStart = async (size: number) => {
@@ -74,8 +93,11 @@ export function SmartPracticePanel({ type }: Props) {
           <div>
             <h3 className="text-base font-bold">{t("smartPractice.title")}</h3>
             <p className="text-xs text-muted-foreground">
-              {poolTotal
-                ? t("smartPractice.subtitleWithCount", { count: poolTotal })
+              {poolTotal && setCount
+                ? t("smartPractice.subtitleWithCount", {
+                    pool: roundDownTo(poolTotal, 100),
+                    sets: roundDownTo(setCount, 10),
+                  })
                 : t("smartPractice.subtitle")}
             </p>
           </div>

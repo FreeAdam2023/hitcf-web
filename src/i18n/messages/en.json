@@ -1331,7 +1331,7 @@
   "smartPractice": {
     "title": "Smart Practice",
     "subtitle": "Auto-assembled by real TCF distribution · Skips done questions",
-    "subtitleWithCount": "{count} curated TCF questions · real exam distribution · skips done",
+    "subtitleWithCount": "{pool}+ curated TCF questions · equivalent to {sets}+ full sets",
     "quick": "Quick 10",
     "full": "Full 39",
     "quickLink": "Warm up with 10?",

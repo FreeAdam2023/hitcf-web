@@ -1331,7 +1331,7 @@
   "smartPractice": {
     "title": "智能组题",
     "subtitle": "按 TCF 真实分布自动组卷 · 自动跳过已做题",
-    "subtitleWithCount": "精选 {count} 道真题 · 按 TCF 分布 · 跳过已做",
+    "subtitleWithCount": "精选 {pool}+ 道真题 · 相当于 {sets}+ 套题",
     "quick": "快速 10 题",
     "full": "完整 39 题",
     "quickLink": "先来 10 题？",
