@@ -100,7 +100,18 @@ export function TestSetGroupsAccordion({
     extended: 0,
   });
 
-  // Fetch counts on mount (fast, one page each)
+  // When the tab switches (type change), blow away any cached data for the
+  // previous type so the next fetch sees fresh state. Otherwise a user who
+  // browsed reading's classic sets and then flips to listening would see the
+  // reading cards leak through (loadGroup early-returns when classicSets !== null).
+  useEffect(() => {
+    setClassicSets(null);
+    setExtendedSets(null);
+    setProgressMap({});
+    setCounts({ classic: 0, extended: 0 });
+  }, [type]);
+
+  // Fetch counts on mount / type change (fast, one page each)
   useEffect(() => {
     Promise.all([
       listTestSets({ type, group: "classic", page: 1, page_size: 1 }),

@@ -767,12 +767,17 @@ export function TestList() {
           {tab === "listening" || tab === "reading" ? (
             <div className="space-y-4">
               <RecentPracticeList type={tab} />
-              <TestSetGroupsAccordion
-                type={tab}
-                autoOpen={attemptMap.size > 0}
-                attemptMap={attemptMap}
-                answeredMap={answeredMap}
-              />
+              {/* Browse accordion is hidden from net-new users — they only see
+                  smart practice + level filter. After their first attempt, it
+                  auto-appears (autoOpen) as a positive discovery. */}
+              {attemptMap.size > 0 && (
+                <TestSetGroupsAccordion
+                  type={tab}
+                  autoOpen
+                  attemptMap={attemptMap}
+                  answeredMap={answeredMap}
+                />
+              )}
             </div>
           ) : tab === "speaking" && speakingTache === 1 ? (
             <SpeakingTache1Guide />
