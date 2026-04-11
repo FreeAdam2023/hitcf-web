@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import { ChevronDown, ChevronRight, Sparkles } from "lucide-react";
 import { listTestSets, fetchTestSetsProgress } from "@/lib/api/test-sets";
 import type { TestSetItem } from "@/lib/api/types";
-import { useAuthStore } from "@/stores/auth-store";
 
 interface Props {
   type: "listening" | "reading";
@@ -16,13 +15,12 @@ type Group = "classic" | "extended";
 
 export function TestSetGroupsAccordion({ type }: Props) {
   const t = useTranslations();
-  const { isAuthenticated } = useAuthStore();
   const [outerOpen, setOuterOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<Group | null>(null);
   const [classicSets, setClassicSets] = useState<TestSetItem[] | null>(null);
   const [extendedSets, setExtendedSets] = useState<TestSetItem[] | null>(null);
   const [progressMap, setProgressMap] = useState<
-    Record<string, { done: number; total: number }>
+    Record<string, { total: number; dup: number }>
   >({});
   const [counts, setCounts] = useState<{ classic: number; extended: number }>({
     classic: 0,
@@ -44,14 +42,14 @@ export function TestSetGroupsAccordion({ type }: Props) {
       .catch(() => {});
   }, [type]);
 
-  // Fetch progress map on first expand (once per type, only when authenticated)
+  // Fetch dup-ratio map on first expand (once per type)
   useEffect(() => {
-    if (!outerOpen || !isAuthenticated) return;
+    if (!outerOpen) return;
     if (Object.keys(progressMap).length > 0) return;
     fetchTestSetsProgress({ type })
       .then(setProgressMap)
       .catch(() => {});
-  }, [outerOpen, isAuthenticated, type, progressMap]);
+  }, [outerOpen, type, progressMap]);
 
   const loadGroup = (group: Group) => {
     if (group === "classic" && classicSets !== null) return;
@@ -137,9 +135,10 @@ function GroupRow({
   open: boolean;
   onToggle: () => void;
   items: TestSetItem[] | null;
-  progressMap: Record<string, { done: number; total: number }>;
+  progressMap: Record<string, { total: number; dup: number }>;
 }) {
   const router = useRouter();
+  const t = useTranslations();
   return (
     <div className="rounded-lg border border-border/50 bg-card overflow-hidden">
       <button
@@ -166,40 +165,52 @@ function GroupRow({
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
               {items.map((ts) => {
                 const progress = progressMap[ts.id];
-                const done = progress?.done ?? 0;
                 const total = progress?.total ?? ts.question_count;
-                const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-                const isFullyDone = done >= total && total > 0;
-                const isMostlyDone = pct >= 50;
+                const dup = progress?.dup ?? 0;
+                const dupPct = total > 0 ? Math.round((dup / total) * 100) : 0;
+                const isHighDup = dupPct >= 70;
+                const isMidDup = dupPct >= 30 && dupPct < 70;
                 return (
                   <button
                     key={ts.id}
                     onClick={() => router.push(`/tests/${ts.id}`)}
                     className={`rounded-lg border px-3 py-2 text-left transition-colors ${
-                      isFullyDone
-                        ? "border-border/40 bg-muted/40 text-muted-foreground opacity-70"
-                        : isMostlyDone
-                          ? "border-border/50 bg-muted/20 hover:bg-muted"
-                          : "border-border/50 bg-card hover:bg-muted/40 hover:border-border"
+                      isHighDup
+                        ? "border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10"
+                        : "border-border/50 bg-card hover:bg-muted/40 hover:border-border"
                     }`}
                     title={ts.name}
                   >
                     <div className="text-xs font-medium truncate">{ts.name}</div>
-                    {progress && (
+                    {progress && progress.total > 0 && (
                       <div className="mt-1 flex items-center justify-between gap-2">
-                        <span className="text-[10px] text-muted-foreground font-mono">
-                          {done}/{total}
+                        <span
+                          className={`text-[10px] font-mono ${
+                            isHighDup
+                              ? "text-amber-700 dark:text-amber-400"
+                              : isMidDup
+                                ? "text-muted-foreground"
+                                : "text-muted-foreground/70"
+                          }`}
+                          title={t("tests.duplicateRatioTooltip", {
+                            dup,
+                            total,
+                          })}
+                        >
+                          {t("tests.duplicateRatio", { pct: dupPct })}
                         </span>
-                        {isFullyDone ? (
-                          <span className="text-[10px] text-muted-foreground">✓</span>
-                        ) : (
-                          <div className="flex-1 h-1 overflow-hidden rounded-full bg-muted">
-                            <div
-                              className="h-full bg-violet-500/60 transition-all"
-                              style={{ width: `${pct}%` }}
-                            />
-                          </div>
-                        )}
+                        <div className="flex-1 h-1 overflow-hidden rounded-full bg-muted">
+                          <div
+                            className={`h-full transition-all ${
+                              isHighDup
+                                ? "bg-amber-500/70"
+                                : isMidDup
+                                  ? "bg-muted-foreground/50"
+                                  : "bg-emerald-500/50"
+                            }`}
+                            style={{ width: `${dupPct}%` }}
+                          />
+                        </div>
                       </div>
                     )}
                   </button>

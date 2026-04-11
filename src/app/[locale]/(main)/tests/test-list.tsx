@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { ChevronDown, ChevronUp, Shuffle, Loader2, Layers, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine } from "lucide-react";
+import { ChevronDown, ChevronUp, Shuffle, Loader2, Headphones, BookOpen, Lock, Sparkles, Mic, PenLine } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -20,12 +20,10 @@ import { listTestSets, listWritingTopics } from "@/lib/api/test-sets";
 import { listAttempts, createMockExam, checkMockFreeTrialEligible, getAnsweredPerTestset } from "@/lib/api/attempts";
 import { fetchAllPages } from "@/lib/api/fetch-all-pages";
 import { getLatestMonth, isLatestMonth } from "@/lib/utils";
-import { STATS_PARAMS } from "@/lib/constants";
 import type { TestSetItem, WritingTopicItem, AttemptResponse } from "@/lib/api/types";
 import type { TestAttemptInfo } from "./test-card";
 import { SkeletonGrid } from "@/components/shared/skeleton-card";
 import { EmptyState } from "@/components/shared/empty-state";
-import { TestCard } from "./test-card";
 import { SpeakingTopicCard } from "./speaking-topic-card";
 import { WritingLevelCard } from "./writing-level-card";
 import { SpeakingTache1Guide } from "./speaking-tache1-guide";
@@ -244,7 +242,6 @@ export function TestList() {
       setTab("listening");
     }
   }, []);
-  const [expanded, setExpanded] = useState(false);
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
   const [attemptMap, setAttemptMap] = useState<Map<string, TestAttemptInfo>>(new Map());
   const [answeredMap, setAnsweredMap] = useState<Record<string, number>>({});
@@ -365,28 +362,6 @@ export function TestList() {
     return extractYears(tests);
   }, [tab, writingTache, tests, writingTopics]);
 
-  // Build merged attempt info: combine attemptMap (practice/exam) with answeredMap (all modes incl. speed drill)
-  const getMergedAttemptInfo = useCallback(
-    (test: TestSetItem): TestAttemptInfo | undefined => {
-      const info = attemptMap.get(test.id);
-      const answered = answeredMap[test.id];
-      if (!info && !answered) return undefined;
-      if (info) {
-        // Supplement with drill answered count if higher
-        return { ...info, drillAnswered: answered };
-      }
-      // No formal attempt but has answered questions (from speed drill)
-      return {
-        bestScore: null,
-        bestTotal: test.question_count,
-        hasInProgress: false,
-        attemptCount: 0,
-        drillAnswered: answered,
-      };
-    },
-    [attemptMap, answeredMap],
-  );
-
   // ─── Status helpers for listening/reading ────────────────
   const getTestStatus = useCallback(
     (testId: string): "completed" | "inProgress" | "notStarted" => {
@@ -403,27 +378,6 @@ export function TestList() {
     },
     [attemptMap, answeredMap],
   );
-
-  // ─── Status counts for filter chips ─────────────────────
-  const statusCounts = useMemo(() => {
-    if (tab !== "listening" && tab !== "reading") return null;
-    const searchLower = search.toLowerCase();
-    const searchFiltered = tests.filter((t) => {
-      if (search && !t.name.toLowerCase().includes(searchLower) && !t.code.toLowerCase().includes(searchLower)) {
-        return false;
-      }
-      return true;
-    });
-    let all = 0, inProgress = 0, completed = 0, notStarted = 0;
-    for (const t of searchFiltered) {
-      all++;
-      const s = getTestStatus(t.id);
-      if (s === "completed") completed++;
-      else if (s === "inProgress") inProgress++;
-      else notStarted++;
-    }
-    return { all, inProgress, completed, notStarted };
-  }, [tests, search, tab, getTestStatus]);
 
   // ─── Filtered + sorted items (listening/reading + by-set) ─
   const filteredTests = useMemo(() => {
@@ -497,42 +451,6 @@ export function TestList() {
 
   // ─── Is speaking/writing tab? ─────────────────────────────
   const isSpeakingWriting = tab === "speaking" || tab === "writing";
-
-  // ─── Render: Listening / Reading (flat grid with upgrade banner) ────
-  const INITIAL_SHOW = 12;
-
-  const renderFlatGrid = () => {
-    if (loading) return <SkeletonGrid />;
-    if (filteredTests.length === 0) return <EmptyState title={t("tests.emptyTitle")} description={t("tests.emptyDescription")} />;
-
-    const isSearching = search.trim().length > 0;
-    const showAll = expanded || isSearching || statusFilter !== "all";
-
-    const visible = showAll ? filteredTests : filteredTests.slice(0, INITIAL_SHOW);
-    const hiddenCount = filteredTests.length - visible.length;
-
-    return (
-      <>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-card-grid">
-          {visible.map((t) => (
-            <TestCard key={t.id} test={t} attemptInfo={getMergedAttemptInfo(t)} />
-          ))}
-        </div>
-        {hiddenCount > 0 && (
-          <ShowMoreButton count={hiddenCount} onClick={() => setExpanded(true)} />
-        )}
-        {showAll && filteredTests.length > INITIAL_SHOW && (
-          <button
-            onClick={() => { setExpanded(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-            className="mx-auto mt-4 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ChevronUp className="h-4 w-4" />
-            {t("tests.showLess")}
-          </button>
-        )}
-      </>
-    );
-  };
 
   // ─── Collapsible month helper ─────────────────────────────
   const toggleMonth = useCallback((month: string) => {
@@ -775,7 +693,6 @@ export function TestList() {
       <Tabs value={tab ?? "listening"} onValueChange={(v) => {
         const t = v as TabType;
         setTab(t);
-        setExpanded(false);
         setExpandedMonths(new Set());
         const url = new URL(window.location.href);
         url.searchParams.set("tab", t);
@@ -884,15 +801,3 @@ export function TestList() {
   );
 }
 
-function ShowMoreButton({ count, onClick }: { count: number; onClick: () => void }) {
-  const t = useTranslations();
-  return (
-    <button
-      onClick={onClick}
-      className="mx-auto mt-6 flex items-center gap-2 rounded-full border border-border bg-background px-6 py-2.5 text-sm font-medium text-muted-foreground shadow-sm transition-all hover:border-primary/30 hover:text-foreground hover:shadow-md"
-    >
-      <ChevronDown className="h-4 w-4" />
-      {t("tests.showMore", { count })}
-    </button>
-  );
-}

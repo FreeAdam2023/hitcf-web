@@ -284,6 +284,8 @@
     "browseHint": "Smart practice above auto-skips questions you've already done — it's the most efficient way to practice",
     "classicSets": "Classic sets",
     "extendedSets": "Extended sets",
+    "duplicateRatio": "Overlap {pct}%",
+    "duplicateRatioTooltip": "{dup}/{total} questions appear in other test sets",
     "listeningTestName": "Listening Test {num}",
     "readingTestName": "Reading Test {num}",
     "speakingTestName": "Speaking Test {num}",
