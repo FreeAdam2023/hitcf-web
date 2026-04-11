@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/layout/navbar";
+import { MotivationStrip } from "@/components/layout/motivation-strip";
 import { DailyExpression } from "@/components/layout/daily-expression";
 import { ConditionalFooter } from "@/components/layout/conditional-footer";
 import { MainContainer } from "@/components/layout/main-container";
@@ -14,6 +15,7 @@ export default function MainLayout({
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
+      <MotivationStrip />
       <DailyExpression />
       <PageTracker />
       <MainContainer>{children}</MainContainer>

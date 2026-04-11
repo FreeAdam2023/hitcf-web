@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Volume2, Star, X, ChevronRight } from "lucide-react";
@@ -15,14 +15,26 @@ const HIDE_PATHS = [
   "/writing-exam",
   "/mock-exam",
   "/exam/",
+  "/practice/",
+  "/speaking-practice",
+  "/writing-practice",
+  "/speaking-conversation",
 ];
 
-const CACHE_KEY = "hitcf_daily_expression";
+const CACHE_KEY_PREFIX = "hitcf_daily_expression_";
 const DISMISS_KEY_PREFIX = "hitcf_daily_expression_dismissed_";
 
-function getDismissKey(): string {
+function getDayKey(): string {
   const d = new Date();
-  return `${DISMISS_KEY_PREFIX}${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+}
+
+function getCacheKey(): string {
+  return `${CACHE_KEY_PREFIX}${getDayKey()}`;
+}
+
+function getDismissKey(): string {
+  return `${DISMISS_KEY_PREFIX}${getDayKey()}`;
 }
 
 export function DailyExpression() {
@@ -34,8 +46,9 @@ export function DailyExpression() {
   const [dismissed, setDismissed] = useState(false);
   const [saved, setSaved] = useState(false);
   const [speaking, setSpeaking] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Hide during exams
+  // Hide during exams and practice modes
   const hidden = HIDE_PATHS.some((p) => pathname.includes(p));
 
   useEffect(() => {
@@ -47,9 +60,9 @@ export function DailyExpression() {
       return;
     }
 
-    // Try sessionStorage cache first
+    // Try localStorage daily cache first — stable across refreshes within a day
     try {
-      const cached = sessionStorage.getItem(CACHE_KEY);
+      const cached = localStorage.getItem(getCacheKey());
       if (cached) {
         setExpr(JSON.parse(cached));
         return;
@@ -60,7 +73,18 @@ export function DailyExpression() {
       .then((data) => {
         setExpr(data);
         try {
-          sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
+          // Clean up any stale day-keyed caches from previous days
+          for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (
+              k &&
+              k.startsWith(CACHE_KEY_PREFIX) &&
+              k !== getCacheKey()
+            ) {
+              localStorage.removeItem(k);
+            }
+          }
+          localStorage.setItem(getCacheKey(), JSON.stringify(data));
         } catch {}
       })
       .catch(() => {});
@@ -79,6 +103,20 @@ export function DailyExpression() {
 
   const handleSpeak = () => {
     if (speaking || typeof window === "undefined") return;
+
+    // Prefer Azure TTS audio (high-quality neural voice) over browser SpeechSynthesis
+    if (expr.audio_url) {
+      setSpeaking(true);
+      const audio = audioRef.current ?? new Audio();
+      audioRef.current = audio;
+      audio.src = expr.audio_url;
+      audio.onended = () => setSpeaking(false);
+      audio.onerror = () => setSpeaking(false);
+      audio.play().catch(() => setSpeaking(false));
+      return;
+    }
+
+    // Fallback: browser SpeechSynthesis (mechanical, only if Azure unavailable)
     setSpeaking(true);
     const utterance = new SpeechSynthesisUtterance(expr.display_form);
     utterance.lang = "fr-FR";
