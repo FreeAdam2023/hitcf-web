@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, Link } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronRight, BookOpen, Headphones, Loader2, ExternalLink } from "lucide-react";
+import { ChevronDown, ChevronRight, BookOpen, Headphones, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -321,16 +321,6 @@ function TestSetQuickStartDialog({
                 {t("testCard.startExam")}
               </Button>
             </div>
-
-            {/* Escape hatch: full detail page (open-book toggle, etc.) */}
-            <Link
-              href={`/tests/${test.id}`}
-              className="inline-flex items-center justify-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-              onClick={onClose}
-            >
-              {t("tests.viewDetails")}
-              <ExternalLink className="h-3 w-3" />
-            </Link>
           </>
         )}
       </DialogContent>

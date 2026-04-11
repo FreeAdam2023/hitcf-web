@@ -285,7 +285,6 @@
     "browseHint": "La pratique intelligente ci-dessus ignore automatiquement les questions déjà faites — c'est le moyen le plus efficace",
     "classicSets": "Séries classiques",
     "extendedSets": "Séries étendues",
-    "viewDetails": "Voir les détails complets",
     "duplicateRatio": "Chevauchement {pct}%",
     "duplicateRatioTooltip": "{dup}/{total} questions apparaissent dans d'autres séries",
     "listeningTestName": "Compréhension orale {num}",
