@@ -106,13 +106,24 @@ export function SmartPracticePanel({ type }: Props) {
 
       {/* Coverage progress */}
       {isAuthenticated && coverage && coverage.pool_total > 0 && (
-        <div className="mt-4 space-y-2">
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-medium text-muted-foreground">{t("smartPractice.totalProgress")}</span>
-            <span className="font-mono">
-              {coverage.total_done} / {coverage.pool_total} ({coverage.pct}%)
-            </span>
+        <div className="mt-4 space-y-3">
+          {/* Overall progress bar */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-medium text-muted-foreground">{t("smartPractice.totalProgress")}</span>
+              <span className="font-mono">
+                {coverage.total_done} / {coverage.pool_total} ({coverage.pct}%)
+              </span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-muted">
+              <div
+                className="h-full bg-gradient-to-r from-violet-500 to-blue-500 transition-all"
+                style={{ width: `${coverage.pct}%` }}
+              />
+            </div>
           </div>
+
+          {/* Per-level breakdown */}
           <div className="grid grid-cols-6 gap-1.5">
             {coverage.levels.map((lvl) => (
               <div key={lvl.level} className="space-y-1">
