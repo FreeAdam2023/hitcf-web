@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronRight, Sparkles } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { listTestSets, fetchTestSetsProgress } from "@/lib/api/test-sets";
 import type { TestSetItem } from "@/lib/api/types";
 
@@ -93,12 +93,6 @@ export function TestSetGroupsAccordion({ type }: Props) {
 
       {outerOpen && (
         <div className="border-t border-border/40 bg-background/40 p-3 space-y-2">
-          {/* Recommendation hint */}
-          <div className="flex items-start gap-2 rounded-lg bg-violet-500/5 border border-violet-500/20 px-3 py-2 text-xs text-violet-700 dark:text-violet-300">
-            <Sparkles className="h-3.5 w-3.5 shrink-0 mt-0.5" />
-            <span>{t("tests.browseHint")}</span>
-          </div>
-
           {/* Inner accordion — classic + extended */}
           <GroupRow
             label={t("tests.classicSets")}

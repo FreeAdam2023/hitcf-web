@@ -1335,6 +1335,7 @@
     "quick": "快速 10 题",
     "full": "完整 39 题",
     "fullLink": "想做完整测试？",
+    "byLevel": "按等级筛选",
     "totalProgress": "题库覆盖率"
   },
   "history": {

@@ -28,12 +28,10 @@ import { SpeakingTopicCard } from "./speaking-topic-card";
 import { WritingLevelCard } from "./writing-level-card";
 import { SpeakingTache1Guide } from "./speaking-tache1-guide";
 import { ContinueBanner } from "@/components/shared/continue-banner";
-import { RecommendedBanner } from "@/components/shared/recommended-banner";
 import { useAuthStore } from "@/stores/auth-store";
 
 import { LevelPracticeDialog } from "./level-practice-dialog";
 import { SmartPracticePanel } from "./smart-practice-panel";
-import { LevelPracticeStrip } from "./level-practice-strip";
 import { RecentPracticeList } from "./recent-practice-list";
 import { TestSetGroupsAccordion } from "./test-set-groups-accordion";
 
@@ -224,7 +222,6 @@ export function TestList() {
   const [mockError, setMockError] = useState<string | null>(null);
   const [mockFreeTrialEligible, setMockFreeTrialEligible] = useState(false);
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
-  const [hasContinueBanner, setHasContinueBanner] = useState(false);
   const [tab, setTab] = useState<TabType | null>(null);
 
   // Hydration-safe: restore tab from URL param or localStorage after mount
@@ -688,7 +685,7 @@ export function TestList() {
         )}
       </div>
 
-      <ContinueBanner onVisibleChange={setHasContinueBanner} />
+      <ContinueBanner />
       {!tab ? <div className="flex justify-center py-8"><span className="text-sm text-muted-foreground">Loading...</span></div> : null}
       <Tabs value={tab ?? "listening"} onValueChange={(v) => {
         const t = v as TabType;
@@ -717,13 +714,6 @@ export function TestList() {
           {(tab === "listening" || tab === "reading") && (
             <SmartPracticePanel type={tab} />
           )}
-
-          {/* Level practice strip — one-row entry for each CEFR level */}
-          {(tab === "listening" || tab === "reading") && (
-            <LevelPracticeStrip type={tab} />
-          )}
-
-          {tab && !hasContinueBanner && <RecommendedBanner type={tab} />}
 
           {/* ── Speaking/Writing controls ── */}
           {isSpeakingWriting && (

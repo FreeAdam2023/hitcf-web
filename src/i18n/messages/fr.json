@@ -1335,6 +1335,7 @@
     "quick": "Rapide 10",
     "full": "Complet 39",
     "fullLink": "Envie d'un test complet ?",
+    "byLevel": "Filtrer par niveau",
     "totalProgress": "Couverture du pool"
   },
   "history": {
