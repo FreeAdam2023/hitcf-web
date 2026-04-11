@@ -30,7 +30,6 @@ import { SpeakingTache1Guide } from "./speaking-tache1-guide";
 import { ContinueBanner } from "@/components/shared/continue-banner";
 import { useAuthStore } from "@/stores/auth-store";
 
-import { LevelPracticeDialog } from "./level-practice-dialog";
 import { SmartPracticePanel } from "./smart-practice-panel";
 import { RecentPracticeList } from "./recent-practice-list";
 import { TestSetGroupsAccordion } from "./test-set-groups-accordion";
@@ -221,7 +220,6 @@ export function TestList() {
   const [mockTypes, setMockTypes] = useState<Set<string>>(new Set(["listening", "reading"]));
   const [mockError, setMockError] = useState<string | null>(null);
   const [mockFreeTrialEligible, setMockFreeTrialEligible] = useState(false);
-  const [levelDialogOpen, setLevelDialogOpen] = useState(false);
   const [tab, setTab] = useState<TabType | null>(null);
 
   // Hydration-safe: restore tab from URL param or localStorage after mount
@@ -703,13 +701,6 @@ export function TestList() {
         </TabsList>
 
         <TabsContent value={tab ?? "listening"} className="mt-4">
-          {/* Level practice dialog (kept for backwards compat, unused in new layout) */}
-          <LevelPracticeDialog
-            open={levelDialogOpen}
-            onOpenChange={setLevelDialogOpen}
-            type={tab as "listening" | "reading"}
-          />
-
           {/* Smart practice panel — featured at the top for listening/reading */}
           {(tab === "listening" || tab === "reading") && (
             <SmartPracticePanel type={tab} />

@@ -3,35 +3,23 @@
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Sparkles, Loader2, Zap, ChevronDown, ChevronRight } from "lucide-react";
+import { Sparkles, Loader2, Zap, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { startSmartPractice } from "@/lib/api/smart-practice";
-import { startSpeedDrill } from "@/lib/api/speed-drill";
 import { useAuthStore } from "@/stores/auth-store";
+import { LevelPracticeDialog } from "./level-practice-dialog";
 
 interface Props {
   type: "listening" | "reading";
 }
-
-const LEVELS: Array<{ level: string; color: string }> = [
-  { level: "A1", color: "hover:border-emerald-500/40 hover:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400" },
-  { level: "A2", color: "hover:border-green-500/40 hover:bg-green-500/10 text-green-700 dark:text-green-400" },
-  { level: "B1", color: "hover:border-blue-500/40 hover:bg-blue-500/10 text-blue-700 dark:text-blue-400" },
-  { level: "B2", color: "hover:border-violet-500/40 hover:bg-violet-500/10 text-violet-700 dark:text-violet-400" },
-  { level: "C1", color: "hover:border-amber-500/40 hover:bg-amber-500/10 text-amber-700 dark:text-amber-400" },
-  { level: "C2", color: "hover:border-rose-500/40 hover:bg-rose-500/10 text-rose-700 dark:text-rose-400" },
-];
-
-const LEVEL_DRILL_COUNT = 20;
 
 export function SmartPracticePanel({ type }: Props) {
   const t = useTranslations();
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();
   const [starting, setStarting] = useState<number | null>(null);
-  const [levelsOpen, setLevelsOpen] = useState(false);
-  const [drillLoading, setDrillLoading] = useState<string | null>(null);
+  const [levelDialogOpen, setLevelDialogOpen] = useState(false);
 
   const handleStart = async (size: number) => {
     if (!isAuthenticated) {
@@ -48,29 +36,12 @@ export function SmartPracticePanel({ type }: Props) {
     }
   };
 
-  const handleLevelStart = async (level: string) => {
+  const openLevelDialog = () => {
     if (!isAuthenticated) {
       router.push("/login");
       return;
     }
-    setDrillLoading(level);
-    try {
-      const res = await startSpeedDrill({
-        type,
-        levels: [level],
-        count: LEVEL_DRILL_COUNT,
-        dedup: true,
-      });
-      if (res.attempt_id) {
-        router.push(`/practice/${res.attempt_id}`);
-      } else {
-        toast.error(t("speedDrill.noMoreQuestions"));
-        setDrillLoading(null);
-      }
-    } catch {
-      toast.error(t("common.errors.generic"));
-      setDrillLoading(null);
-    }
+    setLevelDialogOpen(true);
   };
 
   return (
@@ -115,41 +86,23 @@ export function SmartPracticePanel({ type }: Props) {
         </div>
       </div>
 
-      {/* Collapsible "filter by level" — secondary path, not a parallel section */}
+      {/* Secondary path: open the level practice dialog for multi-level + count selection. */}
       <div className="mt-4 border-t border-violet-500/10 pt-3">
         <button
           type="button"
-          onClick={() => setLevelsOpen((v) => !v)}
-          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          onClick={openLevelDialog}
+          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
         >
-          {levelsOpen ? (
-            <ChevronDown className="h-3 w-3" />
-          ) : (
-            <ChevronRight className="h-3 w-3" />
-          )}
+          <Layers className="h-3.5 w-3.5" />
           <span>{t("smartPractice.byLevel")}</span>
         </button>
-        {levelsOpen && (
-          <div className="mt-2.5 flex flex-wrap gap-1.5">
-            {LEVELS.map(({ level, color }) => (
-              <Button
-                key={level}
-                variant="outline"
-                size="sm"
-                onClick={() => handleLevelStart(level)}
-                disabled={drillLoading !== null}
-                className={`h-8 min-w-[52px] border-2 font-semibold ${color}`}
-              >
-                {drillLoading === level ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                ) : (
-                  level
-                )}
-              </Button>
-            ))}
-          </div>
-        )}
       </div>
+
+      <LevelPracticeDialog
+        open={levelDialogOpen}
+        onOpenChange={setLevelDialogOpen}
+        type={type}
+      />
     </div>
   );
 }
