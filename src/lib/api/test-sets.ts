@@ -12,6 +12,7 @@ export function listTestSets(params?: {
   type?: "listening" | "reading" | "speaking" | "writing";
   exam_type?: string;
   task_number?: number;
+  group?: "classic" | "extended";
   page?: number;
   page_size?: number;
 }): Promise<PaginatedResponse<TestSetItem>> {
@@ -19,6 +20,7 @@ export function listTestSets(params?: {
   if (params?.type) searchParams.set("type", params.type);
   if (params?.exam_type) searchParams.set("exam_type", params.exam_type);
   if (params?.task_number) searchParams.set("task_number", String(params.task_number));
+  if (params?.group) searchParams.set("group", params.group);
   if (params?.page) searchParams.set("page", String(params.page));
   if (params?.page_size) searchParams.set("page_size", String(params.page_size));
   const qs = searchParams.toString();

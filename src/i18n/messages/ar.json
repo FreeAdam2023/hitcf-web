@@ -56,6 +56,9 @@
       "minutes": "دقيقة",
       "minutesShort": "د"
     },
+    "unit": {
+      "questions": "سؤال"
+    },
     "empty": {
       "title": "لا توجد بيانات",
       "description": "لا توجد بيانات للعرض"
@@ -271,6 +274,14 @@
     }
   },
   "tests": {
+    "recentPractice": "التدريبات الأخيرة",
+    "redo": "إعادة",
+    "view": "عرض",
+    "resume": "متابعة",
+    "noHistory": "لا توجد تدريبات بعد — ابدأ بالتدريب الذكي أعلاه",
+    "browseTestSets": "استعراض الاختبارات",
+    "classicSets": "الاختبارات الكلاسيكية",
+    "extendedSets": "الاختبارات الموسّعة",
     "listeningTestName": "اختبار استماع {num}",
     "readingTestName": "اختبار قراءة {num}",
     "speakingTestName": "اختبار تعبير شفهي {num}",

@@ -35,6 +35,9 @@ import { useAuthStore } from "@/stores/auth-store";
 
 import { LevelPracticeDialog } from "./level-practice-dialog";
 import { SmartPracticePanel } from "./smart-practice-panel";
+import { LevelPracticeStrip } from "./level-practice-strip";
+import { RecentPracticeList } from "./recent-practice-list";
+import { TestSetGroupsAccordion } from "./test-set-groups-accordion";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
 
@@ -786,34 +789,7 @@ export function TestList() {
         </TabsList>
 
         <TabsContent value={tab ?? "listening"} className="mt-4">
-          {/* ── Status filter chips + speed drill (listening/reading only) ── */}
-          {(tab === "listening" || tab === "reading") && statusCounts && (
-            <div className="mb-4 flex flex-wrap items-center gap-2">
-              <Pill active={statusFilter === "all"} onClick={() => setStatusFilter("all")}>
-                {t("tests.filterAll")}({statusCounts.all})
-              </Pill>
-              <Pill active={statusFilter === "inProgress"} onClick={() => setStatusFilter("inProgress")}>
-                {t("tests.filterInProgress")}({statusCounts.inProgress})
-              </Pill>
-              <Pill active={statusFilter === "completed"} onClick={() => setStatusFilter("completed")}>
-                {t("tests.filterCompleted")}({statusCounts.completed})
-              </Pill>
-              <Pill active={statusFilter === "notStarted"} onClick={() => setStatusFilter("notStarted")}>
-                {t("tests.filterNotStarted")}({statusCounts.notStarted})
-              </Pill>
-              {isAuthenticated && (
-                <button
-                  onClick={() => setLevelDialogOpen(true)}
-                  className="ml-auto inline-flex items-center gap-1.5 rounded-lg border-2 border-violet-500/20 bg-violet-500/5 px-3 py-1.5 text-sm font-semibold text-violet-600 transition-all hover:border-violet-500/40 hover:bg-violet-500/10 dark:text-violet-400"
-                >
-                  <Layers className="h-4 w-4" />
-                  {t("speedDrill.title")}
-                </button>
-              )}
-            </div>
-          )}
-
-          {/* Level practice dialog */}
+          {/* Level practice dialog (kept for backwards compat, unused in new layout) */}
           <LevelPracticeDialog
             open={levelDialogOpen}
             onOpenChange={setLevelDialogOpen}
@@ -823,6 +799,11 @@ export function TestList() {
           {/* Smart practice panel — featured at the top for listening/reading */}
           {(tab === "listening" || tab === "reading") && (
             <SmartPracticePanel type={tab} />
+          )}
+
+          {/* Level practice strip — one-row entry for each CEFR level */}
+          {(tab === "listening" || tab === "reading") && (
+            <LevelPracticeStrip type={tab} />
           )}
 
           {tab && !hasContinueBanner && <RecommendedBanner type={tab} />}
@@ -886,7 +867,10 @@ export function TestList() {
 
           {/* ── Content ── */}
           {tab === "listening" || tab === "reading" ? (
-            renderFlatGrid()
+            <div className="space-y-4">
+              <RecentPracticeList type={tab} />
+              <TestSetGroupsAccordion type={tab} />
+            </div>
           ) : tab === "speaking" && speakingTache === 1 ? (
             <SpeakingTache1Guide />
           ) : tab === "speaking" ? (

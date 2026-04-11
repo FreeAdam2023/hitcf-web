@@ -56,6 +56,9 @@
       "minutes": "{minutes} min",
       "minutesShort": "{minutes}m {seconds}s"
     },
+    "unit": {
+      "questions": "q"
+    },
     "empty": {
       "title": "Aucune donnée",
       "description": "Rien ici pour le moment"
@@ -272,6 +275,14 @@
     }
   },
   "tests": {
+    "recentPractice": "Pratique récente",
+    "redo": "Refaire",
+    "view": "Voir",
+    "resume": "Reprendre",
+    "noHistory": "Aucune pratique pour l'instant — commencez par la pratique intelligente ci-dessus",
+    "browseTestSets": "Parcourir les séries",
+    "classicSets": "Séries classiques",
+    "extendedSets": "Séries étendues",
     "listeningTestName": "Compréhension orale {num}",
     "readingTestName": "Compréhension écrite {num}",
     "speakingTestName": "Expression orale {num}",

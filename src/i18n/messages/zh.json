@@ -56,6 +56,9 @@
       "minutes": "{minutes} 分钟",
       "minutesShort": "{minutes} 分 {seconds} 秒"
     },
+    "unit": {
+      "questions": "题"
+    },
     "empty": {
       "title": "暂无数据",
       "description": "这里还什么都没有"
@@ -272,6 +275,14 @@
     }
   },
   "tests": {
+    "recentPractice": "最近练习",
+    "redo": "重做",
+    "view": "查看",
+    "resume": "继续",
+    "noHistory": "暂无练习记录，从上方智能组题开始吧",
+    "browseTestSets": "题库浏览",
+    "classicSets": "经典套题",
+    "extendedSets": "拓展套题",
     "listeningTestName": "听力测试 {num}",
     "readingTestName": "阅读测试 {num}",
     "speakingTestName": "口语测试 {num}",

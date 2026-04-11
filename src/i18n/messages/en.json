@@ -56,6 +56,9 @@
       "minutes": "{minutes} min",
       "minutesShort": "{minutes}m {seconds}s"
     },
+    "unit": {
+      "questions": "qs"
+    },
     "empty": {
       "title": "No data",
       "description": "Nothing here yet"
@@ -272,6 +275,14 @@
     }
   },
   "tests": {
+    "recentPractice": "Recent practice",
+    "redo": "Redo",
+    "view": "View",
+    "resume": "Resume",
+    "noHistory": "No practice yet — start with smart practice above",
+    "browseTestSets": "Browse test sets",
+    "classicSets": "Classic sets",
+    "extendedSets": "Extended sets",
     "listeningTestName": "Listening Test {num}",
     "readingTestName": "Reading Test {num}",
     "speakingTestName": "Speaking Test {num}",

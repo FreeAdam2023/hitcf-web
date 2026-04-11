@@ -45,6 +45,7 @@ export interface TestSetItem {
   is_free: boolean;
   order: number;
   source_date: string | null;
+  group?: "classic" | "extended" | null;
 }
 
 export interface WritingTopicItem {
@@ -332,6 +333,7 @@ export interface AttemptResponse {
   test_set_id: string;
   test_set_name?: string | null;
   test_set_type?: string | null;
+  test_set_group?: "classic" | "extended" | null;
   is_mock_exam?: boolean;
   mode: string;
   score: number | null;
