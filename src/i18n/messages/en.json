@@ -670,8 +670,7 @@
     "questionDisplay": {
       "imageListening": "Listen to the four options and choose the one matching the image.",
       "imageListeningShort": "Listen to the recording and four options, choose the correct answer.",
-      "tabChinese": "Chinese",
-      "idLabel": "Question ID:"
+      "tabChinese": "Chinese"
     },
     "navigator": {
       "title": "Question Navigator",

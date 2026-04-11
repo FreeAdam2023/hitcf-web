@@ -669,8 +669,7 @@
     "questionDisplay": {
       "imageListening": "استمع إلى الخيارات الأربعة واختر الخيار المطابق للصورة.",
       "imageListeningShort": "استمع إلى التسجيل والخيارات الأربعة، واختر الإجابة الصحيحة.",
-      "tabChinese": "صيني",
-      "idLabel": "معرف السؤال:"
+      "tabChinese": "صيني"
     },
     "navigator": {
       "title": "دليل الأسئلة",
