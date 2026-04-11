@@ -101,14 +101,15 @@ export function RecentPracticeList({ type, pageSize = 10 }: Props) {
     );
   }
 
+  // First-time user: onboarding nudge instead of an empty "no history" state.
   if (items.length === 0) {
     return (
-      <div className="mb-4 space-y-2">
-        <h3 className="text-sm font-semibold text-muted-foreground">
-          {t("tests.recentPractice")}
-        </h3>
-        <div className="rounded-xl border border-dashed border-border/60 bg-muted/20 p-6 text-center text-sm text-muted-foreground">
-          {t("tests.noHistory")}
+      <div className="mb-4">
+        <div className="flex items-center gap-2.5 rounded-xl border border-violet-500/20 bg-violet-500/5 px-4 py-3 text-sm">
+          <Sparkles className="h-4 w-4 shrink-0 text-violet-600 dark:text-violet-400" />
+          <span className="text-foreground/80">
+            {t("tests.firstTimeNudge")}
+          </span>
         </div>
       </div>
     );
