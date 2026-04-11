@@ -21,6 +21,11 @@ interface Props {
 
 type Group = "classic" | "extended";
 
+const outerKey = (type: "listening" | "reading") =>
+  `hitcf_browse_${type}_open`;
+const groupKey = (type: "listening" | "reading") =>
+  `hitcf_browse_${type}_group`;
+
 export function TestSetGroupsAccordion({
   type,
   autoOpen = false,
@@ -28,22 +33,63 @@ export function TestSetGroupsAccordion({
   answeredMap,
 }: Props) {
   const t = useTranslations();
-  // Default open/closed state is driven entirely by autoOpen. No
-  // localStorage persistence: returning users always land with the
-  // outer open + classic expanded; new users always land collapsed.
-  // A session-level toggle still works via React state but does not
-  // survive a reload — the rule is stable.
-  const [outerOpen, setOuterOpen] = useState<boolean>(autoOpen);
-  const [openGroup, setOpenGroup] = useState<Group | null>(
-    autoOpen ? "classic" : null,
-  );
-  // Re-apply the rule when the tab changes or autoOpen flips after mount
-  // (attemptMap loads asynchronously — returning users take a render to
-  // become "returning").
+  // Lazy init: honor user's stored preference first, else autoOpen for returning users.
+  const [outerOpen, setOuterOpenState] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    const stored = window.localStorage.getItem(outerKey(type));
+    if (stored !== null) return stored === "true";
+    return autoOpen;
+  });
+  const [openGroup, setOpenGroupState] = useState<Group | null>(() => {
+    if (typeof window === "undefined") return null;
+    const stored = window.localStorage.getItem(groupKey(type));
+    if (stored === "classic" || stored === "extended") return stored;
+    if (stored === "null") return null;
+    // No stored pref — returning users default to classic expanded.
+    return autoOpen ? "classic" : null;
+  });
+  // If autoOpen flips from false → true (data loads after mount) and the
+  // user has no stored preference, open outer + default to classic.
+  // Explicit user toggle always wins.
   useEffect(() => {
-    setOuterOpen(autoOpen);
-    setOpenGroup(autoOpen ? "classic" : null);
+    if (!autoOpen) return;
+    if (typeof window === "undefined") return;
+    const storedOuter = window.localStorage.getItem(outerKey(type));
+    const storedGroup = window.localStorage.getItem(groupKey(type));
+    if (storedOuter === null) setOuterOpenState(true);
+    if (storedGroup === null) setOpenGroupState("classic");
   }, [autoOpen, type]);
+  // Switching tabs: re-read stored prefs for the new type.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const storedOuter = window.localStorage.getItem(outerKey(type));
+    setOuterOpenState(storedOuter !== null ? storedOuter === "true" : autoOpen);
+    const storedGroup = window.localStorage.getItem(groupKey(type));
+    if (storedGroup === "classic" || storedGroup === "extended") {
+      setOpenGroupState(storedGroup);
+    } else if (storedGroup === "null") {
+      setOpenGroupState(null);
+    } else {
+      setOpenGroupState(autoOpen ? "classic" : null);
+    }
+    // autoOpen handled by the effect above.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type]);
+  const setOuterOpen = (next: boolean | ((v: boolean) => boolean)) => {
+    setOuterOpenState((prev) => {
+      const resolved = typeof next === "function" ? next(prev) : next;
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(outerKey(type), String(resolved));
+      }
+      return resolved;
+    });
+  };
+  const setOpenGroup = (next: Group | null) => {
+    setOpenGroupState(next);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(groupKey(type), next ?? "null");
+    }
+  };
   const [classicSets, setClassicSets] = useState<TestSetItem[] | null>(null);
   const [extendedSets, setExtendedSets] = useState<TestSetItem[] | null>(null);
   const [progressMap, setProgressMap] = useState<
