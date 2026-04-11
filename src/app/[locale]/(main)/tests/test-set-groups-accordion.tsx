@@ -238,7 +238,6 @@ function GroupRow({
   progressMap: Record<string, { total: number; dup: number }>;
   getAttemptInfo: (ts: TestSetItem) => TestAttemptInfo | undefined;
 }) {
-  const t = useTranslations();
   return (
     <div className="rounded-lg border border-border/50 bg-card overflow-hidden">
       <button
