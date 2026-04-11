@@ -1,26 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronRight, BookOpen, Headphones, Loader2 } from "lucide-react";
-import { toast } from "sonner";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { listTestSets, fetchTestSetsProgress } from "@/lib/api/test-sets";
-import { createAttempt } from "@/lib/api/attempts";
 import type { TestSetItem } from "@/lib/api/types";
+import { TestCard, type TestAttemptInfo } from "./test-card";
 
 interface Props {
   type: "listening" | "reading";
   /** If true and the user hasn't explicitly chosen, default the outer accordion open. */
   autoOpen?: boolean;
+  /** Per-test-set attempt info built by the parent (test-list). Drives the
+   *  completion bar inside each TestCard. */
+  attemptMap?: Map<string, TestAttemptInfo>;
+  /** Unique answered counts per test set from speed-drill, for the "drill only"
+   *  in-progress state. */
+  answeredMap?: Record<string, number>;
 }
 
 type Group = "classic" | "extended";
@@ -30,7 +26,12 @@ const outerKey = (type: "listening" | "reading") =>
 const groupKey = (type: "listening" | "reading") =>
   `hitcf_browse_${type}_group`;
 
-export function TestSetGroupsAccordion({ type, autoOpen = false }: Props) {
+export function TestSetGroupsAccordion({
+  type,
+  autoOpen = false,
+  attemptMap,
+  answeredMap,
+}: Props) {
   const t = useTranslations();
   // Lazy init: honor user's stored preference first, else autoOpen for returning users.
   const [outerOpen, setOuterOpenState] = useState<boolean>(() => {
@@ -156,9 +157,24 @@ export function TestSetGroupsAccordion({ type, autoOpen = false }: Props) {
 
   const totalCount = counts.classic + counts.extended;
 
-  // Quick-start dialog: shared across both GroupRows. Clicking a test set
-  // card sets selectedTestSet; dialog renders practice/exam CTAs.
-  const [selectedTestSet, setSelectedTestSet] = useState<TestSetItem | null>(null);
+  // Build TestAttemptInfo for a given test set from the raw maps passed down
+  // from test-list. Matches the old getMergedAttemptInfo logic so TestCard
+  // lights up the right progress bar state (completed / in-progress / drill-only).
+  const getAttemptInfo = (test: TestSetItem): TestAttemptInfo | undefined => {
+    const info = attemptMap?.get(test.id);
+    const answered = answeredMap?.[test.id];
+    if (!info && !answered) return undefined;
+    if (info) {
+      return { ...info, drillAnswered: answered };
+    }
+    return {
+      bestScore: null,
+      bestTotal: test.question_count,
+      hasInProgress: false,
+      attemptCount: 0,
+      drillAnswered: answered,
+    };
+  };
 
   return (
     <div className="rounded-xl border border-border/40 bg-muted/20 overflow-hidden">
@@ -188,7 +204,7 @@ export function TestSetGroupsAccordion({ type, autoOpen = false }: Props) {
             onToggle={() => toggleGroup("classic")}
             items={classicSets}
             progressMap={progressMap}
-            onCardClick={setSelectedTestSet}
+            getAttemptInfo={getAttemptInfo}
           />
           <GroupRow
             label={t("tests.extendedSets")}
@@ -197,134 +213,11 @@ export function TestSetGroupsAccordion({ type, autoOpen = false }: Props) {
             onToggle={() => toggleGroup("extended")}
             items={extendedSets}
             progressMap={progressMap}
-            onCardClick={setSelectedTestSet}
+            getAttemptInfo={getAttemptInfo}
           />
         </div>
       )}
-
-      <TestSetQuickStartDialog
-        test={selectedTestSet}
-        type={type}
-        onClose={() => setSelectedTestSet(null)}
-        progressMap={progressMap}
-      />
     </div>
-  );
-}
-
-function TestSetQuickStartDialog({
-  test,
-  type,
-  onClose,
-  progressMap,
-}: {
-  test: TestSetItem | null;
-  type: "listening" | "reading";
-  onClose: () => void;
-  progressMap: Record<string, { total: number; dup: number }>;
-}) {
-  const t = useTranslations();
-  const router = useRouter();
-  const [starting, setStarting] = useState<"practice" | "exam" | null>(null);
-
-  const Icon = type === "listening" ? Headphones : BookOpen;
-
-  const handleStart = async (mode: "practice" | "exam") => {
-    if (!test) return;
-    setStarting(mode);
-    try {
-      const res = await createAttempt({ test_set_id: test.id, mode });
-      router.push(`/${mode}/${res.id}`);
-    } catch {
-      toast.error(t("common.errors.generic"));
-      setStarting(null);
-    }
-  };
-
-  const progress = test ? progressMap[test.id] : undefined;
-  const total = progress?.total ?? test?.question_count ?? 0;
-  const dup = progress?.dup ?? 0;
-  const dupPct = total > 0 ? Math.round((dup / total) * 100) : 0;
-
-  return (
-    <Dialog open={!!test} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="sm:max-w-md">
-        {test && (
-          <>
-            <DialogHeader>
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <div className="min-w-0">
-                  <DialogTitle className="truncate">{test.name}</DialogTitle>
-                  <DialogDescription>
-                    {t("common.questionsWithMinutes", {
-                      count: test.question_count,
-                      minutes: test.time_limit_minutes,
-                    })}
-                  </DialogDescription>
-                </div>
-              </div>
-            </DialogHeader>
-
-            {/* Duplicate ratio — surfaced so user can bail out before starting */}
-            {progress && progress.total > 0 && (
-              <div className="rounded-lg bg-muted/50 px-3 py-2 flex items-center justify-between gap-3 text-xs">
-                <span className="text-muted-foreground">
-                  {t("tests.duplicateRatioTooltip", { dup, total })}
-                </span>
-                <span className="font-mono font-medium">{dupPct}%</span>
-              </div>
-            )}
-
-            {/* Compact mode explanations */}
-            <div className="rounded-lg bg-muted/30 px-3 py-2.5 text-xs leading-relaxed text-muted-foreground">
-              <ul className="list-disc pl-4 space-y-0.5">
-                <li>
-                  <strong className="text-foreground">
-                    {t("testCard.practiceMode")}
-                  </strong>
-                  {" — "}
-                  {t("testCard.practiceDesc")}
-                </li>
-                <li>
-                  <strong className="text-foreground">
-                    {t("testCard.examMode")}
-                  </strong>
-                  {" — "}
-                  {t("testCard.examDesc")}
-                </li>
-              </ul>
-            </div>
-
-            <div className="flex gap-2">
-              <Button
-                className="flex-1"
-                onClick={() => handleStart("practice")}
-                disabled={starting !== null}
-              >
-                {starting === "practice" ? (
-                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
-                ) : null}
-                {t("testCard.startPractice")}
-              </Button>
-              <Button
-                className="flex-1"
-                variant="outline"
-                onClick={() => handleStart("exam")}
-                disabled={starting !== null}
-              >
-                {starting === "exam" ? (
-                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
-                ) : null}
-                {t("testCard.startExam")}
-              </Button>
-            </div>
-          </>
-        )}
-      </DialogContent>
-    </Dialog>
   );
 }
 
@@ -335,7 +228,7 @@ function GroupRow({
   onToggle,
   items,
   progressMap,
-  onCardClick,
+  getAttemptInfo,
 }: {
   label: string;
   count: number;
@@ -343,7 +236,7 @@ function GroupRow({
   onToggle: () => void;
   items: TestSetItem[] | null;
   progressMap: Record<string, { total: number; dup: number }>;
-  onCardClick: (ts: TestSetItem) => void;
+  getAttemptInfo: (ts: TestSetItem) => TestAttemptInfo | undefined;
 }) {
   const t = useTranslations();
   return (
@@ -369,41 +262,19 @@ function GroupRow({
           ) : items.length === 0 ? (
             <div className="text-xs text-muted-foreground">—</div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {items.map((ts) => {
                 const progress = progressMap[ts.id];
                 const total = progress?.total ?? ts.question_count;
                 const dup = progress?.dup ?? 0;
                 const dupPct = total > 0 ? Math.round((dup / total) * 100) : 0;
-                const isHighDup = dupPct >= 70;
-                const isMidDup = dupPct >= 30 && dupPct < 70;
                 return (
-                  <button
+                  <TestCard
                     key={ts.id}
-                    onClick={() => onCardClick(ts)}
-                    className={`rounded-lg border px-3 py-2 text-left transition-colors ${
-                      isHighDup
-                        ? "border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10"
-                        : "border-border/50 bg-card hover:bg-muted/40 hover:border-border"
-                    }`}
-                    title={ts.name}
-                  >
-                    <div className="text-xs font-medium truncate">{ts.name}</div>
-                    {progress && progress.total > 0 && (
-                      <div
-                        className={`mt-1 text-[10px] font-mono ${
-                          isHighDup
-                            ? "text-amber-700 dark:text-amber-400"
-                            : isMidDup
-                              ? "text-muted-foreground"
-                              : "text-muted-foreground/70"
-                        }`}
-                        title={t("tests.duplicateRatioTooltip", { dup, total })}
-                      >
-                        {t("tests.duplicateRatio", { pct: dupPct })}
-                      </div>
-                    )}
-                  </button>
+                    test={ts}
+                    attemptInfo={getAttemptInfo(ts)}
+                    dupPct={dupPct}
+                  />
                 );
               })}
             </div>

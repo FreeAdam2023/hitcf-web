@@ -770,6 +770,8 @@ export function TestList() {
               <TestSetGroupsAccordion
                 type={tab}
                 autoOpen={attemptMap.size > 0}
+                attemptMap={attemptMap}
+                answeredMap={answeredMap}
               />
             </div>
           ) : tab === "speaking" && speakingTache === 1 ? (

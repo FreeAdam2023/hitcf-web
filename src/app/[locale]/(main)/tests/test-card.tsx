@@ -46,9 +46,14 @@ const TYPE_ICONS: Record<string, React.ElementType> = {
 export function TestCard({
   test,
   attemptInfo,
+  dupPct,
 }: {
   test: TestSetItem;
   attemptInfo?: TestAttemptInfo;
+  /** Overlap with other test sets, 0-100. Shown as a muted label in the
+   *  subtitle row when provided. Not reflected in the completion bar —
+   *  completion and overlap are orthogonal metrics. */
+  dupPct?: number;
 }) {
   const t = useTranslations();
   const router = useRouter();
@@ -175,6 +180,17 @@ export function TestCard({
                 <span>{t("common.time.minutes", { minutes: test.time_limit_minutes })}</span>
                 {(attemptInfo?.attemptCount ?? 0) > 0 && (
                   <span>{t("testCard.attempts", { count: attemptInfo!.attemptCount })}</span>
+                )}
+                {dupPct !== undefined && dupPct > 0 && (
+                  <span
+                    className={
+                      dupPct >= 70
+                        ? "text-amber-600 dark:text-amber-400"
+                        : "text-muted-foreground/70"
+                    }
+                  >
+                    {t("tests.duplicateRatio", { pct: dupPct })}
+                  </span>
                 )}
               </div>
             </div>
