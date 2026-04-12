@@ -13,7 +13,7 @@ interface Props {
   answeredMap?: Record<string, number>;
 }
 
-const INITIAL_SHOW = 10;
+const INITIAL_SHOW = 12; // 4 rows × 3 columns, no orphan
 
 export function HitcfSetGrid({ type, attemptMap, answeredMap }: Props) {
   const t = useTranslations();
