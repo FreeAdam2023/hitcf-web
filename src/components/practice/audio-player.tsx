@@ -94,9 +94,17 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         return;
       }
       segmentEndRef.current = null;
+      const doSeek = () => { audio.currentTime = seconds; };
+      // Audio metadata not loaded yet — wait for canplay before seeking
+      if (audio.readyState < 2) {
+        audio.addEventListener("canplay", () => {
+          doSeek();
+          audio.play().then(() => setPlaying(true)).catch(() => {});
+        }, { once: true });
+        return;
+      }
       // Play first, then seek — Safari/mobile browsers silently fail
       // when currentTime is set on a paused or ended audio element.
-      const doSeek = () => { audio.currentTime = seconds; };
       if (audio.paused || audio.ended) {
         audio.play().then(() => { doSeek(); setPlaying(true); }).catch(() => {});
       } else {
@@ -110,9 +118,18 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         loadUrl();
         return;
       }
-      segmentEndRef.current = end;
       segmentPausedRef.current = false;
       const doSeek = () => { audio.currentTime = start; };
+      // Audio metadata not loaded yet — wait for canplay before seeking
+      if (audio.readyState < 2) {
+        segmentEndRef.current = end;
+        audio.addEventListener("canplay", () => {
+          doSeek();
+          audio.play().then(() => setPlaying(true)).catch(() => {});
+        }, { once: true });
+        return;
+      }
+      segmentEndRef.current = end;
       if (audio.paused || audio.ended) {
         audio.play().then(() => { doSeek(); setPlaying(true); }).catch(() => {});
       } else {
