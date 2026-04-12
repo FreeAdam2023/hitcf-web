@@ -396,7 +396,7 @@ export function TestList() {
     });
 
     if (tab === "listening" || tab === "reading") {
-      const statusPriority: Record<string, number> = { inProgress: 0, completed: 1, notStarted: 2 };
+      const statusPriority: Record<string, number> = { inProgress: 0, notStarted: 1, completed: 2 };
       return filtered.sort((a, b) => {
         const sa = statusPriority[getTestStatus(a.id)] ?? 2;
         const sb = statusPriority[getTestStatus(b.id)] ?? 2;

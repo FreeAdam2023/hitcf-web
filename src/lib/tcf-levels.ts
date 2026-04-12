@@ -39,12 +39,12 @@ export function getTcfLevelByQuestionNumber(questionNumber: number): string {
 
 export const TCF_MAX_SCORE = 699;
 
-/** 计算 TCF 699 分制得分 */
+/** 计算 TCF 699 分制得分 —— 按本次做题的顺序位置 Q1..Q39 算，总分固定 699 */
 export function calcTcfScore(
-  answers: { question_number: number; original_question_number?: number | null; is_correct: boolean | null }[],
+  answers: { question_number: number; is_correct: boolean | null }[],
 ): number {
   return answers.reduce((sum, a) => {
-    if (a.is_correct) return sum + getTcfPoints(a.original_question_number ?? a.question_number);
+    if (a.is_correct) return sum + getTcfPoints(a.question_number);
     return sum;
   }, 0);
 }

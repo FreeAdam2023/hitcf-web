@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { Download, Loader2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,18 @@ export function ShareDialog({
   const posterRef = useRef<HTMLDivElement>(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [flipped, setFlipped] = useState(false);
+
+  // Reset + trigger flip animation whenever the dialog opens
+  useEffect(() => {
+    if (!open) {
+      setFlipped(false);
+      return;
+    }
+    setFlipped(false);
+    const t = setTimeout(() => setFlipped(true), 50);
+    return () => clearTimeout(t);
+  }, [open]);
 
   const handleSave = async () => {
     if (!posterRef.current) return;
@@ -60,14 +72,21 @@ export function ShareDialog({
 
         {/* Poster preview — scaled to fit dialog width, maintaining 3:4 ratio */}
         <div
-          className="relative w-full overflow-hidden rounded-lg border bg-muted"
-          style={{ aspectRatio: "3 / 4" }}
+          className="relative w-full"
+          style={{ aspectRatio: "3 / 4", perspective: "1200px" }}
         >
           <div
             style={{
               position: "absolute",
               inset: 0,
               overflow: "hidden",
+              borderRadius: "0.5rem",
+              border: "1px solid hsl(var(--border))",
+              background: "hsl(var(--muted))",
+              transform: flipped ? "rotateY(720deg) scale(1)" : "rotateY(0deg) scale(0.3)",
+              opacity: flipped ? 1 : 0,
+              transition: "transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease",
+              transformStyle: "preserve-3d",
             }}
           >
             <div

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { listTestSets, fetchTestSetsProgress } from "@/lib/api/test-sets";
@@ -249,6 +249,26 @@ function GroupRow({
   progressMap: Record<string, { total: number; dup: number }>;
   getAttemptInfo: (ts: TestSetItem) => TestAttemptInfo | undefined;
 }) {
+  const statusOf = (ts: TestSetItem): "inProgress" | "notStarted" | "completed" => {
+    const info = getAttemptInfo(ts);
+    if (!info) return "notStarted";
+    if (info.bestScore !== null && info.bestScore !== undefined) return "completed";
+    if (info.hasInProgress || info.drillAnswered) return "inProgress";
+    return "notStarted";
+  };
+
+  const sorted = useMemo(() => {
+    if (!items) return null;
+    const p: Record<string, number> = { inProgress: 0, notStarted: 1, completed: 2 };
+    return [...items].sort((a, b) => {
+      const sa = p[statusOf(a)] ?? 1;
+      const sb = p[statusOf(b)] ?? 1;
+      if (sa !== sb) return sa - sb;
+      return a.order - b.order;
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items, getAttemptInfo]);
+
   return (
     <div className="rounded-lg border border-border/50 bg-card overflow-hidden">
       <button
@@ -267,13 +287,13 @@ function GroupRow({
       </button>
       {open && (
         <div className="border-t border-border/50 p-3">
-          {items === null ? (
+          {sorted === null ? (
             <div className="text-xs text-muted-foreground">...</div>
-          ) : items.length === 0 ? (
+          ) : sorted.length === 0 ? (
             <div className="text-xs text-muted-foreground">—</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {items.map((ts) => {
+              {sorted.map((ts) => {
                 const progress = progressMap[ts.id];
                 const total = progress?.total ?? ts.question_count;
                 const dup = progress?.dup ?? 0;

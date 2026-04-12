@@ -168,7 +168,7 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
     const strokeWidth = 18;
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
-    const strokeDashoffset = circumference - (pct / 100) * circumference;
+    const strokeDashoffset = circumference - Math.min(1, pct / 100) * circumference;
 
     const timeStr = timeTakenSeconds != null && timeTakenSeconds > 0
       ? formatTime(timeTakenSeconds)
