@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronUp, CheckCircle2, Clock, Sparkles } from "lucide-react";
+import { ChevronDown, ChevronUp, Sparkles } from "lucide-react";
 import { listTestSets } from "@/lib/api/test-sets";
 import type { TestSetItem } from "@/lib/api/types";
 import { TestCard, type TestAttemptInfo } from "./test-card";
