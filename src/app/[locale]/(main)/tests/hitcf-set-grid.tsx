@@ -54,9 +54,6 @@ export function HitcfSetGrid({ type, attemptMap, answeredMap }: Props) {
       .catch(() => setSets([]));
   }, [type]);
 
-  if (sets === null) return null;
-  if (sets.length === 0) return null;
-
   const getAttemptInfo = (test: TestSetItem): TestAttemptInfo | undefined => {
     const info = attemptMap?.get(test.id);
     const answered = answeredMap?.[test.id];
@@ -79,7 +76,7 @@ export function HitcfSetGrid({ type, attemptMap, answeredMap }: Props) {
     return "notStarted";
   };
 
-  // Counts
+  // Counts — must be before early returns (React hooks rule)
   const counts = useMemo(() => {
     if (!sets) return { all: 0, inProgress: 0, completed: 0, notStarted: 0 };
     let inProgress = 0, completed = 0, notStarted = 0;
@@ -92,6 +89,9 @@ export function HitcfSetGrid({ type, attemptMap, answeredMap }: Props) {
     return { all: sets.length, inProgress, completed, notStarted };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sets, attemptMap, answeredMap]);
+
+  if (sets === null) return null;
+  if (sets.length === 0) return null;
 
   // Filtered sets
   const filtered = filter === "all" ? sets : sets.filter((s) => getStatus(s) === filter);
