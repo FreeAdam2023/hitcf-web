@@ -26,8 +26,8 @@ export function ReviewDialog({ open, onOpenChange, type }: Props) {
   const t = useTranslations();
   const router = useRouter();
 
-  const [count, setCount] = useState(0); // 0 = all
-  const [structured, setStructured] = useState(false);
+  const [count, setCount] = useState(0);
+  const [structured, setStructured] = useState(true); // default: 模拟考试
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,7 +35,7 @@ export function ReviewDialog({ open, onOpenChange, type }: Props) {
     setLoading(true);
     setError(null);
     try {
-      const size = count === 0 ? 39 : count;
+      const size = structured ? 39 : count === 0 ? 39 : count;
       const res = await startSmartPractice({
         type,
         size,
@@ -73,17 +73,6 @@ export function ReviewDialog({ open, onOpenChange, type }: Props) {
             </p>
             <div className="flex gap-2">
               <button
-                onClick={() => setStructured(false)}
-                className={cn(
-                  "flex-1 rounded-lg py-2.5 text-sm font-medium transition-all",
-                  !structured
-                    ? "bg-foreground text-background shadow-sm"
-                    : "bg-secondary text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {t("tests.reviewFree")}
-              </button>
-              <button
                 onClick={() => setStructured(true)}
                 className={cn(
                   "flex-1 rounded-lg py-2.5 text-sm font-medium transition-all",
@@ -94,6 +83,17 @@ export function ReviewDialog({ open, onOpenChange, type }: Props) {
               >
                 {t("tests.reviewStructured")}
               </button>
+              <button
+                onClick={() => setStructured(false)}
+                className={cn(
+                  "flex-1 rounded-lg py-2.5 text-sm font-medium transition-all",
+                  !structured
+                    ? "bg-foreground text-background shadow-sm"
+                    : "bg-secondary text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {t("tests.reviewFree")}
+              </button>
             </div>
             <p className="mt-2 text-[11px] text-muted-foreground/60">
               {structured
@@ -102,30 +102,32 @@ export function ReviewDialog({ open, onOpenChange, type }: Props) {
             </p>
           </div>
 
-          {/* Count selection */}
-          <div>
-            <p className="mb-2.5 text-sm font-medium text-muted-foreground">
-              {t("speedDrill.questionCount")}
-            </p>
-            <div className="flex gap-2">
-              {COUNT_OPTIONS.map((n) => (
-                <button
-                  key={n}
-                  onClick={() => setCount(n)}
-                  className={cn(
-                    "flex-1 rounded-lg py-2.5 text-sm font-medium transition-all",
-                    count === n
-                      ? "bg-foreground text-background shadow-sm"
-                      : "bg-secondary text-muted-foreground hover:text-foreground",
-                  )}
-                >
-                  {n === 0
-                    ? t("speedDrill.allQuestions")
-                    : t("speedDrill.questionsLabel", { count: n })}
-                </button>
-              ))}
+          {/* Count selection — only for free mode (structured is always 39) */}
+          {!structured && (
+            <div>
+              <p className="mb-2.5 text-sm font-medium text-muted-foreground">
+                {t("speedDrill.questionCount")}
+              </p>
+              <div className="flex gap-2">
+                {COUNT_OPTIONS.map((n) => (
+                  <button
+                    key={n}
+                    onClick={() => setCount(n)}
+                    className={cn(
+                      "flex-1 rounded-lg py-2.5 text-sm font-medium transition-all",
+                      count === n
+                        ? "bg-foreground text-background shadow-sm"
+                        : "bg-secondary text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    {n === 0
+                      ? t("speedDrill.allQuestions")
+                      : t("speedDrill.questionsLabel", { count: n })}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {error && (
             <p className="text-center text-sm text-destructive">{error}</p>
