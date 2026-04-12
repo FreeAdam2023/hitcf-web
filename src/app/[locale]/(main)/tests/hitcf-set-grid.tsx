@@ -77,7 +77,15 @@ export function HitcfSetGrid({ type, attemptMap, answeredMap }: Props) {
   if (sets.length === 0) return null;
 
   // Filtered sets
-  const filtered = filter === "all" ? sets : sets.filter((s) => getStatus(s) === filter);
+  // Sort: in-progress first → not started → completed
+  const statusPriority: Record<string, number> = { inProgress: 0, notStarted: 1, completed: 2 };
+  const filtered = (filter === "all" ? [...sets] : sets.filter((s) => getStatus(s) === filter))
+    .sort((a, b) => {
+      const sa = statusPriority[getStatus(a)] ?? 1;
+      const sb = statusPriority[getStatus(b)] ?? 1;
+      if (sa !== sb) return sa - sb;
+      return a.order - b.order; // within same status, keep original order
+    });
   const visible = expanded || filter !== "all" ? filtered : filtered.slice(0, INITIAL_SHOW);
   const hiddenCount = filtered.length - visible.length;
 
