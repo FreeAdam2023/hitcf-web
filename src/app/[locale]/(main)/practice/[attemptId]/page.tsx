@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { usePracticeStore } from "@/stores/practice-store";
 import { getAttempt } from "@/lib/api/attempts";
 import { ApiError } from "@/lib/api/client";
-import { getTestSetQuestions } from "@/lib/api/test-sets";
+import { getTestSetQuestions, fetchTestSetsProgress } from "@/lib/api/test-sets";
 import { getLocalePath } from "@/lib/utils";
 import { fetchDrillNav, loadDrillQuestion } from "@/lib/api/speed-drill";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
@@ -20,6 +20,7 @@ export default function PracticePage() {
   const params = useParams<{ attemptId: string }>()!;
   const init = usePracticeStore((s) => s.init);
   const initDrill = usePracticeStore((s) => s.initDrill);
+  const setTestSetDupPct = usePracticeStore((s) => s.setTestSetDupPct);
   const storeAttemptId = usePracticeStore((s) => s.attemptId);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -82,6 +83,26 @@ export default function PracticePage() {
 
         if (signal?.aborted) return;
         init(params.attemptId, questions, attempt.test_set_name, attempt.test_set_type, attempt.started_at, attempt.answers, attempt.previously_answered, attempt.current_index);
+
+        // Dup-ratio badge: only meaningful for classic/extended listening+reading
+        // (hitcf sets are all duplicates; speed drill / mock exam bypass this path).
+        const group = attempt.test_set_group;
+        const type = attempt.test_set_type;
+        if ((group === "classic" || group === "extended") && (type === "listening" || type === "reading")) {
+          fetchTestSetsProgress({ type, group })
+            .then((map) => {
+              if (signal?.aborted) return;
+              const p = map[attempt.test_set_id];
+              if (p && p.total > 0) {
+                setTestSetDupPct(Math.round((p.dup / p.total) * 100));
+              } else {
+                setTestSetDupPct(null);
+              }
+            })
+            .catch(() => setTestSetDupPct(null));
+        } else {
+          setTestSetDupPct(null);
+        }
       }
       setLoading(false);
     } catch (err) {

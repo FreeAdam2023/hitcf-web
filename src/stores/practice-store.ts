@@ -9,6 +9,9 @@ interface PracticeState {
   testSetId: string | null;
   testSetName: string | null;
   testSetType: string | null;
+  /** Ratio of questions in the current test_set already answered elsewhere,
+   *  in [0, 100]. Null when not applicable (e.g. speed drill, mock exam). */
+  testSetDupPct: number | null;
   startedAt: string | null;
   questions: QuestionBrief[];
   currentIndex: number;
@@ -28,6 +31,7 @@ interface PracticeState {
   questionMeta: Array<{ id: string; level: string; type: string }> | null;
 
   setTestSetId: (id: string) => void;
+  setTestSetDupPct: (pct: number | null) => void;
   init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null, startedAt?: string | null, existingAnswers?: AnswerResponse[], previousAnswers?: AnswerResponse[], serverIndex?: number | null) => void;
   initDrill: (attemptId: string, total: number, navPage: number, questionIds: string[], answeredIds: string[], firstQuestion: QuestionBrief, serverIndex?: number | null, meta?: { testSetName?: string; questionMeta?: Array<{ id: string; level: string; type: string }> }) => void;
   setDrillNavPage: (page: number, questionIds: string[], answeredIds: string[]) => void;
@@ -86,6 +90,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   testSetId: null,
   testSetName: null,
   testSetType: null,
+  testSetDupPct: null,
   startedAt: null,
   questions: [],
   currentIndex: 0,
@@ -102,6 +107,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   questionMeta: null,
 
   setTestSetId: (id) => set({ testSetId: id }),
+  setTestSetDupPct: (pct) => set({ testSetDupPct: pct }),
 
   init: (attemptId, questions, testSetName, testSetType, startedAt, existingAnswers, previousAnswers, serverIndex) => {
     const answers = new Map<string, AnswerResponse>();
@@ -286,7 +292,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
     const { attemptId } = get();
     if (attemptId) clearIndex(attemptId);
     set({
-      attemptId: null, testSetId: null, testSetName: null, testSetType: null, startedAt: null,
+      attemptId: null, testSetId: null, testSetName: null, testSetType: null, testSetDupPct: null, startedAt: null,
       questions: [], currentIndex: 0, answers: new Map(), previousAnswers: new Map(),
       drillMode: false, drillTotal: 0, drillQuestionIds: [], drillAnsweredIds: new Set(),
       drillNavLoadedPages: new Set(), loadedQuestions: new Map(),

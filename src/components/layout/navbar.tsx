@@ -107,6 +107,7 @@ function ImmersiveHeader() {
   const label = isExam ? t('common.modes.exam') : t('common.modes.practice');
   const rawTestSetName = usePracticeStore((s) => s.testSetName);
   const testSetType = usePracticeStore((s) => s.testSetType);
+  const testSetDupPct = usePracticeStore((s) => s.testSetDupPct);
   const testSetName = rawTestSetName && testSetType
     ? localizeTestName(t, testSetType, rawTestSetName)
     : rawTestSetName;
@@ -124,6 +125,18 @@ function ImmersiveHeader() {
         {testSetName && (
           <span className="ms-3 truncate text-sm font-medium text-foreground max-w-[40vw]">
             {testSetName}
+          </span>
+        )}
+        {testSetDupPct != null && testSetDupPct > 0 && (
+          <span
+            className={`ms-2 rounded-full px-2 py-0.5 text-[11px] font-medium tabular-nums ${
+              testSetDupPct >= 70
+                ? "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300"
+                : "bg-muted text-muted-foreground"
+            }`}
+            title={t("tests.duplicateRatio", { pct: testSetDupPct })}
+          >
+            {t("tests.duplicateRatio", { pct: testSetDupPct })}
           </span>
         )}
         {/* Exam timer shown in ExamSession body, not duplicated here */}
