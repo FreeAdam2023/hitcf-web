@@ -402,6 +402,7 @@
     "examDesc": "计时进行，不显示答案；提交后显示成绩和预估等级",
     "incompletePractice": "未完成的练习 · 已答 {answered} 题",
     "incompleteExam": "未完成的考试 · 已答 {answered} 题",
+    "drillProgressNote": "已通过其他练习答过 {answered}/{total} 题，开始练习会保留这些答案",
     "continuePractice": "继续练习",
     "continueExam": "继续考试",
     "startPractice": "开始练习",

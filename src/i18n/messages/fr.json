@@ -402,6 +402,7 @@
     "examDesc": "Chronométré. Réponses masquées jusqu'à la soumission. Score et niveau estimé affichés après.",
     "incompletePractice": "Entraînement incomplet · {answered} répondu(es)",
     "incompleteExam": "Examen incomplet · {answered} répondu(es)",
+    "drillProgressNote": "Vous avez déjà répondu à {answered}/{total} questions via d'autres modes. Commencer l'entraînement conservera ces réponses.",
     "continuePractice": "Continuer l'entraînement",
     "continueExam": "Continuer l'examen",
     "startPractice": "Commencer l'entraînement",

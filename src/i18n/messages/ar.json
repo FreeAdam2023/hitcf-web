@@ -401,6 +401,7 @@
     "examDesc": "محدد بوقت. تُخفى الإجابات حتى التسليم. تُعرض النتيجة والمستوى المقدّر بعد الانتهاء.",
     "incompletePractice": "تدريب غير مكتمل · {answered} إجابة",
     "incompleteExam": "اختبار غير مكتمل · {answered} إجابة",
+    "drillProgressNote": "لقد أجبت على {answered}/{total} أسئلة عبر أوضاع تدريب أخرى. بدء التدريب سيحافظ على تلك الإجابات.",
     "continuePractice": "متابعة التدريب",
     "continueExam": "متابعة الاختبار",
     "startPractice": "بدء التدريب",

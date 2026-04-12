@@ -311,6 +311,21 @@ export function TestCard({
             </div>
           )}
 
+          {/* Drill-only progress notice: user has answered some questions in this
+              test set via speed-drill / smart-practice, but never created an
+              attempt for the set itself. Starting a new practice preserves those
+              answers via previousAnswers. */}
+          {!activePractice && hasDrillOnly && (
+            <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3 text-sm">
+              <span className="text-muted-foreground">
+                {t("testCard.drillProgressNote", {
+                  answered: attemptInfo!.drillAnswered!,
+                  total: test.question_count,
+                })}
+              </span>
+            </div>
+          )}
+
           {/* Action buttons */}
           <div className="space-y-2">
             <div className="flex gap-3">
@@ -328,7 +343,11 @@ export function TestCard({
                   onClick={() => handleStartPractice()}
                   disabled={starting}
                 >
-                  {starting ? t("common.actions.starting") : t("testCard.startPractice")}
+                  {starting
+                    ? t("common.actions.starting")
+                    : hasDrillOnly
+                      ? t("testCard.continuePractice")
+                      : t("testCard.startPractice")}
                 </Button>
               )}
 
