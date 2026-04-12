@@ -89,14 +89,19 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     seekTo(seconds: number) {
       const audio = audioRef.current;
       if (!audio || !url) {
-        // Queue a load + seek
         pendingSeekRef.current = { type: "seek", seconds };
         loadUrl();
         return;
       }
       segmentEndRef.current = null;
-      audio.currentTime = seconds;
-      audio.play().then(() => setPlaying(true)).catch(() => {});
+      // Play first, then seek — Safari/mobile browsers silently fail
+      // when currentTime is set on a paused or ended audio element.
+      const doSeek = () => { audio.currentTime = seconds; };
+      if (audio.paused || audio.ended) {
+        audio.play().then(() => { doSeek(); setPlaying(true); }).catch(() => {});
+      } else {
+        doSeek();
+      }
     },
     playSegment(start: number, end: number) {
       const audio = audioRef.current;
@@ -107,8 +112,12 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
       }
       segmentEndRef.current = end;
       segmentPausedRef.current = false;
-      audio.currentTime = start;
-      audio.play().then(() => setPlaying(true)).catch(() => {});
+      const doSeek = () => { audio.currentTime = start; };
+      if (audio.paused || audio.ended) {
+        audio.play().then(() => { doSeek(); setPlaying(true); }).catch(() => {});
+      } else {
+        doSeek();
+      }
     },
     replay() {
       restartRef.current();
