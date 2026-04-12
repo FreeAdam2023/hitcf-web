@@ -1877,14 +1877,6 @@
         "description": "Expressions françaises essentielles pour le TCF : connecteurs, tournures, collocations"
       }
     },
-    "dailyExpression": {
-      "label": "Du jour",
-      "viewAll": "Voir tout",
-      "save": "Sauvegarder",
-      "saved": "Sauvegardé",
-      "play": "Écouter la prononciation",
-      "dismiss": "Fermer"
-    },
     "dictation": {
       "button": "Dictée",
       "title": "Mode dictée",

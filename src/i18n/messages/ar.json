@@ -1874,14 +1874,6 @@
         "description": "تعبيرات فرنسية أساسية لـ TCF: روابط، أنماط، تراكيب"
       }
     },
-    "dailyExpression": {
-      "label": "يومي",
-      "viewAll": "عرض الكل",
-      "save": "حفظ",
-      "saved": "تم الحفظ",
-      "play": "تشغيل النطق",
-      "dismiss": "إغلاق"
-    },
     "dictation": {
       "button": "إملاء",
       "title": "الإملاء",

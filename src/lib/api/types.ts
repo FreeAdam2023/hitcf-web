@@ -848,7 +848,8 @@ export interface ExpressionStats {
   by_category: Record<string, number>;
 }
 
-export type DailyExpression = ExpressionWordItem;
+/** Shape returned by /api/vocab/expression/random — same as a pool item. */
+export type RandomExpression = ExpressionWordItem;
 
 // Vocabulary Card
 export interface ConjugationTable {

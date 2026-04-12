@@ -1877,14 +1877,6 @@
         "description": "Essential French expressions for TCF speaking and writing: connectors, patterns, collocations"
       }
     },
-    "dailyExpression": {
-      "label": "Daily",
-      "viewAll": "View all",
-      "save": "Save",
-      "saved": "Saved",
-      "play": "Play pronunciation",
-      "dismiss": "Close"
-    },
     "dictation": {
       "button": "Dictation",
       "title": "Dictation Mode",

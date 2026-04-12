@@ -1877,14 +1877,6 @@
         "description": "TCF 口语写作常用法语表达：连接词、句型、搭配、副词"
       }
     },
-    "dailyExpression": {
-      "label": "每日一句",
-      "viewAll": "查看全部",
-      "save": "收藏",
-      "saved": "已收藏",
-      "play": "播放发音",
-      "dismiss": "关闭"
-    },
     "dictation": {
       "button": "听写",
       "title": "听写模式",

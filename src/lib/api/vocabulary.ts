@@ -13,7 +13,7 @@ import type {
   ExpressionWordItem,
   ExpressionFilters,
   ExpressionStats,
-  DailyExpression,
+  RandomExpression,
 } from "./types";
 
 // First-time card generation calls Azure Dict + Grok + TTS and can take 30-50s
@@ -259,8 +259,9 @@ export function getExpressionStats(): Promise<ExpressionStats> {
   return get("/api/vocab/expression/stats");
 }
 
-export function getDailyExpression(): Promise<DailyExpression> {
-  return get("/api/vocab/expression/daily");
+/** Fetch a uniformly random expression from the pool. Powers PhraseTicker. */
+export function getRandomExpression(): Promise<RandomExpression> {
+  return get("/api/vocab/expression/random");
 }
 
 // ---------------------------------------------------------------------------
