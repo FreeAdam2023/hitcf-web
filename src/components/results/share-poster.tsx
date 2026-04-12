@@ -324,7 +324,7 @@ export const SharePoster = forwardRef<HTMLDivElement, SharePosterProps>(
 
         {/* Score grid (listening/reading only) */}
         {isPointBased && answers && answers.length > 0 && (() => {
-          const answerMap = new Map(answers.map((a) => [a.original_question_number ?? a.question_number, a]));
+          const answerMap = new Map(answers.map((a) => [a.question_number, a]));
           const rows = [[1,10],[11,20],[21,30],[31,39]];
           return (
             <div style={{ padding: "0 48px 24px" }}>

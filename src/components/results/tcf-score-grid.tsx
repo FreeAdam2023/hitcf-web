@@ -50,11 +50,11 @@ function getShade(pts: number, status: "correct" | "wrong" | "unanswered"): stri
 
 export function TcfScoreGrid({ answers }: TcfScoreGridProps) {
   const t = useTranslations();
-  const answerMap = new Map(answers.map((a) => [a.original_question_number ?? a.question_number, a]));
+  const answerMap = new Map(answers.map((a) => [a.question_number, a]));
 
   let earned = 0;
   for (const a of answers) {
-    if (a.is_correct) earned += getTcfPoints(a.original_question_number ?? a.question_number);
+    if (a.is_correct) earned += getTcfPoints(a.question_number);
   }
   const pct = Math.round((earned / TCF_MAX_SCORE) * 100);
 
