@@ -13,7 +13,6 @@ import {
 import { startSmartPractice } from "@/lib/api/smart-practice";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 
 const COUNT_OPTIONS = [10, 30, 0]; // 0 = all answered
 
