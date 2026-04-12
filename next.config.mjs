@@ -5,6 +5,8 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
+  // next-mdx-remote@6 ships pure ESM; Next 14 needs it transpiled
+  transpilePackages: ["next-mdx-remote"],
   async headers() {
     return [
       {
