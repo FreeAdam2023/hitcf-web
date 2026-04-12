@@ -283,6 +283,8 @@
     "firstTimeNudge": "C'est votre première fois ? Cliquez sur « Complet 39 » ci-dessus — une série complète selon la distribution TCF réelle, au plus près de l'examen.",
     "brandedSets": "Séries officielles",
     "freePractice": "Pratique libre",
+    "randomReview": "Révision aléatoire",
+    "noReviewQuestions": "Aucune question à réviser — essayez d'abord quelques séries HiTCF",
     "completedOf": "{done} / {total} terminées",
     "browseTestSets": "Parcourir les séries",
     "browseHint": "La pratique intelligente ci-dessus ignore automatiquement les questions déjà faites — c'est le moyen le plus efficace",

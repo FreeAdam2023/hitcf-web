@@ -30,7 +30,6 @@ import { SpeakingTache1Guide } from "./speaking-tache1-guide";
 import { ContinueBanner } from "@/components/shared/continue-banner";
 import { useAuthStore } from "@/stores/auth-store";
 
-import { SmartPracticePanel } from "./smart-practice-panel";
 import { HitcfSetGrid } from "./hitcf-set-grid";
 import { TestSetGroupsAccordion } from "./test-set-groups-accordion";
 
@@ -764,22 +763,16 @@ export function TestList() {
           {/* ── Content: listening/reading ── */}
           {tab === "listening" || tab === "reading" ? (
             <div className="space-y-6">
-              {/* 1. HiTCF branded sets — THE primary progression path */}
+              {/* HiTCF branded sets — THE page. Filter pills include
+                  等级练习 button; smart practice removed — HiTCF covers
+                  100% of the pool so random assembly is redundant. */}
               <HitcfSetGrid
                 type={tab}
                 attemptMap={attemptMap}
                 answeredMap={answeredMap}
               />
 
-              {/* 2. Smart practice — demoted to "自由练习" section */}
-              <div>
-                <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-muted-foreground">
-                  {t("tests.freePractice")}
-                </h3>
-                <SmartPracticePanel type={tab} />
-              </div>
-
-              {/* 3. Legacy browse — only for returning users */}
+              {/* Legacy browse — only for returning users with history */}
               {attemptMap.size > 0 && (
                 <TestSetGroupsAccordion
                   type={tab}

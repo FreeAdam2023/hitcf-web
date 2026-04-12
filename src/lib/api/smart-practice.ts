@@ -50,10 +50,13 @@ export interface SmartPracticeStartResponse {
 export function startSmartPractice(params: {
   type: "listening" | "reading";
   size?: number;
+  /** Review mode: only from already-answered, prioritize wrong answers. */
+  review?: boolean;
 }): Promise<SmartPracticeStartResponse> {
   const sp = new URLSearchParams();
   sp.set("type", params.type);
   if (params.size != null) sp.set("size", String(params.size));
+  if (params.review) sp.set("review", "true");
   return post<SmartPracticeStartResponse>(
     `/api/smart-practice/start?${sp.toString()}`
   );
