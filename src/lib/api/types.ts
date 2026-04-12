@@ -357,6 +357,9 @@ export interface AttemptDetail extends AttemptResponse {
   current_index?: number | null;
   open_book?: boolean | null;
   reviewed_questions?: string[];
+  /** Smart-mode only: lightweight per-question metadata so the navigator
+   *  can group by level without eagerly loading all 39 question payloads. */
+  question_meta?: Array<{ id: string; question_number: number; level: string; type: string }>;
 }
 
 // Attempt creation response

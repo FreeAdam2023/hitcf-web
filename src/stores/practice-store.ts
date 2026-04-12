@@ -22,10 +22,14 @@ interface PracticeState {
   drillAnsweredIds: Set<string>;            // accumulated across nav pages
   drillNavLoadedPages: Set<number>;         // 1-based backend page numbers loaded
   loadedQuestions: Map<string, QuestionBrief>; // cache: id → full question
+  /** Lightweight per-question metadata from smart-practice /start. When
+   *  present, the navigator can render level groups in drill mode without
+   *  having every question's full payload loaded. */
+  questionMeta: Array<{ id: string; level: string; type: string }> | null;
 
   setTestSetId: (id: string) => void;
   init: (attemptId: string, questions: QuestionBrief[], testSetName?: string | null, testSetType?: string | null, startedAt?: string | null, existingAnswers?: AnswerResponse[], previousAnswers?: AnswerResponse[], serverIndex?: number | null) => void;
-  initDrill: (attemptId: string, total: number, navPage: number, questionIds: string[], answeredIds: string[], firstQuestion: QuestionBrief, serverIndex?: number | null) => void;
+  initDrill: (attemptId: string, total: number, navPage: number, questionIds: string[], answeredIds: string[], firstQuestion: QuestionBrief, serverIndex?: number | null, meta?: { testSetName?: string; questionMeta?: Array<{ id: string; level: string; type: string }> }) => void;
   setDrillNavPage: (page: number, questionIds: string[], answeredIds: string[]) => void;
   setDrillQuestion: (question: QuestionBrief) => void;
   setAnswer: (questionId: string, answer: AnswerResponse) => void;
@@ -95,6 +99,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
   drillAnsweredIds: new Set(),
   drillNavLoadedPages: new Set(),
   loadedQuestions: new Map(),
+  questionMeta: null,
 
   setTestSetId: (id) => set({ testSetId: id }),
 
@@ -149,10 +154,11 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
       drillAnsweredIds: new Set(),
       drillNavLoadedPages: new Set(),
       loadedQuestions: new Map(),
+      questionMeta: null,
     });
   },
 
-  initDrill: (attemptId, total, navPage, questionIds, answeredIds, firstQuestion, serverIndex) => {
+  initDrill: (attemptId, total, navPage, questionIds, answeredIds, firstQuestion, serverIndex, meta) => {
     const cache = new Map<string, QuestionBrief>();
     cache.set(firstQuestion.id, firstQuestion);
 
@@ -190,11 +196,14 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
 
     set({
       attemptId, questions,
-      testSetId: null, testSetName: null, testSetType: null, startedAt: null,
+      testSetId: null,
+      testSetName: meta?.testSetName ?? null,
+      testSetType: null, startedAt: null,
       currentIndex, answers: new Map(), previousAnswers: new Map(),
       drillMode: true, drillTotal: total, drillQuestionIds: allIds,
       drillAnsweredIds: answeredSet, loadedQuestions: cache,
       drillNavLoadedPages: new Set([navPage]),
+      questionMeta: meta?.questionMeta ?? null,
     });
   },
 
@@ -281,6 +290,7 @@ export const usePracticeStore = create<PracticeState>((set, get) => ({
       questions: [], currentIndex: 0, answers: new Map(), previousAnswers: new Map(),
       drillMode: false, drillTotal: 0, drillQuestionIds: [], drillAnsweredIds: new Set(),
       drillNavLoadedPages: new Set(), loadedQuestions: new Map(),
+      questionMeta: null,
     });
   },
 }));

@@ -399,6 +399,7 @@ export function PracticeSession() {
     setDrillQuestion,
     setDrillNavPage,
     setTestSetId,
+    questionMeta,
   } = usePracticeStore();
 
   const totalQuestions = drillMode ? drillTotal : questions.length;
@@ -1177,7 +1178,7 @@ export function PracticeSession() {
             answers={answers}
             questionIds={drillMode ? drillQuestionIds : questions.map((q) => q.id)}
             onNavigate={handleGoToQuestion}
-            questions={drillMode ? undefined : questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
+            questions={drillMode ? (questionMeta?.map((m) => ({ type: m.type, level: m.level })) ?? undefined) : questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
             previousAnswers={previousAnswers}
             drillAnsweredIds={drillMode ? drillAnsweredIds : undefined}
             onNavPageChange={drillMode ? handleNavPageChange : undefined}
@@ -1612,7 +1613,7 @@ export function PracticeSession() {
               answers={answers}
               questionIds={drillMode ? drillQuestionIds : questions.map((q) => q.id)}
               onNavigate={handleGoToQuestion}
-              questions={drillMode ? undefined : questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
+              questions={drillMode ? (questionMeta?.map((m) => ({ type: m.type, level: m.level })) ?? undefined) : questions.map((q) => ({ type: q.type, level: q.level || ((q.type === "listening" || q.type === "reading") ? getTcfLevelByQuestionNumber(q.question_number) : null) }))}
               drillAnsweredIds={drillMode ? drillAnsweredIds : undefined}
               onNavPageChange={drillMode ? handleNavPageChange : undefined}
               reviewedIds={openBook ? reviewedIds : undefined}

@@ -56,7 +56,11 @@ export function QuestionNavigator({
   const isExam = mode === "exam";
   const isDrill = !!drillAnsweredIds;
   const isListeningOrReading = questions?.[0]?.type === "listening" || questions?.[0]?.type === "reading";
-  const useGrouped = !isExam && !isDrill && isListeningOrReading && questions && questions.length > 0;
+  // Level-grouped view: enabled whenever we have per-question type/level
+  // metadata AND the type is listening/reading. In drill mode this is
+  // only true for smart-practice (which passes questionMeta from /start);
+  // plain speed drills don't pass questions so they stay on the flat grid.
+  const useGrouped = !isExam && isListeningOrReading && questions && questions.length > 0 && questions.length === total;
   const totalAnswered = isDrill
     ? drillAnsweredIds.size
     : previousAnswers

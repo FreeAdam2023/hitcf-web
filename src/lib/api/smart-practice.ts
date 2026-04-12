@@ -25,6 +25,13 @@ export function fetchSmartPracticeCoverage(
 
 /* ── Start ── */
 
+export interface SmartQuestionMeta {
+  id: string;
+  question_number: number;
+  level: string;
+  type: string;
+}
+
 export interface SmartPracticeStartResponse {
   attempt_id: string;
   total: number;
@@ -35,6 +42,9 @@ export interface SmartPracticeStartResponse {
     old_recycle: number;
   };
   distribution: Record<string, number>;
+  /** Lightweight per-question metadata for the navigator. Full question
+   *  detail is loaded on-demand via the drill path. */
+  question_meta: SmartQuestionMeta[];
 }
 
 export function startSmartPractice(params: {
