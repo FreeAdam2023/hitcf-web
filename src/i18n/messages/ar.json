@@ -35,6 +35,8 @@
       "free": "مجاني",
       "subscription": "اشتراك",
       "inProgress": "قيد التنفيذ",
+      "completed": "مكتمل",
+      "notStarted": "لم يبدأ",
       "incomplete": "غير مكتمل",
       "unanswered": "لم يُجَب",
       "correct": "صحيح",

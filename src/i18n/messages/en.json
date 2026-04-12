@@ -35,6 +35,8 @@
       "free": "Free",
       "subscription": "Pro",
       "inProgress": "In Progress",
+      "completed": "Completed",
+      "notStarted": "Not Started",
       "incomplete": "Incomplete",
       "unanswered": "Unanswered",
       "correct": "Correct",

@@ -35,6 +35,8 @@
       "free": "免费",
       "subscription": "订阅",
       "inProgress": "进行中",
+      "completed": "已完成",
+      "notStarted": "未开始",
       "incomplete": "未完成",
       "unanswered": "未答",
       "correct": "正确",

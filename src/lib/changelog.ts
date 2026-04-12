@@ -24,13 +24,23 @@ export function getLocalizedChangelog(locale: string) {
 // Only user-facing changes — no admin/backend internals
 export const changelog: ChangelogEntry[] = [
   {
-    date: "2026-04-11",
+    date: "2026-04-12",
     type: "feature",
     title: {
-      zh: "智能组题全面升级",
-      en: "Smart practice overhauled",
-      fr: "Pratique intelligente repensée",
-      ar: "ترقية شاملة للتدريب الذكي",
+      zh: "HiTCF 精编模拟上线：47 套阅读 + 49 套听力，零重叠",
+      en: "HiTCF Curated Series: 47 reading + 49 listening sets, zero overlap",
+      fr: "Séries HiTCF : 47 lecture + 49 écoute, zéro chevauchement",
+      ar: "سلسلة HiTCF: 47 قراءة + 49 استماع، بدون تكرار",
+    },
+  },
+  {
+    date: "2026-04-12",
+    type: "feature",
+    title: {
+      zh: "随机复习：错题优先，巩固薄弱点",
+      en: "Random review: wrong answers first, reinforce weak spots",
+      fr: "Révision aléatoire : erreurs en priorité, renforcer les points faibles",
+      ar: "مراجعة عشوائية: الأخطاء أولاً، تعزيز النقاط الضعيفة",
     },
   },
   {
@@ -51,16 +61,6 @@ export const changelog: ChangelogEntry[] = [
       en: "Tabs reordered to match the recommended study path",
       fr: "Onglets réorganisés selon le parcours d'apprentissage recommandé",
       ar: "إعادة ترتيب التبويبات وفق مسار التعلم الموصى به",
-    },
-  },
-  {
-    date: "2026-04-11",
-    type: "improvement",
-    title: {
-      zh: "题库池翻倍,备考素材更完善",
-      en: "Question pool doubled — more material, more confidence",
-      fr: "Banque de questions doublée — plus de matériel, plus de confiance",
-      ar: "بنك الأسئلة تضاعف — مواد أكثر، ثقة أكبر",
     },
   },
   {
