@@ -282,6 +282,7 @@
     "noHistory": "暂无练习记录，从上方智能组题开始吧",
     "firstTimeNudge": "这是你的第一次？点击上方「完整 39 题」，按 TCF 真实分布做一套，最接近真实考试。",
     "brandedSets": "精编模拟",
+    "freePractice": "自由练习",
     "completedOf": "完成 {done} / {total} 套",
     "browseTestSets": "题库浏览",
     "browseHint": "推荐使用上方的智能组题，自动跳过已做题，效率最高",

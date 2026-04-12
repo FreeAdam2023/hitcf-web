@@ -32,7 +32,6 @@ import { useAuthStore } from "@/stores/auth-store";
 
 import { SmartPracticePanel } from "./smart-practice-panel";
 import { HitcfSetGrid } from "./hitcf-set-grid";
-import { RecentPracticeList } from "./recent-practice-list";
 import { TestSetGroupsAccordion } from "./test-set-groups-accordion";
 
 type TabType = "listening" | "reading" | "speaking" | "writing";
@@ -705,11 +704,6 @@ export function TestList() {
         </TabsList>
 
         <TabsContent value={tab ?? "reading"} className="mt-4">
-          {/* Smart practice panel — featured at the top for listening/reading */}
-          {(tab === "listening" || tab === "reading") && (
-            <SmartPracticePanel type={tab} />
-          )}
-
           {/* ── Speaking/Writing controls ── */}
           {isSpeakingWriting && (
             <div className="mb-5 space-y-3">
@@ -767,22 +761,25 @@ export function TestList() {
             </div>
           )}
 
-          {/* ── Content ── */}
+          {/* ── Content: listening/reading ── */}
           {tab === "listening" || tab === "reading" ? (
-            <div className="space-y-4">
-              {/* HiTCF branded sets — the primary progression path */}
+            <div className="space-y-6">
+              {/* 1. HiTCF branded sets — THE primary progression path */}
               <HitcfSetGrid
                 type={tab}
                 attemptMap={attemptMap}
                 answeredMap={answeredMap}
               />
 
-              {/* Free practice: smart random assembly */}
-              <RecentPracticeList type={tab} />
+              {/* 2. Smart practice — demoted to "自由练习" section */}
+              <div>
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-muted-foreground">
+                  {t("tests.freePractice")}
+                </h3>
+                <SmartPracticePanel type={tab} />
+              </div>
 
-              {/* Legacy browse: classic + extended — only for returning users
-                  who might have progress in those sets. New users see HiTCF
-                  grid above as their primary progression path. */}
+              {/* 3. Legacy browse — only for returning users */}
               {attemptMap.size > 0 && (
                 <TestSetGroupsAccordion
                   type={tab}
