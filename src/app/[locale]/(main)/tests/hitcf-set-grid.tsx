@@ -1,17 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronUp, Layers, Loader2, RotateCcw, Sparkles } from "lucide-react";
-import { toast } from "sonner";
+import { ChevronDown, ChevronUp, Layers, RotateCcw, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { listTestSets } from "@/lib/api/test-sets";
-import { startSmartPractice } from "@/lib/api/smart-practice";
 import type { TestSetItem } from "@/lib/api/types";
-import { useAuthStore } from "@/stores/auth-store";
 import { TestCard, type TestAttemptInfo } from "./test-card";
 import { LevelPracticeDialog } from "./level-practice-dialog";
+import { ReviewDialog } from "./review-dialog";
 
 interface Props {
   type: "listening" | "reading";
@@ -25,25 +22,11 @@ type StatusFilter = "all" | "inProgress" | "completed" | "notStarted";
 
 export function HitcfSetGrid({ type, attemptMap, answeredMap }: Props) {
   const t = useTranslations();
-  const router = useRouter();
-  const { isAuthenticated } = useAuthStore();
   const [sets, setSets] = useState<TestSetItem[] | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [filter, setFilter] = useState<StatusFilter>("all");
   const [levelDialogOpen, setLevelDialogOpen] = useState(false);
-  const [reviewLoading, setReviewLoading] = useState(false);
-
-  const handleStartReview = async () => {
-    if (!isAuthenticated) { router.push("/login"); return; }
-    setReviewLoading(true);
-    try {
-      const res = await startSmartPractice({ type, size: 39, review: true });
-      router.push(`/practice/${res.attempt_id}`);
-    } catch {
-      toast.error(t("tests.noReviewQuestions"));
-      setReviewLoading(false);
-    }
-  };
+  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
 
   useEffect(() => {
     setSets(null);
@@ -145,15 +128,10 @@ export function HitcfSetGrid({ type, attemptMap, answeredMap }: Props) {
             {t("speedDrill.title")}
           </button>
           <button
-            onClick={handleStartReview}
-            disabled={reviewLoading}
-            className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 px-3 py-1 text-xs font-medium text-amber-700 hover:bg-amber-500/10 dark:text-amber-300 transition-colors disabled:opacity-50"
+            onClick={() => setReviewDialogOpen(true)}
+            className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 px-3 py-1 text-xs font-medium text-amber-700 hover:bg-amber-500/10 dark:text-amber-300 transition-colors"
           >
-            {reviewLoading ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin" />
-            ) : (
-              <RotateCcw className="h-3.5 w-3.5" />
-            )}
+            <RotateCcw className="h-3.5 w-3.5" />
             {t("tests.randomReview")}
           </button>
         </div>
@@ -200,6 +178,11 @@ export function HitcfSetGrid({ type, attemptMap, answeredMap }: Props) {
       <LevelPracticeDialog
         open={levelDialogOpen}
         onOpenChange={setLevelDialogOpen}
+        type={type}
+      />
+      <ReviewDialog
+        open={reviewDialogOpen}
+        onOpenChange={setReviewDialogOpen}
         type={type}
       />
     </div>
