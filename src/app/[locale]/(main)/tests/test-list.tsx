@@ -31,6 +31,7 @@ import { ContinueBanner } from "@/components/shared/continue-banner";
 import { useAuthStore } from "@/stores/auth-store";
 
 import { SmartPracticePanel } from "./smart-practice-panel";
+import { HitcfSetGrid } from "./hitcf-set-grid";
 import { RecentPracticeList } from "./recent-practice-list";
 import { TestSetGroupsAccordion } from "./test-set-groups-accordion";
 
@@ -769,16 +770,27 @@ export function TestList() {
           {/* ── Content ── */}
           {tab === "listening" || tab === "reading" ? (
             <div className="space-y-4">
-              <RecentPracticeList type={tab} />
-              {/* Browse accordion is always rendered. Net-new users see it
-                  collapsed (autoOpen=false), returning users with history
-                  land with it expanded. Users can always toggle it. */}
-              <TestSetGroupsAccordion
+              {/* HiTCF branded sets — the primary progression path */}
+              <HitcfSetGrid
                 type={tab}
-                autoOpen={attemptMap.size > 0}
                 attemptMap={attemptMap}
                 answeredMap={answeredMap}
               />
+
+              {/* Free practice: smart random assembly */}
+              <RecentPracticeList type={tab} />
+
+              {/* Legacy browse: classic + extended — only for returning users
+                  who might have progress in those sets. New users see HiTCF
+                  grid above as their primary progression path. */}
+              {attemptMap.size > 0 && (
+                <TestSetGroupsAccordion
+                  type={tab}
+                  autoOpen
+                  attemptMap={attemptMap}
+                  answeredMap={answeredMap}
+                />
+              )}
             </div>
           ) : tab === "speaking" && speakingTache === 1 ? (
             <SpeakingTache1Guide />

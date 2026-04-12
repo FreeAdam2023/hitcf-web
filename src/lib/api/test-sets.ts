@@ -10,7 +10,7 @@ import type {
 
 export function fetchTestSetsProgress(params: {
   type: "listening" | "reading";
-  group?: "classic" | "extended";
+  group?: "classic" | "extended" | "hitcf";
 }): Promise<Record<string, { total: number; dup: number }>> {
   const sp = new URLSearchParams();
   sp.set("type", params.type);
@@ -24,7 +24,7 @@ export function listTestSets(params?: {
   type?: "listening" | "reading" | "speaking" | "writing";
   exam_type?: string;
   task_number?: number;
-  group?: "classic" | "extended";
+  group?: "classic" | "extended" | "hitcf";
   page?: number;
   page_size?: number;
 }): Promise<PaginatedResponse<TestSetItem>> {

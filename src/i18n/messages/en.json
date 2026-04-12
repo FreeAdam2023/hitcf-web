@@ -281,6 +281,8 @@
     "resume": "Resume",
     "noHistory": "No practice yet — start with smart practice above",
     "firstTimeNudge": "First time here? Click “Full 39” above — a full set in real TCF distribution, closest to the actual exam.",
+    "brandedSets": "Curated Series",
+    "completedOf": "{done} / {total} completed",
     "browseTestSets": "Browse test sets",
     "browseHint": "Smart practice above auto-skips questions you've already done — it's the most efficient way to practice",
     "classicSets": "Classic sets",
