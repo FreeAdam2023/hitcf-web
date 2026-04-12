@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { Flame, CalendarPlus } from "lucide-react";
+import { Flame, CalendarPlus, Volume2 } from "lucide-react";
 import { useAuthStore } from "@/stores/auth-store";
 import { getDaysUntil } from "@/lib/countdown";
 import { getRandomExpression } from "@/lib/api/vocabulary";
@@ -36,6 +36,8 @@ export function PhraseTicker() {
   const user = useAuthStore((s) => s.user);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const [expr, setExpr] = useState<RandomExpression | null>(null);
+  const [speaking, setSpeaking] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Re-fetch on every mount (page navigation) so the phrase rotates.
   useEffect(() => {
@@ -52,6 +54,36 @@ export function PhraseTicker() {
       cancelled = true;
     };
   }, [isAuthenticated, pathname]);
+
+  const handleSpeak = (e: React.MouseEvent) => {
+    // Don't let the click bubble up to the wrapping <Link> and trigger
+    // a navigation.
+    e.preventDefault();
+    e.stopPropagation();
+    if (!expr || speaking || typeof window === "undefined") return;
+
+    // Prefer Azure TTS (neural voice cached on the document) over the
+    // browser's mechanical SpeechSynthesis.
+    if (expr.audio_url) {
+      setSpeaking(true);
+      const audio = audioRef.current ?? new Audio();
+      audioRef.current = audio;
+      audio.src = expr.audio_url;
+      audio.onended = () => setSpeaking(false);
+      audio.onerror = () => setSpeaking(false);
+      audio.play().catch(() => setSpeaking(false));
+      return;
+    }
+
+    // Fallback: SpeechSynthesis
+    setSpeaking(true);
+    const utterance = new SpeechSynthesisUtterance(expr.display_form);
+    utterance.lang = "fr-FR";
+    utterance.rate = 0.85;
+    utterance.onend = () => setSpeaking(false);
+    utterance.onerror = () => setSpeaking(false);
+    window.speechSynthesis.speak(utterance);
+  };
 
   if (!isAuthenticated || !user) return null;
 
@@ -110,14 +142,32 @@ export function PhraseTicker() {
         {expr && (
           <>
             <span className="text-muted-foreground/50">·</span>
-            <span className="truncate text-muted-foreground/80">
+            {/* Audio button — plays Azure TTS, stops click from navigating */}
+            <button
+              type="button"
+              onClick={handleSpeak}
+              className={`shrink-0 rounded p-0.5 transition-colors ${
+                speaking
+                  ? "text-violet-600 dark:text-violet-400"
+                  : "text-muted-foreground/70 hover:text-foreground"
+              }`}
+              aria-label={expr.display_form}
+            >
+              <Volume2 className="h-3.5 w-3.5" />
+            </button>
+            {/* Clicking the phrase itself takes the user to the expression
+                pool page where they can browse / save / drill the full set. */}
+            <Link
+              href="/vocabulary/expressions"
+              className="min-w-0 flex-1 truncate text-muted-foreground/80 hover:text-foreground transition-colors"
+            >
               <span className="italic text-foreground/80">
                 « {expr.display_form} »
               </span>
               {meaning && (
                 <span className="ms-1.5 text-foreground/60">{meaning}</span>
               )}
-            </span>
+            </Link>
           </>
         )}
       </div>
