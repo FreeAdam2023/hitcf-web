@@ -24,6 +24,46 @@ export function getLocalizedChangelog(locale: string) {
 // Only user-facing changes — no admin/backend internals
 export const changelog: ChangelogEntry[] = [
   {
+    date: "2026-04-11",
+    type: "feature",
+    title: {
+      zh: "智能组题全面升级",
+      en: "Smart practice overhauled",
+      fr: "Pratique intelligente repensée",
+      ar: "ترقية شاملة للتدريب الذكي",
+    },
+  },
+  {
+    date: "2026-04-11",
+    type: "feature",
+    title: {
+      zh: "每日词伙：顶部倒计时 + 真题高频表达",
+      en: "Daily phrase: exam countdown + high-frequency TCF expression at the top",
+      fr: "Expression du jour : compte à rebours + expression TCF fréquente en haut",
+      ar: "تعبير اليوم: العد التنازلي + تعبير TCF متكرر أعلى الصفحة",
+    },
+  },
+  {
+    date: "2026-04-11",
+    type: "improvement",
+    title: {
+      zh: "题库 Tab 按推荐学习顺序排列",
+      en: "Tabs reordered to match the recommended study path",
+      fr: "Onglets réorganisés selon le parcours d'apprentissage recommandé",
+      ar: "إعادة ترتيب التبويبات وفق مسار التعلم الموصى به",
+    },
+  },
+  {
+    date: "2026-04-11",
+    type: "improvement",
+    title: {
+      zh: "题库池翻倍,备考素材更完善",
+      en: "Question pool doubled — more material, more confidence",
+      fr: "Banque de questions doublée — plus de matériel, plus de confiance",
+      ar: "بنك الأسئلة تضاعف — مواد أكثر، ثقة أكبر",
+    },
+  },
+  {
     date: "2026-04-07",
     type: "improvement",
     title: {
