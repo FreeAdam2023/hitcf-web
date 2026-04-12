@@ -77,7 +77,7 @@ export function ReviewDialog({ open, onOpenChange, type }: Props) {
                 className={cn(
                   "flex-1 rounded-lg py-2.5 text-sm font-medium transition-all",
                   structured
-                    ? "bg-foreground text-background shadow-sm"
+                    ? "bg-violet-600 text-white shadow-sm"
                     : "bg-secondary text-muted-foreground hover:text-foreground",
                 )}
               >
@@ -88,7 +88,7 @@ export function ReviewDialog({ open, onOpenChange, type }: Props) {
                 className={cn(
                   "flex-1 rounded-lg py-2.5 text-sm font-medium transition-all",
                   !structured
-                    ? "bg-foreground text-background shadow-sm"
+                    ? "bg-violet-600 text-white shadow-sm"
                     : "bg-secondary text-muted-foreground hover:text-foreground",
                 )}
               >
@@ -116,7 +116,7 @@ export function ReviewDialog({ open, onOpenChange, type }: Props) {
                     className={cn(
                       "flex-1 rounded-lg py-2.5 text-sm font-medium transition-all",
                       count === n
-                        ? "bg-foreground text-background shadow-sm"
+                        ? "bg-violet-600 text-white shadow-sm"
                         : "bg-secondary text-muted-foreground hover:text-foreground",
                     )}
                   >
