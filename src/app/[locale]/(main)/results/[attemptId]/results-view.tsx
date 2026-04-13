@@ -52,8 +52,8 @@ export function ResultsView({ attempt }: ResultsViewProps) {
   const [practicingWrong, setPracticingWrong] = useState(false);
   const [startingNext, setStartingNext] = useState(false);
   const [nextTestSet, setNextTestSet] = useState<TestSetItem | null>(null);
-  const [shareOpen, setShareOpen] = useState(true);
-  const [checkinOpen, setCheckinOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [checkinOpen, setCheckinOpen] = useState(true);
 
   const score = attempt.score ?? 0;
   const scorePct = attempt.total > 0 ? Math.round((score / attempt.total) * 100) : 0;
