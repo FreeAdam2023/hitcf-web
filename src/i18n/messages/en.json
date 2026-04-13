@@ -402,7 +402,7 @@
     "examDesc": "Timed. Answers hidden until submission. Score and estimated level shown after.",
     "incompletePractice": "Incomplete practice · {answered} answered",
     "incompleteExam": "Incomplete exam · {answered} answered",
-    "drillProgressNote": "You've already answered {answered}/{total} questions via other practice modes. Starting practice will preserve those answers.",
+    "drillProgressNote": "You've answered {answered}/{total} questions via other practice modes. Clicking \"Continue Practice\" preserves those answers and starts from the first unanswered question.",
     "continuePractice": "Continue Practice",
     "continueExam": "Continue Exam",
     "startPractice": "Start Practice",

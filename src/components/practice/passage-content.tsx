@@ -162,48 +162,63 @@ export function PassageContent({ text, disabled, className, saveContext, sentenc
 
   const remarkPlugins = [remarkGfm, remarkBreaks];
 
-  if (disabled) {
-    return (
-      <div className={className}>
-        <ReactMarkdown remarkPlugins={remarkPlugins}>{text}</ReactMarkdown>
-      </div>
-    );
-  }
+  // Shared layout components for markdown elements. In exam mode (`disabled`),
+  // children are passed through unchanged; in practice mode, string leaves are
+  // tokenized into clickable word spans for vocabulary lookup.
+  const renderChildren = disabled ? (c: ReactNode) => c : processChildren;
+  const components = {
+    p: ({ children }: { children?: ReactNode }) => (
+      <p className="mb-2 last:mb-0">{renderChildren(children)}</p>
+    ),
+    strong: ({ children }: { children?: ReactNode }) => (
+      <strong className="font-semibold">{renderChildren(children)}</strong>
+    ),
+    em: ({ children }: { children?: ReactNode }) => <em>{renderChildren(children)}</em>,
+    h1: ({ children }: { children?: ReactNode }) => (
+      <h1 className="text-lg font-bold mb-2">{renderChildren(children)}</h1>
+    ),
+    h2: ({ children }: { children?: ReactNode }) => (
+      <h2 className="text-base font-bold mb-1">{renderChildren(children)}</h2>
+    ),
+    h3: ({ children }: { children?: ReactNode }) => (
+      <h3 className="text-base font-semibold mb-1">{renderChildren(children)}</h3>
+    ),
+    ul: ({ children }: { children?: ReactNode }) => (
+      <ul className="list-disc pl-5 mb-2">{children}</ul>
+    ),
+    ol: ({ children }: { children?: ReactNode }) => (
+      <ol className="list-decimal pl-5 mb-2">{children}</ol>
+    ),
+    li: ({ children }: { children?: ReactNode }) => (
+      <li className="mb-0.5">{renderChildren(children)}</li>
+    ),
+    blockquote: ({ children }: { children?: ReactNode }) => (
+      <blockquote className="border-l-2 border-muted-foreground/30 pl-3 italic mb-2">
+        {children}
+      </blockquote>
+    ),
+    hr: () => <hr className="my-3 border-muted" />,
+    table: ({ children }: { children?: ReactNode }) => (
+      <table className="my-2 w-full border-collapse border border-border text-sm">
+        {children}
+      </table>
+    ),
+    th: ({ children }: { children?: ReactNode }) => (
+      <th className="border border-border px-2 py-1.5 text-left font-semibold bg-muted/50">
+        {renderChildren(children)}
+      </th>
+    ),
+    td: ({ children }: { children?: ReactNode }) => (
+      <td className="border border-border px-2 py-1.5">{renderChildren(children)}</td>
+    ),
+  };
 
   return (
     <div className={className}>
-      <ReactMarkdown
-        remarkPlugins={remarkPlugins}
-        components={{
-          p: ({ children }) => <p className="mb-2 last:mb-0">{processChildren(children)}</p>,
-          strong: ({ children }) => <strong className="font-semibold">{processChildren(children)}</strong>,
-          em: ({ children }) => <em>{processChildren(children)}</em>,
-          h1: ({ children }) => <h1 className="text-lg font-bold mb-2">{processChildren(children)}</h1>,
-          h2: ({ children }) => <h2 className="text-base font-bold mb-1">{processChildren(children)}</h2>,
-          h3: ({ children }) => <h3 className="text-base font-semibold mb-1">{processChildren(children)}</h3>,
-          ul: ({ children }) => <ul className="list-disc pl-5 mb-2">{children}</ul>,
-          ol: ({ children }) => <ol className="list-decimal pl-5 mb-2">{children}</ol>,
-          li: ({ children }) => <li className="mb-0.5">{processChildren(children)}</li>,
-          blockquote: ({ children }) => (
-            <blockquote className="border-l-2 border-muted-foreground/30 pl-3 italic mb-2">{children}</blockquote>
-          ),
-          hr: () => <hr className="my-3 border-muted" />,
-          table: ({ children }) => (
-            <table className="my-2 w-full border-collapse border border-border text-sm">{children}</table>
-          ),
-          th: ({ children }) => (
-            <th className="border border-border px-2 py-1.5 text-left font-semibold bg-muted/50">
-              {processChildren(children)}
-            </th>
-          ),
-          td: ({ children }) => (
-            <td className="border border-border px-2 py-1.5">{processChildren(children)}</td>
-          ),
-        }}
-      >
+      <ReactMarkdown remarkPlugins={remarkPlugins} components={components}>
         {text}
       </ReactMarkdown>
-      {selectedWord && anchorEl && (
+      {!disabled && selectedWord && anchorEl && (
         <WordCard
           word={selectedWord}
           anchorEl={anchorEl}
